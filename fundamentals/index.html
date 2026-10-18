@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>MusicBook · 음악 교과서</title>
+<meta name="description" content="음, 화음, 리듬을 소리로 배우는 엔지니어를 위한 인터랙티브 음악 교과서. 배음과 음색, 조율의 수학, 화성과 코드 진행, 리듬 시퀀서, 신시사이저와 DSP까지 브라우저에서 직접 소리를 만들며 배운다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="MusicBook · 음악 교과서">
+<meta property="og:description" content="음, 화음, 리듬을 소리로 배우는 엔지니어를 위한 인터랙티브 음악 교과서. 배음과 음색, 조율의 수학, 화성과 코드 진행, 리듬 시퀀서, 신시사이저와 DSP까지 브라우저에서 직접 소리를 만들며 배운다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://music.euiyun.com/fundamentals/#site","name":"MusicBook","alternateName":"음악 교과서","url":"https://music.euiyun.com/fundamentals/","inLanguage":"ko"},{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/","inLanguage":"ko","isAccessibleForFree":true,"educationalLevel":"공학 교양(입문~심화)","about":["음악 이론","음향학","화성학","리듬","신시사이저","디지털 신호처리"],"image":"https://music.euiyun.com/fundamentals/og.png","hasPart":[{"@type":"Chapter","position":1,"name":"소리는 신호다","url":"https://music.euiyun.com/fundamentals/chapters/sound.html"},{"@type":"Chapter","position":2,"name":"배음과 음색","url":"https://music.euiyun.com/fundamentals/chapters/harmonics.html"},{"@type":"Chapter","position":3,"name":"악기의 물리","url":"https://music.euiyun.com/fundamentals/chapters/instruments.html"},{"@type":"Chapter","position":4,"name":"엔벨로프와 신시사이저","url":"https://music.euiyun.com/fundamentals/chapters/synthesis.html"},{"@type":"Chapter","position":5,"name":"음높이와 조율의 수학","url":"https://music.euiyun.com/fundamentals/chapters/tuning.html"},{"@type":"Chapter","position":6,"name":"음정과 협화","url":"https://music.euiyun.com/fundamentals/chapters/consonance.html"},{"@type":"Chapter","position":7,"name":"음계와 선법","url":"https://music.euiyun.com/fundamentals/chapters/scales.html"},{"@type":"Chapter","position":8,"name":"화음의 구조","url":"https://music.euiyun.com/fundamentals/chapters/chords.html"},{"@type":"Chapter","position":9,"name":"화성 기능과 코드 진행","url":"https://music.euiyun.com/fundamentals/chapters/progressions.html"},{"@type":"Chapter","position":10,"name":"확장 화성과 리하모니제이션","url":"https://music.euiyun.com/fundamentals/chapters/reharm.html"},{"@type":"Chapter","position":11,"name":"리듬과 박자","url":"https://music.euiyun.com/fundamentals/chapters/rhythm.html"},{"@type":"Chapter","position":12,"name":"리듬 시퀀서와 그루브","url":"https://music.euiyun.com/fundamentals/chapters/sequencer.html"},{"@type":"Chapter","position":13,"name":"선율과 알고리즘 작곡","url":"https://music.euiyun.com/fundamentals/chapters/melody.html"},{"@type":"Chapter","position":14,"name":"청각과 심리음향","url":"https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html"},{"@type":"Chapter","position":15,"name":"디지털 오디오와 DSP","url":"https://music.euiyun.com/fundamentals/chapters/dsp.html"},{"@type":"Chapter","position":16,"name":"MIDI와 음악 데이터","url":"https://music.euiyun.com/fundamentals/chapters/midi.html"},{"@type":"Chapter","position":17,"name":"종합 작업실","url":"https://music.euiyun.com/fundamentals/chapters/studio.html"},{"@type":"Chapter","position":18,"name":"용어집 & 종합 퀴즈","url":"https://music.euiyun.com/fundamentals/chapters/glossary.html"}],"description":"음, 화음, 리듬을 소리로 배우는 엔지니어를 위한 인터랙티브 음악 교과서. 배음과 음색, 조율의 수학, 화성과 코드 진행, 리듬 시퀀서, 신시사이저와 DSP까지 브라우저에서 직접 소리를 만들며 배운다."}]}</script>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/common.js"></script>
+<style>
+  .chain { overflow-x: auto; }
+  .chain svg { min-width: 760px; }
+  .paths { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .path { padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); }
+  .path h3 { margin: 0 0 6px; font-size: 17px; }
+  .path p { margin: 0 0 10px; color: var(--text-dim); font-size: 14.5px; }
+  .path .steps { display: flex; flex-wrap: wrap; gap: 6px; }
+  .path .steps a { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .path .steps a:hover { text-decoration: none; filter: brightness(1.1); }
+  .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .hero-badges span { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-elev); }
+  .hero-inst { border-radius: 20px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); overflow: hidden; }
+  .hero-inst canvas { display: block; width: 100%; }
+  .hero-inst .pads { padding: 12px 14px 4px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero-inst .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 14px 14px; font-size: 13px; color: var(--text-dim); background: var(--canvas-bg); }
+  .hero-inst .foot b { color: var(--text); }
+  .hero-inst .seg button { font-size: 12.5px; }
+  .myth { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .myth div { padding: 16px 18px; border-radius: var(--radius); background: var(--bg-elev); border: 1px solid var(--border); font-size: 14.5px; color: var(--text-dim); }
+  .myth div b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 6px; }
+  .myth div b::before { content: "오해 · "; color: var(--bad); }
+  .myth div a { font-size: 13px; }
+  .feat { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .feat a { display: block; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .feat a:hover { border-color: var(--accent); text-decoration: none; }
+  .feat a b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat a span { color: var(--text-dim); font-size: 14px; }
+  .feat a small { display: block; font-family: var(--mono); color: var(--accent); font-size: 11.5px; margin-bottom: 6px; letter-spacing: .06em; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../shared/css/book-shell.css">
+<script defer src="../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-root="">
+
+<section class="home-hero">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">Interactive Music Textbook for Engineers</div>
+      <h1>음악을 귀로 듣고<br><span class="grad">수식으로 이해한다</span></h1>
+      <p>왜 도와 솔은 어울리고 도와 파♯은 긴장될까? 왜 한 옥타브는 12음일까? 피아노와 기타의 '라'는 무엇이 다를까? MusicBook은 음악을 <b>신호·집합·그래프·시계열</b>로 다룹니다. 배음과 음색, 조율의 수학, 화성과 코드 진행, 리듬과 시퀀서, 신시사이저와 DSP까지 — 모든 개념을 브라우저에서 <b>직접 소리를 내며</b> 배웁니다.</p>
+      <div class="cta">
+        <a class="primary" href="chapters/sound.html">1장부터 시작하기 →</a>
+        <a class="ghost" href="chapters/progressions.html#sim-prg-playground">코드 진행 놀이터</a>
+        <a class="ghost" href="chapters/sequencer.html#sim-seq-main">리듬 시퀀서</a>
+      </div>
+      <div class="hero-badges">
+        <span>18개 챕터</span><span>115개 소리 실험</span><span>설치 없이 브라우저에서</span><span>공학 교양 · 입문~심화</span>
+      </div>
+    </div>
+    <div class="hero-inst" id="hero">
+      <canvas id="cv-hero"></canvas>
+      <div class="pads" id="hero-pads"></div>
+      <div class="foot">
+        <div class="seg" id="hero-beat"><button data-value="off" class="on">비트 끔</button><button data-value="pop">팝</button><button data-value="lofi">로파이</button></div>
+        <span id="hero-msg">코드를 눌러 보세요 · <b>I–V–vi–IV</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section">
+  <h2>소리에서 음악까지</h2>
+  <p class="sub">음악은 층층이 쌓인 구조입니다. 공기의 압력 변화가 <b>배음</b>을 가진 음이 되고, 음들은 <b>음률</b>로 정렬되어 <b>음계</b>를 이루며, 음계에서 <b>화음</b>을 뽑아 <b>진행</b>을 만들고, 이것이 <b>리듬</b>의 격자 위에서 시간으로 펼쳐집니다. 이 교과서의 목차가 바로 이 층입니다.</p>
+  <figure class="diagram chain">
+    <svg viewBox="0 0 1100 250" role="img" aria-label="소리에서 음악까지의 층">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g transform="translate(15,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M10 60 q12.5 -40 25 0 t25 0 t25 0 t25 0" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+        <text x="60" y="148" text-anchor="middle" class="t">소리 = 신호</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.01·15</text>
+      </g>
+      <path d="M140 100 H170" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(178,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <rect x="14" y="20" width="10" height="80" class="f-acc"/><rect x="30" y="50" width="10" height="50" class="f-acc"/><rect x="46" y="64" width="10" height="36" class="f-acc"/><rect x="62" y="74" width="10" height="26" class="f-acc"/><rect x="78" y="80" width="10" height="20" class="f-acc"/><rect x="94" y="84" width="10" height="16" class="f-acc"/>
+        <text x="60" y="148" text-anchor="middle" class="t">배음 · 음색</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.02·03·04</text>
+      </g>
+      <path d="M303 100 H333" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(341,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <circle cx="60" cy="58" r="40" fill="none" stroke="var(--border)" stroke-width="2"/>
+        <path d="M60 18 L98 46 L84 92 L36 92 L22 46 Z" class="f-acc-soft"/>
+        <text x="60" y="63" text-anchor="middle" class="t-mono">3/2</text>
+        <text x="60" y="148" text-anchor="middle" class="t">음률 · 협화</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.05·06·14</text>
+      </g>
+      <path d="M466 100 H496" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(504,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <g transform="translate(12,26)">
+          <rect x="0" y="0" width="96" height="60" rx="3" fill="#fbfaf8" stroke="#b9b3ab"/>
+          <path d="M13.7 0 V60 M27.4 0 V60 M41.1 0 V60 M54.8 0 V60 M68.5 0 V60 M82.2 0 V60" stroke="#b9b3ab"/>
+          <rect x="0" y="0" width="13.7" height="60" fill="var(--accent)" opacity=".55"/><rect x="27.4" y="0" width="13.7" height="60" fill="var(--accent)" opacity=".3"/><rect x="54.8" y="0" width="13.7" height="60" fill="var(--accent)" opacity=".3"/>
+          <g fill="#1b1a18"><rect x="9" y="0" width="9" height="36"/><rect x="23" y="0" width="9" height="36"/><rect x="50" y="0" width="9" height="36"/><rect x="64" y="0" width="9" height="36"/><rect x="78" y="0" width="9" height="36"/></g>
+        </g>
+        <text x="60" y="148" text-anchor="middle" class="t">음계 · 화음</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.07·08</text>
+      </g>
+      <path d="M629 100 H659" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(667,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <g font-family="var(--font)" font-weight="700" font-size="15">
+          <rect x="10" y="22" width="46" height="30" rx="6" fill="color-mix(in srgb, var(--ok) 25%, transparent)"/><text x="33" y="42" text-anchor="middle" class="t">I</text>
+          <rect x="64" y="22" width="46" height="30" rx="6" fill="color-mix(in srgb, var(--bad) 25%, transparent)"/><text x="87" y="42" text-anchor="middle" class="t">V</text>
+          <rect x="10" y="62" width="46" height="30" rx="6" fill="color-mix(in srgb, var(--ok) 18%, transparent)"/><text x="33" y="82" text-anchor="middle" class="t">vi</text>
+          <rect x="64" y="62" width="46" height="30" rx="6" fill="color-mix(in srgb, var(--warn) 25%, transparent)"/><text x="87" y="82" text-anchor="middle" class="t">IV</text>
+        </g>
+        <text x="60" y="148" text-anchor="middle" class="t">화성 · 진행</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.09·10</text>
+      </g>
+      <path d="M792 100 H822" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(830,40)">
+        <rect width="120" height="120" rx="12" class="f-surface"/>
+        <g transform="translate(12,24)">
+          <rect x="0" y="0" width="20" height="18" rx="3" class="f-acc"/><rect x="24" y="0" width="20" height="18" rx="3" class="f-elev"/><rect x="48" y="0" width="20" height="18" rx="3" class="f-acc"/><rect x="72" y="0" width="20" height="18" rx="3" class="f-elev"/>
+          <rect x="0" y="24" width="20" height="18" rx="3" class="f-elev"/><rect x="24" y="24" width="20" height="18" rx="3" class="f-acc2-soft"/><rect x="48" y="24" width="20" height="18" rx="3" class="f-elev"/><rect x="72" y="24" width="20" height="18" rx="3" class="f-acc2-soft"/>
+          <rect x="0" y="48" width="20" height="18" rx="3" class="f-acc-soft"/><rect x="24" y="48" width="20" height="18" rx="3" class="f-acc-soft"/><rect x="48" y="48" width="20" height="18" rx="3" class="f-acc-soft"/><rect x="72" y="48" width="20" height="18" rx="3" class="f-acc-soft"/>
+        </g>
+        <text x="60" y="148" text-anchor="middle" class="t">리듬 · 그루브</text><text x="60" y="166" text-anchor="middle" class="t-mono">Ch.11·12</text>
+      </g>
+      <path d="M955 100 H985" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(990,40)">
+        <rect width="100" height="120" rx="12" class="f-acc2-soft"/>
+        <text x="50" y="52" text-anchor="middle" class="t-mono">선율</text><text x="50" y="72" text-anchor="middle" class="t-mono">MIDI</text><text x="50" y="92" text-anchor="middle" class="t-mono">작업실</text>
+        <text x="50" y="148" text-anchor="middle" class="t">곡</text><text x="50" y="166" text-anchor="middle" class="t-mono">Ch.13·16·17</text>
+      </g>
+      <text x="550" y="238" text-anchor="middle" class="t-dim">압력파 → 배음이 음색을 만들고 → 정수비가 음률과 협화를 정하고 → 12음에서 음계·화음을 고르고 → 진행으로 긴장과 해결을 만들고 → 박자 격자 위에 놓는다</text>
+    </svg>
+    <figcaption><b>그림 0-1.</b> 소리에서 곡까지의 층. 각 블록이 해당 챕터와 연결됩니다.</figcaption>
+  </figure>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>대표 실험</h2>
+  <p class="sub">책 전체에 걸쳐 직접 소리를 내는 시뮬레이터가 있습니다. 먼저 이것들부터 만져 보세요.</p>
+  <div class="feat">
+    <a href="chapters/harmonics.html#sim-additive"><small>CH.02 · 배음과 음색</small><b>16배음 가산 합성기</b><span>막대를 끌어 배음을 쌓으면 사인파가 플루트·클라리넷·금관이 됩니다.</span></a>
+    <a href="chapters/progressions.html#sim-prg-playground"><small>CH.09 · 코드 진행</small><b>코드 진행 놀이터</b><span>기능별 색 패드로 진행을 만들고 리듬·보이스 리딩·베이스를 얹어 연주합니다.</span></a>
+    <a href="chapters/sequencer.html#sim-seq-main"><small>CH.12 · 리듬 시퀀서</small><b>8트랙 드럼 시퀀서</b><span>장르 프리셋, 스윙, 휴머나이즈, 벨로시티까지 갖춘 스텝 시퀀서.</span></a>
+    <a href="chapters/tuning.html"><small>CH.05 · 조율의 수학</small><b>왜 한 옥타브는 12음인가</b><span>5도를 쌓아 나선이 닫히지 않는 것을 듣고, N-평균율의 오차를 비교합니다.</span></a>
+    <a href="chapters/consonance.html"><small>CH.06 · 협화</small><b>불협화 곡선</b><span>음색을 바꾸면 '어울리는 음정'이 이동합니다. 플롬프–레벨트·세타레스 모델.</span></a>
+    <a href="chapters/studio.html#sim-std-main"><small>CH.17 · 종합 작업실</small><b>루프 스테이션</b><span>코드·베이스·드럼·선율을 엮어 곡을 만들고 WAV로 내보냅니다.</span></a>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>이런 오해, 한 번쯤 해 보셨죠?</h2>
+  <p class="sub">이 교과서를 다 읽고 나면 아래 문장들이 왜 틀렸는지 설명할 수 있게 됩니다.</p>
+  <div class="myth">
+    <div><b>음높이는 가장 센 주파수 성분이 정한다</b>기본음을 완전히 지워도 같은 음높이가 들립니다. 음높이를 정하는 것은 공통 주기입니다. <a href="chapters/harmonics.html#missing">2장 →</a></div>
+    <div><b>피아노는 완벽하게 조율된 악기다</b>평균율의 장3도는 순정 장3도보다 14센트 넓고, 피아노 옥타브는 일부러 넓게(스트레치) 조율합니다. <a href="chapters/tuning.html">5장 →</a></div>
+    <div><b>협화와 불협화는 정해진 음정의 성질이다</b>협화는 음색(배음 구조)과 함께 정해집니다. 배음을 늘이면 어울리는 음정도 옮겨 갑니다. <a href="chapters/consonance.html">6장 →</a></div>
+    <div><b>음악 이론은 외워야 하는 규칙집이다</b>장음계는 5도 6번을 쌓아 만든 '최대로 고른' 7음 집합이고, 선법은 그 비트 회전입니다. 규칙에는 이유가 있습니다. <a href="chapters/scales.html">7장 →</a></div>
+    <div><b>정박에 딱 맞춘 연주가 가장 좋다</b>스윙 비율, 뒤로 끄는 스네어 같은 수십 ms의 의도된 어긋남이 그루브를 만듭니다. <a href="chapters/sequencer.html">12장 →</a></div>
+    <div><b>샘플레이트가 높을수록 무조건 음질이 좋다</b>표본화 정리에 따르면 가청 대역의 2배를 넘으면 정보는 완전합니다. 문제는 에일리어싱과 필터입니다. <a href="chapters/dsp.html">15장 →</a></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>챕터</h2>
+  <p class="sub">앞에서부터 차례로 읽어도 좋고, 궁금한 장만 골라 읽어도 됩니다. 모든 장에 소리 나는 시뮬레이터와 확인 퀴즈가 있습니다. 상단의 스피커 버튼으로 언제든 소리를 끌 수 있습니다.</p>
+  <div class="ch-grid" id="ch-grid"></div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>추천 학습 경로</h2>
+  <p class="sub">목적에 맞게 골라 읽으세요.</p>
+  <div class="paths">
+    <div class="path"><h3>🎹 코드로 곡을 쓰고 싶어요</h3><p>음계와 화음의 구조, 진행의 원리, 리하모니제이션까지.</p><div class="steps"><a href="chapters/scales.html">07</a><a href="chapters/chords.html">08</a><a href="chapters/progressions.html">09</a><a href="chapters/reharm.html">10</a><a href="chapters/studio.html">17</a></div></div>
+    <div class="path"><h3>🎛️ 신시사이저·사운드 디자인</h3><p>배음과 음색, 악기의 물리, 합성 기법, 디지털 신호처리.</p><div class="steps"><a href="chapters/sound.html">01</a><a href="chapters/harmonics.html">02</a><a href="chapters/instruments.html">03</a><a href="chapters/synthesis.html">04</a><a href="chapters/dsp.html">15</a></div></div>
+    <div class="path"><h3>🥁 비트를 찍고 싶어요</h3><p>박자와 리듬의 구조, 스텝 시퀀서와 그루브, MIDI.</p><div class="steps"><a href="chapters/rhythm.html">11</a><a href="chapters/sequencer.html">12</a><a href="chapters/midi.html">16</a><a href="chapters/studio.html">17</a></div></div>
+    <div class="path"><h3>📐 음악의 수학과 과학</h3><p>왜 12음인가, 왜 어울리는가, 귀는 무엇을 듣는가.</p><div class="steps"><a href="chapters/harmonics.html">02</a><a href="chapters/tuning.html">05</a><a href="chapters/consonance.html">06</a><a href="chapters/psychoacoustics.html">14</a><a href="chapters/melody.html">13</a></div></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>함께 읽으면 좋은 책</h2>
+  <p class="sub">MusicBook은 시리즈의 '살아가는 지식 · 취미' 갈래에 속합니다. 신호와 회로가 더 궁금하면 이어서 읽어 보세요.</p>
+  <div class="paths">
+    <div class="path"><h3>AnalogBook — 아날로그 회로</h3><p>필터, 증폭기, ADC/DAC. 오디오 체인의 하드웨어 쪽.</p><div class="steps"><a href="https://analogbook.euiyun.com/">analogbook.euiyun.com ↗</a></div></div>
+    <div class="path"><h3>CameraBook — 카메라 교과서</h3><p>같은 시리즈의 취미 책. 다이얼을 돌리며 배우는 사진.</p><div class="steps"><a href="https://camerabook.euiyun.com/">camerabook.euiyun.com ↗</a></div></div>
+    <div class="path"><h3>전체 책</h3><p>반도체·SW·AI·전자부터 돈·건강·취미까지.</p><div class="steps"><a href="https://books.euiyun.com/">books.euiyun.com ↗</a></div></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // 챕터 카드
+  document.getElementById("ch-grid").innerHTML = MB.CHAPTERS.map((c) =>
+    `<a class="ch-card" href="chapters/${c.slug}.html"><span class="num">CHAPTER ${c.num}</span><h3>${c.title}</h3><p>${c.desc}</p><div class="tags">${c.tags.map((t) => t === "sim" ? '<span class="t-sim">시뮬레이터</span>' : `<span>${t}</span>`).join("")}</div></a>`).join("");
+
+  // 히어로: 코드 패드 + 실시간 파형/스펙트럼 + 비트
+  const KEY = 60;
+  const prog = [{ d: 0, rn: "I" }, { d: 4, rn: "V" }, { d: 5, rn: "vi" }, { d: 3, rn: "IV" }];
+  const dia = MB.diatonic(0, "major");
+  let voicing = [55, 60, 64, 67];
+  let current = 0, held = null;
+  const padsEl = document.getElementById("hero-pads");
+  padsEl.innerHTML = prog.map((p, i) => { const c = dia[p.d]; const fn = { 0: "t", 5: "t", 3: "s", 4: "d" }[p.d]; return `<button class="pad ${fn}" data-i="${i}"><b>${MB.chordSymbol(c.root, c.quality)}</b><small>${p.rn}</small></button>`; }).join("");
+  function chordNotes(i) { const c = dia[prog[i].d]; const pcs = MB.CHORDS[c.quality].iv.map((x) => MB.mod(c.root + x, 12)); voicing = MB.voiceLead(voicing, pcs, [52, 76]); return [36 + MB.mod(c.root, 12) + (MB.mod(c.root, 12) > 7 ? -12 : 0) + 12].concat(voicing); }
+  function hit(i, when) {
+    const ns = chordNotes(i);
+    MB.playChord(ns, { inst: "epiano", dur: 1.6, vel: 0.75, when, strum: 0.012 });
+    current = i;
+  }
+  padsEl.addEventListener("click", (e) => { const b = e.target.closest(".pad"); if (!b) return; hit(+b.dataset.i); flashPad(+b.dataset.i); });
+  function flashPad(i) { padsEl.querySelectorAll(".pad").forEach((p, k) => p.classList.toggle("on", k === i)); const c = dia[prog[i].d]; document.getElementById("hero-msg").innerHTML = `<b>${MB.chordSymbol(c.root, c.quality)}</b> = ${MB.CHORDS[c.quality].iv.map((x) => MB.pcName(c.root + x)).join("·")} · ${["으뜸(T)", "", "", "버금딸림(S)", "딸림(D)", "으뜸 대리(T)"][prog[i].d]}`; }
+  // 비트
+  const PAT = {
+    pop: { kick: [0, 6, 8], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14], swing: 0.5, bpm: 96 },
+    lofi: { kick: [0, 7, 10], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14, 15], swing: 0.62, bpm: 80 },
+  };
+  let style = "off";
+  const clk = MB.Clock({
+    bpm: () => (PAT[style] || PAT.pop).bpm, div: 4, length: 64, swing: () => (PAT[style] || PAT.pop).swing,
+    onStep(s, t) {
+      const p = PAT[style]; if (!p) return;
+      const st = s % 16;
+      if (p.kick.includes(st)) MB.drum("kick", t, { vel: 0.9 });
+      if (p.snare.includes(st)) MB.drum(style === "lofi" ? "rim" : "snare", t, { vel: 0.7 });
+      if (p.hat.includes(st)) MB.drum("hat", t, { vel: st % 4 === 0 ? 0.5 : 0.3 });
+      if (st === 0) hit(Math.floor(s / 16) % 4, t);
+    },
+    onUI(s) { if (s % 16 === 0) flashPad(Math.floor(s / 16) % 4); },
+  });
+  MB.seg("hero-beat", (v) => { style = v; if (v === "off") { clk.stop(); padsEl.querySelectorAll(".pad").forEach((p) => p.classList.remove("on")); } else if (!clk.running) clk.start(); });
+  MB.liveView("#cv-hero", { mode: "both", fmin: 40, fmax: 6000, aspect: 0.5, maxHeight: 260, idleText: "아래 코드 패드를 누르면 여기에 파형과 스펙트럼이 그려집니다" });
+})();
+</script>
+</body>
+</html>

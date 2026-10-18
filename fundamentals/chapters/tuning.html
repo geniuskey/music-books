@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>음높이와 조율의 수학 · MusicBook</title>
+<meta name="description" content="옥타브 2:1과 로그 지각, MIDI 번호와 센트, 피타고라스 콤마와 신토닉 콤마, 순정률 격자, 중전음률과 웰 템퍼먼트, 12평균율의 타협과 '왜 12음인가'의 연분수 답, A4=440의 역사를 듣고 계산한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/tuning.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="음높이와 조율의 수학 · MusicBook">
+<meta property="og:description" content="옥타브 2:1과 로그 지각, MIDI 번호와 센트, 피타고라스 콤마와 신토닉 콤마, 순정률 격자, 중전음률과 웰 템퍼먼트, 12평균율의 타협과 &#x27;왜 12음인가&#x27;의 연분수 답, A4=440의 역사를 듣고 계산한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/tuning.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"음높이와 조율의 수학","name":"음높이와 조율의 수학 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/tuning.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/tuning.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":5,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"옥타브 2:1과 로그 지각, MIDI 번호와 센트, 피타고라스 콤마와 신토닉 콤마, 순정률 격자, 중전음률과 웰 템퍼먼트, 12평균율의 타협과 '왜 12음인가'의 연분수 답, A4=440의 역사를 듣고 계산한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"05 음높이와 조율의 수학","item":"https://music.euiyun.com/fundamentals/chapters/tuning.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .tun-input { font: 15px var(--mono); padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); width: 100%; box-sizing: border-box; }
+  .tun-input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets .btn { padding: 5px 10px; font-size: 13px; }
+  .tun-click { cursor: pointer; touch-action: manipulation; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="tuning">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>음높이와 조율의 수학</h1>
+    <p class="lead">피아노의 건반 12개는 자연이 준 것이 아니라 <b>타협의 산물</b>입니다. 완전 5도(3:2)를 12번 쌓으면 7옥타브(2⁷)로 돌아와야 할 것 같지만, \(3^{12}\)은 결코 \(2^{19}\)과 같아질 수 없습니다. 이 작은 어긋남—피타고라스 콤마 23.46센트—을 어디에 숨길지를 두고 2500년 동안 수학자와 음악가가 다퉈 왔습니다. 이 장에서는 음높이를 로그로 재는 법부터 시작해, 여러 조율 체계를 직접 귀로 비교하고, "왜 하필 12음인가"에 연분수로 답합니다.</p>
+    <ul class="objectives">
+      <li>옥타브 동치와 음높이의 로그 지각을 설명하고, MIDI 번호·센트·주파수를 서로 변환할 수 있다.</li>
+      <li>5도를 쌓아 만드는 피타고라스 조율과 피타고라스 콤마(531441/524288), 울프 5도를 계산한다.</li>
+      <li>3과 5의 거듭제곱 격자로 순정률을 표현하고, 신토닉 콤마(81/80)로 인한 '콤마 펌프' 드리프트를 듣는다.</li>
+      <li>중전음률·웰 템퍼먼트·12평균율이 콤마를 각각 어떻게 나눠 갖는지 센트 표와 맥놀이 속도로 비교한다.</li>
+      <li>\(\log_2(3/2)\)의 연분수 수렴분수로 5, 12, 41, 53 등분 평균율이 특별한 이유를 설명한다.</li>
+      <li>A4 = 440 Hz 표준(ISO 16)의 역사와 연주 피치의 차이가 절대음감에 어떻게 들리는지 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="log">
+    <h2>옥타브와 로그 눈금: 음높이는 비율이다</h2>
+    <p>110 Hz와 220 Hz, 220 Hz와 440 Hz. 주파수 차는 110 Hz와 220 Hz로 두 배 다르지만, 귀에는 똑같이 "한 옥타브"로 들립니다. 음높이 지각은 <b>차이가 아니라 비율</b>에 반응합니다. 19세기의 <span class="term">베버–페히너 법칙</span><span class="en">(Weber–Fechner Law)</span>—감각의 크기는 자극의 로그에 비례한다—의 대표적인 예입니다. 게다가 2:1 비율의 두 음은 '같은 음의 다른 높이'처럼 들리는데, 이것이 <span class="term">옥타브 동치</span><span class="en">(Octave Equivalence)</span>입니다. 거의 모든 음악 문화가 옥타브 간격의 음을 같은 이름으로 부르며, 2장에서 본 것처럼 두 음의 배음이 거의 전부 겹치기 때문이라고 설명됩니다(짝수 배음 \(2n f_0\)는 상위 음의 배음과 정확히 일치).</p>
+    <p>그래서 음높이는 주파수의 <b>밑 2 로그</b>로 재는 것이 자연스럽습니다. 디지털 악기의 표준인 MIDI는 A4 = 440 Hz를 69번으로 두고 반음마다 1씩 올립니다.</p>
+    <div class="formula">$$m = 69 + 12\log_2\frac{f}{440\ \text{Hz}}, \qquad f = 440\cdot 2^{(m-69)/12}, \qquad c = 1200\log_2\frac{f_2}{f_1}$$
+      <div class="where">\(m\): MIDI 노트 번호(실수로 확장하면 미분음도 표현). C4(가온 다) = 60 = 261.63 Hz. \(c\): 두 주파수 사이의 <b>센트</b>(cent). 옥타브 = 1200 ¢, 평균율 반음 = 100 ¢. 센트는 곱셈을 덧셈으로 바꾼다: 비율 \(r_1 r_2\)는 \(c_1 + c_2\) 센트.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="선형 주파수 축과 로그 주파수 축 비교">
+        <g id="tun-fig-log"></g>
+      </svg>
+      <figcaption><b>그림 5-1.</b> 같은 A음 다섯 옥타브(55–1760 Hz)를 선형 주파수 축(위)과 로그 축(아래)에 찍은 것. 선형 축에서는 낮은 옥타브가 왼쪽 끝에 뭉개지지만, 로그 축에서는 옥타브가 등간격—피아노 건반과 오선보가 바로 이 로그 축이다.</figcaption>
+    </figure>
+    <p>로그 지각은 근사일 뿐입니다. 심리 실험에서 "음높이가 두 배로 느껴지는" 주파수를 물어 만든 <span class="term">멜 척도</span><span class="en">(Mel Scale, Stevens·Volkmann·Newman 1937)</span>는 약 1 kHz 아래에서는 거의 선형, 위에서는 로그에 가깝습니다. 흔히 쓰는 근사식은 \(\text{mel} = 2595\log_{10}(1+f/700)\)이며, 음성 인식의 MFCC 특징량이 이 척도의 필터뱅크를 씁니다. 하지만 <b>음정</b>(두 음의 관계)은 넓은 음역에서 비율로 지각되므로, 음악 이론은 센트와 로그 축을 씁니다. 음높이 구별 한계(JND)는 중간 음역에서 약 0.2–0.5%, 즉 3–9 ¢ 정도입니다(14장).</p>
+
+    <div class="sim" id="sim-tun-calc">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>센트 ↔ 비율 계산기와 음정 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tun-calc"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>비율 또는 센트 입력</span><input type="text" class="tun-input" id="tc-in" value="3/2" spellcheck="false" autocomplete="off"></label>
+          <div class="ctrl"><span>예시</span>
+            <div class="presets" id="tc-presets">
+              <button class="btn" data-v="3/2">3/2</button><button class="btn" data-v="5/4">5/4</button><button class="btn" data-v="6/5">6/5</button><button class="btn" data-v="7/4">7/4</button><button class="btn" data-v="81/64">81/64</button><button class="btn" data-v="81/80">81/80</button><button class="btn" data-v="3^12/2^19">3¹²/2¹⁹</button><button class="btn" data-v="400c">400¢</button><button class="btn" data-v="2^(7/12)">2^(7/12)</button>
+            </div>
+          </div>
+          <label class="ctrl"><span>센트 슬라이더 <output id="tc-cents-out"></output></span><input type="range" id="tc-cents" min="0" max="2400" value="702" step="1"></label>
+          <label class="ctrl"><span>아래 음 <output id="tc-ref-out"></output></span><input type="range" id="tc-ref" min="48" max="72" value="60" step="1"></label>
+          <div class="ctrl"><span>음색</span><div class="seg" id="tc-inst"><button data-value="organ" class="on">오르간</button><button data-value="saw">톱니</button><button data-value="sine">사인</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tc-mel">▶ 차례로</button><button class="btn primary" id="tc-har">▶ 동시에</button><button class="btn" id="tc-et">평균율 근사와 비교</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">비율(소수)</span><span class="v" id="tc-r">—</span></div>
+        <div class="stat"><span class="k">센트</span><span class="v" id="tc-c">—</span></div>
+        <div class="stat"><span class="k">가장 가까운 평균율 음정</span><span class="v" id="tc-near">—</span></div>
+        <div class="stat"><span class="k">겹치는 배음의 맥놀이</span><span class="v" id="tc-beat">—</span></div>
+      </div>
+      <div class="sim-note">입력: <code>3/2</code>, <code>1.5</code>, <code>3^12/2^19</code>, <code>2^(7/12)</code> 같은 식은 비율로, <code>386.3c</code>나 <code>386.3¢</code>처럼 끝에 c/¢를 붙이면 센트로 읽습니다. 위 막대는 0–1200 ¢(필요하면 2400 ¢) 눈금 위의 위치(점선 = 가장 가까운 평균율), 아래는 두 음(배음 6개 톱니형)을 더한 1초 파형입니다. 순정 비율(3/2, 5/4)은 포락선이 평평하지만, '평균율 근사와 비교'의 400 ¢ 장3도는 초당 약 10번 일렁입니다(C4 기준). 해볼 것: 81/80(신토닉 콤마)을 동시에 들으면 C4에서 초당 약 3.3번의 맥놀이가 납니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="pythagorean">
+    <h2>피타고라스 조율: 5도를 쌓으면 닫히지 않는다</h2>
+    <p>배음열에서 옥타브(2:1) 다음으로 단순한 비율은 완전 5도(3:2)입니다. 고대 그리스 이래 가장 오래된 조율법은 5도를 계속 쌓고, 옥타브를 넘으면 2로 나눠 한 옥타브 안에 접어 넣는 것입니다. C → G(3/2) → D(9/8) → A(27/16) → E(81/64) → B(243/128) → F♯ → … 이렇게 12번 쌓으면 다시 C 근처로 돌아오는데, <b>정확히 C가 아닙니다</b>.</p>
+    <div class="formula">$$\left(\tfrac{3}{2}\right)^{12} \Big/ 2^{7} = \frac{3^{12}}{2^{19}} = \frac{531441}{524288} \approx 1.013643, \qquad 1200\log_2(1.013643) \approx 23.46\ \text{¢}$$
+      <div class="where">이것이 <span class="term">피타고라스 콤마</span><span class="en">(Pythagorean Comma)</span>. 산술의 기본정리 때문에 \(3^a = 2^b\)인 양의 정수 \(a,b\)는 없으므로 5도 쌓기는 영원히 닫히지 않는다. 즉 \(\log_2 3\)은 무리수다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="5도 12개와 옥타브 7개의 길이 비교">
+        <g id="tun-fig-comma"></g>
+      </svg>
+      <figcaption><b>그림 5-2.</b> 순정 5도 12개(위, 각 701.96 ¢)와 옥타브 7개(아래, 각 1200 ¢)를 센트 길이로 늘어놓은 것. 위쪽이 23.46 ¢만큼 삐져나온다. 12음 체계에서는 이 23.46 ¢를 5도 12개 어딘가에 나눠 '숨겨야' 원이 닫힌다.</figcaption>
+    </figure>
+    <p>순수한 피타고라스 조율로 건반 12개를 만들면, 11개의 5도는 순정이고 나머지 하나가 콤마만큼 좁은 678.5 ¢가 됩니다(어디에 둘지는 선택이다. 전통적으로는 G♯–E♭, 이 책의 시뮬레이터는 F♯–D♭). 이 5도는 초당 여러 번 일렁이며 늑대 울음처럼 들려 <span class="term">울프 5도</span><span class="en">(Wolf Fifth)</span>라고 부릅니다. 또 4번 쌓아 만든 장3도 81/64 = 407.8 ¢는 순정 장3도 5/4 = 386.3 ¢보다 21.5 ¢나 넓어서, 3도를 화음으로 쓰기 시작한 중세 말 이후 문제가 됩니다.</p>
+
+    <div class="sim" id="sim-tun-spiral">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>5도의 나선: 몇 번 쌓아야 거의 닫힐까</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tun-spiral"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>쌓은 5도 개수 n <output id="ts-n-out"></output></span><input type="range" id="ts-n" min="1" max="53" value="12" step="1"></label>
+          <div class="ctrl"><span>5도의 크기</span><div class="seg" id="ts-fifth"><button data-value="pure" class="on">순정 3:2 (701.96¢)</button><button data-value="et">평균율 (700¢)</button><button data-value="mean">1/4 콤마 (696.58¢)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ts-seq">▶ 쌓은 음 차례로</button><button class="btn primary" id="ts-cmp">▶ 출발음 vs n번째</button></div>
+          <div class="btn-row"><button class="btn" id="ts-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">n번째 음</span><span class="v" id="ts-name">—</span></div>
+        <div class="stat"><span class="k">옥타브 안 위치</span><span class="v" id="ts-pos">—</span></div>
+        <div class="stat"><span class="k">출발음과의 거리</span><span class="v" id="ts-gap">—</span></div>
+        <div class="stat"><span class="k">맥놀이 (C4 기준)</span><span class="v" id="ts-beat">—</span></div>
+      </div>
+      <div class="sim-note">각 점은 C에서 5도를 k번 쌓은 음이고, 각도는 옥타브 안 위치(위쪽 = C, 한 바퀴 = 1200 ¢), 반지름은 k입니다. 5도 하나가 7/12바퀴보다 조금 더 돌기 때문에 나선이 됩니다. n = 12에서 출발점과 23.46 ¢ 어긋나고, n = 53에서는 3.6 ¢까지 가까워집니다(그래서 53등분 평균율이 등장합니다, 5절). '평균율'로 바꾸면 n = 12에서 정확히 닫히고, '1/4 콤마'로 바꾸면 반대쪽으로 41 ¢ 모자랍니다. '출발음 vs n번째'는 C4와 n번째 음(옥타브 환원)을 함께 울려 콤마의 맥놀이를 들려줍니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="just">
+    <h2>순정률: 3과 5의 격자와 신토닉 콤마</h2>
+    <p>르네상스 이후 음악은 3도와 6도를 협화음으로 쓰기 시작했고, 장3화음을 배음 4:5:6 그대로 맞추고 싶어졌습니다. 소수 2, 3, 5의 거듭제곱 곱만으로 만든 비율을 쓰는 조율을 <span class="term">5한계 순정률</span><span class="en">(5-limit Just Intonation)</span>이라 합니다. 옥타브(2)를 동치로 무시하면 모든 음은 정수 쌍 \((a,b)\)로 정해지는 2차원 격자 위의 점입니다.</p>
+    <div class="formula">$$r(a,b) = 3^{a}\,5^{b}\cdot 2^{k}\quad(k\text{는 } 1\le r<2\text{가 되게}),\qquad \frac{(3/2)^4}{2^2\cdot(5/4)} = \frac{81}{80} \approx 21.51\ \text{¢}$$
+      <div class="where">가로 한 칸 = 완전 5도(×3), 세로 한 칸 = 장3도(×5). 5도 4개로 가는 E(81/64, 피타고라스)와 장3도 하나로 가는 E(5/4, 순정)는 같은 '이름'이지만 81/80만큼 다르다—<span class="term">신토닉 콤마</span><span class="en">(Syntonic Comma)</span>. 피타고라스 콤마와의 차 \(23.46-21.51 = 1.95\) ¢는 <b>스키스마</b>(schisma).</div>
+    </div>
+    <p>문제는 이 격자가 무한하다는 것입니다. 고정된 12음 순정 음계(C=1, D=9/8, E=5/4, F=4/3, G=3/2, A=5/3, B=15/8)를 고르면 C·F·G 장3화음은 완벽하지만, D–A 5도는 40/27 = 680.4 ¢로 울프가 됩니다. 반대로 합창단처럼 매 화음을 순정으로 맞추며 <b>공통음을 유지</b>하면, C–F–Dm–G–C 진행 한 바퀴 뒤에 출발음이 81/80만큼 내려가 있습니다. 이 현상을 <span class="term">콤마 펌프</span><span class="en">(Comma Pump)</span> 또는 콤마 드리프트라 합니다. 실제 무반주 합창의 음정 하강이 이 때문인지는 연구가 엇갈리지만(가수들은 화음 순정성과 음높이 유지 사이에서 타협한다), 수학적 사실은 분명합니다.</p>
+
+    <div class="sim" id="sim-tun-lattice">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>순정률 격자와 콤마 펌프</h3></div>
+      <div class="sim-body">
+        <div class="sim-view" style="overflow-x:auto"><div style="min-width:600px"><canvas id="cv-tun-lattice" class="tun-click"></canvas></div></div>
+      </div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>진행 방식</span><div class="seg" id="tl-mode"><button data-value="drift" class="on">공통음 유지(엄격한 순정)</button><button data-value="fixed">고정 순정 음계</button><button data-value="et">12평균율</button></div></div>
+        <label class="ctrl"><span>반복 횟수 <output id="tl-cyc-out"></output></span><input type="range" id="tl-cyc" min="1" max="2" value="2" step="1"></label>
+        <div class="btn-row"><button class="btn primary" id="tl-play">▶ C–F–Dm–G–C 진행</button><button class="btn" id="tl-ab">처음 C vs 마지막 C</button><button class="btn" id="tl-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 화음</span><span class="v" id="tl-now">—</span></div>
+        <div class="stat"><span class="k">마지막 C의 드리프트</span><span class="v" id="tl-drift">—</span></div>
+        <div class="stat"><span class="k">가장 나쁜 5도</span><span class="v" id="tl-worst">—</span></div>
+        <div class="stat"><span class="k">누른 음</span><span class="v" id="tl-click">—</span></div>
+      </div>
+      <div class="sim-note">격자의 점을 클릭하면 그 음(C4 = 261.63 Hz 기준, 옥타브 환원)이 울립니다. 가로 = ×3/2(5도), 세로 = ×5/4(장3도). 이름 옆 ↓/↑는 피타고라스 음(같은 이름, 5도만으로 도달)보다 신토닉 콤마만큼 낮음/높음을 뜻합니다(헬름홀츠–엘리스 표기의 변형). 장3화음은 위로 솟은 삼각형, 단3화음은 아래로 처진 삼각형입니다. '공통음 유지'로 진행을 재생하면 화음 경로가 한 바퀴마다 (−4, +1)만큼, 즉 81/80 아래로 미끄러지는 것이 보이고 들립니다. '고정 순정 음계'에서는 Dm의 D–A가 680 ¢ 울프 5도(빨간 삼각형)가 됩니다. 음색: 오르간(배음 포함) — 순정 화음은 맥놀이가 거의 없어 '정지한' 소리입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="temperament">
+    <h2>템퍼먼트: 콤마를 나눠 갖는 법</h2>
+    <p>12개 건반으로 고정된 악기(오르간, 하프시코드)에서는 어떤 음정을 일부러 순정에서 조금 틀어(<span class="term">템퍼</span><span class="en">(Temper)</span>) 오차를 분산해야 합니다. 역사적으로 중요한 세 가지 해법은 다음과 같습니다.</p>
+    <ul>
+      <li><b>1/4 콤마 중전음률</b>(Quarter-comma Meantone, 16–17세기): 5도를 신토닉 콤마의 1/4씩 좁혀 \(701.955 - 21.506/4 = 696.578\) ¢로 만든다. 그러면 5도 4개 − 2옥타브 = 386.31 ¢로 <b>장3도가 정확히 순정</b>. 대가로 남은 한 5도(전통적으로 G♯–E♭, 시뮬레이터에서는 F♯–D♭)는 \(8400 - 11\times696.578 = 737.6\) ¢의 거대한 울프가 되고, 조표가 많은 조는 쓸 수 없다.</li>
+      <li><b>웰 템퍼먼트</b>(Well Temperament, 17세기 말–18세기): 모든 조를 쓸 수 있게 하되 조마다 성격이 다르게. 베르크마이스터 III(1691)은 C–G, G–D, D–A, B–F♯ 네 5도만 피타고라스 콤마의 1/4(−5.87 ¢)씩 좁히고 나머지 8개는 순정으로 둔다. C 장조 근처는 3도가 순정에 가깝고, 먼 조는 피타고라스에 가깝다. 바흐의 「평균율 클라비어 곡집」(Das Wohltemperierte Klavier)의 '평균율'은 사실 이런 '잘 조율된'에 가깝다.</li>
+      <li><b>12평균율</b>(12-TET, 19세기 이후 표준): 옥타브를 \(2^{1/12}\)로 12등분. 피타고라스 콤마를 12개 5도에 똑같이 나눠 5도는 \(-23.46/12 = -1.955\) ¢. 모든 조가 동등하지만, 장3도는 +13.69 ¢, 단3도는 −15.64 ¢나 순정에서 벗어난다.</li>
+    </ul>
+    <div class="table-wrap"><table>
+      <thead><tr><th>조율</th><th class="num">C–G 5도</th><th class="num">C–E 장3도</th><th class="num">가장 나쁜 5도</th><th class="num">가장 나쁜 장3도</th><th>성격</th></tr></thead>
+      <tbody>
+        <tr><td>순정 비율(참고)</td><td class="num">701.96</td><td class="num">386.31</td><td class="num">—</td><td class="num">—</td><td>3:2, 5:4</td></tr>
+        <tr><td>피타고라스</td><td class="num">701.96</td><td class="num">407.82</td><td class="num">678.49</td><td class="num">407.82</td><td>5도 순정, 3도 거침</td></tr>
+        <tr><td>5한계 순정(C 기준)</td><td class="num">701.96</td><td class="num">386.31</td><td class="num">680.45 (D–A 등)</td><td class="num">427.37</td><td>으뜸조만 완벽</td></tr>
+        <tr><td>1/4 콤마 중전음률</td><td class="num">696.58</td><td class="num">386.31</td><td class="num">737.64</td><td class="num">427.37</td><td>3도 순정, 울프 큼</td></tr>
+        <tr><td>베르크마이스터 III</td><td class="num">696.09</td><td class="num">390.22</td><td class="num">696.09</td><td class="num">407.82</td><td>모든 조 사용, 조성 색깔</td></tr>
+        <tr><td>12평균율</td><td class="num">700.00</td><td class="num">400.00</td><td class="num">700.00</td><td class="num">400.00</td><td>모두 동등하게 약간 틀림</td></tr>
+      </tbody>
+    </table></div>
+    <p>템퍼링의 결과는 <b>맥놀이</b>로 들립니다. 두 음의 가까운 배음 쌍이 조금 어긋나면 그 차 주파수로 소리가 일렁입니다(1장). 근음 \(f_1\), 3음 \(f_3\), 5음 \(f_5\)에 대해</p>
+    <div class="formula">$$b_{\text{5도}} = \lvert 3f_1 - 2f_5\rvert,\qquad b_{\text{장3도}} = \lvert 5f_1 - 4f_3\rvert$$
+      <div class="where">평균율 C4–G4: \(3\times261.63 - 2\times392.00 = 0.89\) Hz(약 1초에 한 번). 평균율 C4–E4: \(\lvert5\times261.63-4\times329.63\rvert = 10.4\) Hz(빠른 떨림). 조율사는 바로 이 맥놀이 속도를 세며 피아노를 조율한다.</div>
+    </div>
+
+    <div class="sim" id="sim-tun-compare">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>조율 체계 비교기: 같은 화음, 다른 조율</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tun-cmp"></canvas><div class="mb-kb" id="kb-tun-cmp"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조율 체계</span><select id="tcm-tun"></select></label>
+          <label class="ctrl"><span>조율 기준음(이 음이 순정의 중심)</span><select id="tcm-key"></select></label>
+          <label class="ctrl"><span>연주할 조(장조)</span><select id="tcm-play"></select></label>
+          <div class="ctrl"><span>음색</span><div class="seg" id="tcm-inst"><button data-value="organ" class="on">오르간</button><button data-value="saw">톱니</button><button data-value="piano">피아노</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tcm-cad">▶ I–IV–V–I</button><button class="btn primary" id="tcm-scale">▶ 장음계</button><button class="btn" id="tcm-hold">I 화음 4초</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">I 화음 장3도</span><span class="v" id="tcm-m3">—</span></div>
+        <div class="stat"><span class="k">I 화음 5도</span><span class="v" id="tcm-p5">—</span></div>
+        <div class="stat"><span class="k">장3도 맥놀이</span><span class="v" id="tcm-b3">—</span></div>
+        <div class="stat"><span class="k">5도 맥놀이</span><span class="v" id="tcm-b5">—</span></div>
+      </div>
+      <div class="sim-note">위 막대: 기준음에서 각 음이 평균율보다 몇 센트 높은지/낮은지. 아래 두 줄: 5도권 순서로 12개 5도와 12개 장3도가 순정에서 얼마나 벗어났는지(초록 = 순정에 가까움, 빨강 = 크게 벗어남, 굵은 테두리 = 연주 조의 I·IV·V). 건반(<kbd>A</kbd>–<kbd>K</kbd> 키 포함)도 선택한 조율로 울립니다. 해볼 것: ① 1/4 콤마 중전음률·기준 C에서 C 장조 I 화음 → 맥놀이 없는 3도. 그대로 연주 조만 F♯로 바꾸면 울프 때문에 끔찍해집니다. ② 베르크마이스터 III에서 C 장조와 D♭ 장조의 장3도 맥놀이 비교 → 조성 색깔. ③ 평균율은 모든 조에서 3도 맥놀이가 같은 비율입니다. 맥놀이 값은 근음을 C4–B4 옥타브에 둔 경우입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="why12">
+    <h2>왜 12음인가: 연분수가 주는 답</h2>
+    <p>옥타브를 \(N\)등분한 평균율(\(N\)-EDO, Equal Division of the Octave)에서 5도에 가장 가까운 음은 \(k = \operatorname{round}(N\log_2 1.5)\) 스텝입니다. 5도를 잘 근사하려면 \(k/N\)이 \(\log_2(3/2) = 0.5849625\ldots\)에 가까워야 합니다. 무리수를 작은 분모의 분수로 가장 잘 근사하는 방법이 <span class="term">연분수</span><span class="en">(Continued Fraction)</span>입니다.</p>
+    <div class="formula">$$\log_2\frac{3}{2} = 0 + \cfrac{1}{1+\cfrac{1}{1+\cfrac{1}{2+\cfrac{1}{2+\cfrac{1}{3+\cfrac{1}{1+\cfrac{1}{5+\cdots}}}}}}}\ \Rightarrow\ \frac{1}{2},\ \frac{3}{5},\ \frac{7}{12},\ \frac{24}{41},\ \frac{31}{53},\ \frac{179}{306},\ \ldots$$
+      <div class="where">수렴분수 \(k/N\)의 분모 \(N\)이 '좋은' 옥타브 분할 수, 분자 \(k\)가 5도의 스텝 수. 수렴분수는 \(\lvert \log_2 1.5 - k/N\rvert < 1/N^2\)을 만족하는, 분모 이하의 최선 근사다. 이 분모에는 5·12·41·53이 있지만 7은 없다. 4/7은 중간 수렴분수다. 5도 사슬에서 고른 7음 온음계와 옥타브를 균등하게 나눈 7-EDO는 다른 구성이다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">N-EDO</th><th class="num">스텝(¢)</th><th class="num">5도 오차</th><th class="num">장3도 오차</th><th class="num">7:4 오차</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="num">12</td><td class="num">100.0</td><td class="num">−1.96</td><td class="num">+13.69</td><td class="num">+31.17</td><td>표준. 5도가 아주 좋고 3도는 그럭저럭</td></tr>
+        <tr><td class="num">19</td><td class="num">63.2</td><td class="num">−7.22</td><td class="num">−7.37</td><td class="num">−21.5</td><td>3도·6도가 좋다. 1/3 콤마 중전음률과 비슷</td></tr>
+        <tr><td class="num">24</td><td class="num">50.0</td><td class="num">−1.96</td><td class="num">+13.69</td><td class="num">−18.83</td><td>사분음. 아랍 음악 이론, 11:8(551.3 ¢ ≈ 550)</td></tr>
+        <tr><td class="num">31</td><td class="num">38.7</td><td class="num">−5.18</td><td class="num">+0.78</td><td class="num">−1.08</td><td>호이겐스·포커르. 1/4 콤마 중전음률과 거의 같다</td></tr>
+        <tr><td class="num">41</td><td class="num">29.3</td><td class="num">+0.48</td><td class="num">−5.83</td><td class="num">−2.97</td><td>수렴분수</td></tr>
+        <tr><td class="num">53</td><td class="num">22.6</td><td class="num">−0.07</td><td class="num">−1.41</td><td class="num">+4.76</td><td>메르카토르·홀더. 5도·3도 모두 거의 순정</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-tun-edo">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>N등분 평균율 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tun-edo"></canvas><canvas id="cv-tun-ring"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>옥타브 분할 수 N <output id="te-n-out"></output></span><input type="range" id="te-n" min="5" max="72" value="12" step="1"></label>
+          <div class="presets" id="te-presets"><button class="btn" data-n="5">5</button><button class="btn" data-n="7">7</button><button class="btn" data-n="12">12</button><button class="btn" data-n="19">19</button><button class="btn" data-n="24">24</button><button class="btn" data-n="31">31</button><button class="btn" data-n="41">41</button><button class="btn" data-n="53">53</button></div>
+          <label class="check"><input type="checkbox" id="te-7"> 7:4(화성 7도) 오차도 보기</label>
+          <div class="btn-row"><button class="btn primary" id="te-chord">▶ 장3화음</button><button class="btn" id="te-just">순정 4:5:6과 비교</button></div>
+          <div class="btn-row"><button class="btn primary" id="te-scale">▶ 5도로 만든 장음계</button><button class="btn" id="te-chrom">▶ N개 스텝 전부</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">1스텝</span><span class="v" id="te-step">—</span></div>
+        <div class="stat"><span class="k">최선 5도</span><span class="v" id="te-p5">—</span></div>
+        <div class="stat"><span class="k">최선 장3도</span><span class="v" id="te-m3">—</span></div>
+        <div class="stat"><span class="k">7:4</span><span class="v" id="te-h7">—</span></div>
+      </div>
+      <div class="sim-note">위 그래프: N마다 최선 5도(보라)와 최선 장3도(청록)의 절대 오차(¢). 계곡이 깊은 N일수록 좋은 분할이며, 연분수 수렴분수(5, 12, 41, 53)가 5도 곡선의 계곡에 있습니다. 아래 원: 한 옥타브를 N칸으로 나눈 것과 순정 3/2(보라 삼각형)·5/4(청록 삼각형)의 위치. 장음계는 5도 생성으로 만듭니다: F C G D A E B = −1…5개의 5도(N이 작으면 음이 겹치거나 순서가 꼬입니다 — 그것도 답입니다). 19나 31로 장3화음을 듣고 12와 비교해 보세요. 기준음 C4.</div>
+    </div>
+    <div class="callout deep"><strong>12는 왜 '충분히' 좋은가</strong> 12-EDO의 5도 오차 −1.96 ¢는 대부분 사람의 음높이 JND보다 작고, 5도 맥놀이는 중간 음역에서 1초에 한 번 정도로 느리다. 반면 3도 오차 +13.7 ¢는 분명히 들리지만, 비브라토와 음색, 그리고 수백 년의 청취 습관이 이를 가린다. 12는 '5도를 거의 완벽하게, 3도를 견딜 만하게, 건반을 손 크기에 맞게'라는 세 조건을 동시에 만족하는 가장 작은 N이다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="concert">
+    <h2>A4 = 440 Hz: 표준 음높이의 역사</h2>
+    <p>센트와 비율은 <b>상대</b> 음높이입니다. 절대 기준은 별개의 약속입니다. 17–18세기 유럽에는 도시·교회·악기마다 다른 기준이 있어, 같은 'A'가 약 390 Hz(프랑스 바로크 오페라)부터 460 Hz 이상(베네치아 등의 관악기 피치)까지 걸쳤습니다. 헨델이 쓰던 소리굽쇠(1751)는 422.5 Hz였다고 전합니다. 19세기에는 악기 소리를 더 화려하게 하려는 경쟁으로 피치가 계속 올라가(<span class="term">피치 인플레이션</span>), 런던의 '구 필하모닉 피치'는 452.5 Hz에 이르렀습니다. 성악가의 부담을 줄이려고 프랑스 정부는 1859년 A = 435 Hz(<i>diapason normal</i>)를 법으로 정했습니다.</p>
+    <p>1834년 슈투트가르트 회의에서 셰이블러가 440 Hz를 제안한 이래, 1939년 런던 국제회의가 A4 = 440 Hz를 채택했고, 1955년 <b>ISO 16</b>으로 표준화되었습니다(현행 ISO 16:1975). 오늘날 바로크 시대 악기 연주는 관행적으로 A = 415 Hz(440보다 거의 정확히 평균율 반음 아래: \(440\cdot2^{-1/12} = 415.3\))를 쓰고, 많은 유럽 오케스트라는 밝은 소리를 위해 442–443 Hz로 조율합니다. 인터넷에 도는 "432 Hz가 우주의 진동수와 맞다"는 주장에는 물리적·생리적 근거가 없습니다—Hz라는 단위 자체가 '초'라는 인간의 약속에 묶여 있다는 점만 생각해도 그렇습니다.</p>
+    <div class="formula">$$\Delta c = 1200\log_2\frac{A_{\text{new}}}{440},\qquad 442\ \text{Hz} \to +7.85\ \text{¢},\quad 415\ \text{Hz} \to -101.3\ \text{¢},\quad 432\ \text{Hz}\to -31.8\ \text{¢}$$
+      <div class="where">기준을 바꾸면 모든 음이 같은 센트만큼 이동한다(음정 관계는 그대로). 절대음감을 가진 사람은 이 이동을 '음이 틀렸다'로 지각하며, 415 Hz 바로크 연주는 악보와 반음 다른 이름으로 들린다.</div>
+    </div>
+
+    <div class="sim" id="sim-tun-pitch">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>연주 피치 슬라이더: 같은 선율, 다른 A</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tun-pitch"></canvas><div class="mb-kb short" id="kb-tun-pitch"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>A4 기준 <output id="tp-a-out"></output></span><input type="range" id="tp-a"></label>
+          <div class="ctrl"><span>음색</span><div class="seg" id="tp-inst"><button data-value="piano" class="on">피아노</button><button data-value="strings">스트링</button><button data-value="organ">오르간</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tp-mel">▶ 선율(환희의 송가)</button><button class="btn" id="tp-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="tp-ab">A 440 → 선택한 A</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">A4</span><span class="v" id="tp-hz">—</span></div>
+        <div class="stat"><span class="k">440 Hz 대비</span><span class="v" id="tp-c">—</span></div>
+        <div class="stat"><span class="k">절대음감(440 기준)이 듣는 'A'</span><span class="v" id="tp-heard">—</span></div>
+        <div class="stat"><span class="k">이 기준의 C4</span><span class="v" id="tp-c4">—</span></div>
+      </div>
+      <div class="sim-note">위 눈금: 400–480 Hz 로그 축 위의 역사적 A 값들과 440 기준 평균율 G♯4·A4·A♯4. 건반은 선택한 기준으로 조율되어 울립니다(<kbd>A</kbd>–<kbd>K</kbd> 키 포함). 선율은 베토벤 교향곡 9번 4악장 주제(1824, 공유 저작물)의 첫 악구, D 장조. 415로 바꿔 들으면 상대음감에는 같은 선율이지만, 절대음감에는 D♭ 장조로 들립니다. 숫자는 문헌에 따라 ±1–2 Hz 차이가 있는 대표값입니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>음높이는 주파수의 로그로 지각된다. \(m = 69 + 12\log_2(f/440)\), 센트 \(=1200\log_2 r\). 옥타브(2:1)는 같은 음으로 들린다.</li>
+      <li>순정 5도 12개는 7옥타브보다 피타고라스 콤마 \(3^{12}/2^{19}\) = 23.46 ¢ 크다. \(\log_2 3\)이 무리수이므로 5도 쌓기는 닫히지 않는다.</li>
+      <li>5한계 순정률은 3과 5의 2차원 격자다. 같은 이름의 음이 신토닉 콤마 81/80 = 21.51 ¢만큼 다른 두 점에 있어, 엄격한 순정 진행은 콤마 펌프로 드리프트하거나 울프 5도(680 ¢)를 만든다.</li>
+      <li>템퍼먼트는 콤마를 나누는 방법이다: 1/4 콤마 중전음률(5도 696.58 ¢, 3도 순정, 울프 737.6 ¢), 베르크마이스터 III(조성 색깔), 12평균율(5도 −1.96 ¢, 장3도 +13.69 ¢, 모든 조 동등).</li>
+      <li>템퍼링은 맥놀이로 들린다: \(\lvert3f_1-2f_5\rvert\), \(\lvert5f_1-4f_3\rvert\). 평균율 C4 장3도는 약 10.4 Hz로 떨린다.</li>
+      <li>\(\log_2(3/2)\)의 연분수 수렴분수 1/2, 3/5, 7/12, 24/41, 31/53이 좋은 옥타브 분할 수를 준다. 12는 5도를 거의 완벽히 맞추는 가장 작은 실용적 N이다.</li>
+      <li>절대 기준 A4 = 440 Hz(ISO 16)는 19세기 피치 인플레이션 끝의 약속이다. 바로크 415 Hz는 약 −1반음, 많은 오케스트라는 442–443 Hz.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>주파수 330 Hz의 MIDI 번호(실수)에 가장 가까운 것은? (A4 = 440 Hz)</p><div class="opts">
+        <button class="opt">63.0</button><button class="opt" data-correct>64.02</button><button class="opt">65.5</button><button class="opt">66.0</button>
+      </div><div class="quiz-exp">\(69 + 12\log_2(330/440) = 69 + 12\times(-0.41504) = 64.02\). E4(64)보다 약 2센트 높다—A4(440)의 순정 4도 아래(3/4)이기 때문이다(평균율 4도보다 1.96 ¢ 좁음).</div></div>
+      <div class="quiz-q"><p>피타고라스 콤마를 비율로 바르게 쓴 것은?</p><div class="opts">
+        <button class="opt">81/80</button><button class="opt" data-correct>3¹²/2¹⁹</button><button class="opt">2¹²/3⁷</button><button class="opt">(5/4)³/2</button>
+      </div><div class="quiz-exp">5도 12개 \((3/2)^{12}\)를 7옥타브 \(2^7\)로 나누면 \(3^{12}/2^{19} = 531441/524288\) ≈ 23.46 ¢. 81/80은 신토닉 콤마, \(2/(5/4)^3 = 128/125\)(41.06 ¢)는 디에시스(장3도 셋이 옥타브에 모자란 양)다.</div></div>
+      <div class="quiz-q"><p>1/4 콤마 중전음률에서 장3도가 정확히 순정(5/4)이 되는 이유는?</p><div class="opts">
+        <button class="opt">장3도를 직접 5/4로 조율하기 때문에 5도와 무관하다</button><button class="opt" data-correct>장3도는 5도 4개 − 2옥타브이고, 5도마다 콤마/4를 빼면 신토닉 콤마가 정확히 상쇄된다</button><button class="opt">피타고라스 콤마를 12로 나누기 때문</button><button class="opt">울프 5도가 3도를 보정하기 때문</button>
+      </div><div class="quiz-exp">피타고라스 장3도 81/64는 5/4보다 신토닉 콤마(81/80)만큼 넓다. 5도 4개로 만들어지므로 각 5도를 콤마의 1/4씩 좁히면 정확히 81/80이 빠져 5/4가 된다: \(4\times696.578-2400 = 386.31\) ¢.</div></div>
+      <div class="quiz-q"><p>평균율에서 C4(261.63 Hz)–G4(392.00 Hz) 완전 5도의 맥놀이 속도는 약?</p><div class="opts">
+        <button class="opt" data-correct>0.9 Hz</button><button class="opt">2.0 Hz</button><button class="opt">10.4 Hz</button><button class="opt">130 Hz</button>
+      </div><div class="quiz-exp">가까운 배음 쌍은 C의 3배음(784.9 Hz)과 G의 2배음(784.0 Hz). 차이 ≈ 0.89 Hz. 10.4 Hz는 평균율 장3도(C의 5배음 vs E의 4배음)의 맥놀이다.</div></div>
+      <div class="quiz-q"><p>다음 중 \(\log_2(3/2)\)의 연분수 수렴분수의 분모가 <b>아닌</b> 것은?</p><div class="opts">
+        <button class="opt">12</button><button class="opt">41</button><button class="opt" data-correct>19</button><button class="opt">53</button>
+      </div><div class="quiz-exp">수렴분수는 1/2, 3/5, 7/12, 24/41, 31/53, 179/306…. 19-EDO는 5도(−7.2 ¢)보다 장3도(−7.4 ¢)와 단3도(+0.1 ¢)가 좋은 분할로, 5도 근사의 수렴분수가 아니다(5도 기준으로는 중간 분수 11/19).</div></div>
+      <div class="quiz-q"><p>바로크 연주 관행인 A = 415 Hz로 조율한 악기로 '악보상 D 장조' 곡을 연주하면, A = 440 기준의 절대음감자는 대략 어떤 조로 듣는가?</p><div class="opts">
+        <button class="opt">D 장조</button><button class="opt" data-correct>D♭(C♯) 장조</button><button class="opt">E♭ 장조</button><button class="opt">C 장조</button>
+      </div><div class="quiz-exp">\(1200\log_2(415/440) = -101.3\) ¢ ≈ 평균율 반음 하나 아래. 모든 음이 반음 내려가므로 D 장조가 D♭ 장조로 들린다(약 1 ¢ 더 낮게).</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const TUN_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const TUN_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+/** 옥타브 환원: 비율 → [1,2) */
+const tunReduce = (r) => { while (r >= 2) r /= 2; while (r < 1) r *= 2; return r; };
+/** 5도 k개로 도달하는 음 이름(피타고라스 철자) */
+const tunFifthName = (k) => {
+  const L = "FCGDAEB", i = k + 1, letter = L[MB.mod(i, 7)], acc = Math.floor(i / 7);
+  return letter + (acc > 0 ? "♯".repeat(acc) : acc < 0 ? "♭".repeat(-acc) : "");
+};
+
+/* ---------------------------------------------------------------- 그림 5-1: 선형 vs 로그 */
+(function () {
+  const g = document.getElementById("tun-fig-log");
+  const fs = [55, 110, 220, 440, 880, 1760];
+  const x0 = 60, x1 = 770;
+  const XL = (f) => x0 + (f / 1760) * (x1 - x0), XG = (f) => x0 + (Math.log2(f / 55) / 5) * (x1 - x0);
+  let s = `<text x="10" y="40" class="t-dim">선형</text><line x1="${x0}" x2="${x1}" y1="60" y2="60" class="s-axis"/>`;
+  s += `<text x="10" y="140" class="t-dim">로그</text><line x1="${x0}" x2="${x1}" y1="160" y2="160" class="s-axis"/>`;
+  fs.forEach((f, i) => {
+    s += `<line x1="${XL(f)}" x2="${XL(f)}" y1="50" y2="70" class="s-acc"/><text x="${XL(f)}" y="${i < 2 ? 88 + i * 14 : 88}" text-anchor="middle" class="t-mono">${f}</text>`;
+    s += `<line x1="${XG(f)}" x2="${XG(f)}" y1="150" y2="170" class="s-acc"/><text x="${XG(f)}" y="188" text-anchor="middle" class="t-mono">${f}</text>`;
+    s += `<text x="${XG(f)}" y="142" text-anchor="middle" class="t" style="font-size:12px">A${i + 1}</text>`;
+    if (i) s += `<text x="${(XG(f) + XG(fs[i - 1])) / 2}" y="206" text-anchor="middle" class="t-dim" style="font-size:11px">1200 ¢</text>`;
+  });
+  s += `<text x="${XL(1760)}" y="40" text-anchor="end" class="t-dim" style="font-size:11px">Hz →</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 5-2: 5도 12개 vs 7옥타브 */
+(function () {
+  const g = document.getElementById("tun-fig-comma");
+  const tot = 12 * 701.955, x0 = 20, W = 700, X = (c) => x0 + (c / tot) * W;
+  let s = "";
+  for (let i = 0; i < 12; i++) s += `<rect x="${X(i * 701.955)}" y="30" width="${X(701.955) - x0 - 1.5}" height="34" rx="3" class="f-acc-soft"/><text x="${X((i + 0.5) * 701.955)}" y="52" text-anchor="middle" class="t-mono" style="font-size:10px">${tunFifthName(i)}→${tunFifthName(i + 1)}</text>`;
+  for (let i = 0; i < 7; i++) s += `<rect x="${X(i * 1200)}" y="96" width="${X(1200) - x0 - 1.5}" height="34" rx="3" class="f-acc2-soft"/><text x="${X((i + 0.5) * 1200)}" y="118" text-anchor="middle" class="t-mono">옥타브 ${i + 1}</text>`;
+  const xe = X(8400), xp = X(tot);
+  s += `<line x1="${xe}" x2="${xe}" y1="20" y2="140" class="s-line" stroke-dasharray="4 3"/>`;
+  s += `<rect x="${xe}" y="26" width="${xp - xe}" height="42" style="fill:var(--bad);opacity:.35"/>`;
+  s += `<text x="${xp + 6}" y="44" class="t-acc">+23.46 ¢</text><text x="${xp + 6}" y="62" class="t-dim" style="font-size:11px">피타고라스 콤마</text>`;
+  s += `<text x="${x0}" y="170" class="t-dim">위: 12 × 701.955 = 8423.46 ¢     아래: 7 × 1200 = 8400 ¢     (가로 축: 센트, 비례)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 센트 ↔ 비율 계산기 */
+(function () {
+  let ratio = 1.5, label = "3/2";
+  const inst = MB.seg("tc-inst");
+  const ref = MB.range("tc-ref", (v) => MB.noteName(v) + " · " + MB.mtof(v).toFixed(1) + " Hz", () => update());
+  const centsR = MB.range("tc-cents", (v) => v + " ¢", (v) => { ratio = MB.fromCents(v); label = v + "c"; input.value = label; update(); });
+  const input = document.getElementById("tc-in");
+  function parse(str) {
+    const s = str.trim().replace(/\s+/g, "").replace(/×/g, "*").replace(/,/g, "");
+    const cm = /^(-?[0-9.]+)(c|¢|cents?)$/i.exec(s);
+    if (cm) return MB.fromCents(parseFloat(cm[1]));
+    if (!/^[0-9.+\-*/^():]+$/.test(s)) return NaN;
+    const expr = s.replace(/:/g, "/").replace(/\^/g, "**");
+    try { const v = Function('"use strict";return (' + expr + ")")(); return typeof v === "number" ? v : NaN; } catch (e) { return NaN; }
+  }
+  input.addEventListener("input", () => {
+    const v = parse(input.value);
+    if (isFinite(v) && v > 0 && v < 64) { ratio = v; label = input.value; input.style.borderColor = ""; centsR.set(MB.clamp(Math.round(MB.cents(v)), 0, 2400), false); update(); }
+    else input.style.borderColor = "var(--bad)";
+  });
+  document.querySelectorAll("#tc-presets button").forEach((b) => b.addEventListener("click", () => { input.value = b.dataset.v; input.dispatchEvent(new Event("input")); }));
+  const f1 = () => MB.mtof(ref());
+  // 가장 단순한 p/q(≤ 16) 근사 → q·f2 와 p·f1 이 가까운 배음 쌍
+  function simple(r) {
+    let best = null;
+    for (let q = 1; q <= 16; q++) for (let p = q; p <= 16 * 4; p++) {
+      const c = Math.abs(MB.cents(r / (p / q)));
+      if (c < 35 && (!best || p * q < best.p * best.q - 1e-9)) best = { p, q, c };
+    }
+    return best;
+  }
+  function tone(f, when, dur) { return MB.play({ freq: f }, { inst: inst(), dur, when, vel: 0.75 }); }
+  document.getElementById("tc-mel").addEventListener("click", () => { const t = MB.now() + 0.02; tone(f1(), t, 0.7); tone(f1() * ratio, t + 0.8, 0.7); });
+  document.getElementById("tc-har").addEventListener("click", () => { const t = MB.now() + 0.02; tone(f1(), t, 2.4); tone(f1() * ratio, t, 2.4); });
+  document.getElementById("tc-et").addEventListener("click", () => {
+    const t = MB.now() + 0.02, et = Math.round(MB.cents(ratio) / 100) * 100;
+    tone(f1(), t, 1.8); tone(f1() * ratio, t, 1.8);
+    tone(f1(), t + 2.1, 1.8); tone(f1() * MB.fromCents(et), t + 2.1, 1.8);
+  });
+  function update() { cv.redraw(); }
+  const cv = MB.canvas("#cv-tun-calc", (ctx, w, h) => {
+    const P = MB.palette(), c = MB.cents(ratio), span = c > 1200 ? 2400 : 1200;
+    const bx = 18, bw = w - 36, by = 30, X = (v) => bx + (MB.clamp(v, 0, span) / span) * bw;
+    ctx.font = "10px " + TUN_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(bx, by + 24); ctx.lineTo(bx + bw, by + 24); ctx.stroke();
+    const stepLab = span > 1200 ? 200 : 100;
+    for (let k = 0; k <= span; k += 100) {
+      ctx.strokeStyle = k % 1200 ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(X(k), by + 10); ctx.lineTo(X(k), by + 24); ctx.stroke();
+      if (k % stepLab === 0 && (w > 480 || k % (stepLab * 2) === 0)) { ctx.fillStyle = P.dim; ctx.fillText(MB.noteName(ref() + k / 100, false, false), X(k), by + 28); }
+    }
+    const et = Math.round(c / 100) * 100;
+    ctx.setLineDash([4, 3]); ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(X(et), by - 4); ctx.lineTo(X(et), by + 24); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.moveTo(X(c), by + 22); ctx.lineTo(X(c) - 6, by + 8); ctx.lineTo(X(c) + 6, by + 8); ctx.fill();
+    ctx.fillRect(X(c) - 1, by - 8, 2, 30);
+    ctx.font = "12px " + TUN_FONT(); ctx.textAlign = X(c) > w - 90 ? "right" : "left"; ctx.textBaseline = "alphabetic"; ctx.fillStyle = P.accent;
+    ctx.fillText(c.toFixed(2) + " ¢", X(c) + (ctx.textAlign === "right" ? -6 : 6), by - 2);
+    // 1초 파형: 두 음(배음 6개, 1/n)의 합
+    const sr = 6000, N = sr, x = new Float32Array(N), fa = f1(), fb = f1() * ratio;
+    for (let i = 0; i < N; i++) { let v = 0; const t = i / sr; for (let n = 1; n <= 6; n++) { if (n * fb < sr / 2) v += Math.sin(2 * Math.PI * n * fb * t) / n; if (n * fa < sr / 2) v += Math.sin(2 * Math.PI * n * fa * t) / n; } x[i] = v; }
+    let pk = 0; for (let i = 0; i < N; i++) pk = Math.max(pk, Math.abs(x[i]));
+    const wb = { x: 12, y: by + 62, w: w - 24, h: h - by - 70 };
+    ctx.globalAlpha = 0.35; MB.drawWave(ctx, wb, x, { yScale: 0.95 / (pk || 1), color: P.accent2, width: 0.8 }); ctx.globalAlpha = 1;
+    // 포락선: 25 ms 구간 최대값
+    const hop = 150; ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i + hop <= N; i += hop / 2) { let m = 0; for (let j = i; j < i + hop; j++) m = Math.max(m, Math.abs(x[j])); const px = wb.x + (i / N) * wb.w, py = wb.y + wb.h / 2 - (m / (pk || 1)) * 0.95 * wb.h / 2; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "left"; ctx.fillText("두 음을 더한 파형(청록)과 포락선(보라) · 1초", 16, wb.y - 6);
+    // 읽기값
+    MB.stat("tc-r", ratio.toFixed(6));
+    MB.stat("tc-c", c.toFixed(2) + " ¢");
+    const near = Math.round(c / 100);
+    MB.stat("tc-near", `${MB.intervalName(near)} <small>${MB.signed(c - near * 100, 2)} ¢</small>`);
+    const sp = simple(ratio);
+    if (sp) { const b = Math.abs(sp.q * fb - sp.p * fa); MB.stat("tc-beat", (b < 0.005 ? "0 Hz" : b.toFixed(2) + " Hz") + ` <small>${sp.q}·f₂ vs ${sp.p}·f₁</small>`); }
+    else MB.stat("tc-beat", "— <small>(단순비 없음)</small>");
+  }, { aspect: 0.66, maxHeight: 420, minHeight: 240 });
+})();
+
+/* ---------------------------------------------------------------- 2. 5도 나선 */
+(function () {
+  const FIFTH = { pure: MB.cents(1.5), et: 700, mean: MB.cents(1.5) - MB.cents(81 / 80) / 4 };
+  let hl = -1, timers = [];
+  const fifthT = MB.seg("ts-fifth", () => cv.redraw());
+  const n = MB.range("ts-n", (v) => v + "개", () => cv.redraw());
+  const posC = (k) => MB.mod(k * FIFTH[fifthT()], 1200);
+  const gapC = (k) => { const p = posC(k); return p > 600 ? p - 1200 : p; };
+  const freqOf = (k) => MB.mtof(60) * MB.fromCents(posC(k));
+  const clear = () => { timers.forEach(clearTimeout); timers = []; hl = -1; };
+  document.getElementById("ts-seq").addEventListener("click", () => {
+    clear(); MB.stopAll();
+    const t0 = MB.now() + 0.05, dt = n() > 24 ? 0.12 : 0.24;
+    for (let k = 0; k <= n(); k++) {
+      MB.play({ freq: freqOf(k) }, { inst: "organ", when: t0 + k * dt, dur: dt * 0.9, vel: 0.7 });
+      timers.push(setTimeout(() => { hl = k; cv.redraw(); }, (k * dt + 0.05) * 1000));
+    }
+    timers.push(setTimeout(() => { hl = -1; cv.redraw(); }, ((n() + 1) * dt + 0.3) * 1000));
+  });
+  document.getElementById("ts-cmp").addEventListener("click", () => {
+    clear(); MB.stopAll();
+    const t0 = MB.now() + 0.05, f0 = MB.mtof(60), fn = f0 * MB.fromCents(gapC(n()));
+    MB.play({ freq: f0 }, { inst: "organ", when: t0, dur: 0.8 });
+    MB.play({ freq: fn }, { inst: "organ", when: t0 + 0.9, dur: 0.8 });
+    MB.play({ freq: f0 }, { inst: "organ", when: t0 + 1.9, dur: 3 });
+    MB.play({ freq: fn }, { inst: "organ", when: t0 + 1.9, dur: 3 });
+    hl = n(); cv.redraw(); timers.push(setTimeout(() => { hl = -1; cv.redraw(); }, 5000));
+  });
+  document.getElementById("ts-stop").addEventListener("click", () => { clear(); MB.stopAll(); cv.redraw(); });
+  const cv = MB.canvas("#cv-tun-spiral", (ctx, w, h) => {
+    const P = MB.palette(), N = n(), F = FIFTH[fifthT()];
+    const cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 22, r0 = R * 0.18, dr = (R - r0) / Math.max(12, N);
+    const ang = (c) => -Math.PI / 2 + (c / 1200) * 2 * Math.PI;
+    // 평균율 12 방사선
+    ctx.font = "10px " + TUN_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let i = 0; i < 12; i++) {
+      const a = ang(i * 100); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a) * (R + 4), cy + Math.sin(a) * (R + 4)); ctx.stroke();
+      ctx.fillStyle = P.faint; ctx.fillText(MB.pcName(i), cx + Math.cos(a) * (R + 14), cy + Math.sin(a) * (R + 14));
+    }
+    // 연속 나선
+    ctx.strokeStyle = P.accent; ctx.globalAlpha = 0.35; ctx.lineWidth = 1.2; ctx.beginPath();
+    for (let u = 0; u <= N; u += 0.02) { const a = ang(u * F), r = r0 + u * dr; const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; u ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.globalAlpha = 1;
+    // 콤마 호
+    const g = gapC(N), rN = r0 + N * dr;
+    ctx.strokeStyle = P.bad; ctx.lineWidth = 3; ctx.beginPath();
+    if (Math.abs(g) > 0.01) { ctx.arc(cx, cy, rN + 7, Math.min(ang(0), ang(g)), Math.max(ang(0), ang(g))); ctx.stroke(); }
+    ctx.lineWidth = 1;
+    // 점
+    for (let k = 0; k <= N; k++) {
+      const a = ang(posC(k)), r = r0 + k * dr, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+      const isEnd = k === N || k === 0;
+      ctx.fillStyle = k === hl ? P.warn : isEnd ? P.accent : P.accent2;
+      ctx.beginPath(); ctx.arc(x, y, k === hl ? 7 : isEnd ? 5 : 3.2, 0, 7); ctx.fill();
+      if (k <= 12 || k === N) { ctx.fillStyle = P.text; ctx.font = (isEnd ? "bold 11px " : "10px ") + TUN_FONT(); ctx.fillText(tunFifthName(k), x + Math.cos(a) * 12, y + Math.sin(a) * 12); }
+    }
+    ctx.fillStyle = P.bad; ctx.font = "bold 12px " + TUN_FONT(); ctx.textAlign = "left";
+    if (Math.abs(g) > 0.01) ctx.fillText(MB.signed(g, 2) + " ¢", 10, 18);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.fillText("5도 " + F.toFixed(2) + " ¢ × " + N, 10, h - 10);
+    MB.stat("ts-name", tunFifthName(N) + ` <small>(3/2)^${N}</small>`);
+    MB.stat("ts-pos", posC(N).toFixed(2) + " ¢");
+    MB.stat("ts-gap", MB.signed(g, 2) + " ¢");
+    const b = MB.mtof(60) * Math.abs(MB.fromCents(g) - 1);
+    MB.stat("ts-beat", b.toFixed(2) + " Hz");
+  }, { aspect: (w) => (w < 500 ? 0.95 : 0.72), maxHeight: 460 });
+})();
+
+/* ---------------------------------------------------------------- 3. 순정률 격자 */
+(function () {
+  const A0 = -9, A1 = 4, B0 = -1, B1 = 3; // 격자 범위: 3^a 5^b
+  const C4 = MB.mtof(60);
+  const mode = MB.seg("tl-mode", () => { path = []; cv.redraw(); readStatic(); });
+  const cyc = MB.range("tl-cyc", (v) => v + "바퀴");
+  let path = [], cur = -1, clicked = null, timers = [];
+  const ratioAB = (a, b) => tunReduce(Math.pow(3, a) * Math.pow(5, b));
+  const nameAB = (a, b) => tunFifthName(a + 4 * b) + (b > 0 ? "↓".repeat(b) : b < 0 ? "↑".repeat(-b) : "");
+  const frac = (a, b) => { // 정수비 문자열
+    let num = 1, den = 1; if (a > 0) num *= 3 ** a; else den *= 3 ** -a; if (b > 0) num *= 5 ** b; else den *= 5 ** -b;
+    while (num / den >= 2) den *= 2; while (num / den < 1) num *= 2; return num + "/" + den;
+  };
+  // 진행: 각 화음 = 격자 좌표 3개 (근음, 3음, 5음)
+  const MAJ = (a, b) => [[a, b], [a, b + 1], [a + 1, b]], MIN = (a, b) => [[a, b], [a - 1, b + 1], [a + 1, b]];
+  function progression() {
+    const out = [];
+    if (mode() === "fixed") {
+      const fx = [["C", MAJ(0, 0)], ["F", MAJ(-1, 0)], ["Dm", [[2, 0], [-1, 0], [-1, 1]]], ["G", MAJ(1, 0)], ["C", MAJ(0, 0)]];
+      for (let c = 0; c < cyc(); c++) fx.forEach((x, i) => { if (c && !i) return; out.push({ name: x[0], pts: x[1] }); });
+      return out;
+    }
+    // 공통음 유지: 한 바퀴마다 (−4, +1) 이동
+    for (let c = 0; c < cyc(); c++) {
+      const o = [-4 * c, c];
+      const seq = [["C", MAJ(0, 0)], ["F", MAJ(-1, 0)], ["Dm", MIN(-2, 1)], ["G", MAJ(-3, 1)], ["C", MAJ(-4, 1)]];
+      seq.forEach((x, i) => { if (c && !i) return; out.push({ name: x[0], pts: x[1].map(([a, b]) => [a + o[0], b + o[1]]) }); });
+    }
+    return out;
+  }
+  // 화음 → 주파수: 각 음을 G3–G4에 넣고 근음을 한 옥타브 아래 베이스로
+  function chordFreqs(ch) {
+    if (mode() === "et") {
+      const pcs = ch.pts.map(([a, b]) => MB.mod(7 * a + 4 * b, 12));
+      return [MB.mtof(43 + MB.mod(pcs[0] - 7, 12))].concat(pcs.map((p) => MB.mtof(55 + MB.mod(p - 7, 12))));
+    }
+    const fs = ch.pts.map(([a, b]) => { let f = C4 * Math.pow(3, a) * Math.pow(5, b); while (f >= 392) f /= 2; while (f < 196) f *= 2; return f; });
+    let bass = C4 * Math.pow(3, ch.pts[0][0]) * Math.pow(5, ch.pts[0][1]); while (bass >= 196) bass /= 2; while (bass < 98) bass *= 2;
+    return [bass].concat(fs);
+  }
+  function fifthOf(ch) { // 근음–5음 센트
+    const f = chordFreqs(ch); const r = f[0] * 2, fifth = f[3]; let c = MB.cents(fifth / r); c = MB.mod(c, 1200); return c;
+  }
+  const clearT = () => { timers.forEach(clearTimeout); timers = []; };
+  function playProg() {
+    clearT(); MB.stopAll();
+    path = progression(); cur = -1; cv.redraw();
+    const t0 = MB.now() + 0.05, dt = 1.1;
+    path.forEach((ch, i) => {
+      chordFreqs(ch).forEach((f, j) => MB.play({ freq: f }, { inst: "organ", when: t0 + i * dt, dur: dt * 0.92, vel: j ? 0.6 : 0.7 }));
+      timers.push(setTimeout(() => { cur = i; cv.redraw(); MB.stat("tl-now", ch.name + ` <small>${i + 1}/${path.length}</small>`); }, (i * dt + 0.05) * 1000));
+    });
+    timers.push(setTimeout(() => { cur = -1; cv.redraw(); }, (path.length * dt + 0.2) * 1000));
+    readDrift();
+  }
+  function readDrift() {
+    const p = path.length ? path : progression();
+    const last = p[p.length - 1];
+    const fa = chordFreqs(p[0])[0], fb = chordFreqs(last)[0];
+    MB.stat("tl-drift", MB.signed(MB.cents(fb / fa), 2) + " ¢");
+    let worst = null; p.forEach((ch) => { const c = fifthOf(ch); if (!worst || Math.abs(c - 701.955) > Math.abs(worst.c - 701.955)) worst = { c, n: ch.name }; });
+    MB.stat("tl-worst", worst.c.toFixed(1) + ` ¢ <small>${worst.n}</small>`);
+  }
+  function readStatic() { readDrift(); MB.stat("tl-now", "—"); }
+  document.getElementById("tl-play").addEventListener("click", playProg);
+  document.getElementById("tl-ab").addEventListener("click", () => {
+    clearT(); MB.stopAll();
+    const p = progression(), t0 = MB.now() + 0.05;
+    [p[0], p[p.length - 1]].forEach((ch, i) => chordFreqs(ch).forEach((f) => MB.play({ freq: f }, { inst: "organ", when: t0 + i * 1.6, dur: 1.4, vel: 0.6 })));
+    path = p; cur = 0; cv.redraw(); timers.push(setTimeout(() => { cur = p.length - 1; cv.redraw(); }, 1650)); timers.push(setTimeout(() => { cur = -1; cv.redraw(); }, 3300));
+  });
+  document.getElementById("tl-stop").addEventListener("click", () => { clearT(); MB.stopAll(); cur = -1; cv.redraw(); });
+  cyc.el.addEventListener("input", () => { path = []; readStatic(); cv.redraw(); });
+  let geom = null;
+  const cv = MB.canvas("#cv-tun-lattice", (ctx, w, h) => {
+    const P = MB.palette(), na = A1 - A0 + 1, nb = B1 - B0 + 1;
+    const padX = 26, padY = 22, sx = (w - 2 * padX) / (na - 1), sy = (h - 2 * padY) / (nb - 1);
+    const X = (a) => padX + (a - A0) * sx, Y = (b) => h - padY - (b - B0) * sy;
+    geom = { X, Y, sx, sy };
+    const small = w < 560;
+    // 간선
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    for (let a = A0; a <= A1; a++) for (let b = B0; b <= B1; b++) {
+      if (a < A1) { ctx.beginPath(); ctx.moveTo(X(a, b), Y(b)); ctx.lineTo(X(a + 1, b), Y(b)); ctx.stroke(); }
+      if (b < B1) { ctx.beginPath(); ctx.moveTo(X(a, b), Y(b)); ctx.lineTo(X(a, b + 1), Y(b + 1)); ctx.stroke(); }
+    }
+    // 진행 화음 삼각형
+    const pr = path.length ? path : [];
+    pr.forEach((ch, i) => {
+      const inR = ch.pts.every(([a, b]) => a >= A0 && a <= A1 && b >= B0 && b <= B1); if (!inR) return;
+      const wolf = Math.abs(fifthOf(ch) - 701.955) > 10 && mode() !== "et";
+      ctx.fillStyle = wolf ? P.bad : i === cur ? P.warn : P.accent; ctx.globalAlpha = i === cur ? 0.55 : 0.16;
+      ctx.beginPath(); ch.pts.forEach(([a, b], j) => (j ? ctx.lineTo(X(a, b), Y(b)) : ctx.moveTo(X(a, b), Y(b)))); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+    // 경로(근음 이동)
+    if (pr.length) {
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); ctx.beginPath();
+      pr.forEach((ch, i) => { const c = ch.pts.reduce((s, [a, b]) => [s[0] + X(a, b) / 3, s[1] + Y(b) / 3], [0, 0]); i ? ctx.lineTo(c[0], c[1]) : ctx.moveTo(c[0], c[1]); });
+      ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+    }
+    // 노드
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let a = A0; a <= A1; a++) for (let b = B0; b <= B1; b++) {
+      const x = X(a, b), y = Y(b);
+      const active = cur >= 0 && pr[cur] && pr[cur].pts.some(([pa, pb]) => pa === a && pb === b);
+      const isClick = clicked && clicked[0] === a && clicked[1] === b;
+      ctx.fillStyle = active ? P.warn : isClick ? P.accent2 : a === 0 && b === 0 ? P.accent : P.elev;
+      ctx.strokeStyle = P.border; ctx.beginPath(); ctx.arc(x, y, small ? 11 : 15, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = active || isClick || (a === 0 && b === 0) ? "#fff" : P.text;
+      ctx.font = (small ? "bold 9px " : "bold 11px ") + TUN_FONT();
+      ctx.fillText(nameAB(a, b), x, y + (small ? 0 : -2));
+      if (!small) { ctx.font = "9px " + TUN_MONO(); ctx.fillStyle = active || isClick || (a === 0 && b === 0) ? "#fff" : P.faint; ctx.fillText(Math.round(MB.cents(ratioAB(a, b))), x, y + 8); }
+    }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.fillText("→ ×3/2 (5도)", 6, h - 4); ctx.save(); ctx.translate(10, padY + 70); ctx.rotate(-Math.PI / 2); ctx.textAlign = "right"; ctx.fillText("×5/4 (장3도) →", 0, 0); ctx.restore();
+  }, { aspect: (w) => (w < 560 ? 0.62 : 0.42), maxHeight: 360, minHeight: 200 });
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (!geom) return;
+    const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = null, bd = 1e9;
+    for (let a = A0; a <= A1; a++) for (let b = B0; b <= B1; b++) { const d = Math.hypot(geom.X(a, b) - x, geom.Y(b) - y); if (d < bd) { bd = d; best = [a, b]; } }
+    if (!best || bd > Math.max(18, geom.sx * 0.6)) return;
+    clicked = best; const rr = ratioAB(best[0], best[1]);
+    MB.play({ freq: C4 * rr }, { inst: "organ", dur: 0.9, vel: 0.75 });
+    MB.stat("tl-click", `${nameAB(best[0], best[1])} <small>${frac(best[0], best[1])} · ${MB.cents(rr).toFixed(1)} ¢ (평균율 ${MB.signed(MB.cents(rr) - Math.round(MB.cents(rr) / 100) * 100, 1)})</small>`);
+    cv.redraw();
+  });
+  readStatic();
+})();
+
+/* ---------------------------------------------------------------- 4. 조율 비교기 */
+(function () {
+  const selT = document.getElementById("tcm-tun"), selK = document.getElementById("tcm-key"), selP = document.getElementById("tcm-play");
+  Object.entries(MB.TUNINGS).forEach(([k, t]) => selT.add(new Option(t.name, k)));
+  for (let i = 0; i < 12; i++) { selK.add(new Option(MB.pcName(i, [1, 3, 8, 10].includes(i)), i)); selP.add(new Option(MB.pcName(i, [1, 3, 8, 10].includes(i)) + " 장조", i)); }
+  selT.value = "meantone";
+  const tun = () => selT.value, key = () => +selK.value, pk = () => +selP.value;
+  const inst = MB.seg("tcm-inst");
+  [selT, selK, selP].forEach((s) => s.addEventListener("change", () => { cv.redraw(); readout(); kb.set(MB.chord(60 + pk(), "maj").concat(MB.chord(48 + pk(), "maj")), "mark"); }));
+  const F = (m) => MB.tunedFreq(m, tun(), key());
+  const devET = (pc) => { const rel = MB.mod(pc - key(), 12); return MB.TUNINGS[tun()].cents[rel] - rel * 100; };
+  const size = (pc, iv) => { const a = MB.TUNINGS[tun()].cents[MB.mod(pc - key(), 12)], b = MB.TUNINGS[tun()].cents[MB.mod(pc + iv - key(), 12)]; return MB.mod(b - a, 1200); };
+  function chordAt(rootPc) { const r = 60 + MB.mod(rootPc, 12); return [r, r + 4, r + 7]; }
+  function playChord(ms, when, dur) { ms.forEach((m) => MB.play({ freq: F(m) }, { inst: inst(), when, dur, vel: 0.6 })); }
+  document.getElementById("tcm-cad").addEventListener("click", () => {
+    MB.stopAll(); const t0 = MB.now() + 0.05, k = pk();
+    const roots = [k, k + 5, k + 7, k];
+    roots.forEach((r, i) => {
+      const base = 48 + MB.mod(r, 12); const ch = [base - 12 * (base > 53 ? 1 : 0)].concat(MB.voiceLead([60, 64, 67], [MB.mod(r, 12), MB.mod(r + 4, 12), MB.mod(r + 7, 12)], [55, 76]));
+      playChord(ch, t0 + i * 1.2, 1.1);
+      setTimeout(() => kb.set(ch, "on"), (i * 1.2 + 0.05) * 1000);
+    });
+    setTimeout(() => kb.clear("on"), 5000);
+  });
+  document.getElementById("tcm-scale").addEventListener("click", () => {
+    MB.stopAll(); const t0 = MB.now() + 0.05, k = 60 + pk();
+    const st = MB.SCALES.major.steps.concat([12]);
+    st.forEach((s, i) => { MB.play({ freq: F(k + s) }, { inst: inst(), when: t0 + i * 0.32, dur: 0.3, vel: 0.7 }); setTimeout(() => kb.flash(k + s, 280), (i * 0.32 + 0.05) * 1000); });
+    // 근음 드론과 함께 한 번 더 (낮은 근음 위에 음계를 들으면 음정 차이가 잘 들린다)
+    MB.play({ freq: F(k - 12) }, { inst: inst(), when: t0 + 3, dur: 2.7, vel: 0.5 });
+    st.forEach((s, i) => MB.play({ freq: F(k + s) }, { inst: inst(), when: t0 + 3 + i * 0.32, dur: 0.3, vel: 0.65 }));
+  });
+  document.getElementById("tcm-hold").addEventListener("click", () => { MB.stopAll(); const ch = chordAt(pk()); playChord(ch, MB.now() + 0.05, 4); kb.set(ch, "on"); setTimeout(() => kb.clear("on"), 4100); });
+  function readout() {
+    const [r, t, f] = chordAt(pk());
+    const m3 = MB.cents(F(t) / F(r)), p5 = MB.cents(F(f) / F(r));
+    MB.stat("tcm-m3", m3.toFixed(1) + ` ¢ <small>${MB.signed(m3 - 386.31, 1)}</small>`);
+    MB.stat("tcm-p5", p5.toFixed(1) + ` ¢ <small>${MB.signed(p5 - 701.96, 1)}</small>`);
+    MB.stat("tcm-b3", Math.abs(5 * F(r) - 4 * F(t)).toFixed(1) + " Hz");
+    MB.stat("tcm-b5", Math.abs(3 * F(r) - 2 * F(f)).toFixed(2) + " Hz");
+  }
+  const cv = MB.canvas("#cv-tun-cmp", (ctx, w, h) => {
+    const P = MB.palette(), small = w < 520;
+    // 위: 평균율 대비 편차 막대
+    const top = { x: 40, y: 14, w: w - 52, h: h * 0.42 };
+    const Y = (d) => top.y + top.h / 2 - (MB.clamp(d, -30, 30) / 30) * (top.h / 2);
+    ctx.font = "10px " + TUN_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillStyle = P.dim;
+    [-30, -15, 0, 15, 30].forEach((d) => { ctx.strokeStyle = d ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(top.x, Y(d)); ctx.lineTo(top.x + top.w, Y(d)); ctx.stroke(); ctx.fillText((d > 0 ? "+" : "") + d, top.x - 5, Y(d)); });
+    const bw = top.w / 12;
+    for (let pc = 0; pc < 12; pc++) {
+      const d = devET(pc), x = top.x + pc * bw;
+      ctx.fillStyle = d >= 0 ? P.accent : P.accent2; ctx.fillRect(x + bw * 0.18, Math.min(Y(0), Y(d)), bw * 0.64, Math.max(1.5, Math.abs(Y(d) - Y(0))));
+      ctx.fillStyle = pc === key() ? P.accent : P.dim; ctx.textAlign = "center"; ctx.font = (pc === key() ? "bold " : "") + "11px " + TUN_FONT();
+      ctx.fillText(MB.pcName(pc, [3, 8, 10].includes(pc)), x + bw / 2, top.y + top.h + 10);
+      if (!small) { ctx.font = "9px " + TUN_MONO(); ctx.fillStyle = P.faint; ctx.fillText(MB.signed(d, 1), x + bw / 2, d >= 0 ? Y(d) - 7 : Y(d) + 7); }
+    }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "left"; ctx.fillText("평균율 대비 편차(¢)", top.x + 4, top.y + 2);
+    // 아래: 5도·장3도 행
+    const order = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
+    const rows = [{ name: "5도", iv: 7, pure: 701.955, scale: 25 }, { name: "장3도", iv: 4, pure: 386.314, scale: 30 }];
+    const gy = top.y + top.h + 26, ch = (h - gy - 8) / 2, cw = (w - 52) / 12;
+    const sel = [pk(), pk() + 5, pk() + 7].map((x) => MB.mod(x, 12));
+    rows.forEach((row, ri) => {
+      const y = gy + ri * ch;
+      ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(row.name, 36, y + ch / 2);
+      order.forEach((pc, i) => {
+        const s = size(pc, row.iv), d = s - row.pure, x = 40 + i * cw, mag = MB.clamp(Math.abs(d) / row.scale, 0, 1);
+        ctx.fillStyle = mag < 0.15 ? P.ok : mag < 0.5 ? P.warn : P.bad; ctx.globalAlpha = 0.25 + 0.6 * mag;
+        ctx.fillRect(x + 1, y + 2, cw - 2, ch - 4); ctx.globalAlpha = 1;
+        if (sel.includes(pc)) { ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.strokeRect(x + 1.5, y + 2.5, cw - 3, ch - 5); ctx.lineWidth = 1; }
+        ctx.fillStyle = P.text; ctx.textAlign = "center"; ctx.font = (small ? "9px " : "10px ") + TUN_FONT();
+        ctx.fillText(MB.pcName(pc, [3, 8, 10].includes(pc)), x + cw / 2, y + ch * 0.33);
+        ctx.font = (small ? "8px " : "10px ") + TUN_MONO(); const dd = Math.abs(d) >= 10 || small ? Math.round(d) : Math.round(d * 10) / 10; ctx.fillText(Math.abs(dd) < 0.05 ? "0" : (dd > 0 ? "+" : "−") + Math.abs(dd), x + cw / 2, y + ch * 0.7);
+      });
+    });
+  }, { aspect: (w) => (w < 520 ? 0.85 : 0.6), maxHeight: 400 });
+  const kb = MB.keyboard("#kb-tun-cmp", { lo: 48, hi: 72, onDown: (m) => MB.play({ freq: F(m) }, { inst: inst(), dur: null, vel: 0.7 }) });
+  kb.set(MB.chord(60 + pk(), "maj").concat(MB.chord(48 + pk(), "maj")), "mark");
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 5. N-EDO 탐색기 */
+(function () {
+  const L3 = Math.log2(1.5), L5 = Math.log2(1.25), L7 = Math.log2(1.75);
+  const C4 = MB.mtof(60);
+  let hlSteps = [], timers = [];
+  const n = MB.range("te-n", (v) => v + "-EDO", () => redraw());
+  const show7 = MB.check("te-7", () => redraw());
+  document.querySelectorAll("#te-presets button").forEach((b) => b.addEventListener("click", () => n.set(+b.dataset.n)));
+  const best = (N, L) => { const k = Math.round(N * L); return { k, c: (k / N) * 1200, e: (k / N - L) * 1200 }; };
+  const fStep = (N, k) => C4 * Math.pow(2, k / N);
+  const clearT = () => { timers.forEach(clearTimeout); timers = []; };
+  function flash(steps, ms) { hlSteps = steps; ring.redraw(); timers.push(setTimeout(() => { hlSteps = []; ring.redraw(); }, ms)); }
+  document.getElementById("te-chord").addEventListener("click", () => {
+    clearT(); MB.stopAll(); const N = n(), t = MB.now() + 0.05, st = [0, best(N, L5).k, best(N, L3).k];
+    st.forEach((k, i) => MB.play({ freq: fStep(N, k) }, { inst: "organ", when: t + i * 0.35, dur: 2.8 - i * 0.35, vel: 0.65 }));
+    flash(st, 2800);
+  });
+  document.getElementById("te-just").addEventListener("click", () => {
+    clearT(); MB.stopAll(); const N = n(), t = MB.now() + 0.05;
+    [1, 1.25, 1.5].forEach((r) => MB.play({ freq: C4 * r }, { inst: "organ", when: t, dur: 1.8, vel: 0.65 }));
+    const st = [0, best(N, L5).k, best(N, L3).k];
+    st.forEach((k) => MB.play({ freq: fStep(N, k) }, { inst: "organ", when: t + 2.1, dur: 1.8, vel: 0.65 }));
+    timers.push(setTimeout(() => flash(st, 1800), 2100));
+  });
+  document.getElementById("te-scale").addEventListener("click", () => {
+    clearT(); MB.stopAll(); const N = n(), P5 = best(N, L3).k;
+    const deg = [0, 2, 4, -1, 1, 3, 5].map((q) => MB.mod(q * P5, N)).sort((a, b) => a - b).concat([N]);
+    const t = MB.now() + 0.05;
+    deg.forEach((k, i) => { MB.play({ freq: fStep(N, k) }, { inst: "organ", when: t + i * 0.3, dur: 0.28, vel: 0.7 }); timers.push(setTimeout(() => { hlSteps = [MB.mod(k, N)]; ring.redraw(); }, (i * 0.3 + 0.05) * 1000)); });
+    timers.push(setTimeout(() => { hlSteps = []; ring.redraw(); }, deg.length * 300 + 200));
+  });
+  document.getElementById("te-chrom").addEventListener("click", () => {
+    clearT(); MB.stopAll(); const N = n(), dt = Math.min(0.25, 4 / N), t = MB.now() + 0.05;
+    for (let k = 0; k <= N; k++) { MB.play({ freq: fStep(N, k) }, { inst: "organ", when: t + k * dt, dur: dt * 0.95, vel: 0.6 }); timers.push(setTimeout(() => { hlSteps = [MB.mod(k, N)]; ring.redraw(); }, (k * dt + 0.05) * 1000)); }
+    timers.push(setTimeout(() => { hlSteps = []; ring.redraw(); }, (N + 1) * dt * 1000 + 200));
+  });
+  function redraw() { cv.redraw(); ring.redraw(); readout(); }
+  function readout() {
+    const N = n(), a = best(N, L3), b = best(N, L5), c = best(N, L7);
+    MB.stat("te-step", (1200 / N).toFixed(2) + " ¢");
+    MB.stat("te-p5", `${a.k}스텝 <small>${a.c.toFixed(1)} ¢ (${MB.signed(a.e, 2)})</small>`);
+    MB.stat("te-m3", `${b.k}스텝 <small>${b.c.toFixed(1)} ¢ (${MB.signed(b.e, 2)})</small>`);
+    MB.stat("te-h7", `${c.k}스텝 <small>${MB.signed(c.e, 2)} ¢</small>`);
+  }
+  const cv = MB.canvas("#cv-tun-edo", (ctx, w, h) => {
+    const P = MB.palette(), N0 = n();
+    const s3 = [], s5 = [], s7 = [];
+    for (let N = 5; N <= 72; N++) { s3.push([N, Math.abs(best(N, L3).e)]); s5.push([N, Math.abs(best(N, L5).e)]); s7.push([N, Math.abs(best(N, L7).e)]); }
+    const box = { x: 40, y: 12, w: w - 52, h: h - 42 };
+    const ch = MB.chart(ctx, box, { x: [4, 73], y: [0, 50], xTicks: [5, 12, 19, 24, 31, 41, 53, 72], yTicks: [0, 10, 20, 30, 40, 50], series: [], vlines: [{ x: N0, color: P.bad, dash: [2, 2] }] });
+    const dots = (data, col, r, dx) => data.forEach(([N, e]) => { if (e > 50) return; ctx.fillStyle = col; ctx.globalAlpha = N === N0 ? 1 : 0.75; ctx.beginPath(); ctx.arc(ch.X(N) + dx, ch.Y(e), N === N0 ? r + 2.5 : r, 0, 7); ctx.fill(); });
+    ctx.globalAlpha = 1;
+    if (show7()) dots(s7, P.warn, 2, 0);
+    dots(s5, P.accent2, 2.3, 0); dots(s3, P.accent, 2.6, 0); ctx.globalAlpha = 1;
+    ctx.fillStyle = P.accent; ctx.font = "bold 10px " + TUN_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+    [5, 7, 12, 41, 53].forEach((N) => { const e = Math.abs(best(N, L3).e); ctx.fillText(N, ch.X(N), ch.Y(e) - 5); });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText("|오차| ¢ — 보라: 5도, 청록: 장3도" + (show7() ? ", 주황: 7:4" : ""), box.x + box.w - 4, box.y + 2);
+    ctx.textAlign = "center"; ctx.fillText("N (옥타브 분할 수)", box.x + box.w / 2, box.y + box.h + 18);
+  }, { aspect: 0.42, maxHeight: 260, minHeight: 180 });
+  const ring = MB.canvas("#cv-tun-ring", (ctx, w, h) => {
+    const P = MB.palette(), N = n(), cx = w / 2, cy = h / 2 + 4, R = Math.min(w / 2, h / 2) - 26;
+    const ang = (k) => -Math.PI / 2 + (k / N) * 2 * Math.PI, angC = (c) => -Math.PI / 2 + (c / 1200) * 2 * Math.PI;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    // 평균율 12 위치(희미)
+    for (let i = 0; i < 12; i++) { const a = angC(i * 100); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * (R - 14), cy + Math.sin(a) * (R - 14)); ctx.lineTo(cx + Math.cos(a) * (R - 4), cy + Math.sin(a) * (R - 4)); ctx.stroke(); }
+    const P5 = best(N, L3).k, M3 = best(N, L5).k;
+    for (let k = 0; k < N; k++) {
+      const a = ang(k), on = hlSteps.includes(k), key = k === 0 || k === P5 || k === M3;
+      ctx.fillStyle = on ? P.warn : key ? P.text : P.faint;
+      ctx.beginPath(); ctx.arc(cx + Math.cos(a) * R, cy + Math.sin(a) * R, on ? 6 : key ? 4 : N > 40 ? 1.8 : 2.6, 0, 7); ctx.fill();
+    }
+    const tri = (c, col) => { const a = angC(c), r = R + 10; ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * (R + 3), cy + Math.sin(a) * (R + 3)); ctx.lineTo(cx + Math.cos(a - 0.05) * (r + 6), cy + Math.sin(a - 0.05) * (r + 6)); ctx.lineTo(cx + Math.cos(a + 0.05) * (r + 6), cy + Math.sin(a + 0.05) * (r + 6)); ctx.fill(); };
+    tri(MB.cents(1.5), P.accent); tri(MB.cents(1.25), P.accent2);
+    // 화음 선
+    ctx.strokeStyle = P.accent; ctx.globalAlpha = 0.35; ctx.beginPath(); [0, M3, P5, 0].forEach((k, i) => { const a = ang(k); i ? ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R) : ctx.moveTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); }); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.fillStyle = P.text; ctx.font = "bold 16px " + TUN_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(N + "-EDO", cx, cy - 8);
+    ctx.font = "11px " + TUN_MONO(); ctx.fillStyle = P.dim; ctx.fillText(`5도=${P5} · 3도=${M3}`, cx, cy + 12);
+  }, { aspect: 0.62, maxHeight: 280, minHeight: 200 });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 6. 연주 피치 */
+(function () {
+  const PITCHES = [
+    { a: 392, lab: "프랑스 바로크 오페라(약 392)" }, { a: 409, lab: "17–18세기 일부 교회·악기" }, { a: 415, lab: "바로크 연주 관행(415)" },
+    { a: 422.5, lab: "헨델 소리굽쇠(1751)" }, { a: 430, lab: "고전기 연주 관행(430)" }, { a: 432, lab: "'베르디 피치'(1884 이탈리아 제안)" },
+    { a: 435, lab: "프랑스 diapason normal(1859)" }, { a: 440, lab: "ISO 16 표준(1939 합의, 1955 제정)" }, { a: 442, lab: "유럽 오케스트라 다수(442)" },
+    { a: 443, lab: "일부 독일·오스트리아 오케스트라(443)" }, { a: 452.5, lab: "구 필하모닉 피치(19세기 런던)" }, { a: 466, lab: "르네상스 베네치아 관악기 피치(약 466)" },
+  ];
+  const list = PITCHES.map((p) => p.a);
+  let timers = [], player = null;
+  const A = MB.steps("tp-a", list, (v) => v + " Hz", 440, () => { cv.redraw(); readout(); });
+  const inst = MB.seg("tp-inst");
+  // 환희의 송가 첫 악구 (D 장조) — [MIDI, 박]
+  const MEL = [[66, 1], [66, 1], [67, 1], [69, 1], [69, 1], [67, 1], [66, 1], [64, 1], [62, 1], [62, 1], [64, 1], [66, 1], [66, 1.5], [64, 0.5], [64, 2]];
+  const stop = () => { timers.forEach(clearTimeout); timers = []; if (player) player.stop(); player = null; kb.clear("on"); };
+  document.getElementById("tp-mel").addEventListener("click", () => {
+    stop();
+    let t = 0; const notes = MEL.map(([m, d]) => { const o = { m, freq: MB.mtof(m, A()), t, d }; t += d; return o; });
+    notes.push({ m: 50, freq: MB.mtof(50, A()), t: 0, d: 4, vel: 0.45 }, { m: 57, freq: MB.mtof(57, A()), t: 4, d: 4, vel: 0.45 }, { m: 50, freq: MB.mtof(50, A()), t: 8, d: 4, vel: 0.45 }, { m: 57, freq: MB.mtof(57, A()), t: 12, d: 4, vel: 0.45 });
+    player = MB.playNotes(notes, { bpm: 120, inst: inst(), vel: 0.75 });
+    const spb = player.spb;
+    MEL.reduce((acc, [m, d]) => { timers.push(setTimeout(() => kb.flash(m, d * spb * 900), acc * spb * 1000 + 50)); return acc + d; }, 0);
+  });
+  document.getElementById("tp-stop").addEventListener("click", stop);
+  document.getElementById("tp-ab").addEventListener("click", () => {
+    stop(); const t = MB.now() + 0.05;
+    MB.play({ freq: 440 }, { inst: inst(), when: t, dur: 1.2 });
+    MB.play({ freq: A() }, { inst: inst(), when: t + 1.4, dur: 1.2 });
+    MB.play({ freq: 440 }, { inst: "sine", when: t + 2.9, dur: 2.2, vel: 0.6 });
+    MB.play({ freq: A() }, { inst: "sine", when: t + 2.9, dur: 2.2, vel: 0.6 });
+  });
+  function readout() {
+    const a = A(), c = MB.cents(a / 440), m = MB.ftom(a), r = Math.round(m);
+    MB.stat("tp-hz", a + " Hz");
+    MB.stat("tp-c", MB.signed(c, 1) + " ¢");
+    MB.stat("tp-heard", MB.noteName(r) + ` <small>${MB.signed((m - r) * 100, 0)} ¢</small>`);
+    MB.stat("tp-c4", MB.mtof(60, a).toFixed(2) + " Hz");
+  }
+  const cv = MB.canvas("#cv-tun-pitch", (ctx, w, h) => {
+    const P = MB.palette(), a = A(), small = w < 520;
+    const box = { x: 16, y: 18, w: w - 32, h: h - 40 };
+    const X = (f) => box.x + (Math.log(f / 385) / Math.log(475 / 385)) * box.w;
+    const axisY = box.y + box.h * 0.55;
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, axisY); ctx.lineTo(box.x + box.w, axisY); ctx.stroke();
+    // 평균율 기준선
+    [[68, "G♯4"], [69, "A4"], [70, "A♯4"]].forEach(([m, n]) => { const f = MB.mtof(m); ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(f), box.y); ctx.lineTo(X(f), box.y + box.h); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.faint; ctx.font = "11px " + TUN_FONT(); ctx.textAlign = "center"; ctx.fillText(n + " (440 기준)", X(f), box.y + box.h + 14); });
+    // 역사적 값
+    PITCHES.forEach((p, i) => {
+      const x = X(p.a), on = p.a === a;
+      ctx.fillStyle = on ? P.accent : P.accent2; ctx.globalAlpha = on ? 1 : 0.55;
+      ctx.beginPath(); ctx.arc(x, axisY, on ? 8 : 4.5, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+      ctx.font = (on ? "bold 12px " : "10px ") + TUN_MONO(); ctx.fillStyle = on ? P.accent : P.dim; ctx.textAlign = "center";
+      if (on || !small) ctx.fillText(p.a, x, axisY + (i % 2 ? 22 : -14) * (on ? 1.4 : 1));
+    });
+    const cur = PITCHES.find((p) => p.a === a);
+    ctx.fillStyle = P.text; ctx.font = "13px " + TUN_FONT(); ctx.textAlign = "left"; ctx.fillText(cur ? cur.lab : "", box.x, box.y + 2);
+  }, { aspect: 0.36, maxHeight: 220, minHeight: 170 });
+  const kb = MB.keyboard("#kb-tun-pitch", { lo: 55, hi: 79, labels: "c", onDown: (m) => MB.play({ freq: MB.mtof(m, A()) }, { inst: inst(), dur: null, vel: 0.75 }) });
+  readout();
+})();
+</script>
+</body>
+</html>

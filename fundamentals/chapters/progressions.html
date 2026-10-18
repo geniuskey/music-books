@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>화성 기능과 코드 진행 · MusicBook</title>
+<meta name="description" content="다이아토닉 화음과 로마 숫자, T–S–D 기능, 마르코프 전이 그래프, 트라이톤 해결과 종지, 5도권 근음 진행, 최소 비용 보이스 리딩, 팝 진행과 12마디 블루스, 이조와 카포의 수학을 코드 진행 놀이터에서 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/progressions.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="화성 기능과 코드 진행 · MusicBook">
+<meta property="og:description" content="다이아토닉 화음과 로마 숫자, T–S–D 기능, 마르코프 전이 그래프, 트라이톤 해결과 종지, 5도권 근음 진행, 최소 비용 보이스 리딩, 팝 진행과 12마디 블루스, 이조와 카포의 수학을 코드 진행 놀이터에서 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/progressions.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"화성 기능과 코드 진행","name":"화성 기능과 코드 진행 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/progressions.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/progressions.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":9,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"다이아토닉 화음과 로마 숫자, T–S–D 기능, 마르코프 전이 그래프, 트라이톤 해결과 종지, 5도권 근음 진행, 최소 비용 보이스 리딩, 팝 진행과 12마디 블루스, 이조와 카포의 수학을 코드 진행 놀이터에서 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"09 화성 기능과 코드 진행","item":"https://music.euiyun.com/fundamentals/chapters/progressions.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .pg-strip { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; padding: 12px; background: var(--canvas-bg); border-bottom: 1px solid var(--border); }
+  .pg-strip select, .prg-sel { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+  .pg-strip .btn { padding: 6px 11px; }
+  .pg-strip .pg-f { display: flex; gap: 6px; align-items: center; font-size: 14px; color: var(--text-dim); }
+  .pg-grp { display: inline-flex; gap: 6px; }
+  .pg-lab { font-size: 12.5px; color: var(--text-dim); padding: 10px 12px 0; background: var(--canvas-bg); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pg-lab .seg button { padding: 3px 9px; }
+  .pads .pad.x { border-style: dashed; border-left-style: solid; }
+  .slot.t { border-left: 4px solid var(--ok); } .slot.s { border-left: 4px solid var(--warn); } .slot.d { border-left: 4px solid var(--bad); }
+  .slot .bn { position: absolute; top: 3px; left: 7px; font-size: 10px; color: var(--text-faint); font-weight: 400; }
+  .slot b { font-size: 15px; }
+  .prg-staff { overflow-x: auto; border-top: 1px solid var(--border); }
+  .mk-hist { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; background: var(--canvas-bg); min-height: 40px; font-family: var(--mono); font-size: 13px; border-top: 1px solid var(--border); }
+  .mk-hist span { padding: 2px 7px; border-radius: 6px; background: var(--surface); border-left: 3px solid var(--border); }
+  .mk-hist span.t { border-left-color: var(--ok); } .mk-hist span.s { border-left-color: var(--warn); } .mk-hist span.d { border-left-color: var(--bad); }
+  .mk-hist span.cur { background: var(--accent-soft); font-weight: 700; }
+  .cad-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .cad-grid .btn { padding: 7px 8px; font-size: 13.5px; }
+  .bl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); padding-top: 12px; }
+  .bl-grid .slot b { font-size: 14px; }
+  .cp-opts { display: grid; gap: 6px; }
+  .cp-opts .btn { text-align: left; font-size: 13.5px; }
+  .cp-opts small { color: var(--text-dim); }
+  .row-sel { display: flex; gap: 6px; flex-wrap: wrap; }
+  .row-sel select { flex: 1; min-width: 0; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="progressions">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 09</div>
+    <h1>화성 기능과 코드 진행</h1>
+    <p class="lead">어떤 코드는 '집에 도착한' 느낌이고, 어떤 코드는 '어디론가 가야 할 것 같은' 느낌입니다. 이 장에서는 그 느낌을 엔지니어의 도구로 모델링합니다. 조성 안의 일곱 화음을 3도 쌓기로 유도하고, 공통음으로 세 기능군(T·S·D)을 묶고, 진행을 상태 전이 그래프(마르코프 연쇄)로, 보이스 리딩을 최소 비용 매칭 문제로 봅니다. 그리고 코드 진행 놀이터에서 직접 진행을 짜며 귀로 검증합니다.</p>
+    <ul class="objectives">
+      <li>장·단조의 다이아토닉 3화음과 7화음을 유도하고 로마 숫자로 분석할 수 있다.</li>
+      <li>화음을 공통음과 특징음으로 T·S·D 기능군에 분류하고, 진행 문법을 전이 확률 그래프로 설명한다.</li>
+      <li>속7화음의 트라이톤이 배치·장단조에 따라 해결되는 원리와 네 가지 종지를 귀로 구별한다.</li>
+      <li>보이스 리딩을 최소 비용 매칭으로 정식화하고, 병행 5·8도 금칙을 제약 조건으로 다룬다.</li>
+      <li>I–V–vi–IV, 캐논, 12마디 블루스 같은 대중음악 진행의 구조와 이조·카포의 수학을 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="diatonic">
+    <h2>조성 안의 일곱 화음</h2>
+    <p>장음계 \(S=\{0,2,4,5,7,9,11\}\)(C 장조라면 C D E F G A B)의 각 음 위에 음계 안의 음을 <b>한 칸씩 건너뛰며</b> 세 개 쌓으면 3화음이 됩니다. 이것을 <span class="term">다이아토닉 화음</span><span class="en">(Diatonic Chords)</span>이라 합니다. 음계 음을 인덱스로 보면 정의는 한 줄입니다.</p>
+    <div class="formula">$$\mathrm{chord}(d) = \{\, s_{d},\ s_{d+2},\ s_{d+4} \,\},\qquad s_k = S[k \bmod 7] + 12\left\lfloor k/7 \right\rfloor$$
+      <div class="where">\(d=0,\dots,6\)은 음도(scale degree). 7화음은 \(s_{d+6}\)을 하나 더 얹는다. 간격(반음 수)은 음계의 비등간격성 때문에 3 또는 4가 되며, 그 조합이 화음의 성질을 정한다: (4,3)=장, (3,4)=단, (3,3)=감.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="C 장조의 다이아토닉 3화음"><g id="p9-fig-dia"></g></svg>
+      <figcaption><b>그림 9-1.</b> C 장조의 일곱 3화음. 상자 오른쪽 숫자는 아래 음과의 반음 거리. 색은 화성 기능(초록 T, 주황 S, 빨강 D). 장–단–단–장–장–단–감의 패턴은 어느 장조에서나 같다.</figcaption>
+    </figure>
+    <p>로마 숫자 표기<span class="en">(Roman Numeral Analysis)</span>는 화음을 <b>조에 대한 상대 좌표</b>로 적습니다. 대문자는 장3화음, 소문자는 단3화음, °는 감3화음입니다. "C–G–Am–F"는 C 장조에서만 의미가 있지만 "I–V–vi–IV"는 12개 조 어디에서나 같은 진행입니다. 즉 로마 숫자는 이조 연산 \(T_n\)에 대한 <b>불변량</b>입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>음도</th><th>3화음 (C 장조)</th><th>성질</th><th>7화음</th><th>기능</th></tr></thead>
+      <tbody>
+        <tr><td>I</td><td>C E G</td><td>장</td><td>Cmaj7 (I<sup>maj7</sup>)</td><td>토닉 T</td></tr>
+        <tr><td>ii</td><td>D F A</td><td>단</td><td>Dm7 (ii7)</td><td>서브도미넌트 S</td></tr>
+        <tr><td>iii</td><td>E G B</td><td>단</td><td>Em7 (iii7)</td><td>T (D 쪽 경계)</td></tr>
+        <tr><td>IV</td><td>F A C</td><td>장</td><td>Fmaj7 (IV<sup>maj7</sup>)</td><td>S</td></tr>
+        <tr><td>V</td><td>G B D</td><td>장</td><td>G7 (V7) — 유일한 속7</td><td>도미넌트 D</td></tr>
+        <tr><td>vi</td><td>A C E</td><td>단</td><td>Am7 (vi7)</td><td>T (대리)</td></tr>
+        <tr><td>vii°</td><td>B D F</td><td>감</td><td>Bm7♭5 (viiø7)</td><td>D</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>단조</b>는 사정이 조금 복잡합니다. 자연단음계로 쌓으면 v가 단3화음이 되어 으뜸음 반음 아래의 <span class="term">이끎음</span><span class="en">(Leading Tone)</span>이 없습니다. 그래서 실제 단조 음악은 7음을 반음 올린 화성단음계에서 V(장3화음)와 V7, vii°7을 빌려 옵니다. 이 책은 팝 분석 관례(de Clercq & Temperley)를 따라 로마 숫자를 <b>같은 으뜸음의 장음계 기준</b>으로 적습니다: 단조의 3·6·7도 화음은 ♭III, ♭VI, ♭VII입니다(예: A 단조의 i–♭VII–♭VI–V = Am–G–F–E).</p>
+    <div class="callout deep"><strong>트라이톤이 하나뿐인 집합</strong> 장음계의 음정 벡터(interval vector)는 \(\langle 2,5,4,3,6,1\rangle\)입니다. 마지막 성분(음정류 6, 트라이톤)이 <b>정확히 1</b>이라는 것은 장음계 안에 트라이톤이 B–F 하나뿐이라는 뜻이고, 그래서 감3화음도 vii° 하나뿐입니다. 이 유일한 트라이톤은 V7과 vii°에 들어 있어 "이 조의 도미넌트"를 지문처럼 식별합니다(5절).</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="function">
+    <h2>화성 기능: T, S, D</h2>
+    <p>19세기 말 후고 리만<span class="en">(Hugo Riemann)</span>은 일곱 화음을 세 가지 <span class="term">기능</span><span class="en">(Harmonic Function)</span>으로 묶었습니다. <b>토닉(T)</b>은 안정·도착, <b>서브도미넌트(S)</b>는 출발·준비, <b>도미넌트(D)</b>는 긴장·귀환 요구입니다. 같은 기능의 화음끼리는 서로 대신 쓸 수 있습니다. 그 근거는 단순한 집합 연산, 즉 <b>공통음 수</b>입니다.</p>
+    <div class="formula">$$|\mathrm{I}\cap\mathrm{vi}| = |\{C,E\}| = 2,\quad |\mathrm{IV}\cap\mathrm{ii}| = |\{F,A\}| = 2,\quad |\mathrm{V7}\cap\mathrm{vii°}| = |\{B,D,F\}| = 3$$
+      <div class="where">3화음 두 개가 두 음을 공유하면(근음이 3도 관계) 소리의 '색'이 거의 같다. iii은 I과 {E,G}, V와 {G,B}를 공유해 T와 D 사이 경계에 있다.</div>
+    </div>
+    <p>기능을 결정하는 더 날카로운 특징은 <b>어떤 음도를 포함하는가</b>입니다. 이끎음 ^7(B)은 으뜸음으로 반음 올라가려 하고, ^4(F)는 ^3(E)으로 반음 내려가려 합니다. 이 두 '불안정한 음'의 포함 여부로 간단한 분류기를 만들 수 있습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>규칙</th><th>해당 화음</th><th>기능</th></tr></thead>
+      <tbody>
+        <tr><td>^7과 ^4를 모두 포함 (트라이톤)</td><td>V7, vii°</td><td>D (강한 도미넌트)</td></tr>
+        <tr><td>^7을 포함, ^1은 없음</td><td>V, (iii)</td><td>D</td></tr>
+        <tr><td>^4를 포함, ^7은 없음</td><td>IV, ii</td><td>S</td></tr>
+        <tr><td>^1 또는 ^3을 포함하고 불안정음이 약함</td><td>I, vi, (iii)</td><td>T</td></tr>
+      </tbody>
+    </table></div>
+    <p>이 기능들 사이의 전형적인 흐름은 T → S → D → T입니다. 공통 관습기<span class="en">(Common-Practice Period)</span> 화성 교과서(Kostka & Payne, <i>Tonal Harmony</i>)는 이를 '흐름도'로 요약합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="장조 화음 진행 흐름도">
+        <defs><marker id="p9-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--text-dim)"/></marker></defs>
+        <g style="font-size:12px">
+          <text x="75" y="22" text-anchor="middle" class="t-dim">T(대리)</text><text x="215" y="22" text-anchor="middle" class="t-dim">T(대리)</text><text x="380" y="22" text-anchor="middle" class="t-dim">S</text><text x="555" y="22" text-anchor="middle" class="t-dim">D</text><text x="720" y="22" text-anchor="middle" class="t-dim">T</text>
+        </g>
+        <g style="font-size:20px;font-weight:700">
+          <rect x="30" y="100" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--ok) 18%,transparent);stroke:var(--ok)"/><text x="75" y="130" text-anchor="middle" class="t">iii</text>
+          <rect x="170" y="100" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--ok) 18%,transparent);stroke:var(--ok)"/><text x="215" y="130" text-anchor="middle" class="t">vi</text>
+          <rect x="335" y="50" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--warn) 18%,transparent);stroke:var(--warn)"/><text x="380" y="80" text-anchor="middle" class="t">IV</text>
+          <rect x="335" y="150" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--warn) 18%,transparent);stroke:var(--warn)"/><text x="380" y="180" text-anchor="middle" class="t">ii</text>
+          <rect x="510" y="50" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--bad) 18%,transparent);stroke:var(--bad)"/><text x="555" y="80" text-anchor="middle" class="t">V</text>
+          <rect x="510" y="150" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--bad) 18%,transparent);stroke:var(--bad)"/><text x="555" y="180" text-anchor="middle" class="t">vii°</text>
+          <rect x="675" y="100" width="90" height="46" rx="10" style="fill:color-mix(in srgb,var(--ok) 30%,transparent);stroke:var(--ok);stroke-width:2"/><text x="720" y="130" text-anchor="middle" class="t">I</text>
+        </g>
+        <g class="s-line" style="fill:none;stroke:var(--text-dim);stroke-width:1.6" marker-end="url(#p9-ah)">
+          <path d="M120 123 L166 123"/><path d="M260 115 L331 80"/><path d="M260 131 L331 168"/><path d="M380 96 L380 146"/>
+          <path d="M425 73 L506 73"/><path d="M425 90 L506 160"/><path d="M425 173 L506 173"/><path d="M425 158 L506 88"/>
+          <path d="M600 80 L671 113"/><path d="M600 168 L671 133"/>
+        </g>
+        <path d="M720 146 C 720 238, 75 238, 75 150" style="fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:6 5" marker-end="url(#p9-ah)"/>
+        <text x="400" y="232" text-anchor="middle" class="t-acc" style="font-size:12px">I은 어디로든 갈 수 있다 (다시 흐름의 앞으로)</text>
+        <path d="M540 50 C 500 8, 260 30, 222 98" style="fill:none;stroke:var(--bad);stroke-width:1.2;stroke-dasharray:3 4" marker-end="url(#p9-ah)"/>
+        <text x="440" y="46" class="t-dim" style="font-size:11px">V→vi 위종지</text>
+      </svg>
+      <figcaption><b>그림 9-2.</b> 장조 화음 진행의 흐름도(Kostka–Payne 방식). 화살표 방향으로 가는 것이 '정방향'이고, 거꾸로 가는 것(V→IV 등)은 고전 화성에서 역행(retrogression)이라 부른다. 팝·록에서는 역행도 흔하다.</figcaption>
+    </figure>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 이 흐름도는 결정적 오토마타가 아니라 <b>확률적 상태 기계</b>로 보는 것이 맞습니다. 각 화살표에 전이 확률을 붙이면 마르코프 연쇄가 되고, 4절에서 그 그래프를 직접 걸어 봅니다. 흥미롭게도 정방향 화살표는 거의 모두 근음이 <b>5도 아래(또는 3도 아래)</b>로 가는 움직임입니다(6절).</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="playground">
+    <h2>코드 진행 놀이터</h2>
+    <p>이론보다 귀가 먼저입니다. 아래 놀이터에서 조를 고르고, 기능 색으로 칠해진 패드를 눌러 진행 칸을 채우고, 반주 리듬과 베이스·드럼을 얹어 들어 보세요. 프리셋에는 이 장에서 다루는 유명한 진행이 모두 들어 있습니다. '보이스 리딩'을 끄고 켜며 총 이동량과 소리의 매끄러움이 어떻게 바뀌는지도 비교해 보세요.</p>
+
+    <div class="sim" id="sim-prg-playground">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>코드 진행 놀이터</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="pg-strip">
+            <label class="pg-f">조 <select id="pg-key" aria-label="조"></select></label>
+            <div class="seg" id="pg-mode"><button data-value="major" class="on">장조</button><button data-value="minor">단조</button></div>
+            <label class="check"><input type="checkbox" id="pg-sev"> 7화음</label>
+            <span class="pg-grp"><button class="btn" id="pg-down" title="반음 아래로 이조">−1</button><button class="btn" id="pg-up" title="반음 위로 이조">+1</button></span>
+            <span class="pg-grp"><button class="btn primary" id="pg-play">▶ 재생</button></span>
+          </div>
+          <div class="pg-lab"><span>화음 패드 · 초록 T / 주황 S / 빨강 D · 점선 = 차용·반음계 화음</span></div>
+          <div class="pads" id="pg-pads"></div>
+          <div class="pg-lab"><span>진행 · 칸을 고른 뒤 패드를 누르면 채워집니다</span>
+            <div class="seg" id="pg-len"><button data-value="4" class="on">4마디</button><button data-value="8">8</button><button data-value="12">12</button><button data-value="16">16</button></div></div>
+          <div class="slots" id="pg-slots" style="padding-top:10px"></div>
+          <div class="staff-wrap prg-staff" id="pg-staff"></div>
+          <div class="mb-kb short" id="pg-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>프리셋 불러오기</span><select id="pg-preset">
+            <option value="">— 고르세요 —</option>
+            <option value="axis">I–V–vi–IV (액시스)</option>
+            <option value="sad">vi–IV–I–V (회전)</option>
+            <option value="doowop">I–vi–IV–V (50년대 두왑)</option>
+            <option value="twofive">ii7–V7–Imaj7 (재즈)</option>
+            <option value="canon">캐논 진행 (8마디)</option>
+            <option value="royal">IV–V–iii–vi (왕도 진행)</option>
+            <option value="circle">5도권 순환 (8마디)</option>
+            <option value="andalus">i–♭VII–♭VI–V (안달루시아)</option>
+            <option value="blues">12마디 블루스</option>
+          </select></label>
+          <label class="ctrl"><span>템포 <output id="pg-bpm-out"></output></span><input type="range" id="pg-bpm" min="50" max="180" value="96"></label>
+          <label class="ctrl"><span>반주 리듬</span><select id="pg-style">
+            <option value="block">블록(온음표)</option><option value="pop" selected>팝 8분음표</option><option value="arp">아르페지오</option><option value="waltz">왈츠 3/4</option><option value="bossa">보사노바풍</option>
+          </select></label>
+          <label class="ctrl"><span>악기</span><select id="pg-inst">
+            <option value="piano">피아노</option><option value="epiano">일렉트릭 피아노</option><option value="organ">오르간</option><option value="pad">패드</option><option value="strings">스트링</option><option value="pluck">기타(뜯은 현)</option>
+          </select></label>
+          <div class="ctrl"><span>옵션</span>
+            <label class="check"><input type="checkbox" id="pg-bass" checked> 베이스 (근음)</label>
+            <label class="check"><input type="checkbox" id="pg-drums"> 드럼 비트</label>
+            <label class="check"><input type="checkbox" id="pg-lead" checked> 보이스 리딩 (최소 이동)</label>
+          </div>
+          <div class="btn-row"><button class="btn" id="pg-clr1">선택 칸 비우기</button><button class="btn" id="pg-clr">모두 비우기</button><button class="btn" id="pg-share">🔗 링크로 공유</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재·선택 화음</span><span class="v" id="pg-now">—</span></div>
+        <div class="stat"><span class="k">기능 흐름</span><span class="v" id="pg-flow">—</span></div>
+        <div class="stat"><span class="k">성부 총 이동</span><span class="v" id="pg-vl">—</span></div>
+        <div class="stat"><span class="k">화성 리듬</span><span class="v" id="pg-hr">—</span></div>
+      </div>
+      <div class="sim-note">진행 칸을 클릭해 고르고(보라 테두리) 패드를 누르면 그 칸이 채워지고 다음 칸으로 넘어갑니다. 패드만 눌러도 화음을 들을 수 있고, 아래 건반은 <kbd>A</kbd>–<kbd>K</kbd> 키로 함께 연주할 수 있습니다. ±1 버튼은 진행 전체를 이조합니다(로마 숫자는 그대로). '링크로 공유'는 조·진행·템포를 주소(#prg:…)에 담습니다. 해볼 것: ① I–V–vi–IV에서 보이스 리딩을 끄고 '성부 총 이동'이 몇 배가 되는지. ② 단조로 바꾸어 같은 패드 배치가 어떤 색으로 바뀌는지. ③ 마지막 칸을 V 대신 IV로 바꾸면 루프의 '끌림'이 어떻게 약해지는지. 모델: 화음은 4성(3화음은 근음 중복), 베이스는 C2–B2. 악기 음색은 가산·감산 합성 근사.</div>
+    </div>
+    <div class="callout"><strong>보이스 리딩 토글이 하는 일</strong> 꺼져 있으면 모든 화음을 근음 위치 밀집 배치로 쌓아 근음 진행만큼 통째로 점프합니다(예: C→G는 네 성부가 모두 +7). 켜져 있으면 <code>MB.voiceLead</code>가 직전 보이싱에서 각 성부의 이동 반음 수 합이 최소가 되는 배치를 찾습니다. 8절에서 이것을 최적화 문제로 다룹니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="markov">
+    <h2>진행의 문법: 상태 기계와 마르코프 연쇄</h2>
+    <p>흐름도에 확률을 붙이면 화음 진행은 <span class="term">마르코프 연쇄</span><span class="en">(Markov Chain)</span>가 됩니다. 상태는 일곱 다이아토닉 화음이고, 다음 화음은 지금 화음에만 의존한다고 가정합니다(1차 마르코프).</p>
+    <div class="formula">$$P_{ij} = \Pr(X_{t+1}=j \mid X_t=i),\qquad \boldsymbol\pi = \boldsymbol\pi P,\qquad H = -\sum_i \pi_i \sum_j P_{ij}\log_2 P_{ij}$$
+      <div class="where">\(\boldsymbol\pi\): 정상 분포(오래 걸으면 각 화음이 차지하는 비율). \(H\): 엔트로피율, 화음 하나가 평균적으로 담는 '놀라움'(비트/화음). 아래 시뮬레이터의 결정성 \(\beta\)는 \(P^{(\beta)}_{ij} \propto P_{ij}^{\,\beta}\)로 분포를 날카롭게(β↑) 또는 평평하게(β→0) 만든다 — 언어 모델의 온도(temperature) \(T=1/\beta\)와 같은 조작이다.</div>
+    </div>
+    <p>아래 그래프의 노드는 <b>5도 하행 순서</b>(I → IV → vii° → iii → vi → ii → V → I)로 원 위에 놓았습니다. 그러면 흐름도의 '정방향' 화살표가 대부분 시계 방향으로 한두 칸 가는 화살표가 된다는 것이 한눈에 보입니다.</p>
+
+    <div class="sim" id="sim-prg-markov">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기능 전이 그래프와 무작위 걸음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-mk" style="cursor:pointer"></canvas><div class="mk-hist" id="mk-hist"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조</span><select id="mk-key"></select></label>
+          <div class="ctrl"><span>전이 행렬</span><div class="seg" id="mk-mat"><button data-value="classic" class="on">공통 관습기</button><button data-value="pop">팝·록 경향</button></div></div>
+          <label class="ctrl"><span>결정성 <output id="mk-beta-out"></output></span><input type="range" id="mk-beta" min="0" max="4" step="0.1" value="1"></label>
+          <label class="ctrl"><span>템포 <output id="mk-bpm-out"></output></span><input type="range" id="mk-bpm" min="60" max="160" value="100"></label>
+          <label class="check"><input type="checkbox" id="mk-cad" checked> 8번째마다 V→I 종지 강제</label>
+          <div class="btn-row"><button class="btn primary" id="mk-walk">▶ 무작위 걸음</button><button class="btn" id="mk-reset">통계 초기화</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재 화음</span><span class="v" id="mk-cur">—</span></div>
+        <div class="stat"><span class="k">엔트로피율 H</span><span class="v" id="mk-H">—</span></div>
+        <div class="stat"><span class="k">정상 분포 π(I)</span><span class="v" id="mk-pi">—</span></div>
+        <div class="stat"><span class="k">역행(D→S, S→T)</span><span class="v" id="mk-retro">—</span></div>
+      </div>
+      <div class="sim-note">노드를 클릭하면 그 화음으로 이동하며 소리가 나고, 그 노드에서 나가는 화살표(보라, 굵기 = 확률)가 강조됩니다. '무작위 걸음'은 전이 확률대로 2박마다 다음 화음을 뽑아 연주합니다. 아래 막대는 정상 분포 π(보라)와 실제 걸음의 빈도(청록) — 종지 강제 옵션을 끄고 원래 전이만 따를 때 오래 걸을수록 둘이 가까워집니다(에르고드 정리). 강제 V–I를 넣으면 원래 π와 실제 빈도가 다를 수 있습니다. β=0이면 허용된 전이 중 무작위, β=4면 거의 항상 가장 흔한 길만 갑니다. <b>주의</b>: 두 전이 행렬은 화성학 교재의 서술과 팝 관습을 반영해 이 책이 만든 <b>예시값</b>이며, 특정 코퍼스의 측정치가 아닙니다. 같은 화음의 반복은 세지 않았습니다.</div>
+    </div>
+    <div class="callout deep"><strong>코퍼스 연구</strong> 실제 음악의 전이 통계는 코퍼스로 측정합니다. Rohrmeier & Cross(2008)는 바흐 코랄에서 V→I, ii→V 같은 5도 하행 전이가 지배적임을 보였고, de Clercq & Temperley(2011)는 Rolling Stone 선정 록 100곡(RS 5×20)을 선정하여 화성 없는 한 곡을 제외한 99곡을 분석해 I이 압도적으로 많고 IV와 V가 뒤를 이으며, 록에서는 IV가 V 못지않게 자주 쓰이고 ♭VII와 IV→I(플라갈) 움직임이 고전 화성보다 훨씬 흔하다고 보고했습니다. RS 200은 이후 101곡을 추가한 확장 코퍼스입니다. 1차 마르코프 모델은 '지금 화음'만 보므로 종지 직전의 긴 계획(프레이즈 구조)을 표현하지 못합니다 — 그래서 시뮬레이터에 '종지 강제' 옵션이 있습니다. 더 긴 문맥은 n-그램이나 문법(Rohrmeier의 생성 문법) 모델이 다룹니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="tritone">
+    <h2>도미넌트의 엔진: 트라이톤 해결</h2>
+    <p>V7(C 장조의 G7 = G B D F)이 왜 그렇게 강하게 I로 끌려갈까요? 답은 그 안의 <span class="term">트라이톤</span><span class="en">(Tritone, 증4도/감5도)</span> B–F입니다. 두 음은 각각 반음 거리에 '목적지'를 두고 있습니다. 이끎음 B는 반음 위 C로, 7음 F는 반음 아래 E로. 결과적으로 6반음의 트라이톤이 4반음의 장3도로 <b>안쪽으로 수축</b>합니다.</p>
+    <div class="formula">$$\underbrace{\{B,\,F\}}_{6\ \text{반음},\ 2^{6/12}=\sqrt2}\ \xrightarrow{\ (+1,\,-1)\ }\ \underbrace{\{C,\,E\}}_{4\ \text{반음},\ \approx 5:4}$$
+      <div class="where">트라이톤은 옥타브를 정확히 반으로 나누므로 자리바꿈해도 트라이톤이다: \(T_6\{B,F\} = \{F,B\}\). 그래서 같은 트라이톤을 가진 속7화음이 <b>둘</b> 있다 — G7과 D♭7(D♭ F A♭ C♭). 10장의 트라이톤 대리(♭II7→I)가 여기서 나온다.</div>
+    </div>
+
+    <div class="sim" id="sim-prg-tritone">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>트라이톤 해결: V7 → I</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tt"></canvas><div class="mb-kb short" id="tt-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조</span><select id="tt-key"></select></label>
+          <div class="ctrl"><span>도미넌트</span><div class="seg" id="tt-dom"><button data-value="v7" class="on">V7</button><button data-value="sub">♭II7 (트라이톤 대리)</button></div></div>
+          <div class="ctrl"><span>해결 화음</span><div class="seg" id="tt-tgt"><button data-value="maj" class="on">장조 I</button><button data-value="min">단조 i</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tt-play">▶ 해결 듣기</button><button class="btn" id="tt-tri">▶ 트라이톤 두 음만</button></div>
+          <div class="btn-row"><button class="btn" id="tt-hold">▶ 도미넌트에서 멈추기</button><button class="btn" id="tt-cmp">▶ V7 vs ♭II7 비교</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">트라이톤</span><span class="v" id="tt-int">—</span></div>
+        <div class="stat"><span class="k">해결 후 음정</span><span class="v" id="tt-res">—</span></div>
+        <div class="stat"><span class="k">트라이톤을 공유하는 쌍</span><span class="v" id="tt-share">—</span></div>
+        <div class="stat"><span class="k">성부 총 이동</span><span class="v" id="tt-cost">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽(좁은 화면에선 위): 12음 원 위에서 V7(보라)과 반대편 ♭II7(청록)이 빨간 지름, 즉 같은 트라이톤을 공유합니다. 오른쪽: 네 성부의 움직임. 빨간 두 선이 트라이톤 성부로, 장조 예의 B3–F4→C4–E4에서는 반음씩 안쪽으로 갑니다. F4–B4→E4–C5 배치에서는 바깥쪽으로 벌어집니다. 건반에서 진한 보라는 트라이톤, 보라는 도미넌트, 청록은 해결 화음입니다. '도미넌트에서 멈추기'로 해결되지 않은 긴장을 먼저 들어 보세요. 단조 i로 해결하면 7음이 온음 내려가(F→E♭) 단3도가 됩니다. ♭II7의 장조 해결에서는 베이스도 반음 내려가 네 성부가 반음씩 움직입니다. 단조 해결은 F→E♭의 온음 하행을 포함합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="cadence">
+    <h2>종지: 음악의 구두점</h2>
+    <p>프레이즈 끝의 화음 두 개는 문장 끝의 문장 부호처럼 '얼마나 끝났는가'를 알립니다. 이것이 <span class="term">종지</span><span class="en">(Cadence)</span>입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>종지</th><th>화음</th><th>느낌 (문장 부호)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>정격 종지 <span class="en">(Authentic)</span></td><td>V(7) → I</td><td>마침표</td><td>두 화음 모두 근음 위치이고 최고음이 으뜸음이면 완전정격(PAC), 아니면 불완전(IAC)</td></tr>
+        <tr><td>변격 종지 <span class="en">(Plagal)</span></td><td>IV → I</td><td>'아멘', 부드러운 마침</td><td>찬송가 끝의 '아—멘'. 록·가스펠에서 흔하다</td></tr>
+        <tr><td>반종지 <span class="en">(Half)</span></td><td>… → V</td><td>쉼표, 물음표</td><td>D에서 멈춰 다음 프레이즈를 요구한다</td></tr>
+        <tr><td>위종지 <span class="en">(Deceptive)</span></td><td>V → vi</td><td>반전, "그런데…"</td><td>I을 기대한 귀를 공통음 2개인 대리 토닉으로 속인다</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-prg-cadence">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>종지 실험실과 귀 훈련</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="staff-wrap" id="cd-staff"></div><div class="mb-kb short" id="cd-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조</span><select id="cd-key"></select></label>
+          <div class="ctrl"><span>조성</span><div class="seg" id="cd-mode"><button data-value="major" class="on">장조</button><button data-value="minor">단조</button></div></div>
+          <label class="ctrl"><span>템포 <output id="cd-bpm-out"></output></span><input type="range" id="cd-bpm" min="50" max="140" value="84"></label>
+          <div class="ctrl"><span>들어 보기</span><div class="cad-grid" id="cd-demo">
+            <button class="btn" data-c="pac">정격 V–I</button><button class="btn" data-c="plagal">변격 IV–I</button><button class="btn" data-c="half">반종지 …–V</button><button class="btn" data-c="deceptive">위종지 V–vi</button></div></div>
+          <div class="ctrl"><span>귀 훈련</span>
+            <div class="btn-row"><button class="btn primary" id="cd-quiz">? 문제 내기</button><button class="btn" id="cd-again">다시 듣기</button></div>
+            <label class="check"><input type="checkbox" id="cd-rand" checked> 조를 무작위로</label></div>
+          <div class="ctrl"><span>정답은?</span><div class="cad-grid" id="cd-ans">
+            <button class="btn" data-c="pac">정격</button><button class="btn" data-c="plagal">변격</button><button class="btn" data-c="half">반종지</button><button class="btn" data-c="deceptive">위종지</button></div></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="cd-msg">'문제 내기'를 누르면 네 화음 프레이즈가 연주됩니다. 마지막 두 화음을 듣고 종지를 맞혀 보세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">정답률</span><span class="v" id="cd-score">—</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="cd-streak">0</span></div>
+        <div class="stat"><span class="k">마지막 문제</span><span class="v" id="cd-last">—</span></div>
+      </div>
+      <div class="sim-note">각 프레이즈는 손으로 다듬은 4성부(베이스 + 3성) 보이싱입니다: 정격 I–IV–V7–I(소프라노 ^2→^1, 완전정격), 변격 I–vi–IV–I(소프라노 ^1 유지), 반종지 I–vi–ii–V, 위종지 I–IV–V7–vi(이끎음이 올라가며 vi의 3음이 중복됨 — 교과서 규칙대로). 단조에서는 ♭VI, ii°, 화성단음계의 V7을 씁니다. 판별 요령: 끝 화음이 '집'인가(정격·변격), 공중에 떠 있는가(반종지), 집 같지만 어두운가(위종지).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="fifths">
+    <h2>5도권과 근음 진행</h2>
+    <p>흐름도의 정방향 화살표를 근음으로 다시 읽어 봅시다. iii→vi(E→A), vi→ii(A→D), ii→V(D→G), V→I(G→C) — 모두 근음이 <b>완전5도 아래</b>(=완전4도 위)로 갑니다. 이 움직임을 일곱 번 반복하면 다이아토닉 화음을 모두 한 번씩 거쳐 제자리로 돌아오는데, 단 한 번(IV→vii°, F→B)만 감5도(트라이톤)가 됩니다. 7음 음계 안에 갇힌 5도 순환이기 때문입니다.</p>
+    <div class="formula">$$r_{k+1} \equiv r_k + 5 \pmod{12}\quad(\text{단, F}\to\text{B에서만 } +6),\qquad \mathrm{I}\to\mathrm{IV}\to\mathrm{vii°}\to\mathrm{iii}\to\mathrm{vi}\to\mathrm{ii}\to\mathrm{V}\to\mathrm{I}$$
+      <div class="where">완전5도 하행 −7 ≡ +5 (mod 12). 12음 전체에서 +5(또는 +7)는 생성원(generator)이라 12단계 만에 모든 음을 돈다 — 5도권(circle of fifths). 재즈의 ii–V–I은 이 사슬의 마지막 세 고리다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 330" role="img" aria-label="5도권과 다이아토닉 5도 하행 사슬"><g id="p9-fig-cof"></g></svg>
+      <figcaption><b>그림 9-3.</b> 5도권 위의 C 장조 다이아토닉 집합(진한 점)은 연속된 일곱 칸(F–C–G–D–A–E–B)이다. 화살표는 5도 하행 사슬로, 빨간 화살표 F→B만 원을 가로지르는 트라이톤이다.</figcaption>
+    </figure>
+    <p>쇤베르크<span class="en">(Schoenberg, Structural Functions of Harmony)</span>는 근음 진행을 셋으로 분류했습니다. <b>강진행</b>(4도 위·3도 아래: 새 근음이 앞 화음 안에 없던 음), <b>약진행</b>(5도 위·3도 위: 앞 화음의 음이 새 근음이 됨), <b>초강진행</b>(2도: 공통음 없음). 3도 진행은 공통음이 2개라 '색만 바뀌는' 부드러운 움직임이고, 2도 진행(IV→V)은 공통음이 없어 보이스 리딩에 가장 신경 써야 하는 움직임입니다. 놀이터의 '5도권 순환' 프리셋으로 이 사슬을 들어 보세요.</p>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="voiceleading">
+    <h2>보이스 리딩: 최소 비용 매칭</h2>
+    <p>화음 진행은 블록이 아니라 <b>동시에 움직이는 여러 선율(성부)</b>입니다. 성부를 잇는 방법을 <span class="term">보이스 리딩</span><span class="en">(Voice Leading)</span>이라 하고, 좋은 보이스 리딩의 첫째 원칙은 '가장 가까운 음으로 가라'(절약 원리, parsimony)입니다. 이것은 그대로 최적화 문제입니다.</p>
+    <div class="formula">$$\mathrm{cost}(A\to B) = \min_{\sigma\in S_n}\ \sum_{i=1}^{n} \bigl|a_i - b_{\sigma(i)}\bigr| \quad\text{s.t.}\ \ \{b_i \bmod 12\} \supseteq \mathrm{pcs}(B),\ \ \text{병행 5·8도 없음}$$
+      <div class="where">\(a_i\), \(b_i\): MIDI 음높이. 1차원에서 두 집합의 크기가 같으면 <b>정렬된 순서끼리 짝짓는 것이 최적</b>이다(교차하는 짝을 풀면 비용이 줄지 않으므로). 그래서 실제 탐색은 '어느 옥타브에 놓을지'만 고르면 된다. Tymoczko(<i>A Geometry of Music</i>, 2011)는 이 비용을 오비폴드(orbifold) 공간의 거리로 해석했다.</div>
+    </div>
+    <p>두 번째 원칙은 성부의 독립성입니다. 두 성부가 완전5도나 옥타브 간격을 유지한 채 같은 방향으로 움직이면(<span class="term">병행 5도·8도</span><span class="en">(Parallel Fifths/Octaves)</span>) 두 선이 하나로 융합되어 들립니다 — 완전음정은 배음이 겹쳐 지각적으로 녹아들기 때문입니다(Huron 2001, "Tone and Voice"). 공통 관습기 화성은 이를 금지했고, 공학적으로는 <b>제약 조건</b>(또는 큰 벌점 항)입니다.</p>
+
+    <div class="sim" id="sim-prg-voicelead">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>보이스 리딩 실험실: 비용과 병행 검출</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-vl"></canvas><div class="mb-kb short" id="vl-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>예제 쌍</span><select id="vl-preset">
+            <option value="0,maj,7,maj">C → G</option><option value="0,maj,5,maj">C → F</option><option value="0,maj,9,min">C → Am (3도)</option>
+            <option value="7,dom7,0,maj">G7 → C</option><option value="2,min7,7,dom7">Dm7 → G7</option>
+            <option value="0,maj,2,maj" selected>C → D (병행 함정)</option><option value="5,maj,7,maj">F → G (병행 함정)</option><option value="0,maj,8,maj">C → A♭ (반음계 중음)</option>
+          </select></label>
+          <div class="ctrl"><span>화음 A</span><div class="row-sel"><select class="prg-sel" id="vl-ar"></select><select class="prg-sel" id="vl-aq"></select></div></div>
+          <div class="ctrl"><span>화음 B</span><div class="row-sel"><select class="prg-sel" id="vl-br"></select><select class="prg-sel" id="vl-bq"></select></div></div>
+          <div class="ctrl"><span>B의 배치 방식</span><div class="seg" id="vl-mode"><button data-value="root" class="on">근음 위치 블록</button><button data-value="near">최소 이동</button><button data-value="rule">최소 이동 + 병행 금지</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="vl-play">▶ A → B</button><button class="btn" id="vl-all">▶ 세 방식 이어 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">총 이동 Σ|Δ|</span><span class="v" id="vl-cost">—</span></div>
+        <div class="stat"><span class="k">공통음</span><span class="v" id="vl-common">—</span></div>
+        <div class="stat"><span class="k">병행 5·8도</span><span class="v" id="vl-par">—</span></div>
+        <div class="stat"><span class="k">세 방식 비교</span><span class="v" id="vl-cmp">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 열이 A, 오른쪽 열이 B이고 선이 각 성부(베이스·테너·알토·소프라노)의 이동입니다. 빨간 굵은 선은 병행 5·8도를 이루는 성부 쌍, 초록 점선은 움직이지 않는 공통음입니다. 'C → D'를 근음 위치 블록으로 두면 네 성부가 모두 +2로 움직여 병행 8도와 5도가 생깁니다. '최소 이동'은 위 세 성부를 G3–G5 범위의 모든 배치(중간 간격 ≤ 옥타브)에서 전수 탐색하고, '병행 금지'는 병행마다 벌점 100을 더해 다시 찾습니다. 7화음은 위 세 성부에 3음과 7음을 반드시 넣고 5음은 생략할 수 있게 했습니다. 베이스는 항상 근음입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="pop">
+    <h2>대중음악의 진행은 왜 통하는가</h2>
+    <p>대중음악의 '히트 진행'들은 앞의 원리들의 조합으로 거의 다 설명됩니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이름</th><th>로마 숫자</th><th>C 장조 예</th><th>왜 통하는가</th></tr></thead>
+      <tbody>
+        <tr><td>액시스(axis) 진행</td><td>I–V–vi–IV</td><td>C–G–Am–F</td><td>T–D–T–S. 근음이 하행 완전4도·상행 장2도·하행 장3도로 공통음이 많고, 마지막 IV→I이 플라갈로 루프를 닫는다</td></tr>
+        <tr><td>그 회전</td><td>vi–IV–I–V</td><td>Am–F–C–G</td><td>같은 네 화음을 vi에서 시작. 단조처럼 들리기 시작해 '애잔함'이 생긴다</td></tr>
+        <tr><td>50년대 두왑</td><td>I–vi–IV–V</td><td>C–Am–F–G</td><td>T–T–S–D: 흐름도를 그대로 한 바퀴. V→I로 강하게 되돌아온다</td></tr>
+        <tr><td>캐논 진행</td><td>I–V–vi–iii–IV–I–IV–V</td><td>C–G–Am–Em–F–C–F–G</td><td>근음이 −4도·+2도를 반복하는 시퀀스. 베이스는 순차 하행(C–B–A–G–F–E–F–G, 전위 사용 시)</td></tr>
+        <tr><td>왕도 진행(J-pop)</td><td>IV–V–iii–vi</td><td>F–G–Em–Am</td><td>S–D에서 I 대신 iii(공통음 2개)로 '속이며' vi로 내려앉는다 — 확장된 위종지</td></tr>
+        <tr><td>안달루시아 종지</td><td>i–♭VII–♭VI–V</td><td>Am–G–F–E</td><td>베이스가 라–솔–파–미 순차 하행(프리지아 테트라코드), 끝의 V가 다시 i을 부른다</td></tr>
+        <tr><td>ii–V–I</td><td>ii7–V7–Imaj7</td><td>Dm7–G7–Cmaj7</td><td>5도 하행 사슬의 마지막 세 고리. 재즈 화성의 기본 단위</td></tr>
+        <tr><td>12마디 블루스</td><td>I7×4, IV7×2, I7×2, V7, IV7, I7×2</td><td>C7…F7…G7</td><td>모든 화음이 속7 — 기능 화성과 블루스 음계가 섞인 독자적 문법(10절)</td></tr>
+      </tbody>
+    </table></div>
+    <p>I–V–vi–IV의 네 가지 <b>순환 회전</b>(I–V–vi–IV, V–vi–IV–I, vi–IV–I–V, IV–I–V–vi)은 같은 화음 집합, 같은 전이들의 다른 시작점입니다. 그런데도 느낌이 다릅니다. 첫 화음과 강박 위치에 오는 화음이 '으뜸'으로 지각되기 쉬워서, vi에서 시작하면 상대 단조처럼 들리기 때문입니다. 즉 조성감은 화음 집합만이 아니라 <b>시간 위의 배치(박절 위치)</b>에도 의존합니다.</p>
+  </section>
+
+  <!-- =============================================================== 10 -->
+  <section id="blues">
+    <h2>12마디 블루스와 화성 리듬</h2>
+    <p><span class="term">화성 리듬</span><span class="en">(Harmonic Rhythm)</span>은 화음이 바뀌는 속도입니다. 템포가 같아도 화음이 2마디마다 바뀌면 느긋하고, 박마다 바뀌면 숨 가쁩니다.</p>
+    <div class="formula">$$\text{화음 변화율} = \frac{\text{BPM}}{\text{화음당 박 수}}\ [\text{회/분}],\qquad t_{\text{앞 8분}} = s\cdot\frac{60}{\text{BPM}},\ \ t_{\text{뒤 8분}} = (1-s)\cdot\frac{60}{\text{BPM}}$$
+      <div class="where">\(s\): 스윙 비(한 박 안에서 앞 8분음표가 차지하는 비율). \(s=0.5\)는 정박, \(s=2/3\)은 셋잇단 셔플(앞:뒤 = 2:1), \(s=0.75\)는 부점(3:1). 실제 재즈 연주의 스윙 비는 템포에 따라 대략 1.5:1–3:1 사이에서 움직인다(Friberg & Sundström 2002).</div>
+    </div>
+    <p>12마디 블루스는 4+4+4마디의 AAB 형식입니다. 처음 4마디는 I에 머물고, 5–6마디에서 IV로 '떠났다가' 7–8마디에 I로 돌아오고, 9–10마디의 V–IV가 마지막 긴장을 만든 뒤 11–12마디에서 I(또는 턴어라운드 V)로 닫힙니다. 화성 리듬이 처음엔 느리고(4마디 동안 1개) 끝으로 갈수록 빨라지는(마디마다) 구조가 형식의 추진력입니다. '재즈 블루스' 변형은 반 마디마다 화음을 바꿔 화성 리듬을 두 배 이상으로 올립니다.</p>
+
+    <div class="sim" id="sim-prg-blues">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>12마디 블루스 셔플</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-bl"></canvas><div class="slots bl-grid" id="bl-slots"></div><div class="mb-kb short" id="bl-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조</span><select id="bl-key"></select></label>
+          <div class="ctrl"><span>형식</span><div class="seg" id="bl-form"><button data-value="basic" class="on">기본</button><button data-value="quick">퀵 체인지</button><button data-value="jazz">재즈 블루스</button></div></div>
+          <label class="ctrl"><span>스윙 비 <output id="bl-swing-out"></output></span><input type="range" id="bl-swing" min="50" max="75" value="67"></label>
+          <label class="ctrl"><span>템포 <output id="bl-bpm-out"></output></span><input type="range" id="bl-bpm" min="60" max="180" value="104"></label>
+          <label class="ctrl"><span>반주</span><select id="bl-comp"><option value="charleston">찰스턴 (1박, 2박 뒤)</option><option value="backbeat">2·4박</option><option value="long">길게 깔기</option></select></label>
+          <label class="ctrl"><span>베이스</span><select id="bl-bass"><option value="boogie">부기 셔플 (8분)</option><option value="walk">워킹 (4분)</option><option value="root">근음 (1·3박)</option></select></label>
+          <label class="check"><input type="checkbox" id="bl-sev" checked> 속7화음</label>
+          <label class="check"><input type="checkbox" id="bl-turn" checked> 12마디 턴어라운드 V7</label>
+          <label class="check"><input type="checkbox" id="bl-drums" checked> 드럼</label>
+          <div class="btn-row"><button class="btn primary" id="bl-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재 마디</span><span class="v" id="bl-bar">—</span></div>
+        <div class="stat"><span class="k">스윙 (앞:뒤)</span><span class="v" id="bl-swr">—</span></div>
+        <div class="stat"><span class="k">화성 리듬</span><span class="v" id="bl-hr">—</span></div>
+      </div>
+      <div class="sim-note">위 띠는 12마디의 기능(초록 T, 주황 S, 빨강 D)과 현재 마디, 그 아래 눈금은 한 마디의 8분음표 위치입니다(회색 = 정박, 보라 = 스윙). 스윙 비를 50%→67%→75%로 올리며 '뒤 8분음표'가 뒤로 밀리는 것을 보고 들어 보세요. 퀵 체인지는 2마디에 IV를 넣고, 재즈 블루스는 ii–V, ♯iv°7, VI7(V/ii) 등을 넣어 화성 리듬을 높입니다. 부기 베이스는 근음–3–5–6–♭7–6–5–3 패턴입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 11 -->
+  <section id="transpose">
+    <h2>이조와 카포의 수학</h2>
+    <p><span class="term">이조</span><span class="en">(Transposition)</span>는 피치 클래스에 대한 평행 이동 \(T_n(x) = x+n \bmod 12\)입니다. 모든 음정(차이)이 보존되므로 로마 숫자 분석은 이조에 대해 불변입니다. 기타의 <span class="term">카포</span><span class="en">(Capo)</span>는 이 연산의 물리적 구현입니다. \(k\)번 프렛에 카포를 물리면 진동하는 현의 길이가 줄어 모든 음이 \(k\)반음 올라갑니다.</p>
+    <div class="formula">$$L_k = L_0\cdot 2^{-k/12},\qquad f_k = f_0\cdot 2^{k/12},\qquad \text{실제 조} = T_k(\text{운지 모양의 조})$$
+      <div class="where">현의 기본 주파수 \(f=\frac{1}{2L}\sqrt{T/\mu}\)는 길이에 반비례(3장). 프렛 간격이 브리지 쪽으로 갈수록 좁아지는 것은 이 지수 함수 때문이며, 12번 프렛이 정확히 현의 중점이다. 원하는 실제 조 \(K\)를 얻는 (모양, 카포) 조합은 \(k \equiv K - \text{shape} \pmod{12}\)의 해들이다.</div>
+    </div>
+
+    <div class="sim" id="sim-prg-capo">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>카포 계산기: 운지 모양과 실제 소리</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-cp"></canvas><div class="slots" id="cp-slots" style="padding-top:12px"></div><div class="mb-kb short" id="cp-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>운지 모양의 조</span><div class="seg" id="cp-shape"><button data-value="C">C</button><button data-value="G" class="on">G</button><button data-value="D">D</button><button data-value="A">A</button><button data-value="E">E</button></div></div>
+          <label class="ctrl"><span>카포 <output id="cp-capo-out"></output></span><input type="range" id="cp-capo" min="0" max="9" value="3"></label>
+          <label class="ctrl"><span>진행</span><select id="cp-prog"><option value="axis">I–V–vi–IV</option><option value="doowop">I–vi–IV–V</option><option value="sad">vi–IV–I–V</option><option value="folk">I–IV–V–I</option><option value="royal">IV–V–iii–vi</option></select></label>
+          <div class="btn-row"><button class="btn primary" id="cp-play">▶ 스트럼 재생</button></div>
+          <label class="ctrl"><span>원하는 실제 조 → 추천 조합</span><select id="cp-target"></select></label>
+          <div class="cp-opts" id="cp-opts"></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">실제 조</span><span class="v" id="cp-key">—</span></div>
+        <div class="stat"><span class="k">울리는 현 길이</span><span class="v" id="cp-ratio">—</span></div>
+        <div class="stat"><span class="k">바레 코드 수</span><span class="v" id="cp-barre">—</span></div>
+      </div>
+      <div class="sim-note">위: 실제 비율로 그린 지판(0–12프렛)과 카포 위치. 칸의 큰 글씨는 손가락이 잡는 모양, 작은 글씨는 실제로 나는 화음입니다. 건반은 실제로 울리는 음(개방현 보이싱 + 카포)을 표시합니다. 추천 조합은 진행 안의 바레 코드(F, Bm, F♯m 등) 수가 적은 순, 그다음 카포가 낮은 순으로 정렬합니다 — 기타리스트가 머릿속에서 푸는 작은 최적화 문제입니다. 소리는 카플러스–스트롱 현 모델로 6현을 18 ms 간격으로 긁은 근사입니다(다운–다운업–업다운업 패턴).</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>다이아토닉 화음은 음계 인덱스에서 한 칸씩 건너 쌓은 것이다. 장조는 장–단–단–장–장–단–감, 7화음은 V7이 유일한 속7이다. 로마 숫자는 이조 불변 좌표다.</li>
+      <li>기능은 공통음과 특징음(^7, ^4)으로 정해진다: T(I, vi, iii), S(IV, ii), D(V, vii°). 같은 기능끼리는 대리할 수 있다.</li>
+      <li>진행 문법은 확률적 상태 기계(마르코프 연쇄)로 근사할 수 있고, 정방향 전이는 대부분 근음 5도 하행이다. 팝·록은 역행(V→IV, IV→I)과 ♭VII를 고전 화성보다 자주 쓴다.</li>
+      <li>V7의 트라이톤(^7–^4)은 장조 B–F 배치에서는 반음씩 안쪽으로 해결되어 I의 3도가 된다. 역배치에서는 확장하고, 단조의 7음은 온음 하행할 수 있다. 트라이톤은 옥타브의 절반이라 두 속7화음(V7, ♭II7)이 공유한다.</li>
+      <li>종지는 정격(V–I), 변격(IV–I), 반(…–V), 위(V–vi) 네 가지로, 프레이즈의 문장 부호 역할을 한다.</li>
+      <li>보이스 리딩은 성부 이동 합을 최소화하는 매칭 문제이며, 병행 5·8도 금칙은 성부 독립성을 위한 제약 조건이다.</li>
+      <li>화성 리듬(화음 변화율)은 형식의 추진력을 만들고, 이조·카포는 \(T_n\)과 \(L_k = L_0 2^{-k/12}\)로 계산된다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>장조의 다이아토닉 3화음 중 감3화음은 몇 도 위에 생기는가?</p><div class="opts">
+        <button class="opt">ii</button><button class="opt">iii</button><button class="opt" data-correct>vii</button><button class="opt">IV</button>
+      </div><div class="quiz-exp">장음계 안의 트라이톤은 ^7–^4(C 장조의 B–F) 하나뿐이다. 이 트라이톤을 근음–5음으로 갖는 화음 B–D–F가 vii°다.</div></div>
+      <div class="quiz-q"><p>C 장조에서 G7 → C로 해결할 때 트라이톤의 두 음은 각각 어디로 가는가?</p><div class="opts">
+        <button class="opt">B→A, F→G (바깥쪽)</button><button class="opt" data-correct>B→C, F→E (반음씩 안쪽)</button><button class="opt">B→B, F→F (유지)</button><button class="opt">B→D, F→C</button>
+      </div><div class="quiz-exp">이끎음 B는 반음 위 으뜸음 C로, 7음 F는 반음 아래 E로 간다. 6반음 트라이톤이 4반음 장3도로 수축한다.</div></div>
+      <div class="quiz-q"><p>프레이즈가 V7 → vi로 끝났다. 이 종지는?</p><div class="opts">
+        <button class="opt">정격 종지</button><button class="opt">변격 종지</button><button class="opt">반종지</button><button class="opt" data-correct>위종지</button>
+      </div><div class="quiz-exp">V 다음에 기대되는 I 대신 공통음을 둘(C, E) 가진 vi로 가서 귀를 '속인다'. 그래서 deceptive cadence다.</div></div>
+      <div class="quiz-q"><p>C 장3화음(C4 E4 G4)에서 G 장3화음으로 가는 최소 이동 보이스 리딩의 총 이동량(반음)은?</p><div class="opts">
+        <button class="opt" data-correct>3</button><button class="opt">5</button><button class="opt">7</button><button class="opt">21</button>
+      </div><div class="quiz-exp">C4→B3(1), E4→D4(2), G4→G4(0) = 3반음. 근음 위치로 통째로 올리면(G4 B4 D5) 7×3 = 21반음이다.</div></div>
+      <div class="quiz-q"><p>I–V–vi–IV를 vi부터 시작하도록 순환 회전한 진행은?</p><div class="opts">
+        <button class="opt">vi–V–IV–I</button><button class="opt" data-correct>vi–IV–I–V</button><button class="opt">vi–ii–V–I</button><button class="opt">vi–I–IV–V</button>
+      </div><div class="quiz-exp">순서를 유지한 채 시작점만 옮기면 vi–IV–I–V. 같은 화음·같은 전이지만 단조처럼 들리기 시작한다.</div></div>
+      <div class="quiz-q"><p>G 모양(G–D–Em–C)으로 치면서 3번 프렛에 카포를 물렸다. 실제 조는?</p><div class="opts">
+        <button class="opt">A</button><button class="opt">B</button><button class="opt" data-correct>B♭</button><button class="opt">C</button>
+      </div><div class="quiz-exp">\(T_3(G) = G+3 = B♭\). 실제 화음은 B♭–F–Gm–E♭이고, 현의 울리는 길이는 \(2^{-3/12} \approx 0.841\)배가 된다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ================================================================ 공통 헬퍼 (이 장 전용) */
+const H9 = (function () {
+  const ROM = ["I", "♭II", "II", "♭III", "III", "IV", "♯IV", "V", "♭VI", "VI", "♭VII", "VII"];
+  const MINQ = ["min", "dim", "min7", "hdim7", "dim7", "mMaj7", "min6"];
+  const SUF = { dim: "°", aug: "+", dom7: "7", maj7: "maj7", min7: "7", hdim7: "ø7", dim7: "°7", min6: "6", maj6: "6", sus4: "sus4", mMaj7: "(maj7)" };
+  const cache = {};
+  const diat = (mode, sev) => cache[mode + sev] || (cache[mode + sev] = MB.diatonic(0, mode, !!sev).map((d) => ({ off: d.root, q: d.quality })));
+  const isDia = (off, q, mode) => diat(mode, false).concat(diat(mode, true)).some((d) => d.off === off && d.q === q);
+  const base = (off, q) => { let r = ROM[MB.mod(off, 12)]; if (MINQ.includes(q)) r = r.toLowerCase(); return r + (SUF[q] || ""); };
+  function roman(t, mode) {
+    if (t.lab) return t.lab;
+    const off = MB.mod(t.off, 12);
+    if (isDia(off, t.q, mode)) return base(off, t.q);
+    if (t.q === "maj" || t.q === "dom7") {
+      const tg = MB.mod(off + 5, 12);
+      const d = tg !== 0 && diat(mode, false).find((x) => x.off === tg && x.q !== "dim");
+      if (d) return "V" + (t.q === "dom7" ? "7" : "") + "/" + base(tg, d.q);
+    }
+    return base(off, t.q);
+  }
+  function fn(t, mode) {
+    const r = roman(t, mode), off = MB.mod(t.off, 12), minq = MINQ.includes(t.q);
+    if (r.includes("/")) return "d";
+    if (mode === "minor") { if ([0, 3, 8].includes(off)) return "t"; if ([7, 10, 11].includes(off)) return "d"; return "s"; }
+    if (off === 0 || (minq && (off === 4 || off === 9))) return "t";
+    if (off === 7 || off === 11) return "d";
+    return "s";
+  }
+  function flat(key, t, mode) {
+    const r = roman(t, mode);
+    if (r.includes("♭")) return true;
+    if (r.includes("♯")) return false;
+    return MB.prefersFlats(key, mode === "minor");
+  }
+  const sym = (key, t, mode) => MB.chordSymbol(MB.mod(key + t.off, 12), t.q, flat(key, t, mode));
+  const pcs = (key, t) => MB.CHORDS[t.q].iv.map((i) => MB.mod(key + t.off + i, 12));
+  function rootPos(key, t) { let r = 48 + MB.mod(key + t.off, 12); if (r < 53) r += 12; const n = MB.chord(r, t.q); if (n.length === 3) n.push(r + 12); return n.slice(0, 4); }
+  function seq(key, toks, lead, range = [50, 78]) {
+    let prev = null;
+    return toks.map((t) => { if (!t) return null; const v = !lead || !prev ? rootPos(key, t) : MB.voiceLead(prev, pcs(key, t), range); prev = v; return v; });
+  }
+  function cost(a, b) { const x = a.slice().sort((p, q) => p - q), y = b.slice().sort((p, q) => p - q); let c = 0; for (let i = 0; i < Math.min(x.length, y.length); i++) c += Math.abs(x[i] - y[i]); return c; }
+  const bassOf = (key, t) => 36 + MB.mod(key + t.off, 12);
+  function fillKeys(sel, minor, val) {
+    sel.innerHTML = [...Array(12)].map((_, k) => `<option value="${k}">${MB.pcName(k, MB.prefersFlats(k, minor))}${minor ? "m" : ""}</option>`).join("");
+    sel.value = String(val);
+  }
+  function seqPlay() {
+    let timers = [];
+    const api = {
+      run(events) {
+        api.cancel(); const t0 = MB.now() + 0.06;
+        events.forEach((e) => { if (e.play) e.play(t0 + e.at); if (e.ui) timers.push(setTimeout(e.ui, (e.at + 0.06) * 1000)); });
+        return t0;
+      },
+      cancel() { timers.forEach(clearTimeout); timers = []; },
+    };
+    return api;
+  }
+  const fnColor = (P, f) => (f === "t" ? P.ok : f === "s" ? P.warn : P.bad);
+  const font = () => getComputedStyle(document.body).getPropertyValue("--font");
+  return { ROM, roman, fn, flat, sym, pcs, rootPos, seq, cost, bassOf, fillKeys, seqPlay, fnColor, font, diat, FN: { t: "토닉", s: "서브도미넌트", d: "도미넌트" } };
+})();
+
+/* ---------------------------------------------------------------- 그림 9-1: 다이아토닉 3화음 */
+(function () {
+  const g = document.getElementById("p9-fig-dia");
+  const names = ["C", "D", "E", "F", "G", "A", "B"], sc = [0, 2, 4, 5, 7, 9, 11];
+  const FN = ["t", "s", "t", "s", "d", "t", "d"], QN = { maj: "장", min: "단", dim: "감" };
+  const col = { t: "var(--ok)", s: "var(--warn)", d: "var(--bad)" };
+  let s = `<text x="400" y="20" text-anchor="middle" class="t-dim" style="font-size:12px">각 음 위에 음계 음을 한 칸씩 건너 세 개 쌓기 (근음은 아래)</text>`;
+  MB.diatonic(0, "major").forEach((d, i) => {
+    const x = 46 + i * 102, c = col[FN[i]];
+    [0, 2, 4].forEach((k, j) => {
+      const y = 166 - j * 46;
+      s += `<rect x="${x}" y="${y}" width="80" height="40" rx="7" style="fill:color-mix(in srgb, ${c} ${j === 0 ? 30 : 13}%, transparent);stroke:${c};stroke-width:1.2"/>`;
+      s += `<text x="${x + 40}" y="${y + 26}" text-anchor="middle" class="t" style="font-size:17px;font-weight:700">${names[(i + k) % 7]}</text>`;
+      if (j < 2) {
+        const a = sc[(i + k) % 7], b = sc[(i + k + 2) % 7];
+        s += `<text x="${x + 84}" y="${y - 1}" class="t-mono" style="font-size:10px">${MB.mod(b - a, 12)}</text>`;
+      }
+    });
+    s += `<text x="${x + 40}" y="234" text-anchor="middle" class="t-acc" style="font-size:18px;font-weight:700">${d.roman}</text>`;
+    s += `<text x="${x + 40}" y="256" text-anchor="middle" class="t-dim" style="font-size:12px">${QN[d.quality]} · ${FN[i].toUpperCase()}</text>`;
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 9-3: 5도권 */
+(function () {
+  const g = document.getElementById("p9-fig-cof");
+  const cx = 190, cy = 165, r = 122, dia = [0, 2, 4, 5, 7, 9, 11];
+  let s = `<defs><marker id="p9-ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker><marker id="p9-ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--bad)"/></marker></defs>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="${r}" class="s-axis" style="fill:none"/>`;
+  const chain = [0, 5, 11, 4, 9, 2, 7, 0];
+  for (let i = 0; i < 7; i++) {
+    const [x1, y1] = MB.circlePos(chain[i], cx, cy, r - 16, "fifths"), [x2, y2] = MB.circlePos(chain[i + 1], cx, cy, r - 16, "fifths");
+    const dx = x2 - x1, dy = y2 - y1, d = Math.hypot(dx, dy), k = 6 / d;
+    const tri = chain[i] === 5;
+    s += `<line x1="${x1 + dx * k}" y1="${y1 + dy * k}" x2="${x2 - dx * k * 1.6}" y2="${y2 - dy * k * 1.6}" style="stroke:var(${tri ? "--bad" : "--accent"});stroke-width:${tri ? 2.4 : 1.8}" marker-end="url(#${tri ? "p9-ah3" : "p9-ah2"})"/>`;
+  }
+  for (let pc = 0; pc < 12; pc++) {
+    const [x, y] = MB.circlePos(pc, cx, cy, r, "fifths"), on = dia.includes(pc);
+    s += `<circle cx="${x}" cy="${y}" r="16" class="${on ? "f-acc" : "f-surface"}" style="stroke:var(--border)"/>`;
+    s += `<text x="${x}" y="${y + 5}" text-anchor="middle" style="font-size:13px;font-weight:700;fill:${on ? "var(--on-accent)" : "var(--text-dim)"}">${MB.pcName(pc, [1, 3, 6, 8, 10].includes(pc) && pc !== 6)}</text>`;
+  }
+  const rows = [["I → IV", "C → F", "완전5도 하행"], ["IV → vii°", "F → B", "감5도 (트라이톤!)"], ["vii° → iii", "B → E", "완전5도 하행"], ["iii → vi", "E → A", "완전5도 하행"], ["vi → ii", "A → D", "완전5도 하행"], ["ii → V", "D → G", "완전5도 하행"], ["V → I", "G → C", "완전5도 하행"]];
+  s += `<text x="380" y="40" class="t" style="font-size:14px;font-weight:700">다이아토닉 5도 하행 사슬</text>`;
+  rows.forEach((rw, i) => {
+    const y = 72 + i * 34, bad = i === 1;
+    s += `<text x="380" y="${y}" class="${bad ? "t-acc" : "t"}" style="font-size:15px;font-weight:700${bad ? ";fill:var(--bad)" : ""}">${rw[0]}</text>`;
+    s += `<text x="510" y="${y}" class="t-mono" style="font-size:13px">${rw[1]}</text>`;
+    s += `<text x="600" y="${y}" class="t-dim" style="font-size:12px${bad ? ";fill:var(--bad)" : ""}">${rw[2]}</text>`;
+  });
+  s += `<path d="M770 228 L778 228 L778 284 L770 284" style="fill:none;stroke:var(--accent-2);stroke-width:1.5"/>`;
+  s += `<text x="776" y="324" text-anchor="end" style="font-size:12px;fill:var(--accent-2)">ii–V–I (재즈의 기본 단위)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 코드 진행 놀이터 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const PRESETS = {
+    axis: { mode: "major", len: 4, sev: false, p: [[0, "maj"], [7, "maj"], [9, "min"], [5, "maj"]] },
+    sad: { mode: "major", len: 4, sev: false, p: [[9, "min"], [5, "maj"], [0, "maj"], [7, "maj"]] },
+    doowop: { mode: "major", len: 4, sev: false, p: [[0, "maj"], [9, "min"], [5, "maj"], [7, "maj"]] },
+    twofive: { mode: "major", len: 4, sev: true, p: [[2, "min7"], [7, "dom7"], [0, "maj7"], [0, "maj7"]] },
+    canon: { mode: "major", len: 8, sev: false, p: [[0, "maj"], [7, "maj"], [9, "min"], [4, "min"], [5, "maj"], [0, "maj"], [5, "maj"], [7, "maj"]] },
+    royal: { mode: "major", len: 4, sev: false, p: [[5, "maj"], [7, "maj"], [4, "min"], [9, "min"]] },
+    circle: { mode: "major", len: 8, sev: false, p: [[0, "maj"], [5, "maj"], [11, "dim"], [4, "min"], [9, "min"], [2, "min"], [7, "maj"], [0, "maj"]] },
+    andalus: { mode: "minor", len: 4, sev: false, p: [[0, "min"], [10, "maj"], [8, "maj"], [7, "maj"]] },
+    blues: { mode: "major", len: 12, sev: true, p: [[0, "dom7", "I7"], [0, "dom7", "I7"], [0, "dom7", "I7"], [0, "dom7", "I7"], [5, "dom7"], [5, "dom7"], [0, "dom7", "I7"], [0, "dom7", "I7"], [7, "dom7"], [5, "dom7"], [0, "dom7", "I7"], [7, "dom7"]] },
+  };
+  let key = 0, len = 4, sel = 0, curBar = -1, defs = [], voic = [];
+  let prog = Array(16).fill(null);
+  const keySel = $("pg-key");
+  const mode = MB.seg("pg-mode", () => { H9.fillKeys(keySel, mode() === "minor", key); refresh(); });
+  H9.fillKeys(keySel, false, 0);
+  const sev = MB.check("pg-sev", () => { convertSev(); refresh(); });
+  const lenSeg = MB.seg("pg-len", (v) => { len = +v; if (sel >= len) sel = len - 1; refresh(); });
+  const bpm = MB.range("pg-bpm", (v) => v + " BPM", () => readout());
+  const styleSel = $("pg-style"), instSel = $("pg-inst");
+  const style = () => styleSel.value, inst = () => instSel.value;
+  const bassOn = MB.check("pg-bass", () => refresh());
+  const drumsOn = MB.check("pg-drums");
+  const lead = MB.check("pg-lead", () => refresh());
+  const kb = MB.keyboard("#pg-kb", { lo: 36, hi: 84, inst: () => inst() });
+
+  function padDefs() {
+    const m = mode();
+    const d = H9.diat(m, sev()).map((x) => ({ off: x.off, q: x.q, x: false }));
+    const ex = m === "major"
+      ? [{ off: 2, q: "dom7" }, { off: 4, q: "dom7" }, { off: 5, q: "min" }, { off: 8, q: "maj" }, { off: 10, q: "maj" }, { off: 0, q: "dom7", lab: "I7" }, { off: 5, q: "dom7" }]
+      : [{ off: 7, q: "maj" }, { off: 7, q: "dom7" }, { off: 11, q: "dim7" }, { off: 1, q: "maj" }, { off: 5, q: "maj", lab: "IV" }, { off: 0, q: "maj", lab: "I" }];
+    return d.concat(ex.map((t) => Object.assign({ x: true }, t)));
+  }
+  function renderPads() {
+    const m = mode(); defs = padDefs();
+    $("pg-pads").innerHTML = defs.map((t, i) => { const f = H9.fn(t, m); return `<button class="pad ${f}${t.x ? " x" : ""}" data-i="${i}" title="${t.x ? "차용·반음계 화음" : "다이아토닉 화음"}"><b>${H9.sym(key, t, m)}</b><small>${H9.roman(t, m)} · ${f.toUpperCase()}</small></button>`; }).join("");
+  }
+  function renderSlots() {
+    const m = mode();
+    $("pg-slots").innerHTML = prog.slice(0, len).map((t, i) => {
+      const cls = ["slot"]; if (t) cls.push("filled", H9.fn(t, m)); if (i === sel) cls.push("sel"); if (i === curBar) cls.push("now");
+      return `<div class="${cls.join(" ")}" data-i="${i}"><span class="bn">${i + 1}</span>${t ? `<b>${H9.sym(key, t, m)}</b><small>${H9.roman(t, m)}</small>` : `<small>비어 있음</small>`}</div>`;
+    }).join("");
+  }
+  function renderStaff(hl) {
+    const m = mode();
+    const chords = prog.slice(0, len).map((t, i) => t && voic[i] ? { notes: (bassOn() ? [H9.bassOf(key, t)] : []).concat(voic[i]), label: H9.sym(key, t, m), sub: H9.roman(t, m), flat: H9.flat(key, t, m) } : { notes: [], label: "·" });
+    const svg = MB.staff("#pg-staff", chords, { highlight: hl });
+    if (svg) svg.style.minWidth = len * 60 + 80 + "px";
+  }
+  const total = (vs) => { let c = 0, p = null; vs.forEach((v) => { if (!v) return; if (p) c += H9.cost(p, v); p = v; }); return c; };
+  function readout() {
+    const m = mode(), i = curBar >= 0 ? curBar : sel, t = prog[i];
+    MB.stat("pg-now", t ? `${H9.sym(key, t, m)} <small>${H9.roman(t, m)} · ${H9.FN[H9.fn(t, m)]}</small>` : "—");
+    MB.stat("pg-flow", prog.slice(0, len).map((x) => (x ? H9.fn(x, m).toUpperCase() : "·")).join(" "));
+    const toks = prog.slice(0, len);
+    MB.stat("pg-vl", `${total(H9.seq(key, toks, true))} <small>반음 (근음 위치면 ${total(H9.seq(key, toks, false))})</small>`);
+    const meter = style() === "waltz" ? 3 : 4;
+    MB.stat("pg-hr", `${(bpm() / meter).toFixed(1)}회/분 <small>(1마디 ${((60 / bpm()) * meter).toFixed(2)} s)</small>`);
+  }
+  function refresh() {
+    voic = H9.seq(key, prog.slice(0, len), lead());
+    renderPads(); renderSlots(); renderStaff(curBar >= 0 ? curBar : sel); readout();
+  }
+  function mark(t, v) {
+    kb.clear("mark"); kb.clear("root");
+    if (!t || !v) return;
+    kb.mark(v, "mark");
+    const rp = MB.mod(key + t.off, 12);
+    kb.mark(v.filter((m) => MB.mod(m, 12) === rp).concat(bassOn() ? [H9.bassOf(key, t)] : []), "root");
+  }
+  function preview(t, v) {
+    MB.playChord(v, { inst: inst(), dur: 1.4, vel: 0.5 });
+    if (bassOn()) MB.play(H9.bassOf(key, t), { inst: "bass", dur: 1.4, vel: 0.7 });
+    mark(t, v);
+  }
+  function convertSev() {
+    const m = mode(), s = sev(), from = H9.diat(m, !s), to = H9.diat(m, s);
+    prog = prog.map((t) => { if (!t || t.lab) return t; const i = from.findIndex((d) => d.off === t.off && d.q === t.q); return i >= 0 ? { off: t.off, q: to[i].q } : t; });
+  }
+  function applyPreset(id) {
+    const p = PRESETS[id]; if (!p) return;
+    mode.set(p.mode, false); H9.fillKeys(keySel, p.mode === "minor", key);
+    $("pg-sev").checked = p.sev; len = p.len; lenSeg.set(String(p.len), false);
+    prog = Array(16).fill(null); p.p.forEach((x, i) => (prog[i] = { off: x[0], q: x[1], lab: x[2] }));
+    sel = 0; refresh();
+  }
+  $("pg-pads").addEventListener("click", (e) => {
+    const b = e.target.closest(".pad"); if (!b) return;
+    const d = defs[+b.dataset.i]; if (!d) return;
+    const tok = { off: d.off, q: d.q, lab: d.lab };
+    let at = -1;
+    if (sel >= 0 && sel < len) { prog[sel] = tok; at = sel; if (sel < len - 1) sel++; }
+    refresh();
+    preview(tok, at >= 0 && voic[at] ? voic[at] : H9.rootPos(key, tok));
+  });
+  $("pg-slots").addEventListener("click", (e) => {
+    const s = e.target.closest(".slot"); if (!s) return;
+    sel = +s.dataset.i; refresh();
+    if (prog[sel] && voic[sel]) preview(prog[sel], voic[sel]);
+  });
+  keySel.addEventListener("change", () => { key = +keySel.value; refresh(); });
+  $("pg-up").addEventListener("click", () => { key = MB.mod(key + 1, 12); keySel.value = key; refresh(); });
+  $("pg-down").addEventListener("click", () => { key = MB.mod(key - 1, 12); keySel.value = key; refresh(); });
+  $("pg-clr1").addEventListener("click", () => { if (sel >= 0) prog[sel] = null; refresh(); });
+  $("pg-clr").addEventListener("click", () => { prog = Array(16).fill(null); sel = 0; refresh(); });
+  $("pg-preset").addEventListener("change", (e) => { applyPreset(e.target.value); e.target.value = ""; });
+  styleSel.addEventListener("change", () => { if (clk.running) { clk.stop(); curBar = -1; clk.start(0); } readout(); });
+
+  // 공유: #prg:k=..&m=..&p=0.maj,7.maj
+  function encode() {
+    const sp = new URLSearchParams();
+    sp.set("k", key); sp.set("m", mode()); sp.set("s", sev() ? 1 : 0); sp.set("b", bpm()); sp.set("r", style());
+    sp.set("p", prog.slice(0, len).map((t) => (t ? [t.off, t.q].concat(t.lab ? [t.lab] : []).join(".") : "_")).join(","));
+    return "#prg:" + sp.toString();
+  }
+  function decode(h) {
+    try {
+      if (!h || !h.startsWith("#prg:")) return false;
+      const sp = new URLSearchParams(h.slice(5));
+      const toks = (sp.get("p") || "").split(",").slice(0, 16).map((s) => {
+        if (s === "_") return null; const [o, q, lab] = s.split(".");
+        if (!MB.CHORDS[q] || isNaN(+o)) return null; return { off: MB.mod(+o, 12), q, lab: lab || undefined };
+      });
+      if (!toks.some(Boolean)) return false;
+      const m = sp.get("m") === "minor" ? "minor" : "major";
+      key = MB.mod(+sp.get("k") | 0, 12); mode.set(m, false); H9.fillKeys(keySel, m === "minor", key);
+      $("pg-sev").checked = sp.get("s") === "1";
+      if (sp.get("b")) bpm.set(MB.clamp(+sp.get("b") || 96, 50, 180), false);
+      if ([...styleSel.options].some((o) => o.value === sp.get("r"))) styleSel.value = sp.get("r");
+      len = toks.length <= 4 ? 4 : toks.length <= 8 ? 8 : toks.length <= 12 ? 12 : 16; lenSeg.set(String(len), false);
+      prog = Array(16).fill(null); toks.forEach((t, i) => (prog[i] = t));
+      return true;
+    } catch (e) { return false; }
+  }
+  $("pg-share").addEventListener("click", () => {
+    const h = encode();
+    try { history.replaceState(null, "", h); } catch (e) {}
+    const b = $("pg-share"), done = (txt) => { b.textContent = txt; setTimeout(() => (b.textContent = "🔗 링크로 공유"), 1600); };
+    try { navigator.clipboard.writeText(location.href).then(() => done("✓ 링크 복사됨"), () => done("주소창 링크를 복사하세요")); } catch (e) { done("주소창 링크를 복사하세요"); }
+  });
+
+  // 재생
+  const spBar = () => (style() === "waltz" ? 12 : 16);
+  function onStep(step, time) {
+    const sb = spBar(), bar = Math.floor(step / sb) % len, s = step % sb, beat = 60 / bpm();
+    const t = prog[bar], v = voic[bar], ins = inst(), st = style();
+    const pc = (notes, d, vel) => MB.playChord(notes, { when: time, dur: d, inst: ins, vel });
+    if (t && v) {
+      if (st === "block" && s === 0) pc(v, beat * 4 * 0.96, 0.5);
+      else if (st === "pop" && s % 2 === 0) pc(v, beat * 0.42, s % 8 === 0 ? 0.52 : s % 4 === 0 ? 0.42 : 0.32);
+      else if (st === "arp" && s % 2 === 0) { const pat = [0, 1, 2, 3, 2, 1, 2, 3]; MB.play(v[Math.min(pat[(s / 2) % 8], v.length - 1)], { when: time, dur: beat * 0.95, inst: ins, vel: 0.55 }); }
+      else if (st === "waltz") { if (s === 4 || s === 8) pc(v, beat * 0.55, 0.4); if (s === 0 && !bassOn()) MB.play(v[0] - 12, { when: time, dur: beat * 0.9, inst: ins, vel: 0.6 }); }
+      else if (st === "bossa" && (bar % 2 === 0 ? [0, 6, 12] : [4, 10]).includes(s)) pc(v, beat * 0.4, 0.42);
+    }
+    if (bassOn() && t) {
+      const r = H9.bassOf(key, t), iv = MB.CHORDS[t.q].iv, fifth = r + iv[2] <= 47 ? r + iv[2] : r + iv[2] - 12;
+      const bp = (m, d) => MB.play(m, { when: time, dur: d, inst: "bass", vel: 0.75 });
+      if (st === "waltz") { if (s === 0) bp(r, beat * 2.6); }
+      else if (st === "bossa") {
+        const nt = prog[(bar + 1) % len] || t;
+        if (s === 0) bp(r, beat * 1.4); else if (s === 6) bp(fifth, beat * 0.45); else if (s === 8) bp(fifth, beat * 1.4); else if (s === 14) bp(H9.bassOf(key, nt), beat * 0.45);
+      } else if (st === "pop") { if (s % 2 === 0) bp(r, beat * 0.42); }
+      else if (s === 0 || s === 8) bp(r, beat * 1.9);
+    }
+    if (drumsOn()) {
+      const dr = (n, vel) => MB.drum(n, time, { vel });
+      if (st === "waltz") { if (s === 0) dr("kick", 0.8); if (s === 4 || s === 8) { dr("hat", 0.35); dr("rim", 0.22); } }
+      else if (st === "bossa") { if ([0, 6, 8, 14].includes(s)) dr("kick", 0.5); if ((bar % 2 === 0 ? [0, 6, 12] : [4, 10]).includes(s)) dr("rim", 0.35); dr("shaker", s % 2 ? 0.14 : 0.24); }
+      else { if (s % 2 === 0) dr("hat", s % 4 === 0 ? 0.35 : 0.22); if (s === 0 || s === 8 || (st === "pop" && s === 10)) dr("kick", 0.85); if (s === 4 || s === 12) dr("snare", 0.6); }
+    }
+  }
+  function highlight(bar) {
+    document.querySelectorAll("#pg-slots .slot").forEach((el, i) => el.classList.toggle("now", i === bar));
+    mark(prog[bar], voic[bar]); renderStaff(bar); readout();
+  }
+  const clk = MB.Clock({
+    bpm: () => bpm(), div: 4, length: () => len * spBar(), onStep,
+    onUI(step) { const bar = Math.floor(step / spBar()) % len; if (bar !== curBar) { curBar = bar; highlight(bar); } },
+  });
+  MB.playButton("pg-play", () => { curBar = -1; clk.start(0); }, () => {
+    clk.stop(); curBar = -1;
+    document.querySelectorAll("#pg-slots .slot.now").forEach((el) => el.classList.remove("now"));
+    mark(null); renderStaff(sel); readout();
+  });
+
+  if (!decode(location.hash)) applyPreset("axis"); else refresh();
+})();
+
+/* ---------------------------------------------------------------- 2. 마르코프 전이 그래프 */
+(function () {
+  const DEG = [0, 2, 4, 5, 7, 9, 11], Q = ["maj", "min", "min", "maj", "maj", "min", "dim"], RN = ["I", "ii", "iii", "IV", "V", "vi", "vii°"], FN = ["t", "s", "t", "s", "d", "t", "d"];
+  const ORDER = [0, 5, 3, 1, 6, 4, 2]; // 원 위 위치 인덱스: I IV vii° iii vi ii V (시계 방향 = 5도 하행)
+  // 행: 출발 I ii iii IV V vi vii° / 열: 도착 (예시값)
+  const MATS = {
+    classic: [
+      [0, 0.14, 0.06, 0.28, 0.26, 0.20, 0.06],
+      [0.06, 0, 0, 0.08, 0.62, 0.06, 0.18],
+      [0.04, 0.08, 0, 0.25, 0.05, 0.58, 0],
+      [0.26, 0.14, 0.04, 0, 0.40, 0.06, 0.10],
+      [0.72, 0, 0.04, 0.06, 0, 0.18, 0],
+      [0.08, 0.34, 0.06, 0.34, 0.14, 0, 0.04],
+      [0.82, 0, 0.08, 0, 0.04, 0.06, 0],
+    ],
+    pop: [
+      [0, 0.06, 0.04, 0.40, 0.32, 0.18, 0],
+      [0.15, 0, 0, 0.25, 0.55, 0.05, 0],
+      [0.05, 0.05, 0, 0.40, 0.05, 0.45, 0],
+      [0.42, 0.04, 0.04, 0, 0.38, 0.12, 0],
+      [0.40, 0.02, 0.03, 0.15, 0, 0.40, 0],
+      [0.12, 0.08, 0.05, 0.55, 0.20, 0, 0],
+      [0.80, 0, 0.10, 0, 0, 0.10, 0],
+    ],
+  };
+  const keySel = document.getElementById("mk-key"); H9.fillKeys(keySel, false, 0);
+  const key = () => +keySel.value;
+  let state = 0, shown = 0, walkN = 0, prevV = null, counts = Array(7).fill(0), moves = 0, retro = 0, hist = [0];
+  let Pm = null, pi = null, cv = null;
+  const pending = [], pos = [];
+  const isRetro = (a, b) => (FN[a] === "d" && FN[b] === "s") || (FN[a] === "s" && FN[b] === "t");
+  const mat = MB.seg("mk-mat", () => recalc());
+  const beta = MB.range("mk-beta", (v) => "β = " + v.toFixed(1), () => recalc());
+  const bpm = MB.range("mk-bpm", (v) => v + " BPM");
+  const cad = MB.check("mk-cad");
+  const sym = (i) => MB.chordSymbol(MB.mod(key() + DEG[i], 12), Q[i], MB.prefersFlats(key()));
+  function recalc() {
+    const M = MATS[mat()], b = beta();
+    Pm = M.map((row) => { const r = row.map((p) => (p > 0 ? Math.pow(p, b) : 0)); const s = r.reduce((a, c) => a + c, 0) || 1; return r.map((x) => x / s); });
+    pi = Array(7).fill(1 / 7);
+    for (let k = 0; k < 300; k++) { const n = Array(7).fill(0); for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) n[j] += pi[i] * Pm[i][j]; pi = n; }
+    readout(); if (cv) cv.redraw();
+  }
+  function readout() {
+    MB.stat("mk-cur", `${RN[shown]} <small>${sym(shown)} · ${H9.FN[FN[shown]]}</small>`);
+    let H = 0; for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) if (Pm[i][j] > 0) H -= pi[i] * Pm[i][j] * Math.log2(Pm[i][j]);
+    MB.stat("mk-H", `${H.toFixed(2)} 비트/화음 <small>(최대 ${Math.log2(6).toFixed(2)})</small>`);
+    MB.stat("mk-pi", `${(pi[0] * 100).toFixed(1)}% <small>V ${(pi[4] * 100).toFixed(0)}% · IV ${(pi[3] * 100).toFixed(0)}%</small>`);
+    let mr = 0; for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) if (isRetro(i, j)) mr += pi[i] * Pm[i][j];
+    MB.stat("mk-retro", `모델 ${(mr * 100).toFixed(0)}% <small>· 걸음 ${moves ? ((retro / moves) * 100).toFixed(0) + "%" : "—"} (${moves}회)</small>`);
+  }
+  function renderHist() {
+    document.getElementById("mk-hist").innerHTML = hist.map((d, i) => `<span class="${FN[d]}${i === hist.length - 1 ? " cur" : ""}">${RN[d]}</span>`).join("");
+  }
+  function voicing(i) {
+    const pcs = MB.CHORDS[Q[i]].iv.map((x) => MB.mod(key() + DEG[i] + x, 12));
+    let v;
+    if (!prevV) { let r = 48 + MB.mod(key() + DEG[i], 12); if (r < 53) r += 12; v = MB.chord(r, Q[i]).concat([r + 12]); }
+    else v = MB.voiceLead(prevV, pcs, [52, 76]);
+    prevV = v; return v;
+  }
+  function sound(i, when, dur) {
+    MB.playChord(voicing(i), { when, dur, inst: "epiano", vel: 0.5 });
+    MB.play(36 + MB.mod(key() + DEG[i], 12), { when, dur, inst: "bass", vel: 0.7 });
+  }
+  function move(a, b) { moves++; if (isRetro(a, b)) retro++; counts[b]++; }
+  function nextState(cur) {
+    const p8 = walkN % 8;
+    if (cad() && p8 === 6) return 4;
+    if (cad() && p8 === 7) return 0;
+    const r = Math.random(); let c = 0;
+    for (let j = 0; j < 7; j++) { c += Pm[cur][j]; if (r < c) return j; }
+    return 0;
+  }
+  function arrow(ctx, a, b, nr, color, lw, alpha, label, P, f) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy) || 1, nx = -dy / d, ny = dx / d, bend = d * 0.13;
+    const mx = (a[0] + b[0]) / 2 + nx * bend, my = (a[1] + b[1]) / 2 + ny * bend;
+    const trim = (p, r) => { const ex = mx - p[0], ey = my - p[1], e = Math.hypot(ex, ey) || 1; return [p[0] + (ex / e) * r, p[1] + (ey / e) * r]; };
+    const s = trim(a, nr + 2), e = trim(b, nr + 3);
+    ctx.save(); ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = lw;
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.quadraticCurveTo(mx, my, e[0], e[1]); ctx.stroke();
+    const hx = e[0] - mx, hy = e[1] - my, hl = Math.hypot(hx, hy) || 1, tx = hx / hl, ty = hy / hl, L = 6 + lw * 0.9;
+    ctx.beginPath(); ctx.moveTo(e[0] + tx * 2, e[1] + ty * 2); ctx.lineTo(e[0] - tx * L - ty * L * 0.55, e[1] - ty * L + tx * L * 0.55); ctx.lineTo(e[0] - tx * L + ty * L * 0.55, e[1] - ty * L - tx * L * 0.55); ctx.fill();
+    if (label) {
+      const qx = 0.25 * s[0] + 0.5 * mx + 0.25 * e[0], qy = 0.25 * s[1] + 0.5 * my + 0.25 * e[1];
+      ctx.globalAlpha = 1; ctx.font = `600 11px ${f}`; const tw = ctx.measureText(label).width + 8;
+      ctx.fillStyle = P.bg; ctx.fillRect(qx - tw / 2, qy - 8, tw, 16); ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(label, qx, qy);
+    }
+    ctx.restore();
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), f = H9.font();
+    const gh = Math.round(h * 0.7), cx = w / 2, cy = gh / 2 + 6, R = Math.min(w * 0.36, gh * 0.37), nr = Math.max(16, Math.min(24, w / 26));
+    for (let i = 0; i < 7; i++) { const a = -Math.PI / 2 + (ORDER[i] * 2 * Math.PI) / 7; pos[i] = [cx + R * Math.cos(a), cy + R * Math.sin(a)]; }
+    ctx.fillStyle = P.faint; ctx.font = `11px ${f}`; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.fillText("시계 방향 = 근음 5도 하행", 10, 16);
+    for (const act of [false, true]) for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) {
+      const p = Pm[i][j]; if (p < 0.03 || (i === shown) !== act) continue;
+      arrow(ctx, pos[i], pos[j], nr, act ? P.accent : P.faint, act ? 1 + 8 * p : 0.7 + 2.5 * p, act ? 1 : 0.5, act ? Math.round(p * 100) + "%" : null, P, f);
+    }
+    for (let i = 0; i < 7; i++) {
+      const [x, y] = pos[i];
+      ctx.beginPath(); ctx.arc(x, y, nr, 0, 2 * Math.PI); ctx.fillStyle = i === shown ? P.accent : P.elev; ctx.fill();
+      ctx.lineWidth = 3; ctx.strokeStyle = H9.fnColor(P, FN[i]); ctx.stroke();
+      ctx.fillStyle = i === shown ? "#fff" : P.text; ctx.font = `700 ${Math.round(nr * 0.66)}px ${f}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(RN[i], x, y);
+      ctx.font = `11px ${f}`; ctx.fillStyle = P.dim;
+      ctx.fillText(sym(i), x + ((x - cx) / R) * (nr + 14), y + ((y - cy) / R) * (nr + 11));
+    }
+    // 정상 분포 vs 걸음 빈도
+    const box = { x: 14, y: gh + 22, w: w - 28, h: h - gh - 44 };
+    const tot = counts.reduce((a, c) => a + c, 0) || 1, emp = counts.map((c) => c / tot);
+    const mx = Math.max(0.3, ...pi, ...emp), gw = box.w / 7, bw = Math.min(18, gw * 0.32);
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+    for (let i = 0; i < 7; i++) {
+      const x0 = box.x + gw * i + gw / 2;
+      const h1 = (pi[i] / mx) * box.h, h2 = (emp[i] / mx) * box.h;
+      ctx.fillStyle = P.accent; ctx.fillRect(x0 - bw - 1, box.y + box.h - h1, bw, h1);
+      ctx.fillStyle = P.accent2; ctx.fillRect(x0 + 1, box.y + box.h - h2, bw, h2);
+      ctx.fillStyle = P.dim; ctx.font = `11px ${f}`; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText(RN[i], x0, box.y + box.h + 4);
+    }
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.font = `11px ${f}`;
+    ctx.fillStyle = P.accent; ctx.fillText("■ 정상 분포 π", 14, gh + 12); ctx.fillStyle = P.accent2; ctx.fillText(`■ 걸음 빈도 (${tot}개)`, 110, gh + 12);
+  }
+  recalc();
+  cv = MB.canvas("#cv-mk", draw, { aspect: (w) => (w > 600 ? 0.82 : 1.05), maxHeight: 620 });
+  renderHist();
+  function go(j) {
+    MB.ctx();
+    move(shown, j); state = shown = j; sound(j, undefined, 1.3);
+    hist.push(j); if (hist.length > 16) hist.shift();
+    renderHist(); readout(); cv.redraw();
+  }
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (clk.running) return;
+    const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = -1, bd = 1e9; pos.forEach((p, i) => { const d = Math.hypot(p[0] - x, p[1] - y); if (d < bd) { bd = d; best = i; } });
+    if (best >= 0 && bd < 34) go(best);
+  });
+  const clk = MB.Clock({
+    bpm: () => bpm(), div: 1, length: 2,
+    onStep(step, time) {
+      if (step !== 0) return;
+      const beat = 60 / bpm(); let nx;
+      if (walkN === 0) nx = 0; else { nx = nextState(state); move(state, nx); }
+      walkN++; state = nx; sound(nx, time, beat * 1.9); pending.push({ time, deg: nx });
+    },
+    onUI(step, time) {
+      let ch = false;
+      while (pending.length && pending[0].time <= time + 1e-6) { const p = pending.shift(); shown = p.deg; hist.push(p.deg); if (hist.length > 16) hist.shift(); ch = true; }
+      if (ch) { renderHist(); readout(); cv.redraw(); }
+    },
+  });
+  MB.playButton("mk-walk", () => { walkN = 0; prevV = null; pending.length = 0; clk.start(0); }, () => { clk.stop(); pending.length = 0; }, ["▶ 무작위 걸음", "■ 정지"]);
+  document.getElementById("mk-reset").addEventListener("click", () => { counts = Array(7).fill(0); moves = retro = 0; hist = [shown]; renderHist(); readout(); cv.redraw(); });
+  keySel.addEventListener("change", () => { prevV = null; readout(); cv.redraw(); });
+})();
+
+/* ---------------------------------------------------------------- 3. 트라이톤 해결 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const keySel = $("tt-key"); H9.fillKeys(keySel, false, 0);
+  const key = () => +keySel.value;
+  let phase = 0, curDom = "v7", cv = null;
+  const dom = MB.seg("tt-dom", (v) => { curDom = v; phase = 0; update(); });
+  const tgt = MB.seg("tt-tgt", () => { phase = 0; update(); });
+  const sp = H9.seqPlay();
+  const kb = MB.keyboard("#tt-kb", { lo: 36, hi: 79 });
+  function V(d = curDom) {
+    const k = key(), sh = k > 6 ? k - 12 : k;
+    const D = d === "v7" ? [43, 59, 65, 67] : [49, 59, 65, 68];
+    const T = tgt() === "maj" ? [48, 60, 64, 67] : [48, 60, 63, 67];
+    return { D: D.map((x) => x + sh), T: T.map((x) => x + sh) };
+  }
+  const nm = (pc) => { const k = key(), rel = MB.mod(pc - k, 12); if (rel === 11) return MB.pcName(pc, false); return MB.pcName(pc, MB.prefersFlats(k) || [1, 3, 8, 10].includes(rel)); };
+  const domSym = (d = curDom) => { const k = key(); return d === "v7" ? MB.chordSymbol(MB.mod(k + 7, 12), "dom7", MB.prefersFlats(k)) : MB.chordSymbol(MB.mod(k + 1, 12), "dom7", true); };
+  const tonSym = () => MB.chordSymbol(key(), tgt() === "maj" ? "maj" : "min", MB.prefersFlats(key(), tgt() === "min"));
+  function draw(ctx, w, h) {
+    const P = MB.palette(), f = H9.font(), wide = w > 560;
+    const c1 = wide ? { x: 0, y: 0, w: w * 0.42, h } : { x: 0, y: 0, w, h: h * 0.46 };
+    const c2 = wide ? { x: w * 0.42, y: 0, w: w * 0.58, h } : { x: 0, y: h * 0.46, w, h: h * 0.54 };
+    const k = key(), cx = c1.x + c1.w / 2, cy = c1.y + c1.h / 2 + 4, R = Math.min(c1.w, c1.h) * 0.36;
+    const poly = (pcs, color) => {
+      ctx.beginPath(); pcs.forEach((pc, i) => { const [x, y] = MB.circlePos(pc, cx, cy, R); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath();
+      ctx.globalAlpha = 0.18; ctx.fillStyle = color; ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = color; ctx.lineWidth = 1.6; ctx.stroke();
+    };
+    const A = [7, 11, 2, 5].map((x) => MB.mod(k + x, 12)), B = [1, 5, 8, 11].map((x) => MB.mod(k + x, 12));
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+    poly(A, P.accent); poly(B, P.accent2);
+    const [x1, y1] = MB.circlePos(MB.mod(k + 11, 12), cx, cy, R), [x2, y2] = MB.circlePos(MB.mod(k + 5, 12), cx, cy, R);
+    ctx.strokeStyle = P.bad; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    for (let pc = 0; pc < 12; pc++) {
+      const [x, y] = MB.circlePos(pc, cx, cy, R), tt = pc === MB.mod(k + 11, 12) || pc === MB.mod(k + 5, 12);
+      ctx.beginPath(); ctx.arc(x, y, 12, 0, 2 * Math.PI); ctx.fillStyle = tt ? P.bad : A.includes(pc) || B.includes(pc) ? P.elev : P.surface; ctx.fill();
+      ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = tt ? "#fff" : P.text; ctx.font = `600 11px ${f}`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(nm(pc), x, y);
+    }
+    ctx.font = `600 12px ${f}`; ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = P.accent; ctx.textAlign = "left"; ctx.fillText(domSym("v7") + " (V7)", c1.x + 10, c1.y + 18);
+    ctx.fillStyle = P.accent2; ctx.textAlign = "right"; ctx.fillText(domSym("sub") + " (♭II7)", c1.x + c1.w - 10, c1.y + 18);
+    // 성부 움직임
+    const vv = V(), lo = Math.min(...vv.D, ...vv.T) - 3, hi = Math.max(...vv.D, ...vv.T) + 3;
+    const Y = (m) => c2.y + c2.h - 20 - ((m - lo) / (hi - lo)) * (c2.h - 58);
+    const xa = c2.x + c2.w * 0.3, xb = c2.x + c2.w * 0.72;
+    for (let m = Math.ceil(lo); m <= hi; m++) if (MB.mod(m, 12) === 0) { ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(c2.x + 8, Y(m)); ctx.lineTo(c2.x + c2.w - 8, Y(m)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.font = `10px ${f}`; ctx.textAlign = "left"; ctx.fillText("C" + (m / 12 - 1), c2.x + 8, Y(m) - 3); }
+    [[xa, 1], [xb, 2]].forEach(([x, ph]) => { if (phase === ph) { ctx.fillStyle = P.accent + "22"; ctx.fillRect(x - 34, c2.y + 8, 68, c2.h - 16); } });
+    ctx.font = `700 14px ${f}`; ctx.textAlign = "center"; ctx.fillStyle = curDom === "v7" ? P.accent : P.accent2; ctx.fillText(domSym(), xa, c2.y + 26);
+    ctx.fillStyle = P.ok; ctx.fillText(tonSym(), xb, c2.y + 26);
+    for (let i = 0; i < 4; i++) {
+      const a = vv.D[i], b = vv.T[i], tt = i === 1 || i === 2, d = b - a;
+      ctx.strokeStyle = tt ? P.bad : P.dim; ctx.lineWidth = tt ? 3 : 1.5; ctx.setLineDash(d === 0 ? [4, 4] : []);
+      ctx.beginPath(); ctx.moveTo(xa + 8, Y(a)); ctx.lineTo(xb - 8, Y(b)); ctx.stroke(); ctx.setLineDash([]);
+      [[xa, a], [xb, b]].forEach(([x, m]) => { ctx.beginPath(); ctx.arc(x, Y(m), 6, 0, 2 * Math.PI); ctx.fillStyle = tt ? P.bad : P.text; ctx.fill(); });
+      ctx.font = `11px ${f}`; ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(MB.noteName(a, curDom === "sub" || MB.prefersFlats(key())), xa - 12, Y(a) + 4);
+      ctx.textAlign = "left"; ctx.fillText(MB.noteName(b, MB.prefersFlats(key(), tgt() === "min")), xb + 12, Y(b) + 4);
+      ctx.font = `700 12px ${f}`; ctx.fillStyle = tt ? P.bad : P.dim; ctx.textAlign = "center";
+      ctx.fillText(d === 0 ? "0" : (d > 0 ? "+" : "−") + Math.abs(d), (xa + xb) / 2, (Y(a) + Y(b)) / 2 - 6);
+    }
+  }
+  function update() {
+    const vv = V(), k = key(), lt = MB.mod(k + 11, 12), fa = MB.mod(k + 5, 12);
+    MB.stat("tt-int", `${nm(lt)}–${nm(fa)} <small>600¢ = √2 ≈ 1.414</small>`);
+    MB.stat("tt-res", tgt() === "maj" ? `${nm(k)}–${nm(k + 4)} 장3도 <small>400¢ (+1, −1)</small>` : `${nm(k)}–${MB.pcName(k + 3, true)} 단3도 <small>300¢ (+1, −2)</small>`);
+    MB.stat("tt-share", `${domSym("v7")} & ${domSym("sub")} <small>근음이 트라이톤 거리</small>`);
+    MB.stat("tt-cost", `${H9.cost(vv.D, vv.T)} 반음 <small>(${vv.D.map((a, i) => MB.signed(vv.T[i] - a, 0)).join(", ")})</small>`);
+    if (cv) cv.redraw();
+  }
+  cv = MB.canvas("#cv-tt", draw, { aspect: (w) => (w > 560 ? 0.52 : 1.15), maxHeight: 470 });
+  function kbShow(notes, cls, tt) { ["mark", "alt", "root"].forEach((c) => kb.clear(c)); kb.mark(notes, cls); if (tt) kb.mark(tt, "root"); }
+  function pair(D, T, d1 = 1.2, label) {
+    return [
+      { at: 0, play: (w) => MB.playChord(D, { when: w, dur: d1, vel: 0.5 }), ui: () => { phase = 1; if (label) { curDom = label; } update(); kbShow(D, "mark", D.length === 4 ? [D[1], D[2]] : D); } },
+      { at: d1, play: (w) => MB.playChord(T, { when: w, dur: 1.7, vel: 0.5 }), ui: () => { phase = 2; update(); kbShow(T, "alt"); } },
+    ];
+  }
+  $("tt-play").addEventListener("click", () => { const v = V(); sp.run(pair(v.D, v.T)); });
+  $("tt-tri").addEventListener("click", () => { const v = V(); sp.run(pair([v.D[1], v.D[2]], [v.T[1], v.T[2]])); });
+  $("tt-hold").addEventListener("click", () => { const v = V(); sp.run([{ at: 0, play: (w) => MB.playChord(v.D, { when: w, dur: 2.2, vel: 0.5 }), ui: () => { phase = 1; update(); kbShow(v.D, "mark", [v.D[1], v.D[2]]); } }]); });
+  $("tt-cmp").addEventListener("click", () => {
+    const a = V("v7"), b = V("sub");
+    const ev = pair(a.D, a.T, 1.2, "v7").concat(pair(b.D, b.T, 1.2, "sub").map((e) => Object.assign({}, e, { at: e.at + 3.1 })));
+    ev.push({ at: 6.2, ui: () => { curDom = dom(); update(); } });
+    sp.run(ev);
+  });
+  keySel.addEventListener("change", () => { phase = 0; update(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 4. 종지 실험실 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  // C 기준 손 보이싱 [베이스, 테너, 알토, 소프라노]
+  const CAD = {
+    pac: { name: "정격 종지", major: [[0, "maj", [48, 55, 64, 72]], [5, "maj", [41, 57, 65, 72]], [7, "dom7", [43, 59, 65, 74]], [0, "maj", [48, 60, 64, 72]]],
+      minor: [[0, "min", [48, 55, 63, 72]], [5, "min", [41, 56, 65, 72]], [7, "dom7", [43, 59, 65, 74]], [0, "min", [48, 60, 63, 72]]] },
+    plagal: { name: "변격 종지", major: [[0, "maj", [48, 55, 64, 72]], [9, "min", [45, 57, 64, 72]], [5, "maj", [41, 57, 65, 72]], [0, "maj", [48, 55, 64, 72]]],
+      minor: [[0, "min", [48, 55, 63, 72]], [8, "maj", [44, 56, 63, 72]], [5, "min", [41, 56, 65, 72]], [0, "min", [48, 55, 63, 72]]] },
+    half: { name: "반종지", major: [[0, "maj", [48, 55, 64, 72]], [9, "min", [45, 57, 64, 72]], [2, "min", [50, 57, 65, 74]], [7, "maj", [43, 55, 62, 71]]],
+      minor: [[0, "min", [48, 55, 63, 72]], [8, "maj", [44, 56, 63, 72]], [2, "dim", [50, 56, 65, 74]], [7, "maj", [43, 55, 62, 71]]] },
+    deceptive: { name: "위종지", major: [[0, "maj", [48, 55, 64, 72]], [5, "maj", [41, 57, 65, 72]], [7, "dom7", [43, 59, 65, 74]], [9, "min", [45, 60, 64, 72]]],
+      minor: [[0, "min", [48, 55, 63, 72]], [5, "min", [41, 56, 65, 72]], [7, "dom7", [43, 59, 65, 74]], [8, "maj", [44, 60, 63, 72]]] },
+  };
+  const keySel = $("cd-key"); H9.fillKeys(keySel, false, 0);
+  const mode = MB.seg("cd-mode", () => { H9.fillKeys(keySel, mode() === "minor", +keySel.value); idle(); });
+  const bpm = MB.range("cd-bpm", (v) => v + " BPM");
+  const rand = MB.check("cd-rand");
+  const kb = MB.keyboard("#cd-kb", { lo: 36, hi: 84 });
+  const sp = H9.seqPlay();
+  let quiz = null, right = 0, total = 0, streak = 0;
+  function phrase(c, k, minor) { const sh = k > 6 ? k - 12 : k; return CAD[c][minor ? "minor" : "major"].map(([off, q, v]) => ({ t: { off, q }, v: v.map((x) => x + sh) })); }
+  function show(ph, k, minor, hl, hide) {
+    const m = minor ? "minor" : "major";
+    MB.staff("#cd-staff", ph.map((x) => ({ notes: x.v, label: hide ? "?" : H9.sym(k, x.t, m), sub: hide ? "" : H9.roman(x.t, m), flat: H9.flat(k, x.t, m) })), { highlight: hl });
+  }
+  function play(ph, k, minor, hide) {
+    const d = (60 / bpm()) * 2;
+    sp.run(ph.map((x, i) => ({
+      at: i * d,
+      play: (w) => { const last = i === ph.length - 1; MB.playChord(x.v, { when: w, dur: last ? d * 1.8 : d * 0.95, vel: 0.5 }); },
+      ui: () => { show(ph, k, minor, i, hide); kb.clear(); if (!hide) kb.mark(x.v); },
+    })).concat([{ at: ph.length * d + d, ui: () => { show(ph, k, minor, -1, hide); kb.clear(); } }]));
+  }
+  function idle() { show(phrase("pac", +keySel.value, mode() === "minor"), +keySel.value, mode() === "minor", -1, false); }
+  document.querySelectorAll("#cd-demo button").forEach((b) => b.addEventListener("click", () => {
+    const k = +keySel.value, mn = mode() === "minor";
+    play(phrase(b.dataset.c, k, mn), k, mn, false);
+  }));
+  const msg = (txt, cls) => { const el = $("cd-msg"); el.innerHTML = txt; el.className = "sim-msg" + (cls ? " " + cls : ""); };
+  $("cd-quiz").addEventListener("click", () => {
+    const cs = Object.keys(CAD), c = cs[Math.floor(Math.random() * cs.length)];
+    const k = rand() ? Math.floor(Math.random() * 12) : +keySel.value, mn = mode() === "minor";
+    quiz = { c, k, mn, done: false };
+    play(phrase(c, k, mn), k, mn, true);
+    msg("들어 보고 아래에서 종지를 고르세요. (화음 이름은 답한 뒤 공개됩니다)");
+  });
+  $("cd-again").addEventListener("click", () => { if (!quiz) return msg("먼저 '문제 내기'를 누르세요."); play(phrase(quiz.c, quiz.k, quiz.mn), quiz.k, quiz.mn, !quiz.done); });
+  document.querySelectorAll("#cd-ans button").forEach((b) => b.addEventListener("click", () => {
+    if (!quiz) return msg("먼저 '문제 내기'를 누르세요.");
+    if (quiz.done) return msg("이미 답했습니다. 다음 문제를 내 보세요.");
+    quiz.done = true; total++;
+    const ok = b.dataset.c === quiz.c, nm = MB.pcName(quiz.k, MB.prefersFlats(quiz.k, quiz.mn)) + (quiz.mn ? " 단조" : " 장조");
+    if (ok) { right++; streak++; msg(`✓ 정답! ${CAD[quiz.c].name} (${nm})`, "ok"); }
+    else { streak = 0; msg(`✗ 정답은 <b>${CAD[quiz.c].name}</b> (${nm}). '다시 듣기'로 마지막 두 화음을 비교해 보세요.`, "bad"); }
+    show(phrase(quiz.c, quiz.k, quiz.mn), quiz.k, quiz.mn, -1, false);
+    MB.stat("cd-score", `${right} / ${total} <small>(${Math.round((right / total) * 100)}%)</small>`);
+    MB.stat("cd-streak", String(streak));
+    MB.stat("cd-last", `${CAD[quiz.c].name} · ${nm}`);
+  }));
+  keySel.addEventListener("change", idle);
+  idle();
+})();
+
+/* ---------------------------------------------------------------- 5. 보이스 리딩 실험실 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const QUAL = ["maj", "min", "dim", "aug", "dom7", "maj7", "min7", "hdim7"];
+  const VN = ["베이스", "테너", "알토", "소프라노"];
+  ["vl-ar", "vl-br"].forEach((id) => ($(id).innerHTML = [...Array(12)].map((_, k) => `<option value="${k}">${MB.pcName(k, [1, 3, 8, 10].includes(k))}</option>`).join("")));
+  ["vl-aq", "vl-bq"].forEach((id) => ($(id).innerHTML = QUAL.map((q) => `<option value="${q}">${MB.CHORDS[q].sym || "장"} (${MB.CHORDS[q].name})</option>`).join("")));
+  const mode = MB.seg("vl-mode", () => update());
+  const kb = MB.keyboard("#vl-kb", { lo: 36, hi: 84 });
+  const sp = H9.seqPlay();
+  let cv = null, cur = null;
+  function req(root, q) {
+    const iv = MB.CHORDS[q].iv, pcs = iv.map((i) => MB.mod(root + i, 12));
+    return iv.length === 3 ? { need: pcs, all: pcs, close: pcs } : { need: [pcs[1], pcs[3]], all: pcs, close: [pcs[0], pcs[1], pcs[3]] };
+  }
+  function closeV(root, q) { let prev = 56; return req(root, q).close.map((pc) => { let m = prev + 1; while (MB.mod(m, 12) !== pc) m++; prev = m; return m; }); }
+  const bassNear = (pc, ref) => { let best = null; for (let m = 36; m <= 55; m++) if (MB.mod(m, 12) === pc && (best == null || Math.abs(m - ref) < Math.abs(best - ref))) best = m; return best; };
+  function parallels(A, B) {
+    const out = [];
+    for (let i = 0; i < 4; i++) for (let j = i + 1; j < 4; j++) {
+      const ia = MB.mod(A[j] - A[i], 12), ib = MB.mod(B[j] - B[i], 12), di = B[i] - A[i], dj = B[j] - A[j];
+      if (!di || !dj || Math.sign(di) !== Math.sign(dj)) continue;
+      if ((ia === 7 && ib === 7) || (ia === 0 && ib === 0)) out.push({ i, j, kind: ia === 7 ? "5도" : "8도" });
+    }
+    return out;
+  }
+  function enumUpper(root, q) {
+    const { need, all } = req(root, q), cand = [], out = [];
+    for (let m = 55; m <= 79; m++) if (all.includes(MB.mod(m, 12))) cand.push(m);
+    for (let a = 0; a < cand.length; a++) for (let b = a + 1; b < cand.length; b++) for (let c = b + 1; c < cand.length; c++) {
+      const v = [cand[a], cand[b], cand[c]];
+      if (v[1] - v[0] > 12 || v[2] - v[1] > 12) continue;
+      const s = new Set(v.map((x) => MB.mod(x, 12)));
+      if (!need.every((p) => s.has(p))) continue;
+      if (all.length === 3 && s.size < 3) continue;
+      out.push(v);
+    }
+    return out;
+  }
+  function solve(A, br, bq, m) {
+    if (m === "root") return { B: [bassNear(br, A[0])].concat(closeV(br, bq)), n: 1 };
+    const ups = enumUpper(br, bq), basses = []; for (let x = 36; x <= 55; x++) if (MB.mod(x, 12) === br) basses.push(x);
+    let best = null, bs = Infinity, n = 0;
+    basses.forEach((b0) => ups.forEach((u) => {
+      if (b0 >= u[0]) return; n++;
+      const B = [b0].concat(u); let c = 0; for (let i = 0; i < 4; i++) c += Math.abs(B[i] - A[i]);
+      if (m === "rule") c += 100 * parallels(A, B).length;
+      if (c < bs) { bs = c; best = B; }
+    }));
+    return { B: best || [bassNear(br, A[0])].concat(closeV(br, bq)), n };
+  }
+  const symOf = (r, q) => MB.chordSymbol(r, q, [1, 3, 8, 10].includes(r));
+  function compute(m = mode()) {
+    const ar = +$("vl-ar").value, aq = $("vl-aq").value, br = +$("vl-br").value, bq = $("vl-bq").value;
+    const A = [bassNear(ar, 44)].concat(closeV(ar, aq));
+    const s = solve(A, br, bq, m);
+    return { A, B: s.B, n: s.n, sa: symOf(ar, aq), sb: symOf(br, bq) };
+  }
+  function draw(ctx, w, h) {
+    if (!cur) return;
+    const P = MB.palette(), f = H9.font(), { A, B } = cur, par = parallels(A, B);
+    const lo = 34, hi = 82, Y = (m) => h - 16 - ((m - lo) / (hi - lo)) * (h - 50);
+    const xa = w * 0.3, xb = w * 0.7;
+    for (let m = 36; m <= hi; m += 12) { ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(10, Y(m)); ctx.lineTo(w - 10, Y(m)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.font = `10px ${f}`; ctx.textAlign = "left"; ctx.fillText("C" + (m / 12 - 1), 12, Y(m) - 3); }
+    ctx.font = `700 15px ${f}`; ctx.textAlign = "center"; ctx.fillStyle = P.accent2; ctx.fillText("A: " + cur.sa, xa, 22); ctx.fillStyle = P.accent; ctx.fillText("B: " + cur.sb, xb, 22);
+    const bad = new Set(); par.forEach((p) => { bad.add(p.i); bad.add(p.j); });
+    for (let i = 0; i < 4; i++) {
+      const a = A[i], b = B[i], d = b - a, isBad = bad.has(i);
+      ctx.strokeStyle = isBad ? P.bad : d === 0 ? P.ok : P.accent; ctx.lineWidth = isBad ? 3.5 : 2; ctx.setLineDash(d === 0 ? [5, 4] : []);
+      ctx.beginPath(); ctx.moveTo(xa + 8, Y(a)); ctx.lineTo(xb - 8, Y(b)); ctx.stroke(); ctx.setLineDash([]);
+      [[xa, a, P.accent2], [xb, b, P.accent]].forEach(([x, m, c]) => { ctx.beginPath(); ctx.arc(x, Y(m), 6, 0, 2 * Math.PI); ctx.fillStyle = c; ctx.fill(); });
+      ctx.font = `11px ${f}`; ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(`${VN[i]} ${MB.noteName(a, [1, 3, 8, 10].includes(+$("vl-ar").value))}`, xa - 12, Y(a) + 4);
+      ctx.textAlign = "left"; ctx.fillText(MB.noteName(b, [1, 3, 8, 10].includes(+$("vl-br").value)), xb + 12, Y(b) + 4);
+      ctx.font = `700 12px ${f}`; ctx.fillStyle = isBad ? P.bad : P.text; ctx.textAlign = "center";
+      ctx.fillText(d === 0 ? "0" : MB.signed(d, 0), (xa + xb) / 2, (Y(a) + Y(b)) / 2 - 7);
+    }
+  }
+  function update() {
+    cur = compute();
+    const { A, B } = cur, par = parallels(A, B);
+    MB.stat("vl-cost", `${H9.cost(A, B)} 반음`);
+    MB.stat("vl-common", `${A.filter((a, i) => a === B[i]).length}개 <small>(유지된 성부)</small>`);
+    MB.stat("vl-par", par.length ? `<span style="color:var(--bad)">${par.length}개</span> <small>${par.map((p) => VN[p.i] + "–" + VN[p.j] + " " + p.kind).join(", ")}</small>` : "없음 ✓");
+    const c = ["root", "near", "rule"].map((m) => { const r = compute(m); return { c: H9.cost(r.A, r.B), p: parallels(r.A, r.B).length, n: r.n }; });
+    MB.stat("vl-cmp", `${c[0].c} / ${c[1].c} / ${c[2].c} <small>병행 ${c[0].p}·${c[1].p}·${c[2].p} · 탐색 ${c[2].n}개</small>`);
+    kb.clear("alt"); kb.clear("mark"); kb.mark(A, "alt"); kb.mark(B, "mark");
+    if (cv) cv.redraw();
+  }
+  function setPreset(v) { const [a, aq, b, bq] = v.split(","); $("vl-ar").value = a; $("vl-aq").value = aq; $("vl-br").value = b; $("vl-bq").value = bq; update(); }
+  $("vl-preset").addEventListener("change", (e) => setPreset(e.target.value));
+  ["vl-ar", "vl-aq", "vl-br", "vl-bq"].forEach((id) => $(id).addEventListener("change", update));
+  setPreset($("vl-preset").value);
+  cv = MB.canvas("#cv-vl", draw, { aspect: 0.62, maxHeight: 420 });
+  function pairEv(m, t0) {
+    const r = compute(m);
+    return [
+      { at: t0, play: (w) => MB.playChord(r.A, { when: w, dur: 1.0, vel: 0.5 }), ui: () => { kb.clear("on"); } },
+      { at: t0 + 1.0, play: (w) => MB.playChord(r.B, { when: w, dur: 1.4, vel: 0.5 }), ui: () => { if (m !== mode()) { /* 방식 표시 */ document.querySelectorAll("#vl-mode button").forEach((b) => b.classList.toggle("on", b.dataset.value === m)); } cur = r; cv.redraw(); } },
+    ];
+  }
+  $("vl-play").addEventListener("click", () => sp.run(pairEv(mode(), 0)));
+  $("vl-all").addEventListener("click", () => {
+    const ev = pairEv("root", 0).concat(pairEv("near", 2.8), pairEv("rule", 5.6));
+    ev.push({ at: 8.4, ui: () => { document.querySelectorAll("#vl-mode button").forEach((b) => b.classList.toggle("on", b.dataset.value === mode())); update(); } });
+    sp.run(ev);
+  });
+})();
+
+/* ---------------------------------------------------------------- 6. 12마디 블루스 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const keySel = $("bl-key"); H9.fillKeys(keySel, false, 9);
+  const key = () => +keySel.value;
+  const T = (off, q, lab) => ({ off, q, lab });
+  const I7 = T(0, "dom7", "I7"), IV7 = T(5, "dom7", "IV7"), V7 = T(7, "dom7", "V7");
+  const formSeg = MB.seg("bl-form", () => refresh());
+  const swing = MB.range("bl-swing", (v) => (v / 100).toFixed(2), () => { readout(); if (cv) cv.redraw(); });
+  const bpm = MB.range("bl-bpm", (v) => v + " BPM", () => readout());
+  const sev = MB.check("bl-sev", () => refresh());
+  const turn = MB.check("bl-turn", () => refresh());
+  const drums = MB.check("bl-drums");
+  const comp = () => $("bl-comp").value, bassSel = () => $("bl-bass").value;
+  const kb = MB.keyboard("#bl-kb", { lo: 36, hi: 79 });
+  let bars = [], flat = [], start = [], voic = [], curBar = -1, curS = -1, cv = null;
+  const fnB = (t) => (t.q === "min7" || t.q === "min" ? "s" : { 0: "t", 5: "s", 6: "s", 2: "s", 7: "d", 9: "d" }[t.off] || "s");
+  function build() {
+    const f = formSeg();
+    let b;
+    if (f === "jazz") b = [[I7], [IV7], [I7], [T(7, "min7", "v7"), I7], [IV7], [T(6, "dim7", "♯iv°7")], [I7], [T(9, "dom7", "VI7")], [T(2, "min7", "ii7")], [V7], [I7, T(9, "dom7", "VI7")], [T(2, "min7", "ii7"), V7]];
+    else b = [[I7], [f === "quick" ? IV7 : I7], [I7], [I7], [IV7], [IV7], [I7], [I7], [V7], [IV7], [I7], [turn() ? V7 : I7]];
+    if (!sev()) b = b.map((x) => x.map((t) => ({ off: t.off, q: { dom7: "maj", min7: "min", dim7: "dim" }[t.q] || t.q, lab: t.lab.replace(/7$/, "") })));
+    return b;
+  }
+  const sym = (t) => MB.chordSymbol(MB.mod(key() + t.off, 12), t.q, MB.prefersFlats(key()) || t.off === 6 && false);
+  function refresh() {
+    bars = build(); flat = []; start = [];
+    bars.forEach((b) => { start.push(flat.length); b.forEach((t) => flat.push(t)); });
+    let prev = null;
+    voic = flat.map((t) => { const pcs = MB.CHORDS[t.q].iv.map((i) => MB.mod(key() + t.off + i, 12)); let v; if (!prev) { let r = 48 + MB.mod(key() + t.off, 12); if (r < 52) r += 12; v = MB.chord(r, t.q); if (v.length === 3) v.push(r + 12); } else v = MB.voiceLead(prev, pcs, [52, 74]); prev = v; return v; });
+    $("bl-slots").innerHTML = bars.map((b, i) => `<div class="slot filled ${fnB(b[0])}${i === curBar ? " now" : ""}" data-i="${i}"><span class="bn">${i + 1}</span><b>${b.map(sym).join(" ")}</b><small>${b.map((t) => t.lab).join(" ")}</small></div>`).join("");
+    readout(); if (cv) cv.redraw();
+  }
+  function readout() {
+    const s = swing() / 100;
+    MB.stat("bl-swr", `${(s / (1 - s)).toFixed(2)} : 1 <small>${s > 0.66 && s < 0.68 ? "셋잇단" : s <= 0.5 ? "정박" : ""}</small>`);
+    const seqc = []; bars.forEach((b) => (b.length === 2 ? seqc.push(b[0], b[1]) : seqc.push(b[0], b[0])));
+    let ch = 0; for (let i = 0; i < seqc.length; i++) { const a = seqc[i], b = seqc[(i + 1) % seqc.length]; if (a.off !== b.off || a.q !== b.q) ch++; }
+    const secs = (48 * 60) / bpm();
+    MB.stat("bl-hr", `${ch}회 / 12마디 <small>(${((ch / secs) * 60).toFixed(1)}회/분)</small>`);
+    if (curBar >= 0) { const b = bars[curBar]; MB.stat("bl-bar", `${curBar + 1} / 12 <small>${b.map(sym).join(" ")}</small>`); } else MB.stat("bl-bar", "—");
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), f = H9.font();
+    const bw = (w - 24) / 12;
+    bars.forEach((b, i) => { ctx.fillStyle = H9.fnColor(P, fnB(b[0])); ctx.globalAlpha = i === curBar ? 0.95 : 0.35; ctx.fillRect(12 + i * bw + 1, 10, bw - 2, 18); });
+    ctx.globalAlpha = 1; ctx.fillStyle = P.text; ctx.font = `10px ${f}`; ctx.textAlign = "center";
+    bars.forEach((b, i) => ctx.fillText(String(i + 1), 12 + i * bw + bw / 2, 23));
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText("A (1–4)", 12, 42); ctx.fillText("A′ (5–8)", 12 + 4 * bw, 42); ctx.fillText("B (9–12)", 12 + 8 * bw, 42);
+    // 한 마디의 8분음표 위치
+    const s = swing() / 100, x0 = 20, x1 = w - 20, yy = h - 26, X = (beats) => x0 + ((x1 - x0) * beats) / 4;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(x1, yy); ctx.stroke();
+    for (let k = 0; k < 8; k++) {
+      const beat = Math.floor(k / 2), off = k % 2;
+      const xs = X(beat + off * 0.5), xw = X(beat + off * s);
+      ctx.strokeStyle = P.faint; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xs, yy - 6); ctx.lineTo(xs, yy + 6); ctx.stroke();
+      const on = k === curS;
+      ctx.fillStyle = on ? P.bad : P.accent; ctx.beginPath(); ctx.arc(xw, yy - 12, on ? 7 : off ? 4 : 5, 0, 2 * Math.PI); ctx.fill();
+    }
+    ctx.fillStyle = P.dim; ctx.font = `11px ${f}`; ctx.textAlign = "left"; ctx.fillText(`한 마디의 8분음표: 회색 눈금 = 정박, 보라 = 스윙 s = ${s.toFixed(2)}`, x0, h - 6);
+  }
+  refresh();
+  cv = MB.canvas("#cv-bl", draw, { height: 120 });
+  function onStep(step, time, dur) {
+    const bar = Math.floor(step / 8), s = step % 8, beat = 60 / bpm(), B = bars[bar]; if (!B) return;
+    const ci = B.length === 2 && s >= 4 ? 1 : 0, t = B[ci], v = voic[start[bar] + ci];
+    const R = 36 + MB.mod(key() + t.off, 12), iv = MB.CHORDS[t.q].iv, th = iv[1], fi = iv[2];
+    const ch = (d, vel) => MB.playChord(v, { when: time, dur: d, inst: "epiano", vel });
+    const c = comp(), chg = s === 0 || (B.length === 2 && s === 4);
+    if (c === "charleston" && (s === 0 || s === 3 || (B.length === 2 && s === 4))) ch(beat * 0.45, 0.45);
+    if (c === "backbeat" && (s === 2 || s === 6)) ch(beat * 0.5, 0.42);
+    if (c === "long" && chg) MB.playChord(v, { when: time, dur: beat * (B.length === 2 ? 2 : 4) * 0.97, inst: "organ", vel: 0.35 });
+    const bp = (m, d) => MB.play(m, { when: time, dur: d, inst: "bass", vel: 0.78 });
+    const bs = bassSel();
+    if (bs === "root" && (s === 0 || s === 4)) bp(R, beat * 1.8);
+    if (bs === "boogie") { const pat = [0, th, fi, fi + 2, fi + 3, fi + 2, fi, th]; bp(R + pat[s], dur * 0.9); }
+    if (bs === "walk" && s % 2 === 0) {
+      const q = s / 2, nb = bars[(bar + 1) % 12][0], nR = 36 + MB.mod(key() + nb.off, 12);
+      let n;
+      if (q === 3) { let tR = nR; while (tR - R > 6) tR -= 12; while (R - tR > 6) tR += 12; n = tR === R ? R + fi + 2 : tR + (tR > R ? -1 : 1); }
+      else if (B.length === 2) n = q === 0 ? R : q === 1 ? R + fi : R;
+      else n = R + [0, th, fi][q];
+      bp(n, beat * 0.9);
+    }
+    if (drums()) { MB.drum("hat", time, { vel: s % 2 === 0 ? 0.3 : 0.18 }); if (s === 0 || s === 4) MB.drum("kick", time, { vel: 0.8 }); if (s === 2 || s === 6) MB.drum("snare", time, { vel: 0.5 }); }
+  }
+  const clk = MB.Clock({
+    bpm: () => bpm(), div: 2, swing: () => swing() / 100, length: 96, onStep,
+    onUI(step) {
+      const bar = Math.floor(step / 8), s = step % 8; curS = s;
+      const B = bars[bar];
+      if (bar !== curBar) { curBar = bar; document.querySelectorAll("#bl-slots .slot").forEach((el, i) => el.classList.toggle("now", i === bar)); readout(); }
+      if (B && (s === 0 || (B.length === 2 && s === 4))) { const ci = B.length === 2 && s >= 4 ? 1 : 0; kb.set(voic[start[bar] + ci]); kb.set([36 + MB.mod(key() + B[ci].off, 12)], "root"); }
+      cv.redraw();
+    },
+  });
+  MB.playButton("bl-play", () => { curBar = -1; clk.start(0); }, () => {
+    clk.stop(); curBar = -1; curS = -1; kb.clear(); kb.clear("root");
+    document.querySelectorAll("#bl-slots .slot.now").forEach((el) => el.classList.remove("now")); readout(); cv.redraw();
+  });
+  keySel.addEventListener("change", refresh);
+})();
+
+/* ---------------------------------------------------------------- 7. 카포 계산기 */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const SH = { C: [48, 52, 55, 60, 64], G: [43, 47, 50, 55, 59, 67], D: [50, 57, 62, 66], A: [45, 52, 57, 61, 64], E: [40, 47, 52, 56, 59, 64], Am: [45, 52, 57, 60, 64], Em: [40, 47, 52, 55, 59, 64], Dm: [50, 57, 62, 65], F: [41, 48, 53, 57, 60, 65], Bm: [47, 54, 59, 62, 66], "F♯m": [42, 49, 54, 57, 61, 66], "C♯m": [49, 56, 61, 64, 68], B: [47, 54, 59, 63, 66], "G♯m": [44, 51, 56, 59, 63, 68] };
+  const BARRE = ["F", "Bm", "F♯m", "C♯m", "B", "G♯m"];
+  const KEYSH = { C: ["C", "Dm", "Em", "F", "G", "Am"], G: ["G", "Am", "Bm", "C", "D", "Em"], D: ["D", "Em", "F♯m", "G", "A", "Bm"], A: ["A", "Bm", "C♯m", "D", "E", "F♯m"], E: ["E", "F♯m", "G♯m", "A", "B", "C♯m"] };
+  const KEYPC = { C: 0, G: 7, D: 2, A: 9, E: 4 };
+  const PROGS = { axis: [0, 4, 5, 3], doowop: [0, 5, 3, 4], sad: [5, 3, 0, 4], folk: [0, 3, 4, 0], royal: [3, 4, 2, 5] };
+  const shape = MB.seg("cp-shape", () => refresh());
+  const capo = MB.range("cp-capo", (v) => (v ? v + "프렛" : "없음"), () => refresh());
+  const progSel = $("cp-prog"), tgtSel = $("cp-target");
+  H9.fillKeys(tgtSel, false, 10);
+  const kb = MB.keyboard("#cp-kb", { lo: 40, hi: 84 });
+  let cv = null, cur = -1;
+  const shapes = () => PROGS[progSel.value].map((d) => KEYSH[shape()][d]);
+  const rootPc = (nm) => MB.mod(MB.parseNote(nm.replace("m", "") + "4"), 12);
+  const sound = (nm) => { const k = capo(), sk = MB.mod(KEYPC[shape()] + k, 12); return MB.chordSymbol(MB.mod(rootPc(nm) + k, 12), nm.endsWith("m") ? "min" : "maj", MB.prefersFlats(sk)); };
+  function refresh() {
+    const k = capo(), sk = MB.mod(KEYPC[shape()] + k, 12), sh = shapes();
+    $("cp-slots").innerHTML = sh.map((s, i) => `<div class="slot filled${i === cur ? " now" : ""}"><span class="bn">${i + 1}</span><b>${s}</b><small>→ ${sound(s)}</small></div>`).join("");
+    MB.stat("cp-key", `${MB.pcName(sk, MB.prefersFlats(sk))} 장조 <small>= T<sub>${k}</sub>(${shape()})</small>`);
+    MB.stat("cp-ratio", `${Math.pow(2, -k / 12).toFixed(3)} L₀ <small>주파수 ×${Math.pow(2, k / 12).toFixed(3)}</small>`);
+    const nb = sh.filter((s) => BARRE.includes(s)).length;
+    MB.stat("cp-barre", `${nb}개 <small>${sh.filter((s) => BARRE.includes(s)).join(", ") || "모두 개방 코드"}</small>`);
+    // 추천
+    const T = +tgtSel.value, opts = [];
+    Object.keys(KEYPC).forEach((S) => { const kk = MB.mod(T - KEYPC[S], 12); if (kk <= 7) { const s2 = PROGS[progSel.value].map((d) => KEYSH[S][d]); opts.push({ S, kk, nb: s2.filter((x) => BARRE.includes(x)).length }); } });
+    opts.sort((a, b) => a.nb - b.nb || a.kk - b.kk);
+    $("cp-opts").innerHTML = opts.slice(0, 4).map((o) => `<button class="btn" data-s="${o.S}" data-k="${o.kk}">${o.S} 모양 · 카포 ${o.kk} <small>(바레 ${o.nb})</small></button>`).join("");
+    if (cv) cv.redraw();
+  }
+  $("cp-opts").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; shape.set(b.dataset.s, false); capo.set(+b.dataset.k, false); refresh(); });
+  progSel.addEventListener("change", refresh); tgtSel.addEventListener("change", refresh);
+  function draw(ctx, w, h) {
+    const P = MB.palette(), f = H9.font(), k = capo();
+    const x0 = 34, x1 = w - 14, X = (n) => x0 + ((x1 - x0) * (1 - Math.pow(2, -n / 12))) / 0.5;
+    const y0 = 14, y1 = h - 40;
+    ctx.fillStyle = P.surface; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+    [3, 5, 7, 9].forEach((n) => { ctx.fillStyle = P.border; ctx.beginPath(); ctx.arc((X(n - 1) + X(n)) / 2, (y0 + y1) / 2, 5, 0, 2 * Math.PI); ctx.fill(); });
+    [0.35, 0.65].forEach((r) => { ctx.beginPath(); ctx.arc((X(11) + X(12)) / 2, y0 + (y1 - y0) * r, 5, 0, 2 * Math.PI); ctx.fill(); });
+    for (let n = 0; n <= 12; n++) { ctx.strokeStyle = n === 0 ? P.text : P.dim; ctx.lineWidth = n === 0 ? 5 : 1.5; ctx.beginPath(); ctx.moveTo(X(n), y0); ctx.lineTo(X(n), y1); ctx.stroke(); if (n) { ctx.fillStyle = P.faint; ctx.font = `10px ${f}`; ctx.textAlign = "center"; ctx.fillText(String(n), (X(n - 1) + X(n)) / 2, y1 + 13); } }
+    for (let s = 0; s < 6; s++) { const y = y0 + 6 + ((y1 - y0 - 12) * s) / 5; ctx.strokeStyle = P.dim; ctx.lineWidth = 0.8 + (s * 0.35); ctx.beginPath(); ctx.moveTo(x0 - 8, y); ctx.lineTo(x1, y); ctx.stroke(); }
+    ctx.fillStyle = P.dim; ctx.font = `11px ${f}`; ctx.textAlign = "right"; ["e", "B", "G", "D", "A", "E"].forEach((s, i) => ctx.fillText(s, x0 - 12, y0 + 10 + ((y1 - y0 - 12) * i) / 5));
+    if (k > 0) {
+      const cx = X(k) - Math.min(9, (X(k) - X(k - 1)) * 0.3);
+      ctx.fillStyle = P.accent; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(cx - 5, y0 - 6, 10, y1 - y0 + 12, 4) : ctx.rect(cx - 5, y0 - 6, 10, y1 - y0 + 12); ctx.fill();
+      ctx.globalAlpha = 0.12; ctx.fillRect(x0, y0, cx - x0, y1 - y0); ctx.globalAlpha = 1;
+    }
+    ctx.fillStyle = P.text; ctx.font = `12px ${f}`; ctx.textAlign = "left";
+    ctx.fillText(`카포 ${k}: 울리는 길이 L₀·2^(−${k}/12) = ${Math.pow(2, -k / 12).toFixed(3)} L₀ (12프렛 = 정확히 0.5 L₀)`, x0, h - 6);
+  }
+  cv = MB.canvas("#cv-cp", draw, { aspect: 0.3, minHeight: 150, maxHeight: 200 });
+  refresh();
+  const clk = MB.Clock({
+    bpm: 92, div: 2, length: 32,
+    onStep(step, time, dur) {
+      const ci = Math.floor(step / 8), s = step % 8, notes = SH[shapes()[ci]].map((m) => m + capo());
+      const beat = 60 / 92;
+      if ([0, 2, 6].includes(s)) MB.playChord(notes, { when: time, inst: "pluck", strum: 0.018, dur: beat * 1.6, vel: s === 0 ? 0.75 : 0.55 });
+      if ([3, 5, 7].includes(s)) MB.playChord(notes.slice(-4).reverse(), { when: time, inst: "pluck", strum: 0.014, dur: beat, vel: 0.38 });
+    },
+    onUI(step) {
+      const ci = Math.floor(step / 8);
+      if (ci !== cur) { cur = ci; refresh(); kb.set(SH[shapes()[ci]].map((m) => m + capo())); }
+    },
+  });
+  MB.playButton("cp-play", () => { cur = -1; clk.start(0); }, () => { clk.stop(); cur = -1; kb.clear(); refresh(); }, ["▶ 스트럼 재생", "■ 정지"]);
+})();
+
+</script>
+</body>
+</html>

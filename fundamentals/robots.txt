@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://music.euiyun.com/fundamentals/sitemap.xml

@@ -1,0 +1,50 @@
+{
+  "origin": "https://music.euiyun.com",
+  "books": [
+    {
+      "id": "musicbook",
+      "code": "MUS",
+      "title": "MusicBook",
+      "subtitle": "음악 기초 교과서",
+      "headline": "귀로 듣고 수식으로 이해한다",
+      "description": "음, 화음, 리듬을 소리로 배웁니다. 배음과 음색, 조율의 수학, 협화와 음계, 화성과 코드 진행, 리듬 시퀀서, 신시사이저와 DSP까지 — 브라우저에서 직접 소리를 만들며 음악을 신호·집합·시계열로 이해합니다.",
+      "url": "https://musicbook.euiyun.com/",
+      "repo": "https://github.com/geniuskey/musicbook",
+      "field": "culture",
+      "status": "published",
+      "level": "입문",
+      "chapters": 18,
+      "simulators": 115,
+      "color": "#0c8599",
+      "colorDark": "#3bc9db",
+      "topics": [
+        "배음·음색",
+        "조율·협화",
+        "음계·화음",
+        "코드 진행",
+        "리듬·시퀀서",
+        "신시사이저·DSP"
+      ],
+      "motif": "music",
+      "featured": [
+        {
+          "title": "16배음 가산 합성기",
+          "desc": "배음 막대를 끌어 사인파를 플루트·클라리넷·금관으로",
+          "link": "chapters/harmonics.html#sim-additive",
+          "image": "img/sims/musicbook-sim-additive.jpg"
+        },
+        {
+          "title": "코드 진행 놀이터",
+          "desc": "기능별 색 패드로 진행을 짜고 오선보와 건반으로 듣기",
+          "link": "chapters/progressions.html#sim-prg-playground",
+          "image": "img/sims/musicbook-sim-prg-playground.jpg"
+        }
+      ],
+      "slug": "fundamentals",
+      "sourceDirectory": "../musicbook",
+      "repository": "geniuskey/musicbook",
+      "legacyUrl": "https://musicbook.euiyun.com/",
+      "stage": "fundamentals"
+    }
+  ]
+}

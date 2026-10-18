@@ -1,0 +1,13 @@
+{
+  "id": "musicbooks",
+  "title": "MusicBooks",
+  "description": "음악 기초부터 기타·피아노·드럼까지, 직접 듣고 연주하며 배우는 음악 교과서 서가.",
+  "url": "https://music.euiyun.com/",
+  "repo": "https://github.com/geniuskey/music-books",
+  "field": "music",
+  "status": "published",
+  "domain": "music.euiyun.com",
+  "books": [
+    "fundamentals/book.json"
+  ]
+}

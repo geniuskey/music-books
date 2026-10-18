@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>선율과 알고리즘 작곡 · MusicBook</title>
+<meta name="description" content="선율을 (음높이, 시작, 길이) 시계열로 보고 윤곽·음정 통계·조성 위계를 계산한다. 동기 변형, 마르코프 체인, 1/f 잡음, 제약 탐색, 대위법 규칙 검사기, 카논까지 직접 만들고 듣는다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/melody.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="선율과 알고리즘 작곡 · MusicBook">
+<meta property="og:description" content="선율을 (음높이, 시작, 길이) 시계열로 보고 윤곽·음정 통계·조성 위계를 계산한다. 동기 변형, 마르코프 체인, 1/f 잡음, 제약 탐색, 대위법 규칙 검사기, 카논까지 직접 만들고 듣는다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/melody.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"선율과 알고리즘 작곡","name":"선율과 알고리즘 작곡 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/melody.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/melody.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":13,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"선율을 (음높이, 시작, 길이) 시계열로 보고 윤곽·음정 통계·조성 위계를 계산한다. 동기 변형, 마르코프 체인, 1/f 잡음, 제약 탐색, 대위법 규칙 검사기, 카논까지 직접 만들고 듣는다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"13 선율과 알고리즘 작곡","item":"https://music.euiyun.com/fundamentals/chapters/melody.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .mel-grid { cursor: crosshair; touch-action: none; }
+  .mel-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mel-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .mel-wide { grid-column: 1 / -1; }
+  .mel-wide .v { font-size: 14px !important; word-break: break-all; line-height: 1.45; }
+  .mel-txt { width: 100%; min-height: 72px; box-sizing: border-box; font: 12px/1.45 var(--mono); background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; resize: vertical; }
+  .mel-msgs { margin: 0; padding: 0 0 0 1.1em; font-size: 13.5px; line-height: 1.55; }
+  .mel-msgs li.e { color: var(--bad); }
+  .mel-msgs li.w { color: var(--warn); }
+  .mel-lanebtns .btn { padding: 5px 9px; font-size: 13px; font-family: var(--mono); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="melody">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 13</div>
+    <h1>선율과 알고리즘 작곡</h1>
+    <p class="lead">선율(melody)은 시간 축 위에 놓인 음높이들의 수열입니다. 공학의 언어로 바꾸면 <b>(음높이, 시작 시각, 길이)</b> 세 값으로 된 이산 시계열이고, 그래서 시계열에 쓰는 도구, 곧 차분, 히스토그램, 상관, 스펙트럼, 확률 모델, 제약 탐색을 그대로 쓸 수 있습니다. 이 장에서는 선율을 측정하고 변형하고 생성해 봅니다. 사람이 쓴 선율이 왜 '선율답게' 들리는지 숫자로 확인하고, 그 숫자를 뒤집어 기계가 선율을 쓰게 합니다.</p>
+    <ul class="objectives">
+      <li>선율을 음정열·윤곽(파슨스 코드)으로 바꾸고, 순차/도약 비율과 '도약 후 반전'을 계산한다.</li>
+      <li>크룸핸즐–케슬러 조성 프로파일로 크룸핸즐–슈뮤클러 조 판정 알고리즘을 구현하고 한계를 설명한다.</li>
+      <li>동기의 이조·전위·역행·역행전위·확대·축소·반복 진행을 연산으로 정의하고 듣는다.</li>
+      <li>n차 마르코프 체인을 학습시켜 선율을 생성하고, 희소성·엔트로피·과적합을 설명한다.</li>
+      <li>백색·브라운·1/f 잡음 선율의 스펙트럼과 자기상관을 비교한다(Voss &amp; Clarke 1975).</li>
+      <li>음계·화음·종지 규칙과 2성 대위법 규칙을 제약 충족 문제로 보고 백트래킹으로 푼다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="series">
+    <h2>선율은 시계열이다</h2>
+    <p>악보에서 선율 한 줄을 떼어 내면 남는 것은 음표의 목록입니다. 각 음표는 음높이 \(p_i\)(MIDI 번호, 16장), 시작 시각 \(o_i\)(박 단위), 길이 \(d_i\)로 기술됩니다. 리듬은 11장에서 다뤘으니, 이 장은 주로 음높이 쪽, 그중에서도 <b>이웃한 음 사이의 변화</b>에 집중합니다.</p>
+    <div class="formula">$$\mathcal{M} = \{(p_i,\, o_i,\, d_i)\}_{i=1}^{N}, \qquad \Delta_i = p_{i+1}-p_i, \qquad c_i = \operatorname{sgn}(\Delta_i) \in \{-1, 0, +1\}$$
+      <div class="where">\(\Delta_i\): <span class="term">음정열</span><span class="en">(Interval Sequence)</span>, 반음 단위. 음정열은 이조(transposition)에 대해 불변이다. 모든 \(p_i\)에 상수를 더해도 \(\Delta_i\)는 그대로다. \(c_i\): <span class="term">윤곽</span><span class="en">(Contour)</span>. 음정의 크기까지 버리고 방향만 남긴 것으로, 음정열보다도 더 거친 불변량이다.</div>
+    </div>
+    <p>윤곽을 문자로 적은 것이 <span class="term">파슨스 코드</span><span class="en">(Parsons Code)</span>입니다. 데니스 파슨스(Denys Parsons)는 1975년 『The Directory of Tunes and Musical Themes』에서 첫 음을 <code>*</code>, 이후 음을 올라감 <code>U</code>, 내려감 <code>D</code>, 반복 <code>R</code>로 적어 약 1만 5천 개의 클래식 주제를 사전처럼 찾게 했습니다. 정보량은 음당 \(\log_2 3 \approx 1.58\)비트에 불과하지만 16음 정도면 대부분의 곡이 구별됩니다(\(3^{15} \approx 1.4\times10^7\)). 허밍으로 곡을 찾는 <b>QBH</b><span class="en">(Query by Humming, Ghias et al. 1995)</span>의 초기 시스템이 바로 이 표현을 썼습니다. 사람이 흥얼거릴 때 음정은 틀려도 방향은 대체로 맞기 때문입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="환희의 송가 첫 악구의 피아노 롤과 파슨스 코드">
+        <g id="mel-fig1"></g>
+      </svg>
+      <figcaption><b>그림 13-1.</b> 베토벤 「환희의 송가」(교향곡 9번, 1824) 첫 악구(다장조로 옮김)의 피아노 롤. 가로는 시간(박), 세로는 음높이. 위에는 각 음의 파슨스 기호, 막대 사이에는 음정 \(\Delta_i\)(반음)를 적었다. 14개 음정 중 도약(3반음 이상)은 한 번도 없다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-mel-roll">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>피아노 롤 편집기와 선율 통계</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-roll" class="mel-grid"></canvas>
+          <canvas id="cv-roll-hist"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>예제</span>
+            <div class="mel-presets" id="roll-presets">
+              <button class="btn" data-p="ode">환희의 송가</button><button class="btn" data-p="twinkle">반짝반짝</button><button class="btn" data-p="frere">자크 형제</button><button class="btn" data-p="auclair">달빛 아래</button><button class="btn" data-p="random">무작위</button><button class="btn" data-p="clear">지우기</button>
+            </div>
+          </div>
+          <label class="ctrl"><span>음계</span><select id="roll-scale"></select></label>
+          <label class="ctrl"><span>으뜸음</span><select id="roll-root"></select></label>
+          <div class="ctrl"><span>길이(8분음표 칸)</span><div class="seg" id="roll-n"><button data-value="16">16칸</button><button data-value="32" class="on">32칸</button></div></div>
+          <label class="ctrl"><span>템포 <output id="roll-bpm-out"></output></span><input type="range" id="roll-bpm" min="50" max="180" value="104"></label>
+          <label class="ctrl"><span>악기</span><select id="roll-inst"></select></label>
+          <div class="btn-row"><button class="btn primary" id="roll-play">▶ 재생</button></div>
+          <div class="ctrl"><span>텍스트(음이름:박)</span><textarea id="roll-txt" class="mel-txt" spellcheck="false"></textarea>
+            <div class="btn-row"><button class="btn" id="roll-export">내보내기</button><button class="btn" id="roll-import">불러오기</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat mel-wide"><span class="k">파슨스 코드</span><span class="v" id="roll-parsons">—</span></div>
+        <div class="stat"><span class="k">동음 / 순차 / 도약</span><span class="v" id="roll-steps">—</span></div>
+        <div class="stat"><span class="k">평균 |음정|</span><span class="v" id="roll-mean">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="roll-range">—</span></div>
+        <div class="stat"><span class="k">도약(≥5) 후 반전</span><span class="v" id="roll-gap">—</span></div>
+      </div>
+      <div class="sim-note">격자를 클릭하면 음이 생기고, 누른 채 오른쪽으로 끌면 길어집니다. 있는 음을 다시 클릭하면 지워집니다(한 번에 한 음만 울리는 단선율). 세로 칸은 고른 음계의 두 옥타브라서, 음계를 바꾸면 같은 그림이 다른 선법으로 다시 읽힙니다(장조 → 도리안 → 5음음계). 아래 그래프는 음정 히스토그램(−12…+12 반음)으로, 보라는 순차(±1–2), 청록은 도약입니다. 해볼 것: ① 예제 곡들과 '무작위'의 히스토그램 모양 비교. ② 무작위 선율에서 도약 몇 개를 순차로 고쳐 가며 소리가 어떻게 '노래다워'지는지 듣기. 텍스트 형식은 <code>E4:1 D4:0.5 r:0.5</code>(음이름:박, r은 쉼표)이고, 고쳐서 '불러오기'로 되돌릴 수 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="stats">
+    <h2>걸음과 도약: 선율의 통계</h2>
+    <p>세계 여러 지역의 민요와 성가를 대량으로 세어 보면 놀랄 만큼 일관된 규칙성이 나옵니다. 데이비드 휴런(David Huron)은 『Sweet Anticipation』(2006)에서 이를 다섯 가지로 요약했습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>경향</th><th>내용</th><th>근거</th></tr></thead>
+      <tbody>
+        <tr><td>음높이 근접 <span class="en">(Pitch Proximity)</span></td><td>작은 음정이 큰 음정보다 훨씬 흔하다. 음정 크기의 분포는 대략 지수적으로 감소한다.</td><td>Vos &amp; Troost 1989, 여러 민요 말뭉치</td></tr>
+        <tr><td>순차 하행 <span class="en">(Step Declination)</span></td><td>작은 음정은 내려가는 쪽이, 큰 음정은 올라가는 쪽이 많다.</td><td>Vos &amp; Troost 1989</td></tr>
+        <tr><td>순차 관성 <span class="en">(Step Inertia)</span></td><td>순차 진행 뒤에는 같은 방향으로 계속 가는 경우가 약간 더 많다.</td><td>Huron 2006</td></tr>
+        <tr><td>선율 회귀 <span class="en">(Melodic Regression)</span></td><td>음역 가장자리에 있는 음 다음에는 가운데 쪽으로 돌아오는 음이 온다. 큰 도약 뒤의 '반전'은 대부분 이것으로 설명된다.</td><td>von Hippel &amp; Huron 2000</td></tr>
+        <tr><td>선율 아치 <span class="en">(Melodic Arch)</span></td><td>악구는 평균적으로 올라갔다가 내려오는 아치 모양이다.</td><td>Huron 1996, 에센 민요 말뭉치 6천여 곡</td></tr>
+      </tbody>
+    </table></div>
+    <p>음악 이론에는 오래전부터 "큰 도약 뒤에는 반대 방향으로 순차 진행해 빈 곳을 메운다"는 <span class="term">갭–필</span><span class="en">(Gap-fill, Meyer 1973)</span> 규칙이 있었습니다. 폰 히펠과 휴런(2000)은 이 현상의 상당 부분이 작곡가의 의도 없이도 생긴다는 것을 보였습니다. 선율의 음이 평균 \(\mu\), 표준편차 \(\sigma\)인 음역(tessitura) 안에서 무작위로 뽑힌다고만 가정해도, 큰 도약은 대개 음을 음역 가장자리로 데려가므로 다음 음은 확률적으로 가운데 쪽, 즉 반대 방향에 놓이게 됩니다.</p>
+    <div class="formula">$$P(\text{반전} \mid p_i,\ p_{i-1}&lt;p_i) \;=\; P(p_{i+1} < p_i) \;=\; \Phi\!\left(\frac{p_i-\mu}{\sigma}\right) \qquad (p_i > \mu,\ \text{독립 정규 가정})$$
+      <div class="where">\(\Phi\): 표준정규 누적분포. 음이 평균보다 \(1\sigma\) 위에 있으면 다음 음이 아래일 확률은 84%다. 앞선 음에서 상승해 도착했을 때 이 하행은 방향 반전이다. 현재 음만 고정하고 이전·다음 음을 독립적으로 뽑으면 반전 확률은 2F(1−F)이며 F=Φ((pᵢ−μ)/σ)다. 도약 크기와 무관하게 '어디에 도착했는가'가 반전을 예측한다는 것이 이 모델의 핵심이며, 실제 말뭉치에서 음역 중앙을 <b>가로질러</b> 도약한 경우에는 반전 경향이 크게 약해진다는 것이 그 증거였다.</div>
+    </div>
+    <p>아래 표는 이 장에서 쓰는 공유 저작물 다섯 곡의 음정을 이 페이지의 스크립트가 직접 센 결과입니다. 표본은 작지만 '순차가 대부분'이라는 경향은 분명합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>곡</th><th class="num">음 수</th><th class="num">동음</th><th class="num">순차(1–2)</th><th class="num">도약(3–4)</th><th class="num">큰 도약(≥5)</th><th class="num">평균 |Δ|</th></tr></thead>
+      <tbody id="mel-stats"></tbody>
+    </table></div>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 순차 비율이 높다는 것은 음높이 시계열의 1차 차분이 작은 값에 몰려 있다는 뜻이고, 그래서 선율은 자기상관이 큰 '저역 통과된' 신호에 가깝다. 반대로 매 음을 독립적으로 뽑으면(백색 잡음) 차분 분포가 넓게 퍼지고, 귀에는 선율이 아니라 무작위 음표 나열로 들린다. 7절에서 이 직관을 스펙트럼으로 정량화한다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="tonal">
+    <h2>조성 위계와 키 찾기</h2>
+    <p>장조 선율에서 12개 음이 모두 같은 대접을 받지는 않습니다. 크룸핸즐과 케슬러(Krumhansl &amp; Kessler 1982)는 <span class="term">탐침음 실험</span><span class="en">(Probe-tone Paradigm)</span>으로 이를 측정했습니다. 먼저 장조를 확립하는 짧은 맥락(음계나 종지)을 들려주고 이어서 12개 반음 중 하나를 들려준 뒤, 그 음이 맥락에 "얼마나 잘 맞는지"를 1–7점으로 평가하게 했습니다. 평균 점수가 아래의 <b>조성 프로파일</b>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="크룸핸즐-케슬러 장조와 단조 프로파일">
+        <g id="mel-fig2"></g>
+      </svg>
+      <figcaption><b>그림 13-2.</b> 크룸핸즐–케슬러 프로파일(1982). 가로는 으뜸음에서 잰 반음 수. 장조: 으뜸음(6.35) &gt; 딸림음(5.19) &gt; 가온음(4.38) &gt; 버금딸림음(4.09) &gt; 나머지 음계음 &gt; 음계 밖의 음. 으뜸화음 1·3·5음이 꼭대기를 이루는 <span class="term">조성 위계</span><span class="en">(Tonal Hierarchy)</span>다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>반음</th><th class="num">0</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th><th class="num">9</th><th class="num">10</th><th class="num">11</th></tr></thead>
+      <tbody>
+        <tr><td>장조</td><td class="num"><b>6.35</b></td><td class="num">2.23</td><td class="num">3.48</td><td class="num">2.33</td><td class="num">4.38</td><td class="num">4.09</td><td class="num">2.52</td><td class="num"><b>5.19</b></td><td class="num">2.39</td><td class="num">3.66</td><td class="num">2.29</td><td class="num">2.88</td></tr>
+        <tr><td>단조</td><td class="num"><b>6.33</b></td><td class="num">2.68</td><td class="num">3.52</td><td class="num">5.38</td><td class="num">2.60</td><td class="num">3.53</td><td class="num">2.54</td><td class="num"><b>4.75</b></td><td class="num">3.98</td><td class="num">2.69</td><td class="num">3.34</td><td class="num">3.17</td></tr>
+      </tbody>
+    </table></div>
+    <p>크룸핸즐–슈뮤클러 <span class="term">키 찾기 알고리즘</span><span class="en">(Krumhansl–Schmuckler Key-finding, Krumhansl 1990)</span>은 이 프로파일을 템플릿으로 씁니다. 선율의 음높이 클래스별 <b>총 길이</b>를 12차원 벡터 \(\mathbf{x}\)로 만들고, 프로파일을 12가지로 회전시킨 24개 템플릿(장조 12, 단조 12) 각각과의 피어슨 상관을 구해 최댓값의 조를 고릅니다. 정합 필터(matched filter) 또는 템플릿 매칭과 같은 발상입니다.</p>
+    <div class="formula">$$r_{k} = \frac{\sum_{i=0}^{11}(x_i-\bar x)(y_{k,i}-\bar y)}{\sqrt{\sum_i (x_i-\bar x)^2\,\sum_i (y_{k,i}-\bar y)^2}}, \qquad y_{k,i} = K\big[(i-k) \bmod 12\big], \qquad \hat k = \arg\max_k r_k$$
+      <div class="where">\(K\): 장조 또는 단조 프로파일, \(k\): 후보 으뜸음. 길이 가중치를 쓰는 이유: 오래 울린 음이 조성 판단에 더 큰 영향을 준다는 지각 실험 결과를 반영한다.</div>
+    </div>
+
+    <div class="sim" id="sim-mel-key">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>크룸핸즐–슈뮤클러 키 찾기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-key"></canvas>
+          <div class="mb-kb short" id="kb-key"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>예제 곡 재생(들으며 판정)</span>
+            <div class="mel-presets" id="key-presets">
+              <button class="btn" data-p="ode">환희의 송가 (D)</button><button class="btn" data-p="green">그린슬리브스</button><button class="btn" data-p="twinkle">반짝반짝 (G)</button><button class="btn" data-p="frere">자크 형제 (F)</button><button class="btn" data-p="white">흰 건반 무작위</button><button class="btn" data-p="whole">온음음계</button>
+            </div>
+          </div>
+          <div class="ctrl"><span>가중치</span><div class="seg" id="key-w"><button data-value="dur" class="on">길이</button><button data-value="cnt">횟수</button></div></div>
+          <div class="btn-row"><button class="btn" id="key-stop">■ 정지</button><button class="btn" id="key-clear">초기화</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">판정한 조</span><span class="v" id="key-best">—</span></div>
+        <div class="stat"><span class="k">2위</span><span class="v" id="key-2nd">—</span></div>
+        <div class="stat"><span class="k">음 개수 / 총 길이</span><span class="v" id="key-n">—</span></div>
+      </div>
+      <div class="sim-note">건반(또는 <kbd>A</kbd>–<kbd>K</kbd> 키)을 누르면 누른 시간만큼 해당 음높이 클래스에 쌓입니다. 위 막대는 입력 히스토그램, 회색 점은 1위 조의 프로파일(크기 맞춤)입니다. 아래는 24개 조의 상관계수 \(r\)로, 위 줄이 장조, 아래 줄이 단조이며 5도권 순서로 놓았습니다(같은 세로줄이 나란한조). 예제 곡을 재생하면 듣는 동안 판정이 어떻게 바뀌는지 보입니다. 해볼 것: 다–미–솔만 누르면 C 장조, 여기에 G♯을 넣으면 A 단조 쪽으로 넘어가는지. '흰 건반 무작위'에서 C 장조와 A 단조의 \(r\)이 얼마나 비슷한지.</div>
+    </div>
+    <div class="callout warn"><strong>한계</strong> 이 방법은 음의 <b>순서</b>를 보지 않는다. 같은 음들을 섞어도 결과가 같다. 그래서 나란한조(C 장조/A 단조)처럼 음 집합이 같은 조를 구별하는 데 약하고, 짧은 구간에서는 흔들린다. 템펄리(Temperley 1999, "What's Key for Key?")는 프로파일을 수정하고 조 전환에 벌점을 주는 동적 계획법으로 정확도를 높였다. 실제 MIR(음악 정보 검색) 시스템은 오디오의 크로마 벡터(chroma)에 같은 템플릿 매칭을 쓰거나, 은닉 마르코프 모델·신경망으로 시간 맥락을 함께 본다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="motif">
+    <h2>동기와 그 변형</h2>
+    <p>긴 곡도 대부분 몇 개의 짧은 <span class="term">동기</span><span class="en">(Motif)</span>를 변형해 짜 맞춘 것입니다. 베토벤 교향곡 5번 1악장은 네 음짜리 '짧–짧–짧–길' 동기 하나로 500마디 가까이를 끌고 갑니다. 변형은 음높이–시간 평면 위의 기하 변환으로 정확히 정의됩니다.</p>
+    <div class="formula">$$T_n:\ p \mapsto p+n, \qquad I_c:\ p \mapsto 2c-p, \qquad R:\ (p_i,d_i) \mapsto (p_{N+1-i},\,d_{N+1-i}), \qquad A_s:\ d_i \mapsto s\,d_i$$
+      <div class="where">\(T_n\): 이조(transposition), \(I_c\): 음 \(c\)를 축으로 한 전위(inversion, 음정 부호 반전), \(R\): 역행(retrograde, 시간 반전), \(A_s\): 확대(\(s=2\), augmentation)·축소(\(s=\tfrac12\), diminution). \(\{P, I, R, RI\}\)는 합성에 대해 닫혀 있고 각 원소가 자기 역원인 클라인 4원군을 이룬다(\(I\circ I = R\circ R = P\), \(I\circ R = R\circ I = RI\)). 12음 기법의 '12×12 행렬'은 이 군에 이조 12개를 곱한 48개 형태를 표로 만든 것이다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="원형, 전위, 역행, 역행전위의 기하학적 관계">
+        <g id="mel-fig3"></g>
+      </svg>
+      <figcaption><b>그림 13-3.</b> 음높이–시간 평면에서 본 네 가지 형태. 전위는 가로축(음높이 축)에 대한 대칭, 역행은 세로축(시간 축)에 대한 대칭, 역행전위는 180° 회전이다. 음정열 \(\Delta\)로 쓰면 \(I\)는 부호 반전, \(R\)은 순서를 뒤집고 부호 반전, \(RI\)는 순서만 뒤집기다.</figcaption>
+    </figure>
+    <p>조성 음악에서는 <b>반음 단위의 정확한 전위</b>보다 <b>음계 안에서의 전위</b>가 더 자연스럽게 들립니다. 장3도(4반음)를 위로 뛰는 동기를 음계 안에서 전위하면 3도 아래로 가되 그 3도는 장3도일 수도 단3도일 수도 있습니다. 음계 도수 \(s_i\)로 바꿔 \(s \mapsto 2s_0 - s\)를 하는 셈입니다. <span class="term">반복 진행</span><span class="en">(Sequence)</span>은 동기를 음계 도수 몇 칸씩 옮겨 가며 되풀이하는 것으로, 바로크 음악의 단골 기법입니다.</p>
+
+    <div class="sim" id="sim-mel-motif">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>동기 변형기: P · T · I · R · RI · 확대 · 축소 · 반복 진행</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-motif"></canvas>
+          <div class="mb-kb short" id="kb-motif"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>동기</span>
+            <div class="mel-presets" id="mo-presets">
+              <button class="btn" data-p="fate">운명(베토벤 5번)</button><button class="btn" data-p="bach">B–A–C–H</button><button class="btn" data-p="ode">환희의 송가 머리</button><button class="btn" data-p="own">자작 동기</button>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="mo-rec"> 건반으로 새 동기 녹음</label>
+          <div class="ctrl"><span>변형 기준</span><div class="seg" id="mo-mode"><button data-value="dia" class="on">음계 안(조성적)</button><button data-value="chr">반음(실음정)</button></div></div>
+          <label class="ctrl"><span>이조 <output id="mo-tn-out"></output></span><input type="range" id="mo-tn" min="-12" max="12" value="5"></label>
+          <label class="ctrl"><span>반복 진행 간격 <output id="mo-seq-out"></output></span><input type="range" id="mo-seq" min="-3" max="3" value="-1"></label>
+          <label class="ctrl"><span>템포 <output id="mo-bpm-out"></output></span><input type="range" id="mo-bpm" min="60" max="160" value="108"></label>
+          <div class="ctrl"><span>한 줄씩 듣기</span><div class="btn-row mel-lanebtns" id="mo-lanes"></div></div>
+          <div class="btn-row"><button class="btn primary" id="mo-all">▶ 모두 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">원형 음정열</span><span class="v" id="mo-iv">—</span></div>
+        <div class="stat"><span class="k">전위 음정열</span><span class="v" id="mo-iv-i">—</span></div>
+        <div class="stat"><span class="k">조성 / 전위 축</span><span class="v" id="mo-key">—</span></div>
+      </div>
+      <div class="sim-note">각 줄이 하나의 변형입니다(왼쪽 라벨). 같은 색 막대 묶음을 귀로 비교해 보세요. 전위와 역행은 그림으로는 대칭이 뚜렷하지만 귀로는 원형과 '같은 동기'로 잘 들리지 않는 경우가 많습니다. 리듬이 함께 뒤집히는 역행은 특히 그렇습니다. 반대로 이조와 반복 진행은 바로 알아듣습니다. 반음 기준 이조는 반음 음정열을 보존합니다. 음계 안의 반복 진행은 도수 간격·윤곽을 보존하지만 C–E–G→D–F–A처럼 반음 간격은 +4,+3에서 +3,+4로 바뀔 수 있습니다. '건반으로 새 동기 녹음'을 켜고 건반을 누르면 동기를 새로 입력합니다(최대 8음, 누른 시간을 16분음표 단위로 양자화). '음계 안' 기준에서 음계 밖의 음(예: B–A–C–H의 B♭)은 바로 아래 음계음에 반음 변화가 붙은 것으로 처리합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="phrase">
+    <h2>악구: 질문과 대답</h2>
+    <p>동기가 단어라면 <span class="term">악구</span><span class="en">(Phrase)</span>는 문장입니다. 고전 시대 선율의 가장 흔한 틀은 두 가지입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>형식</th><th>구조(마디)</th><th>끝맺음</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>악절 <span class="en">(Period)</span></td><td>앞악구 4 + 뒷악구 4</td><td>앞: 반종지(V에서 멈춤, '질문') · 뒤: 정격종지(V→I, '대답')</td><td>환희의 송가 첫 8마디, 반짝반짝 작은 별</td></tr>
+        <tr><td>악문 <span class="en">(Sentence)</span></td><td>기본 동기 2 + 반복 2 + 전개 4</td><td>전개부에서 동기를 쪼개 가속한 뒤 종지</td><td>베토벤 피아노 소나타 1번 첫머리</td></tr>
+        <tr><td>두도막 / 세도막</td><td>a a′ b a′ (각 4마디)</td><td>b에서 대조, 마지막 a′에서 정격종지</td><td>환희의 송가 16마디 전체, 달빛 아래</td></tr>
+      </tbody>
+    </table></div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="환희의 송가의 a a' b a' 악구 구조">
+        <g fill="none">
+          <rect x="20" y="60" width="180" height="56" rx="10" class="f-acc-soft"/>
+          <rect x="210" y="60" width="180" height="56" rx="10" class="f-acc2-soft"/>
+          <rect x="400" y="60" width="180" height="56" rx="10" class="f-elev"/>
+          <rect x="590" y="60" width="180" height="56" rx="10" class="f-acc2-soft"/>
+        </g>
+        <text x="110" y="85" text-anchor="middle" class="t-acc">a</text><text x="110" y="105" text-anchor="middle" class="t-dim">1–4마디 · 끝음 D(2음)</text>
+        <text x="300" y="85" text-anchor="middle" class="t-acc" style="fill:var(--accent-2)">a′</text><text x="300" y="105" text-anchor="middle" class="t-dim">5–8마디 · 끝음 C(1음)</text>
+        <text x="490" y="85" text-anchor="middle" class="t">b</text><text x="490" y="105" text-anchor="middle" class="t-dim">9–12마디 · 대조, 딸림음 G</text>
+        <text x="680" y="85" text-anchor="middle" class="t-acc" style="fill:var(--accent-2)">a′</text><text x="680" y="105" text-anchor="middle" class="t-dim">13–16마디 · 끝음 C(1음)</text>
+        <path d="M110 56 Q205 6 300 56" class="s-line"/><text x="205" y="24" text-anchor="middle" class="t-dim">질문 → 대답 (악절)</text>
+        <path d="M490 56 Q585 6 680 56" class="s-line"/><text x="585" y="24" text-anchor="middle" class="t-dim">이탈 → 귀환</text>
+        <text x="110" y="142" text-anchor="middle" class="t-mono">반종지 (… V)</text>
+        <text x="300" y="142" text-anchor="middle" class="t-mono">정격종지 (V → I)</text>
+        <text x="490" y="142" text-anchor="middle" class="t-mono">V에 머묾</text>
+        <text x="680" y="142" text-anchor="middle" class="t-mono">정격종지 (V → I)</text>
+        <line x1="20" x2="770" y1="168" y2="168" class="s-axis"/>
+        <text x="20" y="188" class="t-dim">a와 a′는 처음 3마디가 같고 마지막 마디만 다르다. 끝음 하나(레 vs 도)가 '열림'과 '닫힘'을 가른다.</text>
+      </svg>
+      <figcaption><b>그림 13-4.</b> 「환희의 송가」 16마디의 악구 구조. 같은 재료가 끝음만 바꿔 질문과 대답이 된다. 이 구조는 피아노 롤 편집기(1절)의 '환희의 송가' 예제에서 끝 두 음을 바꿔 직접 확인할 수 있다.</figcaption>
+    </figure>
+    <p>알고리즘 작곡의 관점에서 악구 구조는 <b>장거리 의존성</b>입니다. 8마디 뒤의 음이 지금의 음과 같아야 한다는 제약은 다음 절의 마르코프 체인처럼 바로 앞 몇 음만 보는 모델로는 표현되지 않습니다. 그래서 실용적인 생성 시스템은 '구조(a a′ b a′)를 먼저 정하고 각 칸을 채운다'는 계층적 방식을 쓰거나, 긴 문맥을 보는 모델(어텐션 기반 Music Transformer, Huang et al. 2018)을 씁니다.</p>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="markov">
+    <h2>마르코프 체인으로 선율 만들기</h2>
+    <p>"다음 음은 바로 앞의 \(n\)개 음에만 의존한다"고 가정한 확률 모델이 \(n\)차 <span class="term">마르코프 체인</span><span class="en">(Markov Chain)</span>입니다. 정보 이론을 음악에 처음 적용한 시도들(Pinkerton 1956, "Information Theory and Melody"; Brooks et al. 1957)이 바로 이것이었고, 같은 해 힐러와 아이작슨의 「일리악 모음곡」<span class="en">(Illiac Suite, 1957)</span>은 컴퓨터가 마르코프 체인과 대위법 규칙으로 쓴 최초의 곡으로 기록됩니다.</p>
+    <div class="formula">$$\hat P(x_t = j \mid x_{t-n}^{t-1} = \mathbf{c}) = \frac{C(\mathbf{c}, j)}{\sum_{j'} C(\mathbf{c}, j')}, \qquad P_T(j\mid\mathbf c) \propto \hat P(j\mid\mathbf c)^{1/T}$$
+      <div class="where">\(C(\mathbf c, j)\): 학습 선율에서 문맥 \(\mathbf c\) 다음에 \(j\)가 나온 횟수(최대우도 추정). \(T\): <b>온도</b>. \(T\to0\)이면 항상 가장 흔한 다음 음(결정적), \(T=1\)이면 학습 분포 그대로, \(T>1\)이면 분포가 평평해져 의외의 음이 늘어난다.</div>
+    </div>
+    <p>모델이 얼마나 '예측 가능한' 선율을 만드는지는 <span class="term">엔트로피율</span><span class="en">(Entropy Rate)</span>과 <span class="term">퍼플렉서티</span><span class="en">(Perplexity)</span>로 잽니다. 생성 과정의 정상 엔트로피율은 생성 전이·백오프가 만드는 정상 문맥 분포로 가중해야 합니다. 이 실험의 표시는 학습 문맥 빈도로 가중한 조건부 엔트로피라서 온도 변경 후 정상 엔트로피율과 자동으로 같지는 않습니다. 퍼플렉서티 \(2^H\)는 "매 음마다 평균 몇 개의 후보 중에서 고르는 것과 같은가"로 읽습니다.</p>
+    <div class="formula">$$H = -\sum_{\mathbf c} \pi(\mathbf c) \sum_j P(j\mid\mathbf c)\log_2 P(j\mid\mathbf c), \qquad \mathrm{PP} = 2^{H}$$
+      <div class="where">\(\pi(\mathbf c)\): 문맥 \(\mathbf c\)의 출현 빈도. 상태 수가 \(S\)이면 \(n\)차 모델의 전이표는 \(S^n\times S\) 칸이다. \(S=8,\ n=3\)이면 4,096칸인데 동요 한 곡은 수십 개의 음뿐이라 대부분의 칸이 0이다. 이것이 <b>희소성</b>이고, 그 결과 고차 모델은 학습 곡을 거의 그대로 베낀다(Brooks et al. 1957이 이미 관찰한 현상).</div>
+    </div>
+
+    <div class="sim" id="sim-mel-markov">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>n차 마르코프 선율 생성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-mk-mat"></canvas>
+          <canvas id="cv-mk-roll"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>학습 곡</span><select id="mk-corpus"></select></label>
+          <div class="ctrl"><span>차수 n</span><div class="seg" id="mk-order"><button data-value="1" class="on">1차</button><button data-value="2">2차</button><button data-value="3">3차</button></div></div>
+          <label class="ctrl"><span>온도 T <output id="mk-temp-out"></output></span><input type="range" id="mk-temp" min="0" max="100" value="50"></label>
+          <label class="ctrl"><span>생성 길이 <output id="mk-len-out"></output></span><input type="range" id="mk-len" min="12" max="64" value="32"></label>
+          <div class="btn-row"><button class="btn" id="mk-gen">🎲 새로 생성</button><button class="btn primary" id="mk-play">▶ 재생</button></div>
+          <div class="btn-row"><button class="btn" id="mk-orig">▶ 학습 곡 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">상태 / 관측된 문맥</span><span class="v" id="mk-states">—</span></div>
+        <div class="stat"><span class="k">0 아닌 칸 비율</span><span class="v" id="mk-sparse">—</span></div>
+        <div class="stat"><span class="k">학습 문맥 가중 조건부 엔트로피 (온도 T)</span><span class="v" id="mk-h">—</span></div>
+        <div class="stat"><span class="k">학습 곡과 같은 5음 조각</span><span class="v" id="mk-copy">—</span></div>
+      </div>
+      <div class="sim-note">위: 전이 행렬 히트맵. 행은 문맥(1차면 바로 앞 음), 열은 다음 음이고, 진할수록 확률이 큽니다. 재생 중에는 지금 쓰인 문맥 행과 고른 열이 강조됩니다. 아래: 생성된 선율. 해볼 것: ① 1차 → 3차로 올리며 '학습 곡과 같은 5음 조각' 비율이 치솟는 것(과적합) 확인. ② 온도를 0 근처로 내리면 같은 고리를 맴도는 것, 3 가까이 올리면 학습 곡의 색채가 흐려지는 것. 모델: 음높이와 리듬을 따로 학습합니다(음높이는 n차, 음 길이는 1차 체인). 학습에 없던 문맥에 도달하면 한 차수 낮은 모델로 물러납니다(백오프). 선율 시작은 학습 곡 하나의 첫 n음입니다.</div>
+    </div>
+    <div class="callout deep"><strong>희소성과 평활화</strong> 학습에 없던 전이는 확률이 정확히 0이 되어 영원히 생성되지 않는다. 언어 모델에서 쓰는 라플라스(add-one) 평활화, 굿–튜링 추정, 카츠 백오프(Katz 1987), 크네저–나이 평활화가 모두 이 문제를 다룬다. 음악에서는 상태를 음높이 대신 <b>음정</b>이나 <b>음계 도수</b>로 바꾸면 이조 불변성 덕분에 같은 데이터로 훨씬 많은 전이를 볼 수 있다. Conklin &amp; Witten(1995)의 다중 관점 모델(multiple viewpoint)은 이런 여러 표현의 예측을 섞어 엔트로피를 낮췄다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="noise">
+    <h2>랜덤 워크와 1/f 선율</h2>
+    <p>보스와 클라크(Voss &amp; Clarke 1975, <i>Nature</i> 258)는 바흐에서 비틀스, 라디오 방송까지 여러 음악의 음량과 음높이 변동을 분석해, 그 파워 스펙트럼이 넓은 대역에서 \(1/f\)에 가깝다고 보고했습니다. 그리고 1978년 <i>JASA</i> 논문에서 백색·\(1/f\)·\(1/f^2\) 잡음으로 만든 선율을 청취자에게 들려주었더니 \(1/f\) 선율이 가장 '음악적'이라는 평가를 받았다고 했습니다. 백색은 너무 무작위하고, 브라운(\(1/f^2\))은 너무 단조롭게 헤맨다는 것입니다.</p>
+    <div class="formula">$$S(f) \propto \frac{1}{f^{\beta}}: \quad \beta=0\ \text{(백색)},\quad \beta=1\ \text{(분홍, 1/f)},\quad \beta=2\ \text{(브라운, 랜덤 워크)}$$
+      <div class="where">랜덤 워크 \(x_t = x_{t-1} + \varepsilon_t\)는 백색 잡음을 적분한 것이므로 전달함수 \(|H(f)|^2 \propto 1/f^2\)이다. \(1/f\)는 그 중간으로, 모든 시간 척도(옥타브 대역)에 같은 에너지를 가진다. 짧게 보면 들쭉날쭉하고 길게 보면 흐름이 있는 성질이다.</div>
+    </div>
+    <p>\(1/f\) 수열을 만드는 가장 유명한 방법은 마틴 가드너가 1978년 <i>Scientific American</i> 칼럼에 소개한 보스의 주사위 알고리즘입니다. 주사위 \(K\)개를 두고, 2진 카운터의 \(k\)번째 비트가 바뀔 때마다 \(k\)번째 주사위를 다시 굴려 합을 출력합니다. 느린 주사위는 긴 시간 척도의 변동을, 빠른 주사위는 짧은 척도의 변동을 담당합니다. 매 단계 주사위 하나만 굴리도록 개선한 것이 <b>보스–매카트니</b><span class="en">(Voss–McCartney)</span> 알고리즘입니다.</p>
+    <div class="formula">$$x_t = \sum_{k=0}^{K-1} r_k\!\left(\left\lfloor t/2^{k}\right\rfloor\right), \qquad (\text{원 Voss 방식: 인수가 바뀐 모든 행 갱신})$$
+      <div class="where">\(r_k(\cdot)\): 독립 균일 난수열(값이 바뀔 때만 새로 뽑음). \(\operatorname{ctz}\): 2진수 끝자리 0의 개수(count trailing zeros). 위 합산식의 각 행은 \(2^k\)마다 갱신된다. 이 실험의 McCartney 개선 방식은 t≥1에서 k=ctz(t)의 한 행만 갱신하며, 해당 행의 갱신 간격은 \(2^{k+1}\)이다. 유한 K에서 최고 행을 제한하고 별도 백색 난수를 더한다. 이 계단 신호들의 스펙트럼을 옥타브마다 하나씩 겹쳐 쌓으면 \(K\)옥타브 범위에서 \(1/f\)에 근사한다.</div>
+    </div>
+
+    <div class="sim" id="sim-mel-noise">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>백색 · 브라운 · 1/f · 평균 회귀 선율</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-noise"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>생성 과정</span><div class="seg" id="nz-mode"><button data-value="white">백색</button><button data-value="brown">브라운</button><button data-value="pink" class="on">1/f</button><button data-value="ar">평균 회귀</button></div></div>
+          <label class="ctrl"><span>음계</span><select id="nz-scale"></select></label>
+          <label class="ctrl"><span>템포 <output id="nz-bpm-out"></output></span><input type="range" id="nz-bpm" min="80" max="220" value="150"></label>
+          <div class="btn-row"><button class="btn" id="nz-new">🎲 새로 뽑기</button><button class="btn primary" id="nz-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">스펙트럼 기울기 −β</span><span class="v" id="nz-beta">—</span></div>
+        <div class="stat"><span class="k">1-지연 자기상관 ρ(1)</span><span class="v" id="nz-rho">—</span></div>
+        <div class="stat"><span class="k">순차(±1도) 비율</span><span class="v" id="nz-step">—</span></div>
+        <div class="stat"><span class="k">도약 후 반전</span><span class="v" id="nz-gap">—</span></div>
+      </div>
+      <div class="sim-note">위: 생성된 48음 선율(음계 도수, 두 옥타브). 왼쪽 아래: 같은 과정으로 만든 256음 수열 128개의 평균 주기도(log–log)와 직선 맞춤 기울기, 회색 점선은 기울기 0·−1·−2 기준선. 오른쪽 아래: 평균 자기상관. 모델: 백색=매 음 독립 균일, 브라운=±2도 이내 걸음의 랜덤 워크(음역 경계에서 반사), 1/f=보스–매카트니 주사위 6개 + 매 음 바뀌는 주사위 1개, 평균 회귀=AR(1) \(x_t-\mu = 0.7(x_{t-1}-\mu)+\varepsilon_t\). 해볼 것: '도약 후 반전' 비율을 비교해 보세요. 의도된 규칙이 없는 백색 잡음에서도 반전 비율이 높게 나옵니다. 2절의 '선율 회귀' 설명 그대로입니다. 반사 경계가 있는 브라운 잡음은 저주파에서 스펙트럼이 평평해집니다(유한 음역의 효과).</div>
+    </div>
+    <div class="callout warn"><strong>주의: 과장된 신화</strong> "음악은 1/f다"는 주장은 이후 여러 차례 다듬어졌다. 기울기는 장르·곡·측정량(음높이, 음정, 음량)에 따라 0.5–1.5 사이로 퍼지고, 1/f 스펙트럼은 '좋은 선율'의 필요조건도 충분조건도 아니다. 스펙트럼은 2차 통계일 뿐이라 조성·리듬·악구 구조를 전혀 담지 못한다. 그래도 "적당한 상관 길이"라는 직관을 수치로 보여 준 고전으로서 의미가 크다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="constraint">
+    <h2>제약 기반 선율 생성</h2>
+    <p>확률 모델은 '무엇이 그럴듯한가'를 배우지만, 작곡 규칙의 상당수는 '무엇을 하면 안 되는가'로 주어집니다. 이런 규칙은 <span class="term">제약 충족 문제</span><span class="en">(Constraint Satisfaction Problem, CSP)</span>로 쓰면 자연스럽습니다.</p>
+    <div class="formula">$$\text{find } \mathbf p \in D_1\times\cdots\times D_N \quad \text{s.t.} \quad \bigwedge_{j} C_j(\mathbf p) = \text{true}, \qquad \text{선호: } \max_{\mathbf p} \sum_i \log w(\Delta_i)$$
+      <div class="where">\(D_i\): \(i\)번째 음의 후보 음높이(정의역). \(C_j\): 제약. 예) 음계음만, 강박에는 화음 구성음, 도약은 \(L\)반음 이하, 큰 도약 뒤 반대 방향 순차, 끝음은 으뜸음. \(w(\Delta)\propto e^{-|\Delta|/\lambda}\): 2절의 통계를 반영한 '작은 음정 선호' 가중치. 탐색 공간은 \(|D|^N\)(예: \(8^{20}\approx10^{18}\))이지만, 앞에서부터 음을 정하며 제약을 어기는 순간 되돌아가는 <b>백트래킹</b>은 대부분의 가지를 일찍 잘라 낸다.</div>
+    </div>
+
+    <div class="sim" id="sim-mel-constraint">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>코드 진행 위의 제약 기반 선율 생성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-cs"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>코드 진행 (다장조)</span><select id="cs-prog">
+            <option value="0">I – IV – V – I</option><option value="1">I – vi – V – I</option><option value="2">vi – IV – V – I</option><option value="3">I – ii – V – I</option><option value="4">I – iii – IV – I</option>
+          </select></label>
+          <label class="check"><input type="checkbox" id="cs-c1" checked> ① 음계음만</label>
+          <label class="check"><input type="checkbox" id="cs-c2" checked> ② 강박(1·3박)에는 화음 구성음</label>
+          <label class="check"><input type="checkbox" id="cs-c3" checked> ③ 도약 제한</label>
+          <label class="ctrl"><span>최대 도약 <output id="cs-leap-out"></output></span><input type="range" id="cs-leap" min="2" max="12" value="7"></label>
+          <label class="check"><input type="checkbox" id="cs-c4" checked> ④ 큰 도약(≥5) 뒤 반대 방향 순차</label>
+          <label class="check"><input type="checkbox" id="cs-c5" checked> ⑤ 같은 음 세 번 연속 금지</label>
+          <label class="check"><input type="checkbox" id="cs-c6" checked> ⑥ 종지: 끝음 C, 직전 음 D 또는 B</label>
+          <label class="check"><input type="checkbox" id="cs-c7" checked> ⑦ 음역 C4–C5</label>
+          <div class="btn-row"><button class="btn" id="cs-gen">🎲 생성</button><button class="btn primary" id="cs-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">탐색 노드 / 되돌림</span><span class="v" id="cs-nodes">—</span></div>
+        <div class="stat"><span class="k">규칙 위반(전체 7규칙 기준)</span><span class="v" id="cs-viol">—</span></div>
+        <div class="stat"><span class="k">순차 비율</span><span class="v" id="cs-step">—</span></div>
+      </div>
+      <div class="sim-msg" id="cs-msg">생성 버튼을 누르세요.</div>
+      <div class="sim-note">4마디 코드 진행 위에 8분음표 격자의 선율을 생성합니다(리듬은 마디마다 정해진 틀 중에서 무작위). 세로로 옅게 칠한 칸이 그 마디의 화음 구성음입니다. 켠 제약만 탐색에 쓰지만 '규칙 위반'은 언제나 7개 규칙 모두로 셉니다. 제약을 하나씩 끄고 생성하면 빨간 음(위반)이 늘어나는 것이 보이고 들립니다. 특히 ①을 끄면 음계 밖의 음이, ②를 끄면 반주와 부딪히는 강박 음이 생깁니다. 모델: 무작위 순서 깊이 우선 탐색 + 작은 음정 가중치(\(\lambda\)=2.5반음), 노드 상한 40,000. 반주는 일렉트릭 피아노 화음.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="counterpoint">
+    <h2>대위법: 규칙을 제약으로</h2>
+    <p>두 개 이상의 독립된 선율을 동시에 엮는 기술이 <span class="term">대위법</span><span class="en">(Counterpoint)</span>입니다. 요한 요제프 푹스(J. J. Fux)의 『파르나소스로 가는 계단』<span class="en">(Gradus ad Parnassum, 1725)</span>은 주어진 정선율<span class="en">(Cantus Firmus)</span>에 대선율을 붙이는 연습을 다섯 '류'(species)로 단계화했고, 하이든·모차르트·베토벤이 모두 이 책으로 공부했습니다. 1류 대위법(음표 대 음표)의 규칙은 거의 그대로 제약 목록입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>규칙</th><th>공학적 해석</th></tr></thead>
+      <tbody>
+        <tr><td>수직 음정은 협화음(1, 3, 5, 6, 8도와 그 복음정). 2성부에서 완전4도는 불협화로 취급</td><td>각 열의 단항 제약: \((p^{cp}_i - p^{cf}_i) \bmod 12 \in \{0,3,4,7,8,9\}\)</td></tr>
+        <tr><td>처음은 완전협화(1·5·8도), 끝은 1도나 8도</td><td>경계 조건</td></tr>
+        <tr><td>연속 5도·연속 8도 금지</td><td>이웃 열의 이항 제약: 두 성부가 같은 완전음정을 유지한 채 함께 움직이면 독립성이 사라진다(두 선이 한 선으로 융합된다)</td></tr>
+        <tr><td>은복 5도·8도(같은 방향으로 움직여 완전음정에 도착) 금지</td><td>이항 제약: 방향 부호 \(\operatorname{sgn}\Delta^{cp} = \operatorname{sgn}\Delta^{cf}\)이면서 도착 음정이 완전음정이면 위반</td></tr>
+        <tr><td>반진행을 선호, 같은 불완전협화음(3도·6도)의 병진행은 3번까지</td><td>소프트 제약(점수)</td></tr>
+        <tr><td>선율 안에서 증4도·7도·옥타브 초과 도약 금지, 도약 뒤 반대 방향 순차</td><td>단일 성부의 이항·삼항 제약</td></tr>
+      </tbody>
+    </table></div>
+    <p>왜 연속 5도가 금지일까요? 6장에서 본 것처럼 완전5도와 8도는 배음이 많이 겹쳐 두 음이 하나로 융합되어 들립니다. 이 상태를 유지한 채 함께 움직이면 귀는 두 선율이 아니라 '음색이 두꺼운 한 선율'을 듣습니다. 휴런(2001, "Tone and Voice")은 대위법 규칙의 대부분이 청각 장면 분석(auditory scene analysis)에서 <b>성부의 지각적 독립성을 최대화</b>하는 조건으로 유도된다는 것을 보였습니다.</p>
+
+    <div class="sim" id="sim-mel-cpt">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>2성 1류 대위법 검사기와 자동 작곡</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-cpt" class="mel-grid"></canvas></div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn" id="cpt-ex">예시 해답</button><button class="btn" id="cpt-auto">🎲 자동 작곡</button><button class="btn" id="cpt-clear">지우기</button></div>
+          <label class="check"><input type="checkbox" id="cpt-cf" checked> 정선율도 함께 재생</label>
+          <label class="ctrl"><span>템포 <output id="cpt-bpm-out"></output></span><input type="range" id="cpt-bpm" min="40" max="140" value="76"></label>
+          <div class="btn-row"><button class="btn primary" id="cpt-play">▶ 재생</button></div>
+          <ul class="mel-msgs" id="cpt-msgs"></ul>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">오류 / 경고</span><span class="v" id="cpt-err">—</span></div>
+        <div class="stat"><span class="k">반진행 / 병진행 / 사진행 / 사행</span><span class="v" id="cpt-mot">—</span></div>
+        <div class="stat"><span class="k">자동 작곡 탐색 노드</span><span class="v" id="cpt-nodes">—</span></div>
+      </div>
+      <div class="sim-note">회색 막대는 푹스의 D 도리안 정선율(D–F–E–D–G–F–A–G–F–E–D)입니다. 각 열을 클릭해 그 위에 대선율 음을 놓으세요(같은 칸을 다시 누르면 지움). 열 아래 글자는 수직 음정(P=완전, M=장, m=단)이고, 빨간 테두리는 오류, 노란 테두리는 경고입니다. C♯5 줄은 종지 직전의 이끎음(무지카 픽타)용입니다. '자동 작곡'은 오류 규칙을 하드 제약으로, 반진행·순차·불완전협화를 선호 점수로 쓰는 무작위 백트래킹 탐색입니다. 해볼 것: 예시 해답의 둘째 음 C5를 B4로 바꿔 연속 5도를 만들고 들어 보기. 두 성부가 하나로 붙어 들리는지.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 10 -->
+  <section id="canon">
+    <h2>카논과 돌림노래: 시간 이동한 복사본</h2>
+    <p><span class="term">카논</span><span class="en">(Canon)</span>은 한 선율을 일정 시간 \(\tau\) 늦춰(필요하면 음정 \(n\)만큼 옮겨) 다른 성부가 그대로 따라 하는 형식입니다. 끝없이 되풀이되는 카논이 <span class="term">돌림노래</span><span class="en">(Round)</span>입니다.</p>
+    <div class="formula">$$v_j(t) = T_{jn}\big[v_0(t - j\tau)\big], \qquad j = 0, 1, \dots, J-1$$
+      <div class="where">신호처리로 보면 같은 신호에 지연을 걸어 더하는 빗살 필터(comb filter)의 음악 버전이다. 돌림노래가 성립하려면 \(\tau\) 간격으로 자른 선율 조각들이 <b>동시에 울려도 협화</b>해야 한다. 「자크 형제」는 2마디 조각 네 개가 모두 으뜸화음(도–미–솔)을 펼친 모양이라 \(\tau\)=2마디로 겹치면 박 위의 음들은 거의 늘 화음이 맞고, 부딪히는 것은 셋째 조각의 8분음표 경과음(솔–라–솔–파)이 대부분이다. 바흐의 「골드베르크 변주곡」은 3번째 변주마다 1도, 2도, …, 9도 음정의 카논을 배치한, 이 제약 문제의 극한 풀이다.</div>
+    </div>
+
+    <div class="sim" id="sim-mel-canon">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>돌림노래 플레이어: 자크 형제</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-canon"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>성부 수 <output id="cn-n-out"></output></span><input type="range" id="cn-n" min="1" max="4" value="4"></label>
+          <label class="ctrl"><span>들어오는 간격 τ <output id="cn-off-out"></output></span><input type="range" id="cn-off" min="1" max="8" value="4"></label>
+          <label class="ctrl"><span>성부마다 이조 <output id="cn-tr-out"></output></span><input type="range" id="cn-tr" min="-12" max="12" value="0"></label>
+          <label class="ctrl"><span>템포 <output id="cn-bpm-out"></output></span><input type="range" id="cn-bpm" min="60" max="160" value="112"></label>
+          <div class="btn-row"><button class="btn primary" id="cn-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 울리는 화음</span><span class="v" id="cn-chord">—</span></div>
+        <div class="stat"><span class="k">불협 순간 비율</span><span class="v" id="cn-dis">—</span></div>
+        <div class="stat"><span class="k">전체 길이</span><span class="v" id="cn-len">—</span></div>
+      </div>
+      <div class="sim-note">각 성부(색)가 선율을 두 번 부르며 τ박씩 늦게 들어옵니다(악기와 좌우 위치도 다르게). τ=4박(1마디) 단위 기준선이 세로선입니다. '불협 순간 비율'은 모든 성부가 함께 울리는 구간을 8분음표마다 잘라 단2·장2·증4·단7·장7도 쌍이 하나라도 있는 비율입니다(여러 성부에서는 완전4도를 협화로 셈). 해볼 것: τ를 8박(2마디)에서 2·3·6박으로 바꿔 불협 비율이 어떻게 변하는지, 이조를 +7(5도 카논)로 바꾸면 어떻게 되는지 들어 보세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>선율은 \((p_i, o_i, d_i)\)의 시계열이다. 음정열 \(\Delta_i\)는 이조 불변, 윤곽(파슨스 코드 U/D/R)은 그보다 더 거친 불변량으로 검색(QBH)에 쓰인다.</li>
+      <li>실제 선율은 작은 음정이 압도적이고(음높이 근접), 큰 도약 뒤에는 반전이 잦다. 반전의 상당 부분은 유한 음역에서의 평균 회귀로 설명된다(von Hippel &amp; Huron 2000).</li>
+      <li>조성 위계는 탐침음 실험으로 측정된 크룸핸즐–케슬러 프로파일로 요약되고, 음높이 클래스 길이 히스토그램과 24개 회전 프로파일의 상관 최대값이 크룸핸즐–슈뮤클러 키 판정이다.</li>
+      <li>동기 변형은 음높이–시간 평면의 기하 변환이다. \(\{P,I,R,RI\}\)는 클라인 4원군이고, 조성 음악에서는 음계 도수 위의 전위·반복 진행이 자연스럽다.</li>
+      <li>n차 마르코프 체인은 학습 선율의 국소 통계를 재현한다. 차수를 올리면 전이표가 희소해져 학습 곡을 베끼고(과적합), 온도는 엔트로피를 조절한다. 악구 같은 장거리 구조는 담지 못한다.</li>
+      <li>백색(β=0)·1/f(β=1)·브라운(β=2) 잡음 선율은 상관 길이가 다르다. 1/f가 '중간'의 성질을 갖지만, 스펙트럼은 2차 통계일 뿐 조성과 구조는 따로 필요하다.</li>
+      <li>작곡 규칙(음계, 강박 화음음, 도약 제한, 종지)과 대위법 규칙(연속 완전음정 금지 등)은 제약 충족 문제로 정식화되고, 백트래킹 탐색과 선호 가중치로 풀 수 있다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>"도 도 솔 솔 라 라 솔"(반짝반짝 작은 별 첫머리)의 파슨스 코드는?</p><div class="opts">
+        <button class="opt">*UUUUUD</button><button class="opt" data-correct>*RURURD</button><button class="opt">*RURUDD</button><button class="opt">*URURUD</button>
+      </div><div class="quiz-exp">첫 음은 *, 도→도 반복 R, 도→솔 U, 솔→솔 R, 솔→라 U, 라→라 R, 라→솔 D. 음정의 크기(7반음, 2반음)는 사라지고 방향만 남는다.</div></div>
+      <div class="quiz-q"><p>음정열이 [+2, +2, −4]인 동기의 역행전위(RI) 음정열은?</p><div class="opts">
+        <button class="opt">[−2, −2, +4]</button><button class="opt">[+4, −2, −2]</button><button class="opt" data-correct>[−4, +2, +2]</button><button class="opt">[−4, −2, −2]</button>
+      </div><div class="quiz-exp">전위 I는 부호를 뒤집어 [−2, −2, +4], 역행 R은 음의 순서를 뒤집으므로 음정열의 순서를 뒤집고 부호도 뒤집는다. RI = R(I)는 [−2,−2,+4]의 순서를 뒤집고 부호를 다시 뒤집어 [−4, +2, +2]. 결국 RI는 원형 음정열의 순서만 뒤집은 것이다.</div></div>
+      <div class="quiz-q"><p>크룸핸즐–케슬러 장조 프로파일에서 으뜸음 다음으로 높은 값을 갖는 음은?</p><div class="opts">
+        <button class="opt">가온음(3음, 4반음)</button><button class="opt" data-correct>딸림음(5음, 7반음)</button><button class="opt">버금딸림음(4음, 5반음)</button><button class="opt">이끎음(7음, 11반음)</button>
+      </div><div class="quiz-exp">6.35(으뜸음) 다음은 5.19(딸림음), 그다음이 4.38(가온음), 4.09(버금딸림음)이다. 이끎음은 음계음이지만 2.88로 낮다. 맥락이 끝난 직후의 '안정감' 평가이므로, 해결을 요구하는 이끎음은 낮게 평가된다.</div></div>
+      <div class="quiz-q"><p>상태가 8개(한 옥타브 음계음)인 3차 마르코프 체인의 전이표는 모두 몇 칸인가?</p><div class="opts">
+        <button class="opt">24</button><button class="opt">512</button><button class="opt" data-correct>4,096</button><button class="opt">6,561</button>
+      </div><div class="quiz-exp">문맥이 8³ = 512가지, 각 문맥마다 다음 상태 8가지이므로 512 × 8 = 4,096칸이다. 수십 음짜리 학습 곡으로는 대부분이 0으로 남는다(희소성). 그래서 고차 모델은 학습 곡을 그대로 재생하는 경향이 생긴다.</div></div>
+      <div class="quiz-q"><p>보스–매카트니 알고리즘으로 만든 수열의 파워 스펙트럼 기울기(log–log)에 가장 가까운 것은?</p><div class="opts">
+        <button class="opt">0 (평평)</button><button class="opt" data-correct>−1</button><button class="opt">−2</button><button class="opt">+1</button>
+      </div><div class="quiz-exp">주기 2^k로 바뀌는 계단 신호를 옥타브마다 하나씩 더해 옥타브당 같은 에너지를 만든다. 이것이 1/f(분홍) 잡음의 정의다. −2는 랜덤 워크(적분된 백색 잡음), 0은 백색이다.</div></div>
+      <div class="quiz-q"><p>2성 1류 대위법에서 정선율 D4→E4 위에 대선율 A4→B4를 놓았다. 무엇이 문제인가?</p><div class="opts">
+        <button class="opt">은복 8도</button><button class="opt" data-correct>연속 5도</button><button class="opt">성부 교차</button><button class="opt">문제없다</button>
+      </div><div class="quiz-exp">A4/D4와 B4/E4는 모두 완전5도(7반음)이고 두 성부가 같은 방향으로 함께 움직였다. 이것이 금지된 연속(병행) 5도다. 두 음이 융합된 채로 움직여 성부의 독립성이 사라진다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공용: 곡 데이터 · 피아노 롤 · 재생기 */
+// "E4 D4:0.5 r:1" → [{m, t(박), d(박)}]
+const MEL_SEQ = (str) => { let t = 0; const out = []; str.trim().split(/\s+/).forEach((tok) => { const [n, d0] = tok.split(":"); const d = d0 ? +d0 : 1; if (n !== "r") out.push({ m: MB.parseNote(n), t, d }); t += d; }); return out; };
+// 공유 저작물(작자 미상 민요 또는 19세기 이전 작품)
+const MEL_TUNES = {
+  ode: { name: "환희의 송가 (베토벤, 1824)", s: "E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4:1.5 D4:.5 D4:2 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4:1.5 C4:.5 C4:2 D4 D4 E4 C4 D4 E4:.5 F4:.5 E4 C4 D4 E4:.5 F4:.5 E4 D4 C4 D4 G3:2 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4:1.5 C4:.5 C4:2" },
+  twinkle: { name: "반짝반짝 작은 별 (프랑스 민요, 1761)", s: "C4 C4 G4 G4 A4 A4 G4:2 F4 F4 E4 E4 D4 D4 C4:2 G4 G4 F4 F4 E4 E4 D4:2 G4 G4 F4 F4 E4 E4 D4:2 C4 C4 G4 G4 A4 A4 G4:2 F4 F4 E4 E4 D4 D4 C4:2" },
+  frere: { name: "자크 형제 (프랑스 민요)", s: "C4 D4 E4 C4 C4 D4 E4 C4 E4 F4 G4:2 E4 F4 G4:2 G4:.5 A4:.5 G4:.5 F4:.5 E4 C4 G4:.5 A4:.5 G4:.5 F4:.5 E4 C4 C4 G3 C4:2 C4 G3 C4:2" },
+  auclair: { name: "달빛 아래 (프랑스 민요)", s: "C4 C4 C4 D4 E4:2 D4:2 C4 E4 D4 D4 C4:4 C4 C4 C4 D4 E4:2 D4:2 C4 E4 D4 D4 C4:4 D4 D4 D4 D4 A3:2 A3:2 D4 C4 B3 A3 G3:4 C4 C4 C4 D4 E4:2 D4:2 C4 E4 D4 D4 C4:4" },
+  green: { name: "그린슬리브스 (16세기 잉글랜드)", s: "A4 C5:2 D5 E5:1.5 F5:.5 E5 D5:2 B4 G4:1.5 A4:.5 B4 C5:2 A4 A4:1.5 G#4:.5 A4 B4:2 G#4 E4:2 A4 C5:2 D5 E5:1.5 F5:.5 E5 D5:2 B4 G4:1.5 A4:.5 B4 C5:1.5 B4:.5 A4 G#4:1.5 F#4:.5 G#4 A4:3" },
+};
+Object.values(MEL_TUNES).forEach((t) => (t.notes = MEL_SEQ(t.s)));
+const MEL_FONT = (px, mono) => px + "px " + getComputedStyle(document.body).getPropertyValue(mono ? "--mono" : "--font");
+const MEL_INSTS = ["piano", "epiano", "pluck", "organ", "strings", "lead", "bell", "triangle"];
+function melFillInst(sel, def) { const el = document.getElementById(sel); el.innerHTML = MEL_INSTS.map((k) => `<option value="${k}"${k === def ? " selected" : ""}>${MB.INSTRUMENT_NAMES[k]}</option>`).join(""); return () => el.value; }
+const melIntervals = (ms) => ms.slice(1).map((m, i) => m - ms[i]);
+const melParsons = (ms) => (ms.length ? "*" + melIntervals(ms).map((d) => (d > 0 ? "U" : d < 0 ? "D" : "R")).join("") : "");
+// 큰 도약(|Δ|≥th) 다음 음정이 반대 방향인 비율 → [반전 수, 도약 수]
+function melGapFill(iv, th = 5) { let n = 0, r = 0; for (let i = 0; i < iv.length - 1; i++) if (Math.abs(iv[i]) >= th) { n++; if (Math.sign(iv[i + 1]) === -Math.sign(iv[i])) r++; } return [r, n]; }
+/**
+ * 피아노 롤 그리기. notes: [{m,t,d,color,bad}], o: {lo,hi,t0,t1,now,beatsPerBar,label(m)→bool, rowShade(m,t)→color}
+ */
+function melDrawRoll(ctx, box, notes, o) {
+  const P = MB.palette(), rows = o.hi - o.lo + 1, rh = box.h / rows;
+  const X = (t) => box.x + ((t - o.t0) / (o.t1 - o.t0)) * box.w, Y = (m) => box.y + (o.hi - m) * rh;
+  const black = (m) => [1, 3, 6, 8, 10].includes(MB.mod(m, 12));
+  for (let m = o.lo; m <= o.hi; m++) if (black(m)) { ctx.fillStyle = P.surface; ctx.fillRect(box.x, Y(m), box.w, rh); }
+  const bpb = o.beatsPerBar || 4;
+  for (let b = Math.ceil(o.t0); b <= o.t1; b++) { ctx.strokeStyle = b % bpb === 0 ? P.axis : P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(b) + 0.5, box.y); ctx.lineTo(X(b) + 0.5, box.y + box.h); ctx.stroke(); }
+  if (o.label !== false) {
+    ctx.fillStyle = P.faint; ctx.font = MEL_FONT(Math.min(10, Math.max(8, rh)), true); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let m = o.lo; m <= o.hi; m++) if (MB.mod(m, 12) === 0 || (rh >= 10 && !black(m) && rows <= 16)) ctx.fillText(MB.noteName(m), box.x - 3, Y(m) + rh / 2);
+  }
+  notes.forEach((n) => {
+    if (n.m < o.lo || n.m > o.hi) return;
+    const x = X(n.t), w = Math.max(2, X(n.t + n.d) - x - 1.5);
+    ctx.fillStyle = n.bad ? P.bad : n.color || P.accent; ctx.globalAlpha = n.alpha != null ? n.alpha : 1;
+    const nh = Math.max(4, rh - 1), ny = Y(n.m) + rh / 2 - nh / 2;
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, ny, w, nh, Math.min(3, nh / 3)) : ctx.rect(x, ny, w, nh); ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+  if (o.now != null && o.now >= o.t0) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(o.now), box.y); ctx.lineTo(X(o.now), box.y + box.h); ctx.stroke(); }
+  return { X, Y, rh };
+}
+/** 음표 목록 재생기(MB.Clock 기반). o: {bpm(), inst(), div, voice(n, when, spb), onPos(beat), onEnd()} */
+function MelPlayer(o) {
+  let notes = [], total = 0;
+  const div = o.div || 4;
+  const clk = MB.Clock({
+    bpm: () => o.bpm(), div,
+    length: () => Math.max(1, Math.ceil(total * div) + 8),
+    onStep(step, time) {
+      const b0 = step / div, b1 = (step + 1) / div, spb = 60 / o.bpm();
+      for (const n of notes) if (n.t >= b0 - 1e-6 && n.t < b1 - 1e-6) {
+        const when = time + (n.t - b0) * spb;
+        if (o.voice) o.voice(n, when, spb);
+        else MB.play(n.m, { inst: n.inst || (o.inst ? o.inst() : "piano"), when, dur: Math.max(0.06, n.d * spb * 0.92), vel: n.vel != null ? n.vel : 0.75, pan: n.pan });
+      }
+    },
+    onUI(step) { const b = step / div; if (b >= total) { api.stop(); return; } o.onPos && o.onPos(b, step); },
+  });
+  const api = {
+    play(ns) { notes = ns; total = ns.reduce((a, n) => Math.max(a, n.t + n.d), 0); if (clk.running) clk.stop(); clk.start(0); },
+    stop(silence) { const was = clk.running; clk.stop(); if (silence) MB.stopAll(); if (was && o.onEnd) o.onEnd(); },
+    get running() { return clk.running; },
+  };
+  return api;
+}
+
+/* ---------------------------------------------------------------- 그림 13-1: 환희의 송가 첫 악구 */
+(function () {
+  const g = document.getElementById("mel-fig1");
+  const ns = MEL_TUNES.ode.notes.filter((n) => n.t < 16);
+  const lo = 59, hi = 68, X = (t) => 60 + t * 44, Y = (m) => 50 + (hi - m) * 17;
+  let s = "";
+  for (let m = lo; m <= hi; m++) { s += `<line x1="56" x2="768" y1="${Y(m) + 17}" y2="${Y(m) + 17}" class="s-axis" style="opacity:.18"/>`; if (![1, 3, 6, 8, 10].includes(m % 12)) s += `<text x="50" y="${Y(m) + 12}" text-anchor="end" class="t-mono">${MB.noteName(m)}</text>`; }
+  for (let b = 0; b <= 16; b += 4) s += `<line x1="${X(b)}" x2="${X(b)}" y1="44" y2="${Y(lo) + 17}" class="s-axis"/>`;
+  const iv = melIntervals(ns.map((n) => n.m)), pc = melParsons(ns.map((n) => n.m));
+  ns.forEach((n, i) => {
+    s += `<rect x="${X(n.t) + 1}" y="${Y(n.m) + 2}" width="${n.d * 44 - 3}" height="13" rx="3" class="f-acc"/>`;
+    s += `<text x="${X(n.t) + 6}" y="34" class="t-acc" style="font-size:12px;font-family:var(--mono)">${pc[i]}</text>`;
+    if (i > 0) { const d = iv[i - 1]; s += `<text x="${X(n.t) - 2}" y="${Y(Math.max(n.m, ns[i - 1].m)) - 4}" text-anchor="middle" class="t-mono" style="fill:var(--accent-2)">${d > 0 ? "+" + d : d}</text>`; }
+  });
+  s += `<text x="60" y="240" class="t-dim">시간(박) → · 막대 위 숫자 = Δᵢ(반음) · 맨 위 = 파슨스 코드 ${pc}</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 통계 표 */
+(function () {
+  const tb = document.getElementById("mel-stats");
+  tb.innerHTML = ["ode", "twinkle", "frere", "auclair", "green"].map((k) => {
+    const t = MEL_TUNES[k], iv = melIntervals(t.notes.map((n) => n.m)), N = iv.length;
+    const c = [0, 0, 0, 0]; let s = 0;
+    iv.forEach((d) => { const a = Math.abs(d); s += a; c[a === 0 ? 0 : a <= 2 ? 1 : a <= 4 ? 2 : 3]++; });
+    const p = (x) => ((100 * x) / N).toFixed(0) + "%";
+    return `<tr><td>${t.name}</td><td class="num">${t.notes.length}</td><td class="num">${p(c[0])}</td><td class="num"><b>${p(c[1])}</b></td><td class="num">${p(c[2])}</td><td class="num">${p(c[3])}</td><td class="num">${(s / N).toFixed(2)}</td></tr>`;
+  }).join("");
+})();
+
+/* ---------------------------------------------------------------- 1. 피아노 롤 편집기 */
+(function () {
+  const SC = ["major", "minor", "dorian", "mixolydian", "harmonicMinor", "majorPent", "minorPent", "blues", "chromatic"];
+  const scSel = document.getElementById("roll-scale"), rtSel = document.getElementById("roll-root");
+  scSel.innerHTML = SC.map((k) => `<option value="${k}">${MB.SCALES[k].name}</option>`).join("");
+  rtSel.innerHTML = MB.SHARP_NAMES.map((n, i) => `<option value="${i}">${n}</option>`).join("");
+  const inst = melFillInst("roll-inst", "piano");
+  const bpm = MB.range("roll-bpm", (v) => v + " BPM");
+  let N = 32, notes = [], now = null; // notes: {s, len, r(행)}
+  const rootMidi = () => { const pc = +rtSel.value; return pc <= 5 ? 60 + pc : 48 + pc; };
+  const rows = () => { const st = MB.SCALES[scSel.value].steps, n = st.length * 2 + 1; return [...Array(n)].map((_, i) => MB.scaleNote(rootMidi(), st, i)); };
+  const toMidi = () => { const R = rows(); return notes.slice().sort((a, b) => a.s - b.s).map((n) => ({ m: R[Math.min(n.r, R.length - 1)], t: n.s / 2, d: n.len / 2 })); };
+  let geo = null;
+  const cv = MB.canvas("#cv-roll", (ctx, w, h) => {
+    const P = MB.palette(), R = rows();
+    const box = { x: 34, y: 6, w: w - 40, h: h - 12 }, rh = box.h / R.length, cw = box.w / N;
+    geo = { box, rh, cw, R };
+    R.forEach((m, i) => { const y = box.y + box.h - (i + 1) * rh; ctx.fillStyle = i % 2 ? P.bg : P.surface; ctx.fillRect(box.x, y, box.w, rh); if (MB.mod(m - rootMidi(), 12) === 0) { ctx.fillStyle = P.accent; ctx.globalAlpha = 0.07; ctx.fillRect(box.x, y, box.w, rh); ctx.globalAlpha = 1; }
+      ctx.fillStyle = MB.mod(m - rootMidi(), 12) === 0 ? P.accent : P.dim; ctx.font = MEL_FONT(Math.min(10, rh - 1), true); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(MB.noteName(m), box.x - 3, y + rh / 2); });
+    for (let c = 0; c <= N; c++) { ctx.strokeStyle = c % 8 === 0 ? P.axis : c % 2 === 0 ? P.grid : "transparent"; ctx.beginPath(); ctx.moveTo(box.x + c * cw + 0.5, box.y); ctx.lineTo(box.x + c * cw + 0.5, box.y + box.h); ctx.stroke(); }
+    notes.forEach((n) => { const r = Math.min(n.r, R.length - 1), y = box.y + box.h - (r + 1) * rh; ctx.fillStyle = now != null && now >= n.s && now < n.s + n.len ? P.warn : P.accent; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(box.x + n.s * cw + 1, y + 1, n.len * cw - 2, rh - 2, 3) : ctx.rect(box.x + n.s * cw + 1, y + 1, n.len * cw - 2, rh - 2); ctx.fill(); });
+    if (now != null) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(box.x + now * cw, box.y); ctx.lineTo(box.x + now * cw, box.y + box.h); ctx.stroke(); }
+  }, { aspect: (w) => (w < 500 ? 0.8 : 0.52), maxHeight: 400, minHeight: 240 });
+  const hist = MB.canvas("#cv-roll-hist", (ctx, w, h) => {
+    const P = MB.palette(), iv = melIntervals(toMidi().map((n) => n.m));
+    const cnt = Array(25).fill(0); iv.forEach((d) => { if (Math.abs(d) <= 12) cnt[d + 12]++; });
+    const mx = Math.max(1, ...cnt), box = { x: 14, y: 8, w: w - 28, h: h - 26 }, bw = box.w / 25;
+    cnt.forEach((c, i) => { const d = i - 12, bh = (c / mx) * box.h; ctx.fillStyle = Math.abs(d) <= 2 ? (d === 0 ? P.faint : P.accent) : P.accent2; ctx.fillRect(box.x + i * bw + 1, box.y + box.h - bh, bw - 2, bh); });
+    ctx.fillStyle = P.dim; ctx.font = MEL_FONT(10, true); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [-12, -7, -4, -2, 0, 2, 4, 7, 12].forEach((d) => ctx.fillText(d > 0 ? "+" + d : d, box.x + (d + 12.5) * bw, box.y + box.h + 3));
+  }, { aspect: 0.2, minHeight: 90, maxHeight: 130 });
+  function stats() {
+    const ms = toMidi().map((n) => n.m), iv = melIntervals(ms);
+    MB.stat("roll-parsons", ms.length ? melParsons(ms) : "—");
+    if (iv.length) {
+      let u = 0, st = 0, lp = 0, s = 0; iv.forEach((d) => { const a = Math.abs(d); s += a; if (!a) u++; else if (a <= 2) st++; else lp++; });
+      const p = (x) => Math.round((100 * x) / iv.length);
+      MB.stat("roll-steps", `${p(u)} / ${p(st)} / ${p(lp)}<small>%</small>`);
+      MB.stat("roll-mean", (s / iv.length).toFixed(2) + " <small>반음</small>");
+      const [r, n] = melGapFill(iv); MB.stat("roll-gap", n ? `${r}/${n} <small>(${Math.round((100 * r) / n)}%)</small>` : "— <small>도약 없음</small>");
+    } else ["roll-steps", "roll-mean", "roll-gap"].forEach((id) => MB.stat(id, "—"));
+    MB.stat("roll-range", ms.length ? `${Math.max(...ms) - Math.min(...ms)} <small>반음 (${MB.noteName(Math.min(...ms))}–${MB.noteName(Math.max(...ms))})</small>` : "—");
+  }
+  function refresh() { cv.redraw(); hist.redraw(); stats(); }
+  // 편집
+  const cell = (e) => { const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, { box, rh, cw, R } = geo; return { c: Math.floor((x - box.x) / cw), r: R.length - 1 - Math.floor((y - box.y) / rh), ok: x >= box.x && y >= box.y && y < box.y + box.h }; };
+  let drag = null;
+  function makeMono(n) { notes = notes.filter((o) => o === n || o.s + o.len <= n.s || o.s >= n.s + n.len || (o.s < n.s && ((o.len = n.s - o.s), true))); }
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    const { c, r, ok } = cell(e); if (!ok || c < 0 || c >= N || r < 0) return;
+    const hit = notes.find((n) => n.r === r && c >= n.s && c < n.s + n.len);
+    if (hit) { notes = notes.filter((n) => n !== hit); refresh(); return; }
+    drag = { s: c, len: 1, r }; notes.push(drag); makeMono(drag);
+    cv.canvas.setPointerCapture(e.pointerId);
+    MB.play(geo.R[r], { inst: inst(), dur: 0.25 });
+    refresh();
+  });
+  cv.canvas.addEventListener("pointermove", (e) => { if (!drag) return; const { c } = cell(e); const len = MB.clamp(c - drag.s + 1, 1, N - drag.s); if (len !== drag.len) { drag.len = len; makeMono(drag); refresh(); } });
+  const endDrag = () => (drag = null);
+  cv.canvas.addEventListener("pointerup", endDrag); cv.canvas.addEventListener("pointercancel", endDrag);
+  // 프리셋
+  function loadMidi(list, setScale = true) {
+    if (setScale) { scSel.value = "major"; rtSel.value = "0"; }
+    const R = rows(); notes = [];
+    list.forEach((n) => { const s = Math.round(n.t * 2), len = Math.max(1, Math.round(n.d * 2)); if (s >= N) return; let r = R.indexOf(n.m); if (r < 0) { let bd = 99; R.forEach((m, i) => { if (Math.abs(m - n.m) < bd) { bd = Math.abs(m - n.m); r = i; } }); } notes.push({ s, len: Math.min(len, N - s), r }); });
+    refresh();
+  }
+  document.querySelectorAll("#roll-presets button").forEach((b) => b.addEventListener("click", () => {
+    const p = b.dataset.p;
+    if (p === "clear") { notes = []; refresh(); return; }
+    if (p === "random") { const R = rows(), rnd = MB.rng((Math.random() * 1e9) | 0); notes = []; for (let s = 0; s < N; ) { const len = rnd.pick([1, 2, 2, 2, 4]); notes.push({ s, len: Math.min(len, N - s), r: Math.floor(rnd() * R.length) }); s += len; } refresh(); return; }
+    loadMidi(MEL_TUNES[p].notes.filter((n) => n.t * 2 < N));
+  }));
+  scSel.addEventListener("change", refresh); rtSel.addEventListener("change", refresh);
+  MB.seg("roll-n", (v) => { N = +v; notes = notes.filter((n) => n.s < N).map((n) => ((n.len = Math.min(n.len, N - n.s)), n)); refresh(); });
+  // 재생
+  const player = MelPlayer({ bpm, inst, div: 2, onPos: (b) => { now = b * 2; cv.redraw(); }, onEnd: () => { now = null; pb.set(false); cv.redraw(); } });
+  const pb = MB.playButton("roll-play", () => { const ns = toMidi(); if (!ns.length) { pb.set(false); return; } player.play(ns); }, () => player.stop(true));
+  // 텍스트
+  const txt = document.getElementById("roll-txt");
+  document.getElementById("roll-export").addEventListener("click", () => {
+    const ns = toMidi(); let t = 0; const out = [];
+    ns.forEach((n) => { if (n.t > t + 1e-6) out.push("r:" + (n.t - t)); out.push(MB.noteName(n.m).replace("♯", "#") + ":" + n.d); t = n.t + n.d; });
+    txt.value = out.join(" ");
+  });
+  document.getElementById("roll-import").addEventListener("click", () => {
+    const toks = txt.value.trim().split(/\s+/).filter((x) => /^(r|[A-Ga-g][#b♯♭]?-?\d)(:[\d.]+)?$/.test(x));
+    if (!toks.length) { txt.value = "형식: E4:1 D4:0.5 r:0.5 …"; return; }
+    loadMidi(MEL_SEQ(toks.join(" ")).filter((n) => isFinite(n.m)), false);
+  });
+  loadMidi(MEL_TUNES.ode.notes.filter((n) => n.t * 2 < N));
+  document.getElementById("roll-export").click();
+})();
+
+/* ---------------------------------------------------------------- 그림 13-2: KK 프로파일 */
+const MEL_KK = { major: [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88], minor: [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17] };
+(function () {
+  const g = document.getElementById("mel-fig2");
+  const lab = ["1", "♭2", "2", "♭3", "3", "4", "♯4", "5", "♭6", "6", "♭7", "7"];
+  let s = "";
+  [["major", 30, "장조 (C 기준: C D E F G A B 강조)", [0, 2, 4, 5, 7, 9, 11]], ["minor", 420, "단조 (자연단음계 + 이끎음)", [0, 2, 3, 5, 7, 8, 10, 11]]].forEach(([k, x0, title, inSc]) => {
+    const bw = 28, Y = (v) => 210 - v * 26;
+    s += `<text x="${x0}" y="22" class="t">${title}</text><line x1="${x0}" x2="${x0 + 12 * bw + 6}" y1="210" y2="210" class="s-axis"/>`;
+    [2, 4, 6].forEach((v) => (s += `<line x1="${x0}" x2="${x0 + 12 * bw + 6}" y1="${Y(v)}" y2="${Y(v)}" class="s-axis" style="opacity:.2"/><text x="${x0 - 4}" y="${Y(v) + 4}" text-anchor="end" class="t-mono">${v}</text>`));
+    MEL_KK[k].forEach((v, i) => {
+      const tri = [0, k === "major" ? 4 : 3, 7].includes(i);
+      s += `<rect x="${x0 + 4 + i * bw}" y="${Y(v)}" width="${bw - 6}" height="${210 - Y(v)}" rx="3" class="${tri ? "f-acc" : inSc.includes(i) ? "f-acc-soft" : "f-elev"}"/>`;
+      s += `<text x="${x0 + 4 + i * bw + (bw - 6) / 2}" y="${Y(v) - 5}" text-anchor="middle" class="t-mono" style="font-size:9.5px">${v.toFixed(2)}</text>`;
+      s += `<text x="${x0 + 4 + i * bw + (bw - 6) / 2}" y="228" text-anchor="middle" class="t-mono">${lab[i]}</text>`;
+    });
+  });
+  s += `<text x="30" y="252" class="t-dim">진한 막대 = 으뜸화음 구성음, 옅은 막대 = 음계음, 흰 막대 = 음계 밖의 음</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 2. 키 찾기 */
+(function () {
+  const W = MB.seg("key-w", () => update());
+  const dur = Array(12).fill(0), cnt = Array(12).fill(0);
+  let nNotes = 0, totalSec = 0;
+  const pearson = (x, y) => { const mx = x.reduce((a, b) => a + b) / 12, my = y.reduce((a, b) => a + b) / 12; let sxy = 0, sxx = 0, syy = 0; for (let i = 0; i < 12; i++) { sxy += (x[i] - mx) * (y[i] - my); sxx += (x[i] - mx) ** 2; syy += (y[i] - my) ** 2; } return sxx > 1e-12 ? sxy / Math.sqrt(sxx * syy) : 0; };
+  const keyName = (k) => (k.minor ? MB.pcName(k.pc, MB.prefersFlats(k.pc, true)) + " 단조" : MB.pcName(k.pc, MB.prefersFlats(k.pc)) + " 장조");
+  let res = [];
+  function analyse() {
+    const x = W() === "dur" ? dur : cnt; res = [];
+    ["major", "minor"].forEach((mode) => { for (let k = 0; k < 12; k++) { const y = [...Array(12)].map((_, i) => MEL_KK[mode][MB.mod(i - k, 12)]); res.push({ pc: k, minor: mode === "minor", r: pearson(x, y) }); } });
+  }
+  const cv = MB.canvas("#cv-key", (ctx, w, h) => {
+    const P = MB.palette(), x = W() === "dur" ? dur : cnt, mx = Math.max(1e-9, ...x);
+    const top = { x: 30, y: 10, w: w - 40, h: h * 0.36 }, bw = top.w / 12;
+    const sorted = res.slice().sort((a, b) => b.r - a.r), best = nNotes ? sorted[0] : null;
+    ctx.font = MEL_FONT(11, true); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let i = 0; i < 12; i++) {
+      const bh = (x[i] / mx) * top.h; ctx.fillStyle = P.accent; ctx.globalAlpha = 0.85; ctx.fillRect(top.x + i * bw + 3, top.y + top.h - bh, bw - 6, bh); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.dim; ctx.fillText(MB.pcName(i), top.x + (i + 0.5) * bw, top.y + top.h + 3);
+    }
+    if (best) { const prof = MEL_KK[best.minor ? "minor" : "major"]; ctx.fillStyle = P.text; for (let i = 0; i < 12; i++) { const v = prof[MB.mod(i - best.pc, 12)], y = top.y + top.h - (v / 6.4) * top.h; ctx.beginPath(); ctx.arc(top.x + (i + 0.5) * bw, y, 3.2, 0, 7); ctx.fill(); } }
+    // 아래: 24개 조, 5도권 순
+    const by = h * 0.36 + 34, bh = (h - by - 14) / 2 - 12, cw = top.w / 12;
+    [false, true].forEach((minor, row) => {
+      const y0 = by + row * (bh + 24), zero = y0 + bh * 0.62;
+      ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(top.x, zero); ctx.lineTo(top.x + top.w, zero); ctx.stroke();
+      ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.font = MEL_FONT(10); ctx.fillText(minor ? "단조" : "장조", 0, y0 - 2);
+      for (let j = 0; j < 12; j++) {
+        const pc = MB.mod(j * 7 + (minor ? 9 : 0), 12), k = res.find((q) => q.pc === pc && q.minor === minor);
+        const r = k ? k.r : 0, len = r >= 0 ? r * bh * 0.62 : r * bh * 0.38;
+        ctx.fillStyle = best && k === best ? P.warn : r >= 0 ? P.accent2 : P.faint;
+        ctx.fillRect(top.x + j * cw + 4, r >= 0 ? zero - len : zero, cw - 8, Math.abs(len));
+        ctx.fillStyle = best && k === best ? P.text : P.dim; ctx.textAlign = "center"; ctx.font = MEL_FONT(10, true);
+        ctx.fillText(minor ? MB.pcName(pc, MB.prefersFlats(pc, true)).toLowerCase() : MB.pcName(pc, MB.prefersFlats(pc)), top.x + (j + 0.5) * cw, y0 + bh + 2);
+      }
+    });
+  }, { aspect: (w) => (w < 500 ? 0.95 : 0.62), maxHeight: 420, minHeight: 300 });
+  function update() {
+    analyse(); cv.redraw();
+    if (!nNotes) { ["key-best", "key-2nd"].forEach((id) => MB.stat(id, "—")); MB.stat("key-n", "0"); return; }
+    const s = res.slice().sort((a, b) => b.r - a.r);
+    MB.stat("key-best", `${keyName(s[0])} <small>r=${s[0].r.toFixed(3)}</small>`);
+    MB.stat("key-2nd", `${keyName(s[1])} <small>r=${s[1].r.toFixed(3)}</small>`);
+    MB.stat("key-n", `${nNotes} <small>음 · ${totalSec.toFixed(1)} s</small>`);
+  }
+  function add(m, sec) { const pc = MB.mod(m, 12); dur[pc] += sec; cnt[pc]++; nNotes++; totalSec += sec; }
+  function reset() { dur.fill(0); cnt.fill(0); nNotes = 0; totalSec = 0; update(); }
+  const t0s = {};
+  const kb = MB.keyboard("#kb-key", { lo: 55, hi: 79, onDown: (m) => { t0s[m] = performance.now(); }, onUp: (m) => { if (t0s[m] != null) { add(m, (performance.now() - t0s[m]) / 1000); delete t0s[m]; update(); } } });
+  // 예제 재생
+  const PRE = {
+    ode: () => MEL_TUNES.ode.notes.map((n) => ({ ...n, m: n.m + 2 })),
+    green: () => MEL_TUNES.green.notes,
+    twinkle: () => MEL_TUNES.twinkle.notes.map((n) => ({ ...n, m: n.m + 7 })),
+    frere: () => MEL_TUNES.frere.notes.map((n) => ({ ...n, m: n.m + 5 })),
+    white: () => { const r = MB.rng((Math.random() * 1e9) | 0), W7 = [60, 62, 64, 65, 67, 69, 71, 72]; let t = 0; return [...Array(28)].map(() => { const d = r.pick([0.5, 1, 1]); const n = { m: r.pick(W7), t, d }; t += d; return n; }); },
+    whole: () => { const r = MB.rng((Math.random() * 1e9) | 0), WT = [60, 62, 64, 66, 68, 70, 72]; let t = 0; return [...Array(24)].map(() => { const n = { m: r.pick(WT), t, d: 1 }; t += 1; return n; }); },
+  };
+  let queue = [], qi = 0;
+  const player = MelPlayer({ bpm: () => 132, div: 4,
+    voice: (n, when, spb) => MB.play(n.m, { inst: "piano", when, dur: n.d * spb * 0.9 }),
+    onPos: (b) => { let ch = false; while (qi < queue.length && queue[qi].t <= b + 1e-6) { const n = queue[qi++]; add(n.m, n.d * (60 / 132)); kb.flash(n.m, n.d * (60 / 132) * 900); ch = true; } if (ch) update(); },
+  });
+  document.querySelectorAll("#key-presets button").forEach((b) => b.addEventListener("click", () => { reset(); queue = PRE[b.dataset.p](); qi = 0; player.play(queue); }));
+  document.getElementById("key-stop").addEventListener("click", () => player.stop(true));
+  document.getElementById("key-clear").addEventListener("click", () => { player.stop(true); reset(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 그림 13-3: P I R RI */
+(function () {
+  const g = document.getElementById("mel-fig3");
+  const mot = [[0, 1, 0], [1, 0.5, 2], [1.5, 0.5, 4], [2, 1, 7], [3, 1, 5]]; // [t, d, 반음]
+  const T = 4, panels = [["P 원형", (t, d, p) => [t, p]], ["I 전위 (가로축 대칭)", (t, d, p) => [t, -p]], ["R 역행 (세로축 대칭)", (t, d, p) => [T - t - d, p]], ["RI 역행전위 (180° 회전)", (t, d, p) => [T - t - d, -p]]];
+  let s = "";
+  panels.forEach(([name, f], k) => {
+    const x0 = 14 + k * 196, cx = x0 + 88, cy = 150, sx = 40, sy = 11;
+    s += `<rect x="${x0}" y="30" width="180" height="220" rx="10" class="f-elev"/><text x="${x0 + 10}" y="52" class="t">${name}</text>`;
+    s += `<line x1="${x0 + 8}" x2="${x0 + 172}" y1="${cy}" y2="${cy}" class="s-axis" style="opacity:.35"/><line x1="${cx}" x2="${cx}" y1="62" y2="240" class="s-axis" style="opacity:.35"/>`;
+    mot.forEach(([t, d, p], i) => { const [tt, pp] = f(t, d, p); s += `<rect x="${cx - (T / 2) * sx + tt * sx + 1}" y="${cy - pp * sy - 5}" width="${d * sx - 3}" height="10" rx="2" class="${i === 0 ? "f-acc" : "f-acc-soft"}"/>`; });
+  });
+  s += `<text x="14" y="18" class="t-dim">진한 막대 = 원형의 첫 음. 가로 = 시간, 세로 = 음높이(전위 축은 첫 음)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 3. 동기 변형기 */
+(function () {
+  const PRE = {
+    fate: { key: [60, "minor"], notes: MEL_SEQ("r:.5 G4:.5 G4:.5 G4:.5 D#4:2").map((n) => ({ ...n, t: n.t - 0.5 })) },
+    bach: { key: [62, "minor"], notes: MEL_SEQ("A#4 A4 C5 B4") },
+    ode: { key: [60, "major"], notes: MEL_SEQ("E4 E4 F4 G4 G4 F4 E4 D4") },
+    own: { key: [60, "major"], notes: MEL_SEQ("C4:.5 D4:.5 E4 G4:.5 F4:.5 E4:.5 D4:.5 C4") },
+  };
+  let motif = PRE.own.notes, key = PRE.own.key;
+  const mode = MB.seg("mo-mode", () => redraw());
+  const tn = MB.range("mo-tn", (v) => MB.signed(v, 0) + " 반음", () => redraw());
+  const sq = MB.range("mo-seq", (v) => (mode() === "dia" ? MB.signed(v, 0) + " 도" : MB.signed(v, 0) + " 반음"), () => redraw());
+  const bpm = MB.range("mo-bpm", (v) => v + " BPM");
+  const rec = MB.check("mo-rec");
+  // 음계 도수 ↔ MIDI (음계 밖의 음은 아래 음계음 + 반음 변화)
+  const steps = () => MB.SCALES[key[1]].steps;
+  const toDeg = (m) => { const st = steps(); let d = Math.floor(((m - key[0]) / 12) * st.length) - 2; while (MB.scaleNote(key[0], st, d + 1) <= m) d++; return { d, alt: m - MB.scaleNote(key[0], st, d) }; };
+  const fromDeg = (d, alt) => MB.scaleNote(key[0], steps(), d) + alt;
+  const len = (ns) => ns.reduce((a, n) => Math.max(a, n.t + n.d), 0);
+  const retime = (ns) => { let t = 0; return ns.map((n) => { const o = { ...n, t }; t += n.d; return o; }); };
+  function lanes() {
+    const dia = mode() === "dia", m0 = motif[0].m, d0 = toDeg(m0).d;
+    const T = (ns, n) => ns.map((x) => ({ ...x, m: x.m + n }));
+    const I = (ns) => ns.map((x) => { if (!dia) return { ...x, m: 2 * m0 - x.m }; const q = toDeg(x.m); return { ...x, m: fromDeg(2 * d0 - q.d, -q.alt) }; });
+    const R = (ns) => { const L = len(ns); return ns.map((x) => ({ ...x, t: L - x.t - x.d })).sort((a, b) => a.t - b.t); };
+    const A = (ns, s) => ns.map((x) => ({ ...x, t: x.t * s, d: x.d * s }));
+    const S = (ns) => { const L = len(ns), out = []; for (let k = 0; k < 3; k++) ns.forEach((x) => { let m = x.m; if (k) { if (dia) { const q = toDeg(x.m); m = fromDeg(q.d + k * sq(), q.alt); } else m = x.m + k * sq(); } out.push({ ...x, t: x.t + k * L, m }); }); return out; };
+    return [["P", "원형", motif], ["T", "이조 T" + (tn() >= 0 ? "+" : "") + tn(), T(motif, tn())], ["I", "전위", I(motif)], ["R", "역행", R(motif)], ["RI", "역행전위", R(I(motif))], ["×2", "확대", A(motif, 2)], ["×½", "축소", A(motif, 0.5)], ["Seq", "반복 진행", S(motif)]];
+  }
+  let playLane = -1, now = null;
+  const cv = MB.canvas("#cv-motif", (ctx, w, h) => {
+    const P = MB.palette(), L = lanes(), all = L.flatMap((l) => l[2].map((n) => n.m));
+    const lo = Math.min(...all) - 1, hi = Math.max(...all) + 1, tmax = Math.max(...L.map((l) => len(l[2])));
+    const lw = w < 480 ? 58 : 84, lh = (h - 8) / L.length;
+    L.forEach(([id, name, ns], i) => {
+      const y0 = 4 + i * lh;
+      if (i === playLane) { ctx.fillStyle = P.accent; ctx.globalAlpha = 0.08; ctx.fillRect(0, y0, w, lh); ctx.globalAlpha = 1; }
+      ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(0, y0 + lh); ctx.lineTo(w, y0 + lh); ctx.stroke();
+      ctx.fillStyle = i === playLane ? P.accent : P.text; ctx.font = MEL_FONT(12, true); ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(id, 6, y0 + lh / 2 - 7);
+      ctx.fillStyle = P.dim; ctx.font = MEL_FONT(10.5); ctx.fillText(name, 6, y0 + lh / 2 + 8);
+      const box = { x: lw, y: y0 + 3, w: w - lw - 8, h: lh - 6 };
+      melDrawRoll(ctx, box, ns.map((n, k) => ({ ...n, color: k === 0 ? P.accent : P.accent2 })), { lo, hi, t0: 0, t1: tmax, label: false, beatsPerBar: 4, now: i === playLane ? now : null });
+    });
+    const iv = melIntervals(motif.map((n) => n.m)), ivI = melIntervals(L[2][2].map((n) => n.m)), f = (a) => a.map((d) => (d > 0 ? "+" + d : d)).join(" ");
+    MB.stat("mo-iv", f(iv) || "—"); MB.stat("mo-iv-i", f(ivI) || "—");
+    MB.stat("mo-key", `${MB.pcName(key[0])} ${key[1] === "major" ? "장조" : "단조"} <small>축 ${MB.noteName(motif[0].m)}</small>`);
+  }, { aspect: (w) => (w < 500 ? 1.25 : 0.78), maxHeight: 520, minHeight: 380 });
+  function redraw() { sq.set(sq(), false); cv.redraw(); }
+  // 재생
+  let queueLanes = [];
+  const player = MelPlayer({ bpm, div: 4, inst: () => "piano", onPos: (b) => { now = b; cv.redraw(); }, onEnd: () => { if (queueLanes.length) { const i = queueLanes.shift(); setTimeout(() => startLane(i), 250); } else { playLane = -1; now = null; pbAll.set(false); cv.redraw(); } } });
+  function startLane(i) { playLane = i; now = 0; player.play(lanes()[i][2]); cv.redraw(); }
+  const lb = document.getElementById("mo-lanes");
+  lb.innerHTML = lanes().map((l, i) => `<button class="btn" data-i="${i}">${l[0]}</button>`).join("");
+  lb.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { MB.ctx(); queueLanes = []; pbAll.set(false); player.stop(true); startLane(+b.dataset.i); }));
+  const pbAll = MB.playButton("mo-all", () => { queueLanes = [1, 2, 3, 4, 5, 6, 7]; player.stop(true); startLane(0); }, () => { queueLanes = []; player.stop(true); });
+  document.querySelectorAll("#mo-presets button").forEach((b) => b.addEventListener("click", () => { const p = PRE[b.dataset.p]; motif = p.notes; key = p.key; redraw(); MB.ctx(); queueLanes = []; player.stop(true); startLane(0); }));
+  // 녹음
+  let recBuf = null; const t0s = {};
+  MB.keyboard("#kb-motif", { lo: 55, hi: 79, onDown: (m) => { t0s[m] = performance.now(); }, onUp: (m) => {
+    if (!rec() || t0s[m] == null) return;
+    const sec = (performance.now() - t0s[m]) / 1000, d = MB.clamp(Math.round((sec / (60 / bpm())) * 4) / 4, 0.25, 2);
+    if (!recBuf) recBuf = [];
+    recBuf.push({ m, d }); if (recBuf.length > 8) recBuf.shift();
+    motif = retime(recBuf); key = [60, "major"]; redraw();
+  } });
+  document.getElementById("mo-rec").addEventListener("change", () => { recBuf = null; });
+  redraw();
+})();
+
+/* ---------------------------------------------------------------- 4. 마르코프 체인 */
+(function () {
+  const CORP = { ode: ["ode"], twinkle: ["twinkle"], frere: ["frere"], auclair: ["auclair"], green: ["green"], all: ["ode", "twinkle", "frere", "auclair"] };
+  const sel = document.getElementById("mk-corpus");
+  sel.innerHTML = Object.keys(CORP).map((k) => `<option value="${k}">${k === "all" ? "다장조 4곡 모두" : MEL_TUNES[k].name}</option>`).join("");
+  sel.value = "all";
+  const Tval = (v = temp()) => Math.pow(10, (v - 50) / 50 * 0.6990); // 0.2 … 5 (로그 눈금), 50 → 1
+  let models = [], durModel = null, states = [], gen_ = [], seqs = [], durSeqs = [], now = null, playIdx = -1;
+  const order = MB.seg("mk-order", () => { train(); gen(); });
+  const temp = MB.range("mk-temp", (v) => Tval(v).toFixed(2), () => { stats(); cvM.redraw(); });
+  const lenR = MB.range("mk-len", (v) => v + "음");
+  function count(seqArr, n) { const map = new Map(); seqArr.forEach((s) => { for (let i = n; i < s.length; i++) { const k = s.slice(i - n, i).join(","); if (!map.has(k)) map.set(k, new Map()); const row = map.get(k); row.set(s[i], (row.get(s[i]) || 0) + 1); } }); return map; }
+  function train() {
+    const tunes = CORP[sel.value].map((k) => MEL_TUNES[k].notes);
+    seqs = tunes.map((ns) => ns.map((n) => n.m)); durSeqs = tunes.map((ns) => ns.map((n) => n.d));
+    states = [...new Set(seqs.flat())].sort((a, b) => a - b);
+    models = [0, 1, 2, 3].map((n) => count(seqs, n));
+    durModel = count(durSeqs, 1);
+  }
+  const probs = (row, T) => { const ks = [...row.keys()], ws = ks.map((k) => Math.pow(row.get(k), 1 / T)), s = ws.reduce((a, b) => a + b, 0); return ks.map((k, i) => [k, ws[i] / s]); };
+  const pick = (row, T) => { let u = Math.random(); for (const [k, p] of probs(row, T)) { if ((u -= p) <= 0) return k; } return [...row.keys()].pop(); };
+  let backoffs = 0;
+  function gen() {
+    const n = +order(), L = lenR(), T = Tval();
+    const src = seqs[Math.floor(Math.random() * seqs.length)];
+    const ps = src.slice(0, n), ctxs = ps.map(() => null); backoffs = 0;
+    while (ps.length < L) {
+      let k = n, row = null;
+      while (k >= 0) { row = models[k].get(ps.slice(ps.length - k).join(",")); if (row && row.size) break; k--; }
+      if (k < n) backoffs++;
+      ctxs.push(k === n ? ps.slice(ps.length - n).join(",") : null);
+      ps.push(pick(row, T));
+    }
+    let d = durSeqs[0][0]; const ds = ps.map((_, i) => { if (i) { const row = durModel.get(String(d)); d = row ? pick(row, 1) : 1; } return d; });
+    let t = 0; gen_ = ps.map((m, i) => { const o = { m, t, d: ds[i], ctx: ctxs[i] }; t += ds[i]; return o; });
+    stats(); cvM.redraw(); cvR.redraw();
+  }
+  function stats() {
+    const n = +order(), M = models[n], T = Tval();
+    let tot = 0, H = 0, nz = 0; M.forEach((row) => { const c = [...row.values()].reduce((a, b) => a + b, 0); tot += c; nz += row.size; let h = 0; probs(row, T).forEach(([, p]) => (h -= p * Math.log2(p))); H += c * h; });
+    H /= Math.max(1, tot);
+    MB.stat("mk-states", `${states.length} <small>/ ${M.size}</small>`);
+    MB.stat("mk-sparse", `${((100 * nz) / (M.size * states.length)).toFixed(1)}% <small>(${nz}/${M.size * states.length})</small>`);
+    MB.stat("mk-h", `${H.toFixed(2)} <small>비트/음 · PP ${Math.pow(2, H).toFixed(2)}</small>`);
+    if (gen_.length >= 5) {
+      const grams = new Set(); seqs.forEach((s) => { for (let i = 0; i + 5 <= s.length; i++) grams.add(s.slice(i, i + 5).join(",")); });
+      let hit = 0, all = 0; const g = gen_.map((x) => x.m); for (let i = 0; i + 5 <= g.length; i++) { all++; if (grams.has(g.slice(i, i + 5).join(","))) hit++; }
+      MB.stat("mk-copy", `${Math.round((100 * hit) / all)}% <small>백오프 ${backoffs}회</small>`);
+    }
+  }
+  train();
+  const cvM = MB.canvas("#cv-mk-mat", (ctx, w, h) => {
+    const P = MB.palette(), n = +order(), M = models[n], T = Tval();
+    if (!M) return;
+    const keys = [...M.keys()].sort((a, b) => { const A = a.split(",").map(Number), B = b.split(",").map(Number); for (let i = 0; i < A.length; i++) if (A[i] !== B[i]) return A[i] - B[i]; return 0; });
+    const lw = n === 1 ? 34 : 70, box = { x: lw, y: 20, w: w - lw - 8, h: h - 26 }, cw = box.w / states.length, rh = box.h / keys.length;
+    ctx.font = MEL_FONT(Math.min(10, cw * 0.4), true); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillStyle = P.dim;
+    states.forEach((m, j) => ctx.fillText(MB.noteName(m).replace("♯", "#"), box.x + (j + 0.5) * cw, box.y - 3));
+    const cur = playIdx >= 0 && gen_[playIdx] ? gen_[playIdx] : null;
+    keys.forEach((k, i) => {
+      const row = M.get(k), pr = new Map(probs(row, T)), y = box.y + i * rh;
+      if (cur && cur.ctx === k) { ctx.fillStyle = P.warn; ctx.globalAlpha = 0.25; ctx.fillRect(0, y, w, rh); ctx.globalAlpha = 1; }
+      states.forEach((m, j) => { const p = pr.get(m) || 0; if (p > 0) { ctx.fillStyle = P.accent; ctx.globalAlpha = 0.12 + 0.88 * p; ctx.fillRect(box.x + j * cw + 0.5, y + 0.5, cw - 1, Math.max(1, rh - 1)); ctx.globalAlpha = 1; } });
+      if (cur && cur.ctx === k) { const j = states.indexOf(cur.m); ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.strokeRect(box.x + j * cw + 1, y + 1, cw - 2, Math.max(2, rh - 2)); }
+      if (rh >= 8) { ctx.fillStyle = P.dim; ctx.font = MEL_FONT(Math.min(10, rh - 1), true); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(k.split(",").map((x) => MB.noteName(+x).replace("♯", "#")).join(" "), box.x - 3, y + rh / 2); }
+    });
+    ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.strokeRect(box.x, box.y, box.w, box.h);
+    if (rh < 8) { ctx.save(); ctx.fillStyle = P.dim; ctx.font = MEL_FONT(11); ctx.translate(12, box.y + box.h / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillText(`문맥 ${keys.length}개 (${n}음)`, 0, 0); ctx.restore(); }
+  }, { aspect: (w) => (w < 500 ? 0.9 : 0.6), maxHeight: 400, minHeight: 260 });
+  const cvR = MB.canvas("#cv-mk-roll", (ctx, w, h) => {
+    if (!gen_.length) return;
+    const ms = gen_.map((n) => n.m), tmax = gen_[gen_.length - 1].t + gen_[gen_.length - 1].d;
+    melDrawRoll(ctx, { x: 34, y: 6, w: w - 40, h: h - 12 }, gen_.map((n, i) => ({ ...n, color: i === playIdx ? MB.palette().warn : n.ctx ? MB.palette().accent : MB.palette().accent2 })), { lo: Math.min(...ms) - 1, hi: Math.max(...ms) + 1, t0: 0, t1: tmax, now });
+  }, { aspect: 0.26, minHeight: 120, maxHeight: 170 });
+  const player = MelPlayer({ bpm: () => 120, div: 4, inst: () => "piano", onPos: (b) => { now = b; let i = -1; gen_.forEach((n, k) => { if (n.t <= b + 1e-6) i = k; }); if (i !== playIdx) { playIdx = i; cvM.redraw(); } cvR.redraw(); }, onEnd: () => { now = null; playIdx = -1; pb.set(false); cvM.redraw(); cvR.redraw(); } });
+  const pb = MB.playButton("mk-play", () => player.play(gen_), () => player.stop(true));
+  document.getElementById("mk-gen").addEventListener("click", () => { gen(); if (pb.on) player.play(gen_); });
+  document.getElementById("mk-orig").addEventListener("click", () => { pb.set(false); player.stop(true); const ns = []; let off = 0; CORP[sel.value].slice(0, 1).forEach((k) => MEL_TUNES[k].notes.forEach((n) => ns.push({ ...n, t: n.t + off }))); MB.playNotes(ns, { bpm: 120, inst: "piano" }); });
+  sel.addEventListener("change", () => { train(); gen(); });
+  train(); gen();
+})();
+
+/* ---------------------------------------------------------------- 5. 백색 · 브라운 · 1/f */
+(function () {
+  const mode = MB.seg("nz-mode", () => { recompute(); fresh(); });
+  const scSel = document.getElementById("nz-scale");
+  scSel.innerHTML = ["majorPent", "major", "minor", "dorian", "chromatic"].map((k) => `<option value="${k}">${MB.SCALES[k].name}</option>`).join("");
+  scSel.addEventListener("change", () => fresh());
+  const bpm = MB.range("nz-bpm", (v) => v + " BPM");
+  const K = 6;
+  // 연속값 수열 생성(0…R-1 범위)
+  function series(m, n, R, rnd) {
+    const x = new Float64Array(n);
+    if (m === "white") for (let i = 0; i < n; i++) x[i] = rnd() * (R - 1);
+    else if (m === "brown") { let v = (R - 1) / 2; for (let i = 0; i < n; i++) { v += Math.round(rnd() * 4 - 2); if (v < 0) v = -v; if (v > R - 1) v = 2 * (R - 1) - v; x[i] = v; } }
+    else if (m === "pink") { const sc = (R - 1) / (K + 1), dice = [...Array(K)].map(() => rnd() * sc); for (let i = 0; i < n; i++) { if (i) { let k = 0, j = i; while (!(j & 1) && k < K - 1) { j >>= 1; k++; } dice[k] = rnd() * sc; } x[i] = dice.reduce((a, b) => a + b, 0) + rnd() * sc; } }
+    else { const mu = (R - 1) / 2, phi = 0.7, sd = (R - 1) / 5 * Math.sqrt(1 - phi * phi); let v = mu; for (let i = 0; i < n; i++) { const u1 = rnd() || 1e-9, u2 = rnd(); v = mu + phi * (v - mu) + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); x[i] = MB.clamp(v, 0, R - 1); } }
+    return x;
+  }
+  let spec = null, acf = null, beta = 0, mel = [], now = null;
+  function recompute() {
+    const L = 256, REP = 128, R = 15, rnd = MB.rng(12345), S = new Float64Array(L / 2), A = new Float64Array(33);
+    for (let r = 0; r < REP; r++) {
+      const x = series(mode(), L, R, rnd); let mu = 0; x.forEach((v) => (mu += v)); mu /= L;
+      const re = new Float64Array(L), im = new Float64Array(L); for (let i = 0; i < L; i++) re[i] = (x[i] - mu) * (0.5 - 0.5 * Math.cos((2 * Math.PI * i) / L));
+      MB.fft(re, im); for (let k = 1; k < L / 2; k++) S[k] += (re[k] ** 2 + im[k] ** 2) / REP;
+      let v0 = 0; for (let i = 0; i < L; i++) v0 += (x[i] - mu) ** 2;
+      for (let l = 0; l <= 32; l++) { let s = 0; for (let i = 0; i + l < L; i++) s += (x[i] - mu) * (x[i + l] - mu); A[l] += (v0 > 0 ? s / v0 : 0) / REP; }
+    }
+    let sx = 0, sy = 0, sxx = 0, sxy = 0, n = 0;
+    for (let k = 2; k < L / 2; k++) { const lx = Math.log10(k / L), ly = Math.log10(S[k] + 1e-12); sx += lx; sy += ly; sxx += lx * lx; sxy += lx * ly; n++; }
+    beta = -(n * sxy - sx * sy) / (n * sxx - sx * sx);
+    spec = S; acf = A;
+  }
+  function fresh() {
+    const st = MB.SCALES[scSel.value].steps, R = st.length * 2 + 1, x = series(mode(), 48, R, MB.rng((Math.random() * 1e9) | 0));
+    mel = [...x].map((v, i) => { const d = Math.round(v); return { deg: d, m: MB.scaleNote(60, st, d), t: i * 0.5, d: 0.5 }; });
+    const dg = mel.map((n) => n.deg), iv = melIntervals(dg);
+    MB.stat("nz-beta", `−${beta.toFixed(2)} <small>(β=${beta.toFixed(2)})</small>`);
+    MB.stat("nz-rho", acf[1].toFixed(2));
+    MB.stat("nz-step", Math.round((100 * iv.filter((d) => Math.abs(d) <= 1).length) / iv.length) + "%");
+    const [r, n] = melGapFill(iv, 3); MB.stat("nz-gap", n ? `${Math.round((100 * r) / n)}% <small>(${r}/${n}, ≥3도)</small>` : "—");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-noise", (ctx, w, h) => {
+    const P = MB.palette(); if (!spec) return;
+    const st = MB.SCALES[scSel.value].steps, R = st.length * 2 + 1;
+    const top = { x: 34, y: 8, w: w - 42, h: h * 0.42 };
+    const lo = 60, hi = MB.scaleNote(60, st, R - 1);
+    melDrawRoll(ctx, top, mel, { lo, hi, t0: 0, t1: 24, now, beatsPerBar: 4 });
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.6; ctx.beginPath();
+    mel.forEach((n, i) => { const x = top.x + ((n.t + 0.25) / 24) * top.w, y = top.y + (hi - n.m + 0.5) * (top.h / (hi - lo + 1)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.globalAlpha = 1;
+    const by = h * 0.42 + 26, bw = (w - 60) / 2;
+    const L = 256, data = []; for (let k = 1; k < L / 2; k++) data.push([k / L, spec[k]]);
+    const ymax = Math.max(...data.map((d) => d[1])), ymin = Math.min(...data.map((d) => d[1]));
+    const sb = { x: 46, y: by, w: bw - 20, h: h - by - 34 };
+    const ch = MB.chart(ctx, sb, { x: [1 / L, 0.5], y: [ymin / 2, ymax * 2], logX: true, logY: true, xFmt: (v) => v, yFmt: () => "", series: [{ data, color: P.accent, width: 2 }] });
+    const f0 = 1 / L, s0 = data[0][1];
+    [0, 1, 2].forEach((b) => { ctx.save(); ctx.beginPath(); ctx.rect(sb.x, sb.y, sb.w, sb.h); ctx.clip(); ctx.strokeStyle = P.faint; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(ch.X(f0), ch.Y(s0)); ctx.lineTo(ch.X(0.5), ch.Y(s0 * Math.pow(0.5 / f0, -b))); ctx.stroke(); ctx.restore(); ctx.fillStyle = P.faint; ctx.font = MEL_FONT(10, true); });
+    ctx.fillStyle = P.dim; ctx.font = MEL_FONT(11); ctx.textAlign = "left"; ctx.fillText("파워 스펙트럼 (log–log), 주파수 [1/음]", sb.x, sb.y + sb.h + 28);
+    const ab = { x: sb.x + bw + 30, y: by, w: bw - 24, h: h - by - 34 };
+    MB.chart(ctx, ab, { x: [0, 32], y: [-0.3, 1], xTicks: [0, 8, 16, 24, 32], yTicks: [0, 0.5, 1], series: [{ data: [...acf].map((v, l) => [l, v]), color: P.accent2, width: 2 }], hlines: [{ y: 0, color: P.axis, dash: [] }] });
+    ctx.fillStyle = P.dim; ctx.font = MEL_FONT(11); ctx.textAlign = "left"; ctx.fillText("자기상관 ρ(지연, 음)", ab.x, ab.y + ab.h + 28);
+  }, { aspect: (w) => (w < 500 ? 1.05 : 0.72), maxHeight: 500, minHeight: 360 });
+  const player = MelPlayer({ bpm, div: 2, inst: () => "pluck", onPos: (b) => { now = b; cv.redraw(); }, onEnd: () => { now = null; pb.set(false); cv.redraw(); } });
+  const pb = MB.playButton("nz-play", () => player.play(mel), () => player.stop(true));
+  document.getElementById("nz-new").addEventListener("click", () => { fresh(); if (pb.on) player.play(mel); });
+  recompute(); fresh();
+})();
+
+/* ---------------------------------------------------------------- 6. 제약 기반 생성 */
+(function () {
+  const PROGS = [[0, 3, 4, 0], [0, 5, 4, 0], [5, 3, 4, 0], [0, 1, 4, 0], [0, 2, 3, 0]]; // 음계 도수(0=I)
+  const ROM = ["I", "ii", "iii", "IV", "V", "vi", "vii°"], MAJ = [0, 2, 4, 5, 7, 9, 11];
+  const chordPcs = (deg) => [0, 2, 4].map((k) => MAJ[(deg + k) % 7]);
+  const RHY = [[2, 2, 2, 2], [2, 1, 1, 2, 2], [3, 1, 2, 2], [1, 1, 2, 1, 1, 2], [2, 2, 4], [4, 2, 2], [2, 1, 1, 4]];
+  const LAST = [[2, 2, 4], [4, 4], [2, 2, 2, 2]];
+  const progSel = document.getElementById("cs-prog");
+  const C = [1, 2, 3, 4, 5, 6, 7].map((i) => MB.check("cs-c" + i, () => {}));
+  const leap = MB.range("cs-leap", (v) => v + " 반음");
+  let mel = [], viol = [], now = null;
+  const prog = () => PROGS[+progSel.value];
+  const RULES = ["음계 밖", "강박 비화음음", "도약 초과", "도약 후 미해결", "3연속 동음", "종지", "음역 밖"];
+  // 규칙 검사: k번째 음 m (앞 음들은 ps) → 어긴 규칙 번호 목록
+  function breaks(k, m, ps, slots) {
+    const out = [], s = slots[k], chord = chordPcs(prog()[Math.floor(s / 8)]), N = slots.length, pc = MB.mod(m, 12);
+    if (!MAJ.includes(pc)) out.push(0);
+    if (s % 4 === 0 && !chord.includes(pc)) out.push(1);
+    if (k > 0 && Math.abs(m - ps[k - 1]) > leap()) out.push(2);
+    if (k > 1) { const a = ps[k - 1] - ps[k - 2], b = m - ps[k - 1]; if (Math.abs(a) >= 5 && !(Math.sign(b) === -Math.sign(a) && Math.abs(b) >= 1 && Math.abs(b) <= 2)) out.push(3); }
+    if (k > 1 && m === ps[k - 1] && m === ps[k - 2]) out.push(4);
+    if ((k === N - 1 && pc !== 0) || (k === N - 2 && pc !== 2 && pc !== 11)) out.push(5);
+    if (m < 60 || m > 72) out.push(6);
+    return out;
+  }
+  let nodes = 0, backs = 0;
+  function generate() {
+    const rnd = MB.rng((Math.random() * 1e9) | 0);
+    const slots = []; for (let b = 0; b < 4; b++) { let s = b * 8; for (const d of b === 3 ? rnd.pick(LAST) : rnd.pick(RHY)) { slots.push(s); s += d; } }
+    const durs = slots.map((s, i) => (slots[i + 1] != null ? slots[i + 1] : 32) - s);
+    const on = C.map((c) => c());
+    const dom = []; for (let m = on[6] ? 60 : 55; m <= (on[6] ? 72 : 84); m++) if (!on[0] || MAJ.includes(MB.mod(m, 12))) dom.push(m);
+    nodes = 0; backs = 0; const ps = [];
+    const ok = (k, m) => breaks(k, m, ps, slots).every((r) => !on[r] || (r === 2 && !on[2]));
+    function rec(k) {
+      if (k === slots.length) return true;
+      if (++nodes > 40000) return false;
+      const cand = dom.filter((m) => ok(k, m)).map((m) => { const w = k ? Math.exp(-Math.abs(m - ps[k - 1]) / 2.5) * (m === ps[k - 1] ? 0.4 : 1) : 1 / (1 + Math.abs(m - 66) / 3); return [m, Math.pow(rnd() || 1e-9, 1 / w)]; }).sort((a, b) => b[1] - a[1]);
+      for (const [m] of cand) { ps.push(m); if (rec(k + 1)) return true; ps.pop(); backs++; if (nodes > 40000) return false; }
+      return false;
+    }
+    const success = rec(0);
+    if (!success) { mel = []; viol = []; MB.stat("cs-nodes", `${nodes} / ${backs}`); setMsg("해를 찾지 못했습니다(노드 상한 도달 또는 제약 충돌). 최대 도약을 늘리거나 제약을 끄세요.", "bad"); cv.redraw(); return; }
+    mel = ps.map((m, k) => ({ m, t: slots[k] / 2, d: durs[k] / 2, slot: slots[k] }));
+    viol = mel.map((n, k) => breaks(k, n.m, ps, slots));
+    const nv = viol.reduce((a, v) => a + v.length, 0), byRule = RULES.map((_, r) => viol.filter((v) => v.includes(r)).length);
+    MB.stat("cs-nodes", `${nodes.toLocaleString()} / ${backs.toLocaleString()}`);
+    MB.stat("cs-viol", nv ? `<span style="color:var(--bad)">${nv}</span>` : "0");
+    const iv = melIntervals(ps); MB.stat("cs-step", Math.round((100 * iv.filter((d) => Math.abs(d) <= 2).length) / iv.length) + "%");
+    setMsg(nv ? "위반: " + byRule.map((c, r) => (c ? `${RULES[r]} ${c}` : "")).filter(Boolean).join(" · ") : `${mel.length}음, 7개 규칙 모두 만족.`, nv ? "bad" : "ok");
+    cv.redraw();
+  }
+  function setMsg(t, cls) { const el = document.getElementById("cs-msg"); el.textContent = t; el.className = "sim-msg " + (cls || ""); }
+  const cv = MB.canvas("#cv-cs", (ctx, w, h) => {
+    const P = MB.palette(), lo = 55, hi = 84, box = { x: 34, y: 24, w: w - 40, h: h - 30 }, rh = box.h / (hi - lo + 1), bw = box.w / 4;
+    prog().forEach((deg, b) => {
+      const pcs = chordPcs(deg);
+      for (let m = lo; m <= hi; m++) if (pcs.includes(MB.mod(m, 12))) { ctx.fillStyle = P.accent2; ctx.globalAlpha = 0.13; ctx.fillRect(box.x + b * bw, box.y + (hi - m) * rh, bw, rh); ctx.globalAlpha = 1; }
+      ctx.fillStyle = P.text; ctx.font = MEL_FONT(12, true); ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+      ctx.fillText(`${ROM[deg]} (${MB.pcName(MAJ[deg])}${deg === 1 || deg === 2 || deg === 5 ? "m" : ""})`, box.x + b * bw + 4, box.y - 4);
+    });
+    if (C[6]()) { ctx.strokeStyle = P.warn; ctx.setLineDash([3, 3]); [60, 72].forEach((m) => { const y = box.y + (hi - m + (m === 60 ? 1 : 0)) * rh; ctx.beginPath(); ctx.moveTo(box.x, y); ctx.lineTo(box.x + box.w, y); ctx.stroke(); }); ctx.setLineDash([]); }
+    melDrawRoll(ctx, box, mel.map((n, k) => ({ ...n, bad: viol[k] && viol[k].length })), { lo, hi, t0: 0, t1: 16, now });
+  }, { aspect: (w) => (w < 500 ? 0.85 : 0.55), maxHeight: 420, minHeight: 260 });
+  const player = MelPlayer({ bpm: () => 100, div: 4, inst: () => "piano", onPos: (b) => { now = b; cv.redraw(); }, onEnd: () => { now = null; pb.set(false); cv.redraw(); } });
+  const accomp = () => prog().flatMap((deg, b) => chordPcs(deg).map((pc) => ({ m: 48 + pc + (pc < 5 ? 12 : 0), t: b * 4, d: 4, inst: "epiano", vel: 0.32 })));
+  const pb = MB.playButton("cs-play", () => { if (!mel.length) generate(); player.play(mel.map((n) => ({ ...n, inst: "piano", vel: 0.8 })).concat(accomp())); }, () => player.stop(true));
+  document.getElementById("cs-gen").addEventListener("click", () => { generate(); if (pb.on && mel.length) player.play(mel.map((n) => ({ ...n, inst: "piano", vel: 0.8 })).concat(accomp())); });
+  progSel.addEventListener("change", () => generate());
+  generate();
+})();
+
+/* ---------------------------------------------------------------- 7. 대위법 검사기 */
+(function () {
+  const CF = [62, 65, 64, 62, 67, 65, 69, 67, 65, 64, 62];
+  const ROWS = [60, 62, 64, 65, 67, 69, 71, 72, 73, 74, 76, 77, 79, 81];
+  const EX = [74, 72, 67, 69, 71, 74, 72, 76, 74, 73, 74];
+  let cp = Array(CF.length).fill(null), now = null, colMark = [];
+  const IVN = ["P1", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7"];
+  const CONS = [0, 3, 4, 7, 8, 9], PERF = [0, 7];
+  const ivName = (d) => (d >= 12 && d % 12 === 0 ? "P8" : IVN[MB.mod(d, 12)] + (d > 12 ? "+" : ""));
+  /** 검사: cp 배열 → {errs:[{i,msg}], warns:[{i,msg}], mot:{c,p,s,o}} */
+  function check(v) {
+    const E = [], Wn = [], mot = { c: 0, p: 0, s: 0, o: 0 }, n = CF.length;
+    for (let i = 0; i < n; i++) {
+      if (v[i] == null) continue;
+      const d = v[i] - CF[i], s = MB.mod(d, 12);
+      if (d < 0) E.push({ i, msg: `${i + 1}열: 성부 교차(대선율이 정선율 아래)` });
+      else if (!CONS.includes(s)) E.push({ i, msg: `${i + 1}열: 불협화 ${ivName(d)}` });
+      if (i === 0 && !PERF.includes(s)) E.push({ i, msg: "첫 음은 완전협화(1·5·8도)여야 함" });
+      if (i === n - 1 && s !== 0) E.push({ i, msg: "끝 음은 1도 또는 8도여야 함" });
+      if (d === 0 && i > 0 && i < n - 1) E.push({ i, msg: `${i + 1}열: 중간의 동음(1도)` });
+      if (d > 16) Wn.push({ i, msg: `${i + 1}열: 성부 간격이 10도를 넘음` });
+      if (v[i] === 73 && i !== n - 2) Wn.push({ i, msg: `${i + 1}열: C♯은 종지 직전에만(무지카 픽타)` });
+      if (i > 0 && v[i - 1] != null) {
+        const a = CF[i] - CF[i - 1], b = v[i] - v[i - 1], dp = v[i - 1] - CF[i - 1], sp = MB.mod(dp, 12);
+        if (b === 0 || a === 0) mot.o++; else if (Math.sign(a) !== Math.sign(b)) mot.c++; else if (dp === d) mot.p++; else mot.s++;
+        if (PERF.includes(s) && sp === s && b !== 0 && a !== 0) E.push({ i, msg: `${i}→${i + 1}열: 연속 ${s === 7 ? "5도" : "8도"}` });
+        else if (PERF.includes(s) && Math.sign(a) === Math.sign(b) && a !== 0) E.push({ i, msg: `${i}→${i + 1}열: 은복 ${s === 7 ? "5도" : "8도"}(같은 방향으로 완전음정 도착)` });
+        const ab = Math.abs(b);
+        if (ab === 6) E.push({ i, msg: `${i}→${i + 1}열: 선율의 증4도(트라이톤) 도약` });
+        else if (ab === 10 || ab === 11) E.push({ i, msg: `${i}→${i + 1}열: 선율의 7도 도약` });
+        else if (ab > 12) E.push({ i, msg: `${i}→${i + 1}열: 옥타브 초과 도약` });
+        if (b === 0) Wn.push({ i, msg: `${i}→${i + 1}열: 같은 음 반복` });
+        if (i > 1 && v[i - 2] != null) { const b0 = v[i - 1] - v[i - 2]; if (Math.abs(b0) >= 5 && !(Math.sign(b) === -Math.sign(b0) && Math.abs(b) <= 2)) Wn.push({ i, msg: `${i}열의 도약 뒤 반대 방향 순차가 아님` }); }
+        if (i > 2 && [v[i - 3], v[i - 2], v[i - 1]].every((x) => x != null)) { const ss = [i - 3, i - 2, i - 1, i].map((k) => MB.mod(v[k] - CF[k], 12)); if ([3, 4].includes(ss[0]) && ss.every((x) => [3, 4].includes(x)) || [8, 9].includes(ss[0]) && ss.every((x) => [8, 9].includes(x))) Wn.push({ i, msg: `${i - 2}–${i + 1}열: 같은 종류의 불완전협화(3도/6도)가 4번 연속` }); }
+      }
+    }
+    if (v[n - 2] != null && v[n - 2] - CF[n - 2] !== 9) Wn.push({ i: n - 2, msg: "종지 직전은 장6도(C♯5/E4)가 표준" });
+    return { E, Wn, mot };
+  }
+  function update() {
+    const r = check(cp); colMark = CF.map((_, i) => (r.E.some((e) => e.i === i) ? "e" : r.Wn.some((e) => e.i === i) ? "w" : ""));
+    const filled = cp.filter((x) => x != null).length;
+    MB.stat("cpt-err", `<span style="color:${r.E.length ? "var(--bad)" : "var(--ok)"}">${r.E.length}</span> / <span style="color:${r.Wn.length ? "var(--warn)" : "inherit"}">${r.Wn.length}</span> <small>${filled}/${CF.length}열</small>`);
+    const tm = r.mot.c + r.mot.p + r.mot.s + r.mot.o;
+    MB.stat("cpt-mot", tm ? `${r.mot.c} / ${r.mot.p} / ${r.mot.s} / ${r.mot.o} <small>반진행 ${Math.round((100 * r.mot.c) / tm)}%</small>` : "—");
+    const ul = document.getElementById("cpt-msgs");
+    ul.innerHTML = filled === CF.length && !r.E.length && !r.Wn.length ? `<li style="color:var(--ok)">규칙을 모두 지킨 대선율입니다.</li>` : r.E.map((e) => `<li class="e">${e.msg}</li>`).concat(r.Wn.map((e) => `<li class="w">${e.msg}</li>`)).slice(0, 8).join("") + (filled < CF.length ? `<li>빈 열 ${CF.length - filled}개</li>` : "");
+    cv.redraw();
+  }
+  let geo = null;
+  const cv = MB.canvas("#cv-cpt", (ctx, w, h) => {
+    const P = MB.palette(), n = CF.length, box = { x: 38, y: 8, w: w - 44, h: h - 30 }, cw = box.w / n, rh = box.h / ROWS.length;
+    geo = { box, cw, rh };
+    ROWS.forEach((m, r) => { const y = box.y + box.h - (r + 1) * rh; ctx.fillStyle = r % 2 ? P.bg : P.surface; ctx.fillRect(box.x, y, box.w, rh); ctx.fillStyle = m === 73 ? P.warn : P.dim; ctx.font = MEL_FONT(Math.min(10, rh - 2), true); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(MB.noteName(m), box.x - 3, y + rh / 2); });
+    for (let i = 0; i <= n; i++) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x + i * cw + 0.5, box.y); ctx.lineTo(box.x + i * cw + 0.5, box.y + box.h); ctx.stroke(); }
+    const Y = (m) => box.y + box.h - (ROWS.indexOf(m) + 1) * rh;
+    for (let i = 0; i < n; i++) {
+      const x = box.x + i * cw, playing = now != null && Math.floor(now / 2) === i;
+      ctx.fillStyle = P.faint; ctx.fillRect(x + 3, Y(CF[i]) + 2, cw - 6, rh - 4);
+      if (cp[i] != null) { ctx.fillStyle = playing ? P.warn : P.accent; ctx.fillRect(x + 3, Y(cp[i]) + 2, cw - 6, rh - 4); }
+      if (colMark[i]) { ctx.strokeStyle = colMark[i] === "e" ? P.bad : P.warn; ctx.lineWidth = 2; ctx.strokeRect(x + 1.5, box.y + 1, cw - 3, box.h - 2); }
+      if (playing) { ctx.fillStyle = P.warn; ctx.globalAlpha = 0.12; ctx.fillRect(x, box.y, cw, box.h); ctx.globalAlpha = 1; }
+      if (cp[i] != null) { const d = cp[i] - CF[i]; ctx.fillStyle = CONS.includes(MB.mod(d, 12)) && d >= 0 ? (PERF.includes(MB.mod(d, 12)) ? P.accent2 : P.text) : P.bad; ctx.font = MEL_FONT(11, true); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText(d < 0 ? "×" : ivName(d), x + cw / 2, box.y + box.h + 5); }
+    }
+  }, { aspect: (w) => (w < 500 ? 0.95 : 0.58), maxHeight: 420, minHeight: 300 });
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    const r = cv.canvas.getBoundingClientRect(), { box, cw, rh } = geo, i = Math.floor((e.clientX - r.left - box.x) / cw), row = ROWS.length - 1 - Math.floor((e.clientY - r.top - box.y) / rh);
+    if (i < 0 || i >= CF.length || row < 0 || row >= ROWS.length) return;
+    const m = ROWS[row];
+    if (m === CF[i] && cp[i] !== m) { /* 정선율 칸: 동음으로 둔다 */ }
+    cp[i] = cp[i] === m ? null : m;
+    if (cp[i] != null) MB.playChord([CF[i], cp[i]], { inst: "organ", dur: 0.5, vel: 0.6 });
+    update();
+  });
+  // 자동 작곡: 오류 규칙 + 일부 경고를 하드 제약으로, 선호는 점수
+  let lastNodes = 0;
+  function solve() {
+    const rnd = MB.rng((Math.random() * 1e9) | 0), v = Array(CF.length).fill(null); let nodes = 0;
+    const hard = (i) => { const r = check(v); return !r.E.some((e) => e.i === i) && !r.Wn.some((e) => e.i === i && !/10도|4번 연속/.test(e.msg)) || false; };
+    function rec(i) {
+      if (i === CF.length) return true;
+      if (++nodes > 30000) return false;
+      const cands = ROWS.filter((m) => m > CF[i] || (m === CF[i] && (i === 0 || i === CF.length - 1))).map((m) => {
+        let sc = 1; if (i > 0) { const b = m - v[i - 1], a = CF[i] - CF[i - 1]; if (Math.sign(a) && Math.sign(b) === -Math.sign(a)) sc *= 2.2; sc *= Math.exp(-Math.abs(b) / 3); }
+        if ([3, 4, 8, 9].includes(MB.mod(m - CF[i], 12))) sc *= 1.6; if (i === CF.length - 2 && m - CF[i] === 9) sc *= 50;
+        return [m, Math.pow(rnd() || 1e-9, 1 / sc)];
+      }).sort((a, b) => b[1] - a[1]);
+      for (const [m] of cands) { v[i] = m; if (hard(i) && rec(i + 1)) return true; v[i] = null; if (nodes > 30000) return false; }
+      return false;
+    }
+    const ok = rec(0); lastNodes = nodes;
+    MB.stat("cpt-nodes", nodes.toLocaleString() + (ok ? "" : " <small>(실패)</small>"));
+    if (ok) cp = v.slice();
+    update();
+  }
+  document.getElementById("cpt-ex").addEventListener("click", () => { cp = EX.slice(); update(); });
+  document.getElementById("cpt-clear").addEventListener("click", () => { cp = Array(CF.length).fill(null); update(); });
+  document.getElementById("cpt-auto").addEventListener("click", solve);
+  const withCf = MB.check("cpt-cf");
+  const bpm = MB.range("cpt-bpm", (v) => v + " BPM");
+  const player = MelPlayer({ bpm, div: 2, onPos: (b) => { now = b; cv.redraw(); }, onEnd: () => { now = null; pb.set(false); cv.redraw(); } });
+  const pb = MB.playButton("cpt-play", () => {
+    const ns = []; CF.forEach((m, i) => { if (withCf()) ns.push({ m, t: i * 2, d: 2, inst: "organ", vel: 0.55, pan: -0.3 }); if (cp[i] != null) ns.push({ m: cp[i], t: i * 2, d: 2, inst: "strings", vel: 0.7, pan: 0.3 }); });
+    player.play(ns);
+  }, () => player.stop(true));
+  cp = EX.slice(); update();
+})();
+
+/* ---------------------------------------------------------------- 8. 돌림노래 */
+(function () {
+  const tune = MEL_TUNES.frere.notes, TL = 32;
+  const N = MB.range("cn-n", (v) => v + "성부", () => build());
+  const off = MB.range("cn-off", (v) => v + "박" + (v % 4 === 0 ? ` (${v / 4}마디)` : ""), () => build());
+  const tr = MB.range("cn-tr", (v) => MB.signed(v, 0) + " 반음", () => build());
+  const bpm = MB.range("cn-bpm", (v) => v + " BPM");
+  off.set(8, false);
+  const INST = ["piano", "pluck", "epiano", "organ"], PAN = [0, -0.45, 0.45, -0.15];
+  let notes = [], total = 0, now = null;
+  function build() {
+    notes = [];
+    for (let v = 0; v < N(); v++) for (let rep = 0; rep < 2; rep++) tune.forEach((n) => notes.push({ m: n.m + v * tr(), t: n.t + rep * TL + v * off(), d: n.d, v, inst: INST[v], pan: PAN[v], vel: 0.62 }));
+    total = notes.reduce((a, n) => Math.max(a, n.t + n.d), 0);
+    // 모든 성부가 함께 울리는 구간에서 불협 순간 비율
+    const DIS = [1, 2, 6, 10, 11]; let all = 0, bad = 0;
+    for (let t = (N() - 1) * off(); t < 2 * TL - 1e-6; t += 0.5) {
+      const ms = notes.filter((n) => n.t <= t + 1e-6 && n.t + n.d > t + 1e-6).map((n) => n.m);
+      if (ms.length < N()) continue; all++;
+      let d = false; for (let i = 0; i < ms.length; i++) for (let j = i + 1; j < ms.length; j++) if (DIS.includes(MB.mod(ms[i] - ms[j], 12))) d = true;
+      if (d) bad++;
+    }
+    MB.stat("cn-dis", N() < 2 ? "— <small>(성부 1개)</small>" : all ? `${Math.round((100 * bad) / all)}% <small>(${bad}/${all})</small>` : "—");
+    MB.stat("cn-len", `${total}박 <small>${(total * 60 / bpm()).toFixed(1)} s</small>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-canon", (ctx, w, h) => {
+    const P = MB.palette(), ms = notes.map((n) => n.m);
+    if (!ms.length) return;
+    melDrawRoll(ctx, { x: 34, y: 6, w: w - 40, h: h - 12 }, notes.map((n) => ({ ...n, color: P.series[n.v], alpha: now != null && n.t <= now && n.t + n.d > now ? 1 : 0.7 })), { lo: Math.min(...ms) - 1, hi: Math.max(...ms) + 1, t0: 0, t1: total, now });
+  }, { aspect: (w) => (w < 500 ? 0.75 : 0.45), maxHeight: 360, minHeight: 220 });
+  const player = MelPlayer({ bpm, div: 2, onPos: (b) => {
+    now = b; cv.redraw();
+    const ms = [...new Set(notes.filter((n) => n.t <= b + 1e-6 && n.t + n.d > b + 1e-6).map((n) => n.m))];
+    const dc = ms.length >= 2 ? MB.detectChord(ms) : [];
+    MB.stat("cn-chord", ms.length ? (dc[0] && dc[0].score > 0.6 ? dc[0].sym : "") + ` <small>${ms.sort((a, c) => a - c).map((m) => MB.noteName(m)).join(" ")}</small>` : "—");
+  }, onEnd: () => { now = null; pb.set(false); cv.redraw(); MB.stat("cn-chord", "—"); } });
+  const pb = MB.playButton("cn-play", () => { build(); player.play(notes); }, () => player.stop(true));
+  build();
+})();
+</script>
+</body>
+</html>

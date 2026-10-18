@@ -1,0 +1,11 @@
+{
+  "id": "musicbook",
+  "title": "MusicBook",
+  "description": "음, 화음, 리듬을 소리로 배우기. 파동과 배음에서 음률의 수학, 화성과 코드 진행, 리듬과 시퀀서, 합성과 DSP까지 — 브라우저에서 직접 소리를 만들며 음악을 공학적으로 이해합니다.",
+  "url": "https://music.euiyun.com/fundamentals/",
+  "repo": "https://github.com/geniuskey/music-books",
+  "field": "culture",
+  "status": "published",
+  "domain": "music.euiyun.com",
+  "basePath": "/fundamentals/"
+}

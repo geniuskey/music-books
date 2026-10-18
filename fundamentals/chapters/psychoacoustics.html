@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>청각과 심리음향 · MusicBook</title>
+<meta name="description" content="귀를 신호 처리 체인으로 보고, ISO 226 등청감 곡선과 A-가중, 임계대역과 마스킹, 음높이 JND 측정, 셰퍼드 톤과 리세 글리산도, ITD·ILD 공간 청각, 양이 맥놀이와 선행음 효과를 직접 듣고 측정한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="청각과 심리음향 · MusicBook">
+<meta property="og:description" content="귀를 신호 처리 체인으로 보고, ISO 226 등청감 곡선과 A-가중, 임계대역과 마스킹, 음높이 JND 측정, 셰퍼드 톤과 리세 글리산도, ITD·ILD 공간 청각, 양이 맥놀이와 선행음 효과를 직접 듣고 측정한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"청각과 심리음향","name":"청각과 심리음향 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":14,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"귀를 신호 처리 체인으로 보고, ISO 226 등청감 곡선과 A-가중, 임계대역과 마스킹, 음높이 JND 측정, 셰퍼드 톤과 리세 글리산도, ITD·ILD 공간 청각, 양이 맥놀이와 선행음 효과를 직접 듣고 측정한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"14 청각과 심리음향","item":"https://music.euiyun.com/fundamentals/chapters/psychoacoustics.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .psy-warn { padding: 9px 18px; font-size: 13.5px; border-top: 1px solid var(--border); background: color-mix(in srgb, var(--warn) 13%, transparent); color: var(--text); }
+  .pads.psy-pos { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+  .pads.psy-pos .pad { padding: 8px 2px; }
+  .pads.psy-pos .pad b { font-size: 14px; }
+  .pad.right { background: color-mix(in srgb, var(--ok) 22%, var(--bg-elev)); border-color: var(--ok); }
+  .pad.wrong { background: color-mix(in srgb, var(--bad) 18%, var(--bg-elev)); border-color: var(--bad); }
+  .btn:disabled { opacity: .45; cursor: default; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="psychoacoustics">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 14</div>
+    <h1>청각과 심리음향</h1>
+    <p class="lead">마이크는 압력을 선형으로 재지만, 귀는 그렇지 않습니다. 같은 60 dB라도 50 Hz는 1 kHz보다 훨씬 작게 들리고, 큰 소리 바로 옆의 작은 소리는 사라지며, 끝없이 올라가기만 하는 음이 존재합니다. <span class="term">심리음향</span><span class="en">(Psychoacoustics)</span>은 물리량(Hz, dB, 초)과 지각량(음높이, 크기, 방향) 사이의 전달함수를 측정하는 학문입니다. MP3와 AAC는 이 전달함수의 '빈틈'에 비트를 버려서 파일을 1/10로 줄입니다. 이 장에서는 그 빈틈을 직접 듣고 측정합니다.</p>
+    <ul class="objectives">
+      <li>외이·중이·달팽이관을 공진기·임피던스 정합기·필터뱅크로 보는 신호 처리 모델을 설명한다.</li>
+      <li>현행 ISO 226:2023과 예제의 2003판 등청감 곡선, 폰과 손, A-가중의 의미와 한계를 안다.</li>
+      <li>임계대역(ERB·바크)과 동시·시간 마스킹을 설명하고, 마스킹 확산 함수로 들림 여부를 예측한다.</li>
+      <li>적응형 계단법(2-down-1-up)으로 자신의 주파수·세기 JND를 측정한다.</li>
+      <li>셰퍼드 톤·리세 글리산도·트라이톤 역설로 음높이의 '높이'와 '음색(크로마)'이 분리됨을 듣는다.</li>
+      <li>ITD·ILD(듀플렉스 이론), 양이 맥놀이, 선행음 효과로 두 귀가 공간을 계산하는 방식을 안다.</li>
+    </ul>
+  </header>
+
+  <div class="callout warn"><strong>귀 보호</strong> 이 장의 시뮬레이터는 저음·고음을 크게 보정해 재생하거나 순음을 오래 들려주는 것이 많습니다. <b>기기 볼륨을 낮춘 상태에서 시작</b>하고 조금씩 올리세요. 공간 청각 실험(ITD·ILD, 양이 맥놀이, 선행음)은 <b>헤드폰</b>이 필요합니다. 결과는 재생 장치의 주파수 특성에 크게 좌우되므로 '교육용 체험'으로 받아들이세요.</div>
+
+  <!-- =============================================================== 1 -->
+  <section id="ear">
+    <h2>귀는 신호 처리 체인이다</h2>
+    <p>소리가 신경 신호가 되기까지 세 단계의 기계 장치를 지납니다. <b>외이</b>(귓바퀴·외이도)는 한쪽이 막힌 약 2.5 cm 관이라 \(\lambda/4\) 공진 \(f = c/4L \approx 343/(4\times0.025) \approx 3.4\) kHz 근처를 10–15 dB 증폭합니다. 사람의 청각이 2–5 kHz에서 가장 예민하고, 아기 울음·자음의 에너지가 이 대역에 있는 것은 우연이 아닙니다. <b>중이</b>(고막–이소골)는 공기(낮은 임피던스)에서 림프액(높은 임피던스)으로 에너지를 넘기는 <span class="term">임피던스 정합기</span>입니다. 고막과 난원창의 면적비 약 17배, 이소골 지렛대 약 1.3배로 압력을 약 22배(≈27 dB) 키웁니다. 이것이 없으면 공기–물 경계에서 에너지의 99.9%가 반사됩니다.</p>
+    <p><b>내이</b>(달팽이관)의 기저막은 밑동이 좁고 단단하며 꼭대기로 갈수록 넓고 유연해서, 주파수마다 최대로 진동하는 위치가 다릅니다—<span class="term">토노토피</span><span class="en">(Tonotopy)</span>. 공학적으로는 수천 개의 겹치는 대역통과 필터로 이루어진 <b>필터뱅크</b>이며, 각 필터의 대역폭이 바로 임계대역(ERB)입니다. 위치와 주파수의 관계는 그린우드 함수로 근사됩니다.</p>
+    <div class="formula">$$f(x) = 165.4\left(10^{2.1x} - 0.88\right)\ \text{Hz},\qquad x\in[0,1]\ (\text{꼭대기}=0,\ \text{밑동}=1)$$
+      <div class="where">사람의 기저막 약 35 mm. \(x=1\)에서 약 20.7 kHz, \(x=0\)에서 약 20 Hz. 로그에 가까운 배치이므로 고주파에서는 옥타브당 약 5.0 mm에 가까워진다. 같은 식에서 1→2 kHz는 약 4.54 mm, 100→200 Hz는 약 2.47 mm로 저주파에서는 길이가 달라진다—음높이의 로그 지각(5장)의 생리적 바탕이다. 내유모세포는 기저막 운동을 반파 정류·압축해 신경 발화로 바꾸고, 외유모세포는 능동 증폭기(약 40–50 dB)로 작은 소리의 감도와 필터의 날카로움을 높인다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="청각 신호 처리 체인"><g id="psy-fig-chain"></g></svg>
+      <figcaption><b>그림 14-1.</b> 귀의 신호 처리 체인. 외이는 공진 필터, 중이는 임피던스 변환기, 달팽이관은 로그 간격 필터뱅크 + 정류·압축(AGC), 청신경은 약 4–5 kHz까지 위상에 동기된 펄스열(시간 정보)을 보낸다. 아래 띠: 기저막 위치와 최대 응답 주파수(그린우드 함수).</figcaption>
+    </figure>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="loudness">
+    <h2>소리의 크기: 등청감 곡선, 폰과 손</h2>
+    <p>물리적 음압 레벨 \(L_p = 20\log_{10}(p/20\,\mu\text{Pa})\) dB SPL이 같아도 주파수에 따라 크기가 다르게 들립니다. 1 kHz 순음과 같은 크기로 들리는 음압을 주파수별로 이은 곡선이 <span class="term">등청감 곡선</span><span class="en">(Equal-loudness Contour)</span>이고, 그 크기를 1 kHz에서의 dB SPL 값으로 부른 단위가 <b>폰</b>(phon)입니다. 1933년 플레처–먼슨 곡선이 원조이고, 현행 국제 표준은 여러 나라 실험을 통합한 <b>ISO 226:2023</b>입니다. 아래 계산은 2003판 데이터를 사용하는 교육용 근사이며 두 판의 차이는 최대 약 0.6 dB로 보고됩니다. 표준은 정상 청력의 18–25세, 정면 자유음장, 양이 순음 청취 조건을 기준으로 합니다. 헤드폰·모든 연령의 개인별 교정값은 아닙니다. 현행판 안내는 <a href="https://www.iso.org/standard/83117.html">ISO</a>에서 확인할 수 있습니다.</p>
+    <div class="formula">$$A_f = 4.47\times10^{-3}\left(10^{0.025L_N}-1.15\right) + \left[0.4\times10^{\left(\frac{T_f+L_U}{10}-9\right)}\right]^{\alpha_f},\qquad L_p = \frac{10}{\alpha_f}\log_{10}A_f - L_U + 94$$
+      <div class="where">ISO 226:2003의 계산식. \(L_N\): 폰 값, \(T_f\): 가청 한계(dB), \(\alpha_f\): 크기 지각의 지수, \(L_U\): 1 kHz로 정규화한 전달함수 크기(dB). 세 매개변수는 29개 주파수(20 Hz–12.5 kHz)의 표로 주어진다. 20–90 폰(10 kHz 이상은 80 폰)에서 유효.</div>
+    </div>
+    <p>폰은 '같은 크기'의 눈금일 뿐 '두 배 크기'를 말해 주지 않습니다. 스티븐스의 <b>손</b>(sone)은 40 폰을 1 손으로 두고, 대략 <b>10 폰 증가가 크기 두 배</b>가 되도록 정의합니다: \(N = 2^{(L_N-40)/10}\) 손(40 폰 이상). 음압으로 10 dB는 전력 10배이므로, 크기 지각은 전력의 약 0.3제곱(스티븐스의 거듭제곱 법칙)에 비례합니다. 그래서 앰프 출력을 두 배(+3 dB)로 늘려도 '조금' 커질 뿐입니다.</p>
+    <p>소음계의 <span class="term">A-가중</span><span class="en">(A-weighting, IEC 61672)</span>은 대략 40 폰 곡선을 뒤집은 필터로, 저음과 초고음을 깎아 '사람이 듣는 만큼'의 레벨(dBA)을 줍니다. 단, 큰 소리에서는 곡선이 평평해지므로 A-가중은 큰 저음의 크기를 과소평가합니다(그래서 C-가중, 라우드니스 측정 표준 ITU-R BS.1770의 K-가중이 따로 있습니다).</p>
+    <div class="formula">$$R_A(f) = \frac{12194^2 f^4}{(f^2+20.6^2)\sqrt{(f^2+107.7^2)(f^2+737.9^2)}\,(f^2+12194^2)},\qquad A(f) = 20\log_{10}R_A(f) + 2.00\ \text{dB}$$</div>
+
+    <div class="sim" id="sim-psy-loud">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>등청감 곡선 탐색기 (ISO 226:2003 데이터; 현행판 2023)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-loud"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>크기 레벨 <output id="pl-phon-out"></output></span><input type="range" id="pl-phon" min="20" max="90" value="40" step="10"></label>
+          <label class="ctrl"><span>시험음 주파수 <output id="pl-f-out"></output></span><input type="range" id="pl-f"></label>
+          <label class="check"><input type="checkbox" id="pl-a" checked> A-가중(뒤집어 40 dB에 맞춤) 겹쳐 보기</label>
+          <div class="btn-row"><button class="btn primary" id="pl-eq">▶ 1 kHz ↔ 시험음 (보정)</button></div>
+          <div class="btn-row"><button class="btn" id="pl-raw">▶ 같은 전기 레벨로</button><button class="btn" id="pl-sweep">▶ 20 Hz–12.5 kHz 쓸기</button></div>
+        </div>
+      </div>
+      <div class="psy-warn">⚠ 볼륨을 낮추고 시작하세요. 저음 보정은 최대 −6 dBFS로 제한됩니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">이 곡선의 음압</span><span class="v" id="pl-lp">—</span></div>
+        <div class="stat"><span class="k">1 kHz 대비 필요 이득</span><span class="v" id="pl-dl">—</span></div>
+        <div class="stat"><span class="k">크기</span><span class="v" id="pl-sone">—</span></div>
+        <div class="stat"><span class="k">A-가중</span><span class="v" id="pl-aw">—</span></div>
+      </div>
+      <div class="sim-note">'보정' 재생은 1 kHz 기준음(약 −30 dBFS)과 시험음을 번갈아 두 번 들려주며, 시험음 이득은 선택한 폰 곡선에서의 차이 \(L_p(f)-L_p(1\,\text{kHz})\)만큼 키웁니다. 이론상 두 음이 같은 크기로 들려야 하지만, 실제로는 스피커·헤드폰의 주파수 특성(특히 100 Hz 이하)과 실제 재생 음압(이 페이지는 절대 dB SPL을 알 수 없음)에 따라 달라집니다. '같은 전기 레벨' 재생은 보정 없이 같은 진폭으로 들려줘 저음이 얼마나 작게 들리는지 확인합니다. 점선 = 가청 한계 \(T_f\). 노트북 스피커에서는 100 Hz 이하가 거의 들리지 않는 것이 정상입니다(2장 잃어버린 기본음).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="masking">
+    <h2>임계대역과 마스킹</h2>
+    <p>달팽이관 필터 하나의 대역폭이 <span class="term">임계대역</span><span class="en">(Critical Band)</span>입니다. 두 가지 척도가 널리 쓰입니다. 츠비커의 <b>바크</b>(Bark) 척도는 가청 대역을 24개 임계대역으로 나눈 눈금이고, 글래스버그–무어의 <b>ERB</b>는 노치 잡음 실험으로 잰 등가 직사각형 대역폭입니다.</p>
+    <div class="formula">$$z(f) = 13\arctan(0.00076f) + 3.5\arctan\!\left[\left(\tfrac{f}{7500}\right)^2\right]\ \text{Bark},\qquad \mathrm{ERB}(f) = 24.7\left(4.37\tfrac{f}{1000}+1\right)\ \text{Hz}$$
+      <div class="where">1 Bark ≈ 500 Hz 아래에서 약 100 Hz, 위에서는 중심 주파수의 약 20%. ERB는 이보다 좁다(1 kHz에서 133 Hz vs 160 Hz). 6장의 거칠기, 이 절의 마스킹, 오디오 코덱의 대역 분할이 모두 이 눈금을 쓴다.</div>
+    </div>
+    <p><span class="term">동시 마스킹</span><span class="en">(Simultaneous Masking)</span>: 큰 소리(마스커)가 있으면 그 근처 주파수의 작은 소리(프로브)가 들리지 않습니다. 마스커의 에너지가 프로브와 같은 청각 필터로 새어 들어가기 때문입니다. 마스킹 문턱은 바크 축에서 거의 삼각형으로 퍼지는데, <b>위쪽(고주파 방향)으로 더 넓게</b> 퍼지고, 마스커가 클수록 위쪽 기울기가 더 완만해집니다(<span class="term">상향 확산</span><span class="en">(Upward Spread of Masking)</span>). 기저막 진행파가 밑동(고주파)에서 출발해 꼭대기로 가며 최대점을 지나 급격히 사라지기 때문에, 저음 마스커는 고음 위치도 흔들지만 그 반대는 약합니다. 베이스가 보컬을 가리기 쉬운 이유입니다.</p>
+    <div class="formula">$$v(\Delta z) = \begin{cases} 17\Delta z - 0.4X + 11, & -3\le\Delta z<-1\\ (0.4X+6)\Delta z, & -1\le\Delta z<0\\ -17\Delta z, & 0\le\Delta z<1\\ -(\Delta z-1)(17-0.15X) - 17, & 1\le\Delta z<8\end{cases}\qquad T = X + v(\Delta z) + o(z_m)$$
+      <div class="where">MPEG-1 오디오(ISO/IEC 11172-3) 심리음향 모델 1의 확산 함수. \(X\): 마스커 레벨(dB), \(\Delta z = z_{\text{probe}} - z_{\text{masker}}\)(Bark), 오프셋 \(o\): 순음 마스커 \(-6.025-0.275z_m\), 잡음 마스커 \(-2.025-0.175z_m\) dB. 잡음이 순음보다 더 잘 가린다(오프셋이 작다). 최종 문턱은 이 값과 절대 가청 한계를 전력으로 더한 것.</div>
+    </div>
+    <p>MP3·AAC 인코더는 프레임마다 이 문턱을 계산해 각 대역의 양자화 잡음을 문턱 아래에 숨깁니다. 문턱 아래의 신호는 '버려도 들리지 않는' 정보입니다(15장).</p>
+
+    <div class="sim" id="sim-psy-mask">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마스킹 실험: 프로브가 언제 사라지나</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-mask"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>마스커</span><div class="seg" id="pm-type"><button data-value="noise" class="on">협대역 잡음</button><button data-value="tone">순음</button></div></div>
+          <label class="ctrl"><span>마스커 주파수 <output id="pm-mf-out"></output></span><input type="range" id="pm-mf"></label>
+          <label class="ctrl"><span>마스커 레벨 X <output id="pm-ml-out"></output></span><input type="range" id="pm-ml" min="40" max="85" value="70" step="1"></label>
+          <label class="ctrl"><span>프로브 주파수 <output id="pm-pf-out"></output></span><input type="range" id="pm-pf" min="0" max="1000" value="560" step="1"></label>
+          <label class="ctrl"><span>프로브 레벨 <output id="pm-pl-out"></output></span><input type="range" id="pm-pl" min="0" max="85" value="45" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="pm-m">▶ 마스커</button><button class="btn primary" id="pm-p">▶ 프로브(단속음)</button></div>
+        </div>
+      </div>
+      <div class="psy-warn">⚠ 볼륨을 낮추고 시작하세요. 0 dBFS 사인 = 90 dB SPL로 가정한 상대 눈금입니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마스커 / 프로브 (Bark)</span><span class="v" id="pm-z">—</span></div>
+        <div class="stat"><span class="k">프로브 위치의 문턱</span><span class="v" id="pm-th">—</span></div>
+        <div class="stat"><span class="k">여유(프로브 − 문턱)</span><span class="v" id="pm-mar">—</span></div>
+        <div class="stat"><span class="k">모델 예측</span><span class="v" id="pm-pred">—</span></div>
+      </div>
+      <div class="sim-note">방법: 마스커를 켜고 프로브(0.25초 켜짐/꺼짐 반복)를 켠 뒤, 프로브 레벨을 내리며 '삐-삐'가 사라지는 지점을 찾으세요. 그 지점이 당신의 마스킹 문턱입니다. 그래프: 가로 바크 축(아래 숫자는 Hz), 회색 점선 = 절대 가청 한계(터하르트 근사), 보라 면 = 모델 1 마스킹 문턱, 초록/빨강 점 = 프로브(문턱 위/아래). 해볼 것: ① 프로브를 마스커보다 위(고주파)와 아래에 같은 Bark 거리로 두고 비교 → 위쪽이 더 잘 가려짐. ② 마스커 레벨을 85 dB로 올리면 위쪽 꼬리가 길어짐(상향 확산). 잡음은 마스커 중심 1 임계대역 폭의 대역통과 잡음입니다.</div>
+    </div>
+    <p><span class="term">시간 마스킹</span><span class="en">(Temporal Masking)</span>도 있습니다. 큰 소리가 끝난 뒤 약 100–200 ms 동안 작은 소리가 잘 들리지 않고(<b>전방 마스킹, forward masking</b>), 놀랍게도 큰 소리 <b>직전</b> 약 5–20 ms의 소리도 가려집니다(<b>후방 마스킹, backward masking</b>, 큰 소리의 신경 처리가 더 빨라 앞선 약한 신호를 덮어쓴다고 설명). AAC의 짧은 블록 전환과 '프리에코' 문제는 이 짧은 후방 마스킹 창과 관련이 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="시간 마스킹"><g id="psy-fig-temporal"></g></svg>
+      <figcaption><b>그림 14-2.</b> 시간 마스킹의 개략도(Zwicker &amp; Fastl의 그림을 단순화). 마스커(200 ms) 전 수십 ms의 후방 마스킹과, 끝난 뒤 약 200 ms에 걸쳐 지수적으로 줄어드는 전방 마스킹. 세로: 프로브가 들리기 위한 레벨.</figcaption>
+    </figure>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="jnd">
+    <h2>얼마나 작은 차이를 듣나: JND와 계단법</h2>
+    <p>두 자극을 겨우 구별할 수 있는 최소 차이를 <span class="term">JND</span><span class="en">(Just-Noticeable Difference)</span> 또는 변별 역치라 합니다. 베버의 법칙에 따르면 JND는 기준 크기에 비례합니다(\(\Delta I/I\) ≈ 일정). 대표 값은 다음과 같습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>속성</th><th class="num">대략적 JND</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>순음 주파수(500 Hz–2 kHz, 중간 레벨)</td><td class="num">0.2–0.5% (3–9 ¢)</td><td>훈련된 청자는 더 작다. 4 kHz 이상, 매우 낮은 주파수에서 커진다(Wier 등 1977)</td></tr>
+        <tr><td>순음 세기</td><td class="num">0.5–1 dB</td><td>레벨이 높을수록 작아진다('베버 법칙의 근소한 위반')</td></tr>
+        <tr><td>ITD(양이 시간차)</td><td class="num">약 10 µs</td><td>정면 근처에서 각도 약 1°</td></tr>
+        <tr><td>음 길이</td><td class="num">약 10%</td><td>수백 ms 길이 기준</td></tr>
+      </tbody>
+    </table></div>
+    <p>JND는 <span class="term">적응형 계단법</span><span class="en">(Adaptive Staircase)</span>으로 효율적으로 잽니다. 두 구간 강제 선택(2IFC)에서 '두 번 연속 맞히면 차이를 줄이고, 한 번 틀리면 키우는' <b>2-down-1-up</b> 규칙은 정답률 \(p\)가 \(p^2 = 0.5\), 즉 <b>70.7%</b>인 지점으로 수렴합니다(Levitt 1971). 방향이 바뀌는 점(반전)들의 기하 평균이 역치 추정값입니다.</p>
+
+    <div class="sim" id="sim-psy-jnd">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>나의 JND 재기 (2IFC, 2-down-1-up)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-jnd"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>무엇을</span><div class="seg" id="pj-mode"><button data-value="freq" class="on">음높이</button><button data-value="level">세기</button></div></div>
+          <div class="ctrl"><span>기준 주파수</span><div class="seg" id="pj-f"><button data-value="250">250</button><button data-value="500">500</button><button data-value="1000" class="on">1000</button><button data-value="2000">2000</button><button data-value="4000">4000</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pj-go">▶ 시행 재생</button><button class="btn" id="pj-reset">처음부터</button></div>
+          <div class="btn-row"><button class="btn" id="pj-a" disabled>1번이 더 높다</button><button class="btn" id="pj-b" disabled>2번이 더 높다</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="pj-msg">'시행 재생'을 누르면 0.4초 음 두 개가 울립니다. 어느 쪽이 더 높은지(세기 모드: 더 큰지) 고르세요. 모르면 찍어도 됩니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">시행</span><span class="v" id="pj-n">0</span></div>
+        <div class="stat"><span class="k">현재 차이</span><span class="v" id="pj-d">—</span></div>
+        <div class="stat"><span class="k">반전</span><span class="v" id="pj-rev">0 / 10</span></div>
+        <div class="stat"><span class="k">추정 JND</span><span class="v" id="pj-est">—</span></div>
+      </div>
+      <div class="sim-note">시작 차이는 음높이 40 ¢, 세기 6 dB. 처음 두 반전까지는 ×1.6, 이후 ×1.26씩 바꾸고, 반전 10번 뒤 마지막 6번의 기하 평균을 역치(70.7% 정답점)로 냅니다. 음높이 모드에서는 세기 단서를 없애려고 두 음의 레벨을 ±1.5 dB 무작위로 흔듭니다. 조용한 곳에서 헤드폰으로, 볼륨은 편안한 수준으로. 그래프: 시행별 차이(로그 축), 초록 = 정답, 빨강 = 오답, 원 = 반전.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="illusions">
+    <h2>음높이의 착각: 끝없이 올라가는 음</h2>
+    <p>음높이에는 두 차원이 있습니다. 옥타브마다 반복되는 <b>크로마</b>(도·레·미…, 피치 클래스)와, 계속 올라가는 <b>높이</b>(tone height)입니다. 로저 셰퍼드(Shepard, 1964)는 옥타브 간격의 사인파들을 겹치고 그 진폭을 로그 주파수 축의 고정된 종 모양(가우스) 창으로 감쌌습니다. 성분들을 한 반음씩 올리면 크로마는 분명히 올라가는데, 맨 위 성분은 창 밖으로 사라지고 맨 아래에서 새 성분이 조용히 나타나므로 '높이'는 제자리입니다. 12번 올린 결과는 처음과 똑같은 소리—<span class="term">셰퍼드 톤</span><span class="en">(Shepard Tone)</span>, 소리로 만든 펜로즈 계단입니다. 장–클로드 리세는 이를 연속 글리산도로 만들었습니다(<span class="term">리세 글리산도</span>).</p>
+    <div class="formula">$$x(t) = \sum_{k=0}^{K-1} w\!\left(p_k(t)\right)\sin\!\left(2\pi\!\int f_{\min}2^{p_k(\tau)}d\tau\right),\quad p_k(t) = (k + \phi(t)) \bmod K,\quad w(p) = e^{-\frac{(p-p_c)^2}{2\sigma^2}}$$
+      <div class="where">\(\phi(t)\): 공통 위상(옥타브 단위). 셰퍼드 톤은 \(\phi\)를 1/12씩 계단으로, 리세 글리산도는 연속으로 증가시킨다. \(p_c\): 창 중심(옥타브), \(\sigma\): 창 폭. \(w\)가 끝에서 0에 가까워야 성분의 '순환'이 들키지 않는다.</div>
+    </div>
+    <p>다이애나 도이치는 셰퍼드 톤 두 개를 트라이톤(반 옥타브) 간격으로 들려주면 사람마다, 그리고 시작 크로마에 따라 '올라간다/내려간다' 판단이 갈린다는 <span class="term">트라이톤 역설</span><span class="en">(Tritone Paradox, 1986)</span>을 발견했습니다. 셰퍼드 톤에서는 위·아래 거리가 정확히 같으므로 물리적으로 정답이 없는데, 판단 패턴이 개인의 언어 환경(말소리의 음높이 대역)과 상관된다고 보고되었습니다. 또 도이치의 <b>옥타브 착각</b>(1974)에서는 양쪽 귀에 400·800 Hz를 엇갈려 번갈아 주면 많은 사람이 '한쪽 귀에는 높은 음, 다른 쪽에는 낮은 음'이 번갈아 나는 것으로 듣습니다. 2장의 잃어버린 기본음과 함께, 음높이가 귀가 아니라 뇌의 '해석'임을 보여 주는 예입니다.</p>
+
+    <div class="sim" id="sim-psy-shepard">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셰퍼드 톤 · 리세 글리산도 · 트라이톤 역설</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-shep"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>방식</span><div class="seg" id="ps-mode"><button data-value="step" class="on">셰퍼드(계단)</button><button data-value="glide">리세(연속)</button></div></div>
+          <div class="ctrl"><span>방향</span><div class="seg" id="ps-dir"><button data-value="1" class="on">↑ 올라감</button><button data-value="-1">↓ 내려감</button></div></div>
+          <label class="ctrl"><span>속도 <output id="ps-speed-out"></output></span><input type="range" id="ps-speed" min="1" max="10" value="4" step="1"></label>
+          <label class="ctrl"><span>창 폭 σ <output id="ps-sig-out"></output></span><input type="range" id="ps-sig" min="5" max="30" value="12" step="1"></label>
+          <label class="check"><input type="checkbox" id="ps-w" checked> 가우스 가중(끄면 트릭이 드러남)</label>
+          <div class="btn-row"><button class="btn primary" id="ps-play">▶ 재생</button></div>
+          <div class="btn-row"><button class="btn" id="ps-tri">트라이톤 쌍(무작위)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">크로마 위치</span><span class="v" id="ps-pc">—</span></div>
+        <div class="stat"><span class="k">누적 이동</span><span class="v" id="ps-tot">—</span></div>
+        <div class="stat"><span class="k">트라이톤 쌍</span><span class="v" id="ps-pair">—</span></div>
+      </div>
+      <div class="sim-note">위: 로그 주파수 축의 성분(막대)과 가중 창(곡선), 아래: 크로마 시계. 성분 9개(27.5 Hz–14 kHz 범위를 순환), 창 중심 약 440 Hz. '누적 이동'이 몇 옥타브가 되어도 소리의 높이는 그대로입니다. 가중을 끄면 맨 위 성분이 맨 아래로 '점프'하는 것이 들려 무한 상승이 깨집니다. σ를 크게 하면(창이 넓으면) 착각이 약해지고, 작게 하면 소리가 사인파에 가까워져 옥타브 점프가 들립니다. 트라이톤 쌍: 두 셰퍼드 톤(0.5초씩)이 위로 갔는지 아래로 갔는지 판단해 보고, 화면의 음이름을 확인하세요—사람마다 답이 다릅니다. 정지 버튼으로 언제든 멈춥니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="spatial">
+    <h2>공간 청각: 두 귀의 시간차와 레벨차</h2>
+    <p>귀가 둘인 이유는 방향을 알기 위해서입니다. 옆에서 온 소리는 먼 쪽 귀에 늦게(<span class="term">ITD</span><span class="en">(Interaural Time Difference)</span>), 그리고 머리 그림자 때문에 작게(<span class="term">ILD</span><span class="en">(Interaural Level Difference)</span>) 도착합니다. 머리를 반지름 \(a\)의 구로 보면 우드워스(Woodworth)의 근사식이 나옵니다.</p>
+    <div class="formula">$$\mathrm{ITD}(\theta) = \frac{a}{c}\left(\theta + \sin\theta\right),\qquad a\approx 8.75\ \text{cm},\ c = 343\ \text{m/s}\ \Rightarrow\ \mathrm{ITD}_{\max} = \frac{a}{c}\left(\tfrac{\pi}{2}+1\right) \approx 0.66\ \text{ms}$$
+      <div class="where">\(\theta\): 정면 0°, 옆 90°의 방위각. \(a\theta\)는 머리 둘레를 돌아가는 경로, \(a\sin\theta\)는 평면파의 직선 경로 차. 측정값은 최대 약 0.6–0.7 ms. 청각계는 약 10 µs의 ITD 차이를 구별한다—48 kHz 샘플 간격(20.8 µs)보다 작다.</div>
+    </div>
+    <p>레일리 경(1907)의 <span class="term">듀플렉스 이론</span><span class="en">(Duplex Theory)</span>: 저주파(약 1.5 kHz 이하)에서는 파장이 머리보다 길어 그림자가 거의 없으므로 ITD(위상차)로, 고주파에서는 위상이 모호해지는 대신(주기 < ITD) 머리 그림자가 커지므로 ILD로 방향을 판단합니다. 약 1.5 kHz의 주기 0.67 ms가 최대 ITD와 비슷하다는 점이 경계를 정합니다. 둘 다 앞–뒤를 구별하지 못하는데(같은 ITD를 주는 점들의 '혼동 원뿔'), 이는 귓바퀴의 주파수 착색—<span class="term">HRTF</span><span class="en">(Head-Related Transfer Function)</span>—과 머리 움직임으로 해결합니다. 헤드폰 3D 오디오(바이노럴 렌더링)는 HRTF를 필터로 곱해 이를 재현합니다.</p>
+
+    <div class="sim" id="sim-psy-itd">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>ITD·ILD 소리 위치 만들기 (헤드폰)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-itd"></canvas>
+          <div class="pads psy-pos" id="pi-pos"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>방위각 θ <output id="pi-az-out"></output></span><input type="range" id="pi-az" min="-90" max="90" value="45" step="1"></label>
+          <div class="ctrl"><span>소리</span><div class="seg" id="pi-sig"><button data-value="click" class="on">클릭열</button><button data-value="noise">잡음 버스트</button><button data-value="low">500 Hz</button><button data-value="high">4 kHz</button></div></div>
+          <div class="ctrl"><span>단서</span><div class="seg" id="pi-cue"><button data-value="both" class="on">ITD+ILD</button><button data-value="itd">ITD만</button><button data-value="ild">ILD만</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pi-play">▶ 반복 재생</button></div>
+          <div class="btn-row"><button class="btn" id="pi-quiz">어디일까? (퀴즈)</button></div>
+        </div>
+      </div>
+      <div class="psy-warn">🎧 헤드폰이 필요합니다(스피커로는 양쪽 소리가 섞여 효과가 사라집니다). 볼륨을 낮추고 시작하세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">ITD</span><span class="v" id="pi-itd">—</span></div>
+        <div class="stat"><span class="k">ILD</span><span class="v" id="pi-ild">—</span></div>
+        <div class="stat"><span class="k">퀴즈</span><span class="v" id="pi-score">0 / 0</span></div>
+      </div>
+      <div class="sim-note">위에서 내려다본 머리(위 = 정면)와 소리 방향, 아래는 두 귀의 신호(앞부분 1.5 ms 확대). 퀴즈: 숨겨진 방향에서 소리를 세 번 들려주면 아래 일곱 칸 중 하나를 고르세요. 해볼 것: ① 500 Hz 순음에 'ILD만' → 위치가 흐릿(저역은 ILD가 작다). ② 4 kHz 순음에 'ITD만' → 방향이 모호(위상 모호성). ③ 클릭열은 두 단서 모두 잘 작동. 모델: 우드워스 ITD, ILD ≈ 0.18√f · sinθ dB(교육용 단순 근사, 최대 20 dB), HRTF 없음 — 그래서 소리가 머리 '안'에서 좌우로 움직이는 것처럼 들립니다(내재화, lateralization).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="binaural">
+    <h2>두 귀가 만드는 소리: 양이 맥놀이와 선행음 효과</h2>
+    <p>한쪽 귀에 400 Hz, 다른 쪽 귀에 404 Hz를 들려주면 공기 중에서는 두 소리가 섞이지 않는데도 초당 4번 일렁이는 소리가 들립니다. <span class="term">양이 맥놀이</span><span class="en">(Binaural Beats)</span>는 뇌간(상올리브핵)의 ITD 검출기가 두 귀 신호의 위상차가 계속 돌아가는 것을 감지한 결과입니다. 위상 동기는 저주파에서만 가능하므로 반송 주파수가 약 1 kHz 이하일 때, 차이는 약 30 Hz 이하일 때 들리며, 진짜 맥놀이(한 귀에 두 음을 섞은 '단이 맥놀이')보다 훨씬 약합니다. "양이 맥놀이로 뇌파를 바꾼다"는 상업적 주장들은 근거가 약합니다.</p>
+    <div class="sim" id="sim-psy-binaural">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>양이 맥놀이 vs 단이 맥놀이 (헤드폰)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-bin"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>반송 주파수 <output id="pb-f-out"></output></span><input type="range" id="pb-f" min="100" max="1500" value="400" step="10"></label>
+          <label class="ctrl"><span>왼–오 차이 Δf <output id="pb-d-out"></output></span><input type="range" id="pb-d" min="0" max="40" value="4" step="0.5"></label>
+          <div class="ctrl"><span>전달</span><div class="seg" id="pb-route"><button data-value="bin" class="on">양이(왼/오 분리)</button><button data-value="mono">단이(둘 다 양쪽에 섞음)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pb-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="psy-warn">🎧 헤드폰이 필요합니다. 볼륨을 낮추고 시작하세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">왼쪽 / 오른쪽</span><span class="v" id="pb-lr">—</span></div>
+        <div class="stat"><span class="k">맥놀이 속도</span><span class="v" id="pb-rate">—</span></div>
+        <div class="stat"><span class="k">두 귀 위상차</span><span class="v" id="pb-ph">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 원: 두 귀 신호의 위상차 벡터가 Δf 속도로 실제로 도는 모습(이것이 양이 맥놀이의 원천). 오른쪽: '단이'일 때 귀에 들어가는 합성 파형의 포락선. 해볼 것: ① 양이에서 반송 주파수를 1500 Hz로 올리면 맥놀이가 약해지거나 사라짐(위상 동기 한계). ② 단이로 바꾸면 같은 Δf의 맥놀이가 훨씬 뚜렷함. ③ 양이에서 Δf를 0.5–1 Hz로 낮추면 소리가 머리 안에서 좌우로 천천히 도는 것처럼 들림(위상차 = ITD 변화).</div>
+    </div>
+
+    <p>방 안에서 소리는 직접음 뒤에 벽 반사음이 수 ms–수십 ms 늦게 도착합니다. 그런데도 우리는 소리를 반사면이 아닌 음원 쪽에서 듣습니다. 두 소리가 약 1 ms 이내로 도착하면 둘 사이 어딘가로 위치가 합쳐지고(<b>합산 정위</b>), 약 1 ms–수십 ms에서는 <b>먼저 온 소리의 방향</b>만 들리며 뒤의 소리는 음색·공간감으로만 기여합니다. 이것이 <span class="term">선행음 효과</span><span class="en">(Precedence Effect, Wallach 1949; Haas 효과 1951)</span>입니다. 지연이 <b>반향 문턱</b>(클릭은 약 5–10 ms, 말·음악은 약 30–50 ms)을 넘으면 별개의 메아리로 들립니다. 하스는 지연음이 선행음보다 최대 약 10 dB 커도 방향 판단이 선행음을 따른다고 보고했습니다. 공연장 PA의 지연 스피커는 이를 이용해, 뒤쪽 스피커를 무대 소리보다 약간(10–20 ms) 늦게 내서 소리가 무대에서 오는 것처럼 들리게 합니다.</p>
+    <div class="sim" id="sim-psy-precedence">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>선행음 효과: 융합 → 메아리 (헤드폰)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-psy-prec"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>지연 τ <output id="pp-tau-out"></output></span><input type="range" id="pp-tau" min="0" max="400" value="40" step="1"></label>
+          <label class="ctrl"><span>지연음 레벨(선행음 대비) <output id="pp-lev-out"></output></span><input type="range" id="pp-lev" min="-12" max="12" value="0" step="1"></label>
+          <div class="ctrl"><span>선행음 쪽</span><div class="seg" id="pp-side"><button data-value="L" class="on">왼쪽 먼저</button><button data-value="R">오른쪽 먼저</button></div></div>
+          <div class="ctrl"><span>소리</span><div class="seg" id="pp-sig"><button data-value="click" class="on">클릭</button><button data-value="burst">짧은 잡음(20 ms)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pp-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="psy-warn">🎧 헤드폰이 필요합니다. 볼륨을 낮추고 시작하세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지연</span><span class="v" id="pp-t">—</span></div>
+        <div class="stat"><span class="k">예상 지각</span><span class="v" id="pp-pred">—</span></div>
+      </div>
+      <div class="sim-note">한쪽 귀에 선행 클릭, 반대쪽 귀에 τ만큼 늦은 같은 클릭을 0.7초마다 반복합니다. τ를 0에서 천천히 올려 보세요: 0 ms(가운데) → 0.3–1 ms(선행 쪽으로 이동, 합산 정위) → 1–5 ms(한 소리, 선행 쪽에 고정) → 약 5–10 ms 이상(두 번째 클릭이 따로 들림, 클릭의 반향 문턱) → 40 ms(분명한 메아리). 지연음 레벨을 +6–10 dB로 올려도 τ가 수 ms면 방향은 여전히 선행 쪽인지 확인하세요(하스). 경계값은 개인·신호에 따라 크게 다릅니다. 헤드폰 실험은 실제 방(양쪽 귀에 두 소리가 모두 도달)과 다르게 '귀별 분리' 조건이라는 점에 유의.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>외이는 약 3 kHz 공진기, 중이는 약 27 dB 임피던스 정합기, 달팽이관은 로그 간격 필터뱅크(그린우드 함수)다.</li>
+      <li>등청감 곡선(현행 ISO 226:2023; 예제는 2003판 데이터): 저음과 초고음은 같은 dB SPL에서 훨씬 작게 들리고, 레벨이 클수록 곡선이 평평해진다. 10 폰 ≈ 크기 두 배(손), A-가중 ≈ 40 폰 곡선의 뒤집기.</li>
+      <li>임계대역(ERB = 24.7(4.37f/1000+1), 바크)이 거칠기·마스킹·코덱 대역 분할의 기본 단위다.</li>
+      <li>마스킹은 바크 축에서 위쪽으로 더 넓게 퍼지고(상향 확산), 마스커가 클수록 더 퍼진다. 큰 소리 전 약 20 ms, 뒤 약 200 ms도 가려진다. MP3/AAC는 양자화 잡음을 이 문턱 아래에 숨긴다.</li>
+      <li>주파수 JND는 중간 음역에서 약 0.2–0.5%(3–9 ¢), 세기 JND는 약 0.5–1 dB. 2-down-1-up 계단법은 70.7% 정답점을 추정한다.</li>
+      <li>음높이는 크로마와 높이로 분리된다: 셰퍼드 톤·리세 글리산도는 높이를 고정한 채 크로마만 돌려 끝없는 상승을 만든다.</li>
+      <li>방향은 ITD(저역, 최대 약 0.66 ms)와 ILD(고역)로 판단하고(듀플렉스 이론), 앞뒤·위아래는 HRTF가 해결한다. 양이 맥놀이와 선행음 효과는 두 귀 신호를 뇌가 비교한 결과다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>외이도를 한쪽이 막힌 길이 2.5 cm의 관으로 볼 때, 공진 주파수에 가장 가까운 것은? (c = 343 m/s)</p><div class="opts">
+        <button class="opt">1.4 kHz</button><button class="opt" data-correct>3.4 kHz</button><button class="opt">6.9 kHz</button><button class="opt">13.7 kHz</button>
+      </div><div class="quiz-exp">한쪽이 막힌 관의 기본 공진은 λ/4 = L → f = c/4L = 343/0.1 = 3430 Hz. 사람의 청각이 3–4 kHz 근처에서 가장 예민한 이유 중 하나다.</div></div>
+      <div class="quiz-q"><p>60 폰인 소리의 크기는 40 폰인 소리의 약 몇 배로 들리는가?</p><div class="opts">
+        <button class="opt">1.5배</button><button class="opt" data-correct>4배</button><button class="opt">20배</button><button class="opt">100배</button>
+      </div><div class="quiz-exp">손 N = 2^((L−40)/10). 40 폰 = 1 손, 60 폰 = 4 손. 음압으로는 20 dB(전력 100배)지만 크기는 4배로 들린다.</div></div>
+      <div class="quiz-q"><p>1 kHz 순음 마스커가 있을 때, 같은 바크 거리만큼 떨어진 두 프로브 중 더 잘 가려지는 쪽은?</p><div class="opts">
+        <button class="opt">낮은 쪽(마스커보다 저주파)</button><button class="opt" data-correct>높은 쪽(마스커보다 고주파)</button><button class="opt">항상 같다</button><button class="opt">마스커가 순음이면 마스킹이 없다</button>
+      </div><div class="quiz-exp">마스킹 확산은 고주파 방향(위쪽)으로 더 완만하게(넓게) 퍼진다—상향 확산. 마스커가 클수록 위쪽 기울기가 더 완만해진다(모델 1: 17 − 0.15X dB/Bark).</div></div>
+      <div class="quiz-q"><p>2-down-1-up 적응형 계단법이 수렴하는 정답률은?</p><div class="opts">
+        <button class="opt">50%</button><button class="opt">66.7%</button><button class="opt" data-correct>70.7%</button><button class="opt">79.4%</button>
+      </div><div class="quiz-exp">평형점에서는 '두 번 연속 정답으로 내려갈' 확률 p²이 '올라갈' 확률 1 − p²과 같아야 하므로 p² = 0.5, p = 0.707. 3-down-1-up은 79.4%로 수렴한다.</div></div>
+      <div class="quiz-q"><p>셰퍼드 톤에서 '끝없이 올라가는' 착각이 성립하기 위해 가장 중요한 요소는?</p><div class="opts">
+        <button class="opt">성분들이 반음 간격일 것</button><button class="opt" data-correct>옥타브 간격 성분들의 진폭을 로그 주파수 축의 고정된 창으로 가중해, 양 끝 성분이 거의 들리지 않게 할 것</button><button class="opt">성분 위상을 무작위로 할 것</button><button class="opt">아주 큰 소리로 재생할 것</button>
+      </div><div class="quiz-exp">성분이 옥타브 간격이어야 크로마가 하나로 묶이고, 고정 창이 높이 단서를 일정하게 유지한다. 창 끝에서 성분이 조용히 사라지고 생겨야 순환이 들키지 않는다.</div></div>
+      <div class="quiz-q"><p>머리 반지름 8.75 cm, c = 343 m/s일 때 정면에서 30° 옆의 소리의 ITD는 우드워스 식으로 약?</p><div class="opts">
+        <button class="opt">0.13 ms</button><button class="opt" data-correct>0.26 ms</button><button class="opt">0.47 ms</button><button class="opt">0.66 ms</button>
+      </div><div class="quiz-exp">(a/c)(θ + sinθ) = (0.0875/343)(0.5236 + 0.5) = 0.255 ms × 1.0236 ≈ 0.261 ms. 90°에서 최대 약 0.66 ms.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const PSY_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const PSY_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const psyBark = (f) => 13 * Math.atan(0.00076 * f) + 3.5 * Math.atan((f / 7500) ** 2);
+const psyERB = (f) => 24.7 * ((4.37 * f) / 1000 + 1);
+const psyCB = (f) => 25 + 75 * Math.pow(1 + 1.4 * (f / 1000) ** 2, 0.69);
+/** 터하르트 절대 가청 한계 근사(dB SPL) */
+const psyTq = (f) => { const k = f / 1000; return 3.64 * Math.pow(k, -0.8) - 6.5 * Math.exp(-0.6 * (k - 3.3) ** 2) + 1e-3 * k ** 4; };
+/* ISO 226:2003 표 (29개 주파수) */
+const ISO = {
+  f: [20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500],
+  af: [0.532, 0.506, 0.480, 0.455, 0.432, 0.409, 0.387, 0.367, 0.349, 0.330, 0.315, 0.301, 0.288, 0.276, 0.267, 0.259, 0.253, 0.250, 0.246, 0.244, 0.243, 0.243, 0.243, 0.242, 0.242, 0.245, 0.254, 0.271, 0.301],
+  Lu: [-31.6, -27.2, -23.0, -19.1, -15.9, -13.0, -10.3, -8.1, -6.2, -4.5, -3.1, -2.0, -1.1, -0.4, 0.0, 0.3, 0.5, 0.0, -2.7, -4.1, -1.0, 1.7, 2.5, 1.2, -2.1, -7.1, -11.2, -10.7, -3.1],
+  Tf: [78.5, 68.7, 59.5, 51.1, 44.0, 37.5, 31.5, 26.5, 22.1, 17.9, 14.4, 11.4, 8.6, 6.2, 4.4, 3.0, 2.2, 2.4, 3.5, 1.7, -1.3, -4.2, -6.0, -5.4, -1.5, 6.0, 12.6, 13.9, 12.3],
+};
+/** 폰 값 → 29개 주파수의 dB SPL */
+const iso226 = (phon) => ISO.f.map((_, i) => {
+  const af = ISO.af[i], Lu = ISO.Lu[i], Tf = ISO.Tf[i];
+  const Af = 4.47e-3 * (Math.pow(10, 0.025 * phon) - 1.15) + Math.pow(0.4 * Math.pow(10, (Tf + Lu) / 10 - 9), af);
+  return (10 / af) * Math.log10(Af) - Lu + 94;
+});
+/** 표 사이를 로그 주파수로 선형 보간 */
+const isoAt = (arr, f) => {
+  const F = ISO.f; if (f <= F[0]) return arr[0]; if (f >= F[F.length - 1]) return arr[arr.length - 1];
+  let i = 0; while (F[i + 1] < f) i++;
+  const u = Math.log(f / F[i]) / Math.log(F[i + 1] / F[i]); return arr[i] + u * (arr[i + 1] - arr[i]);
+};
+const psyAweight = (f) => { const f2 = f * f; const r = (12194 ** 2 * f2 * f2) / ((f2 + 20.6 ** 2) * Math.sqrt((f2 + 107.7 ** 2) * (f2 + 737.9 ** 2)) * (f2 + 12194 ** 2)); return 20 * Math.log10(r) + 2.0; };
+/** 단순 사인 톤(진폭을 정확히 지정): amp 선형, pan −1..1 */
+function psyTone(f, amp, o = {}) {
+  const ctx = MB.ctx(); if (!ctx) return null;
+  const t0 = o.when != null ? Math.max(o.when, ctx.currentTime) : ctx.currentTime + 0.01, dur = o.dur || 0.5, ramp = o.ramp || 0.02;
+  const osc = ctx.createOscillator(), g = ctx.createGain(); osc.frequency.value = f;
+  g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(amp, t0 + ramp); g.gain.setValueAtTime(amp, t0 + dur - ramp); g.gain.linearRampToValueAtTime(0, t0 + dur);
+  osc.connect(g);
+  let dest = MB.out; if (o.pan) { const p = ctx.createStereoPanner(); p.pan.value = o.pan; p.connect(MB.out); dest = p; }
+  g.connect(dest); osc.start(t0); osc.stop(t0 + dur + 0.05);
+  return { osc, g, release() { try { g.gain.cancelScheduledValues(ctx.currentTime); g.gain.setTargetAtTime(0, ctx.currentTime, 0.01); osc.stop(ctx.currentTime + 0.1); } catch (e) {} } };
+}
+
+/* ---------------------------------------------------------------- 그림 14-1 */
+(function () {
+  const g = document.getElementById("psy-fig-chain");
+  const boxes = [["외이", "λ/4 공진 ≈3 kHz", "+10–15 dB"], ["중이", "임피던스 정합", "면적17×·지렛대1.3×"], ["달팽이관", "필터뱅크", "토노토피·ERB"], ["유모세포", "정류·압축", "외유모세포 증폭"], ["청신경", "펄스열", "위상고정 ≲5 kHz"]];
+  const bw = 130, gap = 26, x0 = 20;
+  let s = "";
+  boxes.forEach((b, i) => {
+    const x = x0 + i * (bw + gap);
+    s += `<rect x="${x}" y="20" width="${bw}" height="92" rx="10" class="${i === 2 ? "f-acc-soft" : "f-elev"}"/>`;
+    s += `<text x="${x + bw / 2}" y="48" text-anchor="middle" class="t" style="font-weight:700;font-size:15px">${b[0]}</text>`;
+    s += `<text x="${x + bw / 2}" y="72" text-anchor="middle" class="t-dim">${b[1]}</text><text x="${x + bw / 2}" y="94" text-anchor="middle" class="t-mono">${b[2]}</text>`;
+    if (i < boxes.length - 1) s += `<path d="M${x + bw + 4} 66 L${x + bw + gap - 4} 66" class="s-acc"/><path d="M${x + bw + gap - 10} 61 L${x + bw + gap - 3} 66 L${x + bw + gap - 10} 71" class="s-acc"/>`;
+  });
+  // 기저막 띠: 위치 x(0=꼭대기) → 주파수
+  const bx0 = 60, bx1 = 740, by = 160;
+  for (let i = 0; i < 60; i++) { const u = i / 59; s += `<rect x="${bx0 + u * (bx1 - bx0) - 6}" y="${by}" width="12.5" height="${18 - 8 * u}" style="fill:var(--accent);opacity:${0.15 + 0.6 * u}"/>`; }
+  [0, 0.2, 0.4, 0.6, 0.8, 1].forEach((u) => { const f = 165.4 * (Math.pow(10, 2.1 * u) - 0.88); s += `<text x="${bx0 + u * (bx1 - bx0)}" y="${by + 36}" text-anchor="middle" class="t-mono">${f >= 1000 ? (f / 1000).toFixed(1) + "k" : Math.round(f)}</text>`; });
+  s += `<text x="${bx0}" y="${by - 8}" class="t-dim">꼭대기(apex, 저음)</text><text x="${bx1}" y="${by - 8}" text-anchor="end" class="t-dim">밑동(base, 고음, 난원창 쪽)</text>`;
+  s += `<text x="400" y="${by + 58}" text-anchor="middle" class="t-dim">기저막 위치 x → 최대 응답 주파수 (Hz, 그린우드)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 14-2: 시간 마스킹 */
+(function () {
+  const g = document.getElementById("psy-fig-temporal");
+  const X = (t) => 80 + ((t + 60) / 460) * 680, Y = (d) => 180 - d * 1.9;
+  let s = `<line x1="70" x2="770" y1="180" y2="180" class="s-axis"/><line x1="80" x2="80" y1="20" y2="180" class="s-axis"/>`;
+  s += `<rect x="${X(0)}" y="${Y(70)}" width="${X(200) - X(0)}" height="${Y(0) - Y(70)}" class="f-acc2-soft"/><text x="${X(100)}" y="${Y(70) + 18}" text-anchor="middle" class="t">마스커 (200 ms)</text>`;
+  let pre = "", post = "";
+  for (let t = -40; t <= 0; t += 2) { const d = 60 * Math.exp((t) / 8); pre += (pre ? " L" : "M") + X(t).toFixed(1) + "," + Y(d).toFixed(1); }
+  for (let t = 200; t <= 400; t += 4) { const d = 60 * Math.exp(-(t - 200) / 45); post += (post ? " L" : "M") + X(t).toFixed(1) + "," + Y(d).toFixed(1); }
+  s += `<path d="${pre}" class="s-acc" style="stroke-width:2.5"/><path d="${post}" class="s-acc" style="stroke-width:2.5"/>`;
+  s += `<text x="${X(-30)}" y="${Y(68)}" text-anchor="middle" class="t-acc">후방</text><text x="${X(-30)}" y="${Y(60)}" text-anchor="middle" class="t-dim" style="font-size:11px">~20 ms</text>`;
+  s += `<text x="${X(290)}" y="${Y(40)}" class="t-acc">전방 마스킹</text><text x="${X(290)}" y="${Y(32)}" class="t-dim" style="font-size:11px">~100–200 ms</text>`;
+  [-50, 0, 100, 200, 300, 400].forEach((t) => (s += `<text x="${X(t)}" y="198" text-anchor="middle" class="t-mono">${t}</text>`));
+  s += `<text x="${X(175)}" y="214" text-anchor="middle" class="t-dim">시간 (ms)</text><text x="16" y="100" class="t-dim" transform="rotate(-90 16 100)" text-anchor="middle">프로브 문턱 상승 (dB)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 등청감 곡선 */
+(function () {
+  const REF = 0.03; // 1 kHz 기준 진폭(약 −30 dBFS)
+  const phon = MB.range("pl-phon", (v) => v + " phon", () => { cv.redraw(); readout(); });
+  const fq = MB.steps("pl-f", ISO.f, (v) => (v >= 1000 ? v / 1000 + " kHz" : v + " Hz"), 100, () => { cv.redraw(); readout(); });
+  const showA = MB.check("pl-a", () => cv.redraw());
+  let sweepV = null, sweepT = null;
+  const lpAt = (f, ph = phon()) => isoAt(iso226(ph), f);
+  const gainFor = (f) => { const dl = lpAt(f) - phon(), cap = f > 8000 ? 0.1 : 0.5, a = REF * Math.pow(10, dl / 20); return { a: Math.min(cap, a), short: a > cap ? MB.db(a / cap) : 0, dl }; };
+  function readout() {
+    const f = fq(), L = lpAt(f), g = gainFor(f);
+    MB.stat("pl-lp", L.toFixed(1) + " dB SPL");
+    MB.stat("pl-dl", MB.signed(g.dl, 1) + " dB" + (g.short > 0.1 ? ` <small>재생 한계로 ${g.short.toFixed(0)} dB 부족</small>` : ""));
+    MB.stat("pl-sone", Math.pow(2, (phon() - 40) / 10).toFixed(2) + " sone");
+    MB.stat("pl-aw", MB.signed(psyAweight(f), 1) + " dB");
+  }
+  const stopSweep = () => { if (sweepV) { try { sweepV.g.gain.setTargetAtTime(0, MB.now(), 0.02); sweepV.osc.stop(MB.now() + 0.1); } catch (e) {} sweepV = null; } clearTimeout(sweepT); };
+  document.getElementById("pl-eq").addEventListener("click", () => {
+    stopSweep(); const t = MB.now() + 0.05, f = fq(), g = gainFor(f);
+    for (let k = 0; k < 2; k++) { psyTone(1000, REF, { when: t + k * 2.2, dur: 0.9 }); psyTone(f, g.a, { when: t + k * 2.2 + 1.1, dur: 0.9 }); }
+  });
+  document.getElementById("pl-raw").addEventListener("click", () => {
+    stopSweep(); const t = MB.now() + 0.05, f = fq();
+    for (let k = 0; k < 2; k++) { psyTone(1000, REF * 2, { when: t + k * 2.2, dur: 0.9 }); psyTone(f, f > 8000 ? REF : REF * 2, { when: t + k * 2.2 + 1.1, dur: 0.9 }); }
+  });
+  document.getElementById("pl-sweep").addEventListener("click", () => {
+    stopSweep(); const ctx = MB.ctx(), t = ctx.currentTime + 0.05, T = 8;
+    const osc = ctx.createOscillator(), g = ctx.createGain(); osc.frequency.setValueAtTime(20, t); osc.frequency.exponentialRampToValueAtTime(12500, t + T);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.06, t + 0.1); g.gain.setValueAtTime(0.06, t + T - 0.1); g.gain.linearRampToValueAtTime(0, t + T);
+    osc.connect(g); g.connect(MB.out); osc.start(t); osc.stop(t + T + 0.05); sweepV = { osc, g, t, T };
+    sweepT = setTimeout(() => { sweepV = null; cv.redraw(); }, T * 1000 + 200);
+  });
+  const cv = MB.canvas("#cv-psy-loud", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 46, y: 12, w: w - 58, h: h - 50 };
+    const series = [];
+    for (let ph = 20; ph <= 90; ph += 10) { const L = iso226(ph); series.push({ data: ISO.f.map((f, i) => [f, L[i]]), color: ph === phon() ? P.accent : P.faint, width: ph === phon() ? 2.6 : 1 }); }
+    series.push({ data: ISO.f.map((f, i) => [f, ISO.Tf[i]]), color: P.dim, width: 1.4, dash: [4, 4] });
+    if (showA()) { const d = []; for (let f = 20; f <= 12500; f *= 1.06) d.push([f, 40 - psyAweight(f)]); series.push({ data: d, color: P.warn, width: 1.6, dash: [7, 4] }); }
+    const ch = MB.chart(ctx, box, { x: [20, 12500], logX: true, y: [-10, 130], xTicks: [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000], xFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), yTicks: [0, 20, 40, 60, 80, 100, 120], series, xLabel: "주파수 (Hz)", yLabel: "dB SPL" });
+    ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    for (let ph = 20; ph <= 90; ph += 10) { ctx.fillStyle = ph === phon() ? P.accent : P.faint; ctx.fillText(ph, ch.X(1000) + 2, ch.Y(ph) - 6); }
+    const f = fq(), L = lpAt(f);
+    ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(ch.X(f), ch.Y(L), 6, 0, 7); ctx.fill();
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(ch.X(1000), ch.Y(phon()), 4, 0, 7); ctx.fill();
+    if (sweepV) { const u = MB.clamp((MB.now() - sweepV.t) / sweepV.T, 0, 1), fs = 20 * Math.pow(12500 / 20, u); ctx.strokeStyle = P.accent2; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ch.X(fs), box.y); ctx.lineTo(ch.X(fs), box.y + box.h); ctx.stroke(); ctx.lineWidth = 1; }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + PSY_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText("점선: 가청 한계" + (showA() ? " · 주황: 40 − A(f)" : ""), box.x + box.w - 4, box.y + 4);
+  }, { aspect: 0.66, maxHeight: 440, minHeight: 280 });
+  MB.loop(cv.canvas, () => { if (sweepV) cv.redraw(); });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 2. 마스킹 */
+(function () {
+  const MF = [250, 500, 1000, 2000, 4000];
+  const toAmp = (db) => Math.pow(10, (db - 90) / 20); // 0 dBFS 사인 = 90 dB SPL 가정
+  const pfOf = (v) => 100 * Math.pow(80, v / 1000); // 100 Hz – 8 kHz
+  const type = MB.seg("pm-type", () => { if (mk) startMasker(); update(); });
+  const mf = MB.steps("pm-mf", MF, (v) => v + " Hz", 1000, () => { if (mk) startMasker(); update(); });
+  const ml = MB.range("pm-ml", (v) => v + " dB", () => { if (mk) mk.setLevel(); update(); });
+  const pf = MB.range("pm-pf", (v) => pfOf(v).toFixed(0) + " Hz", () => { if (pr) pr.osc.frequency.setTargetAtTime(pfOf(pf()), MB.now(), 0.01); update(); });
+  const pl = MB.range("pm-pl", (v) => v + " dB", () => { if (pr) pr.lev.gain.setTargetAtTime(toAmp(pl()), MB.now(), 0.01); update(); });
+  let mk = null, pr = null;
+  function spread(dz, X) {
+    if (dz >= -3 && dz < -1) return 17 * dz - 0.4 * X + 11;
+    if (dz >= -1 && dz < 0) return (0.4 * X + 6) * dz;
+    if (dz >= 0 && dz < 1) return -17 * dz;
+    if (dz >= 1 && dz < 8) return -(dz - 1) * (17 - 0.15 * X) - 17;
+    return -Infinity;
+  }
+  const thrAt = (f) => {
+    const zm = psyBark(mf()), z = psyBark(f), X = ml();
+    const off = type() === "tone" ? -6.025 - 0.275 * zm : -2.025 - 0.175 * zm;
+    const Tm = X + spread(z - zm, X) + off, Tq = psyTq(f);
+    return { Tm, Tq, T: 10 * Math.log10(Math.pow(10, Tm / 10) + Math.pow(10, Tq / 10)) };
+  };
+  function startMasker() {
+    if (mk) mk.stop();
+    const ctx = MB.ctx(), out = ctx.createGain(); out.gain.value = 0; out.connect(MB.out);
+    let src, setLevel;
+    if (type() === "tone") {
+      src = ctx.createOscillator(); src.frequency.value = mf(); src.connect(out);
+      setLevel = () => out.gain.setTargetAtTime(toAmp(ml()), ctx.currentTime, 0.03);
+    } else {
+      src = ctx.createBufferSource(); src.buffer = MB.noiseBuffer(); src.loop = true;
+      const bp = ctx.createBiquadFilter(), bp2 = ctx.createBiquadFilter(), B = psyCB(mf());
+      [bp, bp2].forEach((b) => { b.type = "bandpass"; b.frequency.value = mf(); b.Q.value = mf() / B; });
+      src.connect(bp); bp.connect(bp2); bp2.connect(out);
+      // 같은 RMS의 사인파와 레벨을 맞춘다: 흰 잡음 RMS 0.577, 대역 B 통과 후 ≈ 0.577·√(B/(fs/2))
+      const k = 1 / (0.577 * Math.sqrt((B * 0.8) / (ctx.sampleRate / 2)) * Math.SQRT2);
+      setLevel = () => out.gain.setTargetAtTime(Math.min(4, toAmp(ml()) * k), ctx.currentTime, 0.03);
+    }
+    src.start(); setLevel();
+    mk = { setLevel, stop() { out.gain.setTargetAtTime(0, ctx.currentTime, 0.02); try { src.stop(ctx.currentTime + 0.1); } catch (e) {} } };
+  }
+  function startProbe() {
+    const ctx = MB.ctx(), osc = ctx.createOscillator(), gate = ctx.createGain(), lev = ctx.createGain();
+    osc.frequency.value = pfOf(pf()); lev.gain.value = toAmp(pl()); gate.gain.value = 0;
+    osc.connect(gate); gate.connect(lev); lev.connect(MB.out);
+    const t0 = ctx.currentTime + 0.05;
+    for (let k = 0; k < 240; k++) { const t = t0 + k * 0.5; gate.gain.setValueAtTime(0, t); gate.gain.linearRampToValueAtTime(1, t + 0.015); gate.gain.setValueAtTime(1, t + 0.235); gate.gain.linearRampToValueAtTime(0, t + 0.25); }
+    osc.start(); pr = { osc, lev, stop() { lev.gain.setTargetAtTime(0, ctx.currentTime, 0.01); try { osc.stop(ctx.currentTime + 0.1); } catch (e) {} } };
+  }
+  MB.playButton("pm-m", startMasker, () => { if (mk) mk.stop(); mk = null; }, ["▶ 마스커", "■ 마스커"]);
+  MB.playButton("pm-p", startProbe, () => { if (pr) pr.stop(); pr = null; }, ["▶ 프로브(단속음)", "■ 프로브"]);
+  function update() { cv.redraw(); }
+  const cv = MB.canvas("#cv-psy-mask", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 42, y: 12, w: w - 54, h: h - 48 };
+    const zMax = psyBark(16000), X = (z) => box.x + (z / zMax) * box.w, Y = (d) => box.y + box.h - (MB.clamp(d, -10, 100) + 10) / 110 * box.h;
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let d = 0; d <= 100; d += 20) { ctx.beginPath(); ctx.moveTo(box.x, Y(d)); ctx.lineTo(box.x + box.w, Y(d)); ctx.stroke(); ctx.fillText(d, box.x - 5, Y(d)); }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [100, 200, 500, 1000, 2000, 4000, 8000, 16000].forEach((f) => { const x = X(psyBark(f)); ctx.beginPath(); ctx.moveTo(x, box.y); ctx.lineTo(x, box.y + box.h); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, x, box.y + box.h + 4); });
+    for (let z = 0; z <= 24; z += 4) { ctx.fillStyle = P.faint; ctx.fillText(z, X(z), box.y + box.h + 18); }
+    ctx.fillStyle = P.faint; ctx.textAlign = "left"; ctx.fillText("Bark", X(24) + 6, box.y + box.h + 18);
+    // 곡선
+    const fs = []; for (let f = 40; f <= 16000; f *= 1.02) fs.push(f);
+    ctx.beginPath(); fs.forEach((f, i) => { const v = thrAt(f).Tq, x = X(psyBark(f)), y = Y(v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.strokeStyle = P.dim; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); fs.forEach((f, i) => { const v = thrAt(f).T, x = X(psyBark(f)), y = Y(v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.4; ctx.stroke(); ctx.lineWidth = 1;
+    ctx.lineTo(X(psyBark(16000)), Y(-10)); ctx.lineTo(X(psyBark(40)), Y(-10)); ctx.closePath(); ctx.fillStyle = P.accent + "22"; ctx.fill();
+    // 마스커
+    const zm = psyBark(mf()); ctx.strokeStyle = P.warn; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(zm), Y(-10)); ctx.lineTo(X(zm), Y(ml())); ctx.stroke(); ctx.lineWidth = 1;
+    if (type() === "noise") { const B = psyCB(mf()); ctx.fillStyle = P.warn + "44"; const za = psyBark(mf() - B / 2), zb = psyBark(mf() + B / 2); ctx.fillRect(X(za), Y(ml()), X(zb) - X(za), Y(-10) - Y(ml())); }
+    ctx.fillStyle = P.warn; ctx.font = "11px " + PSY_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText("마스커", X(zm), Y(ml()) - 4);
+    // 프로브
+    const f = pfOf(pf()), th = thrAt(f), above = pl() > th.T;
+    ctx.fillStyle = above ? P.ok : P.bad; ctx.beginPath(); ctx.arc(X(psyBark(f)), Y(pl()), 7, 0, 7); ctx.fill();
+    ctx.strokeStyle = ctx.fillStyle; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(X(psyBark(f)), Y(pl())); ctx.lineTo(X(psyBark(f)), Y(th.T)); ctx.stroke(); ctx.setLineDash([]);
+    MB.stat("pm-z", `${zm.toFixed(1)} / ${psyBark(f).toFixed(1)} <small>Δz ${MB.signed(psyBark(f) - zm, 1)}</small>`);
+    MB.stat("pm-th", th.T.toFixed(1) + " dB");
+    MB.stat("pm-mar", MB.signed(pl() - th.T, 1) + " dB");
+    MB.stat("pm-pred", above ? "들림" : "가려짐");
+  }, { aspect: 0.66, maxHeight: 460, minHeight: 300 });
+})();
+
+/* ---------------------------------------------------------------- 3. JND 계단법 */
+(function () {
+  const mode = MB.seg("pj-mode", () => reset());
+  const base = MB.seg("pj-f", () => reset());
+  const bA = document.getElementById("pj-a"), bB = document.getElementById("pj-b"), msg = document.getElementById("pj-msg");
+  let st = null;
+  const say = (html, cls) => { msg.innerHTML = html; msg.className = "sim-msg" + (cls ? " " + cls : ""); };
+  function reset() {
+    st = { d: mode() === "freq" ? 40 : 6, run: 0, dir: 0, rev: [], track: [], trial: null, done: false };
+    bA.disabled = bB.disabled = true;
+    bA.textContent = mode() === "freq" ? "1번이 더 높다" : "1번이 더 크다"; bB.textContent = mode() === "freq" ? "2번이 더 높다" : "2번이 더 크다";
+    say("'시행 재생'을 누르면 0.4초 음 두 개가 울립니다. 어느 쪽이 더 " + (mode() === "freq" ? "높은지" : "큰지") + " 고르세요.");
+    readout(); cv.redraw();
+  }
+  const unit = () => (mode() === "freq" ? " ¢" : " dB");
+  function readout() {
+    MB.stat("pj-n", st.track.length); MB.stat("pj-d", st.d.toFixed(st.d < 10 ? 2 : 1) + unit()); MB.stat("pj-rev", st.rev.length + " / 10");
+    if (st.rev.length >= 4) {
+      const last = st.rev.slice(-6), gm = Math.exp(last.reduce((s, x) => s + Math.log(x), 0) / last.length);
+      MB.stat("pj-est", mode() === "freq" ? `${gm.toFixed(1)} ¢ <small>${((MB.fromCents(gm) - 1) * 100).toFixed(2)}% · ${(+base() * (MB.fromCents(gm) - 1)).toFixed(2)} Hz</small>` : `${gm.toFixed(2)} dB`);
+      st.est = gm;
+    } else MB.stat("pj-est", "—");
+  }
+  function playTrial(again) {
+    if (!again) st.trial = { first: Math.random() < 0.5 };
+    const f0 = +base(), t = MB.now() + 0.05, amp0 = 0.1;
+    const rove = () => (mode() === "freq" ? Math.pow(10, ((Math.random() * 2 - 1) * 1.5) / 20) : 1);
+    if (!again) st.trial.rv = [rove(), rove()];
+    const hiF = mode() === "freq" ? f0 * MB.fromCents(st.d) : f0, hiA = mode() === "level" ? amp0 * Math.pow(10, st.d / 20) : amp0;
+    const tones = st.trial.first ? [[hiF, hiA], [f0, amp0]] : [[f0, amp0], [hiF, hiA]];
+    tones.forEach(([f, a], i) => psyTone(f, Math.min(0.5, a * st.trial.rv[i]), { when: t + i * 0.7, dur: 0.4 }));
+    bA.disabled = bB.disabled = true; setTimeout(() => { if (!st.done) bA.disabled = bB.disabled = false; }, 1150);
+  }
+  document.getElementById("pj-go").addEventListener("click", () => { if (st.done) reset(); playTrial(!!(st.trial && st.trial.pending)); if (st.trial) st.trial.pending = true; say("어느 쪽? (같은 시행을 다시 들으려면 '시행 재생'을 한 번 더)"); });
+  document.getElementById("pj-reset").addEventListener("click", reset);
+  function answer(firstChosen) {
+    if (!st.trial || !st.trial.pending || st.done) return;
+    const ok = firstChosen === st.trial.first; st.trial.pending = false;
+    st.track.push({ d: st.d, ok });
+    let move = 0;
+    if (ok) { st.run++; if (st.run >= 2) { move = -1; st.run = 0; } } else { move = 1; st.run = 0; }
+    if (move) {
+      if (st.dir && move !== st.dir) { st.rev.push(st.d); st.track[st.track.length - 1].rev = true; }
+      st.dir = move; const k = st.rev.length < 2 ? 1.6 : 1.26;
+      st.d = MB.clamp(move < 0 ? st.d / k : st.d * k, mode() === "freq" ? 0.2 : 0.05, mode() === "freq" ? 200 : 12);
+    }
+    bA.disabled = bB.disabled = true;
+    if (st.rev.length >= 10) { st.done = true; readout(); say(`측정 완료! 추정 JND ≈ <b>${st.est.toFixed(mode() === "freq" ? 1 : 2)}${unit()}</b>. 다시 하려면 '시행 재생'.`, "ok"); }
+    else { readout(); say((ok ? "정답" : "오답") + ` — 다음 시행을 재생하세요. (차이 ${st.d.toFixed(2)}${unit()})`, ok ? "ok" : "bad"); }
+    cv.redraw();
+  }
+  bA.addEventListener("click", () => answer(true));
+  bB.addEventListener("click", () => answer(false));
+  const cv = MB.canvas("#cv-psy-jnd", (ctx, w, h) => {
+    if (!st) return;
+    const P = MB.palette(), fr = mode() === "freq";
+    const y0 = fr ? 0.2 : 0.05, y1 = fr ? 200 : 12, n = Math.max(20, st.track.length + 2);
+    const ch = MB.chart(ctx, { x: 46, y: 12, w: w - 58, h: h - 50 }, { x: [0, n], y: [y0, y1], logY: true, yTicks: fr ? [0.5, 1, 2, 5, 10, 20, 50, 100] : [0.1, 0.2, 0.5, 1, 2, 5, 10], xLabel: "시행", yLabel: fr ? "차이 (¢)" : "차이 (dB)", series: [{ data: st.track.map((p, i) => [i + 1, p.d]), color: P.faint, width: 1.2 }],
+      hlines: st.est ? [{ y: st.est, color: P.accent, label: "추정 " + st.est.toFixed(fr ? 1 : 2) + (fr ? " ¢" : " dB") }] : [] });
+    st.track.forEach((p, i) => { ctx.fillStyle = p.ok ? P.ok : P.bad; ctx.beginPath(); ctx.arc(ch.X(i + 1), ch.Y(p.d), 4, 0, 7); ctx.fill(); if (p.rev) { ctx.strokeStyle = P.text; ctx.beginPath(); ctx.arc(ch.X(i + 1), ch.Y(p.d), 7.5, 0, 7); ctx.stroke(); } });
+    if (!st.track.length) { ctx.fillStyle = P.faint; ctx.font = "12px " + PSY_FONT(); ctx.textAlign = "center"; ctx.fillText("응답할수록 계단이 그려집니다", w / 2, h / 2); }
+  }, { aspect: 0.58, maxHeight: 380, minHeight: 240 });
+  reset();
+})();
+
+/* ---------------------------------------------------------------- 4. 셰퍼드 톤 */
+(function () {
+  const K = 9, FMIN = 27.5, PC = Math.log2(440 / FMIN); // 창 중심(옥타브)
+  const mode = MB.seg("ps-mode", () => {});
+  const dir = MB.seg("ps-dir", () => {});
+  const speed = MB.range("ps-speed", (v) => (mode() === "step" ? (60 / (0.9 - v * 0.07)).toFixed(0) + " 음/분" : "옥타브당 " + (24 / v).toFixed(1) + " 초"), () => {});
+  const sig = MB.range("ps-sig", (v) => (v / 10).toFixed(1) + " 옥타브", () => cv.redraw());
+  const wgt = MB.check("ps-w", () => cv.redraw());
+  let eng = null, pair = null;
+  const weight = (p) => (wgt() ? Math.exp(-((p - PC) ** 2) / (2 * (sig() / 10) ** 2)) : FMIN * Math.pow(2, p) > 9000 ? 0.12 : 0.35);
+  const hist = []; // {t, phi}
+  function phiAt(t) { let v = 0; for (let i = hist.length - 1; i >= 0; i--) if (hist[i].t <= t) { v = hist[i].phi; if (i < hist.length - 1 && hist[i].glide) { const a = hist[i], b = hist[i + 1]; v = a.phi + ((b.phi - a.phi) * (t - a.t)) / (b.t - a.t); } break; } return v; }
+  function start() {
+    const ctx = MB.ctx(), bank = ctx.createGain(), out = ctx.createGain(); out.gain.value = 0.22 / 2.2; bank.gain.value = 0;
+    bank.connect(out); out.connect(MB.out);
+    const os = [...Array(K)].map((_, k) => { const o = ctx.createOscillator(), g = ctx.createGain(); g.gain.value = 0; o.frequency.value = FMIN * Math.pow(2, k); o.connect(g); g.connect(bank); o.start(); return { o, g }; });
+    let t = ctx.currentTime + 0.06, phi = hist.length ? hist[hist.length - 1].phi : 0; hist.length = 0;
+    const p = (k, ph) => MB.mod(k + ph, K);
+    const setAll = (time, ph, ramp, prevPh) => os.forEach((x, k) => {
+      const pk = p(k, ph), f = FMIN * Math.pow(2, pk), a = weight(pk);
+      const wrapped = prevPh != null && Math.abs(pk - p(k, prevPh)) > K / 2;
+      if (ramp && !wrapped) { x.o.frequency.exponentialRampToValueAtTime(f, time); x.g.gain.linearRampToValueAtTime(a, time); }
+      else { x.o.frequency.setValueAtTime(f, time); x.g.gain.setValueAtTime(a, time); }
+    });
+    setAll(t, phi, false);
+    function tick() {
+      const now = ctx.currentTime;
+      while (t < now + 0.2) {
+        const d = +dir();
+        if (mode() === "step") {
+          const dur = 0.9 - speed() * 0.07;
+          setAll(t, phi, false);
+          bank.gain.setValueAtTime(0, t); bank.gain.linearRampToValueAtTime(1, t + 0.015); bank.gain.setValueAtTime(1, t + dur * 0.85); bank.gain.linearRampToValueAtTime(0, t + dur * 0.95);
+          hist.push({ t, phi, glide: false }); phi += d / 12; t += dur;
+        } else {
+          const dt = 0.05, prev = phi; phi += (d * dt * speed()) / 24;
+          bank.gain.setValueAtTime(1, t);
+          hist.push({ t, phi: prev, glide: true }); setAll(t + dt, phi, true, prev); t += dt;
+        }
+        if (hist.length > 400) hist.splice(0, 200);
+      }
+    }
+    tick(); const iv = setInterval(tick, 40);
+    eng = { stop() { clearInterval(iv); const n = ctx.currentTime; out.gain.setTargetAtTime(0, n, 0.03); os.forEach((x) => x.o.stop(n + 0.2)); } };
+  }
+  const btn = MB.playButton("ps-play", () => { stopPair(); start(); }, () => { if (eng) eng.stop(); eng = null; });
+  function stopPair() { if (pair) { pair.forEach((v) => v.release()); pair = null; } }
+  document.getElementById("ps-tri").addEventListener("click", () => {
+    if (eng) { eng.stop(); eng = null; btn.set(false); }
+    stopPair(); const pc = Math.floor(Math.random() * 12), t = MB.now() + 0.05; pair = [];
+    [pc, pc + 6].forEach((c, i) => {
+      for (let k = 0; k < K; k++) { const pk = MB.mod(k + c / 12, K), a = Math.exp(-((pk - PC) ** 2) / (2 * 1.0 ** 2)); if (a < 0.01) continue; pair.push(psyTone(FMIN * Math.pow(2, pk), 0.09 * a, { when: t + i * 0.6, dur: 0.5, ramp: 0.03 })); }
+    });
+    MB.stat("ps-pair", `${MB.pcName(pc + 9)} → ${MB.pcName(pc + 15)} <small>위? 아래?</small>`);
+  });
+  const cv = MB.canvas("#cv-psy-shep", (ctx, w, h) => {
+    const P = MB.palette(), ph = eng ? phiAt(MB.now()) : (hist.length ? hist[hist.length - 1].phi : 0);
+    const box = { x: 30, y: 14, w: w - 44, h: h * 0.52 };
+    const X = (p) => box.x + (p / K) * box.w, Y = (a) => box.y + box.h - a * (box.h - 10);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let k = 0; k <= K; k++) { const f = FMIN * Math.pow(2, k); ctx.fillText(f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 0 : 1) + "k" : Math.round(f), X(k), box.y + box.h + 4); }
+    ctx.beginPath(); for (let p = 0; p <= K; p += 0.05) { const x = X(p), y = Y(weight(p)); p ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.strokeStyle = P.faint; ctx.lineWidth = 1.5; ctx.stroke(); ctx.lineWidth = 1;
+    for (let k = 0; k < K; k++) { const pk = MB.mod(k + ph, K), a = weight(pk); ctx.fillStyle = P.accent; ctx.fillRect(X(pk) - 3, Y(a), 6, box.y + box.h - Y(a)); }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + PSY_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("성분 진폭 (가로: log₂ 주파수, Hz)", box.x + 4, box.y);
+    // 크로마 시계
+    const cx = w / 2, cy = box.y + box.h + 30 + (h - box.y - box.h - 34) / 2, R = Math.min(w / 2 - 20, (h - box.y - box.h - 44) / 2);
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    ctx.font = "10px " + PSY_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let i = 0; i < 12; i++) { const [x, y] = MB.circlePos(i + 9, cx, cy, R + 11); ctx.fillStyle = P.faint; ctx.fillText(MB.pcName(i + 9), x, y); }
+    const ang = -Math.PI / 2 + (MB.mod(ph, 1) + 9 / 12) * 2 * Math.PI;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(ang) * (R - 4), cy + Math.sin(ang) * (R - 4)); ctx.stroke(); ctx.lineWidth = 1;
+    MB.stat("ps-pc", MB.pcName(Math.round(MB.mod(ph, 1) * 12) + 9) + ` <small>${(MB.mod(ph, 1) * 12).toFixed(1)}/12</small>`);
+    MB.stat("ps-tot", MB.signed(ph * 12, 1) + " 반음");
+  }, { aspect: (w) => (w < 520 ? 1.05 : 0.72), maxHeight: 460, minHeight: 300 });
+  MB.loop(cv.canvas, () => { if (eng) cv.redraw(); });
+})();
+
+/* ---------------------------------------------------------------- 5. ITD / ILD */
+(function () {
+  const A = 0.0875, C = 343;
+  const az = MB.range("pi-az", (v) => (v > 0 ? "오른쪽 " : v < 0 ? "왼쪽 " : "정면 ") + Math.abs(v) + "°", () => { apply(); cv.redraw(); });
+  const sig = MB.seg("pi-sig", () => cv.redraw());
+  const cue = MB.seg("pi-cue", () => { apply(); cv.redraw(); });
+  let chain = null, timer = 0, quiz = null, score = 0, tries = 0;
+  const POS = [-90, -60, -30, 0, 30, 60, 90];
+  const fEff = () => ({ click: 2000, noise: 2000, low: 500, high: 4000 }[sig()]);
+  const itd = (deg) => { const t = (Math.abs(deg) * Math.PI) / 180; return (A / C) * (t + Math.sin(t)) * Math.sign(deg); };
+  const ild = (deg) => Math.min(20, 0.18 * Math.sqrt(fEff()) * Math.abs(Math.sin((deg * Math.PI) / 180))) * Math.sign(deg);
+  const curAz = () => (quiz ? quiz.az : az());
+  function buffer(ctx) {
+    const sr = ctx.sampleRate, s = sig(), n = Math.round(sr * (s === "click" ? 0.4 : 0.3)), b = ctx.createBuffer(1, n, sr), d = b.getChannelData(0);
+    if (s === "click") { for (let k = 0; k < 4; k++) { const i0 = Math.round(k * 0.1 * sr); for (let j = 0; j < 24; j++) d[i0 + j] = (j < 12 ? 1 : -1) * 0.6 * (1 - j / 24); } }
+    else for (let i = 0; i < n; i++) { const env = Math.min(1, i / (0.01 * sr), (n - i) / (0.01 * sr)), t = i / sr; d[i] = env * (s === "noise" ? (Math.random() * 2 - 1) * 0.4 : 0.35 * Math.sin(2 * Math.PI * (s === "low" ? 500 : 4000) * t)); }
+    return b;
+  }
+  function makeChain() {
+    const ctx = MB.ctx(), m = ctx.createChannelMerger(2), gL = ctx.createGain(), gR = ctx.createGain(), dL = ctx.createDelay(0.01), dR = ctx.createDelay(0.01), inp = ctx.createGain();
+    inp.connect(gL); inp.connect(gR); gL.connect(dL); gR.connect(dR); dL.connect(m, 0, 0); dR.connect(m, 0, 1);
+    const out = ctx.createGain(); out.gain.value = 0.8; m.connect(out); out.connect(MB.out);
+    return { ctx, inp, gL, gR, dL, dR, out };
+  }
+  function apply() {
+    if (!chain) return; const deg = curAz(), c = cue(), t = chain.ctx.currentTime;
+    const T = c === "ild" ? 0 : itd(deg), L = c === "itd" ? 0 : ild(deg);
+    chain.dL.delayTime.setValueAtTime(Math.max(0, T), t); chain.dR.delayTime.setValueAtTime(Math.max(0, -T), t);
+    chain.gL.gain.setValueAtTime(Math.pow(10, -Math.max(0, L) / 20), t); chain.gR.gain.setValueAtTime(Math.pow(10, Math.min(0, L) / 20), t);
+  }
+  function burst(when) { const s = chain.ctx.createBufferSource(); s.buffer = buffer(chain.ctx); s.connect(chain.inp); s.start(when); }
+  function startLoop() { stopAll(); chain = makeChain(); apply(); burst(chain.ctx.currentTime + 0.05); timer = setInterval(() => burst(chain.ctx.currentTime + 0.02), 650); }
+  function stopAll() { clearInterval(timer); timer = 0; if (chain) { chain.out.gain.setTargetAtTime(0, chain.ctx.currentTime, 0.02); const c = chain; setTimeout(() => c.out.disconnect(), 300); chain = null; } }
+  const pb = MB.playButton("pi-play", () => { quiz = null; startLoop(); cv.redraw(); }, () => { stopAll(); cv.redraw(); }, ["▶ 반복 재생", "■ 정지"]);
+  const pads = document.getElementById("pi-pos");
+  pads.innerHTML = POS.map((p) => `<button class="pad" data-a="${p}"><b>${p < 0 ? "L" : p > 0 ? "R" : ""}${Math.abs(p)}°</b></button>`).join("");
+  pads.querySelectorAll(".pad").forEach((b) => b.addEventListener("click", () => {
+    const a = +b.dataset.a;
+    if (!quiz || quiz.done) { az.set(a); return; }
+    quiz.done = true; tries++; const ok = a === quiz.az; if (ok) score++;
+    b.classList.add(ok ? "right" : "wrong"); const r = pads.querySelector(`.pad[data-a="${quiz.az}"]`); if (r) r.classList.add("right");
+    MB.stat("pi-score", `${score} / ${tries}`); cv.redraw();
+  }));
+  document.getElementById("pi-quiz").addEventListener("click", () => {
+    pb.set(false); stopAll(); pads.querySelectorAll(".pad").forEach((p) => p.classList.remove("right", "wrong"));
+    quiz = { az: POS[Math.floor(Math.random() * POS.length)], done: false };
+    chain = makeChain(); cue.set("both", false); apply(); const t = chain.ctx.currentTime + 0.05; [0, 0.7, 1.4].forEach((d) => burst(t + d));
+    const c = chain; setTimeout(() => { if (chain === c) stopAll(); }, 2400); cv.redraw();
+  });
+  const cv = MB.canvas("#cv-psy-itd", (ctx, w, h) => {
+    const P = MB.palette(), hidden = quiz && !quiz.done, deg = hidden ? 0 : quiz ? quiz.az : az(), c = cue();
+    const T = c === "ild" ? 0 : itd(deg), L = c === "itd" ? 0 : ild(deg);
+    const cx = w / 2, cy = h * 0.34, R = Math.min(w * 0.3, h * 0.25), r = R * 0.32;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.arc(cx, cy, R, Math.PI, 2 * Math.PI); ctx.stroke();
+    ctx.fillStyle = P.faint; ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    POS.forEach((p) => { const a = (p * Math.PI) / 180; ctx.fillText(Math.abs(p) + "°", cx + Math.sin(a) * (R + 14), cy - Math.cos(a) * (R + 14)); });
+    // 머리
+    ctx.fillStyle = P.surface; ctx.strokeStyle = P.border; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx - 6, cy - r + 1); ctx.lineTo(cx, cy - r - 9); ctx.lineTo(cx + 6, cy - r + 1); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = P.accent; ctx.fillRect(cx - r - 6, cy - 7, 6, 14); ctx.fillStyle = P.accent2; ctx.fillRect(cx + r, cy - 7, 6, 14);
+    ctx.font = "bold 11px " + PSY_FONT(); ctx.fillStyle = P.accent; ctx.fillText("L", cx - r - 16, cy); ctx.fillStyle = P.accent2; ctx.fillText("R", cx + r + 16, cy);
+    if (hidden) { ctx.fillStyle = P.warn; ctx.font = "bold 22px " + PSY_FONT(); ctx.fillText("?", cx, cy - R * 0.75); }
+    else { const a = (deg * Math.PI) / 180, sx = cx + Math.sin(a) * R, sy = cy - Math.cos(a) * R; ctx.strokeStyle = P.warn; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(cx, cy); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(sx, sy, 8, 0, 7); ctx.fill(); }
+    // 두 귀 신호
+    const wb = { x: 40, y: h * 0.62, w: w - 56, h: h * 0.34 }, span = 1.5e-3;
+    const X = (t) => wb.x + (t / span) * wb.w;
+    const lane = (i, delay, gain, col, lab) => {
+      const y = wb.y + (i + 0.5) * (wb.h / 2);
+      ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(wb.x, y); ctx.lineTo(wb.x + wb.w, y); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath();
+      for (let k = 0; k <= 300; k++) { const t = (k / 300) * span, u = t - 0.2e-3 - delay; let v = 0;
+        if (sig() === "click" || sig() === "noise") v = u >= 0 && u < 0.25e-3 ? (u < 0.125e-3 ? 1 : -1) * (1 - u / 0.25e-3) : 0;
+        else v = u >= 0 ? Math.sin(2 * Math.PI * (sig() === "low" ? 500 : 4000) * u) : 0;
+        const py = y - v * gain * (wb.h / 4 - 3); k ? ctx.lineTo(X(t), py) : ctx.moveTo(X(t), py); }
+      ctx.stroke(); ctx.lineWidth = 1; ctx.fillStyle = col; ctx.font = "bold 11px " + PSY_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(lab, wb.x - 8, y);
+    };
+    const show = !hidden;
+    lane(0, show ? Math.max(0, T) : 0, show ? Math.pow(10, -Math.max(0, L) / 20) : 1, P.accent, "L");
+    lane(1, show ? Math.max(0, -T) : 0, show ? Math.pow(10, Math.min(0, L) / 20) : 1, P.accent2, "R");
+    ctx.fillStyle = P.faint; ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [0, 0.5, 1, 1.5].forEach((ms) => ctx.fillText(ms + " ms", X(ms / 1000), wb.y + wb.h + 2));
+    MB.stat("pi-itd", hidden ? "?" : (Math.abs(T) * 1e6).toFixed(0) + ` µs <small>${T > 0 ? "왼쪽 지연" : T < 0 ? "오른쪽 지연" : ""}</small>`);
+    MB.stat("pi-ild", hidden ? "?" : Math.abs(L).toFixed(1) + ` dB <small>${L > 0 ? "왼쪽 작음" : L < 0 ? "오른쪽 작음" : ""}</small>`);
+  }, { aspect: (w) => (w < 520 ? 0.95 : 0.62), maxHeight: 420, minHeight: 280 });
+})();
+
+/* ---------------------------------------------------------------- 6. 양이 맥놀이 */
+(function () {
+  let v = null, ph = 0;
+  const f = MB.range("pb-f", (x) => x + " Hz", () => update());
+  const d = MB.range("pb-d", (x) => x + " Hz", () => update());
+  const route = MB.seg("pb-route", () => { if (v) { stop(); start(); } update(); });
+  function start() {
+    const ctx = MB.ctx(), m = ctx.createChannelMerger(2), out = ctx.createGain(); out.gain.value = 0; out.connect(MB.out); m.connect(out);
+    const oL = ctx.createOscillator(), oR = ctx.createOscillator(); oL.frequency.value = f(); oR.frequency.value = f() + d();
+    const gL = ctx.createGain(), gR = ctx.createGain(); gL.gain.value = gR.gain.value = 0.15;
+    oL.connect(gL); oR.connect(gR);
+    if (route() === "bin") { gL.connect(m, 0, 0); gR.connect(m, 0, 1); }
+    else { [gL, gR].forEach((g) => { g.connect(m, 0, 0); g.connect(m, 0, 1); }); }
+    oL.start(); oR.start(); out.gain.setTargetAtTime(1, ctx.currentTime, 0.05);
+    v = { oL, oR, stop() { out.gain.setTargetAtTime(0, ctx.currentTime, 0.03); oL.stop(ctx.currentTime + 0.2); oR.stop(ctx.currentTime + 0.2); } };
+  }
+  function stop() { if (v) v.stop(); v = null; }
+  MB.playButton("pb-play", start, stop, ["▶ 재생", "■ 정지"]);
+  function update() { if (v) { v.oL.frequency.setTargetAtTime(f(), MB.now(), 0.02); v.oR.frequency.setTargetAtTime(f() + d(), MB.now(), 0.02); } MB.stat("pb-lr", `${f()} / ${(f() + d()).toFixed(1)} Hz`); MB.stat("pb-rate", d() + " Hz" + (route() === "bin" && f() > 1000 ? " <small>(반송파 높음: 약함)</small>" : "")); cv.redraw(); }
+  const cv = MB.canvas("#cv-psy-bin", (ctx, w, h) => {
+    const P = MB.palette(), R = Math.min(h / 2 - 22, w * 0.18), cx = R + 24, cy = h / 2;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy); ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R); ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(ph) * R, cy - Math.cos(ph) * R); ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.dim; ctx.font = "11px " + PSY_FONT(); ctx.textAlign = "center"; ctx.fillText("두 귀 위상차", cx, cy + R + 16);
+    const deg = Math.round(MB.mod((ph * 180) / Math.PI, 360)); MB.stat("pb-ph", deg + "°");
+    // 단이 합성 포락선 (1초)
+    const box = { x: cx + R + 30, y: 16, w: w - cx - R - 44, h: h - 40 }, N = 600;
+    ctx.strokeStyle = P.grid; ctx.strokeRect(box.x, box.y, box.w, box.h);
+    ctx.strokeStyle = route() === "mono" ? P.accent2 : P.faint; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i <= N; i++) { const t = i / N, e = Math.abs(Math.cos(Math.PI * d() * t)); const x = box.x + (i / N) * box.w, y = box.y + box.h / 2 - e * box.h * 0.45; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.beginPath();
+    for (let i = 0; i <= N; i++) { const t = i / N, e = Math.abs(Math.cos(Math.PI * d() * t)); const x = box.x + (i / N) * box.w, y = box.y + box.h / 2 + e * box.h * 0.45; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText(route() === "mono" ? "귀에 들어가는 합의 포락선 (1초)" : "양이: 각 귀에는 일정한 사인파 (포락선은 뇌가 '계산')", box.x + 4, box.y + box.h + 16);
+  }, { aspect: 0.42, maxHeight: 260, minHeight: 190 });
+  MB.loop(cv.canvas, (dt) => { if (v) { ph += 2 * Math.PI * d() * dt; cv.redraw(); } });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 7. 선행음 효과 */
+(function () {
+  let chain = null, timer = 0;
+  const tau = MB.range("pp-tau", (v) => (v / 10).toFixed(1) + " ms", () => update());
+  const lev = MB.range("pp-lev", (v) => MB.signed(v, 0) + " dB", () => update());
+  const side = MB.seg("pp-side", () => update());
+  const sig = MB.seg("pp-sig", () => update());
+  const T = () => tau() / 10;
+  function pred(t) {
+    if (t < 0.05) return "가운데 한 소리";
+    if (t < 1) return "선행 쪽으로 치우친 한 소리 <small>(합산 정위)</small>";
+    if (t < (sig() === "click" ? 6 : 12)) return "선행 쪽의 한 소리 <small>(선행음 효과)</small>";
+    if (t < 20) return "두 소리로 갈라지기 시작 <small>(반향 문턱 근처)</small>";
+    return "두 개의 클릭 <small>(메아리)</small>";
+  }
+  function update() { MB.stat("pp-t", T().toFixed(1) + " ms"); MB.stat("pp-pred", pred(T())); cv.redraw(); }
+  function pulse(ctx, when, ch, gain, m) {
+    const sr = ctx.sampleRate, n = sig() === "click" ? 48 : Math.round(sr * 0.02), b = ctx.createBuffer(1, n, sr), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = sig() === "click" ? (i < 12 ? 0.7 : i < 24 ? -0.5 : 0) : (Math.random() * 2 - 1) * 0.45 * Math.exp(-i / (0.006 * sr));
+    const s = ctx.createBufferSource(), g = ctx.createGain(); s.buffer = b; g.gain.value = gain; s.connect(g); g.connect(m, 0, ch); s.start(when);
+  }
+  function fire() {
+    const ctx = chain.ctx, t = ctx.currentTime + 0.03, lead = side() === "L" ? 0 : 1;
+    pulse(ctx, t, lead, 1, chain.m); pulse(ctx, t + T() / 1000, 1 - lead, Math.min(3, Math.pow(10, lev() / 20)), chain.m);
+  }
+  MB.playButton("pp-play", () => {
+    const ctx = MB.ctx(), m = ctx.createChannelMerger(2), out = ctx.createGain(); out.gain.value = 0.7; m.connect(out); out.connect(MB.out);
+    chain = { ctx, m, out }; fire(); timer = setInterval(fire, 700);
+  }, () => { clearInterval(timer); if (chain) { chain.out.gain.setTargetAtTime(0, chain.ctx.currentTime, 0.02); } chain = null; }, ["▶ 반복 재생", "■ 정지"]);
+  const cv = MB.canvas("#cv-psy-prec", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 40, y: 34, w: w - 56, h: h - 74 }, tmax = 45;
+    const X = (t) => box.x + (t / tmax) * box.w;
+    const bands = [[0, 1, P.accent2, "합산"], [1, sig() === "click" ? 6 : 12, P.ok, "선행음 효과(융합)"], [sig() === "click" ? 6 : 12, 20, P.warn, "문턱"], [20, tmax, P.bad, "메아리"]];
+    bands.forEach(([a, b, c, l]) => { ctx.fillStyle = c + "26"; ctx.fillRect(X(a), box.y - 22, X(b) - X(a), 18); ctx.fillStyle = P.dim; ctx.font = "10px " + PSY_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "middle"; if (X(b) - X(a) > 34) ctx.fillText(l, (X(a) + X(b)) / 2, box.y - 13); });
+    const lead = side() === "L" ? 0 : 1, laneY = (i) => box.y + (i + 0.5) * (box.h / 2);
+    ["L", "R"].forEach((n, i) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, laneY(i)); ctx.lineTo(box.x + box.w, laneY(i)); ctx.stroke(); ctx.fillStyle = i ? P.accent2 : P.accent; ctx.font = "bold 12px " + PSY_FONT(); ctx.textAlign = "right"; ctx.fillText(n, box.x - 8, laneY(i)); });
+    const spike = (t, i, g, col) => { ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(t), laneY(i)); ctx.lineTo(X(t), laneY(i) - Math.min(1.6, g) * (box.h / 4 - 4)); ctx.stroke(); ctx.lineWidth = 1; };
+    spike(0, lead, 1, lead ? P.accent2 : P.accent);
+    spike(Math.min(tmax, T()), 1 - lead, Math.pow(10, lev() / 20), lead ? P.accent : P.accent2);
+    ctx.fillStyle = P.faint; ctx.font = "10px " + PSY_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [0, 5, 10, 20, 30, 40].forEach((t) => ctx.fillText(t + " ms", X(t), box.y + box.h + 4));
+  }, { aspect: 0.48, maxHeight: 300, minHeight: 200 });
+  update();
+})();
+</script>
+</body>
+</html>

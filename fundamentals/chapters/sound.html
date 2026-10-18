@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>소리는 신호다 · MusicBook</title>
+<meta name="description" content="소리를 압력 신호로 다룬다. 종파와 음속·파장, 사인파의 주파수·진폭·위상, 데시벨과 역제곱 법칙, 가청 범위, 중첩과 간섭, 맥놀이, 정상파와 방 모드, 샘플링 예고까지 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/sound.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="소리는 신호다 · MusicBook">
+<meta property="og:description" content="소리를 압력 신호로 다룬다. 종파와 음속·파장, 사인파의 주파수·진폭·위상, 데시벨과 역제곱 법칙, 가청 범위, 중첩과 간섭, 맥놀이, 정상파와 방 모드, 샘플링 예고까지 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/sound.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"소리는 신호다","name":"소리는 신호다 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/sound.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/sound.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":1,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"소리를 압력 신호로 다룬다. 종파와 음속·파장, 사인파의 주파수·진폭·위상, 데시벨과 역제곱 법칙, 가청 범위, 중첩과 간섭, 맥놀이, 정상파와 방 모드, 샘플링 예고까지 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"01 소리는 신호다","item":"https://music.euiyun.com/fundamentals/chapters/sound.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .snd-drag { cursor: crosshair; touch-action: none; }
+  .snd-steps { display: flex; flex-wrap: wrap; gap: 6px; }
+  .snd-steps .btn { padding: 5px 10px; font-size: 13px; }
+  .snd-mark { font-size: 15px; padding: 10px 14px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="sound">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 01</div>
+    <h1>소리는 신호다</h1>
+    <p class="lead">스피커 앞의 공기 분자는 어디로도 날아가지 않습니다. 제자리 부근에서 앞뒤로 흔들릴 뿐인데(변위는 음압과 주파수에 따라 달라져 저주파·큰 음압에서는 수 µm 이상도 된다), 그 흔들림이 초속 343 m로 퍼져 귀에 닿으면 음악이 됩니다. 이 장에서는 소리를 <b>시간에 따라 변하는 압력 \(p(t)\)</b>, 즉 하나의 신호로 보고 그 신호의 언어인 주파수·진폭·위상·데시벨을 귀와 숫자로 익힙니다. 이 책의 나머지 모든 장이 이 언어 위에 서 있습니다.</p>
+    <ul class="objectives">
+      <li>소리를 종파(압력파)로 설명하고, 음속 \(c\)와 주파수로 파장 \(\lambda = c/f\)를 계산한다(20 Hz → 17 m, 20 kHz → 1.7 cm).</li>
+      <li>사인파의 세 파라미터(주파수·진폭·위상)를 페이저로 이해하고 주기·각주파수로 바꿔 쓴다.</li>
+      <li>dB SPL(기준 20 µPa)과 Pa를 오가며, 역제곱 법칙(거리 2배 → −6 dB)과 음원 합산(+3 dB / +6 dB)을 계산한다.</li>
+      <li>중첩 원리로 보강·상쇄 간섭, 맥놀이 \(|f_1-f_2|\), 정상파와 방 모드를 설명하고 직접 듣는다.</li>
+      <li>자기 청력의 가청 범위를 측정해 보고, 연속 신호를 숫자로 바꾸는 샘플링의 필요성을 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="wave">
+    <h2>소리는 압력의 종파다</h2>
+    <p>북의 막이 바깥으로 튀어나오면 바로 앞 공기를 밀어 압축하고, 안으로 들어가면 공기를 묽게 만듭니다. 압축된 층은 이웃 층을 밀고, 그 층이 다시 다음 층을 밀면서 <b>교란(압력의 변화)만</b> 전파됩니다. 분자의 진동 방향과 파의 진행 방향이 같으므로 <span class="term">종파</span><span class="en">(Longitudinal Wave)</span>입니다. 기타 줄 위를 달리는 파는 진동이 진행 방향과 수직인 횡파지만, 줄이 공기에 전달한 소리는 다시 종파가 됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="종파의 압축과 희박, 압력 곡선">
+        <g id="snd-fig-long"></g>
+      </svg>
+      <figcaption><b>그림 1-1.</b> 종파의 한 순간. 위: 분자 분포(촘촘한 곳 = 압축, 듬성한 곳 = 희박). 아래: 대기압에서 벗어난 압력 \(p\)(보라)와 분자 변위 \(\xi\)(청록). 압력의 봉우리는 변위가 0인 곳에 있다 — 둘은 공간적으로 90° 어긋난다. 이웃한 두 압축 사이 거리가 파장 \(\lambda\).</figcaption>
+    </figure>
+    <p>교란이 퍼지는 속도인 <span class="term">음속</span><span class="en">(Speed of Sound)</span>은 매질의 '탄성'과 '관성'의 비로 정해집니다. 이상기체에서는 온도만의 함수입니다.</p>
+    <div class="formula">$$c = \sqrt{\frac{K}{\rho}}, \qquad c_{\text{air}} = \sqrt{\frac{\gamma R T}{M}} \approx 331.3\sqrt{1+\frac{\theta}{273.15}}\ \text{m/s}$$
+      <div class="where">첫 식은 기체·액체의 압축파에 적용한다. 전단탄성률 G를 가진 등방성 벌크 고체의 종파는 \(c_p=\sqrt{(K+4G/3)/\rho}\)이고 횡파도 존재한다. \(K\): 체적 탄성률(Pa), \(\rho\): 밀도(kg/m³), \(\gamma = 1.4\)(공기의 비열비), \(M = 0.02897\) kg/mol, \(\theta\): 섭씨온도. 20 °C에서 343.2 m/s, 0 °C에서 331.3 m/s — 1 °C당 약 0.6 m/s. 기압은 \(K\)와 \(\rho\)를 같은 비율로 바꾸므로 음속에 영향이 없다.</div>
+    </div>
+    <p>주기 \(T\) 동안 파는 한 파장 \(\lambda\)만큼 나아가므로 \(\lambda = cT = c/f\). 사람이 듣는 20 Hz–20 kHz는 파장으로 <b>17 m에서 1.7 cm까지 1000배</b>의 범위입니다. 이 숫자가 음향 공학의 거의 모든 '왜'를 설명합니다: 저음은 벽을 돌아 넘어오고(회절), 서브우퍼는 방향을 알기 어렵고, 트위터는 작으며, 방의 크기(수 m)가 저음 응답을 망칩니다(7절).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">주파수</th><th class="num">파장(공기, 20 °C)</th><th>비교 대상</th></tr></thead>
+      <tbody>
+        <tr><td class="num">20 Hz</td><td class="num">17.2 m</td><td>가청 하한, 4층 건물 높이</td></tr>
+        <tr><td class="num">41.2 Hz (E1)</td><td class="num">8.3 m</td><td>4현 베이스 최저음, 거실 길이 정도</td></tr>
+        <tr><td class="num">440 Hz (A4)</td><td class="num">78 cm</td><td>조율 기준음</td></tr>
+        <tr><td class="num">1 kHz</td><td class="num">34.3 cm</td><td>측정 기준 주파수</td></tr>
+        <tr><td class="num">3.4 kHz</td><td class="num">10 cm</td><td>머리 폭의 절반쯤 — 머리가 그림자를 만들기 시작</td></tr>
+        <tr><td class="num">20 kHz</td><td class="num">1.7 cm</td><td>가청 상한, 트위터 돔 지름</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-snd-air">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>공기 분자와 압력파 (슬로 모션)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-air"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주파수 <output id="snd-air-f-out"></output></span><input type="range" id="snd-air-f" min="0" max="1000" value="500"></label>
+          <div class="ctrl"><span>매질</span><div class="seg" id="snd-air-med"><button data-value="air" class="on">공기</button><button data-value="he">헬륨</button><button data-value="water">물</button><button data-value="steel">강철</button></div></div>
+          <label class="ctrl"><span>온도(기체) <output id="snd-air-T-out"></output></span><input type="range" id="snd-air-T" min="-20" max="40" value="20"></label>
+          <label class="ctrl"><span>음압 레벨 <output id="snd-air-L-out"></output></span><input type="range" id="snd-air-L" min="0" max="140" value="94"></label>
+          <label class="check"><input type="checkbox" id="snd-air-shade" checked> 압력으로 배경 칠하기</label>
+          <div class="btn-row"><button class="btn primary" id="snd-air-play">▶ 이 주파수 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음속 c</span><span class="v" id="snd-air-o-c">—</span></div>
+        <div class="stat"><span class="k">파장 λ</span><span class="v" id="snd-air-o-lam">—</span></div>
+        <div class="stat"><span class="k">분자 변위 진폭 ξ</span><span class="v" id="snd-air-o-xi">—</span></div>
+        <div class="stat"><span class="k">입자 속도 u</span><span class="v" id="snd-air-o-u">—</span></div>
+      </div>
+      <div class="sim-note">화면에는 언제나 파장 3개가 보이도록 축척이 바뀝니다(아래 눈금자). 빨간 분자 한 줄을 따라가 보세요: 제자리에서 앞뒤로만 흔들리고, 압력 무늬만 오른쪽으로 흘러갑니다. 매질을 바꿔도 <b>들리는 소리(주파수)는 그대로</b>이고 파장만 바뀝니다 — 주파수는 음원이, 파장은 매질이 정합니다. 변위 ξ = p/(ωρc)는 실제 값입니다(화면의 흔들림은 과장). 1 kHz·0 dB SPL에서 ξ ≈ 10⁻¹¹ m로 수소 원자 지름보다 작습니다. 물·강철도 비교를 위해 20 µPa 기준 dB를 썼습니다(수중 음향은 보통 1 µPa 기준).</div>
+    </div>
+
+    <div class="callout deep"><strong>헬륨 목소리의 진실</strong> 헬륨을 마시면 목소리가 '높아진' 것처럼 들리지만 성대의 진동수(기본 주파수)는 거의 그대로다. 성도 안의 음속이 약 3배가 되어 성도 공명(포먼트, 2장)이 위로 올라갈 뿐이다. 위 시뮬레이터에서 매질을 바꿔도 음높이가 그대로인 것과 같은 이치다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="sinusoid">
+    <h2>사인파: 주파수·진폭·위상</h2>
+    <p>한 점(예: 고막 앞)에서 압력을 시간에 따라 기록하면 신호 \(p(t)\)가 됩니다. 그중 가장 단순한 것이 <span class="term">사인파</span><span class="en">(Sinusoid)</span>입니다. 2장에서 보듯 모든 주기 신호는 사인파의 합이므로, 사인파의 세 파라미터가 소리를 기술하는 기본 어휘입니다.</p>
+    <div class="formula">$$p(t) = A\sin(2\pi f t + \varphi) = A\sin(\omega t + \varphi) = \operatorname{Im}\{A e^{j\varphi} e^{j\omega t}\}$$
+      <div class="where">\(f\): 주파수(Hz, 초당 반복 횟수), \(T = 1/f\): 주기, \(\omega = 2\pi f\): 각주파수(rad/s), \(A\): 진폭(피크), \(\varphi\): 초기 위상(rad). 복소수 \(Ae^{j\varphi}\)를 <b>페이저</b>(phasor)라 부른다 — 진폭과 위상을 한 숫자에 담고, 시간에 따라 각속도 \(\omega\)로 도는 화살표의 그림자가 사인파다. RMS 값은 \(A/\sqrt2\)(−3.01 dB).</div>
+    </div>
+    <p>세 파라미터는 지각과 깔끔하게 대응합니다: 주파수 → <b>음높이</b>(로그 지각, 5장), 진폭 → <b>크기</b>(대략 로그 지각, 3절과 14장), 위상 → 단독으로는 <b>들리지 않음</b>. 위상은 다른 신호와 더해질 때 비로소 의미를 갖습니다(5절).</p>
+
+    <div class="sim" id="sim-snd-sine">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>사인파 발생기와 페이저</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-sine"></canvas><div class="mb-kb short" id="snd-sn-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주파수 f <output id="snd-sn-f-out"></output></span><input type="range" id="snd-sn-f" min="0" max="1000" value="500"></label>
+          <label class="ctrl"><span>진폭 A <output id="snd-sn-a-out"></output></span><input type="range" id="snd-sn-a" min="-40" max="0" value="-12"></label>
+          <label class="ctrl"><span>초기 위상 φ <output id="snd-sn-ph-out"></output></span><input type="range" id="snd-sn-ph" min="0" max="355" step="5" value="0"></label>
+          <div class="ctrl"><span>시간 창</span><div class="seg" id="snd-sn-win"><button data-value="fixed" class="on">10 ms 고정</button><button data-value="cyc">3주기</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="snd-sn-play">▶ 지속음</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">주파수 / 음이름</span><span class="v" id="snd-sn-o-f">—</span></div>
+        <div class="stat"><span class="k">주기 T</span><span class="v" id="snd-sn-o-T">—</span></div>
+        <div class="stat"><span class="k">각주파수 ω</span><span class="v" id="snd-sn-o-w">—</span></div>
+        <div class="stat"><span class="k">파장(공기)</span><span class="v" id="snd-sn-o-lam">—</span></div>
+        <div class="stat"><span class="k">피크 / RMS</span><span class="v" id="snd-sn-o-a">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 원의 화살표(페이저)가 천천히 돌고, 그 세로 성분이 오른쪽 파형의 점입니다(실제 회전은 초당 f바퀴). 슬라이더나 건반(<kbd>A</kbd>–<kbd>K</kbd> 키)으로 주파수를 바꿔 보세요. 지속음을 켠 채 위상 φ를 돌리면 파형은 옆으로 밀리지만 소리는 전혀 변하지 않습니다 — 사인파 하나의 위상은 들리지 않습니다. 진폭은 dBFS(디지털 최대값 대비)로 표시합니다. −6 dB마다 진폭이 절반이 되지만 크기 변화는 '조금 작아진' 정도로 들립니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="decibel">
+    <h2>데시벨: 100만 배를 다루는 로그 자</h2>
+    <p>귀가 감지하는 가장 작은 압력 변화는 약 20 µPa, 통증이 시작되는 압력은 약 20–60 Pa입니다. 백만 배가 넘는 범위를 선형 눈금으로 다루면 불편하고, 지각도 대략 비율(로그)에 반응하므로 <span class="term">음압 레벨</span><span class="en">(Sound Pressure Level, SPL)</span>을 데시벨로 씁니다.</p>
+    <div class="formula">$$L_p = 20\log_{10}\frac{p_{\text{rms}}}{p_0}\ \text{dB SPL}, \quad p_0 = 20\ \mu\text{Pa}; \qquad L_I = 10\log_{10}\frac{I}{I_0},\ I_0 = 10^{-12}\ \text{W/m}^2$$
+      <div class="where">압력(진폭량)은 20 log, 세기·파워(에너지량)는 10 log. 평면파에서 \(I = p_{\text{rms}}^2/(\rho c)\), 공기의 특성 임피던스 \(\rho c \approx 413\) Pa·s/m이므로 두 레벨은 거의 같다. 기억할 앵커: <b>1 Pa = 94 dB</b>(마이크 교정기의 표준 레벨), 20 Pa = 120 dB, ×2 압력 = +6.02 dB, ×10 압력 = +20 dB.</div>
+    </div>
+    <p>자유 공간의 점음원은 에너지를 구면 \(4\pi r^2\)에 퍼뜨리므로 세기는 \(1/r^2\), 압력은 \(1/r\)로 줄어듭니다. 이것이 <span class="term">역제곱 법칙</span><span class="en">(Inverse-Square Law)</span>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="역제곱 법칙: 거리 2배면 같은 에너지가 4배 면적에">
+        <line x1="70" y1="125" x2="700" y2="40" class="s-axis"/>
+        <line x1="70" y1="125" x2="700" y2="210" class="s-axis"/>
+        <circle cx="70" cy="125" r="9" class="f-acc"/>
+        <text x="70" y="160" text-anchor="middle" class="t">음원</text>
+        <rect x="270" y="98" width="10" height="54" class="f-acc-soft"/>
+        <g class="f-acc2-soft">
+          <rect x="470" y="71" width="10" height="27"/><rect x="470" y="98" width="10" height="27"/><rect x="470" y="125" width="10" height="27"/><rect x="470" y="152" width="10" height="27"/>
+        </g>
+        <text x="275" y="88" text-anchor="middle" class="t-acc">r</text>
+        <text x="475" y="60" text-anchor="middle" class="t-acc">2r</text>
+        <text x="275" y="182" text-anchor="middle" class="t-dim">면적 S, 세기 I</text>
+        <text x="475" y="208" text-anchor="middle" class="t-dim">면적 4S, 세기 I/4</text>
+        <text x="610" y="112" class="t">I ∝ 1/r²</text>
+        <text x="610" y="134" class="t">p ∝ 1/r</text>
+        <text x="610" y="156" class="t-acc">거리 ×2 → −6 dB</text>
+      </svg>
+      <figcaption><b>그림 1-2.</b> 같은 음향 파워가 거리 \(2r\)에서는 4배 면적에 퍼진다. \(10\log_{10}(1/4) = -6.02\) dB. 이상적인 무한 선음원은 원통형 전파로 거리 2배당 약 −3 dB이다. 유한 길이 라인 어레이는 길이·주파수·거리에 따라 근거리의 약 −3 dB에서 원거리의 약 −6 dB로 바뀔 수 있고, 실내에서는 반사음 때문에 일정 거리 너머로는 레벨이 거의 줄지 않는다(잔향장).</figcaption>
+    </figure>
+    <div class="formula">$$L(r) = L(r_0) - 20\log_{10}\frac{r}{r_0}, \qquad L_{\text{합}} = 10\log_{10}\sum_i 10^{L_i/10}\ (\text{비상관}), \qquad L_{\text{합}} = 20\log_{10}\sum_i 10^{L_i/20}\ (\text{동상})$$
+      <div class="where">서로 무관한(비상관) 음원은 <b>파워가</b> 더해진다: 같은 레벨 두 개 = +3 dB, 열 개 = +10 dB. 같은 신호를 같은 위상으로 받으면 <b>압력이</b> 더해져 두 개 = +6 dB — 대신 다른 자리에서는 상쇄된다(5절). 80 dB + 70 dB은 80.4 dB: 10 dB 작은 음원은 거의 보태지 못한다.</div>
+    </div>
+
+    <div class="sim" id="sim-snd-db">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>dB 사다리: 압력·거리·음원 수, 그리고 귀로 듣는 dB</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-db"></canvas><canvas id="cv-snd-db-live"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음원 레벨(1 m) <output id="snd-db-L1-out"></output></span><input type="range" id="snd-db-L1" min="40" max="130" value="94"></label>
+          <label class="ctrl"><span>청취 거리 r <output id="snd-db-r-out"></output></span><input type="range" id="snd-db-r"></label>
+          <label class="ctrl"><span>같은 음원 수 N <output id="snd-db-n-out"></output></span><input type="range" id="snd-db-n"></label>
+          <div class="ctrl"><span>합산 방식</span><div class="seg" id="snd-db-sum"><button data-value="inc" class="on">비상관(파워)</button><button data-value="coh">동상(압력)</button></div></div>
+          <div class="ctrl"><span>귀로 듣기: 기준 → 감쇠 (A-B-A-B)</span>
+            <div class="seg" id="snd-db-sig"><button data-value="tone" class="on">500 Hz 사인</button><button data-value="noise">대역 잡음</button></div>
+            <div class="snd-steps" id="snd-db-steps"><button class="btn" data-db="-1">−1 dB</button><button class="btn" data-db="-3">−3 dB</button><button class="btn" data-db="-6">−6 dB</button><button class="btn" data-db="-10">−10 dB</button><button class="btn" data-db="-20">−20 dB</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">청취점 레벨 L</span><span class="v" id="snd-db-o-L">—</span></div>
+        <div class="stat"><span class="k">음압 p(rms)</span><span class="v" id="snd-db-o-p">—</span></div>
+        <div class="stat"><span class="k">세기 I</span><span class="v" id="snd-db-o-I">—</span></div>
+        <div class="stat"><span class="k">허용 노출(NIOSH)</span><span class="v" id="snd-db-o-t">—</span></div>
+      </div>
+      <div class="sim-msg" id="snd-db-msg">감쇠 버튼을 누르면 기준음(A)과 감쇠음(B)이 번갈아 두 번씩 나옵니다.</div>
+      <div class="sim-note">왼쪽 눈금은 같은 높이의 음압(Pa)입니다 — 20 dB 올라갈 때마다 압력이 10배. 거리를 2배씩 늘리면 6 dB씩, 비상관 음원을 2배로 늘리면 3 dB씩 움직이는 것을 확인하세요. 허용 노출 시간은 NIOSH 권고(85 dBA에서 8시간, 3 dB 오를 때마다 절반)로 계산합니다(A 가중은 생략한 근사). 듣기 실험: −1 dB는 거의 구별되지 않고(차이역 JND ≈ 0.5–1 dB), −10 dB는 대략 '절반 크기'로 들립니다(14장의 손 법칙). 실제 SPL은 여러분의 볼륨에 따라 달라 이 실험은 <b>상대값</b>만 의미가 있습니다.</div>
+    </div>
+    <div class="callout warn"><strong>귀는 소모품이다</strong> NIOSH 직업 소음 권고의 3 dB 교환율에서는 85 dBA·8시간과 100 dBA·15분이 같은 일일 노출량이다. 개인 음악 청취의 WHO–ITU 기준은 성인 80 dB·주당 40시간, 어린이 75 dB·주당 40시간으로 대상과 기준량이 다르다. 이어폰 최대 볼륨은 100 dB를 넘기 쉽다. 이 책의 시뮬레이터는 마스터 리미터를 거치지만, 장비 볼륨은 낮게 시작해 올리는 습관을 들이자. 이 값들은 모든 개인에게 손상 없는 청취 시간을 보장하지 않는다. <a href="https://www.who.int/publications/i/item/9789241515276">WHO–ITU 개인 청취 기준</a>과 <a href="https://www.cdc.gov/niosh/noise/about/noise.html">NIOSH 직업 소음 권고</a>를 구분하자.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="hearing">
+    <h2>가청 범위: 내 귀의 대역폭 재기</h2>
+    <p>교과서의 가청 범위 '20 Hz–20 kHz'는 건강한 젊은 귀의 대략적인 값입니다. 상한은 나이와 함께 내려가며(<span class="term">노인성 난청</span><span class="en">(Presbycusis)</span>), 20대 후반이면 17 kHz를 못 듣는 사람이 흔합니다. 하한 근처에서는 음이 '음높이'보다 '진동·떨림'으로 느껴지고, 듣는 데 필요한 음압이 급격히 커집니다. 1 kHz에서 0 dB 근처인 청력 역치가 20 Hz에서는 약 75 dB입니다(ISO 226 등청감 곡선, 14장).</p>
+    <div class="sim" id="sim-snd-sweep">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>로그 스윕 청력 테스트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-sw"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>스윕 방향</span><div class="seg" id="snd-sw-dir"><button data-value="up" class="on">1 k→20 kHz</button><button data-value="down">1 k→20 Hz</button><button data-value="full">20 Hz→20 kHz</button></div></div>
+          <div class="ctrl"><span>속도</span><div class="seg" id="snd-sw-rate"><button data-value="4">느림</button><button data-value="2" class="on">보통</button><button data-value="1">빠름</button></div></div>
+          <label class="ctrl"><span>레벨 <output id="snd-sw-lvl-out"></output></span><input type="range" id="snd-sw-lvl" min="-40" max="-14" value="-30"></label>
+          <div class="btn-row"><button class="btn primary" id="snd-sw-play">▶ 스윕 시작</button></div>
+          <div class="btn-row"><button class="btn snd-mark" id="snd-sw-mark">● 경계 표시</button><button class="btn" id="snd-sw-clear">표시 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재 주파수</span><span class="v" id="snd-sw-o-f">—</span></div>
+        <div class="stat"><span class="k">표시한 경계</span><span class="v" id="snd-sw-o-mk">—</span></div>
+        <div class="stat"><span class="k">샘플레이트 / 나이퀴스트</span><span class="v" id="snd-sw-o-ny">—</span></div>
+      </div>
+      <div class="sim-note"><b>볼륨을 낮추고 시작하세요.</b> 사인파 하나가 로그 속도(옥타브당 일정 시간)로 미끄러집니다. 상향 스윕은 소리가 사라지는 순간, 하향 스윕은 음높이 감각이 사라지거나 소리가 안 들리게 되는 순간 '경계 표시'를 누르세요(스페이스 대신 버튼). 위 막대는 나이대별 대략적인 상한(개인차가 큼)과 악기 음역입니다. <b>측정 한계</b>: 노트북·휴대폰 스피커는 보통 150–200 Hz 아래를 재생하지 못하고, 많은 이어폰이 16 kHz 위에서 급격히 떨어집니다. 장비의 한계가 귀의 한계보다 먼저 올 수 있습니다. 의학적 청력 검사가 아닙니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="superposition">
+    <h2>중첩과 간섭: 위상이 들리는 순간</h2>
+    <p>공기의 음압은 아주 작아서(대기압 101 325 Pa 대비 120 dB도 20 Pa) 파동 방정식이 선형으로 잘 근사됩니다. 따라서 여러 소리는 서로 간섭 없이 지나가고, 한 점의 압력은 각 소리의 압력의 <b>합</b>입니다. 이것이 <span class="term">중첩 원리</span><span class="en">(Superposition)</span>입니다. 같은 주파수의 두 사인파를 더하면 결과도 같은 주파수의 사인파이고, 진폭은 페이저 덧셈으로 정해집니다.</p>
+    <div class="formula">$$A_1 e^{j\varphi_1} + A_2 e^{j\varphi_2} = A e^{j\varphi}, \qquad A = \sqrt{A_1^2 + A_2^2 + 2A_1A_2\cos\Delta\varphi}$$
+      <div class="where">\(\Delta\varphi = 0\)이면 \(A = A_1 + A_2\)(보강, 같은 진폭이면 +6 dB), \(\Delta\varphi = \pi\)이면 \(A = |A_1 - A_2|\)(상쇄). 두 진폭이 같을 때 완전 상쇄는 무한대 dB 감쇠지만, 진폭이 1 dB만 달라도 상쇄 깊이는 약 −19 dB로 제한된다. 이 원리가 노이즈 캔슬링 헤드폰이다.</div>
+    </div>
+
+    <div class="sim" id="sim-snd-phase">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 사인파의 위상차와 상쇄</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-ph"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주파수 <output id="snd-ph-f-out"></output></span><input type="range" id="snd-ph-f" min="100" max="1000" step="10" value="300"></label>
+          <label class="ctrl"><span>위상차 Δφ <output id="snd-ph-d-out"></output></span><input type="range" id="snd-ph-d" min="0" max="360" step="5" value="0"></label>
+          <label class="ctrl"><span>2번 진폭 A₂/A₁ <output id="snd-ph-a2-out"></output></span><input type="range" id="snd-ph-a2" min="0" max="100" value="100"></label>
+          <div class="ctrl"><span>듣기</span><div class="seg" id="snd-ph-lis"><button data-value="sum" class="on">1 + 2</button><button data-value="one">1번만</button><button data-value="two">2번만</button></div></div>
+          <label class="check"><input type="checkbox" id="snd-ph-lr"> 왼쪽/오른쪽 채널로 분리</label>
+          <div class="btn-row"><button class="btn primary" id="snd-ph-play">▶ 재생</button><button class="btn" id="snd-ph-inv">극성 반전(180°)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">합 진폭 A</span><span class="v" id="snd-ph-o-a">—</span></div>
+        <div class="stat"><span class="k">1번 대비</span><span class="v" id="snd-ph-o-db">—</span></div>
+        <div class="stat"><span class="k">상태</span><span class="v" id="snd-ph-o-st">—</span></div>
+      </div>
+      <div class="sim-note">재생한 채로 위상차를 0°→180°로 돌리면 소리가 점점 작아져 사라집니다. 두 발진기는 같은 시각에 시작해 위상이 정확히 고정되어 있습니다. '왼쪽/오른쪽 분리'를 켜고 <b>헤드폰</b>으로 들으면 180°에서도 소리가 사라지지 않습니다 — 상쇄는 두 압력이 같은 공기(같은 귀) 안에서 더해질 때만 일어납니다. (스피커로 들으면 방 안에서 다시 섞여 자리마다 다르게 들립니다. 다음 시뮬레이터.)</div>
+    </div>
+
+    <p>스피커 두 대가 같은 신호를 내면, 청취 위치에 따라 두 경로의 길이 차 \(\Delta r\)이 위상차를 만듭니다. \(\Delta\varphi = 2\pi\,\Delta r/\lambda\)이므로 경로차가 반 파장의 홀수 배인 곳에서 상쇄됩니다. 무대 위 모니터 스피커를 하나 더 놓았더니 저음이 오히려 줄었다면, 또는 스테레오 스피커 한 쪽의 +/− 배선이 바뀌어 저음이 텅 비었다면 이 현상입니다.</p>
+
+    <div class="sim" id="sim-snd-field">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스피커 두 대의 간섭 무늬 (청취자를 끌어 보세요)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-fd" class="snd-drag"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주파수 <output id="snd-fd-f-out"></output></span><input type="range" id="snd-fd-f" min="0" max="1000" value="500"></label>
+          <label class="ctrl"><span>스피커 간격 d <output id="snd-fd-d-out"></output></span><input type="range" id="snd-fd-d" min="10" max="300" step="5" value="120"></label>
+          <div class="ctrl"><span>2번 스피커 극성</span><div class="seg" id="snd-fd-pol"><button data-value="1" class="on">정상</button><button data-value="-1">반전</button></div></div>
+          <div class="ctrl"><span>표시</span><div class="seg" id="snd-fd-view"><button data-value="inst" class="on">순간 압력</button><button data-value="rms">레벨(dB)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="snd-fd-play">▶ 청취자 위치에서 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">파장 λ</span><span class="v" id="snd-fd-o-lam">—</span></div>
+        <div class="stat"><span class="k">경로차 Δr</span><span class="v" id="snd-fd-o-dr">—</span></div>
+        <div class="stat"><span class="k">위상차 Δφ</span><span class="v" id="snd-fd-o-dp">—</span></div>
+        <div class="stat"><span class="k">스피커 1대 대비</span><span class="v" id="snd-fd-o-lv">—</span></div>
+      </div>
+      <div class="sim-note">8 m 너비의 반사 없는 공간(자유 음장)을 위에서 본 모습입니다. 흰 원(청취자)을 클릭·드래그해 옮기면, 재생 중인 소리의 크기가 그 지점의 계산된 진폭으로 바뀝니다 — 골(어두운 줄무늬)로 들어가면 소리가 꺼집니다. '반전'으로 바꾸면 두 스피커의 정중앙선이 완전 상쇄선이 됩니다. 저주파(긴 파장)에서는 무늬가 넓어 방 전체가 영향을 받고, 고주파에서는 무늬가 머리 크기보다 촘촘해져 귀 두 개가 서로 다른 값을 듣습니다. 모델: 점음원 2개, 압력 ∝ e<sup>−jkr</sup>/r, 반사 무시.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="beats">
+    <h2>맥놀이: 주파수가 조금 다른 두 소리</h2>
+    <p>주파수가 조금 다른 두 사인파를 더하면 위상차가 시간에 따라 천천히 돌기 때문에, 보강과 상쇄가 번갈아 나타나 소리가 '웅–웅–' 하고 맥박칩니다. 삼각함수 합의 공식이 그대로 보여 줍니다.</p>
+    <div class="formula">$$\sin 2\pi f_1 t + \sin 2\pi f_2 t = \underbrace{2\cos\!\big(\pi (f_1 - f_2) t\big)}_{\text{느린 포락선}}\ \sin\!\big(\pi (f_1 + f_2) t\big)$$
+      <div class="where">들리는 음높이는 평균 \((f_1+f_2)/2\), 크기는 \(|\cos|\)로 출렁인다. \(|\cos|\)의 주기는 \(1/|f_1-f_2|\)이므로 <span class="term">맥놀이</span><span class="en">(Beats)</span> 횟수는 초당 \(|f_1 - f_2|\)번. 440 Hz와 442 Hz는 초당 2번 맥놀이친다. 조율사는 이 맥놀이를 세어 음정을 0.1 Hz 단위로 맞춘다.</div>
+    </div>
+    <p>차이를 키우면 지각이 세 단계로 바뀝니다. 약 10–15 Hz까지는 셀 수 있는 맥놀이, 그 위로는 하나로 뭉친 '거칠고 까끌한' 소리(<span class="term">거칠기</span><span class="en">(Roughness)</span>), 그리고 차이가 <b>임계대역</b>(달팽이관의 한 청각 필터 폭, 440 Hz 근처에서 약 100 Hz)을 넘으면 두 개의 깨끗한 음으로 분리됩니다. 6장에서 이 거칠기 곡선이 '불협화'의 물리적 근거가 됩니다.</p>
+
+    <div class="sim" id="sim-snd-beats">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>맥놀이 → 거칠기 → 두 음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-bt"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>f₁ <output id="snd-bt-f1-out"></output></span><input type="range" id="snd-bt-f1" min="110" max="880" value="440"></label>
+          <label class="ctrl"><span>차이 Δf = f₂ − f₁ <output id="snd-bt-df-out"></output></span><input type="range" id="snd-bt-df"></label>
+          <label class="check"><input type="checkbox" id="snd-bt-lr"> 왼쪽/오른쪽 귀에 따로 (양이 맥놀이)</label>
+          <div class="btn-row"><button class="btn primary" id="snd-bt-play">▶ 두 음 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">f₂</span><span class="v" id="snd-bt-o-f2">—</span></div>
+        <div class="stat"><span class="k">맥놀이 주기</span><span class="v" id="snd-bt-o-b">—</span></div>
+        <div class="stat"><span class="k">임계대역(Zwicker)</span><span class="v" id="snd-bt-o-cb">—</span></div>
+        <div class="stat"><span class="k">지각 영역</span><span class="v" id="snd-bt-o-zone">—</span></div>
+      </div>
+      <div class="sim-note">위: 합성 파형과 포락선 \(2|\cos\pi\Delta f t|\). 재생 중에는 세로선이 지금 울리는 시점을, 오른쪽 위 원이 순간 크기를 보여 줍니다. 아래 띠: Δf의 로그 축 위에서 지각이 어떻게 바뀌는지(경계는 대략값). Δf를 1 → 8 → 30 → 150 Hz로 올리며 들어 보세요. '따로' 옵션을 켜고 헤드폰으로 들으면 공기 중에서는 더해지지 않는데도 약한 맥놀이가 들립니다. 뇌간에서 두 귀의 위상을 비교해 생기는 <b>양이 맥놀이</b>(binaural beat)로, 약 30 Hz 아래에서만 들리고 거칠기는 생기지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="standing">
+    <h2>정상파와 방 모드</h2>
+    <p>벽에서 반사된 파가 들어오는 파와 겹치면, 진행하지 않고 제자리에서 진동하는 무늬가 생깁니다. 반대 방향으로 가는 같은 진폭의 두 파를 더하면</p>
+    <div class="formula">$$\cos(kx - \omega t) + \cos(kx + \omega t) = 2\cos(kx)\cos(\omega t)$$
+      <div class="where">공간 모양 \(\cos kx\)와 시간 진동 \(\cos\omega t\)가 분리된다: <span class="term">정상파</span><span class="en">(Standing Wave)</span>. 압력이 전혀 변하지 않는 마디(node)가 \(\lambda/2\) 간격으로 고정된다. 단단한 벽 표면은 압력의 배(antinode)다. 반사율 \(R<1\)이면 마디가 완전히 0이 되지 않고, 배/마디 압력비 \((1+R)/(1-R)\)을 정재파비(SWR)라 한다.</div>
+    </div>
+    <p>평행한 두 벽 사이(거리 \(L\))에서는 왕복 경로 \(2L\)이 파장의 정수배일 때 반사파들이 계속 보강되어 공진합니다. 이것이 방의 축 모드입니다.</p>
+    <div class="formula">$$f_n = \frac{n\,c}{2L},\quad n = 1, 2, 3, \dots \qquad \left(f_{n_x n_y n_z} = \frac{c}{2}\sqrt{\Big(\tfrac{n_x}{L_x}\Big)^2 + \Big(\tfrac{n_y}{L_y}\Big)^2 + \Big(\tfrac{n_z}{L_z}\Big)^2}\right)$$
+      <div class="where">길이 5 m인 방이면 34, 69, 103 Hz… 저음역에서는 모드가 듬성듬성해서 특정 음만 붕붕 울리고(부밍), 자리를 옮기면 같은 음이 사라진다. 모드가 촘촘해지는 슈뢰더 주파수 \(f_s \approx 2000\sqrt{T_{60}/V}\) 위에서야 방은 통계적으로 고르게 반응한다. 괄호 안은 직육면체 방의 3차원 일반식(레일리).</div>
+    </div>
+
+    <div class="sim" id="sim-snd-standing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 벽 사이의 정상파와 방 응답</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-snd-st"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주파수 <output id="snd-st-f-out"></output></span><input type="range" id="snd-st-f" min="20" max="300" step="0.5" value="69"></label>
+          <label class="ctrl"><span>벽 사이 거리 L <output id="snd-st-L-out"></output></span><input type="range" id="snd-st-L" min="2" max="12" step="0.1" value="5"></label>
+          <label class="ctrl"><span>벽 반사율 R <output id="snd-st-R-out"></output></span><input type="range" id="snd-st-R" min="0" max="95" value="85"></label>
+          <label class="ctrl"><span>청취 위치 x/L <output id="snd-st-x-out"></output></span><input type="range" id="snd-st-x" min="0" max="100" value="50"></label>
+          <label class="check"><input type="checkbox" id="snd-st-both" checked> 음원 쪽 벽도 반사(공진 가능)</label>
+          <div class="btn-row"><button class="btn primary" id="snd-st-play">▶ 청취 위치에서 듣기</button><button class="btn" id="snd-st-snap">가까운 모드로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">파장 λ / λ/2</span><span class="v" id="snd-st-o-lam">—</span></div>
+        <div class="stat"><span class="k">축 모드 f₁, f₂, f₃</span><span class="v" id="snd-st-o-modes">—</span></div>
+        <div class="stat"><span class="k">청취점 레벨</span><span class="v" id="snd-st-o-lv">—</span></div>
+        <div class="stat"><span class="k">정재파비</span><span class="v" id="snd-st-o-swr">—</span></div>
+      </div>
+      <div class="sim-note">위: 왼쪽 벽의 음원에서 나온 파가 두 벽 사이를 오갈 때의 압력(보라, 모양만 정규화)과 포락선(점선), 청취 위치(세로선). 아래: 청취 위치에서의 응답(dB, 직접음만 있을 때 대비)을 주파수에 대해 그린 것 — 방 모드마다 봉우리가 솟습니다. 재생한 채 주파수를 모드 근처로 움직이거나 청취 위치를 마디로 옮겨 보세요. 청취 위치가 방 정중앙(50%)이면 홀수 모드(34, 103 Hz…)는 마디라 응답 곡선에서 아예 사라지고, 짝수 모드만 솟습니다. 34 Hz를 틀고 청취 위치를 0%→50%로 옮겨 보세요. 모델: 1차원 평면파, 주파수 무관한 실수 반사율.</div>
+    </div>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 홈 스튜디오의 저음 문제는 대부분 장비가 아니라 방 모드다. 청취 위치를 방 길이의 정중앙(1차 모드의 마디, 2차 모드의 배)에서 38% 지점 근처로 옮기고, 모서리(모든 모드의 배)에 베이스 트랩을 둔다. 이퀄라이저로 깊은 마디를 채우려는 것은 헛수고다 — 마디에서는 입력을 키워도 상쇄가 같이 커진다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="sampling">
+    <h2>예고: 압력을 숫자로 — 샘플링</h2>
+    <p>마이크는 압력 \(p(t)\)를 전압으로 바꾸고, 변환기(ADC)는 그 전압을 일정 간격 \(T_s = 1/f_s\)마다 읽어 정수로 저장합니다. 컴퓨터 안의 소리는 결국 숫자열 \(x[n] = p(nT_s)\)입니다. 이 책의 모든 시뮬레이터도 브라우저가 초당 44 100 또는 48 000개의 숫자를 계산해 스피커로 보내는 것입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="연속 사인파와 표본">
+        <g id="snd-fig-samp"></g>
+      </svg>
+      <figcaption><b>그림 1-3.</b> 연속 신호(회색)와 표본(보라 막대). 위: 한 주기에 표본 8개(\(f = f_s/8\)) — 충분하다. 아래: 표본 간격이 너무 넓으면(\(f = 0.9 f_s\), 청록 점) 같은 표본이 훨씬 낮은 주파수(\(0.1 f_s\), 점선)의 사인파로도 설명된다. 이것이 에일리어싱이다.</figcaption>
+    </figure>
+    <div class="formula">$$f_s > 2 f_{\max} \quad(\text{나이퀴스트–섀넌}), \qquad \mathrm{SNR}_{\text{FS sine}} \approx 6.02\,N + 1.76\ \text{dB}$$
+      <div class="where">SNR 식은 전규모 정현파·이상적인 균일 양자화·비상관 오차·전체 나이퀴스트 대역 기준이다. CD(44.1 kHz/16비트)의 이 모델 값은 약 98 dB이며 입력을 20 dB 낮추면 같은 잡음 모델의 SNR도 20 dB 낮아진다. 44.1 kHz라는 값은 20 kHz 가청 상한 + 안티에일리어싱 필터의 전이 대역 + 초기 디지털 녹음이 쓰던 비디오테이프 형식에서 나왔다. 샘플링·양자화·에일리어싱은 15장에서 직접 듣고 깊이 다룬다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>소리는 매질의 압력 교란이 전파되는 종파다. 공기 중 음속은 \(c \approx 331.3\sqrt{1+\theta/273.15}\) m/s(20 °C에서 343 m/s)이고 파장은 \(\lambda = c/f\)로 가청 대역에서 17 m–1.7 cm.</li>
+      <li>사인파는 주파수(음높이)·진폭(크기)·위상(단독으로는 안 들림)으로 기술된다. 페이저 \(Ae^{j\varphi}\)는 진폭과 위상을 한 복소수에 담는다.</li>
+      <li>\(L_p = 20\log_{10}(p_{\text{rms}}/20\,\mu\text{Pa})\). 1 Pa = 94 dB, 압력 ×2 = +6 dB, ×10 = +20 dB. 점음원은 거리 2배마다 −6 dB.</li>
+      <li>비상관 음원은 파워가 더해지고(같은 두 개 +3 dB), 같은 신호의 동상 합은 압력이 더해진다(+6 dB). 역상이면 상쇄된다.</li>
+      <li>같은 주파수 두 사인파의 합 진폭은 \(\sqrt{A_1^2+A_2^2+2A_1A_2\cos\Delta\varphi}\). 두 스피커는 경로차 \(\Delta r = (n+\tfrac12)\lambda\)인 곳에서 서로 지운다.</li>
+      <li>주파수가 조금 다른 두 음은 초당 \(|f_1-f_2|\)번 맥놀이친다. 차이를 키우면 맥놀이 → 거칠기 → 두 음 분리(임계대역)로 지각이 바뀐다.</li>
+      <li>마주 보는 벽 사이에는 \(f_n = nc/(2L)\)의 축 모드가 생겨, 저음역의 방 응답을 위치마다 ±10 dB 이상 흔든다.</li>
+      <li>디지털 오디오는 압력을 \(f_s\) 간격으로 표본화한 숫자열이며, \(f_s/2\) 위 성분은 아래로 접혀 들어온다(15장).</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>20 °C 공기에서 1 kHz 사인파의 파장에 가장 가까운 것은?</p><div class="opts">
+        <button class="opt">3.4 cm</button><button class="opt" data-correct>34 cm</button><button class="opt">3.4 m</button><button class="opt">1.5 m</button>
+      </div><div class="quiz-exp">λ = c/f = 343/1000 = 0.343 m. 물속(1481 m/s)이었다면 약 1.5 m가 된다.</div></div>
+      <div class="quiz-q"><p>음압 실효값 2 Pa는 몇 dB SPL인가?</p><div class="opts">
+        <button class="opt">94 dB</button><button class="opt">97 dB</button><button class="opt" data-correct>100 dB</button><button class="opt">106 dB</button>
+      </div><div class="quiz-exp">20 log₁₀(2 / 20×10⁻⁶) = 20 log₁₀(10⁵) = 100 dB. 또는 1 Pa = 94 dB에서 압력 2배이므로 +6 dB.</div></div>
+      <div class="quiz-q"><p>80 dB를 내는 서로 무관한 기계 두 대가 함께 돌면 레벨은?</p><div class="opts">
+        <button class="opt">160 dB</button><button class="opt">86 dB</button><button class="opt" data-correct>83 dB</button><button class="opt">80 dB</button>
+      </div><div class="quiz-exp">비상관 음원은 파워가 더해진다: 10 log₁₀(2 × 10⁸) = 83.0 dB. +6 dB는 같은 신호가 동상으로 겹칠 때만이다.</div></div>
+      <div class="quiz-q"><p>자유 음장의 점음원에서 2 m 떨어져 90 dB였다. 8 m에서는?</p><div class="opts">
+        <button class="opt" data-correct>78 dB</button><button class="opt">84 dB</button><button class="opt">67.5 dB</button><button class="opt">86 dB</button>
+      </div><div class="quiz-exp">거리 4배 = 두 번 2배 → −6 dB × 2 = −12 dB. 20 log₁₀(8/2) = 12.04 dB.</div></div>
+      <div class="quiz-q"><p>기타 두 줄을 같이 퉁겼더니 초당 3번 '웅웅'거렸다. 한 줄이 196.0 Hz라면 다른 줄은?</p><div class="opts">
+        <button class="opt">196 Hz × 3</button><button class="opt">정확히 199.0 Hz</button><button class="opt" data-correct>193 Hz 또는 199 Hz</button><button class="opt">알 수 없다(위상에 따라 다름)</button>
+      </div><div class="quiz-exp">맥놀이 횟수는 |f₁ − f₂|이므로 부호를 알 수 없다. 한 줄을 살짝 조였을 때 맥놀이가 빨라지는지 느려지는지로 위아래를 판별한다(조율사의 방법).</div></div>
+      <div class="quiz-q"><p>스테레오 스피커 한쪽의 +/− 배선이 뒤바뀌었다. 정중앙에서 가장 먼저 눈에 띄는 증상은?</p><div class="opts">
+        <button class="opt">고음이 사라진다</button><button class="opt" data-correct>저음과 가운데 정위(보컬)가 텅 빈다</button><button class="opt">한쪽이 6 dB 커진다</button><button class="opt">변화 없다</button>
+      </div><div class="quiz-exp">역상 신호는 두 경로 길이가 같은 중앙선에서 상쇄된다. 긴 파장(저음)은 머리를 조금 움직여도 위상차가 거의 그대로라 넓게 상쇄되고, 두 채널에 같이 실린 모노 성분(보컬, 베이스)이 특히 비어 들린다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------- 공용 */
+const SND_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const SND_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const cAir = (theta) => 331.3 * Math.sqrt(1 + theta / 273.15);
+const fmtHz = (f) => (f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 1 : 2) + " kHz" : f.toFixed(f < 100 ? 1 : 0) + " Hz");
+const fmtLen = (m) => (m >= 1 ? m.toFixed(2) + " m" : m >= 0.01 ? (m * 100).toFixed(1) + " cm" : m >= 1e-5 ? (m * 1000).toFixed(2) + " mm" : MB.fmt(m, 2) + " m");
+/** 로그 슬라이더(0..1000 → lo..hi) */
+function sndLogRange(id, lo, hi, init, fmt, cb) {
+  const map = (v) => lo * Math.pow(hi / lo, v / 1000);
+  const inv = (f) => Math.round((1000 * Math.log(f / lo)) / Math.log(hi / lo));
+  const out = document.getElementById(id + "-out");
+  let exact = null; // 건반 등으로 정확한 값을 넣었을 때(슬라이더 양자화 회피)
+  const r = MB.range(id, (v) => fmt(map(v)), (v) => { exact = null; cb && cb(map(v)); });
+  const get = () => (exact != null ? exact : map(r()));
+  get.set = (f, fire = true) => { r.set(MB.clamp(inv(f), 0, 1000), false); exact = MB.clamp(f, lo, hi); if (out) out.textContent = fmt(exact); if (fire && cb) cb(exact); };
+  get.set(init, false);
+  return get;
+}
+/** CSS 색 문자열 → [r,g,b] */
+function sndRGB(c) {
+  c = (c || "").trim();
+  if (c[0] === "#") { if (c.length === 4) c = "#" + [...c.slice(1)].map((x) => x + x).join(""); const n = parseInt(c.slice(1, 7), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  const m = c.match(/[\d.]+/g); return m ? m.slice(0, 3).map(Number) : [128, 128, 128];
+}
+
+/* ---------------------------------------------------------------- 그림 1-1: 종파 */
+(function () {
+  const g = document.getElementById("snd-fig-long");
+  const rnd = MB.rng(11), lam = 300, k = (2 * Math.PI) / lam, A = 18;
+  let s = "";
+  for (let row = 0; row < 7; row++) {
+    for (let x0 = 30; x0 < 780; x0 += 9) {
+      const jx = x0 + rnd.range(-2, 2), x = jx + A * Math.sin(k * (jx - 30));
+      const y = 22 + row * 15 + rnd.range(-3, 3);
+      if (x > 24 && x < 776) s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" class="f-acc"/>`;
+    }
+  }
+  // 압력과 변위 곡선: ξ = A sin(kx), p = -dξ/dx ∝ -cos(kx)
+  const base = 200, amp = 34;
+  let pp = "", xx = "";
+  for (let x = 30; x <= 770; x += 4) { pp += (x === 30 ? "M" : "L") + x + " " + (base + amp * Math.cos(k * (x - 30))).toFixed(1); xx += (x === 30 ? "M" : "L") + x + " " + (base - amp * Math.sin(k * (x - 30))).toFixed(1); }
+  s += `<line x1="30" x2="770" y1="${base}" y2="${base}" class="s-axis"/>`;
+  s += `<path d="${xx}" fill="none" style="stroke:var(--accent-2);stroke-width:2;stroke-dasharray:5 4"/>`;
+  s += `<path d="${pp}" class="s-acc"/>`;
+  // 압축 위치: x-30 = lam/2 (p = -cos → 최대)
+  [30 + lam / 2, 30 + (3 * lam) / 2].forEach((x) => { s += `<text x="${x}" y="140" text-anchor="middle" class="t-acc">압축</text>`; });
+  [30 + lam, 30 + 2 * lam].forEach((x) => { if (x < 770) s += `<text x="${x}" y="140" text-anchor="middle" class="t-dim">희박</text>`; });
+  s += `<line x1="${30 + lam / 2}" x2="${30 + (3 * lam) / 2}" y1="246" y2="246" class="s-line"/><line x1="${30 + lam / 2}" x2="${30 + lam / 2}" y1="240" y2="252" class="s-line"/><line x1="${30 + (3 * lam) / 2}" x2="${30 + (3 * lam) / 2}" y1="240" y2="252" class="s-line"/>`;
+  s += `<text x="${30 + lam}" y="240" text-anchor="middle" class="t">λ</text>`;
+  s += `<text x="776" y="${base - amp - 6}" text-anchor="end" class="t-acc" style="font-size:12px">압력 p</text>`;
+  s += `<text x="776" y="${base + amp + 16}" text-anchor="end" class="t-dim" style="fill:var(--accent-2)">변위 ξ</text>`;
+  s += `<text x="34" y="${base - amp - 6}" class="t-mono">진행 방향 →</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 1-3: 샘플링 */
+(function () {
+  const g = document.getElementById("snd-fig-samp");
+  let s = "";
+  const row = (y0, f, fsN, alias) => {
+    // 가로 760px = 시간 2 주기(위) 동안
+    const x0 = 30, W = 740, h = 36, Tspan = 2; // 단위: 표본 기준 주기
+    let path = "";
+    const fn = (u) => Math.sin(2 * Math.PI * f * u);
+    for (let i = 0; i <= 400; i++) { const u = (i / 400) * Tspan * fsN; path += (i ? "L" : "M") + (x0 + (i / 400) * W).toFixed(1) + " " + (y0 - h * fn(u / fsN)).toFixed(1); }
+    s += `<line x1="${x0}" x2="${x0 + W}" y1="${y0}" y2="${y0}" class="s-axis"/>`;
+    s += `<path d="${path}" fill="none" style="stroke:var(--text-faint);stroke-width:1.5"/>`;
+    if (alias) { let ap = ""; for (let i = 0; i <= 400; i++) { const u = (i / 400) * Tspan * fsN; ap += (i ? "L" : "M") + (x0 + (i / 400) * W).toFixed(1) + " " + (y0 + h * Math.sin(2 * Math.PI * 0.1 * u)).toFixed(1); } s += `<path d="${ap}" fill="none" style="stroke:var(--accent-2);stroke-width:2;stroke-dasharray:5 4"/>`; }
+    const N = Tspan * fsN;
+    for (let n = 0; n <= N; n++) { const x = x0 + (n / N) * W, v = fn(n / fsN); s += `<line x1="${x}" x2="${x}" y1="${y0}" y2="${(y0 - h * v).toFixed(1)}" class="s-acc"/><circle cx="${x}" cy="${(y0 - h * v).toFixed(1)}" r="3.2" style="fill:${alias ? "var(--accent-2)" : "var(--accent)"}"/>`; }
+  };
+  row(56, 1 / 8, 8, false);     // f = fs/8
+  row(160, 0.9, 10, true);       // f = 0.9 fs: 표본 10개 구간
+  s += `<text x="30" y="16" class="t-dim">f = f<tspan baseline-shift="sub" font-size="9">s</tspan>/8 : 주기당 8표본</text>`;
+  s += `<text x="30" y="120" class="t-dim">f = 0.9 f<tspan baseline-shift="sub" font-size="9">s</tspan> : 표본이 0.1 f<tspan baseline-shift="sub" font-size="9">s</tspan> 사인파와 구별되지 않는다</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 공기 분자 */
+(function () {
+  const MED = {
+    air: { name: "공기", c: (T) => cAir(T), rho: (T) => 101325 / (287.05 * (T + 273.15)) },
+    he: { name: "헬륨", c: (T) => 972 * Math.sqrt(1 + T / 273.15), rho: (T) => 101325 / (2077 * (T + 273.15)) },
+    water: { name: "물", c: () => 1481, rho: () => 998 },
+    steel: { name: "강철", c: () => 5960, rho: () => 7850 },
+  };
+  let drone = null, ph = 0;
+  const f = sndLogRange("snd-air-f", 20, 2000, 440, (v) => fmtHz(v) + " · " + MB.noteName(MB.ftom(v)), () => { if (drone) drone.set({ freq: f() }); readout(); });
+  const med = MB.seg("snd-air-med", () => readout());
+  const T = MB.range("snd-air-T", (v) => v + " °C", () => readout());
+  const L = MB.range("snd-air-L", (v) => v + " dB SPL", () => readout());
+  const shade = MB.check("snd-air-shade", () => cv.redraw());
+  MB.playButton("snd-air-play", () => { drone = MB.drone({ freq: f(), type: "sine", gain: 0.18 }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 이 주파수 듣기", "■ 정지"]);
+  const cNow = () => MED[med()].c(T()), lamNow = () => cNow() / f();
+  function readout() {
+    const c = cNow(), lam = lamNow(), Z = MED[med()].rho(T()) * c;
+    const pk = Math.SQRT2 * 20e-6 * Math.pow(10, L() / 20), w = 2 * Math.PI * f();
+    MB.stat("snd-air-o-c", `${c.toFixed(1)} m/s <small>${MED[med()].name}</small>`);
+    MB.stat("snd-air-o-lam", fmtLen(lam) + ` <small>T = ${(1000 / f()).toFixed(2)} ms</small>`);
+    const xi = pk / (w * Z);
+    MB.stat("snd-air-o-xi", xi >= 1e-6 ? (xi * 1e6).toPrecision(3) + " µm" : xi >= 1e-9 ? (xi * 1e9).toPrecision(3) + " nm" : (xi * 1e12).toPrecision(3) + " pm");
+    const u = pk / Z;
+    MB.stat("snd-air-o-u", u >= 1e-3 ? (u * 1000).toPrecision(3) + " mm/s" : (u * 1e6).toPrecision(3) + " µm/s");
+    cv.redraw();
+  }
+  const rnd = MB.rng(5), jit = [...Array(600)].map(() => [rnd.range(-0.35, 0.35), rnd.range(-0.3, 0.3)]);
+  const cv = MB.canvas("#cv-snd-air", (ctx, w, h) => {
+    const P = MB.palette();
+    const lamPx = (w - 20) / 3, k = (2 * Math.PI) / lamPx, x0 = 10;
+    const topH = h * 0.5, rows = 8, sp = 9, cols = Math.floor((w - 20) / sp);
+    const rowH = (topH - 16) / rows;
+    if (shade()) {
+      for (let x = 0; x < w - 20; x += 3) {
+        const p = -Math.cos(k * x - ph);
+        ctx.globalAlpha = 0.22 * Math.abs(p);
+        ctx.fillStyle = p > 0 ? P.accent : P.accent2;
+        ctx.fillRect(x0 + x, 6, 3, topH - 4);
+      }
+      ctx.globalAlpha = 1;
+    }
+    const Avis = lamPx * 0.06, hiCol = Math.floor(cols * 0.45);
+    for (let r = 0; r < rows; r++) {
+      for (let j = 0; j < cols; j++) {
+        const J = jit[(r * 73 + j) % jit.length];
+        const xb = (j + 0.5 + J[0]) * sp, x = x0 + xb + Avis * Math.sin(k * xb - ph);
+        const y = 14 + (r + 0.5 + J[1]) * rowH;
+        const hi = j === hiCol;
+        ctx.fillStyle = hi ? P.bad : P.text; ctx.globalAlpha = hi ? 1 : 0.55;
+        ctx.beginPath(); ctx.arc(x, y, hi ? 3.4 : 2.2, 0, 7); ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    const hx = x0 + (hiCol + 0.5) * sp;
+    // 곡선
+    const gb = { x: x0, y: topH + 14, w: w - 20, h: h - topH - 46 };
+    const mid = gb.y + gb.h / 2, amp = gb.h * 0.42;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(gb.x, mid); ctx.lineTo(gb.x + gb.w, mid); ctx.stroke();
+    const curve = (fn, color, dash) => { ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.setLineDash(dash || []); ctx.beginPath(); for (let x = 0; x <= gb.w; x += 2) { const y = mid - amp * fn(x); x ? ctx.lineTo(gb.x + x, y) : ctx.moveTo(gb.x, y); } ctx.stroke(); ctx.setLineDash([]); };
+    curve((x) => Math.sin(k * x - ph), P.accent2, [5, 4]);
+    curve((x) => -Math.cos(k * x - ph), P.accent);
+    ctx.strokeStyle = P.bad; ctx.globalAlpha = 0.6; ctx.beginPath(); ctx.moveTo(hx, 6); ctx.lineTo(hx, gb.y + gb.h); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.font = "12px " + SND_FONT(); ctx.textBaseline = "top";
+    ctx.fillStyle = P.accent; ctx.fillText("압력 p", gb.x + 4, gb.y - 2);
+    ctx.fillStyle = P.accent2; ctx.fillText("변위 ξ", gb.x + 60, gb.y - 2);
+    // 눈금자: λ
+    const yb = h - 20;
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x0, yb); ctx.lineTo(x0 + lamPx, yb); ctx.moveTo(x0, yb - 5); ctx.lineTo(x0, yb + 5); ctx.moveTo(x0 + lamPx, yb - 5); ctx.lineTo(x0 + lamPx, yb + 5); ctx.stroke();
+    ctx.fillStyle = P.text; ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.font = "12px " + SND_MONO();
+    ctx.fillText("λ = " + fmtLen(lamNow()), x0 + lamPx / 2, yb - 3);
+    ctx.textAlign = "right"; ctx.fillStyle = P.faint; ctx.font = "11px " + SND_FONT();
+    ctx.fillText(`슬로 모션 ×1/${MB.fmt(f() / 0.5, 3)}`, w - 10, yb + 14);
+  }, { aspect: 0.62, maxHeight: 400, minHeight: 260 });
+  MB.loop(cv.canvas, (dt) => { ph += dt * 2 * Math.PI * 0.5; cv.redraw(); });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 2. 사인파 발생기 */
+(function () {
+  let drone = null, th = 0;
+  const f = sndLogRange("snd-sn-f", 20, 5000, 220, (v) => fmtHz(v), () => update());
+  const A = MB.range("snd-sn-a", (v) => v + " dBFS", () => update());
+  const ph = MB.range("snd-sn-ph", (v) => v + "°", () => update());
+  const win = MB.seg("snd-sn-win", () => cv.redraw());
+  const gain = () => 0.25 * MB.undb(A());
+  MB.playButton("snd-sn-play", () => { drone = MB.drone({ freq: f(), type: "sine", gain: gain() }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 지속음", "■ 정지"]);
+  function update() {
+    if (drone) drone.set({ freq: f(), gain: gain() });
+    const m = MB.ftom(f()), c = Math.round((m - Math.round(m)) * 100);
+    MB.stat("snd-sn-o-f", `${fmtHz(f())} <small>${MB.noteName(m)} ${c >= 0 ? "+" : "−"}${Math.abs(c)}¢</small>`);
+    MB.stat("snd-sn-o-T", (1000 / f()).toPrecision(3) + " ms");
+    MB.stat("snd-sn-o-w", MB.fmt(2 * Math.PI * f(), 4) + " rad/s");
+    MB.stat("snd-sn-o-lam", fmtLen(343 / f()));
+    const a = MB.undb(A());
+    MB.stat("snd-sn-o-a", `${a.toFixed(3)} <small>RMS ${(A() - 3.01).toFixed(1)} dBFS</small>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-snd-sine", (ctx, w, h) => {
+    const P = MB.palette(), a = MB.undb(A()), phi = (ph() * Math.PI) / 180;
+    const R = Math.min(h * 0.36, w * 0.17), cx = 16 + R, cy = h / 2;
+    // 페이저 원
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx - R - 6, cy); ctx.lineTo(cx + R + 6, cy); ctx.moveTo(cx, cy - R - 6); ctx.lineTo(cx, cy + R + 6); ctx.stroke();
+    const ang = th + phi, tx = cx + R * a * Math.cos(ang), ty = cy - R * a * Math.sin(ang);
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(tx, ty); ctx.stroke();
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(tx, ty, 4, 0, 7); ctx.fill();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SND_FONT(); ctx.textAlign = "center";
+    ctx.fillText("페이저 (반지름 = A)", cx, cy + R + 22);
+    // 파형
+    const box = { x: cx + R + 24, y: 12, w: w - (cx + R + 24) - 12, h: h - 40 };
+    const span = win() === "fixed" ? 0.01 : 3 / f();
+    const mid = box.y + box.h / 2, Y = (v) => mid - (v * box.h) / 2;
+    ctx.strokeStyle = P.grid; ctx.beginPath();
+    [-1, -0.5, 0, 0.5, 1].forEach((v) => { ctx.moveTo(box.x, Y(v)); ctx.lineTo(box.x + box.w, Y(v)); });
+    ctx.stroke();
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, box.y); ctx.lineTo(box.x, box.y + box.h); ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    const N = Math.min(2000, Math.max(300, Math.ceil(span * f() * 24)));
+    for (let i = 0; i <= N; i++) { const t = (i / N) * span, x = box.x + (i / N) * box.w, y = Y(a * Math.sin(2 * Math.PI * f() * t + phi)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    // 페이저의 현재 각에 해당하는 점(첫 주기 안)
+    const tDot = (((th % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)) / (2 * Math.PI * f());
+    if (tDot <= span) {
+      const dx = box.x + (tDot / span) * box.w, dy = Y(a * Math.sin(2 * Math.PI * f() * tDot + phi));
+      ctx.setLineDash([3, 3]); ctx.strokeStyle = P.faint; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(dx, dy); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(dx, dy, 4.5, 0, 7); ctx.fill();
+    }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SND_MONO(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("0", box.x, box.y + box.h + 6);
+    ctx.textAlign = "right"; ctx.fillText(span >= 0.01 ? (span * 1000).toFixed(span < 0.1 ? 1 : 0) + " ms" : (span * 1000).toFixed(2) + " ms", box.x + box.w, box.y + box.h + 6);
+    ctx.textAlign = "left"; ctx.fillText("+1", box.x + 4, box.y); ctx.textBaseline = "bottom"; ctx.fillText("−1", box.x + 4, box.y + box.h);
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = P.faint; ctx.font = "11px " + SND_FONT();
+    ctx.fillText(win() === "fixed" ? `10 ms 안에 ${(f() * 0.01).toFixed(1)}주기` : "3주기 (가로축이 주파수에 따라 늘고 줄어듦)", box.x + box.w / 2, box.y + box.h + 6);
+  }, { aspect: 0.48, maxHeight: 320, minHeight: 210 });
+  MB.loop(cv.canvas, (dt) => { th += dt * 2 * Math.PI * 0.35; cv.redraw(); });
+  MB.keyboard("#snd-sn-kb", {
+    lo: 48, hi: 72,
+    onDown: (m) => { f.set(MB.mtof(m)); if (drone) return false; return MB.play({ freq: MB.mtof(m) }, { inst: "sine", dur: null, vel: Math.min(1, 2 * MB.undb(A())) }); },
+  });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 3. dB 사다리 */
+(function () {
+  const EX = [
+    [0, "청력 역치(1 kHz)"], [10, "숨소리, 나뭇잎"], [20, "조용한 시골 밤"], [30, "속삭임(1 m)"], [40, "조용한 도서관"],
+    [50, "조용한 사무실"], [60, "보통 대화(1 m)"], [70, "진공청소기(1 m)"], [80, "큰길가, 시끄러운 식당"], [85, "8시간 노출 권고 한계"],
+    [94, "1 Pa · 마이크 교정기"], [100, "지하철 터널, 클럽"], [110, "록 공연 앞줄"], [120, "천둥, 불쾌·통증 시작"], [130, "근거리 사이렌"], [140, "제트 엔진(30 m)"],
+  ];
+  const RS = [0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128];
+  const NS = [1, 2, 3, 4, 5, 8, 10, 16, 32, 100];
+  const L1 = MB.range("snd-db-L1", (v) => v + " dB", () => update());
+  const r = MB.steps("snd-db-r", RS, (v) => v + " m", 2, () => update());
+  const N = MB.steps("snd-db-n", NS, (v) => v + "개", 1, () => update());
+  const sum = MB.seg("snd-db-sum", () => update());
+  const sig = MB.seg("snd-db-sig");
+  const Lnow = () => L1() - 20 * Math.log10(r()) + (sum() === "inc" ? 10 : 20) * Math.log10(N());
+  function update() {
+    const L = Lnow(), p = 20e-6 * Math.pow(10, L / 20), I = (p * p) / 413;
+    MB.stat("snd-db-o-L", L.toFixed(1) + " dB");
+    MB.stat("snd-db-o-p", p >= 1 ? p.toPrecision(3) + " Pa" : p >= 1e-3 ? (p * 1e3).toPrecision(3) + " mPa" : (p * 1e6).toPrecision(3) + " µPa");
+    MB.stat("snd-db-o-I", MB.fmt(I, 3) + " W/m²");
+    if (L < 85) MB.stat("snd-db-o-t", "8시간 이상");
+    else { const hrs = 8 / Math.pow(2, (L - 85) / 3); MB.stat("snd-db-o-t", hrs >= 1 ? hrs.toFixed(1) + " 시간" : hrs * 60 >= 1 ? (hrs * 60).toFixed(hrs * 60 < 10 ? 1 : 0) + " 분" : (hrs * 3600).toFixed(1) + " 초"); }
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-snd-db", (ctx, w, h) => {
+    const P = MB.palette();
+    const top = 14, bot = h - 14, Y = (d) => bot - (d / 140) * (bot - top);
+    const bx = 64, bw = 18;
+    // 위험 띠
+    [[0, 70, P.ok, 0.35], [70, 85, P.warn, 0.25], [85, 100, P.warn, 0.55], [100, 140, P.bad, 0.55]].forEach(([a, b, c, al]) => { ctx.globalAlpha = al; ctx.fillStyle = c; ctx.fillRect(bx, Y(b), bw, Y(a) - Y(b)); });
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = P.border; ctx.strokeRect(bx, Y(140), bw, Y(0) - Y(140));
+    // 눈금과 Pa
+    ctx.font = "10px " + SND_MONO(); ctx.textBaseline = "middle";
+    const paLab = ["20µPa", "200µPa", "2mPa", "20mPa", "0.2Pa", "2Pa", "20Pa", "200Pa"];
+    for (let d = 0; d <= 140; d += 10) {
+      ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(bx - 4, Y(d)); ctx.lineTo(bx, Y(d)); ctx.stroke();
+      ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(String(d), bx - 6, Y(d));
+      if (d % 20 === 0) { ctx.fillStyle = P.faint; ctx.textAlign = "left"; ctx.fillText(paLab[d / 20], 2, Y(d)); }
+    }
+    // 예시
+    ctx.font = "12px " + SND_FONT(); ctx.textAlign = "left";
+    EX.forEach(([d, t]) => {
+      ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(bx + bw, Y(d)); ctx.lineTo(bx + bw + 12, Y(d)); ctx.stroke();
+      ctx.fillStyle = d === 85 || d === 94 ? P.dim : P.text; ctx.fillText(t, bx + bw + 16, Y(d));
+    });
+    // 현재 레벨 마커
+    const L = MB.clamp(Lnow(), -10, 150), y = Y(MB.clamp(L, 0, 140));
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.moveTo(bx + bw + 2, y); ctx.lineTo(bx + bw + 14, y - 7); ctx.lineTo(bx + bw + 14, y + 7); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(bx - 2, y); ctx.lineTo(bx + bw + 2, y); ctx.stroke();
+    ctx.globalAlpha = 0.35; ctx.setLineDash([2, 4]); ctx.beginPath(); ctx.moveTo(bx + bw + 14, y); ctx.lineTo(w - 8, y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    const lab = `청취점 ${Lnow().toFixed(1)} dB`;
+    ctx.font = "bold 12px " + SND_FONT(); const tw = ctx.measureText(lab).width;
+    const lx = w - 10 - tw, ly = y < 30 ? y + 12 : y - 12;
+    ctx.fillStyle = P.bg; ctx.globalAlpha = 0.85; ctx.fillRect(lx - 4, ly - 9, tw + 8, 18); ctx.globalAlpha = 1;
+    ctx.fillStyle = P.accent; ctx.fillText(lab, lx, ly);
+    // 1 m 레벨
+    const y1 = Y(MB.clamp(L1(), 0, 140));
+    ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(bx - 2, y1); ctx.lineTo(bx + bw + 2, y1); ctx.stroke(); ctx.setLineDash([]);
+  }, { aspect: 0.95, maxHeight: 470, minHeight: 380 });
+  MB.liveView("#cv-snd-db-live", { mode: "wave", aspect: 0.16, minHeight: 70, maxHeight: 100, yScale: 3, idleText: "감쇠 버튼을 누르면 파형이 여기에" });
+  // 귀로 듣는 dB
+  let cur = null, timers = [];
+  function demo(dB) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    if (cur) { try { cur.stop(); } catch (e) {} }
+    timers.forEach(clearTimeout); timers = [];
+    const t0 = ctx.currentTime + 0.05, seg = 0.75, gap = 0.3;
+    const g = ctx.createGain(); g.gain.value = 0; g.connect(MB.out);
+    let src;
+    if (sig() === "tone") { src = ctx.createOscillator(); src.frequency.value = 500; src.connect(g); }
+    else { src = ctx.createBufferSource(); src.buffer = MB.noiseBuffer(ctx); src.loop = true; const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1000; bp.Q.value = 0.6; src.connect(bp); bp.connect(g); }
+    const ref = sig() === "tone" ? 0.22 : 0.5, lv = [ref, ref * MB.undb(dB), ref, ref * MB.undb(dB)];
+    lv.forEach((v, i) => { const t = t0 + i * (seg + gap); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.015); g.gain.setValueAtTime(v, t + seg - 0.015); g.gain.linearRampToValueAtTime(0, t + seg); });
+    src.start(t0); src.stop(t0 + 4 * (seg + gap));
+    cur = src;
+    const msg = document.getElementById("snd-db-msg");
+    lv.forEach((v, i) => timers.push(setTimeout(() => { msg.innerHTML = i % 2 ? `▶ <b>B</b>: 기준 ${dB} dB — 진폭 ×${MB.undb(dB).toFixed(3)}, 파워 ×${Math.pow(10, dB / 10).toPrecision(2)}` : "▶ <b>A</b>: 기준 레벨"; }, (t0 - ctx.currentTime + i * (seg + gap)) * 1000)));
+    timers.push(setTimeout(() => { msg.textContent = `완료: A → B(${dB} dB). 다른 버튼으로 비교해 보세요.`; }, (t0 - ctx.currentTime + 4 * (seg + gap)) * 1000));
+  }
+  document.querySelectorAll("#snd-db-steps button").forEach((b) => b.addEventListener("click", () => demo(+b.dataset.db)));
+  update();
+})();
+
+/* ---------------------------------------------------------------- 4. 청력 스윕 */
+(function () {
+  const ROWS = [
+    { t: "피아노 음역", a: 27.5, b: 4186 }, { t: "목소리 f₀", a: 85, b: 1100 }, { t: "전화 대역", a: 300, b: 3400 }, { t: "노트북 스피커", a: 200, b: 18000 },
+    { t: "60대(대략)", a: 20, b: 10000, age: 1 }, { t: "50대", a: 20, b: 12000, age: 1 }, { t: "40대", a: 20, b: 14000, age: 1 },
+    { t: "30대", a: 20, b: 15500, age: 1 }, { t: "20대", a: 20, b: 17000, age: 1 }, { t: "10대", a: 20, b: 19000, age: 1 },
+  ];
+  const marks = [];
+  let osc = null, g = null, sw = null, fNow = 0;
+  const dir = MB.seg("snd-sw-dir");
+  const rate = MB.seg("snd-sw-rate");
+  const lvl = MB.range("snd-sw-lvl", (v) => v + " dBFS", () => { if (g) g.gain.setTargetAtTime(gainFor(), MB.now(), 0.05); });
+  const gainFor = () => Math.min(MB.undb(lvl()), dir() === "down" ? 0.2 : 0.1);
+  const range = () => (dir() === "up" ? [1000, 20000] : dir() === "down" ? [1000, 20] : [20, 20000]);
+  function start() {
+    const ctx = MB.ctx(); stop(true);
+    const [f0, f1] = range(), oct = Math.abs(Math.log2(f1 / f0)), dur = oct * +rate();
+    const top = Math.min(f1, ctx.sampleRate / 2 - 100);
+    osc = ctx.createOscillator(); g = ctx.createGain(); g.gain.value = 0; osc.connect(g); g.connect(MB.out);
+    const t0 = ctx.currentTime + 0.05;
+    osc.frequency.setValueAtTime(f0, t0); osc.frequency.exponentialRampToValueAtTime(f1 > f0 ? top : f1, t0 + dur);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gainFor(), t0 + 0.08);
+    osc.start(t0); osc.stop(t0 + dur + 0.2);
+    g.gain.setValueAtTime(gainFor(), t0 + dur - 0.05); g.gain.linearRampToValueAtTime(0, t0 + dur + 0.1);
+    sw = { t0, dur, f0, f1: f1 > f0 ? top : f1 };
+  }
+  function stop(silent) {
+    if (osc) { const t = MB.now(); g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(0, t, 0.02); try { osc.stop(t + 0.1); } catch (e) {} }
+    osc = null; g = null; sw = null;
+    if (!silent) cv.redraw();
+  }
+  const pb = MB.playButton("snd-sw-play", start, () => stop(), ["▶ 스윕 시작", "■ 정지"]);
+  document.getElementById("snd-sw-mark").addEventListener("click", () => {
+    if (!sw) { MB.stat("snd-sw-o-mk", "<small>스윕 중에 누르세요</small>"); return; }
+    marks.push({ f: fNow, d: dir() }); if (marks.length > 8) marks.shift();
+    showMarks(); cv.redraw();
+  });
+  document.getElementById("snd-sw-clear").addEventListener("click", () => { marks.length = 0; showMarks(); cv.redraw(); });
+  function showMarks() {
+    const hi = marks.filter((m) => m.d !== "down" && m.f > 1000).map((m) => m.f), lo = marks.filter((m) => m.d === "down" || m.f <= 1000).map((m) => m.f);
+    MB.stat("snd-sw-o-mk", marks.length ? (hi.length ? `상한 ${fmtHz(hi[hi.length - 1])}` : "") + (hi.length && lo.length ? " · " : "") + (lo.length ? `하한 ${fmtHz(lo[lo.length - 1])}` : "") : "—");
+  }
+  const cv = MB.canvas("#cv-snd-sw", (ctx, w, h) => {
+    const P = MB.palette();
+    const box = { x: 70, y: 10, w: w - 84, h: h - 40 };
+    const X = (f) => box.x + (Math.log10(f / 20) / 3) * box.w;
+    const ticks = [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];
+    ctx.font = "10px " + SND_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ticks.forEach((f) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(f), box.y); ctx.lineTo(X(f), box.y + box.h); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, X(f), box.y + box.h + 5); });
+    const rowH = Math.min(26, box.h / (ROWS.length + 1));
+    ctx.font = "11px " + SND_FONT(); ctx.textBaseline = "middle";
+    ROWS.forEach((r, i) => {
+      const y = box.y + 6 + i * rowH;
+      ctx.fillStyle = r.age ? P.accent2 : P.warn; ctx.globalAlpha = r.age ? 0.18 + 0.05 * i : 0.35;
+      ctx.fillRect(X(r.a), y, X(r.b) - X(r.a), rowH - 6); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(r.t, box.x - 6, y + (rowH - 6) / 2);
+      if (r.age) { ctx.textAlign = "right"; ctx.fillStyle = P.text; ctx.fillText(fmtHz(r.b), X(r.b) - 4, y + (rowH - 6) / 2); }
+    });
+    // 나이퀴스트
+    const sr = (MB.ctx && window.__sndSR) || 48000;
+    if (sr / 2 < 20000) { ctx.strokeStyle = P.bad; ctx.beginPath(); ctx.moveTo(X(sr / 2), box.y); ctx.lineTo(X(sr / 2), box.y + box.h); ctx.stroke(); }
+    // 표시한 경계
+    marks.forEach((m) => { ctx.strokeStyle = P.ok; ctx.lineWidth = 2; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(m.f), box.y); ctx.lineTo(X(m.f), box.y + box.h); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.ok; ctx.textAlign = "center"; ctx.font = "bold 11px " + SND_MONO(); ctx.fillText(fmtHz(m.f), MB.clamp(X(m.f), box.x + 24, box.x + box.w - 24), box.y + box.h - 8); });
+    // 현재 커서
+    if (sw) {
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(fNow), box.y); ctx.lineTo(X(fNow), box.y + box.h); ctx.stroke();
+      ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(X(fNow), box.y + box.h, 6, 0, 7); ctx.fill();
+    }
+    ctx.lineWidth = 1; ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+  }, { aspect: 0.5, maxHeight: 300, minHeight: 230 });
+  MB.loop(cv.canvas, () => {
+    if (!sw) return;
+    const t = MB.now(), u = MB.clamp((t - sw.t0) / sw.dur, 0, 1);
+    fNow = sw.f0 * Math.pow(sw.f1 / sw.f0, u);
+    MB.stat("snd-sw-o-f", `${fmtHz(fNow)} <small>${MB.noteName(MB.ftom(fNow))}</small>`);
+    if (t > sw.t0 + sw.dur + 0.1) { pb.set(false); stop(); return; }
+    cv.redraw();
+  });
+  // 샘플레이트 표시는 첫 클릭 이후
+  document.getElementById("snd-sw-play").addEventListener("click", () => { const ctx = MB.ctx(); if (ctx) { window.__sndSR = ctx.sampleRate; MB.stat("snd-sw-o-ny", `${(ctx.sampleRate / 1000).toFixed(1)} kHz / ${(ctx.sampleRate / 2000).toFixed(2)} kHz`); } });
+  MB.stat("snd-sw-o-ny", "<small>재생하면 표시</small>");
+})();
+
+/* ---------------------------------------------------------------- 5. 두 사인파 위상 */
+(function () {
+  let au = null;
+  const f = MB.range("snd-ph-f", (v) => v + " Hz", () => apply());
+  const d = MB.range("snd-ph-d", (v) => v + "°", () => apply());
+  const a2 = MB.range("snd-ph-a2", (v) => (v / 100).toFixed(2) + ` (${v ? MB.db(v / 100).toFixed(1) + " dB" : "−∞ dB"})`, () => apply());
+  const lis = MB.seg("snd-ph-lis", () => apply());
+  const lr = MB.check("snd-ph-lr", () => apply());
+  const G = 0.13;
+  function start() {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.05;
+    const mk = (pan) => { const o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(); o.frequency.value = f(); g.gain.value = 0; p.pan.value = pan; o.connect(g); g.connect(p); p.connect(MB.out); o.start(t0); return { o, g, p }; };
+    au = { a: mk(0), b: mk(0) };
+    au.a.o.setPeriodicWave(MB.wave([1], [0])); au.b.o.setPeriodicWave(MB.wave([1], [(d() * Math.PI) / 180]));
+    apply();
+  }
+  function stopA() { if (!au) return; const t = MB.now(); [au.a, au.b].forEach((v) => { v.g.gain.setTargetAtTime(0, t, 0.02); v.o.stop(t + 0.15); }); au = null; }
+  MB.playButton("snd-ph-play", start, stopA);
+  document.getElementById("snd-ph-inv").addEventListener("click", () => d.set((d() + 180) % 360));
+  function apply() {
+    if (au) {
+      const t = MB.now(), l = lis();
+      au.a.o.frequency.setValueAtTime(f(), t); au.b.o.frequency.setValueAtTime(f(), t);
+      au.b.o.setPeriodicWave(MB.wave([1], [(d() * Math.PI) / 180]));
+      au.a.g.gain.setTargetAtTime(l === "two" ? 0 : G, t, 0.02);
+      au.b.g.gain.setTargetAtTime(l === "one" ? 0 : G * (a2() / 100), t, 0.02);
+      au.a.p.pan.setValueAtTime(lr() ? -1 : 0, t); au.b.p.pan.setValueAtTime(lr() ? 1 : 0, t);
+    }
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-snd-ph", (ctx, w, h) => {
+    const P = MB.palette(), A2 = a2() / 100, dp = (d() * Math.PI) / 180;
+    const sx = Math.cos(0) + A2 * Math.cos(dp), sy = A2 * Math.sin(dp), As = Math.hypot(sx, sy);
+    // 페이저 합
+    const R = Math.min(h * 0.22, w * 0.13), cx = 14 + 2 * R + 4, cy = h / 2;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(cx - 2 * R - 8, cy); ctx.lineTo(cx + 2 * R + 8, cy); ctx.moveTo(cx, cy - 2 * R - 8); ctx.lineTo(cx, cy + 2 * R + 8); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    const arrow = (x0, y0, x1, y1, c, wd) => { ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = wd; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke(); const a = Math.atan2(y1 - y0, x1 - x0), L = Math.hypot(x1 - x0, y1 - y0); if (L > 6) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - 8 * Math.cos(a - 0.4), y1 - 8 * Math.sin(a - 0.4)); ctx.lineTo(x1 - 8 * Math.cos(a + 0.4), y1 - 8 * Math.sin(a + 0.4)); ctx.closePath(); ctx.fill(); } };
+    ctx.globalAlpha = 0.55; arrow(cx, cy, cx + R * sx, cy - R * sy, P.text, 5); ctx.globalAlpha = 1;
+    arrow(cx, cy, cx + R, cy, P.accent, 2.5);
+    arrow(cx + R, cy, cx + R + R * A2 * Math.cos(dp), cy - R * A2 * Math.sin(dp), P.accent2, 2.5);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SND_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("페이저 합: 보라 + 청록 = 회색", 8, 8);
+    // 파형 3개
+    const bx = cx + 2 * R + 22, bw = w - bx - 10, bh = (h - 24) / 3;
+    const per = 2, M = 300;
+    const rows = [[(t) => Math.sin(t), P.accent, "1번"], [(t) => A2 * Math.sin(t + dp), P.accent2, "2번"], [(t) => Math.sin(t) + A2 * Math.sin(t + dp), P.text, "합"]];
+    rows.forEach(([fn, col, lab], i) => {
+      const data = new Float32Array(M); for (let k = 0; k < M; k++) data[k] = fn((k / (M - 1)) * per * 2 * Math.PI);
+      MB.drawWave(ctx, { x: bx, y: 8 + i * (bh + 4), w: bw, h: bh }, data, { yScale: 0.48, color: col, width: i === 2 ? 2.4 : 1.8 });
+      ctx.fillStyle = col; ctx.textAlign = "left"; ctx.font = "11px " + SND_FONT(); ctx.fillText(lab, bx + 2, 8 + i * (bh + 4));
+    });
+    MB.stat("snd-ph-o-a", As.toFixed(3) + " <small>× A₁</small>");
+    MB.stat("snd-ph-o-db", As < 1e-4 ? "−∞ dB" : MB.signed(MB.db(As), 1) + " dB");
+    MB.stat("snd-ph-o-st", As > Math.max(1, A2) * 1.0001 ? "보강" : As < Math.abs(1 - A2) + 0.05 * (1 + A2) ? "상쇄" : "부분 상쇄");
+  }, { aspect: 0.5, maxHeight: 320, minHeight: 220 });
+})();
+
+/* ---------------------------------------------------------------- 6. 스피커 두 대 간섭 */
+(function () {
+  const WM = 8; // 공간 너비(m)
+  let drone = null, wt = 0, dirty = true, LX = 5.6, LY = null;
+  const f = sndLogRange("snd-fd-f", 50, 2000, 500, (v) => fmtHz(v), () => change());
+  const d = MB.range("snd-fd-d", (v) => (v / 100).toFixed(2) + " m", () => change());
+  const pol = MB.seg("snd-fd-pol", () => change());
+  const view = MB.seg("snd-fd-view", () => change());
+  MB.playButton("snd-fd-play", () => { drone = MB.drone({ freq: f(), type: "sine", gain: listenerGain() }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 청취자 위치에서 듣기", "■ 정지"]);
+  let HM = 4.6, re = null, im = null, GW = 0, GH = 0, off = null, octx = null, img = null;
+  const spk = () => { const s = d() / 200; return [[1.0, HM / 2 - s], [1.0, HM / 2 + s]]; };
+  const k = () => (2 * Math.PI * f()) / 343;
+  function field(x, y) {
+    const [[x1, y1], [x2, y2]] = spk(), K = k(), s = +pol();
+    const r1 = Math.max(0.05, Math.hypot(x - x1, y - y1)), r2 = Math.max(0.05, Math.hypot(x - x2, y - y2));
+    return { re: Math.cos(K * r1) / r1 + (s * Math.cos(K * r2)) / r2, im: -Math.sin(K * r1) / r1 - (s * Math.sin(K * r2)) / r2, r1, r2 };
+  }
+  function listenerGain() { const F = field(LX, LY), rm = Math.hypot(LX - 1, LY - HM / 2); return 0.11 * MB.clamp((Math.hypot(F.re, F.im) * rm) / 2, 0, 1.6); }
+  function change() { dirty = true; if (drone) drone.set({ freq: f(), gain: listenerGain() }); readout(); cv.redraw(); }
+  function compute() {
+    const n = GW * GH; if (!re || re.length !== n) { re = new Float32Array(n); im = new Float32Array(n); }
+    const [sx, sy] = [1.0, HM / 2];
+    for (let j = 0; j < GH; j++) for (let i = 0; i < GW; i++) {
+      const x = ((i + 0.5) / GW) * WM, y = ((j + 0.5) / GH) * HM, F = field(x, y), rm = Math.max(0.3, Math.hypot(x - sx, y - sy)) / 2;
+      re[j * GW + i] = F.re * rm; im[j * GW + i] = F.im * rm;
+    }
+    dirty = false;
+  }
+  function readout() {
+    if (LY == null) return;
+    const F = field(LX, LY), dr = F.r2 - F.r1, lam = 343 / f();
+    let dp = ((dr / lam) * 360 + (+pol() < 0 ? 180 : 0)) % 360; if (dp < 0) dp += 360;
+    MB.stat("snd-fd-o-lam", fmtLen(lam));
+    MB.stat("snd-fd-o-dr", (dr * 100).toFixed(1) + " cm <small>" + (dr / lam).toFixed(2) + "λ</small>");
+    MB.stat("snd-fd-o-dp", dp.toFixed(0) + "°");
+    const rel = Math.hypot(F.re, F.im) * F.r1;
+    MB.stat("snd-fd-o-lv", rel < 1e-3 ? "−60 dB 이하" : MB.signed(MB.db(rel), 1) + " dB");
+  }
+  const cv = MB.canvas("#cv-snd-fd", (ctx, w, h) => {
+    const P = MB.palette();
+    const newHM = (WM * h) / w;
+    if (Math.abs(newHM - HM) > 1e-6) { HM = newHM; dirty = true; }
+    if (LY == null) LY = HM / 2 + 0.7;
+    LY = MB.clamp(LY, 0.05, HM - 0.05);
+    const gw = Math.min(220, Math.round(w / 3)), gh = Math.round((gw * h) / w);
+    if (gw !== GW || gh !== GH) { GW = gw; GH = gh; off = document.createElement("canvas"); off.width = GW; off.height = GH; octx = off.getContext("2d"); img = octx.createImageData(GW, GH); dirty = true; }
+    if (dirty) compute();
+    const bg = sndRGB(P.bg), ca = sndRGB(P.accent), cb = sndRGB(P.accent2), D = img.data, inst = view() === "inst";
+    const cw = Math.cos(wt), sw = Math.sin(wt);
+    for (let p = 0; p < GW * GH; p++) {
+      let t, col;
+      if (inst) { const v = re[p] * cw - im[p] * sw; t = Math.min(1, Math.abs(v) * 0.75); col = v >= 0 ? ca : cb; }
+      else { const a = Math.hypot(re[p], im[p]); const db = 20 * Math.log10(a + 1e-6); t = MB.clamp((db + 30) / 30, 0, 1); col = ca; }
+      D[p * 4] = bg[0] + (col[0] - bg[0]) * t; D[p * 4 + 1] = bg[1] + (col[1] - bg[1]) * t; D[p * 4 + 2] = bg[2] + (col[2] - bg[2]) * t; D[p * 4 + 3] = 255;
+    }
+    octx.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.drawImage(off, 0, 0, w, h);
+    const X = (x) => (x / WM) * w, Y = (y) => (y / HM) * h;
+    // 스피커
+    spk().forEach(([x, y], i) => { ctx.fillStyle = P.text; ctx.fillRect(X(x) - 9, Y(y) - 7, 9, 14); ctx.beginPath(); ctx.moveTo(X(x), Y(y) - 4); ctx.lineTo(X(x) + 7, Y(y) - 9); ctx.lineTo(X(x) + 7, Y(y) + 9); ctx.lineTo(X(x), Y(y) + 4); ctx.fill(); ctx.font = "bold 11px " + SND_MONO(); ctx.fillText(String(i + 1), X(x) - 22, Y(y) + 4); });
+    // 청취자
+    spk().forEach(([x, y]) => { ctx.strokeStyle = P.text; ctx.globalAlpha = 0.5; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(X(x) + 7, Y(y)); ctx.lineTo(X(LX), Y(LY)); ctx.stroke(); });
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+    ctx.fillStyle = "#fff"; ctx.strokeStyle = "#000"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(LX), Y(LY), 8, 0, 7); ctx.fill(); ctx.stroke();
+    // 축척
+    ctx.fillStyle = P.text; ctx.font = "11px " + SND_MONO(); ctx.textAlign = "left";
+    ctx.fillRect(w - 12 - X(1), h - 14, X(1), 3); ctx.fillText("1 m", w - 12 - X(1), h - 18);
+    ctx.fillText(inst ? "보라 +p / 청록 −p" : "밝을수록 큼 (0 ~ −30 dB)", 8, h - 10);
+  }, { aspect: 0.58, maxHeight: 420, minHeight: 230 });
+  MB.loop(cv.canvas, (dt) => { if (view() === "inst") { wt += dt * 2 * Math.PI * 0.8; cv.redraw(); } });
+  let drag = false;
+  const move = (e) => { const r = cv.canvas.getBoundingClientRect(); LX = MB.clamp(((e.clientX - r.left) / r.width) * WM, 1.2, WM - 0.05); LY = MB.clamp(((e.clientY - r.top) / r.height) * HM, 0.05, HM - 0.05); if (drone) drone.set({ gain: listenerGain() }); readout(); cv.redraw(); };
+  cv.canvas.addEventListener("pointerdown", (e) => { drag = true; cv.canvas.setPointerCapture(e.pointerId); move(e); });
+  cv.canvas.addEventListener("pointermove", (e) => drag && move(e));
+  cv.canvas.addEventListener("pointerup", () => (drag = false));
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 7. 맥놀이 */
+(function () {
+  const DF = [0, 0.25, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 80, 100, 130, 160, 200, 250, 300];
+  let au = null, dphi0 = 0, tref = 0;
+  const f1 = MB.range("snd-bt-f1", (v) => v + " Hz", () => change());
+  const df = MB.steps("snd-bt-df", DF, (v) => v + " Hz", 3, () => change());
+  const lr = MB.check("snd-bt-lr", () => { if (au) { const t = MB.now(); au.p1.pan.setValueAtTime(lr() ? -1 : 0, t); au.p2.pan.setValueAtTime(lr() ? 1 : 0, t); } });
+  const cbw = (f) => 25 + 75 * Math.pow(1 + 1.4 * Math.pow(f / 1000, 2), 0.69);
+  function start() {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.05;
+    const mk = (fr, pan) => { const o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(); o.frequency.value = fr; g.gain.value = 0; g.gain.setTargetAtTime(0.12, t0, 0.02); p.pan.value = pan; o.connect(g); g.connect(p); p.connect(MB.out); o.start(t0); return { o, g, p }; };
+    const a = mk(f1(), lr() ? -1 : 0), b = mk(f1() + df(), lr() ? 1 : 0);
+    au = { o1: a.o, o2: b.o, g1: a.g, g2: b.g, p1: a.p, p2: b.p };
+    dphi0 = 0; tref = t0;
+  }
+  function stopA() { if (!au) return; const t = MB.now(); [au.g1, au.g2].forEach((g) => g.gain.setTargetAtTime(0, t, 0.02)); [au.o1, au.o2].forEach((o) => o.stop(t + 0.15)); au = null; cv.redraw(); }
+  let oldDf = df();
+  function change() {
+    if (au) {
+      const t = MB.now();
+      dphi0 += 2 * Math.PI * oldDf * (t - tref); tref = t;
+      au.o1.frequency.setValueAtTime(f1(), t); au.o2.frequency.setValueAtTime(f1() + df(), t);
+    }
+    oldDf = df();
+    readout(); cv.redraw();
+  }
+  MB.playButton("snd-bt-play", start, stopA, ["▶ 두 음 재생", "■ 정지"]);
+  const zone = () => { const D = df(), cb = cbw(f1() + D / 2); return D === 0 ? "한 음(같은 주파수)" : D < 15 ? "맥놀이" : D < cb ? "거칠기" : "두 음으로 분리"; };
+  function readout() {
+    const D = df(), cb = cbw(f1() + D / 2);
+    MB.stat("snd-bt-o-f2", (f1() + D).toFixed(2).replace(/\.00$/, "") + " Hz");
+    MB.stat("snd-bt-o-b", D ? (1000 / D >= 1000 ? (1 / D).toFixed(2) + " s" : (1000 / D).toFixed(D > 100 ? 1 : 0) + " ms") + ` <small>${D} 회/s</small>` : "∞");
+    MB.stat("snd-bt-o-cb", Math.round(cb) + " Hz");
+    MB.stat("snd-bt-o-zone", zone());
+  }
+  const cv = MB.canvas("#cv-snd-bt", (ctx, w, h) => {
+    const P = MB.palette(), D = df(), F1 = f1();
+    const span = D ? MB.clamp(3 / D, 0.03, 4) : 0.03;
+    const box = { x: 12, y: 10, w: w - 24, h: h * 0.56 };
+    const mid = box.y + box.h / 2, amp = box.h * 0.23, Y = (v) => mid - v * amp;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, mid); ctx.lineTo(box.x + box.w, mid); ctx.stroke();
+    const N = Math.round(box.w * 2), spc = (N / span) / F1; // 반송파 한 주기당 점 수
+    if (spc >= 6) {
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 1.4; ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const t = (i / N) * span, v = Math.sin(2 * Math.PI * F1 * t) + Math.sin(2 * Math.PI * (F1 + D) * t); const x = box.x + (i / N) * box.w; i ? ctx.lineTo(x, Y(v)) : ctx.moveTo(x, Y(v)); }
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = P.accent; ctx.globalAlpha = 0.45; ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const t = (i / N) * span, e = 2 * Math.abs(Math.cos(Math.PI * D * t)); const x = box.x + (i / N) * box.w; i ? ctx.lineTo(x, Y(e)) : ctx.moveTo(x, Y(e)); }
+      for (let i = N; i >= 0; i--) { const t = (i / N) * span, e = 2 * Math.abs(Math.cos(Math.PI * D * t)); ctx.lineTo(box.x + (i / N) * box.w, Y(-e)); }
+      ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+    }
+    ctx.strokeStyle = P.text; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.2;
+    [1, -1].forEach((s) => { ctx.beginPath(); for (let i = 0; i <= 400; i++) { const t = (i / 400) * span, e = 2 * Math.abs(Math.cos(Math.PI * D * t)); const x = box.x + (i / 400) * box.w; i ? ctx.lineTo(x, Y(s * e)) : ctx.moveTo(x, Y(s * e)); } ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SND_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText((span * 1000 >= 1000 ? span.toFixed(1) + " s" : Math.round(span * 1000) + " ms") + (spc < 6 ? " · 반송파는 채움으로" : ""), box.x + box.w, box.y + box.h + 2);
+    // 재생 위치와 크기 램프
+    if (au) {
+      const t = MB.now(), dphi = dphi0 + 2 * Math.PI * D * (t - tref), env = Math.abs(Math.cos(dphi / 2));
+      const tt = D ? ((dphi / (2 * Math.PI * D)) % span) : 0;
+      const x = box.x + (tt / span) * box.w;
+      ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, box.y); ctx.lineTo(x, box.y + box.h); ctx.stroke();
+      const R = 6 + 16 * env; ctx.fillStyle = P.bad; ctx.globalAlpha = 0.25 + 0.6 * env; ctx.beginPath(); ctx.arc(w - 34, box.y + 26, R, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+    }
+    // 지각 영역 띠
+    const zb = { x: 16, y: h * 0.72, w: w - 32, h: 24 };
+    const lo = 0.25, hi = 300, ZX = (v) => zb.x + (Math.log(Math.max(lo, v) / lo) / Math.log(hi / lo)) * zb.w;
+    const cb = cbw(F1 + D / 2);
+    [[lo, 15, P.ok, "맥놀이"], [15, cb, P.warn, "거칠기"], [cb, hi, P.accent2, "두 음"]].forEach(([a, b, c, t]) => {
+      ctx.fillStyle = c; ctx.globalAlpha = 0.3; ctx.fillRect(ZX(a), zb.y, ZX(b) - ZX(a), zb.h); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.text; ctx.font = "12px " + SND_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(t, (ZX(a) + ZX(b)) / 2, zb.y + zb.h / 2);
+    });
+    ctx.font = "10px " + SND_MONO(); ctx.fillStyle = P.dim; ctx.textBaseline = "top";
+    [0.5, 1, 2, 5, 10, 20, 50, 100, 200].forEach((v) => { ctx.fillText(String(v), ZX(v), zb.y + zb.h + 4); });
+    ctx.textAlign = "left"; ctx.fillText("Δf (Hz, 로그)", zb.x, zb.y - 14);
+    const mx = ZX(D || lo);
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.moveTo(mx, zb.y - 2); ctx.lineTo(mx - 6, zb.y - 10); ctx.lineTo(mx + 6, zb.y - 10); ctx.closePath(); ctx.fill();
+    ctx.fillRect(mx - 1, zb.y, 2, zb.h);
+  }, { aspect: 0.55, maxHeight: 340, minHeight: 250 });
+  MB.loop(cv.canvas, () => { if (au) cv.redraw(); });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 8. 정상파와 방 모드 */
+(function () {
+  const C = 343;
+  let drone = null, wt = 0;
+  const f = MB.range("snd-st-f", (v) => v.toFixed(1) + " Hz", () => change());
+  const L = MB.range("snd-st-L", (v) => v.toFixed(1) + " m", () => change());
+  const R = MB.range("snd-st-R", (v) => (v / 100).toFixed(2), () => change());
+  const xl = MB.range("snd-st-x", (v) => v + "%", () => change());
+  const both = MB.check("snd-st-both", () => change());
+  // 복소 압력 P(x) = (e^{-jkx} + R e^{-jk(2L-x)}) / (1 - Rl R e^{-2jkL})
+  function P(x, fr) {
+    const k = (2 * Math.PI * fr) / C, Lm = L(), r = R() / 100, rl = both() ? r : 0;
+    const nr = Math.cos(k * x) + r * Math.cos(k * (2 * Lm - x)), ni = -Math.sin(k * x) - r * Math.sin(k * (2 * Lm - x));
+    const dr = 1 - rl * r * Math.cos(2 * k * Lm), di = rl * r * Math.sin(2 * k * Lm);
+    const den = dr * dr + di * di;
+    return [(nr * dr + ni * di) / den, (ni * dr - nr * di) / den];
+  }
+  const mag = (x, fr) => { const [a, b] = P(x, fr); return Math.hypot(a, b); };
+  const gain = () => MB.clamp(0.03 * mag((xl() / 100) * L(), f()), 0, 0.25);
+  MB.playButton("snd-st-play", () => { drone = MB.drone({ freq: f(), type: "sine", gain: gain() }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 청취 위치에서 듣기", "■ 정지"]);
+  document.getElementById("snd-st-snap").addEventListener("click", () => { const f1 = C / (2 * L()); const n = Math.max(1, Math.round(f() / f1)); f.set(MB.clamp(Math.round(n * f1 * 2) / 2, 20, 300)); });
+  function change() {
+    if (drone) drone.set({ freq: f(), gain: gain() });
+    const lam = C / f(), f1 = C / (2 * L());
+    MB.stat("snd-st-o-lam", fmtLen(lam) + " <small>/ " + fmtLen(lam / 2) + "</small>");
+    MB.stat("snd-st-o-modes", [1, 2, 3].map((n) => (n * f1).toFixed(1)).join(", ") + " <small>Hz</small>");
+    MB.stat("snd-st-o-lv", MB.signed(MB.db(mag((xl() / 100) * L(), f()) + 1e-9), 1) + " dB");
+    const r = R() / 100; MB.stat("snd-st-o-swr", r >= 0.999 ? "∞" : ((1 + r) / (1 - r)).toFixed(2) + ` <small>${MB.db((1 + r) / (1 - r)).toFixed(1)} dB</small>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-snd-st", (ctx, w, h) => {
+    const Pl = MB.palette(), Lm = L(), fr = f();
+    const box = { x: 22, y: 10, w: w - 44, h: h * 0.44 };
+    const X = (x) => box.x + (x / Lm) * box.w, mid = box.y + box.h / 2;
+    // 벽
+    ctx.fillStyle = Pl.dim; ctx.fillRect(box.x - 8, box.y, 6, box.h); ctx.fillRect(box.x + box.w + 2, box.y, 6, box.h);
+    ctx.fillStyle = Pl.accent; ctx.beginPath(); ctx.arc(box.x + 4, mid, 5, 0, 7); ctx.fill();
+    const M = 300, vals = [], env = []; let mx = 1e-9;
+    for (let i = 0; i <= M; i++) { const x = (i / M) * Lm, [a, b] = P(x, fr); vals.push([a, b]); const m = Math.hypot(a, b); env.push(m); mx = Math.max(mx, m); }
+    const sc = (box.h * 0.46) / mx;
+    ctx.strokeStyle = Pl.grid; ctx.beginPath(); ctx.moveTo(box.x, mid); ctx.lineTo(box.x + box.w, mid); ctx.stroke();
+    ctx.strokeStyle = Pl.faint; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.2;
+    [1, -1].forEach((s) => { ctx.beginPath(); env.forEach((m, i) => { const x = box.x + (i / M) * box.w, y = mid - s * m * sc; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); });
+    ctx.setLineDash([]);
+    const cw = Math.cos(wt), sw = Math.sin(wt);
+    ctx.strokeStyle = Pl.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    vals.forEach(([a, b], i) => { const x = box.x + (i / M) * box.w, y = mid - (a * cw - b * sw) * sc; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.stroke();
+    const lx = X((xl() / 100) * Lm);
+    ctx.strokeStyle = Pl.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(lx, box.y); ctx.lineTo(lx, box.y + box.h); ctx.stroke();
+    ctx.fillStyle = Pl.bad; ctx.font = "11px " + SND_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText("청취", lx, box.y + box.h + 2);
+    ctx.fillStyle = Pl.dim; ctx.textAlign = "left"; ctx.fillText("음원", box.x + 10, box.y + box.h + 2);
+    // 응답 곡선
+    const rb = { x: 48, y: h * 0.6, w: w - 62, h: h * 0.4 - 30 };
+    const xi = (xl() / 100) * Lm, data = [];
+    for (let fq = 20; fq <= 300; fq += 0.5) data.push([fq, MB.db(mag(xi, fq) + 1e-6)]);
+    const f1 = C / (2 * Lm), vls = [];
+    for (let n = 1; n * f1 <= 300; n++) vls.push({ x: n * f1, color: Pl.faint });
+    vls.push({ x: fr, color: Pl.accent, dash: [], width: 2 });
+    MB.chart(ctx, rb, { x: [20, 300], y: [-30, 30], yTicks: [-20, 0, 20], xTicks: [20, 50, 100, 150, 200, 250, 300], yFmt: (v) => v + "", series: [{ data, color: Pl.text, width: 1.6 }], vlines: vls });
+    ctx.fillStyle = Pl.dim; ctx.font = "11px " + SND_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("청취점 응답 dB (회색 = 축 모드)", rb.x + 4, rb.y - 14);
+  }, { aspect: 0.62, maxHeight: 420, minHeight: 300 });
+  MB.loop(cv.canvas, (dt) => { wt += dt * 2 * Math.PI * 0.6; cv.redraw(); });
+  change();
+})();
+</script>
+</body>
+</html>

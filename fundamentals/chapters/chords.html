@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>화음의 구조 · MusicBook</title>
+<meta name="description" content="3도 쌓기로 만드는 3화음·7화음·텐션, 전위와 숫자저음, 보이싱과 저음역 음정 한계, 화음 이름 붙이기 알고리즘, 기본형과 포르테 번호까지 화음을 집합과 탐색 문제로 다루며 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/chords.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="화음의 구조 · MusicBook">
+<meta property="og:description" content="3도 쌓기로 만드는 3화음·7화음·텐션, 전위와 숫자저음, 보이싱과 저음역 음정 한계, 화음 이름 붙이기 알고리즘, 기본형과 포르테 번호까지 화음을 집합과 탐색 문제로 다루며 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/chords.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"화음의 구조","name":"화음의 구조 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/chords.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/chords.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":8,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"3도 쌓기로 만드는 3화음·7화음·텐션, 전위와 숫자저음, 보이싱과 저음역 음정 한계, 화음 이름 붙이기 알고리즘, 기본형과 포르테 번호까지 화음을 집합과 탐색 문제로 다루며 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"08 화음의 구조","item":"https://music.euiyun.com/fundamentals/chapters/chords.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .chd-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chd-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .chd-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 4px 10px; }
+  .chd-list { padding: 10px 14px; background: var(--canvas-bg); border-top: 1px solid var(--border); font-size: 14px; line-height: 1.55; }
+  .chd-list .row { display: grid; grid-template-columns: minmax(70px, auto) 1fr; gap: 4px 12px; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+  .chd-list .row:last-child { border-bottom: 0; }
+  .chd-list .sym { font-weight: 700; font-size: 16px; color: var(--accent); }
+  .chd-list .row.top .sym { font-size: 19px; }
+  .chd-list .why { color: var(--text-dim); font-size: 13px; }
+  .chd-list .bar { display: inline-block; height: 7px; border-radius: 4px; background: var(--accent); vertical-align: middle; margin-right: 6px; }
+  .chd-pads { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); max-height: 330px; overflow-y: auto; }
+  .chd-pads .pad b { font-size: 15px; }
+  .chd-pads .pad em { display: block; font-style: normal; font-size: 11px; color: var(--accent); margin-top: 2px; min-height: 1.3em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chd-pads .pad.sel { background: var(--accent-soft); border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .chd-click { cursor: pointer; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="chords">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 08</div>
+    <h1>화음의 구조</h1>
+    <p class="lead">세 개 이상의 음이 동시에 울리면 화음이 됩니다. 12개 피치 클래스에서 3개를 고르는 방법만 220가지인데, 악보와 코드 차트에 실제로 등장하는 이름은 몇십 개뿐입니다. 이 장에서는 화음을 <b>3도를 쌓은 구조</b>로 만들고, <b>전위와 보이싱</b>이라는 '같은 집합을 공간에 배치하는 방법'으로 소리를 바꾸고, 화음 이름 붙이기를 <b>탐색과 점수 매기기 문제</b>로, 화음의 분류를 <b>집합의 동치류</b>로 다룹니다.</p>
+    <ul class="objectives">
+      <li>3도 쌓기로 4가지 3화음과 주요 7화음을 만들고, 장3도·단3도의 조합으로 각 화음의 품질을 설명한다.</li>
+      <li>전위와 숫자저음(6, 6/4, 6/5, 4/3, 4/2), 슬래시 코드 표기를 읽고 쓴다.</li>
+      <li>9·11·13 텐션의 사용 가능 여부를 '화음음 위 단9도' 규칙으로 판정하고, 텐션 조합이 암시하는 음계를 찾는다.</li>
+      <li>클로즈·오픈·드롭 2·드롭 3·셸·루트리스 보이싱을 만들고, 저음역 음정 한계를 임계대역으로 설명한다.</li>
+      <li>화음 인식을 후보 탐색+점수 문제로 이해하고, 기본형과 포르테 번호를 계산해 220개의 3음 집합이 12개의 집합류로 묶이는 것을 확인한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="tertian">
+    <h2>3도를 쌓는다</h2>
+    <p>서양 조성 음악의 화음은 대부분 <span class="term">3도 쌓기</span><span class="en">(Tertian Harmony)</span>로 만들어집니다. 음계 위에서 한 칸씩 건너뛰며 음을 고르면(1·3·5·7…번째 음) 이웃한 음 사이가 항상 3도가 됩니다. 다이아토닉 음계의 3도는 장3도(4반음) 아니면 단3도(3반음)이므로(7장의 마이힐 성질), 화음의 '종류'는 이 두 크기의 순열로 결정됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="3도 쌓기 사다리">
+        <g id="chd-fig1"></g>
+      </svg>
+      <figcaption><b>그림 8-1.</b> C 위에 다이아토닉 3도를 일곱 번 쌓으면 1·3·5·7·9·11·13 — C 장음계의 7음을 모두 지나 다시 C로 돌아온다. 오른쪽 괄호는 3화음, 7화음, 9화음, 11화음, 13화음의 범위. 9·11·13은 2·4·6음과 피치 클래스가 같지만 한 옥타브 위에 쌓인 '텐션'이라는 점을 이름으로 표시한다.</figcaption>
+    </figure>
+    <div class="formula">$$\text{3화음} = (r,\ r+a,\ r+a+b),\quad a,b \in \{3,4\} \;\Rightarrow\; 2^2 = 4 \text{ 종류}$$
+      <div class="where">\(a\): 근음–3음, \(b\): 3음–5음(반음 수). 7화음은 3도를 하나 더 쌓아 \(2^3 = 8\)가지 중 7가지를 쓴다(4+4+4는 12반음으로 근음의 옥타브와 겹쳐 7화음이 되지 않음).</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>3화음</th><th>3도 쌓기</th><th>근음 기준</th><th>5도</th><th>집합류</th><th>소리 인상</th></tr></thead>
+      <tbody>
+        <tr><td>장3화음 C</td><td>M3 + m3</td><td>0 4 7</td><td>완전</td><td>3-11</td><td>안정·밝음 (배음열 4:5:6)</td></tr>
+        <tr><td>단3화음 Cm</td><td>m3 + M3</td><td>0 3 7</td><td>완전</td><td>3-11</td><td>안정·어두움 (장3화음의 전회)</td></tr>
+        <tr><td>감3화음 Cdim</td><td>m3 + m3</td><td>0 3 6</td><td>감</td><td>3-10</td><td>불안정, 트라이톤 포함</td></tr>
+        <tr><td>증3화음 Caug</td><td>M3 + M3</td><td>0 4 8</td><td>증</td><td>3-12</td><td>떠 있음, 옥타브를 3등분(대칭)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>7화음</th><th>기호</th><th>3도 쌓기</th><th>근음 기준</th><th>집합류</th><th>주된 자리</th></tr></thead>
+      <tbody>
+        <tr><td>장7</td><td>Cmaj7</td><td>M3 m3 M3</td><td>0 4 7 11</td><td>4-20</td><td>I, IV</td></tr>
+        <tr><td>속7 (도미넌트 7)</td><td>C7</td><td>M3 m3 m3</td><td>0 4 7 10</td><td>4-27</td><td>V — 3음·7음이 트라이톤</td></tr>
+        <tr><td>단7</td><td>Cm7</td><td>m3 M3 m3</td><td>0 3 7 10</td><td>4-26</td><td>ii, iii, vi</td></tr>
+        <tr><td>반감7</td><td>Cm7♭5 (Cø7)</td><td>m3 m3 M3</td><td>0 3 6 10</td><td>4-27</td><td>vii (장조), ii (단조)</td></tr>
+        <tr><td>감7</td><td>Cdim7 (C°7)</td><td>m3 m3 m3</td><td>0 3 6 9</td><td>4-28</td><td>vii° (화성단음계) — 옥타브 4등분</td></tr>
+        <tr><td>단장7</td><td>Cm(maj7)</td><td>m3 M3 M3</td><td>0 3 7 11</td><td>4-19</td><td>i (가락/화성단음계)</td></tr>
+        <tr><td>증장7</td><td>Cmaj7♯5</td><td>M3 M3 m3</td><td>0 4 8 11</td><td>4-19</td><td>III+ (가락단음계)</td></tr>
+      </tbody>
+    </table></div>
+    <p>표의 '집합류' 열이 흥미롭습니다. 속7(0 4 7 10)과 반감7(0 3 6 10)이 같은 4-27이고, 장3화음과 단3화음이 같은 3-11입니다. 둘 다 서로를 <b>뒤집은</b>(전회, \(I_n\)) 관계이기 때문입니다 — 단3화음은 장3화음의 음정 구조를 위아래로 뒤집은 것입니다. 6절에서 이 분류를 정확히 정의합니다.</p>
+
+    <div class="sim" id="sim-chd-builder">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>화음 조립기: 3도 스택 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="chd-bd-cv"></canvas>
+          <div class="staff-wrap" id="chd-bd-staff"></div>
+          <div class="mb-kb short" id="chd-bd-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>근음</span><select id="chd-bd-root"></select></label>
+          <label class="ctrl"><span>화음 종류</span><select id="chd-bd-q"></select></label>
+          <div class="ctrl"><span>전위</span><div class="seg" id="chd-bd-inv"><button data-value="0" class="on">기본</button><button data-value="1">1전위</button><button data-value="2">2전위</button><button data-value="3">3전위</button></div></div>
+          <label class="ctrl"><span>악기</span><select id="chd-bd-inst"></select></label>
+          <div class="btn-row"><button class="btn primary" id="chd-bd-block">▶ 동시에</button><button class="btn" id="chd-bd-arp">▶ 아르페지오</button><button class="btn" id="chd-bd-strum">▶ 스트럼</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드 기호</span><span class="v" id="chd-bd-sym">—</span></div>
+        <div class="stat"><span class="k">구성음</span><span class="v" id="chd-bd-notes">—</span></div>
+        <div class="stat"><span class="k">이웃 음정 (아래→위)</span><span class="v" id="chd-bd-stack">—</span></div>
+        <div class="stat"><span class="k">집합류 · 음정 벡터</span><span class="v" id="chd-bd-set">—</span></div>
+      </div>
+      <div class="sim-note">위 그림의 세로축은 베이스로부터의 반음 수(가는 선 = 반음, 굵은 선 = 옥타브)입니다. 각 음에 근음 기준 도수(1, ♭3, 5, ♭7, 9…)를, 음 사이에 이웃 음정을 표시합니다. 전위를 바꾸면 같은 피치 클래스 집합이 다른 순서로 쌓이고, 이웃 음정 패턴이 바뀌는 것을 보세요(장3화음 기본형 M3+m3 → 1전위 m3+P4 → 2전위 P4+M3). 건반은 클릭이나 <kbd>A</kbd>–<kbd>K</kbd> 키로도 연주됩니다. 목록에는 <code>MB.CHORDS</code>의 화음과 4도 쌓기(쿼털) 화음 2개를 넣었습니다(5절).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="inversion">
+    <h2>전위와 숫자저음, 슬래시 코드</h2>
+    <p>화음의 구성음이 같아도 <b>가장 낮은 음</b>(베이스)이 무엇이냐에 따라 소리의 안정감이 크게 달라집니다. 근음이 베이스면 <span class="term">기본 위치</span><span class="en">(Root Position)</span>, 3음이면 1전위, 5음이면 2전위, 7음이면 3전위입니다. 위쪽 음들의 순서나 옥타브는 전위를 바꾸지 않습니다 — 그것은 다음 절의 '보이싱'입니다.</p>
+    <p>바로크 시대의 건반 주자들은 베이스 선율 위에 숫자만 보고 화음을 즉흥으로 채웠습니다. 이 <span class="term">숫자저음</span><span class="en">(Figured Bass, Basso Continuo)</span>의 숫자는 '베이스 위 몇 도에 음이 있는가'를 적은 것이고, 지금도 화성학의 전위 표기로 쓰입니다. 오늘날 대중음악은 같은 정보를 <span class="term">슬래시 코드</span><span class="en">(Slash Chord)</span> "C/E"(C 화음, 베이스 E)로 씁니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>위치</th><th>베이스</th><th>베이스 위 음정(일반 음정)</th><th>숫자 (약식)</th><th>예 (C, C7)</th></tr></thead>
+      <tbody>
+        <tr><td>3화음 기본</td><td>근음</td><td>3, 5</td><td>5/3 (보통 생략)</td><td>C</td></tr>
+        <tr><td>1전위</td><td>3음</td><td>3, 6</td><td>6 (6/3)</td><td>C/E</td></tr>
+        <tr><td>2전위</td><td>5음</td><td>4, 6</td><td>6/4</td><td>C/G</td></tr>
+        <tr><td>7화음 기본</td><td>근음</td><td>3, 5, 7</td><td>7</td><td>C7</td></tr>
+        <tr><td>1전위</td><td>3음</td><td>3, 5, 6</td><td>6/5</td><td>C7/E</td></tr>
+        <tr><td>2전위</td><td>5음</td><td>3, 4, 6</td><td>4/3</td><td>C7/G</td></tr>
+        <tr><td>3전위</td><td>7음</td><td>2, 4, 6</td><td>4/2 (또는 2)</td><td>C7/B♭</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><strong>왜 2전위는 불안정한가</strong> 2전위에서는 베이스 위에 완전4도(G–C)가 생긴다. 4도는 '위쪽 음이 근음처럼 들리는' 음정이라(배음 3:4에서 4가 2의 옥타브) 베이스가 근음이 아니라는 모순이 생긴다. 그래서 고전 화성은 6/4 화음을 종지형(카덴셜 6/4, I⁶₄–V), 경과형, 아르페지오형, 페달형(보조·이웃음형) 등의 맥락으로 제한하여 다룬다.</div>
+
+    <div class="sim" id="sim-chd-inv">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>전위와 숫자저음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="staff-wrap" id="chd-iv-staff"></div>
+          <canvas id="chd-iv-cv"></canvas>
+          <div class="mb-kb short" id="chd-iv-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>근음</span><select id="chd-iv-root"></select></label>
+          <div class="ctrl"><span>화음</span><div class="seg" id="chd-iv-q"><button data-value="maj" class="on">장3</button><button data-value="min">단3</button><button data-value="dom7">속7</button><button data-value="maj7">장7</button><button data-value="min7">단7</button><button data-value="hdim7">반감7</button></div></div>
+          <div class="ctrl"><span>전위</span><div class="seg" id="chd-iv-inv"><button data-value="0" class="on">기본</button><button data-value="1">1전위</button><button data-value="2">2전위</button><button data-value="3">3전위</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="chd-iv-play">▶ 지금 위치</button><button class="btn" id="chd-iv-all">▶ 모든 위치 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">베이스</span><span class="v" id="chd-iv-bass">—</span></div>
+        <div class="stat"><span class="k">숫자저음</span><span class="v" id="chd-iv-fig">—</span></div>
+        <div class="stat"><span class="k">슬래시 코드</span><span class="v" id="chd-iv-slash">—</span></div>
+      </div>
+      <div class="sim-note">오선보에는 모든 위치가 나란히 있고, 고른 위치가 강조됩니다(아래 숫자는 자동 계산한 숫자저음). 숫자는 베이스와 위 음들의 <b>글자 거리</b>(일반 음정)로 계산하므로 ♯·♭와 무관합니다. 아래 그래프는 각 위치의 '베이스 위 음정'을 반음 단위 막대로 그린 것이며, 베이스 위 완전4도(5반음)가 생기는 자리를 주황으로 표시합니다. 해볼 것: 3화음 '모든 위치 차례로'에서 2전위(6/4)가 가장 '공중에 뜬' 느낌인지 들어 보세요. 반주: 베이스는 한 옥타브 아래에서 함께 울립니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="tensions">
+    <h2>텐션: 9, 11, 13과 피해야 할 음</h2>
+    <p>7화음 위에 3도를 계속 쌓으면 9·11·13음이 나옵니다. 재즈와 현대 대중음악은 이 음들을 <span class="term">텐션</span><span class="en">(Tension)</span>이라 부르며 색채를 더하는 데 씁니다. 하지만 아무 텐션이나 더할 수는 없습니다. 실용 규칙은 하나로 요약됩니다.</p>
+    <div class="callout"><strong>회피음 규칙</strong> 화음음(1·3·5·7)보다 <b>단9도(반음 + 옥타브) 위</b>에 놓이는 텐션은 그 화음음과 강하게 충돌해 화음의 정체를 흐린다 — <b>피해야 할 음</b>(avoid note). 예외: 속7화음의 ♭9(근음 위 단9도)는 도미넌트 특유의 긴장으로 받아들여진다.</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>화음</th><th>사용 가능한 텐션</th><th>피해야 할 음 (이유)</th><th>대표 음계</th></tr></thead>
+      <tbody>
+        <tr><td>Imaj7</td><td>9, ♯11, 13</td><td>11 (3음 위 단9도)</td><td>이오니안 / 리디안(♯11)</td></tr>
+        <tr><td>IIm7</td><td>9, 11, 13</td><td>— (도리안은 회피음 없음; 13은 맥락에 따라 주의)</td><td>도리안</td></tr>
+        <tr><td>V7</td><td>9, 13 / ♭9, ♯9, ♯11, ♭13</td><td>11 (3음 위 단9도) — sus4로 쓰면 3음을 빼서 해결</td><td>믹솔리디안 / 얼터드 / 반–온 디미니시</td></tr>
+        <tr><td>VIm7</td><td>9, 11</td><td>♭13 (5음 위 단9도)</td><td>에올리안</td></tr>
+        <tr><td>IIIm7</td><td>11</td><td>♭9 (근음 위), ♭13 (5음 위)</td><td>프리지안</td></tr>
+      </tbody>
+    </table></div>
+    <p>이 규칙의 근거는 두 가지입니다. 하나는 음향: 단9도는 피치 클래스로 반음이라, 아래 화음음의 2배음과 텐션의 기본음이 반음 간격에서 맥놀이를 만듭니다(6장). 다른 하나는 <b>기능</b>: 장·속7화음 위의 11(F)은 3음(E)으로 반음 하행 해결할 수 있는 4–3 계류음처럼 들려 화음을 sus4나 IV로 착각하게 만듭니다. 실제로 아래 시뮬레이터의 거칠기 모델(배음 합의 총 거칠기)로 재 보면 11을 더한 화음이 9·13을 더한 화음보다 특별히 더 거칠지는 않습니다 — 회피음은 '총 거칠기'보다 <b>특정 음정(단9도)과 화음 정체성</b>의 문제라는 뜻입니다.</p>
+    <p><b>상부 구조 3화음</b><span class="en">(Upper Structure Triad)</span>은 텐션을 체계적으로 고르는 재즈 기법입니다. C7의 3음·7음(E, B♭) 위에 D 장3화음(D–F♯–A)을 얹으면 9·♯11·13이 한꺼번에 생겨 C13(♯11), 즉 리디안 도미넌트의 소리가 됩니다. 두 화음을 겹친 <span class="term">폴리코드</span><span class="en">(Polychord)</span>로 보고 \(\frac{\text{D}}{\text{C7}}\)처럼 분수로 적기도 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="상부 구조 3화음">
+        <g id="chd-fig3"></g>
+      </svg>
+      <figcaption><b>그림 8-3.</b> 상부 구조 3화음. 아래 C7 셸(C–E–B♭) 위에 D·E♭·A♭ 등 다른 장3화음을 얹으면 그 3화음의 음들이 각각 다른 텐션 조합이 된다. 오른쪽 숫자는 C 기준 도수.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-chd-tension">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>텐션 탐색기: 회피음과 암시 음계</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="chd-tn-cv"></canvas>
+          <div class="staff-wrap" id="chd-tn-staff"></div>
+          <div class="mb-kb short" id="chd-tn-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>근음</span><select id="chd-tn-root"></select></label>
+          <div class="ctrl"><span>기본 화음</span><div class="seg" id="chd-tn-base"><button data-value="dom7" class="on">속7</button><button data-value="maj7">장7</button><button data-value="min7">단7</button></div></div>
+          <div class="ctrl"><span>텐션</span>
+            <div class="chd-checks">
+              <label class="check"><input type="checkbox" id="chd-tn-b9"> ♭9</label><label class="check"><input type="checkbox" id="chd-tn-9" checked> 9</label><label class="check"><input type="checkbox" id="chd-tn-s9"> ♯9</label>
+              <label class="check"><input type="checkbox" id="chd-tn-11"> 11</label><label class="check"><input type="checkbox" id="chd-tn-s11"> ♯11</label><label class="check"><input type="checkbox" id="chd-tn-b13"> ♭13</label>
+              <label class="check"><input type="checkbox" id="chd-tn-13" checked> 13</label><label class="check"><input type="checkbox" id="chd-tn-5"> 5음 포함</label>
+            </div>
+          </div>
+          <div class="ctrl"><span>프리셋</span><div class="chd-presets" id="chd-tn-pre"><button class="btn" data-t="9,13">믹솔리디안</button><button class="btn" data-t="9,s11,13">상부구조 II</button><button class="btn" data-t="b9,s9,b13">얼터드</button><button class="btn" data-t="b9,s9,s11,13">반–온</button><button class="btn" data-t="11">회피음 11</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="chd-tn-play">▶ 화음</button><button class="btn" id="chd-tn-arp">▶ 아래부터</button><button class="btn" id="chd-tn-res">▶ 해결 (V7→I)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드 기호</span><span class="v" id="chd-tn-sym">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="chd-tn-judge">—</span></div>
+        <div class="stat"><span class="k">암시하는 음계</span><span class="v" id="chd-tn-scale">—</span></div>
+        <div class="stat"><span class="k">거칠기 (Sethares)</span><span class="v" id="chd-tn-r">—</span></div>
+      </div>
+      <div class="sim-note">보이싱: 근음은 베이스(2옥타브), 3음·7음 셸은 그 위, 텐션은 다시 한 옥타브 위에 쌓습니다. 그림에서 회색 = 화음음, 보라 = 사용 가능한 텐션, 빨강 = 회피음(어느 화음음의 단9도 위인지 선으로 연결), 주황 = 텐션끼리 반음 충돌입니다. '암시하는 음계'는 화음음+텐션을 모두 포함하는 음계를 찾아 보여 줍니다 — 텐션 선택은 곧 그 화음 위에서 쓸 음계 선택입니다. 거칠기는 각 음을 배음 6개(진폭 0.88ⁿ)로 보고 Sethares(1993)의 플롬프–레벨트 근사로 모든 성분 쌍을 합한 값(6장, 오른쪽 막대)입니다 — 음이 늘수록 커지므로 회피음 판정과는 별개의 지표로 보세요. '해결'은 속7일 때 4도 위 장7화음으로 진행합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="voicing">
+    <h2>보이싱: 같은 화음, 다른 배치</h2>
+    <p><span class="term">보이싱</span><span class="en">(Voicing)</span>은 화음의 피치 클래스를 실제 음높이(옥타브와 순서)에 배치하는 방법입니다. 집합은 같아도 소리의 두께·밝기·탁함이 크게 달라지고, 화음과 화음을 잇는 성부 진행(9장)이 매끄러운지도 보이싱이 결정합니다. 주요 보이싱은 간단한 변환 규칙으로 정의됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="드롭 보이싱 만들기">
+        <g id="chd-fig2"></g>
+      </svg>
+      <figcaption><b>그림 8-2.</b> 드롭 보이싱. 클로즈 보이싱(한 옥타브 안에 빽빽이)에서 위에서 두 번째 음을 한 옥타브 내리면 드롭 2, 세 번째 음을 내리면 드롭 3, 둘째와 넷째를 함께 내리면 드롭 2&amp;4. 기타는 손가락 폭 때문에 클로즈 7화음을 잡기 어려워 드롭 2·3이 표준이고, 빅밴드 색소폰 섹션 편곡에서도 기본 기법이다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>보이싱</th><th>규칙 (Cmaj7 예)</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td>클로즈 (Close)</td><td>모든 음을 한 옥타브 안에: C E G B</td><td>단단하고 밀도 높음, 저음역에서는 탁함</td></tr>
+        <tr><td>오픈 (Open, 1-5-3-7)</td><td>C G E B — 근음과 5도를 아래에 벌림</td><td>배음열과 닮은 간격(아래는 넓고 위는 좁게) → 맑음</td></tr>
+        <tr><td>드롭 2 / 드롭 3</td><td>G C E B / E C G B</td><td>기타·피아노·관악 섹션의 표준</td></tr>
+        <tr><td>셸 (Shell)</td><td>1-3-7 또는 1-7-3: C E B / C B E</td><td>화음 품질을 정하는 최소 음(3·7음)만. 비밥 피아노</td></tr>
+        <tr><td>루트리스 A / B</td><td>3-5-7-9 / 7-9-3-5: E G B D / B D E G</td><td>베이스가 근음을 맡을 때 피아노가 근음을 생략(빌 에반스 스타일)</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>저음역 음정 한계</b><span class="en">(Low Interval Limit, LIL)</span>는 편곡의 경험칙입니다. "장3도는 B♭2보다, 단3도는 C3보다 아래에서 쓰지 말라." 이유는 6장의 임계대역에 있습니다. 같은 음정이라도 낮은 음역에서는 두 음의 주파수 차이 \(\Delta f\)가 절대값으로 작아져, 귀의 임계대역(저음역에서 약 100 Hz) 안에 함께 들어갑니다. 플롬프–레벨트 곡선에 따르면 거칠기는 \(\Delta f\)가 임계대역의 약 25%일 때 최대입니다.</p>
+    <div class="formula">$$\frac{\Delta f}{\mathrm{CB}(\bar f)},\qquad \mathrm{CB}(f) \approx 25 + 75\left[1 + 1.4\left(\tfrac{f}{1000}\right)^2\right]^{0.69}\ \text{Hz}\quad(\text{Zwicker})$$
+      <div class="where">예: C3(130.8 Hz)–E3(164.8 Hz) 장3도는 \(\Delta f = 34\) Hz, CB ≈ 101 Hz → 0.34 CB로 거칠기 최대 부근. 같은 장3도를 C5–E5로 올리면 \(\Delta f = 136\) Hz, 평균 주파수 591.25 Hz에서 CB ≈ 123.73 Hz → 1.10 CB로 깨끗하다. 그래서 피아노 왼손은 낮은 음역에서 근음+5도(또는 옥타브)를, 3도는 위쪽에 둔다 — 배음열(1:2:3:4:5…)이 아래는 넓고 위는 좁은 것과 같은 모양이다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>음정</th><th>m2</th><th>M2</th><th>m3</th><th>M3</th><th>P4</th><th>TT</th><th>P5</th><th>m6</th><th>M6</th><th>m7</th><th>M7</th></tr></thead>
+      <tbody><tr><td>아래 음의 하한</td><td>E3</td><td>E♭3</td><td>C3</td><td>B♭2</td><td>A2</td><td>B♭2</td><td>B♭1</td><td>F2</td><td>F2</td><td>F2</td><td>F2</td></tr></tbody>
+    </table></div>
+    <p class="sim-note" style="border:0;background:none;padding:0">이 표는 널리 쓰이는 편곡 교재의 경험값(문헌마다 반음 정도 차이)이다. C4 = 가운데 도.</p>
+
+    <div class="sim" id="sim-chd-voicing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>보이싱 실험실: 배치·음역·거칠기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="chd-vo-cv"></canvas>
+          <div class="mb-kb short" id="chd-vo-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>근음</span><select id="chd-vo-root"></select></label>
+          <div class="ctrl"><span>화음</span><div class="seg" id="chd-vo-q"><button data-value="maj7" class="on">maj7</button><button data-value="dom7">7</button><button data-value="min7">m7</button><button data-value="hdim7">m7♭5</button><button data-value="maj6">6</button></div></div>
+          <label class="ctrl"><span>보이싱</span><select id="chd-vo-v"></select></label>
+          <label class="ctrl"><span>가장 낮은 음 하한 <output id="chd-vo-lo-out"></output></span><input type="range" id="chd-vo-lo" min="33" max="64" value="48"></label>
+          <label class="check"><input type="checkbox" id="chd-vo-bass" checked> 루트리스에 베이스 근음 추가</label>
+          <div class="btn-row"><button class="btn primary" id="chd-vo-play">▶ 듣기</button><button class="btn" id="chd-vo-ab">▶ 클로즈와 비교</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 (아래→위)</span><span class="v" id="chd-vo-notes">—</span></div>
+        <div class="stat"><span class="k">폭</span><span class="v" id="chd-vo-span">—</span></div>
+        <div class="stat"><span class="k">LIL 위반</span><span class="v" id="chd-vo-lil">—</span></div>
+        <div class="stat"><span class="k">거칠기</span><span class="v" id="chd-vo-r">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽: 세로축이 음높이(가로선 = C)인 보이싱 단면도. 이웃한 두 음 사이에 음정과 \(\Delta f\)/임계대역 비를 적고, 저음역 음정 한계(LIL) 아래면 빨간색으로 표시합니다. 오른쪽 막대는 <b>같은 근음·음역</b>에서 모든 보이싱의 거칠기(Sethares 모델, 배음 6개)를 비교한 것입니다. 해볼 것: ① '가장 낮은 음 하한'을 36(C2) 근처로 내리고 클로즈 보이싱을 들어 보세요 — 탁해지고 LIL 경고가 뜹니다. ② 같은 음역에서 오픈(1-5-3-7)이나 드롭 2로 바꾸면 거칠기가 떨어집니다. ③ 루트리스 A/B는 베이스 근음을 끄면 근음 없이도 화음이 들리는지 확인하세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="naming">
+    <h2>코드 기호와 이름 붙이기 알고리즘</h2>
+    <p>코드 기호는 '근음 + 품질 + 텐션 + /베이스'라는 압축 표기입니다(Cm7♭5/G·G7(♭9,♭13)·Dsus4). 사람이 악보의 음 덩어리에 이름을 붙이는 일은 사실 <b>역문제</b>입니다. 같은 피치 클래스 집합에 여러 이름이 가능하기 때문입니다. {A, C, E, G}는 Am7이자 C6/A이고, {C, E♭, G♭, A}는 Cdim7·E♭dim7·G♭dim7·Adim7 모두입니다(대칭). 그래서 화음 인식 프로그램은 대개 다음과 같은 <b>탐색 + 점수</b> 구조를 씁니다.</p>
+    <ol>
+      <li><b>후보 생성</b>: 입력 음의 각 피치 클래스를 근음 후보 \(r\)로, 사전의 각 품질 \(q\)(구간 집합 \(Q_q\))와 짝지어 \(C_{r,q} = \{r + x \bmod 12 : x \in Q_q\}\)를 만든다.</li>
+      <li><b>정합 계산</b>: 입력 집합 \(S\)와 비교해 빠진 음 \(C\setminus S\)과 남는 음 \(S\setminus C\)를 센다.</li>
+      <li><b>점수</b>: 남는 음이 있으면 탈락, 빠진 음은 감점(5음 생략은 흔하므로 적게), 복잡한 화음은 소폭 감점(오컴의 면도날), 베이스가 근음이면 가점. 동점은 단순한 이름을 택한다.</li>
+    </ol>
+    <div class="formula">$$\text{score}(r,q) = 10 - 4\,|\text{missing}|_{\neq 5} - 1\,|\text{missing}|_{=5} - 0.6\,(|Q_q| - 3) + 2\,[r = \text{bass}] - \epsilon_q$$
+      <div class="where"><code>MB.detectChord</code>가 실제로 쓰는 점수 식(\(\epsilon_q\): sus·aug·dim7·6화음 같은 '모호한' 품질에 주는 작은 감점). 실제 소프트웨어는 여기에 조성 맥락(이 조에서 흔한 화음인가), 앞뒤 화음, 음의 길이·세기를 확률 모델로 더한다. 결국 화음 인식은 <b>사전(prior) × 정합도(likelihood)</b>의 최대화 문제다.</div>
+    </div>
+
+    <div class="sim" id="sim-chd-ident">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>화음 판별기: 건반을 찍으면 이름 후보와 근거</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="mb-kb" id="chd-id-kb"></div>
+          <div class="staff-wrap" id="chd-id-staff"></div>
+          <div class="chd-list" id="chd-id-list"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>예제</span><div class="chd-presets" id="chd-id-pre">
+            <button class="btn" data-n="48,52,55,58,62">C E G B♭ D</button><button class="btn" data-n="52,55,59,62">E G B D</button><button class="btn" data-n="45,48,52,55">A C E G</button><button class="btn" data-n="47,50,53,56">B D F A♭</button><button class="btn" data-n="52,55,60">E G C</button><button class="btn" data-n="48,53,55">C F G</button><button class="btn" data-n="48,53,58,63">C F B♭ E♭</button><button class="btn" data-n="48,52,54,59">C E F♯ B</button>
+          </div></div>
+          <label class="check"><input type="checkbox" id="chd-id-flat"> ♭ 표기 강제 (기본: 1위 후보에 맞춰 자동)</label>
+          <div class="btn-row"><button class="btn primary" id="chd-id-play">▶ 듣기</button><button class="btn" id="chd-id-clear">지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선택한 음</span><span class="v" id="chd-id-notes">—</span></div>
+        <div class="stat"><span class="k">기본형 · 포르테</span><span class="v" id="chd-id-pf">—</span></div>
+        <div class="stat"><span class="k">음정 벡터</span><span class="v" id="chd-id-iv">—</span></div>
+      </div>
+      <div class="sim-note">건반을 클릭(또는 <kbd>A</kbd>–<kbd>K</kbd> 키)할 때마다 그 음이 선택·해제되고 짧게 울립니다. 아래 목록은 <code>MB.detectChord</code>의 후보를 점수순으로 보여 주고, 각 후보의 근거(근음이 베이스인지, 어떤 음이 빠졌는지)를 풀어 씁니다. 막대 길이가 점수입니다. 해볼 것: ① 'A C E G' — Am7과 C6/A가 경쟁합니다. 베이스를 C로 바꾸면(A를 빼고 위에 다시) 순위가 뒤집힙니다. ② 'B D F A♭'(감7)은 네 음 모두 근음 후보 — 대칭 화음의 모호성. ③ 'C F B♭ E♭'(4도 쌓기)는 사전에 딱 맞는 이름이 없어 sus 계열로 근사합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="pcset">
+    <h2>피치 클래스 집합론: 화음의 동치류</h2>
+    <p>음악 이론가 앨런 포르테(Allen Forte, 『The Structure of Atonal Music』 1973)는 무조 음악을 분석하려고 화음을 '이름' 대신 <b>집합의 동치류</b>로 분류했습니다. 두 집합이 이조(\(T_n\))나 전회 후 이조(\(T_nI\))로 서로 바뀌면 같은 <span class="term">집합류</span><span class="en">(Set Class)</span>입니다. 이 군 \(\{T_n, T_nI\}\)는 원소가 24개인 이면체군 \(D_{12}\)이고, 집합류는 그 궤도(orbit)입니다.</p>
+    <p>각 집합류의 대표를 <span class="term">기본형</span><span class="en">(Prime Form)</span>이라 하며 알고리즘으로 정의됩니다.</p>
+    <ol>
+      <li>집합을 정렬하고 모든 회전을 만든다(각 원소를 맨 앞에 둔 순열). 첫 음을 0으로 옮긴다.</li>
+      <li>같은 일을 전회한 집합(\(-x \bmod 12\))에도 한다. 후보는 \(2n\)개.</li>
+      <li>마지막 원소(폭)가 가장 작은 후보를 고른다. 동점이면 오른쪽에서 두 번째 원소가 작은 것 → 세 번째… (Rahn 방식). 포르테 원래 방식은 왼쪽부터 비교하며, 5-20·6-Z29·6-31·7-Z18·7-20·8-26 여섯 집합류에서만 결과가 다르다.</li>
+    </ol>
+    <p>포르테 번호 "4-27"은 '4음 집합류 중 27번째'라는 목록 번호입니다. 보수 관계인 집합류는 같은 번호를 가집니다(5-35의 보수가 7-35 = 다이아토닉). 'Z'가 붙은 쌍(4-Z15 / 4-Z29 등)은 음정 벡터가 같은데 집합류가 다른 경우로, 둘 다 ⟨1,1,1,1,1,1⟩, 즉 모든 음정을 한 번씩 갖는 '전음정 4화음'입니다.</p>
+    <div class="formula">$$\binom{12}{3} = 220 = \sum_{\text{집합류 } c} |\mathrm{orbit}(c)|,\qquad |\mathrm{orbit}(c)| = \frac{24}{|\mathrm{Stab}(c)|}$$
+      <div class="where">궤도–안정자 정리. 장3화음(3-11)은 대칭이 없어 궤도 크기 24(장3화음 12개 + 단3화음 12개), 증3화음(3-12)은 안정자가 6개라 궤도 크기 4. 번사이드 보조정리로 세면 3음 집합류는 12개, 4음은 29개, 5음은 38개다(아래 시뮬레이터가 직접 센다).</div>
+    </div>
+
+    <div class="sim" id="sim-chd-pcset">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>집합류 탐색기: 모든 3·4·5음 화음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="chd-pc-cv"></canvas>
+          <div class="pads chd-pads" id="chd-pc-pads"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음 개수</span><div class="seg" id="chd-pc-card"><button data-value="3" class="on">3음</button><button data-value="4">4음</button><button data-value="5">5음</button></div></div>
+          <label class="ctrl"><span>이조 (근음) <output id="chd-pc-t-out"></output></span><input type="range" id="chd-pc-t" min="0" max="11" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="chd-pc-play">▶ 기본형 → 전회형</button></div>
+          <div class="ctrl"><span>검증</span><div id="chd-pc-sum" style="font-size:14px;line-height:1.5"></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">포르테 · 기본형</span><span class="v" id="chd-pc-name">—</span></div>
+        <div class="stat"><span class="k">음정 벡터</span><span class="v" id="chd-pc-iv">—</span></div>
+        <div class="stat"><span class="k">궤도 크기 (서로 다른 집합 수)</span><span class="v" id="chd-pc-orb">—</span></div>
+        <div class="stat"><span class="k">익숙한 이름</span><span class="v" id="chd-pc-common">—</span></div>
+      </div>
+      <div class="sim-note">패드는 이 페이지가 \(2^{12}\)개 집합을 전수 조사해 찾은 집합류를 포르테 순서로 늘어놓은 것입니다(보라 글씨 = <code>MB.CHORDS</code>의 화음과 같은 집합류). 패드를 누르면 기본형(실선)과 그 전회형(점선)을 원에 그리고 차례로 들려줍니다 — 장3화음 ↔ 단3화음, 속7 ↔ 반감7처럼 '거울상' 화음의 짝을 들어 보세요. 이조 슬라이더는 원 위의 집합을 돌립니다(소리도 이조). 오른쪽 '검증'은 모든 집합류의 궤도 크기 합이 \(\binom{12}{n}\)과 같은지 확인합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="beyond">
+    <h2>3도 밖의 화음: sus, 4도 쌓기, 폴리코드</h2>
+    <ul>
+      <li><b>sus 화음</b>(Csus4 = C F G, Csus2 = C D G): 3음 대신 4음이나 2음을 써서 장·단을 정하지 않는다. sus4와 sus2는 같은 집합류 3-9(027)이며, Csus2의 음을 G부터 읽으면 Gsus4다. 7sus4(C F G B♭)는 속7의 회피음 11을 '3음을 빼서' 합법화한 형태로, 현대 재즈·가스펠에서 V 대신 자주 쓰인다.</li>
+      <li><b>4도 쌓기</b>(Quartal Harmony): 완전4도를 쌓은 C–F–B♭–E♭. 3-9·4-23(0257)처럼 5도 사슬의 연속 구간이라 5음음계의 부분집합이다. 근음이 모호하고 '열린' 소리가 나서 맥코이 타이너, 빌 에반스(마일스 데이비스 「So What」의 보이싱: 4도 셋 + 장3도)가 즐겨 썼다.</li>
+      <li><b>폴리코드·상부 구조</b>: 두 화음을 위아래로 겹친 것(3절 그림 8-3). 집합으로 보면 6–7음 집합이고, 이름은 '아래 화음 + 텐션'으로 읽는 것이 보통이다.</li>
+      <li><b>클러스터</b>: 반음·온음을 빽빽이 쌓은 화음(3-1 = 012). 집합론에서는 그냥 하나의 집합류이지만, 음향적으로는 거칠기가 가장 큰 화음이다(6장).</li>
+    </ul>
+    <div class="callout deep"><strong>화음 수의 폭발과 '이름 있는 화음'</strong> 12음에서 고를 수 있는 3–6음 화음은 \(220 + 495 + 792 + 924 = 2431\)개(피치 클래스 집합 기준)이고, 집합류로 묶으면 12 + 29 + 38 + 50 = 129개다. 코드 기호 체계가 이름을 붙인 것은 이 중 3도 쌓기에서 나오는 일부일 뿐이다. 나머지는 무조 음악과 현대 재즈의 영역이며, 그곳에서는 포르테 번호와 음정 벡터가 이름 역할을 한다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>3도 쌓기에서 3화음은 장3도·단3도 두 칸의 조합(\(2^2=4\)종: 장·단·감·증), 7화음은 세 칸의 조합(실제 7종)이다.</li>
+      <li>전위는 '무엇이 베이스인가'다. 숫자저음은 베이스 위 일반 음정을 적고(6, 6/4, 6/5, 4/3, 4/2), 대중음악은 슬래시 코드(C/E)로 쓴다. 2전위는 베이스 위 완전4도 때문에 불안정하다.</li>
+      <li>텐션은 화음음의 단9도 위에 오면 회피음이다(예외: 속7의 ♭9). 텐션 조합은 그 화음 위의 음계를 암시한다.</li>
+      <li>보이싱은 집합을 음높이에 배치하는 일이다. 드롭 2·3, 셸, 루트리스는 간단한 변환 규칙이다. 낮은 음역의 좁은 음정은 임계대역 안에서 거칠어지므로(LIL) 아래는 넓게, 위는 좁게 쌓는다.</li>
+      <li>화음 이름 붙이기는 '근음 후보 × 품질 사전'의 탐색과 점수 매기기이며, 같은 집합에 여러 이름이 가능하다(Am7 = C6/A, 감7의 대칭).</li>
+      <li>\(T_n\)/\(T_nI\) 동치류가 집합류이고, 기본형과 포르테 번호로 대표한다. 220개의 3음 집합은 12개 집합류, 495개의 4음 집합은 29개 집합류로 묶인다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>근음 위에 단3도 + 단3도 + 장3도를 쌓은 7화음은?</p><div class="opts">
+        <button class="opt">속7 (C7)</button><button class="opt">감7 (C°7)</button><button class="opt" data-correct>반감7 (Cm7♭5)</button><button class="opt">단장7 (Cm(maj7))</button>
+      </div><div class="quiz-exp">0 → 3 → 6 → 10: 단3화음 대신 감3화음(0 3 6) 위에 단7도(10)를 얹은 반감7화음이다. 감7은 단3도만 세 번(0 3 6 9), 속7은 장3도+단3도+단3도(0 4 7 10).</div></div>
+      <div class="quiz-q"><p>G7의 3전위에서 베이스 음과 숫자저음은?</p><div class="opts">
+        <button class="opt">B, 6/5</button><button class="opt">D, 4/3</button><button class="opt" data-correct>F, 4/2</button><button class="opt">G, 7</button>
+      </div><div class="quiz-exp">G7 = G B D F. 3전위는 7음 F가 베이스이고, F 위로 G(2도), B(4도), D(6도)가 있어 6/4/2 → 약식 4/2(또는 2)다. 이 화음은 베이스 F가 반음 내려 E로 가며 C/E(I⁶)로 해결하는 것이 정석이다.</div></div>
+      <div class="quiz-q"><p>Cmaj7에서 피해야 할 텐션은 무엇이며, 그 이유는?</p><div class="opts">
+        <button class="opt">9 — 근음과 장2도라서</button><button class="opt" data-correct>11(F) — 3음 E의 단9도 위라서</button><button class="opt">13(A) — 5음과 장2도라서</button><button class="opt">♯11 — 트라이톤이라서</button>
+      </div><div class="quiz-exp">F는 E보다 반음(+옥타브) 위, 즉 단9도 위에 놓여 3음과 충돌하고 화음을 sus4처럼 흐린다. 장7화음 위에서는 리디안의 ♯11(F♯)을 쓴다.</div></div>
+      <div class="quiz-q"><p>C3–E3(장3도)가 C5–E5보다 탁하게 들리는 이유로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">C3의 배음이 더 적어서</button><button class="opt" data-correct>Δf(34 Hz)가 저음역 임계대역(~100 Hz)의 약 1/3로, 거칠기가 최대인 영역에 있어서</button><button class="opt">평균율에서 낮은 음일수록 장3도가 넓어져서</button><button class="opt">두 음의 위상이 어긋나서</button>
+      </div><div class="quiz-exp">음정(주파수비)은 같아도 Δf는 음역에 비례한다. 임계대역은 저음역에서 거의 일정(~100 Hz)하므로 낮은 곳에서는 Δf/CB가 0.25 근처가 되어 플롬프–레벨트 거칠기가 최대에 가깝다. C5–E5는 Δf ≈ 136 Hz로 임계대역을 넘는다.</div></div>
+      <div class="quiz-q"><p>{A, C, E, G}에 대해 옳은 설명은?</p><div class="opts">
+        <button class="opt">이름이 하나뿐이다: Am7</button><button class="opt" data-correct>Am7과 C6이 같은 피치 클래스 집합이며, 베이스가 무엇인지가 이름을 가른다</button><button class="opt">반감7화음이다</button><button class="opt">집합류 4-27이다</button>
+      </div><div class="quiz-exp">A C E G = C E G A. 베이스가 A면 Am7, C면 C6로 부르는 것이 자연스럽다. 집합류는 4-26(0358). 4-27은 속7·반감7이다.</div></div>
+      <div class="quiz-q"><p>12개 피치 클래스에서 고른 3음 집합 220개는 이조·전회 동치로 몇 개의 집합류가 되며, 증3화음 집합류(3-12)의 궤도 크기는?</p><div class="opts">
+        <button class="opt">19개, 12</button><button class="opt" data-correct>12개, 4</button><button class="opt">12개, 24</button><button class="opt">24개, 3</button>
+      </div><div class="quiz-exp">\(T_n/T_nI\) 동치류는 12개(이조만으로는 19개). 증3화음 {0,4,8}은 \(T_0, T_4, T_8\)과 세 개의 \(T_nI\)에 대해 불변이라 안정자 크기 6 → 궤도 24/6 = 4개(C·D♭·D·E♭ 위의 증3화음).</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통: 이 장 전용 도우미 */
+const CH = (function () {
+  const FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+  const MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+  /** 기본형 (Rahn; forte=true면 Forte 방식) */
+  function prime(pcs, forte = false) {
+    const s = [...new Set(pcs.map((p) => MB.mod(p, 12)))].sort((a, b) => a - b);
+    if (!s.length) return [];
+    const c = [];
+    [s, [...new Set(s.map((p) => MB.mod(-p, 12)))].sort((a, b) => a - b)].forEach((set) => {
+      for (let i = 0; i < set.length; i++) c.push(set.slice(i).concat(set.slice(0, i)).map((p) => MB.mod(p - set[i], 12)));
+    });
+    const n = s.length;
+    c.sort((a, b) => {
+      if (a[n - 1] !== b[n - 1]) return a[n - 1] - b[n - 1];
+      if (forte) { for (let i = 1; i < n; i++) if (a[i] !== b[i]) return a[i] - b[i]; }
+      else { for (let i = n - 2; i > 0; i--) if (a[i] !== b[i]) return a[i] - b[i]; }
+      return 0;
+    });
+    return c[0];
+  }
+  const key = (pcs) => prime(pcs).join(",");
+  const FORTE = {}, ORDER = {};
+  const LISTS = {
+    3: "012 013 014 015 016 024 025 026 027 036 037 048",
+    4: "0123 0124 0134 0125 0126 0127 0145 0156 0167 0235 0135 0236 0136 0237 0146 0157 0347 0147 0148 0158 0246 0247 0257 0248 0268 0358 0258 0369 0137",
+    5: "01234 01235 01245 01236 01237 01256 01267 02346 01246 01346 02347 01356 01248 01257 01268 01347 01348 01457 01367 01378 01458 01478 02357 01357 02358 02458 01358 02368 01368 01468 01369 01469 02468 02469 02479 01247 03458 01258",
+  };
+  const Z = { 4: [15, 29], 5: [12, 17, 18, 36, 37, 38] };
+  Object.entries(LISTS).forEach(([c, str]) => str.split(" ").forEach((p, i) => {
+    const pcs = p.split("").map(Number), z = (Z[c] || []).includes(i + 1) ? "Z" : "";
+    FORTE[key(pcs)] = `${c}-${z}${i + 1}`; ORDER[key(pcs)] = i;
+  }));
+  const forte = (pcs) => FORTE[key(pcs)] || null;
+  const pfStr = (p) => "[" + p.map((x) => (x === 10 ? "A" : x === 11 ? "B" : x)).join("") + "]";
+  /** 철자: 글자 중복·임시표가 적은 쪽, 동점이면 조표 관례 */
+  /** 철자: ivs(근음 기준 반음)를 3도 쌓기 글자(근음 글자 + 도수)와 비교해 ♯/♭ 중 어긋남이 적은 쪽 */
+  const STEP = { "1": 0, "♭9": 1, "9": 1, "♯9": 1, "2": 1, "♭3": 2, "3": 2, "4": 3, "11": 3, "♯11": 3, "♭5": 4, "5": 4, "♯5": 4, "6": 5, "13": 5, "♭13": 5, "♭7": 6, "7": 6, "𝄫7": 6 };
+  function flatFor(ivs, rootPc) {
+    const score = (fl) => { const rl = MB.spell(60 + rootPc, fl).letter; let bad = 0, acc = 0; ivs.forEach((x) => { const sp = MB.spell(60 + rootPc + MB.mod(x, 12), fl); if (sp.letter !== (rl + (STEP[deg(x, ivs)] || 0)) % 7) bad++; if (sp.acc) acc++; }); return bad * 10 + acc; };
+    const a = score(false), b = score(true);
+    return a === b ? MB.prefersFlats(rootPc) : b < a;
+  }
+  /** 근음 기준 반음 → 도수 이름 (화음 맥락 고려) */
+  function deg(iv, ivs) {
+    const pc = ivs.map((x) => MB.mod(x, 12)), has = (x) => pc.includes(x);
+    if (iv >= 12 && iv % 12 !== 0) return { 13: "♭9", 14: "9", 15: "♯9", 17: "11", 18: "♯11", 20: "♭13", 21: "13" }[iv] || deg(iv % 12, ivs);
+    const m = MB.mod(iv, 12);
+    return { 0: "1", 1: "♭9", 2: has(4) || has(3) ? "9" : "2", 3: has(4) ? "♯9" : "♭3", 4: "3", 5: has(4) || has(3) ? "11" : "4", 6: has(7) ? "♯11" : "♭5", 7: "5",
+      8: has(7) ? "♭13" : "♯5", 9: has(10) || has(11) ? "13" : has(6) && has(3) ? "𝄫7" : "6", 10: "♭7", 11: "7" }[m];
+  }
+  /** Sethares 거칠기: notes = MIDI 배열, 배음 6개 */
+  function rough(notes) {
+    const parts = [];
+    notes.forEach((m, i) => { const f = MB.mtof(m); for (let k = 1; k <= 6; k++) parts.push({ f: f * k, a: Math.pow(0.88, k - 1), i }); });
+    let d = 0;
+    for (let x = 0; x < parts.length; x++) for (let y = x + 1; y < parts.length; y++) {
+      const p = parts[x], q = parts[y]; if (p.i === q.i) continue;
+      const fmin = Math.min(p.f, q.f), s = 0.24 / (0.0207 * fmin + 18.96), df = Math.abs(p.f - q.f);
+      d += p.a * q.a * (Math.exp(-3.5 * s * df) - Math.exp(-5.75 * s * df));
+    }
+    return d;
+  }
+  const CB = (f) => 25 + 75 * Math.pow(1 + 1.4 * Math.pow(f / 1000, 2), 0.69);
+  const LIL = [0, 52, 51, 48, 46, 45, 46, 34, 41, 41, 41, 41];
+  function rootOptions(sel, def = 0) { for (let p = 0; p < 12; p++) sel.add(new Option(MB.SHARP_NAMES[p] === MB.FLAT_NAMES[p] ? MB.SHARP_NAMES[p] : MB.SHARP_NAMES[p] + " / " + MB.FLAT_NAMES[p], p)); sel.value = def; }
+  /** 이웃 음정 짧은 이름(복음정 포함) */
+  const ivShort = (d) => (d === 12 ? "P8" : d > 12 ? MB.INTERVALS[d - 12].short.replace("m2", "m9").replace("M2", "M9").replace("m3", "m10").replace("M3", "M10").replace("P4", "P11").replace("TT", "TT+8").replace("P5", "P12").replace("M6", "M13").replace("m6", "m13").replace("m7", "m14").replace("M7", "M14") : MB.INTERVALS[d].short);
+  return { FONT, MONO, prime, forte, pfStr, ORDER, key, flatFor, deg, rough, CB, LIL, rootOptions, ivShort };
+})();
+
+/* ---------------------------------------------------------------- 그림 8-1: 3도 사다리 */
+(function () {
+  const g = document.getElementById("chd-fig1");
+  const ns = [["C", "1"], ["E", "3"], ["G", "5"], ["B", "7"], ["D", "9"], ["F", "11"], ["A", "13"]], ivs = ["M3", "m3", "M3", "m3", "m3", "M3"];
+  const x0 = 70, dx = 92, yb = 250;
+  let s = `<line x1="40" x2="700" y1="${yb + 8}" y2="${yb + 8}" class="s-axis"/>`;
+  ns.forEach(([n, d], i) => {
+    const x = x0 + i * dx, y = yb - i * 30;
+    s += `<rect x="${x - 34}" y="${y - 22}" width="68" height="30" rx="7" class="${i < 3 ? "f-acc" : i === 3 ? "f-acc-soft s-acc" : "f-acc2-soft"}" ${i >= 4 ? 'style="stroke:var(--accent-2)"' : ""}/>`;
+    s += `<text x="${x}" y="${y - 2}" text-anchor="middle" class="t" style="font-size:16px;font-weight:700;${i < 3 ? "fill:#fff" : ""}">${n}</text>`;
+    s += `<text x="${x}" y="${yb + 26}" text-anchor="middle" class="t-mono t-dim" style="font-size:13px">${d}</text>`;
+    if (i < 6) s += `<text x="${x + dx / 2}" y="${y - 26}" text-anchor="middle" class="t-dim" style="font-size:12px">${ivs[i]}</text>`;
+  });
+  const br = [["3화음", 2], ["7화음", 3], ["9화음", 4], ["11화음", 5], ["13화음", 6]];
+  br.forEach(([lab, k], i) => {
+    const x = 735 + (i % 2) * 0, y1 = yb - k * 30 - 22, y2 = yb + 8;
+    const xx = 712 + i * 16;
+    s += `<line x1="${xx}" x2="${xx}" y1="${y1}" y2="${y2}" class="s-acc" style="stroke-width:2"/>`;
+    s += `<text x="${xx + 4}" y="${y1 - 4}" class="t-acc" style="font-size:10px">${lab}</text>`;
+  });
+  s += `<text x="40" y="22" class="t-dim" style="font-size:12px">C 장음계 위에서 3도씩 (이웃 간격은 M3=4 또는 m3=3 반음)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 8-2: 드롭 보이싱 */
+(function () {
+  const g = document.getElementById("chd-fig2");
+  const cols = [["클로즈", [60, 64, 67, 71], []], ["드롭 2", [55, 60, 64, 71], [55]], ["드롭 3", [52, 60, 67, 71], [52]], ["드롭 2&4", [48, 55, 64, 71], [48, 55]]];
+  const Y = (m) => 240 - (m - 46) * 7.4, x0 = 110, dx = 180;
+  let s = "";
+  [48, 60, 72].forEach((m) => { s += `<line x1="40" x2="780" y1="${Y(m)}" y2="${Y(m)}" class="s-line" style="opacity:.6"/><text x="36" y="${Y(m) + 4}" text-anchor="end" class="t-mono t-dim" style="font-size:11px">C${m / 12 - 1}</text>`; });
+  cols.forEach(([lab, ns, dropped], i) => {
+    const x = x0 + i * dx;
+    s += `<text x="${x}" y="18" text-anchor="middle" class="t" style="font-size:14px;font-weight:700">${lab}</text>`;
+    ns.forEach((m) => {
+      const d = dropped.includes(m);
+      if (d) { s += `<line x1="${x + 26}" x2="${x + 26}" y1="${Y(m + 12)}" y2="${Y(m) - 6}" class="s-acc" style="stroke-dasharray:4 3;stroke-width:1.5"/><circle cx="${x + 26}" cy="${Y(m + 12)}" r="5" class="f-surface s-acc"/>`; }
+      s += `<rect x="${x - 22}" y="${Y(m) - 10}" width="44" height="20" rx="6" class="${d ? "f-acc" : "f-acc-soft s-acc"}"/>`;
+      s += `<text x="${x}" y="${Y(m) + 5}" text-anchor="middle" class="t" style="font-size:12px;font-weight:700;${d ? "fill:#fff" : ""}">${MB.noteName(m)}</text>`;
+    });
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 8-3: 상부 구조 */
+(function () {
+  const g = document.getElementById("chd-fig3");
+  const shell = [[48, "C", "1"], [52, "E", "3"], [58, "B♭", "♭7"]];
+  const ups = [["D", [62, 66, 69], ["9", "♯11", "13"], "C13(♯11)"], ["E♭", [63, 67, 70], ["♯9", "5", "♭7"], "C7(♯9)"], ["A♭", [68, 72, 75], ["♭13", "1", "♯9"], "C7(♯9,♭13)"], ["G♭", [66, 70, 73], ["♯11", "♭7", "♭9"], "C7(♭9,♯11)"]];
+  const Y = (m) => 230 - (m - 46) * 6.2;
+  let s = `<text x="20" y="${Y(52) + 4}" class="t-dim" style="font-size:12px">C7 셸</text>`;
+  shell.forEach(([m, n, d]) => { s += `<rect x="90" y="${Y(m) - 9}" width="640" height="18" rx="5" class="f-surface s-line"/><text x="100" y="${Y(m) + 4}" class="t" style="font-size:12px;font-weight:700">${n}</text><text x="160" y="${Y(m) + 4}" class="t-mono t-dim" style="font-size:11px">${d}</text>`; });
+  ups.forEach(([n, ms, ds, sym], i) => {
+    const x = 240 + i * 128;
+    ms.forEach((m, j) => { s += `<rect x="${x - 34}" y="${Y(m) - 10}" width="68" height="20" rx="6" class="f-acc-soft s-acc"/><text x="${x - 24}" y="${Y(m) + 4}" class="t" style="font-size:12px;font-weight:700">${MB.noteName(m, n.includes("♭")).replace(/\d/, "")}</text><text x="${x + 28}" y="${Y(m) + 4}" text-anchor="end" class="t-acc t-mono" style="font-size:11px">${ds[j]}</text>`; });
+    s += `<text x="${x}" y="20" text-anchor="middle" class="t" style="font-size:13px;font-weight:700">${n} / C7</text><text x="${x}" y="36" text-anchor="middle" class="t-dim" style="font-size:11px">= ${sym}</text>`;
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 화음 조립기 */
+(function () {
+  const Q = Object.assign({}, MB.CHORDS, { quartal3: { name: "4도 쌓기 3음", sym: "(4도)", iv: [0, 5, 10] }, quartal4: { name: "4도 쌓기 4음", sym: "(4도)", iv: [0, 5, 10, 15] } });
+  const rootSel = document.getElementById("chd-bd-root"), qSel = document.getElementById("chd-bd-q"), instSel = document.getElementById("chd-bd-inst");
+  CH.rootOptions(rootSel, 0);
+  Object.entries(Q).forEach(([k, c]) => qSel.add(new Option(`${c.name}  (C${c.sym})`, k)));
+  qSel.value = "dom7";
+  Object.entries(MB.INSTRUMENT_NAMES).forEach(([k, n]) => instSel.add(new Option(n, k)));
+  instSel.value = "piano";
+  let hot = -1, timers = [];
+  const inv = MB.seg("chd-bd-inv", () => refresh());
+  const kb = MB.keyboard("#chd-bd-kb", { lo: 48, hi: 84, inst: () => instSel.value });
+  const q = () => Q[qSel.value], root = () => +rootSel.value;
+  const flat = () => CH.flatFor(q().iv, root());
+  function voiced() {
+    const ivs = q().iv, n = ivs.length, k = Math.min(+inv(), n - 1);
+    const base = 48 + root() + (root() < 5 ? 12 : 0);
+    let items = ivs.map((x) => ({ m: base + x, iv: x }));
+    for (let i = 0; i < k; i++) { const f = items.shift(); items.push({ m: f.m + 12 * Math.ceil((items[items.length - 1].m - f.m + 1) / 12), iv: f.iv }); }
+    return { items, k };
+  }
+  const cv = MB.canvas("#chd-bd-cv", (ctx, w, h) => {
+    const P = MB.palette(), { items } = voiced(), fl = flat();
+    const lo = items[0].m, hi = items[items.length - 1].m, span = Math.max(12, hi - lo + 2);
+    const top = 16, bot = h - 18, Y = (m) => bot - ((m - lo + 1) / (span + 1)) * (bot - top);
+    const x0 = 48, x1 = Math.min(w - 150, x0 + 260);
+    for (let m = lo - 1; m <= lo + span; m++) { ctx.strokeStyle = MB.mod(m - lo, 12) === 0 ? P.axis : P.grid; ctx.lineWidth = MB.mod(m - lo, 12) === 0 ? 1.4 : 0.6; ctx.beginPath(); ctx.moveTo(x0, Y(m)); ctx.lineTo(x1, Y(m)); ctx.stroke(); }
+    ctx.font = "10px " + CH.MONO(); ctx.fillStyle = P.faint; ctx.textAlign = "right";
+    for (let s = 0; s <= span; s += 3) ctx.fillText(s, x0 - 6, Y(lo + s) + 3);
+    ctx.save(); ctx.translate(12, (top + bot) / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillStyle = P.dim; ctx.font = "11px " + CH.FONT(); ctx.fillText("베이스 위 반음", 0, 0); ctx.restore();
+    items.forEach((it, i) => {
+      const y = Y(it.m), isHot = hot === i, isRoot = MB.mod(it.iv, 12) === 0;
+      ctx.fillStyle = isHot ? P.warn : isRoot ? P.accent : P.accent2; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0 + 20, y - 9, x1 - x0 - 40, 18, 6) : ctx.rect(x0 + 20, y - 9, x1 - x0 - 40, 18); ctx.fill();
+      ctx.fillStyle = "#fff"; ctx.font = "700 12px " + CH.FONT(); ctx.textAlign = "left"; ctx.fillText(MB.noteName(it.m, fl), x0 + 28, y + 4);
+      ctx.textAlign = "right"; ctx.font = "700 12px " + CH.MONO(); ctx.fillText(CH.deg(it.iv, q().iv), x1 - 28, y + 4);
+      if (i > 0) {
+        const d = it.m - items[i - 1].m, ym = (y + Y(items[i - 1].m)) / 2;
+        ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x1 + 8, Y(items[i - 1].m)); ctx.lineTo(x1 + 14, Y(items[i - 1].m)); ctx.lineTo(x1 + 14, y); ctx.lineTo(x1 + 8, y); ctx.stroke();
+        ctx.fillStyle = d === 3 || d === 4 ? P.accent : P.text; ctx.textAlign = "left"; ctx.font = "700 12px " + CH.MONO(); ctx.fillText(`${CH.ivShort(d)} (${d})`, x1 + 20, ym + 4);
+      }
+    });
+    ctx.textAlign = "left"; ctx.fillStyle = P.faint; ctx.font = "11px " + CH.FONT(); ctx.fillText("이름 · 도수", x0 + 22, top - 2);
+  }, { aspect: (w) => (w < 520 ? 0.75 : 0.42), maxHeight: 320, minHeight: 220 });
+  function refresh() {
+    const { items, k } = voiced(), fl = flat(), ms = items.map((x) => x.m);
+    kb.set(ms, "mark"); kb.clear("root"); kb.mark(items.filter((x) => MB.mod(x.iv, 12) === 0).map((x) => x.m), "root");
+    MB.staff("#chd-bd-staff", [{ notes: ms, label: "" }], { flat: fl, width: 520 });
+    const bass = MB.mod(ms[0], 12);
+    MB.stat("chd-bd-sym", MB.pcName(root(), fl) + q().sym + (k ? "/" + MB.pcName(bass, fl) : ""));
+    MB.stat("chd-bd-notes", items.map((x) => `${MB.pcName(x.m, fl)}<small>(${CH.deg(x.iv, q().iv)})</small>`).join(" "));
+    MB.stat("chd-bd-stack", items.slice(1).map((x, i) => CH.ivShort(x.m - items[i].m)).join(" + "));
+    const pcs = ms.map((m) => MB.mod(m, 12)), fn = CH.forte(pcs);
+    MB.stat("chd-bd-set", `${fn || CH.pfStr(CH.prime(pcs))} <small>⟨${MB.intervalVector([...new Set(pcs)]).join(",")}⟩</small>`);
+    cv.redraw();
+  }
+  function play(mode) {
+    timers.forEach(clearTimeout); timers = []; hot = -1;
+    const { items } = voiced(), inst = instSel.value, t0 = MB.now() + 0.03;
+    const gap = mode === "arp" ? 0.28 : mode === "strum" ? 0.045 : 0;
+    items.forEach((it, i) => {
+      MB.play(it.m, { inst, when: t0 + i * gap, dur: mode === "arp" ? 1.6 - i * 0.1 : 1.5, vel: 0.65 });
+      timers.push(setTimeout(() => { hot = i; kb.flash(it.m, 300); cv.redraw(); }, (0.03 + i * gap) * 1000));
+    });
+    timers.push(setTimeout(() => { hot = -1; cv.redraw(); }, (0.6 + items.length * gap) * 1000));
+  }
+  rootSel.addEventListener("change", refresh); qSel.addEventListener("change", refresh);
+  document.getElementById("chd-bd-block").addEventListener("click", () => play("block"));
+  document.getElementById("chd-bd-arp").addEventListener("click", () => play("arp"));
+  document.getElementById("chd-bd-strum").addEventListener("click", () => play("strum"));
+  refresh();
+})();
+
+/* ---------------------------------------------------------------- 2. 전위와 숫자저음 */
+(function () {
+  const rootSel = document.getElementById("chd-iv-root"); CH.rootOptions(rootSel, 0);
+  let hiIdx = 0, timers = [];
+  const qs = MB.seg("chd-iv-q", () => refresh());
+  const inv = MB.seg("chd-iv-inv", () => { refresh(); playCur(); });
+  const kb = MB.keyboard("#chd-iv-kb", { lo: 48, hi: 84 });
+  const root = () => +rootSel.value, ivs = () => MB.CHORDS[qs()].iv, n = () => ivs().length;
+  const flat = () => CH.flatFor(ivs(), root());
+  const posAll = () => { const b = 53 + MB.mod(root() - 5, 12); return [...Array(n())].map((_, k) => MB.chord(b, qs(), k)); };
+  /** 숫자저음: 베이스 위 일반 음정(글자 거리) */
+  function figures(ms) {
+    const fl = flat(), b = MB.spell(ms[0], fl);
+    const g = [...new Set(ms.slice(1).map((m) => { const s = MB.spell(m, fl); return MB.mod(s.pos - b.pos, 7) + 1; }))].map((x) => (x === 1 ? 8 : x)).sort((a, b) => b - a);
+    const full = g.join("/"), ab = { "5/3": "5/3 (생략)", "6/3": "6", "6/4": "6/4", "7/5/3": "7", "6/5/3": "6/5", "6/4/3": "4/3", "6/4/2": "4/2" }[full] || full;
+    return { full, ab };
+  }
+  const k = () => Math.min(+inv(), n() - 1);
+  const cv = MB.canvas("#chd-iv-cv", (ctx, w, h) => {
+    const P = MB.palette(), all = posAll(), cw = (w - 20) / all.length, unit = Math.min(9, (h - 40) / 24);
+    all.forEach((ms, i) => {
+      const x = 10 + i * cw, sel = i === k();
+      if (sel) { ctx.fillStyle = MB.color("accent-soft"); ctx.fillRect(x + 2, 4, cw - 4, h - 8); }
+      const ups = ms.slice(1).map((m) => m - ms[0]);
+      ups.forEach((d, j) => {
+        const bw = Math.min(26, (cw - 30) / ups.length), bx = x + 16 + j * (bw + 6), bh = d * unit;
+        ctx.fillStyle = d === 5 ? P.warn : sel ? P.accent : P.faint; ctx.fillRect(bx, h - 22 - bh, bw, bh);
+        ctx.fillStyle = P.text; ctx.font = "10px " + CH.MONO(); ctx.textAlign = "center"; ctx.fillText(d, bx + bw / 2, h - 26 - bh);
+      });
+      ctx.fillStyle = sel ? P.accent : P.dim; ctx.font = (sel ? "700 " : "") + "11px " + CH.FONT(); ctx.textAlign = "center";
+      ctx.fillText(["기본", "1전위", "2전위", "3전위"][i] + " · 베이스 위 반음", x + cw / 2, h - 8);
+    });
+  }, { aspect: 0.22, minHeight: 130, maxHeight: 170 });
+  function refresh() {
+    const all = posAll(), fl = flat(), cur = all[k()], f = figures(cur);
+    hiIdx = k();
+    MB.staff("#chd-iv-staff", all.map((ms) => ({ notes: ms.concat([ms[0] - 12]), label: MB.pcName(root(), fl) + MB.CHORDS[qs()].sym + (MB.mod(ms[0], 12) !== root() ? "/" + MB.pcName(ms[0], fl) : ""), sub: figures(ms).ab.replace(" (생략)", "") })), { flat: fl, highlight: hiIdx });
+    kb.set(cur, "mark"); kb.clear("root"); kb.mark(cur.filter((m) => MB.mod(m, 12) === root()), "root");
+    MB.stat("chd-iv-bass", `${MB.pcName(cur[0], fl)} <small>(${CH.deg(MB.mod(cur[0] - root(), 12), ivs())}음)</small>`);
+    MB.stat("chd-iv-fig", `${f.ab} <small>(전체 ${f.full})</small>`);
+    MB.stat("chd-iv-slash", MB.chordSymbol(root(), qs(), fl, cur[0]));
+    cv.redraw();
+  }
+  function playMs(ms, when, dur) { MB.playChord(ms, { when, dur, vel: 0.55 }); MB.play(ms[0] - 12, { when, dur, vel: 0.6 }); }
+  function playCur() { timers.forEach(clearTimeout); timers = []; MB.ctx(); playMs(posAll()[k()], MB.now() + 0.03, 1.3); }
+  document.getElementById("chd-iv-play").addEventListener("click", playCur);
+  document.getElementById("chd-iv-all").addEventListener("click", () => {
+    timers.forEach(clearTimeout); timers = [];
+    const all = posAll(), t0 = MB.now() + 0.03;
+    all.forEach((ms, i) => { playMs(ms, t0 + i * 1.1, 1.0); timers.push(setTimeout(() => inv.set(String(i), false) || refresh(), (0.03 + i * 1.1) * 1000)); });
+  });
+  rootSel.addEventListener("change", refresh);
+  refresh();
+})();
+
+/* ---------------------------------------------------------------- 3. 텐션 탐색기 */
+(function () {
+  const rootSel = document.getElementById("chd-tn-root"); CH.rootOptions(rootSel, 7);
+  const T = [["b9", 1, "♭9"], ["9", 2, "9"], ["s9", 3, "♯9"], ["11", 5, "11"], ["s11", 6, "♯11"], ["b13", 8, "♭13"], ["13", 9, "13"]];
+  const BASE = { dom7: [0, 4, 7, 10], maj7: [0, 4, 7, 11], min7: [0, 3, 7, 10] };
+  const SCALES = [["믹솔리디안", [0, 2, 4, 5, 7, 9, 10]], ["리디안 도미넌트", [0, 2, 4, 6, 7, 9, 10]], ["얼터드", [0, 1, 3, 4, 6, 8, 10]], ["반–온 디미니시", [0, 1, 3, 4, 6, 7, 9, 10]],
+    ["프리지안 도미넌트", [0, 1, 4, 5, 7, 8, 10]], ["믹솔리디안 ♭13", [0, 2, 4, 5, 7, 8, 10]], ["온음음계", [0, 2, 4, 6, 8, 10]], ["이오니안", [0, 2, 4, 5, 7, 9, 11]], ["리디안", [0, 2, 4, 6, 7, 9, 11]],
+    ["도리안", [0, 2, 3, 5, 7, 9, 10]], ["에올리안", [0, 2, 3, 5, 7, 8, 10]], ["프리지안", [0, 1, 3, 5, 7, 8, 10]], ["블루스(장조 위)", [0, 3, 4, 7, 9, 10]]];
+  const base = MB.seg("chd-tn-base", () => refresh());
+  const chk = {}; T.forEach(([id]) => (chk[id] = MB.check("chd-tn-" + id, () => refresh())));
+  const with5 = MB.check("chd-tn-5", () => refresh());
+  const kb = MB.keyboard("#chd-tn-kb", { lo: 36, hi: 84 });
+  const root = () => +rootSel.value;
+  const rm = () => 36 + root() - (root() > 8 ? 12 : 0);
+  let hot = -1, timers = [];
+  function build() {
+    const b = BASE[base()], r = rm(), out = [{ m: r, iv: 0, role: "ct" }];
+    out.push({ m: r + 12 + b[1], iv: b[1], role: "ct" });
+    if (with5()) out.push({ m: r + 12 + 7, iv: 7, role: "ct" });
+    out.push({ m: r + 12 + b[3], iv: b[3], role: "ct" });
+    const ten = T.filter(([id]) => chk[id]());
+    ten.forEach(([id, pc, lab]) => out.push({ m: r + 24 + pc, iv: 12 + pc, role: "t", lab, pc }));
+    // 판정
+    const cts = b.map((x) => MB.mod(x, 12));
+    out.forEach((o) => {
+      if (o.role !== "t") return;
+      const below = cts.find((c) => MB.mod(o.pc - c, 12) === 1);
+      if (below != null && !(base() === "dom7" && below === 0)) { o.role = "avoid"; o.vs = below; }
+      const clash = ten.find(([, pc2]) => MB.mod(o.pc - pc2, 12) === 1);
+      if (clash && o.role === "t") { o.role = "tt"; o.vsT = clash[2]; }
+    });
+    return out.sort((a, c) => a.m - c.m);
+  }
+  const flat = () => CH.flatFor(build().map((o) => o.iv), root());
+  const cv = MB.canvas("#chd-tn-cv", (ctx, w, h) => {
+    const P = MB.palette(), v = build(), fl = flat();
+    const lo = v[0].m - 2, hi = v[v.length - 1].m + 2, top = 12, bot = h - 14;
+    const Y = (m) => bot - ((m - lo) / (hi - lo)) * (bot - top), x0 = 40, x1 = Math.min(w - 20, 360);
+    for (let m = lo; m <= hi; m++) if (MB.mod(m, 12) === MB.mod(root(), 12)) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x0, Y(m)); ctx.lineTo(w - 10, Y(m)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.font = "10px " + CH.MONO(); ctx.textAlign = "right"; ctx.fillText(MB.noteName(m, fl), x0 - 4, Y(m) + 3); }
+    v.forEach((o, i) => {
+      const y = Y(o.m), col = i === hot ? P.warn : o.role === "ct" ? P.dim : o.role === "t" ? P.accent : o.role === "avoid" ? P.bad : P.warn;
+      ctx.fillStyle = col; ctx.fillRect(x0 + 10, y - 7, x1 - x0 - 10, 14);
+      ctx.fillStyle = "#fff"; ctx.font = "700 11px " + CH.FONT(); ctx.textAlign = "left"; ctx.fillText(MB.noteName(o.m, fl), x0 + 16, y + 4);
+      ctx.textAlign = "right"; ctx.fillText(o.lab || CH.deg(o.iv, BASE[base()]), x1 - 6, y + 4);
+      if (o.role === "avoid") {
+        const ct = v.find((c) => c.role === "ct" && MB.mod(c.iv, 12) === o.vs);
+        if (ct) { ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x1 + 4, y); ctx.lineTo(x1 + 16, y); ctx.lineTo(x1 + 16, Y(ct.m)); ctx.lineTo(x1 + 4, Y(ct.m)); ctx.stroke(); ctx.fillStyle = P.bad; ctx.textAlign = "left"; ctx.font = "11px " + CH.FONT(); ctx.fillText(`${CH.deg(o.vs, BASE[base()])}음 위 단9도`, x1 + 20, (y + Y(ct.m)) / 2 + 4); }
+      }
+      if (o.role === "tt") { ctx.fillStyle = P.warn; ctx.textAlign = "left"; ctx.font = "11px " + CH.FONT(); ctx.fillText(`${o.vsT}와 반음`, x1 + 20, y + 4); }
+    });
+    // 거칠기 미터
+    const r = CH.rough(v.map((o) => o.m)), mx = 6;
+    const mx0 = w - 30;
+    if (w > 460) {
+      ctx.fillStyle = P.surface; ctx.fillRect(mx0, top, 16, bot - top);
+      const hh = MB.clamp(r / mx, 0, 1) * (bot - top); ctx.fillStyle = r > 4 ? P.bad : r > 2.5 ? P.warn : P.ok; ctx.fillRect(mx0, bot - hh, 16, hh);
+      ctx.save(); ctx.translate(mx0 - 6, (top + bot) / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillStyle = P.dim; ctx.font = "11px " + CH.FONT(); ctx.fillText("거칠기", 0, 0); ctx.restore();
+    }
+  }, { aspect: (w) => (w < 520 ? 0.8 : 0.45), maxHeight: 340, minHeight: 230 });
+  function refresh() {
+    const v = build(), fl = flat(), ms = v.map((o) => o.m);
+    kb.set(ms, "mark"); kb.clear("alt"); kb.mark(v.filter((o) => o.role !== "ct").map((o) => o.m), "alt"); kb.clear("root"); kb.mark([ms[0]], "root");
+    MB.staff("#chd-tn-staff", [{ notes: ms }], { flat: fl, width: 520 });
+    const ten = v.filter((o) => o.role !== "ct").map((o) => o.lab);
+    const sym = MB.pcName(root(), fl) + { dom7: "7", maj7: "maj7", min7: "m7" }[base()] + (ten.length ? `(${ten.join(",")})` : "");
+    MB.stat("chd-tn-sym", sym);
+    const av = v.filter((o) => o.role === "avoid"), tt = v.filter((o) => o.role === "tt");
+    MB.stat("chd-tn-judge", av.length ? `<span style="color:var(--bad)">회피음 ${av.map((o) => o.lab).join(", ")}</span>` : tt.length ? `<span style="color:var(--warn)">텐션끼리 반음</span>` : `<span style="color:var(--ok)">모두 사용 가능</span>`);
+    const pcs = [...new Set(v.map((o) => MB.mod(o.iv, 12)))];
+    const sc = SCALES.filter(([, s]) => pcs.every((p) => s.includes(p))).map(([n]) => n);
+    MB.stat("chd-tn-scale", sc.length ? sc.slice(0, 3).join(" · ") : "<small>맞는 7음 음계 없음</small>");
+    MB.stat("chd-tn-r", CH.rough(ms).toFixed(2));
+    cv.redraw();
+  }
+  function play(arp) {
+    timers.forEach(clearTimeout); timers = []; hot = -1;
+    const v = build(), t0 = MB.now() + 0.03, gap = arp ? 0.22 : 0;
+    v.forEach((o, i) => { MB.play(o.m, { when: t0 + i * gap, dur: 2 - i * gap * 0.5, vel: i === 0 ? 0.7 : 0.5, inst: "epiano" }); timers.push(setTimeout(() => { hot = i; kb.flash(o.m, 250); cv.redraw(); }, (0.03 + i * gap) * 1000)); });
+    timers.push(setTimeout(() => { hot = -1; cv.redraw(); }, (0.5 + v.length * gap) * 1000));
+  }
+  document.getElementById("chd-tn-play").addEventListener("click", () => play(false));
+  document.getElementById("chd-tn-arp").addEventListener("click", () => play(true));
+  document.getElementById("chd-tn-res").addEventListener("click", () => {
+    const v = build(), t0 = MB.now() + 0.03, ms = v.map((o) => o.m);
+    MB.playChord(ms, { when: t0, dur: 1.1, vel: 0.5, inst: "epiano" });
+    if (base() === "dom7") {
+      const tonic = MB.mod(root() + 5, 12), tgt = [0, 4, 7, 11, 2].map((x) => MB.mod(tonic + x, 12));
+      const upper = MB.voiceLead(ms.slice(1), tgt, [50, 86]);
+      const bass = ms[0] + 5 > ms[0] + 6 ? ms[0] - 7 : ms[0] + 5;
+      MB.playChord([bass].concat(upper), { when: t0 + 1.2, dur: 2, vel: 0.5, inst: "epiano" });
+      setTimeout(() => { kb.clear("on"); [bass].concat(upper).forEach((m) => kb.flash(m, 1500)); }, 1230);
+    }
+  });
+  document.querySelectorAll("#chd-tn-pre button").forEach((b) => b.addEventListener("click", () => {
+    const on = b.dataset.t.split(","); T.forEach(([id]) => { document.getElementById("chd-tn-" + id).checked = on.includes(id); });
+    if (b.dataset.t !== "11") base.set("dom7", false);
+    refresh(); play(false);
+  }));
+  rootSel.addEventListener("change", refresh);
+  refresh();
+})();
+
+/* ---------------------------------------------------------------- 4. 보이싱 실험실 */
+(function () {
+  const rootSel = document.getElementById("chd-vo-root"); CH.rootOptions(rootSel, 0);
+  const VO = [
+    ["close", "클로즈 (1-3-5-7)", (t) => [0, t[1], t[2], t[3]]],
+    ["open", "오픈 (1-5-3-7)", (t) => [0, t[2], t[1] + 12, t[3] + 12]],
+    ["drop2", "드롭 2", (t) => [t[2] - 12, 0, t[1], t[3]]],
+    ["drop3", "드롭 3", (t) => [t[1] - 12, 0, t[2], t[3]]],
+    ["drop24", "드롭 2&4", (t) => [-12, t[2] - 12, t[1], t[3]]],
+    ["shellA", "셸 1-3-7", (t) => [0, t[1], t[3]]],
+    ["shellB", "셸 1-7-3", (t) => [0, t[3], t[1] + 12]],
+    ["rlA", "루트리스 A (3-5-7-9)", (t) => [t[1], t[2], t[3], 14]],
+    ["rlB", "루트리스 B (7-9-3-5)", (t) => [t[3] - 12, 2, t[1], t[2]]],
+  ];
+  const vSel = document.getElementById("chd-vo-v");
+  VO.forEach(([k, n]) => vSel.add(new Option(n, k)));
+  const qs = MB.seg("chd-vo-q", () => refresh());
+  const lo = MB.range("chd-vo-lo", (v) => MB.noteName(v), () => refresh());
+  const bassOn = MB.check("chd-vo-bass", () => refresh());
+  const kb = MB.keyboard("#chd-vo-kb", { lo: 33, hi: 89, labels: "c" });
+  const root = () => +rootSel.value;
+  const tones = () => (qs() === "maj6" ? [0, 4, 7, 9] : MB.CHORDS[qs()].iv);
+  const flat = () => CH.flatFor(tones().concat(14), root());
+  function voicing(key) {
+    const def = VO.find((x) => x[0] === key), rel = def[2](tones());
+    let R = lo() + MB.mod(root() - lo(), 12);
+    let ms = rel.map((x) => R + x);
+    while (Math.min(...ms) < lo()) ms = ms.map((m) => m + 12);
+    while (Math.min(...ms) - 12 >= lo()) ms = ms.map((m) => m - 12);
+    ms.sort((a, b) => a - b);
+    if (bassOn() && key.startsWith("rl")) { let b = ms[0] - MB.mod(ms[0] - root(), 12); if (ms[0] - b < 5) b -= 12; ms.unshift(b); }
+    return ms;
+  }
+  const cur = () => voicing(vSel.value);
+  function lil(ms) { const out = []; for (let i = 1; i < ms.length; i++) { const d = ms[i] - ms[i - 1]; if (d < 12 && ms[i - 1] < CH.LIL[d]) out.push(i); } return out; }
+  let hot = -1;
+  const cv = MB.canvas("#chd-vo-cv", (ctx, w, h) => {
+    const P = MB.palette(), ms = cur(), fl = flat(), bad = lil(ms);
+    const narrow = w < 520, lw = narrow ? w : w * 0.56;
+    const top = 14, bot = h - 16, mlo = 33, mhi = 89, Y = (m) => bot - ((m - mlo) / (mhi - mlo)) * (bot - top);
+    for (let m = 36; m <= 84; m += 12) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(34, Y(m)); ctx.lineTo(lw - 8, Y(m)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.font = "10px " + CH.MONO(); ctx.textAlign = "right"; ctx.fillText("C" + (m / 12 - 1), 30, Y(m) + 3); }
+    ctx.strokeStyle = P.bad; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(34, Y(52)); ctx.lineTo(lw - 8, Y(52)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.bad; ctx.font = "10px " + CH.FONT(); ctx.textAlign = "right"; ctx.fillText("E3: 단2도 LIL", lw - 10, Y(52) - 3);
+    const cx = 70;
+    ms.forEach((m, i) => {
+      const y = Y(m);
+      if (i > 0) {
+        const d = m - ms[i - 1], f1 = MB.mtof(ms[i - 1]), f2 = MB.mtof(m), ratio = (f2 - f1) / CH.CB((f1 + f2) / 2), isBad = bad.includes(i);
+        ctx.strokeStyle = isBad ? P.bad : P.axis; ctx.lineWidth = isBad ? 2.5 : 1.2; ctx.beginPath(); ctx.moveTo(cx, Y(ms[i - 1])); ctx.lineTo(cx, y); ctx.stroke();
+        ctx.fillStyle = isBad ? P.bad : P.text; ctx.font = (isBad ? "700 " : "") + "11px " + CH.MONO(); ctx.textAlign = "left";
+        ctx.fillText(`${CH.ivShort(d)}  Δf/CB=${ratio.toFixed(2)}${isBad ? " ⚠" : ""}`, cx + 70, (y + Y(ms[i - 1])) / 2 + 4);
+      }
+      ctx.fillStyle = i === hot ? P.warn : MB.mod(m - root(), 12) === 0 ? P.accent : P.accent2;
+      ctx.beginPath(); ctx.arc(cx, y, 7, 0, 7); ctx.fill();
+      ctx.fillStyle = P.text; ctx.font = "700 11px " + CH.FONT(); ctx.fillText(MB.noteName(m, fl), cx + 12, y + 4);
+    });
+    // 비교 막대
+    const bx = narrow ? 14 : lw + 10, bw = narrow ? w - 28 : w - lw - 24, by = narrow ? h : top;
+    if (!narrow) {
+      const rs = VO.map(([k, n]) => ({ k, n, r: CH.rough(voicing(k)) })), mx = Math.max(...rs.map((x) => x.r), 0.5);
+      const rh = (bot - top - 18) / rs.length;
+      ctx.fillStyle = P.dim; ctx.font = "11px " + CH.FONT(); ctx.textAlign = "left"; ctx.fillText("거칠기 비교 (같은 근음·하한)", bx, by + 8);
+      rs.forEach((x, i) => {
+        const y = by + 18 + i * rh, ww = (x.r / mx) * (bw - 10);
+        ctx.fillStyle = x.k === vSel.value ? P.accent : P.faint; ctx.fillRect(bx, y + 2, ww, rh - 14);
+        ctx.fillStyle = x.k === vSel.value ? P.text : P.dim; ctx.font = (x.k === vSel.value ? "700 " : "") + "10px " + CH.FONT(); ctx.fillText(`${x.n.split(" (")[0]} ${x.r.toFixed(2)}`, bx, y + rh - 2);
+      });
+    }
+  }, { aspect: (w) => (w < 520 ? 0.9 : 0.52), maxHeight: 400, minHeight: 280 });
+  function refresh() {
+    const ms = cur(), fl = flat(), bad = lil(ms);
+    kb.set(ms, "mark"); kb.clear("root"); kb.mark(ms.filter((m) => MB.mod(m - root(), 12) === 0), "root");
+    MB.stat("chd-vo-notes", ms.map((m) => MB.noteName(m, fl)).join(" "));
+    MB.stat("chd-vo-span", `${ms[ms.length - 1] - ms[0]} 반음`);
+    MB.stat("chd-vo-lil", bad.length ? `<span style="color:var(--bad)">${bad.map((i) => `${MB.noteName(ms[i - 1], fl)}–${MB.noteName(ms[i], fl)}`).join(", ")}</span>` : '<span style="color:var(--ok)">없음</span>');
+    const rs = VO.map(([k]) => CH.rough(voicing(k)));
+    MB.stat("chd-vo-r", `${CH.rough(ms).toFixed(2)} <small>(${rs.filter((x) => x < CH.rough(ms) - 1e-9).length + 1}/${VO.length}위)</small>`);
+    cv.redraw();
+  }
+  function playV(ms, when) { MB.playChord(ms, { when, dur: 1.6, vel: 0.5, inst: "piano" }); }
+  document.getElementById("chd-vo-play").addEventListener("click", () => { const ms = cur(); playV(ms, MB.now() + 0.03); ms.forEach((m) => kb.flash(m, 600)); });
+  document.getElementById("chd-vo-ab").addEventListener("click", () => { const t = MB.now() + 0.03; playV(voicing("close"), t); playV(cur(), t + 1.8); });
+  vSel.addEventListener("change", refresh); rootSel.addEventListener("change", refresh);
+  refresh();
+})();
+
+/* ---------------------------------------------------------------- 5. 화음 판별기 */
+(function () {
+  let sel = new Set([48, 52, 55, 58]);
+  const flatChk = MB.check("chd-id-flat", () => refresh());
+  const kb = MB.keyboard("#chd-id-kb", {
+    lo: 43, hi: 79, labels: "c",
+    onDown: (m) => { if (sel.has(m)) sel.delete(m); else sel.add(m); MB.play(m, { dur: 0.35, vel: 0.6 }); refresh(); return false; },
+  });
+  const listEl = document.getElementById("chd-id-list");
+  function explain(c, ms, fl) {
+    const bass = MB.mod(Math.min(...ms), 12), parts = [];
+    parts.push(c.root === bass ? "근음이 베이스(+2)" : `베이스 ${MB.pcName(bass, fl)}는 ${CH.deg(MB.mod(bass - c.root, 12), MB.CHORDS[c.quality].iv)}음 → 전위`);
+    if (c.missing.length) parts.push(`빠진 음 ${c.missing.map((p) => `${MB.pcName(p, fl)}(${CH.deg(MB.mod(p - c.root, 12), MB.CHORDS[c.quality].iv)})`).join(", ")}${MB.mod(c.missing[0] - c.root, 12) === 7 ? " — 5음 생략은 흔함(−1)" : " (−4)"}`);
+    else parts.push("모든 구성음 있음");
+    const n = MB.CHORDS[c.quality].iv.length; if (n > 3) parts.push(`${n}음 화음(−${((n - 3) * 0.6).toFixed(1)})`);
+    return parts.join(" · ");
+  }
+  function refresh() {
+    const ms = [...sel].sort((a, b) => a - b), top = MB.detectChord(ms)[0];
+    const fl = flatChk() || (top ? CH.flatFor(MB.CHORDS[top.quality].iv, top.root) : false);
+    kb.set(ms, "mark");
+    if (!ms.length) { listEl.innerHTML = "건반을 눌러 음을 고르세요."; MB.staff("#chd-id-staff", [{ notes: [] }], { width: 520 }); ["chd-id-notes", "chd-id-pf", "chd-id-iv"].forEach((id) => MB.stat(id, "—")); return; }
+    MB.staff("#chd-id-staff", [{ notes: ms }], { flat: fl, width: 520 });
+    const cands = MB.detectChord(ms, fl).slice(0, 6);
+    const mx = cands.length ? cands[0].score : 1;
+    listEl.innerHTML = cands.length ? cands.map((c, i) => `<div class="row${i === 0 ? " top" : ""}"><span class="sym">${c.sym}</span><span><span class="bar" style="width:${Math.max(4, (c.score / Math.max(mx, 1)) * 90)}px"></span><span class="t-mono" style="font-family:var(--mono);font-size:12px">${c.score.toFixed(1)}</span> <span class="why">${MB.CHORDS[c.quality].name} — ${explain(c, ms, fl)}</span></span></div>`).join("")
+      : `<div class="why">사전의 어떤 화음에도 '남는 음 없이' 들어가지 않습니다. 집합류로 보면 아래의 기본형·포르테 번호가 이름 역할을 합니다.</div>`;
+    const pcs = [...new Set(ms.map((m) => MB.mod(m, 12)))];
+    MB.stat("chd-id-notes", ms.map((m) => MB.noteName(m, fl)).join(" "));
+    MB.stat("chd-id-pf", pcs.length > 1 ? `${CH.pfStr(CH.prime(pcs))} ${CH.forte(pcs) || ""}` : "—");
+    MB.stat("chd-id-iv", pcs.length > 1 ? "⟨" + MB.intervalVector(pcs).join(",") + "⟩" : "—");
+  }
+  document.querySelectorAll("#chd-id-pre button").forEach((b) => b.addEventListener("click", () => { sel = new Set(b.dataset.n.split(",").map(Number)); refresh(); const ms = [...sel]; MB.playChord(ms.sort((a, c) => a - c), { dur: 1.3, vel: 0.5, strum: 0.02 }); }));
+  document.getElementById("chd-id-play").addEventListener("click", () => { const ms = [...sel].sort((a, b) => a - b); if (ms.length) { MB.playChord(ms, { dur: 1.4, vel: 0.5, strum: 0.015 }); ms.forEach((m) => kb.flash(m, 500, "alt")); } });
+  document.getElementById("chd-id-clear").addEventListener("click", () => { sel.clear(); refresh(); });
+  refresh();
+})();
+
+/* ---------------------------------------------------------------- 6. 집합류 탐색기 */
+(function () {
+  const classes = { 3: [], 4: [], 5: [] };
+  const seen = {};
+  for (let m = 1; m < 4096; m++) {
+    const pcs = MB.maskToPcs(m), n = pcs.length; if (!classes[n]) continue;
+    const k = CH.key(pcs);
+    if (!seen[k]) { seen[k] = { pf: CH.prime(pcs), orbit: 0, tn: new Set() }; classes[n].push(k); }
+    seen[k].orbit++;
+    let mt = 4096; for (let t = 0; t < 12; t++) mt = Math.min(mt, MB.pcsToMask(pcs.map((p) => p + t))); seen[k].tn.add(mt);
+  }
+  Object.values(classes).forEach((arr) => arr.sort((a, b) => CH.ORDER[a] - CH.ORDER[b]));
+  // 익숙한 이름
+  const COMMON = {};
+  Object.entries(MB.CHORDS).forEach(([q, c]) => { const k = CH.key(c.iv); (COMMON[k] = COMMON[k] || []).push(c.name); });
+  [["5음음계", [0, 2, 4, 7, 9]], ["4도 쌓기", [0, 5, 10]], ["4도 쌓기", [0, 5, 10, 15]], ["클러스터", [0, 1, 2]], ["전음정 4화음", [0, 1, 4, 6]], ["전음정 4화음", [0, 1, 3, 7]], ["빈5도+2도", [0, 2, 7]]].forEach(([n, p]) => { const k = CH.key(p); COMMON[k] = COMMON[k] || []; if (!COMMON[k].includes(n)) COMMON[k].push(n); });
+  let card = 3, curK = null, tr = 0, timers = [], hotSet = null;
+  const padsEl = document.getElementById("chd-pc-pads");
+  const cardSeg = MB.seg("chd-pc-card", (v) => { card = +v; build(); });
+  const trR = MB.range("chd-pc-t", (v) => "T" + v + " (" + MB.SHARP_NAMES[v] + ")", (v) => { tr = v; show(); });
+  function C(n, k) { let r = 1; for (let i = 1; i <= k; i++) r = (r * (n - k + i)) / i; return r; }
+  function build() {
+    const arr = classes[card];
+    padsEl.innerHTML = arr.map((k) => { const s = seen[k]; const nm = (COMMON[k] || [])[0] || ""; return `<button class="pad" data-k="${k}"><b>${CH.forte(s.pf) || "?"}</b><small>${CH.pfStr(s.pf)}</small><em>${nm}</em></button>`; }).join("");
+    padsEl.querySelectorAll(".pad").forEach((p) => p.addEventListener("click", () => { curK = p.dataset.k; show(); playCur(); }));
+    const total = arr.reduce((a, k) => a + seen[k].orbit, 0), tnTotal = arr.reduce((a, k) => a + seen[k].tn.size, 0);
+    document.getElementById("chd-pc-sum").innerHTML = `집합류 <b>${arr.length}</b>개 · 이조 유형 ${tnTotal}개<br>Σ 궤도 크기 = <b>${total}</b> ${total === C(12, card) ? "=" : "≠"} C(12,${card}) = ${C(12, card)} ${total === C(12, card) ? '<span style="color:var(--ok)">✓</span>' : ""}`;
+    curK = arr[card === 3 ? 10 : card === 4 ? 26 : 34];
+    show();
+  }
+  const inv = (pf) => pf.map((p) => MB.mod(-p, 12));
+  const cv = MB.canvas("#chd-pc-cv", (ctx, w, h) => {
+    if (!curK) return;
+    const P = MB.palette(), pf = seen[curK].pf.map((p) => MB.mod(p + tr, 12)), iv = inv(seen[curK].pf).map((p) => MB.mod(p + tr, 12));
+    const r = Math.min(h / 2 - 34, w / 4), cx = w < 460 ? w / 2 : w / 2 - r * 0.9, cy = h / 2;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
+    const poly = (pcs, col, dash) => { const s = pcs.slice().sort((a, b) => a - b); ctx.beginPath(); s.forEach((p, i) => { const [x, y] = MB.circlePos(p, cx, cy, r); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath(); ctx.setLineDash(dash); ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.stroke(); ctx.setLineDash([]); };
+    poly(iv, P.accent2, [6, 4]); poly(pf, P.accent, []);
+    for (let p = 0; p < 12; p++) {
+      const [x, y] = MB.circlePos(p, cx, cy, r), a = pf.includes(p), b = iv.includes(p), hh = hotSet && hotSet.includes(p);
+      ctx.beginPath(); ctx.arc(x, y, hh ? 10 : 7, 0, 7); ctx.fillStyle = hh ? P.warn : a ? P.accent : b ? P.accent2 : P.surface; ctx.fill(); ctx.strokeStyle = P.border; ctx.stroke();
+      const [lx, ly] = MB.circlePos(p, cx, cy, r + 20); ctx.fillStyle = a || b ? P.text : P.faint; ctx.font = "12px " + CH.FONT(); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(MB.SHARP_NAMES[p], lx, ly);
+    }
+    ctx.textBaseline = "alphabetic";
+    if (w >= 460) {
+      const tx = cx + r + 46; ctx.textAlign = "left"; ctx.font = "13px " + CH.FONT();
+      ctx.fillStyle = P.accent; ctx.fillText("━ 기본형 + T" + tr, tx, cy - 20); ctx.fillStyle = P.accent2; ctx.fillText("╍ 전회형 (I) + T" + tr, tx, cy + 2);
+      ctx.fillStyle = P.dim; ctx.font = "12px " + CH.FONT(); ctx.fillText(seen[curK].tn.size === 1 ? "전회 대칭: 두 도형이 같은 이조 유형" : "거울상 짝: 서로 다른 이조 유형 2개", tx, cy + 26);
+    }
+  }, { aspect: (w) => (w < 460 ? 0.85 : 0.42), maxHeight: 300, minHeight: 220 });
+  function show() {
+    if (!curK) return;
+    const s = seen[curK], pcs = s.pf;
+    padsEl.querySelectorAll(".pad").forEach((p) => p.classList.toggle("sel", p.dataset.k === curK));
+    const zpart = Object.keys(seen).filter((k) => k !== curK && seen[k].pf.length === pcs.length && MB.intervalVector(seen[k].pf).join() === MB.intervalVector(pcs).join());
+    MB.stat("chd-pc-name", `${CH.forte(pcs)} ${CH.pfStr(pcs)}${zpart.length ? ` <small>Z짝: ${zpart.map((k) => CH.forte(seen[k].pf)).join(",")}</small>` : ""}`);
+    MB.stat("chd-pc-iv", "⟨" + MB.intervalVector(pcs).join(",") + "⟩");
+    MB.stat("chd-pc-orb", `${s.orbit} <small>= 24 / ${24 / s.orbit} (안정자) · 이조 유형 ${s.tn.size}</small>`);
+    MB.stat("chd-pc-common", (COMMON[curK] || []).slice(0, 3).join(", ") || "—");
+    cv.redraw();
+  }
+  function playCur() {
+    timers.forEach(clearTimeout); timers = []; hotSet = null;
+    const pf = seen[curK].pf.map((p) => p + tr), iv = inv(seen[curK].pf).map((p) => MB.mod(p + tr, 12));
+    const a = pf.map((p) => 60 + p), b = iv.map((p) => 60 + p).sort((x, y) => x - y), t0 = MB.now() + 0.03;
+    MB.playChord(a, { when: t0, dur: 1, vel: 0.5, strum: 0.03 });
+    MB.playChord(b, { when: t0 + 1.15, dur: 1.2, vel: 0.5, strum: 0.03 });
+    timers.push(setTimeout(() => { hotSet = pf.map((p) => MB.mod(p, 12)); cv.redraw(); }, 30));
+    timers.push(setTimeout(() => { hotSet = iv; cv.redraw(); }, 1180));
+    timers.push(setTimeout(() => { hotSet = null; cv.redraw(); }, 2500));
+  }
+  document.getElementById("chd-pc-play").addEventListener("click", () => { if (curK) playCur(); });
+  build();
+})();
+</script>
+</body>
+</html>

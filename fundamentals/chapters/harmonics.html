@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>배음과 음색 · MusicBook</title>
+<meta name="description" content="푸리에 급수와 가산 합성으로 배음 구조가 음색을 만드는 원리를 듣고 조작한다. 배음열, 깁스 현상, 잃어버린 기본음, 위상 둔감성, 포먼트와 모음 합성, 스펙트럼 무게중심까지.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/harmonics.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="배음과 음색 · MusicBook">
+<meta property="og:description" content="푸리에 급수와 가산 합성으로 배음 구조가 음색을 만드는 원리를 듣고 조작한다. 배음열, 깁스 현상, 잃어버린 기본음, 위상 둔감성, 포먼트와 모음 합성, 스펙트럼 무게중심까지.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/harmonics.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"배음과 음색","name":"배음과 음색 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/harmonics.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/harmonics.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":2,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"푸리에 급수와 가산 합성으로 배음 구조가 음색을 만드는 원리를 듣고 조작한다. 배음열, 깁스 현상, 잃어버린 기본음, 위상 둔감성, 포먼트와 모음 합성, 스펙트럼 무게중심까지."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"02 배음과 음색","item":"https://music.euiyun.com/fundamentals/chapters/harmonics.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .harm-edit { cursor: ns-resize; touch-action: none; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets .btn { padding: 5px 10px; font-size: 13px; }
+  .vowel-pad { cursor: crosshair; touch-action: none; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="harmonics">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 02</div>
+    <h1>배음과 음색</h1>
+    <p class="lead">같은 440 Hz의 '라'를 바이올린과 플루트와 피아노로 연주하면 누구나 구별합니다. 음높이도 크기도 같은데 무엇이 다를까요? 답의 대부분은 <b>배음(overtone)들의 세기 분포</b>에 있습니다. 주기적인 소리는 모두 기본 주파수의 정수배 사인파들의 합으로 분해되고, 그 계수의 모양이 귀에는 '음색'으로 들립니다. 이 장에서는 배음을 직접 더하고 빼며 그 사실을 귀로 확인합니다.</p>
+    <ul class="objectives">
+      <li>주기 신호의 푸리에 급수와 배음열(harmonic series)을 설명하고, 배음 번호를 음이름으로 바꿀 수 있다.</li>
+      <li>톱니파·사각파·삼각파의 배음 구조(1/n, 홀수 1/n, 홀수 1/n²)와 깁스 현상을 안다.</li>
+      <li>기본음이 없어도 음높이가 들리는 '잃어버린 기본음' 현상과 그 의미를 설명한다.</li>
+      <li>위상 스펙트럼은 음색에 거의 영향을 주지 않는다는 것(옴의 음향 법칙)과 그 한계를 안다.</li>
+      <li>음원–필터 모델로 모음(포먼트)을 합성하고, 스펙트럼 무게중심으로 '밝기'를 수치화한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="series">
+    <h2>주기 신호는 배음의 합이다</h2>
+    <p>주기 \(T_0\)로 반복되는 신호 \(x(t)\)는 기본 주파수 \(f_0 = 1/T_0\)의 정수배 사인파들로 정확히 분해됩니다. 이것이 <span class="term">푸리에 급수</span><span class="en">(Fourier Series)</span>입니다.</p>
+    <div class="formula">$$x(t) = \sum_{n=1}^{\infty} A_n \sin\!\left(2\pi n f_0 t + \varphi_n\right)$$
+      <div class="where">\(n\)번째 성분을 <b>제n배음</b>(n-th harmonic)이라 부른다. \(n=1\)은 기본음(fundamental), \(n\ge2\)는 상음(overtone). \(A_n\)은 진폭 스펙트럼, \(\varphi_n\)은 위상 스펙트럼. 직류 성분(\(n=0\))은 소리로 들리지 않으므로 생략했다.</div>
+    </div>
+    <p>여기서 중요한 사실 두 가지. 첫째, 주파수는 \(f_0, 2f_0, 3f_0, \dots\)로 <b>등간격</b>입니다. 그런데 귀는 주파수를 로그로 지각하므로(5장), 배음들은 음높이로는 점점 좁게 모입니다: 옥타브, 5도, 4도, 장3도, 단3도… 둘째, 음높이를 정하는 것은 이 성분들의 공통 주기 \(T_0\)이지 가장 큰 성분이 아닙니다. 둘째 사실은 3절에서 다시 확인합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="C2의 배음열">
+        <g id="hs-fig"></g>
+      </svg>
+      <figcaption><b>그림 2-1.</b> C2(65.4 Hz)의 배음열 16개. 위쪽은 가장 가까운 평균율 음이름과 센트 차이. 7·11·13·14번 배음은 평균율에서 크게 벗어난다(7번은 −31센트). 막대의 가로 위치는 로그 주파수(=음높이)다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">배음 n</th><th class="num">주파수비</th><th>앞 배음과의 음정</th><th class="num">평균율과 차이</th></tr></thead>
+      <tbody>
+        <tr><td class="num">2</td><td class="num">2:1</td><td>완전 8도(옥타브)</td><td class="num">0</td></tr>
+        <tr><td class="num">3</td><td class="num">3:2</td><td>완전 5도</td><td class="num">+2.0 ¢</td></tr>
+        <tr><td class="num">4</td><td class="num">4:3</td><td>완전 4도</td><td class="num">−2.0 ¢</td></tr>
+        <tr><td class="num">5</td><td class="num">5:4</td><td>장 3도</td><td class="num">−13.7 ¢</td></tr>
+        <tr><td class="num">6</td><td class="num">6:5</td><td>단 3도</td><td class="num">+15.6 ¢</td></tr>
+        <tr><td class="num">7</td><td class="num">7:6</td><td>(좁은 단3도)</td><td class="num">−31.2 ¢ (7배음 자체)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout deep"><strong>센트(cent)</strong> 반음 하나를 100등분한 로그 단위. 주파수비 \(r\)은 \(1200\log_2 r\) 센트. 평균율 장3도는 400 ¢인데 5번 배음이 만드는 순정 장3도 5:4는 386.3 ¢이므로 −13.7 ¢. 이 차이가 5장의 '조율 문제'의 씨앗이다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="additive">
+    <h2>가산 합성: 배음을 쌓아 음색 만들기</h2>
+    <p>푸리에 급수를 거꾸로 쓰면 <span class="term">가산 합성</span><span class="en">(Additive Synthesis)</span>입니다. 배음 진폭 \(A_n\)을 정하면 파형과 음색이 정해집니다. 1900년대 초의 텔하모니움과 해먼드 오르간의 드로바(drawbar)가 바로 이 원리였습니다. 아래 막대를 드래그해 16개 배음의 세기를 정하고, 건반으로 연주해 보세요.</p>
+
+    <div class="sim" id="sim-additive">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>16배음 가산 합성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-add" class="harm-edit"></canvas>
+          <div class="mb-kb short" id="kb-add"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span>
+            <div class="presets" id="add-presets">
+              <button class="btn" data-p="sine">사인</button><button class="btn" data-p="saw">톱니</button><button class="btn" data-p="square">사각</button><button class="btn" data-p="triangle">삼각</button><button class="btn" data-p="clarinet">클라리넷풍</button><button class="btn" data-p="flute">플루트풍</button><button class="btn" data-p="brass">금관풍</button><button class="btn" data-p="organ">오르간 드로바</button><button class="btn" data-p="even">짝수만</button><button class="btn" data-p="clear">모두 0</button>
+            </div>
+          </div>
+          <label class="ctrl"><span>기본 주파수 <output id="add-f0-out"></output></span><input type="range" id="add-f0" min="40" max="660" value="165" step="1"></label>
+          <label class="check"><input type="checkbox" id="add-db"> 막대를 dB 눈금으로</label>
+          <div class="btn-row"><button class="btn primary" id="add-play">▶ 지속음</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="add-cent">—</span></div>
+        <div class="stat"><span class="k">짝수/홀수 에너지</span><span class="v" id="add-eo">—</span></div>
+        <div class="stat"><span class="k">파고율(피크/RMS)</span><span class="v" id="add-cf">—</span></div>
+      </div>
+      <div class="sim-note">위 칸의 막대를 위아래로 끌어 각 배음의 진폭을 정합니다(아래 그래프는 한 주기 파형). 지속음을 켠 채 막대를 바꾸면 소리가 실시간으로 변합니다. 건반을 누르거나 <kbd>A</kbd>–<kbd>K</kbd> 키로 같은 음색을 연주할 수 있습니다. 해볼 것: ① '톱니'에서 짝수 배음을 모두 0으로 → 사각파 소리(속이 빈, 클라리넷 같은). ② 높은 배음만 줄여 무게중심을 낮추면 '어두운' 소리. ③ 기본음만 0으로 해도 음높이가 그대로인지(3절).</div>
+    </div>
+
+    <p>위의 세 수치는 음색을 숫자로 요약하는 대표적인 <span class="term">음색 특징량</span><span class="en">(Timbre Descriptors)</span>입니다.</p>
+    <div class="formula">$$f_c = \frac{\sum_n n f_0\, A_n^2}{\sum_n A_n^2}, \qquad \mathrm{CF} = \frac{\max_t |x(t)|}{\sqrt{\overline{x^2}}}$$
+      <div class="where">\(f_c\): 스펙트럼 무게중심(spectral centroid). 에너지 가중 평균 주파수로, 청취 실험의 '밝기(brightness)' 평가와 상관이 가장 높은 단일 지표다. CF: 파고율(crest factor). 같은 RMS(같은 크기)라도 파고율이 크면 더 큰 헤드룸이 필요하다. 사인파는 √2 ≈ 1.41.</div>
+    </div>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 신시사이저 프리셋의 '밝다·어둡다·속이 비었다·코맹맹이'는 대부분 \(A_n\)의 포락선 기울기(dB/옥타브), 홀짝 비, 특정 대역의 봉우리(포먼트)로 설명된다. 톱니파는 −6 dB/oct, 삼각파는 −12 dB/oct 기울기다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="fourier">
+    <h2>표준 파형의 배음 구조와 깁스 현상</h2>
+    <p>아날로그 신시사이저의 기본 파형 세 가지는 깔끔한 배음 공식을 가집니다.</p>
+    <div class="formula">$$\text{톱니}: \frac{2}{\pi}\sum_{n\ge1}\frac{(-1)^{n+1}}{n}\sin n\omega t,\quad \text{사각}: \frac{4}{\pi}\sum_{n\ \text{홀수}}\frac{1}{n}\sin n\omega t,\quad \text{삼각}: \frac{8}{\pi^2}\sum_{n\ \text{홀수}}\frac{(-1)^{\frac{n-1}{2}}}{n^2}\sin n\omega t$$
+      <div class="where">불연속(점프)이 있는 파형은 계수가 \(1/n\)로, 꺾임(미분 불연속)만 있는 파형은 \(1/n^2\)로 줄어든다. 일반적으로 \(k\)번 미분해야 불연속이 나타나는 파형은 \(1/n^{k+1}\)로 감쇠한다 — 매끄러울수록 배음이 빨리 사라지고 소리가 부드럽다.</div>
+    </div>
+
+    <div class="sim" id="sim-fourier">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>부분합 수렴과 깁스 현상</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-four"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>목표 파형</span><div class="seg" id="fo-type"><button data-value="square" class="on">사각</button><button data-value="saw">톱니</button><button data-value="triangle">삼각</button></div></div>
+          <label class="ctrl"><span>더한 배음 수 N <output id="fo-n-out"></output></span><input type="range" id="fo-n" min="1" max="60" value="5"></label>
+          <label class="check"><input type="checkbox" id="fo-lanczos"> 란초시 σ 근사(깁스 억제)</label>
+          <div class="btn-row"><button class="btn primary" id="fo-play">▶ 부분합 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">최대 오버슈트</span><span class="v" id="fo-ov">—</span></div>
+        <div class="stat"><span class="k">RMS 오차</span><span class="v" id="fo-err">—</span></div>
+        <div class="stat"><span class="k">대역폭(110 Hz 기준)</span><span class="v" id="fo-bw">—</span></div>
+      </div>
+      <div class="sim-note">회색 점선이 이상적인 파형, 보라색이 N개 배음까지의 부분합입니다. N을 키워도 사각·톱니의 점프 근처 오버슈트는 약 9%(점프 크기 대비)에서 줄지 않고 폭만 좁아집니다 — <b>깁스 현상</b>. 란초시 σ 인자로 계수를 \(\mathrm{sinc}[n/(N+1)]\)만큼 줄이면 오버슈트가 크게 줄어드는 대신(완전히 0이 되지는 않으며, 이 실험은 첫 배음을 그대로 둔다) 경사가 완만해집니다(창 함수와 같은 트레이드오프, 15장). 듣기 버튼은 110 Hz로 부분합을 재생합니다.</div>
+    </div>
+    <div class="callout warn"><strong>디지털 신시사이저의 함정</strong> 톱니파를 샘플마다 '그대로' 계산하면 나이퀴스트 주파수(샘플레이트/2)를 넘는 배음이 아래로 접혀 들어와(에일리어싱) 음과 무관한 쇳소리가 난다. 그래서 실제 오실레이터는 배음 수를 대역 제한(band-limited)하거나 PolyBLEP 같은 보정을 쓴다. Web Audio의 <code>OscillatorNode</code>도 내부적으로 대역 제한 파형표를 쓴다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="missing">
+    <h2>잃어버린 기본음: 음높이는 주기가 정한다</h2>
+    <p>200, 300, 400, 500 Hz의 사인파를 함께 울리면 무슨 음이 들릴까요? 100 Hz 성분은 하나도 없지만, 대부분의 사람은 <b>100 Hz의 음높이</b>를 듣습니다. 이 성분들의 공통 주기가 10 ms이기 때문입니다. 이것이 <span class="term">잃어버린 기본음</span><span class="en">(Missing Fundamental, Residue Pitch)</span>입니다. 작은 스마트폰 스피커가 100 Hz 아래를 거의 재생하지 못해도 베이스 라인의 음높이가 들리는 이유이고, 일부 오디오 제품은 이를 이용해 '가상 저음'을 만듭니다.</p>
+    <div class="formula">$$f_{\text{perceived}} \approx \gcd(f_2, f_3, \dots, f_k) \quad (\text{배음들이 정수배 관계일 때})$$
+      <div class="where">실제 청각계는 GCD를 계산한다기보다 신경 발화의 주기성(자기상관)을 이용한다고 보는 것이 정설이다(시간 이론). 성분이 비조화적이면 '가장 잘 맞는 주기'를 찾으므로 음높이가 조금 이동한다(슈텐의 피치 이동).</div>
+    </div>
+
+    <div class="sim" id="sim-missing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기본음을 지워도 음높이는 남는다</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-miss"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>기본 주파수 f₀ <output id="ms-f0-out"></output></span><input type="range" id="ms-f0" min="80" max="300" value="150"></label>
+          <label class="ctrl"><span>가장 낮은 배음 <output id="ms-lo-out"></output></span><input type="range" id="ms-lo" min="1" max="6" value="1"></label>
+          <label class="ctrl"><span>비조화 이동 Δf <output id="ms-sh-out"></output></span><input type="range" id="ms-sh" min="0" max="60" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="ms-play">▶ 재생</button><button class="btn" id="ms-ref">기준: 순수 f₀</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">울리는 성분</span><span class="v" id="ms-comp">—</span></div>
+        <div class="stat"><span class="k">자기상관 피크 주기</span><span class="v" id="ms-ac">—</span></div>
+      </div>
+      <div class="sim-note">위: 스펙트럼(막대), 아래: 파형과 정규화 자기상관. '가장 낮은 배음'을 1→4로 올려 기본음과 낮은 배음을 지워도, 재생 중 음높이는 그대로이고 음색만 얇아집니다. 기준 버튼으로 순수 f₀ 사인파와 비교하세요. 모든 성분을 Δf만큼 같은 양 올리면(비조화) 성분 간격은 그대로인데 음높이가 Δf/n_center 정도 움직이는 것이 들립니다 — 청각이 '간격'이 아니라 '주기 맞춤'을 한다는 증거.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="phase">
+    <h2>위상은 들리는가?</h2>
+    <p>헬름홀츠와 옴은 19세기에 "귀는 진폭 스펙트럼만 듣고 위상은 듣지 못한다"고 주장했습니다(<span class="term">옴의 음향 법칙</span><span class="en">(Ohm's Acoustic Law)</span>). 아래에서 진폭이 똑같고 위상만 무작위로 바꾼 두 소리를 비교해 보세요. 파형은 완전히 달라 보이지만, 중간 음역의 정상음에서는 거의 구별되지 않습니다.</p>
+
+    <div class="sim" id="sim-phase">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 진폭, 다른 위상</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-phase"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>기본 주파수 <output id="ph-f0-out"></output></span><input type="range" id="ph-f0" min="30" max="400" value="200"></label>
+          <div class="ctrl"><span>B의 위상</span><div class="seg" id="ph-mode"><button data-value="random" class="on">무작위</button><button data-value="schroeder">슈뢰더</button><button data-value="cos">모두 cos(0)</button></div></div>
+          <div class="btn-row"><button class="btn" id="ph-new">위상 다시 뽑기</button></div>
+          <div class="btn-row"><button class="btn primary" id="ph-a">▶ A (원래)</button><button class="btn primary" id="ph-b">▶ B (위상 변경)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">A 파고율</span><span class="v" id="ph-cfa">—</span></div>
+        <div class="stat"><span class="k">B 파고율</span><span class="v" id="ph-cfb">—</span></div>
+      </div>
+      <div class="sim-note">A는 톱니파(배음 24개, 위상 0). B는 진폭이 같고 위상만 다릅니다. 200 Hz 근처에서는 거의 같게 들리지만, f₀를 30–60 Hz로 낮추면 한 주기 안의 '뭉침' 차이가 버즈처럼 들리기 시작합니다 — 청각 필터 하나에 여러 배음이 함께 들어오면 그 필터 출력의 포락선이 위상에 따라 달라지기 때문입니다. 슈뢰더 위상 \(\varphi_n = \pi n(n-1)/N\)은 평탄한 멀티톤 스펙트럼의 파고율을 낮추는 설계에 쓰입니다. 임의 진폭 분포의 전역 최소를 보장하지 않으며, 이 1/n 진폭 예에서는 오히려 위상 0보다 파고율이 커질 수 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="formant">
+    <h2>음원–필터 모델과 포먼트: 모음 합성</h2>
+    <p>사람 목소리는 성대가 만드는 배음이 풍부한 펄스열(음원)이 성도(목·입·코의 관)라는 공명 필터를 통과한 결과입니다. 음원을 바꾸지 않고 필터만 바꿔도 '아'가 '이'가 됩니다. 필터의 공명 봉우리를 <span class="term">포먼트</span><span class="en">(Formant)</span>라 하며, 낮은 두 포먼트 F1·F2가 모음을 거의 결정합니다. 악기에도 음높이와 무관하게 고정된 공명 대역(바이올린 몸통, 금관의 벨)이 있어 같은 원리로 '그 악기다운' 음색이 납니다.</p>
+    <div class="formula">$$Y(f) = S(f)\cdot H(f), \qquad S(f)=\sum_n A_n\,\delta(f-nf_0)$$
+      <div class="where">\(S\): 음원(배음의 빗), \(H\): 성도 전달함수(포먼트의 합). 출력 배음 진폭은 \(A_n |H(nf_0)|\) — <b>음높이가 바뀌어도 포락선 \(|H|\)는 그대로</b>. 그래서 높은 음에서는 배음 간격이 넓어 포먼트를 '샘플링'하는 점이 줄어 모음 구별이 어려워진다(소프라노 고음의 가사가 잘 안 들리는 이유).</div>
+    </div>
+
+    <div class="sim" id="sim-vowel">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>F1–F2 평면 위의 모음 합성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-vowel" class="vowel-pad"></canvas><canvas id="cv-vowel-sp"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>성대 f₀ <output id="vw-f0-out"></output></span><input type="range" id="vw-f0" min="80" max="600" value="130"></label>
+          <label class="ctrl"><span>포먼트 대역폭(Q) <output id="vw-q-out"></output></span><input type="range" id="vw-q" min="3" max="20" value="8"></label>
+          <label class="check"><input type="checkbox" id="vw-vib" checked> 비브라토(5.5 Hz, ±25¢)</label>
+          <div class="btn-row"><button class="btn primary" id="vw-play">▶ 소리 내기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">F1</span><span class="v" id="vw-f1">—</span></div>
+        <div class="stat"><span class="k">F2</span><span class="v" id="vw-f2">—</span></div>
+        <div class="stat"><span class="k">가장 가까운 모음</span><span class="v" id="vw-v">—</span></div>
+      </div>
+      <div class="sim-note">위 평면을 클릭·드래그하면 F1(세로, 입을 벌린 정도)과 F2(가로, 혀의 앞뒤 위치)가 바뀝니다. 점은 한국어 성인 남성 단모음의 대략적 평균 위치입니다. 아래는 출력 스펙트럼: 회색 곡선이 필터 |H|, 막대가 배음입니다. f₀를 500 Hz 이상으로 올리면 배음이 듬성듬성해져 모음이 흐려지는 것을 들어 보세요. 모델: 톱니파 음원(−6 dB/oct) + 병렬 밴드패스 3개(F3=2500 Hz 고정) + 입술 방사 근사. 실제 성문파와 성도 모델보다 단순합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="beyond">
+    <h2>배음만으로는 부족하다: 음색의 다른 차원</h2>
+    <p>16배음 합성기로 바이올린을 흉내 내 보면 금방 한계를 느낍니다. 정상 상태의 배음 분포는 음색의 '한 장의 사진'일 뿐이고, 실제 음색은 시간에 따라 움직이는 여러 차원을 가집니다. 다차원 척도법(MDS)을 쓴 청취 실험(Grey 1977, McAdams 1995 등)은 음색 공간의 주요 축으로 다음을 일관되게 찾아냈습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>차원</th><th>물리량</th><th>예</th><th>이 책의 장</th></tr></thead>
+      <tbody>
+        <tr><td>밝기</td><td>스펙트럼 무게중심</td><td>트럼펫(밝음) vs 프렌치 호른(어두움)</td><td>2장</td></tr>
+        <tr><td>어택</td><td>상승 시간의 로그(log attack time)</td><td>피아노·기타(짧음) vs 현의 활(김)</td><td>4장</td></tr>
+        <tr><td>스펙트럼 변화</td><td>시간에 따른 스펙트럼 플럭스</td><td>금관의 '와' 하고 열리는 소리</td><td>4장(필터 엔벨로프)</td></tr>
+        <tr><td>비조화성·잡음</td><td>배음의 정수비 이탈, 숨소리·활 잡음</td><td>피아노 저음, 종, 플루트의 바람 소리</td><td>3장</td></tr>
+      </tbody>
+    </table></div>
+    <p>마이크가 있다면 실제 악기나 목소리로 배음을 직접 관찰해 보세요. 일정한 음을 길게 낼수록 배음 줄이 선명하게 보입니다.</p>
+
+    <div class="sim" id="sim-live">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>실시간 스펙트럼 분석기 (마이크 / 이 페이지 출력)</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="cv-live"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding:12px 18px">
+        <div class="btn-row">
+          <button class="btn primary" id="lv-mic">🎤 마이크 켜기</button>
+          <button class="btn" id="lv-out">이 페이지 출력 보기</button>
+          <button class="btn" id="lv-test">테스트 음: 톱니 220 Hz</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">가장 강한 피크</span><span class="v" id="lv-peak">—</span></div>
+        <div class="stat"><span class="k">추정 기본 주파수(자기상관)</span><span class="v" id="lv-f0">—</span></div>
+      </div>
+      <div class="sim-note">마이크 소리는 스피커로 내보내지 않습니다(분석만). '가장 강한 피크'가 기본음이 아닐 때가 많다는 것을 확인하세요 — 목소리는 F1·F2 근처 배음이 가장 셉니다. 기본 주파수는 시간 영역 자기상관으로 추정합니다(16장의 튜너와 같은 방식). FFT 8192점, 해상도 약 5.9 Hz(48 kHz 기준).</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>주기 신호는 \(f_0\)의 정수배 사인파(배음)의 합이다. 배음은 주파수로는 등간격, 음높이로는 옥타브·5도·4도·장3도…로 점점 좁아진다.</li>
+      <li>정상 상태 음색의 1차 결정 요인은 진폭 스펙트럼 \(A_n\)이다. 불연속 파형은 \(1/n\), 꺾인 파형은 \(1/n^2\)로 배음이 감쇠한다.</li>
+      <li>푸리에 부분합은 점프 근처에서 약 9% 오버슈트가 남는다(깁스 현상). 줄이려면 계수에 창을 곱한다 — 날카로움과 링잉의 트레이드오프.</li>
+      <li>음높이는 가장 센 성분이 아니라 공통 주기가 정한다. 기본음이 없어도 들린다(잃어버린 기본음).</li>
+      <li>위상은 중간 음역의 정상음에서는 거의 들리지 않지만, 낮은 f₀이나 과도음에서는 포락선 차이로 들린다.</li>
+      <li>음원–필터 모델: 출력 = 배음 빗 × 고정된 공명 포락선(포먼트). 모음과 악기다움의 핵심이다.</li>
+      <li>실제 음색은 밝기(무게중심)·어택·스펙트럼 변화·비조화성의 다차원 공간이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>110 Hz(A2) 음의 5번 배음과 가장 가까운 평균율 음은?</p><div class="opts">
+        <button class="opt">E4</button><button class="opt" data-correct>C♯5</button><button class="opt">A4</button><button class="opt">G5</button>
+      </div><div class="quiz-exp">5 × 110 = 550 Hz. A2에서 두 옥타브(4배, 440 Hz = A4) 위에 장3도(5:4)를 더한 음이므로 C♯5(554.4 Hz)에 가깝고, 약 −14센트 낮다.</div></div>
+      <div class="quiz-q"><p>사각파에서 짝수 배음이 0인 이유로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">진폭이 커서 클리핑되기 때문</button><button class="opt" data-correct>반주기 대칭 x(t+T/2) = −x(t)를 만족하기 때문</button><button class="opt">파형에 점프가 있기 때문</button><button class="opt">위상이 모두 0이기 때문</button>
+      </div><div class="quiz-exp">반주기 대칭(half-wave symmetry)을 만족하는 신호는 홀수 배음만 가진다. 짝수 배음 sin(2kωt)는 반주기 이동 시 부호가 바뀌지 않으므로 이 대칭과 양립할 수 없다. 점프는 감쇠율(1/n)을 정할 뿐이다.</div></div>
+      <div class="quiz-q"><p>300, 400, 500 Hz 세 사인파를 동시에 들을 때 지각되는 음높이에 가장 가까운 것은?</p><div class="opts">
+        <button class="opt">300 Hz</button><button class="opt">400 Hz</button><button class="opt" data-correct>100 Hz</button><button class="opt">1200 Hz</button>
+      </div><div class="quiz-exp">세 성분은 100 Hz의 3·4·5번 배음이다. 공통 주기 10 ms가 음높이(잃어버린 기본음)로 들린다.</div></div>
+      <div class="quiz-q"><p>같은 모음을 남성(f₀ 120 Hz)과 소프라노(f₀ 800 Hz)가 부를 때, 모음 구별이 소프라노에서 어려워지는 이유는?</p><div class="opts">
+        <button class="opt">포먼트 주파수가 f₀에 비례해 올라가서</button><button class="opt" data-correct>배음 간격이 넓어 포먼트 포락선을 드문드문 샘플링해서</button><button class="opt">위상이 무작위가 되어서</button><button class="opt">소리가 너무 커서 귀가 포화되어서</button>
+      </div><div class="quiz-exp">포먼트는 성도 모양이 정하므로 음높이와 무관하게 거의 고정된다. 출력은 nf₀ 위치의 |H| 샘플들인데 f₀가 800 Hz면 F1(300–800 Hz) 근처에 배음이 하나도 없을 수 있다.</div></div>
+      <div class="quiz-q"><p>스펙트럼 무게중심을 낮추는 조작은?</p><div class="opts">
+        <button class="opt">짝수 배음을 모두 제거</button><button class="opt">모든 배음 진폭을 2배로</button><button class="opt" data-correct>배음 포락선 기울기를 −6 dB/oct에서 −12 dB/oct로</button><button class="opt">위상을 무작위로</button>
+      </div><div class="quiz-exp">무게중심은 에너지 가중 평균 주파수이므로 상대적으로 높은 배음을 줄여야 내려간다. 전체 배율이나 위상은 무게중심을 바꾸지 않는다. 짝수 제거는 오히려 기본음 대비 비율 구조에 따라 올라가거나 거의 변하지 않을 수 있다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------- 그림 2-1: 배음열 */
+(function () {
+  const g = document.getElementById("hs-fig");
+  const f0 = MB.mtof(36), X = (f) => 40 + (Math.log2(f / f0) / 4.05) * 720;
+  let s = `<line x1="30" x2="780" y1="170" y2="170" class="s-axis"/>`;
+  for (let n = 1; n <= 16; n++) {
+    const f = n * f0, m = MB.ftom(f), r = Math.round(m), c = Math.round((m - r) * 100), x = X(f), h = 120 / Math.sqrt(n);
+    const off = Math.abs(c) > 10;
+    s += `<rect x="${x - 4}" y="${170 - h}" width="8" height="${h}" rx="2" class="${off ? "f-acc" : "f-acc-soft"}"/>`;
+    s += `<text x="${x}" y="186" text-anchor="middle" class="t-mono">${n}</text>`;
+    if (n <= 9 || n % 2 === 1 || n === 16) {
+      s += `<text x="${x}" y="${162 - h}" text-anchor="middle" class="${off ? "t-acc" : "t"}" style="font-size:11px">${MB.noteName(r)}</text>`;
+      s += `<text x="${x}" y="${150 - h}" text-anchor="middle" class="t-dim" style="font-size:10px">${c > 0 ? "+" : ""}${c}¢</text>`;
+    }
+  }
+  s += `<text x="40" y="204" class="t-dim" style="font-size:11px">배음 번호 n (가로: log₂ 주파수)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 가산 합성기 */
+(function () {
+  const N = 16;
+  let amps = MB.harmonicsOf("saw", N).map((a) => a / (2 / Math.PI));
+  const PRESETS = {
+    sine: () => [1].concat(Array(N - 1).fill(0)),
+    saw: () => [...Array(N)].map((_, i) => 1 / (i + 1)),
+    square: () => [...Array(N)].map((_, i) => ((i + 1) % 2 ? 1 / (i + 1) : 0)),
+    triangle: () => [...Array(N)].map((_, i) => ((i + 1) % 2 ? 1 / ((i + 1) * (i + 1)) : 0)),
+    clarinet: () => [1, 0.04, 0.75, 0.05, 0.5, 0.06, 0.32, 0.03, 0.2, 0.02, 0.12, 0.02, 0.08, 0.01, 0.05, 0.01],
+    flute: () => [1, 0.45, 0.12, 0.08, 0.03, 0.02, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    brass: () => [0.55, 0.8, 1, 0.9, 0.75, 0.6, 0.48, 0.38, 0.3, 0.24, 0.19, 0.15, 0.12, 0.09, 0.07, 0.05],
+    organ: () => { const a = Array(N).fill(0); a[0] = 1; a[1] = 0.75; a[3] = 0.6; a[7] = 0.45; a[2] = 0.35; a[5] = 0.2; a[4] = 0.15; return a; },
+    even: () => [...Array(N)].map((_, i) => (i === 0 ? 0.6 : (i + 1) % 2 ? 0 : 1 / (i + 1) * 2)),
+    clear: () => Array(N).fill(0),
+  };
+  const f0 = MB.range("add-f0", (v) => v + " Hz · " + MB.noteName(MB.ftom(v)) + MB.signed(Math.round((MB.ftom(v) - Math.round(MB.ftom(v))) * 100), 0) + "¢", () => { if (drone) drone.set({ freq: f0() }); readout(); });
+  const dbMode = MB.check("add-db", () => cv.redraw());
+  let drone = null;
+  const norm = () => { const s = amps.reduce((a, b) => a + Math.abs(b), 0); return s > 0 ? amps.map((a) => a / Math.max(1, s)) : amps; };
+  const update = () => { if (drone) drone.set({ amps: norm() }); readout(); cv.redraw(); };
+  const play = MB.playButton("add-play", () => { drone = MB.drone({ freq: f0(), amps: norm(), gain: 0.5 }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 지속음", "■ 정지"]);
+  function wave(n = 256) { const out = new Float32Array(n); for (let i = 0; i < n; i++) { let v = 0; amps.forEach((a, k) => (v += a * Math.sin((2 * Math.PI * (k + 1) * i) / n))); out[i] = v; } return out; }
+  function readout() {
+    let e = 0, ef = 0, ev = 0, od = 0;
+    amps.forEach((a, i) => { const p = a * a; e += p; ef += p * (i + 1) * f0(); if ((i + 1) % 2) od += p; else ev += p; });
+    MB.stat("add-cent", e ? `${Math.round(ef / e)} Hz <small>(${(ef / e / f0()).toFixed(2)}·f₀)</small>` : "—");
+    MB.stat("add-eo", e ? (od ? (10 * Math.log10((ev + 1e-12) / od)).toFixed(1) + " dB" : "홀수 없음") : "—");
+    const w = wave(1024); let pk = 0, rms = 0; w.forEach((v) => { pk = Math.max(pk, Math.abs(v)); rms += v * v; }); rms = Math.sqrt(rms / w.length);
+    MB.stat("add-cf", rms > 1e-6 ? (pk / rms).toFixed(2) + ` <small>(${(20 * Math.log10(pk / rms)).toFixed(1)} dB)</small>` : "—");
+  }
+  let barBox = null;
+  const cv = MB.canvas("#cv-add", (ctx, w, h) => {
+    const P = MB.palette();
+    barBox = { x: 12, y: 8, w: w - 24, h: h * 0.55 };
+    const disp = dbMode() ? amps.map((a) => Math.max(0, (MB.db(Math.abs(a)) + 48) / 48)) : amps.map(Math.abs);
+    MB.drawBars(ctx, barBox, disp, { max: 1, colors: amps.map((a, i) => ((i + 1) % 2 ? P.accent : P.accent2)) });
+    ctx.fillStyle = P.faint; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "right";
+    ctx.fillText(dbMode() ? "0 dB … −48 dB" : "선형 진폭 · 보라=홀수, 청록=짝수 배음", w - 14, 18);
+    const wv = wave(512); const pk = Math.max(1e-6, ...wv.map(Math.abs));
+    MB.drawWave(ctx, { x: 12, y: h * 0.6 + 6, w: w - 24, h: h * 0.4 - 14 }, wv, { yScale: 0.95 / pk, color: P.text, width: 1.8 });
+  }, { aspect: 0.62, maxHeight: 380 });
+  function setFromPointer(e) {
+    const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    if (!barBox || y > barBox.y + barBox.h + 10) return;
+    const i = Math.floor(((x - barBox.x) / barBox.w) * N); if (i < 0 || i >= N) return;
+    let v = MB.clamp((barBox.y + barBox.h - 14 - y) / (barBox.h - 14), 0, 1);
+    if (dbMode()) v = v <= 0.01 ? 0 : MB.undb(v * 48 - 48);
+    amps[i] = v; update();
+  }
+  let drag = false;
+  cv.canvas.addEventListener("pointerdown", (e) => { drag = true; cv.canvas.setPointerCapture(e.pointerId); setFromPointer(e); });
+  cv.canvas.addEventListener("pointermove", (e) => drag && setFromPointer(e));
+  cv.canvas.addEventListener("pointerup", () => (drag = false));
+  document.querySelectorAll("#add-presets button").forEach((b) => b.addEventListener("click", () => { amps = PRESETS[b.dataset.p](); update(); }));
+  MB.keyboard("#kb-add", { lo: 48, hi: 72, onDown: (m) => MB.play(m, { amps: norm(), dur: null, gain: 0.5 }) });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 2. 부분합과 깁스 */
+(function () {
+  const type = MB.seg("fo-type", () => redraw());
+  const N = MB.range("fo-n", (v) => v + "개", () => redraw());
+  const lz = MB.check("fo-lanczos", () => redraw());
+  const coef = (k, t, n) => {
+    let a = 0;
+    if (t === "saw") a = ((k % 2 ? 1 : -1) * 2) / (Math.PI * k);
+    else if (t === "square") a = k % 2 ? 4 / (Math.PI * k) : 0;
+    else a = k % 2 ? ((8 / (Math.PI * Math.PI)) * (((k - 1) / 2) % 2 ? -1 : 1)) / (k * k) : 0;
+    if (lz() && k > 1) { const x = (Math.PI * k) / (n + 1); a *= Math.sin(x) / x; }
+    return a;
+  };
+  const ideal = (t, ph) => { const u = ph - Math.floor(ph); if (t === "saw") return u < 0.5 ? 2 * u : 2 * u - 2; if (t === "square") return u < 0.5 ? 1 : -1; return u < 0.25 ? 4 * u : u < 0.75 ? 2 - 4 * u : 4 * u - 4; };
+  function partial(t, n, M = 1200) { const o = new Float32Array(M); for (let i = 0; i < M; i++) { let v = 0; for (let k = 1; k <= n; k++) v += coef(k, t, n) * Math.sin((2 * Math.PI * k * i) / M); o[i] = v; } return o; }
+  const cv = MB.canvas("#cv-four", (ctx, w, h) => {
+    const P = MB.palette(), t = type(), n = N();
+    const box = { x: 14, y: 10, w: w - 28, h: h - 20 };
+    const M = 1200, ps = partial(t, n, M);
+    const id = new Float32Array(M); for (let i = 0; i < M; i++) id[i] = ideal(t, i / M);
+    ctx.save(); ctx.setLineDash([5, 4]); MB.drawWave(ctx, box, id, { color: P.faint, width: 1.5, yScale: 0.8 }); ctx.restore();
+    MB.drawWave(ctx, box, ps, { color: P.accent, width: 2, yScale: 0.8, axis: false });
+    let ov = 0, err = 0;
+    for (let i = 0; i < M; i++) { err += (ps[i] - id[i]) ** 2; ov = Math.max(ov, Math.abs(ps[i]) - 1); }
+    MB.stat("fo-ov", t === "triangle" ? "— (점프 없음)" : `${Math.max(0, (ov / 2) * 100).toFixed(1)}% <small>(점프 2 대비)</small>`);
+    MB.stat("fo-err", Math.sqrt(err / M).toFixed(4));
+    let hi = 0; for (let k = 1; k <= n; k++) if (Math.abs(coef(k, t, n)) > 1e-9) hi = k;
+    MB.stat("fo-bw", `${hi}배음 = ${MB.fmt(110 * hi, 3)} Hz`);
+  }, { aspect: 0.48, maxHeight: 320 });
+  function redraw() { cv.redraw(); }
+  document.getElementById("fo-play").addEventListener("click", () => {
+    const t = type(), n = N();
+    const amps = [], ph = [];
+    for (let k = 1; k <= n; k++) { const c = coef(k, t, n); amps.push(Math.abs(c)); ph.push(c < 0 ? Math.PI : 0); }
+    MB.play({ freq: 110 }, { amps, phases: ph, dur: 1.5, gain: 0.45, env: { a: 0.02, r: 0.2 } });
+  });
+})();
+
+/* ---------------------------------------------------------------- 3. 잃어버린 기본음 */
+(function () {
+  const f0 = MB.range("ms-f0", (v) => v + " Hz", () => update());
+  const lo = MB.range("ms-lo", (v) => v + "번 배음부터", () => update());
+  const sh = MB.range("ms-sh", (v) => "+" + v + " Hz", () => update());
+  const HI = 10;
+  let voice = null;
+  const comps = () => { const o = []; for (let n = lo(); n <= HI; n++) o.push({ n, f: n * f0() + sh(), a: 1 / Math.sqrt(n) }); return o; };
+  function start() {
+    stop();
+    const ctx = MB.ctx(), g = ctx.createGain(); g.gain.value = 0; g.connect(MB.out);
+    g.gain.setTargetAtTime(0.12, ctx.currentTime, 0.02);
+    const oscs = comps().map((c) => { const o = ctx.createOscillator(); o.frequency.value = c.f; const og = ctx.createGain(); og.gain.value = c.a; o.connect(og); og.connect(g); o.start(); return o; });
+    voice = { g, oscs, release() { g.gain.setTargetAtTime(0, ctx.currentTime, 0.02); oscs.forEach((o) => o.stop(ctx.currentTime + 0.2)); } };
+  }
+  function stop() { if (voice) voice.release(); voice = null; }
+  const pb = MB.playButton("ms-play", start, stop);
+  document.getElementById("ms-ref").addEventListener("click", () => MB.play({ freq: f0() }, { inst: "sine", dur: 1.2, vel: 0.9 }));
+  function update() { if (voice) start(); cv.redraw(); }
+  const cv = MB.canvas("#cv-miss", (ctx, w, h) => {
+    const P = MB.palette(), cs = comps();
+    const fmax = (HI + 1) * f0() + 80;
+    const top = { x: 40, y: 10, w: w - 56, h: h * 0.42 };
+    MB.chart(ctx, top, { x: [0, fmax], y: [0, 1.1], xLabel: "", yTicks: [], xFmt: (v) => v + "", series: [], vlines: [{ x: f0(), color: P.bad, label: "f₀ (" + f0() + " Hz)" }] });
+    cs.forEach((c) => { const x = top.x + (c.f / fmax) * top.w; ctx.fillStyle = P.accent; ctx.fillRect(x - 3, top.y + top.h - (c.a / 1.1) * top.h, 6, (c.a / 1.1) * top.h); });
+    // 파형 + 자기상관
+    const sr = 8000, M = 400; const x = new Float32Array(M);
+    for (let i = 0; i < M; i++) { let v = 0; cs.forEach((c) => (v += c.a * Math.sin((2 * Math.PI * c.f * i) / sr))); x[i] = v; }
+    const pk = Math.max(...x.map(Math.abs)) || 1;
+    const wb = { x: 14, y: h * 0.56, w: w - 28, h: h * 0.2 };
+    MB.drawWave(ctx, wb, x, { yScale: 0.9 / pk, color: P.text, width: 1.4 });
+    const L = 200, ac = new Float32Array(L); let a0 = 0; for (let i = 0; i < M - L; i++) a0 += x[i] * x[i];
+    for (let l = 0; l < L; l++) { let s = 0; for (let i = 0; i < M - L; i++) s += x[i] * x[i + l]; ac[l] = s / a0; }
+    let best = 0, bv = -1; for (let l = 15; l < L; l++) if (ac[l] > bv && ac[l] >= ac[l - 1] && ac[l] >= (ac[l + 1] ?? -1)) { bv = ac[l]; best = l; }
+    MB.drawWave(ctx, { x: 14, y: h * 0.78, w: w - 28, h: h * 0.2 }, ac, { color: P.accent2, width: 1.4 });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillText("파형 (50 ms)", 16, h * 0.56 + 10); ctx.fillText("자기상관 (25 ms 지연까지)", 16, h * 0.78 + 10);
+    const bx = 14 + (best / (L - 1)) * (w - 28); ctx.strokeStyle = P.bad; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(bx, h * 0.78); ctx.lineTo(bx, h * 0.98); ctx.stroke(); ctx.setLineDash([]);
+    MB.stat("ms-comp", cs.map((c) => Math.round(c.f)).slice(0, 5).join(", ") + (cs.length > 5 ? " … Hz" : " Hz"));
+    MB.stat("ms-ac", `${((best / sr) * 1000).toFixed(2)} ms → <b>${(sr / best).toFixed(1)} Hz</b>`);
+  }, { aspect: 0.62, maxHeight: 400 });
+})();
+
+/* ---------------------------------------------------------------- 4. 위상 */
+(function () {
+  const NH = 24;
+  const f0 = MB.range("ph-f0", (v) => v + " Hz", () => cv.redraw());
+  const mode = MB.seg("ph-mode", () => { roll(); });
+  const amps = [...Array(NH)].map((_, i) => 1 / (i + 1));
+  let phA = Array(NH).fill(0), phB = [];
+  let rnd = MB.rng(3);
+  function roll() {
+    const m = mode();
+    phB = [...Array(NH)].map((_, i) => { const n = i + 1; return m === "random" ? rnd() * 2 * Math.PI : m === "schroeder" ? (Math.PI * n * (n - 1)) / NH : Math.PI / 2; });
+    cv.redraw();
+  }
+  const wave = (ph, M = 600) => { const o = new Float32Array(M); for (let i = 0; i < M; i++) { let v = 0; for (let k = 0; k < NH; k++) v += amps[k] * Math.sin((2 * Math.PI * (k + 1) * i) / M + ph[k]); o[i] = v; } return o; };
+  const cf = (w) => { let p = 0, r = 0; w.forEach((v) => { p = Math.max(p, Math.abs(v)); r += v * v; }); return p / Math.sqrt(r / w.length); };
+  const cv = MB.canvas("#cv-phase", (ctx, w, h) => {
+    const P = MB.palette();
+    const a = wave(phA), b = wave(phB);
+    const pk = Math.max(...a.map(Math.abs), ...b.map(Math.abs));
+    MB.drawWave(ctx, { x: 12, y: 8, w: w - 24, h: h / 2 - 12 }, a, { yScale: 0.95 / pk, color: P.accent, width: 1.6 });
+    MB.drawWave(ctx, { x: 12, y: h / 2 + 4, w: w - 24, h: h / 2 - 12 }, b, { yScale: 0.95 / pk, color: P.accent2, width: 1.6 });
+    ctx.fillStyle = P.dim; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillText("A: 위상 0 (톱니)", 16, 20); ctx.fillText("B: 같은 |Aₙ|, 위상 변경", 16, h / 2 + 16);
+    MB.stat("ph-cfa", cf(a).toFixed(2)); MB.stat("ph-cfb", cf(b).toFixed(2));
+  }, { aspect: 0.5, maxHeight: 320 });
+  document.getElementById("ph-new").addEventListener("click", () => { rnd = MB.rng((Math.random() * 1e9) | 0); roll(); });
+  // 같은 RMS로 재생(진폭 스펙트럼이 같으므로 RMS도 같다)
+  document.getElementById("ph-a").addEventListener("click", () => MB.play({ freq: f0() }, { amps: amps.map((x) => x * 0.35), phases: phA, dur: 1.4, gain: 0.5 }));
+  document.getElementById("ph-b").addEventListener("click", () => MB.play({ freq: f0() }, { amps: amps.map((x) => x * 0.35), phases: phB, dur: 1.4, gain: 0.5 }));
+  roll();
+})();
+
+/* ---------------------------------------------------------------- 5. 모음 합성 */
+(function () {
+  // 한국어 성인 남성 단모음의 대략적 F1/F2 (Hz) — 교육용 근사값
+  const VOWELS = [
+    { v: "이", f1: 290, f2: 2200 }, { v: "에", f1: 470, f2: 1900 }, { v: "애", f1: 600, f2: 1750 }, { v: "아", f1: 780, f2: 1300 },
+    { v: "어", f1: 590, f2: 1000 }, { v: "오", f1: 400, f2: 800 }, { v: "우", f1: 330, f2: 900 }, { v: "으", f1: 340, f2: 1400 },
+  ];
+  let F1 = 780, F2 = 1300;
+  const F3 = 2500;
+  const f0 = MB.range("vw-f0", (v) => v + " Hz", () => { if (voice) voice.osc.frequency.setTargetAtTime(f0(), MB.now(), 0.02); spec.redraw(); });
+  const Q = MB.range("vw-q", (v) => "Q = " + v, () => { apply(); spec.redraw(); });
+  const vib = MB.check("vw-vib", () => { if (voice) voice.lfoG.gain.value = vib() ? 0.015 : 0; });
+  let voice = null;
+  const R = { f1: [200, 900], f2: [600, 2500] };
+  let padInv = () => [F2, F1];
+  function H(f) { // 병렬 2차 공진기 합의 크기(대략), 입술 방사 +6 dB/oct 와 음원 −12 dB/oct 반영 전
+    const res = (fc, q) => { const x = f / fc; return 1 / Math.sqrt((1 - x * x) ** 2 + (x / q) ** 2); };
+    return res(F1, Q()) + 0.7 * res(F2, Q()) + 0.35 * res(F3, Q());
+  }
+  function apply() { if (!voice) return; const t = MB.now(); voice.bp[0].frequency.setTargetAtTime(F1, t, 0.02); voice.bp[1].frequency.setTargetAtTime(F2, t, 0.02); voice.bp.forEach((b) => b.Q.setTargetAtTime(Q(), t, 0.02)); }
+  function start() {
+    const ctx = MB.ctx();
+    const osc = ctx.createOscillator(); osc.type = "sawtooth"; osc.frequency.value = f0();
+    const lfo = ctx.createOscillator(), lfoG = ctx.createGain(); lfo.frequency.value = 5.5; lfoG.gain.value = vib() ? 0.015 : 0;
+    // 비브라토: detune 대신 주파수에 곱하는 대신 detune(센트)에 연결
+    const lfoC = ctx.createGain(); lfoC.gain.value = 25 / 0.015; lfo.connect(lfoG); lfoG.connect(lfoC); lfoC.connect(osc.detune); lfo.start();
+    const sum = ctx.createGain(); sum.gain.value = 0;
+    const bp = [F1, F2, F3].map((f, i) => { const b = ctx.createBiquadFilter(); b.type = "bandpass"; b.frequency.value = f; b.Q.value = Q(); const g = ctx.createGain(); g.gain.value = [1, 0.7, 0.35][i] * 2.2; osc.connect(b); b.connect(g); g.connect(sum); return b; });
+    sum.connect(MB.out); sum.gain.setTargetAtTime(0.5, ctx.currentTime, 0.04);
+    osc.start();
+    voice = { osc, lfo, lfoG, bp, sum, release() { const t = ctx.currentTime; sum.gain.setTargetAtTime(0, t, 0.04); osc.stop(t + 0.3); lfo.stop(t + 0.3); } };
+  }
+  MB.playButton("vw-play", start, () => { if (voice) voice.release(); voice = null; });
+  const pad = MB.canvas("#cv-vowel", (ctx, w, h) => {
+    const P = MB.palette();
+    const X = (f2) => 30 + ((R.f2[1] - f2) / (R.f2[1] - R.f2[0])) * (w - 50), Y = (f1) => 14 + ((f1 - R.f1[0]) / (R.f1[1] - R.f1[0])) * (h - 40);
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.faint; ctx.font = "10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    [800, 1200, 1600, 2000, 2400].forEach((f) => { ctx.beginPath(); ctx.moveTo(X(f), 14); ctx.lineTo(X(f), h - 26); ctx.stroke(); ctx.fillText(f, X(f) - 10, h - 12); });
+    [300, 500, 700, 900].forEach((f) => { ctx.beginPath(); ctx.moveTo(30, Y(f)); ctx.lineTo(w - 20, Y(f)); ctx.stroke(); ctx.fillText(f, 2, Y(f) + 3); });
+    ctx.font = "15px " + getComputedStyle(document.body).getPropertyValue("--font");
+    VOWELS.forEach((v) => { ctx.fillStyle = P.accent2; ctx.beginPath(); ctx.arc(X(v.f2), Y(v.f1), 4, 0, 7); ctx.fill(); ctx.fillStyle = P.text; ctx.fillText(v.v, X(v.f2) + 7, Y(v.f1) + 5); });
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(X(F2), Y(F1), 8, 0, 7); ctx.fill();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillText("← F2 (혀가 앞)        F2 (혀가 뒤) →", w / 2 - 90, h - 1);
+    padInv = (px, py) => [R.f2[1] - ((px - 30) / (w - 50)) * (R.f2[1] - R.f2[0]), R.f1[0] + ((py - 14) / (h - 40)) * (R.f1[1] - R.f1[0])];
+    let best = VOWELS[0], bd = 1e9; VOWELS.forEach((v) => { const d = Math.hypot(Math.log(v.f1 / F1) * 2, Math.log(v.f2 / F2)); if (d < bd) { bd = d; best = v; } });
+    MB.stat("vw-f1", Math.round(F1) + " Hz"); MB.stat("vw-f2", Math.round(F2) + " Hz"); MB.stat("vw-v", bd < 0.25 ? best.v : best.v + " <small>(사이)</small>");
+  }, { aspect: 0.55, maxHeight: 300 });
+  const spec = MB.canvas("#cv-vowel-sp", (ctx, w, h) => {
+    const P = MB.palette(), fmax = 4000;
+    const box = { x: 40, y: 8, w: w - 52, h: h - 30 };
+    const curve = []; let hm = 0; for (let f = 20; f <= fmax; f += 10) { const v = H(f); hm = Math.max(hm, v); curve.push([f, v]); }
+    const dB = (v) => 20 * Math.log10(v / hm + 1e-6);
+    const bars = []; for (let n = 1; n * f0() < fmax; n++) { const f = n * f0(); bars.push([f, dB(H(f) / n)]); }
+    const top = Math.max(...bars.map((b) => b[1]));
+    MB.chart(ctx, box, { x: [0, fmax], y: [-50, 5], yLabel: "dB", xFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), series: [{ data: curve.map(([f, v]) => [f, dB(v)]), color: P.faint, width: 1.5 }] });
+    const X = (f) => box.x + (f / fmax) * box.w, Y = (d) => box.y + box.h - ((MB.clamp(d - top, -50, 5) + 50) / 55) * box.h;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; bars.forEach(([f, d]) => { ctx.beginPath(); ctx.moveTo(X(f), box.y + box.h); ctx.lineTo(X(f), Y(d)); ctx.stroke(); });
+  }, { aspect: 0.32, maxHeight: 200, minHeight: 130 });
+  let drag = false;
+  const move = (e) => { const r = pad.canvas.getBoundingClientRect(); const [f2, f1] = padInv(e.clientX - r.left, e.clientY - r.top); F1 = MB.clamp(f1, R.f1[0], R.f1[1]); F2 = MB.clamp(f2, R.f2[0], R.f2[1]); if (F2 < F1 + 200) F2 = F1 + 200; apply(); pad.redraw(); spec.redraw(); };
+  pad.canvas.addEventListener("pointerdown", (e) => { drag = true; pad.canvas.setPointerCapture(e.pointerId); move(e); });
+  pad.canvas.addEventListener("pointermove", (e) => drag && move(e));
+  pad.canvas.addEventListener("pointerup", () => (drag = false));
+})();
+
+/* ---------------------------------------------------------------- 6. 실시간 분석기 */
+(function () {
+  let src = null, mic = null;
+  const td = new Float32Array(8192);
+  const lv = MB.liveView("#cv-live", { mode: "spectrum", analyser: () => src, fmin: 40, fmax: 8000, dbMin: -110, dbMax: -10, aspect: 0.36, idleText: "마이크를 켜거나 테스트 음을 재생하세요" });
+  MB.loop(lv.canvas, () => {
+    if (!src) return;
+    const fd = new Float32Array(src.frequencyBinCount); src.getFloatFrequencyData(fd);
+    let k = 1; for (let i = 2; i < fd.length; i++) if (fd[i] > fd[k]) k = i;
+    const hz = (k * src.context.sampleRate) / src.fftSize;
+    MB.stat("lv-peak", fd[k] > -90 ? `${hz.toFixed(0)} Hz <small>${MB.noteName(MB.ftom(hz))}</small>` : "—");
+    src.getFloatTimeDomainData(td);
+    // 자기상관(정규화) 기반 f0 추정, 60–1000 Hz
+    const sr = src.context.sampleRate, N = 2048, lmin = Math.floor(sr / 1000), lmax = Math.floor(sr / 60);
+    let e = 0; for (let i = 0; i < N; i++) e += td[i] * td[i];
+    if (e / N < 1e-5) { MB.stat("lv-f0", "—"); return; }
+    let bl = 0, bv = 0; const ac = (l) => { let s = 0; for (let i = 0; i < N; i++) s += td[i] * td[i + l]; return s / e; };
+    let prev = ac(lmin - 1);
+    for (let l = lmin; l < lmax; l++) { const v = ac(l); if (v > bv && v > prev) { bv = v; bl = l; } prev = v; }
+    if (bv > 0.5) { const f = sr / bl; MB.stat("lv-f0", `${f.toFixed(1)} Hz <small>${MB.noteName(MB.ftom(f))}</small>`); } else MB.stat("lv-f0", "— <small>(주기성 약함)</small>");
+  });
+  document.getElementById("lv-mic").addEventListener("click", async (ev) => {
+    if (mic) { mic.stop(); mic = null; src = null; ev.target.textContent = "🎤 마이크 켜기"; return; }
+    try { mic = await MB.mic(); src = mic.analyser; ev.target.textContent = "🎤 마이크 끄기"; }
+    catch (e) { MB.stat("lv-peak", "마이크를 쓸 수 없습니다"); }
+  });
+  document.getElementById("lv-out").addEventListener("click", () => { MB.ctx(); if (mic) { mic.stop(); mic = null; document.getElementById("lv-mic").textContent = "🎤 마이크 켜기"; } src = MB.analyser; });
+  document.getElementById("lv-test").addEventListener("click", () => { MB.ctx(); src = MB.analyser; MB.play({ freq: 220 }, { inst: "saw", dur: 2 }); });
+})();
+</script>
+</body>
+</html>

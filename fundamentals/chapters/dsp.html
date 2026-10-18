@@ -1,0 +1,1472 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>디지털 오디오와 DSP · MusicBook</title>
+<meta name="description" content="샘플링 정리와 에일리어싱, 양자화·디더·노이즈 셰이핑, FFT와 창 함수, 스펙트로그램, 바이쿼드 EQ, 콤 필터·플랜저·코러스, 슈뢰더 리버브, 컴프레서, 라우드니스(LUFS)와 지연을 직접 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/dsp.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="디지털 오디오와 DSP · MusicBook">
+<meta property="og:description" content="샘플링 정리와 에일리어싱, 양자화·디더·노이즈 셰이핑, FFT와 창 함수, 스펙트로그램, 바이쿼드 EQ, 콤 필터·플랜저·코러스, 슈뢰더 리버브, 컴프레서, 라우드니스(LUFS)와 지연을 직접 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/dsp.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"디지털 오디오와 DSP","name":"디지털 오디오와 DSP · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/dsp.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/dsp.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":15,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"샘플링 정리와 에일리어싱, 양자화·디더·노이즈 셰이핑, FFT와 창 함수, 스펙트로그램, 바이쿼드 EQ, 콤 필터·플랜저·코러스, 슈뢰더 리버브, 컴프레서, 라우드니스(LUFS)와 지연을 직접 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"15 디지털 오디오와 DSP","item":"https://music.euiyun.com/fundamentals/chapters/dsp.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .dsp-drag { cursor: grab; touch-action: none; }
+  .dsp-drag:active { cursor: grabbing; }
+  .dsp-src { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dsp-src .btn { padding: 6px 10px; font-size: 13px; }
+  .dsp-bands { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dsp-bands .btn { padding: 5px 10px; font-size: 13px; }
+  .dsp-bands .btn.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="dsp">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 15</div>
+    <h1>디지털 오디오와 DSP</h1>
+    <p class="lead">마이크 앞 공기의 압력 변화는 연속 신호지만, 컴퓨터 안의 소리는 1초에 48,000개쯤의 정수 목록입니다. 시간을 자르는 <b>샘플링</b>과 진폭을 자르는 <b>양자화</b>, 이 두 번의 이산화에서 무엇을 잃고 무엇을 지킬 수 있는지 알면 디지털 오디오의 거의 모든 '규칙'이 설명됩니다. 그다음 그 숫자 열에 수학을 걸어 EQ, 딜레이, 리버브, 컴프레서를 만드는 신호 처리(DSP)를 하나씩 귀로 확인합니다.</p>
+    <ul class="objectives">
+      <li>나이퀴스트–섀넌 샘플링 정리와 에일리어싱의 접힘 공식 \(f_a = |f - k f_s|\)을 쓰고, 44.1/48/96 kHz가 정해진 배경을 설명한다.</li>
+      <li>양자화 잡음의 SNR ≈ 6.02N + 1.76 dB를 유도하고, 디더(RPDF·TPDF)와 노이즈 셰이핑이 무엇을 바꾸는지 듣고 구별한다.</li>
+      <li>FFT의 빈 폭 \(f_s/N\), 시간–주파수 트레이드오프, 창 함수의 누설과 주엽 폭을 수치로 비교한다.</li>
+      <li>LTI 시스템·컨볼루션·FIR/IIR을 이해하고, 바이쿼드 EQ·콤 필터·슈뢰더 리버브의 전달함수를 해석한다.</li>
+      <li>컴프레서의 정적 곡선과 시간 상수, 라우드니스(LUFS) 정규화와 버퍼 지연을 엔지니어의 숫자로 다룬다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="sampling">
+    <h2>샘플링 정리: 1초를 48,000조각으로</h2>
+    <p>아날로그–디지털 변환기(ADC)는 연속 신호 \(x(t)\)를 일정한 간격 \(T = 1/f_s\)마다 재서 수열 \(x[n] = x(nT)\)을 만듭니다. 놀라운 사실은, 원래 신호에 \(f_s/2\) 이상의 성분이 없다면 이 수열만으로 원래 연속 신호를 <b>완벽하게</b> 되살릴 수 있다는 것입니다. 이것이 <span class="term">나이퀴스트–섀넌 샘플링 정리</span><span class="en">(Nyquist–Shannon Sampling Theorem)</span>입니다(나이퀴스트 1928, 섀넌 1949).</p>
+    <div class="formula">$$x(t) = \sum_{n=-\infty}^{\infty} x[n]\;\mathrm{sinc}\!\left(\frac{t - nT}{T}\right), \qquad \mathrm{sinc}(u) = \frac{\sin \pi u}{\pi u}, \qquad \text{조건: } X(f) = 0 \ \ (|f| \ge f_s/2)$$
+      <div class="where">\(f_s/2\)를 <b>나이퀴스트 주파수</b>라 한다. 각 샘플 위치에 sinc 펄스를 세워 더하면(이상적 저역 통과 필터) 샘플 사이 값이 정확히 복원된다. "샘플 사이의 정보는 사라진다"는 직관은 대역 제한 신호에서는 틀렸다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 190" role="img" aria-label="ADC와 DAC 신호 사슬">
+        <g id="dsp-fig-chain"></g>
+      </svg>
+      <figcaption><b>그림 15-1.</b> 디지털 오디오의 신호 사슬. 안티에일리어싱 필터가 \(f_s/2\) 위를 미리 제거하고, 표본화(S/H)·양자화를 거쳐 정수 열이 된다. 재생 쪽 DAC는 계단(영차 유지) 신호를 내고 복원 필터가 계단의 모서리(이미지 성분)를 깎는다. 현대 변환기는 64–256배 오버샘플링 ΔΣ 방식이라 아날로그 필터는 완만하고, 날카로운 필터는 디지털 영역에서 처리한다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">샘플레이트</th><th class="num">나이퀴스트</th><th>주 용도</th><th>왜 이 값인가</th></tr></thead>
+      <tbody>
+        <tr><td class="num">8 kHz</td><td class="num">4 kHz</td><td>전화(G.711)</td><td>음성 대역 300–3400 Hz + 필터 여유</td></tr>
+        <tr><td class="num">16 kHz</td><td class="num">8 kHz</td><td>광대역 음성, 음성 인식</td><td>자음(마찰음) 에너지를 담는다</td></tr>
+        <tr><td class="num">44.1 kHz</td><td class="num">22.05 kHz</td><td>CD, 음원 배포</td><td>가청 20 kHz + 전이 대역 2 kHz, 비디오테이프 PCM 어댑터와 호환</td></tr>
+        <tr><td class="num">48 kHz</td><td class="num">24 kHz</td><td>영상·방송·게임, Web Audio 기본값 다수</td><td>프레임당 정수 샘플(25 fps → 1920, 30 fps → 1600), AES5 권고</td></tr>
+        <tr><td class="num">96 kHz</td><td class="num">48 kHz</td><td>녹음·믹싱 작업</td><td>완만한 필터, 비선형 처리의 에일리어싱 여유, 낮은 버퍼 지연</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout deep"><strong>44,100이라는 이상한 숫자</strong> 1970년대 말 디지털 녹음은 하드디스크 대신 비디오테이프에 저장했다(소니 PCM-1600 등 'PCM 어댑터'). 비디오 한 줄에 스테레오 샘플 3개를 흑백 점으로 기록하면, NTSC 흑백 60필드 × 필드당 유효 245줄 × 3 = 44,100, PAL 50필드 × 294줄 × 3 = 44,100으로 두 방식 모두 같은 값이 나온다. 20 kHz 가청 대역을 지키면서 안티에일리어싱 필터에 약 10%의 전이 대역(20 → 22.05 kHz)을 주는 값이기도 해서 CD 규격(레드북, 1980)에 그대로 채택되었다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="aliasing">
+    <h2>에일리어싱: 나이퀴스트에서 접히는 주파수</h2>
+    <p>조건을 어기면 어떻게 될까요? 샘플만 보면 주파수 \(f\)인 사인파와 \(f \pm k f_s\)인 사인파는 <b>구별할 수 없습니다</b>. \(\cos(2\pi (f + k f_s) nT) = \cos(2\pi f nT + 2\pi k n) = \cos(2\pi f nT)\)이기 때문입니다. 그래서 \(f_s/2\)를 넘는 성분은 기저대역 \([0, f_s/2]\) 안의 다른 주파수로 '변장'해 나타납니다. 이를 <span class="term">에일리어싱</span><span class="en">(Aliasing)</span>이라 합니다.</p>
+    <div class="formula">$$f_a = \left| f - k f_s \right|, \qquad k = \mathrm{round}\!\left(\frac{f}{f_s}\right)$$
+      <div class="where">주파수 축을 \(f_s/2\)마다 종이처럼 접는다고 생각하면 된다(접힘, folding). 예: \(f_s = 8\) kHz에서 5 kHz 사인파는 3 kHz로, 7 kHz는 1 kHz로 들린다. 입력을 올리면 출력이 <b>내려간다</b> — 이것이 에일리어싱을 귀로 알아채는 가장 확실한 단서다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="스펙트럼의 주기적 복제와 접힘">
+        <g id="dsp-fig-fold"></g>
+      </svg>
+      <figcaption><b>그림 15-2.</b> 샘플링하면 스펙트럼이 \(f_s\) 간격으로 복제된다(시간 영역의 임펄스 열 곱 = 주파수 영역의 컨볼루션). 원래 성분(보라)이 \(f_s/2\)를 넘으면 왼쪽으로 이동한 복제(청록 점선)가 기저대역 안에 떨어져 에일리어스가 된다. 한번 섞이면 원래 성분과 구별할 방법이 없으므로, 에일리어싱은 샘플링 <b>전에</b> 막아야 한다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-dsp-alias">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>에일리어싱 실험실: 낮은 샘플레이트에서 스윕 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-al-fold"></canvas><canvas id="cv-al-time"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>샘플레이트 fₛ <output id="al-fs-out"></output></span><input type="range" id="al-fs"></label>
+          <label class="ctrl"><span>입력 주파수 f <output id="al-f-out"></output></span><input type="range" id="al-f" min="0" max="1000" value="620"></label>
+          <div class="ctrl"><span>신호</span><div class="seg" id="al-sig"><button data-value="sine" class="on">사인</button><button data-value="saw">톱니(순진)</button><button data-value="blep">톱니(PolyBLEP)</button></div></div>
+          <div class="ctrl"><span>복원(DAC)</span><div class="seg" id="al-rec"><button data-value="sinc" class="on">이상적 sinc</button><button data-value="zoh">계단(ZOH)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="al-sweep">▶ 스윕 50 Hz→20 kHz</button></div>
+          <div class="btn-row"><button class="btn" id="al-tone">▶ 이 주파수 1.5초</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">나이퀴스트 f<sub>s</sub>/2</span><span class="v" id="al-ny">—</span></div>
+        <div class="stat"><span class="k">입력 → 들리는 주파수</span><span class="v" id="al-fa">—</span></div>
+        <div class="stat"><span class="k">기대 배음 대역 밖 전력 비율</span><span class="v" id="al-en">—</span></div>
+      </div>
+      <div class="sim-note"><b>볼륨을 낮추고 시작하세요.</b> 위 그래프: 가로축은 입력 주파수(0–24 kHz), 세로축은 샘플링 후 실제로 나타나는 주파수(0–f<sub>s</sub>/2). 톱날 모양 선이 접힘 함수이고 점은 각 배음이 떨어지는 자리입니다(빨강 = 나이퀴스트를 넘어 접힌 성분). 아래 왼쪽은 원래 파형(회색)·샘플(점)·복원 파형(청록), 오른쪽은 출력의 FFT 스펙트럼(초록 점선 = 있어야 할 배음 위치). 표시된 전력 비율은 기대 배음 ±6빈 밖만 센다. 기존 배음과 겹쳐 접힌 성분은 빠지고 창 누설은 포함될 수 있어 총 에일리어싱 전력은 아니다. 해볼 것: ① f<sub>s</sub> = 8 kHz에서 사인 스윕 — 4 kHz를 넘는 순간 음높이가 거꾸로 내려옵니다. ② '톱니(순진)'으로 스윕하면 배음들이 사방으로 접혀 '새소리' 같은 잡음이 납니다. PolyBLEP로 바꾸면 크게 줄어듭니다. ③ 복원을 '계단'으로 바꾸면 f<sub>s</sub>의 배수 근처에 이미지 성분이 남아 쇳소리가 섞입니다. 모델: 가상 샘플레이트에서 직접 표본을 계산한 뒤, 출력 장치 레이트로 Lanczos 창 sinc(±8 탭) 보간 또는 영차 유지로 변환합니다.</div>
+    </div>
+    <div class="callout warn"><strong>에일리어싱은 ADC에서만 생기지 않는다</strong> 디지털 영역의 <b>비선형 처리</b>(디스토션, 클리퍼, 웨이브셰이퍼, 강한 컴프레서, 순진한 오실레이터)는 새 배음을 만들고, 그것이 \(f_s/2\)를 넘으면 그대로 접힌다. 그래서 고급 플러그인은 내부에서 2–8배 오버샘플링한 뒤 처리하고 다시 내린다. 같은 이유로 신시사이저는 대역 제한 파형표, BLIT, PolyBLEP 같은 기법을 쓴다(2장).</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="reconstruction">
+    <h2>복원과 필터: 계단을 매끄럽게</h2>
+    <p>실제 DAC는 sinc 펄스를 만들 수 없으므로 각 샘플 값을 다음 샘플까지 유지하는 <span class="term">영차 유지</span><span class="en">(Zero-Order Hold, ZOH)</span> 계단을 냅니다. 계단은 길이 \(T\)의 사각 펄스와 임펄스 열의 컨볼루션이므로 주파수 응답은 sinc 모양입니다.</p>
+    <div class="formula">$$|H_{\mathrm{ZOH}}(f)| = \left|\mathrm{sinc}\!\left(\frac{f}{f_s}\right)\right| \;\Rightarrow\; |H(f_s/2)| = \frac{2}{\pi} \approx -3.92\ \mathrm{dB}$$
+      <div class="where">두 가지 결과: ① 통과 대역의 고역이 조금 깎인다(sinc droop, 보상 필터로 보정). ② \(k f_s \pm f\)에 이미지가 남는다(sinc의 영점이 \(k f_s\)에 있으므로 이미지는 약해지지만 0은 아니다). 복원 필터가 이 이미지를 제거한다.</div>
+    </div>
+    <p>CD를 처음 만들 때 이 필터가 난제였습니다. 20 kHz까지 평탄하고 22.05 kHz에서 약 96 dB 감쇠하려면 아날로그 필터로는 11차 이상의 타원 필터가 필요했고, 위상 왜곡이 컸습니다. 해법은 <b>오버샘플링</b>: 디지털 보간 필터로 4–8배 레이트를 올린 뒤 DAC에 넣으면 이미지가 \(4f_s\) 근처로 밀려나 아날로그 필터는 완만해도 됩니다. 오늘날의 ΔΣ 변환기는 이 생각을 극단까지 밀어 1–5비트를 수 MHz로 돌리고, 날카로운 FIR 데시메이션 필터를 칩 안에 넣습니다.</p>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 선형 위상 '벽돌담' FIR 필터는 임펄스 응답이 대칭이라 과도음 앞에 프리링잉(pre-ringing)이 생긴다. 22 kHz 근처의 링잉이라 대부분 들리지 않지만, 최소 위상·아포다이징 필터를 쓰는 DAC가 있는 이유다. 96 kHz로 녹음하는 실용적 이점은 '초고역 재생'보다 이런 필터 설계 여유와 처리 중 에일리어싱 여유에 있다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="quantization">
+    <h2>양자화: 진폭을 정수로</h2>
+    <p>각 샘플의 진폭은 \(N\)비트 정수로 반올림됩니다. 풀스케일 \([-1, 1)\)을 \(2^N\)칸으로 나누면 한 칸(LSB) 크기는 \(\Delta = 2/2^N\)입니다. 신호가 충분히 크고 복잡하면 반올림 오차 \(e[n]\)는 \([-\Delta/2, \Delta/2]\)에 균등 분포하는 백색 잡음처럼 행동합니다.</p>
+    <div class="formula">$$\sigma_e^2 = \frac{\Delta^2}{12}, \qquad \mathrm{SNR}_{\text{full-scale sine}} = 10\log_{10}\frac{1/2}{\Delta^2/12} = 6.02\,N + 1.76\ \mathrm{dB}$$
+      <div class="where">비트 하나당 6.02 dB(진폭 2배). 풀스케일 사인 전력은 \(1/2\). 16비트 98.1 dB, 24비트 146.3 dB가 이론값이다. 실제 24비트 ADC는 아날로그 열잡음 때문에 115–125 dB 정도에서 멈춘다 — 하위 3–5비트는 잡음이다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">비트</th><th class="num">준위 수</th><th class="num">LSB (dBFS)</th><th class="num">이론 SNR</th><th>쓰임</th></tr></thead>
+      <tbody>
+        <tr><td class="num">8</td><td class="num">256</td><td class="num">−42.1</td><td class="num">49.9 dB</td><td>초기 샘플러, 게임기, μ-law 전화(비선형 8비트)</td></tr>
+        <tr><td class="num">16</td><td class="num">65,536</td><td class="num">−90.3</td><td class="num">98.1 dB</td><td>CD, 배포용 음원</td></tr>
+        <tr><td class="num">24</td><td class="num">16,777,216</td><td class="num">−138.5</td><td class="num">146.3 dB</td><td>녹음·제작(헤드룸을 넉넉히)</td></tr>
+        <tr><td class="num">32 float</td><td class="num">—</td><td class="num">—</td><td class="num">가수 24비트 ≈ 146 dB, 범위 약 1500 dB</td><td>DAW 내부 처리(0 dBFS 넘어도 안 잘림)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>디더: 잡음을 더해 왜곡을 없애기</h3>
+    <p>신호가 작아져 몇 LSB만 오가면 '오차 = 백색 잡음' 가정이 깨집니다. 오차가 신호와 상관된 <b>고조파 왜곡</b>이 되고, 아주 작은 신호는 아예 0으로 사라집니다. 해결책은 역설적이게도 양자화 직전에 작은 잡음을 일부러 더하는 <span class="term">디더</span><span class="en">(Dither)</span>입니다.</p>
+    <ul>
+      <li><b>RPDF</b>(직사각 분포, ±½ LSB): 오차의 평균이 신호와 무관해진다. 그러나 오차 전력은 여전히 신호에 따라 변한다(잡음 변조). 잡음 +3 dB.</li>
+      <li><b>TPDF</b>(삼각 분포, ±1 LSB, 균등 난수 두 개의 합): 오차의 1·2차 모멘트가 모두 신호와 독립 — 들리는 결과는 '일정한 쉬익 소리 + 왜곡 없는 신호'. 잡음 +4.77 dB(전력 3배). 립시츠·바나메이커·반더코이(1992)가 보인 사실상의 표준이다.</li>
+      <li><b>노이즈 셰이핑</b>: 양자화 오차를 되먹여 잡음 전달함수 \(\mathrm{NTF}(z) = (1-z^{-1})^k\)를 만들면 잡음이 귀가 둔한 고역으로 밀려난다. 총 잡음은 늘지만 1–5 kHz의 체감 잡음은 크게 준다. 24비트 → 16비트 마스터링의 마지막 단계에 쓰인다.</li>
+    </ul>
+
+    <div class="sim" id="sim-dsp-quant">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>양자화기: 비트 수 · 디더 · 노이즈 셰이핑</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-q-wave"></canvas><canvas id="cv-q-spec"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>비트 수 N <output id="q-bits-out"></output></span><input type="range" id="q-bits" min="1" max="16" value="6"></label>
+          <label class="ctrl"><span>신호 크기 <output id="q-amp-out"></output></span><input type="range" id="q-amp" min="-80" max="0" value="-20"></label>
+          <div class="ctrl"><span>디더</span><div class="seg" id="q-dither"><button data-value="none" class="on">없음</button><button data-value="rpdf">RPDF ±½</button><button data-value="tpdf">TPDF ±1</button></div></div>
+          <label class="check"><input type="checkbox" id="q-ns"> 노이즈 셰이핑 (2차 오차 피드백)</label>
+          <label class="check"><input type="checkbox" id="q-err"> 오차 신호만 듣기 (정규화)</label>
+          <div class="btn-row"><button class="btn primary" id="q-play">▶ 997 Hz 듣기</button></div>
+          <div class="btn-row"><button class="btn" id="q-fade">▶ 페이드아웃 −10→−80 dBFS</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">이론 SNR (풀스케일)</span><span class="v" id="q-th">—</span></div>
+        <div class="stat"><span class="k">측정 SNR (이 신호)</span><span class="v" id="q-snr">—</span></div>
+        <div class="stat"><span class="k">신호 / LSB</span><span class="v" id="q-lsb">—</span></div>
+      </div>
+      <div class="sim-note">위: 원래 사인(회색)과 양자화 출력(보라), 그 아래 오차 \(e = y - x\)(청록). 아래: 출력 스펙트럼(블랙먼 창, 16384점)과 이론적 잡음 바닥(점선, 빈당). 테스트 주파수 997 Hz는 AES17 측정 규격이 쓰는 값으로, 표본 주파수와 작은 정수비가 아니라 짧은 반복을 피합니다. 48 kHz에서는 48,000샘플(1초) 뒤에 이상적 사인 표본과 결정론적 양자화 오차가 반복합니다. 해볼 것: ① 6비트, −20 dBFS, 디더 없음 → 스펙트럼에 고조파 막대가 줄지어 서고, '오차만 듣기'를 켜면 음과 함께 변하는 거친 소리. TPDF로 바꾸면 막대가 사라지고 평탄한 잡음만 남습니다. ② 페이드아웃 버튼: 디더 없이는 신호가 작아질수록 지글거리다 뚝 끊기고, TPDF에서는 쉬익 소리 아래로 사인이 끝까지 들립니다. ③ 노이즈 셰이핑을 켜면 잡음 바닥이 +12 dB/oct로 기울어 저역이 조용해집니다. 모델: 미드트레드 반올림 양자화기(1비트는 부호 양자화), 풀스케일 ±1.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="peaks">
+    <h2>클리핑과 샘플 간 피크</h2>
+    <p>정수 표현에는 천장이 있습니다. 0 dBFS를 넘는 값은 최댓값으로 잘리고(하드 클리핑), 잘린 파형은 사각파처럼 홀수 고조파를 대량으로 만들며, 그중 나이퀴스트를 넘는 것은 접혀서 비조화적인 잡음이 됩니다. 함정은 <b>샘플 값이 모두 0 dBFS 이하여도 복원된 아날로그 파형은 그 위로 솟을 수 있다</b>는 점입니다. sinc 보간은 샘플 사이를 지나며 샘플보다 큰 값을 만들 수 있기 때문입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="샘플 간 피크">
+        <g id="dsp-fig-isp"></g>
+      </svg>
+      <figcaption><b>그림 15-3.</b> \(f_s/4\) 사인파를 위상 45°에서 샘플링하면 모든 샘플이 ±0.707이다. 이 샘플들을 0 dBFS로 정규화(×1.414)하면 샘플 피크는 0 dBFS지만, 복원된 사인의 실제 피크는 <b>+3.01 dBTP</b>로 DAC나 이후 코덱(MP3·AAC 디코더)에서 클리핑된다.</figcaption>
+    </figure>
+    <p>그래서 방송·스트리밍 규격은 <span class="term">트루 피크</span><span class="en">(True Peak, dBTP)</span>를 씁니다. ITU-R BS.1770-5(2023)의 부속서 예는 48 kHz 입력을 4배, 96 kHz 입력을 2배 보간하여 피크를 추정합니다. 유사하거나 더 우수한 측정 방법도 허용하며 유한 보간비가 오차 없는 피크를 보장하지는 않습니다. EBU R128은 최대 −1 dBTP를 요구합니다. 손실 압축 코덱은 재구성 과정에서 피크를 더 키우므로 스트리밍 서비스는 −1 dBTP(때로 −2)를 권장합니다.</p>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="fft">
+    <h2>DFT와 FFT: 스펙트럼을 재는 자</h2>
+    <p>유한한 \(N\)개 샘플의 주파수 성분은 <span class="term">이산 푸리에 변환</span><span class="en">(DFT)</span>으로 계산합니다. 직접 계산하면 \(O(N^2)\)이지만 쿨리–튜키(1965)의 <b>FFT</b>는 \(O(N\log N)\)으로 같은 결과를 냅니다. \(N = 4096\)이면 약 340배 빠릅니다.</p>
+    <div class="formula">$$X[k] = \sum_{n=0}^{N-1} w[n]\,x[n]\,e^{-j 2\pi k n / N}, \qquad f_k = k\,\frac{f_s}{N}, \qquad \Delta f_{\text{bin}} = \frac{f_s}{N} = \frac{1}{T_{\text{frame}}}$$
+      <div class="where">\(w[n]\): 창 함수. 빈 폭 \(\Delta f\)와 프레임 길이 \(T = N/f_s\)의 곱은 1 — <b>시간–주파수 불확정성</b>. 48 kHz에서 \(N=4096\)이면 빈 폭 11.7 Hz, 프레임 85 ms. 저음 두 음(예: E1 41.2 Hz와 F1 43.7 Hz, 2.5 Hz 차이)을 가르려면 0.4초 이상을 봐야 한다.</div>
+    </div>
+    <p>DFT는 \(N\)개 샘플이 <b>무한히 반복된다</b>고 가정합니다. 프레임 길이가 신호 주기의 정수배가 아니면 이음매에서 불연속이 생기고, 그 에너지가 모든 빈으로 번집니다. 이것이 <span class="term">스펙트럼 누설</span><span class="en">(Spectral Leakage)</span>입니다. 창 함수는 프레임 양 끝을 0으로 부드럽게 줄여 누설을 막는 대신 주엽(main lobe)을 넓혀 해상도를 희생합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>창</th><th class="num">최대 사이드로브</th><th class="num">주엽 폭(영점–영점)</th><th class="num">ENBW</th><th class="num">사이드로브 감쇠율</th><th>쓰임</th></tr></thead>
+      <tbody>
+        <tr><td>직사각</td><td class="num">−13.3 dB</td><td class="num">2 빈</td><td class="num">1.00</td><td class="num">−6 dB/oct</td><td>과도음, 정수 주기 신호</td></tr>
+        <tr><td>한(Hann)</td><td class="num">−31.5 dB</td><td class="num">4 빈</td><td class="num">1.50</td><td class="num">−18 dB/oct</td><td>범용 기본값</td></tr>
+        <tr><td>해밍</td><td class="num">−42.7 dB</td><td class="num">4 빈</td><td class="num">1.36</td><td class="num">−6 dB/oct</td><td>가까운 사이드로브 억제</td></tr>
+        <tr><td>블랙먼</td><td class="num">−58.1 dB</td><td class="num">6 빈</td><td class="num">1.73</td><td class="num">−18 dB/oct</td><td>큰 동적 범위</td></tr>
+        <tr><td>블랙먼–해리스(4항)</td><td class="num">−92.0 dB</td><td class="num">8 빈</td><td class="num">2.00</td><td class="num">−6 dB/oct</td><td>측정용(THD, 잡음 바닥)</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:14px;color:var(--text-dim)">수치 출처: F. J. Harris, "On the Use of Windows for Harmonic Analysis with the Discrete Fourier Transform", Proc. IEEE, 1978. ENBW(등가 잡음 대역폭)는 빈 단위.</p>
+
+    <div class="sim" id="sim-dsp-fft">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>FFT 창 함수 탐색기: 가까운 두 음을 가를 수 있을까</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-fft"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>FFT 크기 N <output id="fft-n-out"></output></span><input type="range" id="fft-n"></label>
+          <div class="ctrl"><span>창 함수</span><div class="seg" id="fft-win"><button data-value="rect">직사각</button><button data-value="hann" class="on">한</button><button data-value="hamming">해밍</button><button data-value="blackman">블랙먼</button><button data-value="bh4">B–해리스</button></div></div>
+          <label class="ctrl"><span>두 음의 간격 Δf <output id="fft-df-out"></output></span><input type="range" id="fft-df" min="2" max="200" value="40"></label>
+          <label class="ctrl"><span>약한 음의 크기 <output id="fft-a2-out"></output></span><input type="range" id="fft-a2" min="-100" max="0" value="-40"></label>
+          <label class="ctrl"><span>f₁의 빈 오프셋 <output id="fft-off-out"></output></span><input type="range" id="fft-off" min="0" max="50" value="50"></label>
+          <div class="ctrl"><span>영 채우기(zero padding)</span><div class="seg" id="fft-zp"><button data-value="1">×1</button><button data-value="4" class="on">×4</button><button data-value="16">×16</button></div></div>
+          <label class="check"><input type="checkbox" id="fft-zoom" checked> 두 음 근처 확대</label>
+          <div class="btn-row"><button class="btn primary" id="fft-play">▶ 두 음 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">빈 폭 f<sub>s</sub>/N</span><span class="v" id="fft-bin">—</span></div>
+        <div class="stat"><span class="k">프레임 길이</span><span class="v" id="fft-t">—</span></div>
+        <div class="stat"><span class="k">두 음 분해</span><span class="v" id="fft-res">—</span></div>
+        <div class="stat"><span class="k">f₁ 피크 높이</span><span class="v" id="fft-pk">—</span></div>
+      </div>
+      <div class="sim-note">f<sub>s</sub> = 8 kHz, f₁ = 1000 Hz(0 dB) + 오프셋, f₂ = f₁ + Δf(약한 음). 위: 창을 곱한 프레임과 창 모양(점선). 아래: 스펙트럼 — 실제 FFT 빈은 점, 영 채우기로 보간한 곡선은 선, 세로 점선은 참 주파수. 해볼 것: ① 오프셋 0(빈 중앙)과 0.5(빈 사이)에서 직사각 창을 비교 — 0.5에서 누설이 −13 dB 사이드로브로 퍼져 −40 dB 음을 덮습니다. ② 약한 음을 −80 dB로 낮추면 블랙먼–해리스만 찾아냅니다. ③ Δf를 줄이면 주엽이 넓은 창부터 두 봉우리가 하나로 합쳐집니다. 이때 영 채우기를 ×16으로 늘려도 분해되지 않습니다 — 영 채우기는 곡선을 촘촘히 그릴 뿐 해상도(1/T)를 바꾸지 않습니다. 듣기 버튼은 두 사인을 실제로 울립니다(Δf가 작으면 맥놀이로 들림). '분해' 판정: 약한 음 위치에 3 dB 이상 골이 있는 봉우리가 있는가.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="stft">
+    <h2>STFT와 스펙트로그램</h2>
+    <p>음악은 시간에 따라 변하므로 짧은 창을 밀어 가며 FFT를 반복합니다. 이것이 <span class="term">단시간 푸리에 변환</span><span class="en">(STFT)</span>이고, 그 크기를 시간–주파수 평면에 색으로 그린 것이 <span class="term">스펙트로그램</span>입니다.</p>
+    <div class="formula">$$X[m, k] = \sum_{n=0}^{N-1} w[n]\,x[n + mH]\,e^{-j2\pi kn/N}$$
+      <div class="where">\(H\): 홉(hop) 크기. 보통 \(H = N/4\)(75% 겹침). 창 길이 \(N\)이 시간·주파수 해상도를 동시에 정한다: 긴 창은 음높이를 정확히, 짧은 창은 타격의 시각을 정확히 보여 준다. 둘을 동시에 무한히 좋게 할 수는 없다(가보르 한계 \(\Delta t\,\Delta f \ge 1/4\pi\)). 상수-Q 변환과 웨이블릿은 저역엔 긴 창, 고역엔 짧은 창을 써서 이 타협을 음악에 맞게 바꾼다.</div>
+    </div>
+
+    <div class="sim" id="sim-dsp-spectro">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>실시간 스펙트로그램: 창 길이를 바꿔 가며 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-sp"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>FFT 크기(창 길이) <output id="sp-n-out"></output></span><input type="range" id="sp-n"></label>
+          <div class="ctrl"><span>주파수 축</span><div class="seg" id="sp-scale"><button data-value="lin">선형</button><button data-value="log" class="on">로그</button></div></div>
+          <label class="ctrl"><span>표시 범위 <output id="sp-range-out"></output></span><input type="range" id="sp-range" min="50" max="110" value="80"></label>
+          <div class="ctrl"><span>테스트 소리</span>
+            <div class="dsp-src">
+              <button class="btn" id="sp-chirp">처프(선형)</button><button class="btn" id="sp-echirp">처프(지수)</button><button class="btn" id="sp-chord">피아노 화음</button><button class="btn" id="sp-bell">FM 종</button><button class="btn" id="sp-vowel">모음 아–이–우</button><button class="btn" id="sp-drums">드럼 루프</button><button class="btn" id="sp-mic">🎤 마이크</button>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn" id="sp-stop">■ 모두 정지</button><label class="check"><input type="checkbox" id="sp-pause"> 화면 멈춤</label></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">창 길이</span><span class="v" id="sp-t">—</span></div>
+        <div class="stat"><span class="k">빈 폭</span><span class="v" id="sp-df">—</span></div>
+        <div class="stat"><span class="k">가장 센 성분</span><span class="v" id="sp-pk">—</span></div>
+      </div>
+      <div class="sim-note">오른쪽이 현재, 왼쪽으로 흘러갑니다(초당 약 120픽셀). 해볼 것: ① 드럼 루프를 켜고 FFT 크기를 256 ↔ 8192로 바꿔 보세요. 짧은 창에서는 타격이 날카로운 세로줄, 긴 창에서는 번진 덩어리가 됩니다. ② 피아노 화음은 반대로 긴 창에서 배음 줄이 선명합니다. ③ 선형 처프는 선형 축에서, 지수 처프는 로그 축에서 직선입니다. ④ FM 종의 배음은 정수배 간격이 아닙니다(비조화). ⑤ 모음은 배음 줄은 그대로인데 포먼트(밝은 띠)가 움직입니다. 모델: Web Audio <code>AnalyserNode</code>(블랙먼 창, 시간 평활 0) 출력을 화면 프레임마다 한 열씩 그립니다. 마이크 소리는 스피커로 내보내지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="filters">
+    <h2>LTI 시스템과 필터: FIR, IIR, 바이쿼드</h2>
+    <p>EQ, 리버브, 스피커, 방 — 이들은 근사적으로 <span class="term">선형 시불변</span><span class="en">(LTI)</span> 시스템입니다. LTI 시스템은 임펄스 응답 \(h[n]\) 하나로 완전히 기술되고, 출력은 입력과 \(h\)의 <span class="term">컨볼루션</span>입니다. 주파수 영역에서는 곱셈이 됩니다.</p>
+    <div class="formula">$$y[n] = \sum_{k} h[k]\,x[n-k] \quad\Longleftrightarrow\quad Y(z) = H(z)\,X(z), \qquad H(z) = \frac{\sum_{i=0}^{M} b_i z^{-i}}{1 + \sum_{j=1}^{P} a_j z^{-j}}$$
+      <div class="where">분모가 1이면(\(a_j = 0\)) 임펄스 응답이 유한한 <b>FIR</b>, 재귀형은 일반적으로 무한 임펄스 응답의 <b>IIR</b>이지만 극점·영점 상쇄와 초기조건에 따라 유한 응답도 가능하다. FIR/IIR은 구현의 되먹임 유무만으로 정의하지 않는다. \(z = e^{j2\pi f/f_s}\)를 대입하면 주파수 응답.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>FIR</th><th>IIR</th></tr></thead>
+      <tbody>
+        <tr><td>구조</td><td>지연된 입력의 가중합</td><td>입력 + 지연된 출력의 되먹임</td></tr>
+        <tr><td>위상</td><td>계수가 대칭이면 정확한 선형 위상(파형 보존)</td><td>비선형 위상(아날로그 필터와 같은 성질)</td></tr>
+        <tr><td>안정성</td><td>항상 안정</td><td>극점이 단위원 안에 있어야 함</td></tr>
+        <tr><td>비용(같은 날카로움)</td><td>탭 수십–수천 개</td><td>2차 섹션 몇 개</td></tr>
+        <tr><td>예</td><td>선형 위상 EQ, 오버샘플링 필터, 컨볼루션 리버브</td><td>파라메트릭 EQ, 신스 필터, 셸빙, DC 차단</td></tr>
+      </tbody>
+    </table></div>
+    <p>음향에서 가장 많이 쓰는 IIR은 2차 섹션 <span class="term">바이쿼드</span><span class="en">(Biquad)</span>입니다. 로버트 브리스토–존슨(RBJ)의 <b>Audio EQ Cookbook</b>은 아날로그 원형을 쌍선형 변환해 \(f_0, Q\), 이득(dB)만으로 계수를 주는 공식집으로, Web Audio의 <code>BiquadFilterNode</code>도 이를 따릅니다. 피킹 EQ는 다음과 같습니다.</p>
+    <div class="formula">$$A = 10^{G/40},\ \ \omega_0 = 2\pi\frac{f_0}{f_s},\ \ \alpha = \frac{\sin\omega_0}{2Q}:\qquad H(z) = \frac{(1+\alpha A) - 2\cos\omega_0\, z^{-1} + (1-\alpha A) z^{-2}}{(1+\alpha/A) - 2\cos\omega_0\, z^{-1} + (1-\alpha/A) z^{-2}}$$
+      <div class="where">\(f_0\)에서 이득 \(G\) dB, 대역폭은 \(Q\)가 정한다(옥타브 대역폭 BW와 \(Q \approx 1/(2\sinh(\tfrac{\ln 2}{2}\mathrm{BW}))\), BW=1옥타브 ≈ Q 1.41). 쌍선형 변환 때문에 나이퀴스트 근처에서는 응답이 압축된다(주파수 워핑).</div>
+    </div>
+
+    <div class="sim" id="sim-dsp-eq">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>4밴드 파라메트릭 EQ 설계기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-eq" class="dsp-drag"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>밴드 선택</span><div class="dsp-bands" id="eq-bands"><button class="btn on" data-b="0">1</button><button class="btn" data-b="1">2</button><button class="btn" data-b="2">3</button><button class="btn" data-b="3">4</button></div></div>
+          <label class="ctrl"><span>종류</span><select id="eq-type"><option value="peaking">피킹(벨)</option><option value="lowshelf">로우 셸프</option><option value="highshelf">하이 셸프</option><option value="lowpass">로우패스</option><option value="highpass">하이패스</option><option value="notch">노치</option></select></label>
+          <label class="ctrl"><span>주파수 f₀ <output id="eq-f-out"></output></span><input type="range" id="eq-f" min="0" max="1000" value="500"></label>
+          <label class="ctrl"><span>이득 G <output id="eq-g-out"></output></span><input type="range" id="eq-g" min="-18" max="18" step="0.5" value="0"></label>
+          <label class="ctrl"><span>Q <output id="eq-q-out"></output></span><input type="range" id="eq-q" min="0" max="100" value="40"></label>
+          <div class="ctrl"><span>소스</span><div class="seg" id="eq-src"><button data-value="loop" class="on">드럼+화음 루프</button><button data-value="pink">핑크 잡음</button></div></div>
+          <label class="check"><input type="checkbox" id="eq-bypass"> 바이패스 (A/B 비교)</label>
+          <div class="btn-row"><button class="btn primary" id="eq-play">▶ 재생</button><button class="btn" id="eq-reset">평탄하게</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선택 밴드 b₀ b₁ b₂</span><span class="v" id="eq-b" style="font-size:14px">—</span></div>
+        <div class="stat"><span class="k">a₁ a₂ (a₀=1)</span><span class="v" id="eq-a" style="font-size:14px">—</span></div>
+        <div class="stat"><span class="k">합성 응답 범위</span><span class="v" id="eq-rng">—</span></div>
+      </div>
+      <div class="sim-note">점(1–4)을 끌어 주파수·이득을 바꾸고, 마우스 휠(또는 Q 슬라이더)로 폭을 바꿉니다. 굵은 선은 네 바이쿼드를 직렬로 곱한 전체 응답(\(\sum\) dB), 옅은 선은 각 밴드, 배경은 재생 중인 출력의 실시간 스펙트럼입니다. 소리는 같은 설정의 실제 <code>BiquadFilterNode</code> 4개를 통과합니다. 해볼 것: ① 핑크 잡음에서 Q 8의 +12 dB 벨을 200 Hz→5 kHz로 끌어 '모음'처럼 변하는 소리를 들어 보세요. ② 하이패스 120 Hz로 킥과 베이스가 사라지는 것, ③ 바이패스로 A/B. 구현 메모: Web Audio에서 셸빙 필터는 Q를 무시하고 기울기 S=1(≈ Q 0.707)로 고정되며, 로우/하이패스의 Q는 dB 단위입니다(여기서는 선형 Q를 20·log₁₀Q로 바꿔 넣음). 계수 표시는 f<sub>s</sub> = 48 kHz 기준.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="delay">
+    <h2>딜레이와 콤 필터: 플랜저·코러스·에코</h2>
+    <p>가장 단순한 효과는 신호를 지연시켜 원래 신호와 더하는 것입니다. 지연 \(\tau\)가 수십 ms를 넘으면 귀는 따로 떨어진 메아리(에코)로 듣지만, 짧으면 두 신호가 간섭해 주파수 응답에 빗살 같은 골과 봉우리가 생깁니다. 이것이 <span class="term">콤 필터</span><span class="en">(Comb Filter)</span>입니다.</p>
+    <div class="formula">$$\text{앞먹임: } y[n] = x[n] + g\,x[n-D] \;\Rightarrow\; |H(f)|^2 = 1 + g^2 + 2g\cos(2\pi f\tau)$$
+    $$\text{되먹임: } y[n] = x[n] + g\,y[n-D] \;\Rightarrow\; H(z) = \frac{1}{1 - g z^{-D}},\quad |H|_{\max} = \frac{1}{1-|g|}$$
+      <div class="where">\(\tau = D/f_s\). 앞먹임(\(g>0\))의 골은 \(f = (2k+1)/(2\tau)\), 되먹임의 봉우리는 \(f = k/\tau\) — 간격 \(1/\tau\)의 배음열이다. 그래서 \(\tau = 5\) ms에 강한 되먹임을 걸면 200 Hz 음높이가 '울린다'(카플러스–스트롱 현 모델(3장)이 바로 이것). 되먹임 메아리가 60 dB 줄어드는 시간은 \(T_{60} = -3\tau/\log_{10}|g|\).</div>
+    </div>
+    <p><b>플랜저</b>는 1–10 ms 지연을 저주파 LFO로 천천히 흔들어 빗살이 위아래로 미끄러지게 하고(제트기 '쉬익'), <b>코러스</b>는 15–30 ms 지연을 약간 흔든 여러 복사본을 섞어 음높이가 미세하게 다른 연주자 여럿이 함께 연주하는 듯한 두께를 만듭니다. 지연을 흔들면 도플러 효과로 음높이가 \(1 - \dot\tau(t)\)배 변합니다.</p>
+
+    <div class="sim" id="sim-dsp-comb">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>딜레이 라인 하나로 만드는 콤·플랜저·코러스·에코</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-comb"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span><div class="dsp-src" id="cb-pre"><button class="btn" data-p="comb">콤(앞먹임)</button><button class="btn" data-p="reso">공진 콤</button><button class="btn" data-p="flanger">플랜저</button><button class="btn" data-p="chorus">코러스</button><button class="btn" data-p="echo">에코</button></div></div>
+          <label class="ctrl"><span>지연 τ <output id="cb-d-out"></output></span><input type="range" id="cb-d" min="0" max="1000" value="300"></label>
+          <label class="ctrl"><span>되먹임 g <output id="cb-fb-out"></output></span><input type="range" id="cb-fb" min="-95" max="95" value="0"></label>
+          <label class="ctrl"><span>웨트 비율 <output id="cb-mix-out"></output></span><input type="range" id="cb-mix" min="0" max="100" value="50"></label>
+          <label class="ctrl"><span>LFO 깊이 <output id="cb-dep-out"></output></span><input type="range" id="cb-dep" min="0" max="100" value="0"></label>
+          <label class="ctrl"><span>LFO 속도 <output id="cb-rate-out"></output></span><input type="range" id="cb-rate" min="1" max="100" value="20"></label>
+          <div class="ctrl"><span>소스</span><div class="seg" id="cb-src"><button data-value="noise" class="on">핑크 잡음</button><button data-value="saw">톱니 화음</button><button data-value="drums">드럼</button><button data-value="pluck">기타</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="cb-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재 지연 τ</span><span class="v" id="cb-now">—</span></div>
+        <div class="stat"><span class="k">빗살 간격 1/τ</span><span class="v" id="cb-sp">—</span></div>
+        <div class="stat"><span class="k">봉우리/골 · T₆₀</span><span class="v" id="cb-pk">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 현재 지연에서의 이론적 크기 응답(선형 주파수 축 0–10 kHz)과 출력의 실시간 스펙트럼(옅은 면). LFO가 켜져 있으면 빗살이 움직입니다. 해볼 것: ① '콤' 프리셋에서 핑크 잡음의 τ를 0.1→10 ms로 — 빗살 간격이 1/τ로 좁아지며 '관 속' 같은 음색이 됩니다. ② '공진 콤'에서 g를 ±로 바꾸면 봉우리가 k/τ ↔ (k+½)/τ로 옮겨 음높이가 한 옥타브 내려갑니다(홀수 배음만). ③ 플랜저와 코러스를 기타·톱니 화음으로 비교. ④ 에코의 T₆₀ 공식을 귀로 확인. 구현: 분수 지연(선형 보간)을 지원하는 AudioWorklet 딜레이 라인(코러스는 위상이 120°씩 다른 LFO 3개). Web Audio의 <code>DelayNode</code>는 되먹임 고리 안에서 최소 128샘플(≈2.7 ms)로 제한되므로 짧은 공진 콤을 만들 수 없기 때문입니다.</div>
+      <div class="sim-msg" id="cb-msg" hidden></div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 10 -->
+  <section id="reverb">
+    <h2>리버브: 방을 계산하기</h2>
+    <p>방에서 손뼉을 치면 직접음 뒤로 벽에서 돌아온 <b>초기 반사음</b>이 수십 ms 동안 띄엄띄엄 오고, 이어 반사가 반사를 낳아 밀도가 시간의 제곱으로 늘어나는 <b>잔향 꼬리</b>가 지수적으로 사라집니다. 소리가 60 dB 줄어드는 시간이 잔향 시간 RT60이고, 세이빈(1898)의 공식이 첫 근사를 줍니다.</p>
+    <div class="formula">$$RT_{60} \approx 0.161\,\frac{V}{\sum_i S_i\,\alpha_i}\ \ [\mathrm{s}]$$
+      <div class="where">\(V\): 부피(m³), \(S_i\): 면적(m²), \(\alpha_i\): 흡음률. 거실 0.4–0.6 s, 녹음 스튜디오 0.3 s 안팎, 콘서트홀 1.8–2.2 s, 대성당 5 s 이상.</div>
+    </div>
+    <p>슈뢰더(1962)는 이 꼬리를 적은 계산으로 흉내 내는 구조를 제안했습니다. 서로소에 가까운 지연을 가진 <b>되먹임 콤 필터 4개를 병렬로</b> 놓아 감쇠하는 메아리 밀도를 만들고, <b>올패스 필터 2개를 직렬로</b> 통과시켜 크기 응답은 그대로 두고 메아리를 잘게 흩습니다. 각 콤의 되먹임 이득은 원하는 RT60에서 역산합니다.</p>
+    <div class="formula">$$g_i = 10^{-3\tau_i / RT_{60}}, \qquad H_{\text{AP}}(z) = \frac{-g + z^{-D}}{1 - g z^{-D}}\ \ (|H_{\text{AP}}| = 1)$$
+      <div class="where">\(\tau_i\)마다 메아리가 \(g_i\)배 줄어 \(RT_{60}/\tau_i\)번 돌면 −60 dB. 무어러(1979)는 콤 안에 저역 통과 필터를 넣어 고역이 먼저 사라지는 실제 공기·벽 흡음을 흉내 냈고, 이를 구현한 공개 코드 <b>프리버브</b>(Freeverb, 2000)는 콤 8개 + 올패스 4개로 지금도 널리 쓰인다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="슈뢰더 리버브 블록도">
+        <g id="dsp-fig-schroeder"></g>
+      </svg>
+      <figcaption><b>그림 15-4.</b> 슈뢰더 리버브. 병렬 되먹임 콤 4개(29.7, 37.1, 41.1, 43.7 ms)가 감쇠하는 메아리열을 만들고, 직렬 올패스 2개(5.0, 1.7 ms, g = 0.7)가 메아리 밀도를 높인다. 각 블록 안의 \(z^{-D}\)는 지연선이다.</figcaption>
+    </figure>
+    <p>현대의 다른 방법은 <span class="term">컨볼루션 리버브</span>입니다. 실제 공간의 임펄스 응답(IR)을 측정해(파리나(2000)의 지수 사인 스윕법이 표준) 입력과 컨볼루션하면 그 공간의 LTI 특성이 그대로 재현됩니다. 수 초짜리 IR은 수십만 탭 FIR이므로 FFT 기반 분할 컨볼루션으로 계산합니다. 아래 시뮬레이터는 알고리즘 리버브의 IR을 직접 계산해 <code>ConvolverNode</code>에 넣으므로 두 방법을 같은 틀에서 비교할 수 있습니다.</p>
+
+    <div class="sim" id="sim-dsp-reverb">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>리버브 해부: 슈뢰더 · 프리버브 · 지수 감쇠 잡음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-rv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>알고리즘</span><div class="seg" id="rv-algo"><button data-value="schroeder" class="on">슈뢰더 1962</button><button data-value="freeverb">프리버브</button><button data-value="noise">지수 잡음 IR</button></div></div>
+          <label class="ctrl"><span>RT60 <output id="rv-t-out"></output></span><input type="range" id="rv-t" min="2" max="60" value="18"></label>
+          <label class="ctrl"><span>프리딜레이 <output id="rv-pre-out"></output></span><input type="range" id="rv-pre" min="0" max="120" value="20"></label>
+          <label class="ctrl"><span>고역 감쇠(댐핑) <output id="rv-damp-out"></output></span><input type="range" id="rv-damp" min="0" max="90" value="30"></label>
+          <label class="ctrl"><span>드라이/웨트 <output id="rv-mix-out"></output></span><input type="range" id="rv-mix" min="0" max="100" value="35"></label>
+          <label class="check"><input type="checkbox" id="rv-early"> 처음 150 ms 확대</label>
+          <div class="btn-row"><button class="btn primary" id="rv-hit">▶ 스네어 한 번</button><button class="btn" id="rv-clap">▶ 박수</button></div>
+          <div class="btn-row"><button class="btn" id="rv-loop">▶ 기타 프레이즈 반복</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">측정 RT60 (T30 외삽)</span><span class="v" id="rv-meas">—</span></div>
+        <div class="stat"><span class="k">콤 되먹임 g (첫/끝)</span><span class="v" id="rv-g">—</span></div>
+        <div class="stat"><span class="k">IR 길이</span><span class="v" id="rv-len">—</span></div>
+      </div>
+      <div class="sim-note">위: 계산된 IR(왼쪽 채널) 파형. 아래: 슈뢰더 역적분으로 구한 에너지 감쇠 곡선 EDC(t) = 10·log₁₀(∫ₜ^∞ h² / ∫₀^∞ h²)와 목표 기울기(−60 dB/RT60, 점선). '측정 RT60'은 EDC가 −5 dB에서 −35 dB까지 떨어지는 시간 ×2(ISO 3382의 T30)입니다. 해볼 것: ① '처음 150 ms 확대'로 슈뢰더 IR을 보면 메아리가 띄엄띄엄 셀 수 있을 만큼 성깁니다 — 스네어에서 '떨리는(flutter)' 소리로 들립니다. 프리버브는 훨씬 촘촘하고, 지수 잡음 IR은 처음부터 완전히 조밀합니다. ② 댐핑을 올리면 꼬리가 어두워지고 EDC가 휘어집니다. ③ 프리딜레이 20–40 ms는 직접음과 잔향을 분리해 명료도를 지킵니다. 모델: IR을 JS로 계산해 <code>ConvolverNode</code>(스테레오, 좌우 지연 23샘플 차)로 재생. 슈뢰더 원형은 모노이며 댐핑은 무어러식 1차 저역 통과를 콤 안에 넣은 것입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 11 -->
+  <section id="dynamics">
+    <h2>다이내믹스: 컴프레서</h2>
+    <p><span class="term">컴프레서</span><span class="en">(Compressor)</span>는 신호 레벨이 문턱 \(T\)를 넘으면 넘은 양을 비율 \(R\)로 줄이는 '자동 볼륨 손잡이'입니다. 레벨 검출기(피크 또는 RMS) → 정적 곡선(이득 계산) → 시간 평활(어택·릴리스) → 곱셈의 사슬로 구현합니다. 정적 곡선은 dB 영역의 꺾은선이고, 꺾이는 곳을 둥글게 하는 폭 \(W\)가 <b>니(knee)</b>입니다(Giannoulis·Massberg·Reiss, JAES 2012).</p>
+    <div class="formula">$$y_{\mathrm{dB}} = \begin{cases} x & 2(x - T) < -W \\[2pt] x + \dfrac{(1/R - 1)\,(x - T + W/2)^2}{2W} & |2(x-T)| \le W \\[6pt] T + \dfrac{x - T}{R} & 2(x - T) > W \end{cases}$$
+      <div class="where">이득 감소 \(g_r = y - x\) (dB)를 1차 평활: \(g[n] = \alpha\,g[n-1] + (1-\alpha)\,g_r[n]\), \(\alpha = e^{-1/(\tau f_s)}\). 감소가 커지는 방향에는 어택 \(\tau_A\)(0.1–30 ms), 풀리는 방향에는 릴리스 \(\tau_R\)(50–500 ms)를 쓴다. 어택을 늦추면 타격의 앞부분이 그대로 통과해 '펀치'가 살고, 릴리스가 너무 빠르면 저음 주기마다 이득이 흔들려 왜곡('펌핑')이 된다.</div>
+    </div>
+
+    <div class="sim" id="sim-dsp-comp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>컴프레서: 정적 곡선과 이득 감소 계측</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-cp-curve"></canvas><canvas id="cv-cp-hist"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>문턱 T <output id="cp-th-out"></output></span><input type="range" id="cp-th" min="-60" max="0" value="-28"></label>
+          <label class="ctrl"><span>비율 R <output id="cp-r-out"></output></span><input type="range" id="cp-r" min="0" max="100" value="45"></label>
+          <label class="ctrl"><span>니 폭 W <output id="cp-k-out"></output></span><input type="range" id="cp-k" min="0" max="30" value="6"></label>
+          <label class="ctrl"><span>어택 <output id="cp-at-out"></output></span><input type="range" id="cp-at" min="0" max="100" value="60"></label>
+          <label class="ctrl"><span>릴리스 <output id="cp-rl-out"></output></span><input type="range" id="cp-rl" min="0" max="100" value="60"></label>
+          <label class="ctrl"><span>출력 트림 <output id="cp-mk-out"></output></span><input type="range" id="cp-mk" min="-18" max="6" value="-3"></label>
+          <div class="ctrl"><span>소스</span><div class="seg" id="cp-src"><button data-value="drums" class="on">드럼</button><button data-value="band">드럼+베이스</button><button data-value="piano">피아노(셈여림)</button></div></div>
+          <label class="check"><input type="checkbox" id="cp-bypass"> 바이패스</label>
+          <div class="btn-row"><button class="btn primary" id="cp-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">이득 감소(지금)</span><span class="v" id="cp-gr">—</span></div>
+        <div class="stat"><span class="k">입력 / 출력 피크</span><span class="v" id="cp-io">—</span></div>
+        <div class="stat"><span class="k">파고율 변화</span><span class="v" id="cp-cf">—</span></div>
+      </div>
+      <div class="sim-note">위: 정적 곡선(입력 dB → 출력 dB). 회색 대각선은 1:1, 점은 지금 입력 피크와 실제 노드가 보고한 이득 감소로 계산한 동작점입니다. 아래: 최근 6초의 입력 피크(회색), 출력 피크(보라), 이득 감소(빨강 막대, 위에서 아래로). 해볼 것: ① 문턱 −30 dB, 비율 8:1, 어택 0.5 ms → 스네어 머리가 눌려 '납작'해지고, 어택 30 ms로 늘리면 타격음이 살아납니다. ② 릴리스를 10 ms로 줄이고 드럼+베이스 → 저음에 일그러짐(펌핑). ③ 바이패스로 A/B — 출력 트림으로 크기를 맞춰 비교해야 공정합니다(큰 쪽이 좋게 들리는 착각). 구현: Web Audio <code>DynamicsCompressorNode</code>. 이 노드의 니는 문턱 위쪽에만 걸리고(곡선은 그 정의로 그림), 규격상 자동 메이크업 이득과 6 ms 룩어헤드가 들어 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 12 -->
+  <section id="loudness">
+    <h2>라우드니스 정규화와 지연</h2>
+    <p>피크 미터는 '얼마나 크게 들리는가'를 말해 주지 못합니다. 같은 −1 dBTP라도 압축을 세게 한 곡이 훨씬 크게 들리고, 이것이 1990–2000년대 <b>라우드니스 전쟁</b>을 낳았습니다. 해결책은 지각에 가까운 척도로 재고 재생 단계에서 일정하게 맞추는 것입니다. ITU-R BS.1770은 다음 절차를 정합니다.</p>
+    <ol>
+      <li><b>K-가중</b>: 머리의 음향 효과를 흉내 낸 하이 셸프(약 1.5 kHz 위 +4 dB) + 저역 차단(약 38 Hz 하이패스, RLB) — 두 바이쿼드.</li>
+      <li>채널별 평균 제곱을 400 ms 블록(75% 겹침)으로 구해 더하고 \(L = -0.691 + 10\log_{10}\sum_c G_c \overline{z_c^2}\) [LUFS].</li>
+      <li><b>게이팅</b>: −70 LUFS 아래 블록(무음)을 버리고, 그 평균보다 10 LU 낮은 블록을 다시 버린 뒤 평균한 값이 통합 라우드니스.</li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>규격·서비스</th><th class="num">목표 통합 라우드니스</th><th class="num">트루 피크 상한</th></tr></thead>
+      <tbody>
+        <tr><td>EBU R128 (유럽 방송)</td><td class="num">−23.0 LUFS (2023판; 생방송 등 ±1.0 LU, 측정 품질관리 ±0.2 LU)</td><td class="num">−1 dBTP</td></tr>
+        <tr><td>ATSC A/85 (미국 방송), 국내 지상파</td><td class="num">−24 LKFS</td><td class="num">−2 dBTP</td></tr>
+        <tr><td>스포티파이·유튜브·타이달 등(기본값)</td><td class="num">약 −14 LUFS</td><td class="num">−1 dBTP 권장</td></tr>
+        <tr><td>애플 뮤직(사운드 체크)</td><td class="num">약 −16 LUFS</td><td class="num">−1 dBTP 권장</td></tr>
+      </tbody>
+    </table></div>
+    <p>스트리밍 서비스가 −14 LUFS로 맞춰 재생하면, −8 LUFS로 '찌그러뜨린' 마스터는 6 dB 줄어 재생되고 다이내믹스만 잃은 셈이 됩니다. 정규화가 라우드니스 전쟁을 사실상 끝낸 이유입니다.</p>
+    <h3>지연(latency): 버퍼의 대가</h3>
+    <p>오디오 장치는 샘플을 하나씩이 아니라 블록(버퍼) 단위로 주고받습니다. 버퍼가 작을수록 지연은 작지만 CPU가 제때 블록을 채우지 못하면 '틱' 하는 끊김(언더런)이 납니다.</p>
+    <div class="formula">$$t_{\text{buffer}} = \frac{B}{f_s}, \qquad t_{\text{round trip}} \approx 2\,\frac{B}{f_s} + t_{\text{ADC}} + t_{\text{DAC}} + t_{\text{driver}}$$
+      <div class="where">48 kHz에서 128샘플 = 2.67 ms. 소리는 1 ms에 약 34 cm 가므로 2.67 ms는 악기에서 90 cm 떨어져 듣는 것과 같다. 연주자는 왕복 10 ms 안팎부터 어색함을 느낀다. Web Audio는 128샘플(렌더 퀀텀) 단위로 처리하고, 브라우저·OS 버퍼가 그 위에 더해진다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">버퍼 B</th><th class="num">44.1 kHz</th><th class="num">48 kHz</th><th class="num">96 kHz</th></tr></thead>
+      <tbody>
+        <tr><td class="num">64</td><td class="num">1.45 ms</td><td class="num">1.33 ms</td><td class="num">0.67 ms</td></tr>
+        <tr><td class="num">128</td><td class="num">2.90 ms</td><td class="num">2.67 ms</td><td class="num">1.33 ms</td></tr>
+        <tr><td class="num">256</td><td class="num">5.80 ms</td><td class="num">5.33 ms</td><td class="num">2.67 ms</td></tr>
+        <tr><td class="num">512</td><td class="num">11.61 ms</td><td class="num">10.67 ms</td><td class="num">5.33 ms</td></tr>
+        <tr><td class="num">1024</td><td class="num">23.22 ms</td><td class="num">21.33 ms</td><td class="num">10.67 ms</td></tr>
+      </tbody>
+    </table></div>
+    <p id="dsp-latency-live" style="font-size:14px;color:var(--text-dim)">이 브라우저의 Web Audio 지연은 아무 소리나 한 번 재생하면 여기에 표시됩니다.</p>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>대역 제한 신호는 \(f_s > 2B\)로 샘플링하면 sinc 보간으로 완벽히 복원된다. \(f_s/2\)를 넘는 성분은 \(|f - kf_s|\)로 접혀 되돌릴 수 없으므로 샘플링 전에(그리고 비선형 처리 전에) 막아야 한다.</li>
+      <li>44.1 kHz는 비디오테이프 PCM 어댑터(3샘플 × 245줄 × 60필드)에서, 48 kHz는 영상 프레임과의 정수 관계에서 왔다. 높은 레이트의 실익은 필터 설계와 처리 여유다.</li>
+      <li>양자화 SNR ≈ 6.02N + 1.76 dB. 작은 신호에서는 오차가 왜곡이 되므로 TPDF 디더(±1 LSB)로 오차를 신호와 독립인 잡음으로 바꾸고, 노이즈 셰이핑으로 잡음을 덜 들리는 대역에 옮긴다.</li>
+      <li>샘플 피크 ≠ 실제 피크. 트루 피크(48 kHz 입력의 4배 보간 예; 입력률·필터에 따른 추정 오차 있음)로 재고 −1 dBTP 이하를 지킨다.</li>
+      <li>FFT 빈 폭은 \(f_s/N = 1/T\). 창 함수는 누설(사이드로브)과 해상도(주엽 폭)를 맞바꾸고, 영 채우기는 해상도를 높이지 않는다. 스펙트로그램의 창 길이는 시간·주파수 해상도를 동시에 정한다.</li>
+      <li>LTI 시스템은 임펄스 응답의 컨볼루션이다. 유한 계수의 FIR은 안정하지만 선형 위상에는 대칭·반대칭 계수 조건 등이 필요하다. 선형 위상도 크기 응답 변화가 있으면 모든 파형을 그대로 보존하지는 않는다. IIR(바이쿼드)은 적은 계산으로 날카롭다. RBJ 쿡북 공식이 업계 표준 EQ 계수다.</li>
+      <li>지연 + 합 = 콤 필터(빗살 간격 1/τ). 지연을 흔들면 플랜저·코러스, 되먹임 콤 병렬 + 올패스 직렬은 슈뢰더 리버브, 측정한 IR과 컨볼루션하면 컨볼루션 리버브.</li>
+      <li>컴프레서 = 정적 곡선(문턱·비율·니) + 시간 상수(어택·릴리스). 음량 비교는 반드시 같은 라우드니스에서: 방송 −23 LUFS(EBU R128), 스트리밍 약 −14 LUFS. 지연은 버퍼/샘플레이트.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>f<sub>s</sub> = 44.1 kHz로 샘플링할 때(안티에일리어싱 필터 없음) 30 kHz 초음파 성분은 어디에 나타나는가?</p><div class="opts">
+        <button class="opt">30 kHz 그대로(들리지 않음)</button><button class="opt" data-correct>14.1 kHz</button><button class="opt">7.95 kHz</button><button class="opt">22.05 kHz</button>
+      </div><div class="quiz-exp">k = round(30/44.1) = 1, f<sub>a</sub> = |30 − 44.1| = 14.1 kHz. 나이퀴스트 22.05 kHz를 7.95 kHz 넘었으므로 그만큼 아래로 접혀 22.05 − 7.95 = 14.1 kHz의 가청 성분이 된다.</div></div>
+      <div class="quiz-q"><p>24비트 녹음을 16비트로 내릴 때 TPDF 디더를 더하는 가장 중요한 이유는?</p><div class="opts">
+        <button class="opt">잡음 바닥을 낮추기 위해</button><button class="opt" data-correct>작은 신호에서 양자화 오차가 신호와 상관된 왜곡이 되는 것을 막기 위해</button><button class="opt">트루 피크를 낮추기 위해</button><button class="opt">파일 크기를 줄이기 위해</button>
+      </div><div class="quiz-exp">TPDF 디더는 오히려 잡음을 4.77 dB 늘린다. 대신 오차의 평균과 분산이 신호와 독립이 되어, 페이드아웃이나 리버브 꼬리 같은 작은 신호가 지글거리는 왜곡이나 갑작스러운 끊김 없이 잡음 아래로 자연스럽게 사라진다.</div></div>
+      <div class="quiz-q"><p>f<sub>s</sub> = 48 kHz에서 1 Hz 간격으로 떨어진 두 사인파를 FFT로 분리하려면 대략 최소 몇 개의 샘플(직사각 창 기준)이 필요한가?</p><div class="opts">
+        <button class="opt">4,096</button><button class="opt">16,384</button><button class="opt" data-correct>48,000 이상(약 1초)</button><button class="opt">영 채우기만 충분히 하면 1,024로도 된다</button>
+      </div><div class="quiz-exp">빈 폭 = f<sub>s</sub>/N = 1/T이므로 1 Hz를 가르려면 T ≥ 1 s, N ≥ 48,000(실제로는 창의 주엽 폭 때문에 2–4배가 더 필요). 영 채우기는 스펙트럼을 촘촘히 보간할 뿐 해상도를 높이지 못한다.</div></div>
+      <div class="quiz-q"><p>지연 2 ms의 앞먹임 콤 필터 y[n] = x[n] + x[n − D]에서 첫 번째 골(notch) 주파수는?</p><div class="opts">
+        <button class="opt">500 Hz</button><button class="opt" data-correct>250 Hz</button><button class="opt">1000 Hz</button><button class="opt">2000 Hz</button>
+      </div><div class="quiz-exp">골은 지연된 신호가 정확히 반대 위상일 때, 즉 f = (2k+1)/(2τ). τ = 2 ms이면 250, 750, 1250 Hz… 골 간격(=봉우리 간격)은 1/τ = 500 Hz.</div></div>
+      <div class="quiz-q"><p>슈뢰더 리버브에서 지연 40 ms인 콤 필터로 RT60 = 2 s를 만들려면 되먹임 이득 g는?</p><div class="opts">
+        <button class="opt">0.5</button><button class="opt">0.98</button><button class="opt" data-correct>약 0.87</button><button class="opt">약 0.71</button>
+      </div><div class="quiz-exp">g = 10^(−3τ/RT60) = 10^(−3·0.04/2) = 10^(−0.06) ≈ 0.871. 2초 동안 50번 돌며 매번 0.871배(−1.2 dB) 줄어 총 −60 dB.</div></div>
+      <div class="quiz-q"><p>문턱 −20 dB, 비율 4:1, 하드 니 컴프레서에 −8 dB 피크가 들어오면 (메이크업 없이) 출력과 이득 감소는?</p><div class="opts">
+        <button class="opt">출력 −8 dB, 감소 0 dB</button><button class="opt" data-correct>출력 −17 dB, 감소 9 dB</button><button class="opt">출력 −14 dB, 감소 6 dB</button><button class="opt">출력 −20 dB, 감소 12 dB</button>
+      </div><div class="quiz-exp">문턱을 12 dB 넘었으므로 출력은 T + 12/4 = −20 + 3 = −17 dB. 이득 감소는 −8 − (−17) = 9 dB.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공용 도구 (이 장 전용) */
+const DSP = (function () {
+  const pinkCache = new WeakMap();
+  /** 핑크 잡음(폴 켈렛의 3극 근사, −3 dB/oct) 4초 버퍼 */
+  function pinkBuffer(ctx) {
+    if (pinkCache.has(ctx)) return pinkCache.get(ctx);
+    const len = ctx.sampleRate * 4, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0, pk = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      b0 = 0.99765 * b0 + w * 0.099046; b1 = 0.963 * b1 + w * 0.2965164; b2 = 0.57 * b2 + w * 1.0526913;
+      d[i] = b0 + b1 + b2 + w * 0.1848; pk = Math.max(pk, Math.abs(d[i]));
+    }
+    for (let i = 0; i < len; i++) d[i] *= 0.9 / pk;
+    pinkCache.set(ctx, b);
+    return b;
+  }
+  /** "#rrggbb" | "rgb(a)(...)" → [r,g,b] */
+  function rgb(c) {
+    c = (c || "").trim();
+    if (c[0] === "#") { if (c.length === 4) c = "#" + c[1] + c[1] + c[2] + c[2] + c[3] + c[3]; return [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)); }
+    const m = c.match(/[\d.]+/g); return m ? m.slice(0, 3).map(Number) : [128, 128, 128];
+  }
+  const font = (px, mono) => px + "px " + getComputedStyle(document.body).getPropertyValue(mono ? "--mono" : "--font");
+  /**
+   * 테스트용 4마디 루프(C–Am–F–G, 100 BPM). getDest() → 소리를 보낼 노드.
+   * style(): "drums" | "band"(드럼+일렉피아노+베이스) | "keys" | "piano"(크레셴도) | "pluck"
+   */
+  const PROG = [{ root: 48, ch: [55, 60, 64, 67] }, { root: 45, ch: [57, 60, 64, 69] }, { root: 41, ch: [57, 60, 65, 69] }, { root: 43, ch: [55, 59, 62, 67] }];
+  function loop(getDest, o = {}) {
+    return MB.Clock({
+      bpm: () => o.bpm || 100, div: 4, length: 64,
+      onStep(s, t, d) {
+        const dest = getDest(); if (!dest) return;
+        const st = s % 16, bar = (s >> 4) & 3, sty = o.style ? o.style() : "band", c = PROG[bar];
+        const dr = (n, v) => MB.drum(n, t, { vel: v, dest });
+        if (sty === "drums" || sty === "band") {
+          if (st === 0 || st === 8 || (st === 10 && bar & 1)) dr("kick", 0.95);
+          if (st === 4 || st === 12) dr("snare", 0.85);
+          if (o.dyn && (st === 7 || st === 15)) dr("snare", 0.16);
+          if (st % 2 === 0) dr("hat", st % 4 === 0 ? 0.5 : 0.28);
+          if (st === 14 && bar === 3) dr("openhat", 0.4);
+          if (o.dyn && st === 0 && bar === 0) dr("crash", 0.45);
+        }
+        if (sty === "band") {
+          if (st === 0) c.ch.forEach((m) => MB.play(m, { inst: "epiano", when: t, dur: d * 14, vel: 0.42, dest }));
+          if ([0, 3, 6, 8, 11, 14].includes(st)) MB.play(c.root - 12 + (st === 14 ? 7 : 0), { inst: "bass", when: t, dur: d * 1.6, vel: 0.7, dest });
+        }
+        if (sty === "keys" || sty === "piano") {
+          const v = sty === "piano" ? 0.12 + 0.88 * ((bar * 16 + st) / 63) : 0.6;
+          if (st === 0) MB.playChord(c.ch, { inst: "piano", when: t, dur: d * 7, vel: v, dest, strum: 0.012 });
+          if (st % 2 === 0 && st) MB.play(c.ch[(st / 2) % 4] + 12, { inst: "piano", when: t, dur: d * 2, vel: v * (st % 4 ? 0.6 : 0.9), dest });
+        }
+        if (sty === "pluck") {
+          const pat = [0, 1, 2, 3, 2, 1, 2, 3];
+          if (st % 2 === 0 && !(bar === 3 && st > 8)) MB.play(st === 0 ? c.root : c.ch[pat[st / 2]] + (st === 6 ? 12 : 0), { inst: "pluck", when: t, dur: d * 6, vel: 0.8, dest });
+        }
+      },
+      onUI: o.onUI,
+    });
+  }
+  const fmtHz = (f) => (f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 1 : 2) + " kHz" : (f >= 100 ? Math.round(f) : f.toFixed(1)) + " Hz");
+  return { pinkBuffer, rgb, font, loop, fmtHz };
+})();
+
+/* ================================================================ 그림 15-1: 신호 사슬 */
+(function () {
+  const g = document.getElementById("dsp-fig-chain");
+  const B = [["안티에일리어싱", "저역 통과"], ["표본화", "S/H, fs"], ["양자화", "N비트"], ["디지털 처리", "DSP"], ["DAC", "영차 유지"], ["복원 필터", "저역 통과"]];
+  const bw = 100, gap = 17, x0 = 58, y0 = 26, bh = 50;
+  let s = `<defs><marker id="dsp-arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" style="fill:var(--text-dim)"/></marker></defs>`;
+  // 입력/출력 파형 아이콘
+  const sine = (cx, cy) => { let p = ""; for (let i = 0; i <= 30; i++) p += (i ? "L" : "M") + (cx - 22 + i * 1.47).toFixed(1) + "," + (cy - 12 * Math.sin((i / 30) * 2 * Math.PI)).toFixed(1); return `<path d="${p}" class="s-acc"/>`; };
+  s += sine(28, y0 + bh / 2) + `<text x="28" y="${y0 + bh + 18}" text-anchor="middle" class="t-dim">입력</text>`;
+  s += sine(772, y0 + bh / 2) + `<text x="772" y="${y0 + bh + 18}" text-anchor="middle" class="t-dim">출력</text>`;
+  B.forEach((b, i) => {
+    const x = x0 + i * (bw + gap);
+    const dig = i >= 1 && i <= 4;
+    s += `<rect x="${x}" y="${y0}" width="${bw}" height="${bh}" rx="9" class="${i === 3 ? "f-acc-soft" : dig ? "f-acc2-soft" : "f-surface"}"/>`;
+    s += `<text x="${x + bw / 2}" y="${y0 + 21}" text-anchor="middle" class="t" style="font-size:12.5px">${b[0]}</text>`;
+    s += `<text x="${x + bw / 2}" y="${y0 + 38}" text-anchor="middle" class="t-mono">${b[1]}</text>`;
+    const ax = i === 0 ? 52 : x - gap + 1;
+    s += `<line x1="${ax}" y1="${y0 + bh / 2}" x2="${x - 2}" y2="${y0 + bh / 2}" class="s-line" marker-end="url(#dsp-arr)"/>`;
+    // 아래: 그 지점의 신호 모양
+    const cx = x + bw / 2, cy = 135, W = 84, H = 26;
+    let p = "";
+    const f = (u) => Math.sin(u * 2 * Math.PI * 1.25) * 0.8 + 0.15 * Math.sin(u * 2 * Math.PI * 3.1);
+    if (i === 0 || i === 5) { for (let k = 0; k <= 40; k++) { const u = k / 40; p += (k ? "L" : "M") + (cx - W / 2 + u * W).toFixed(1) + "," + (cy - H * f(u)).toFixed(1); } s += `<path d="${p}" class="s-acc"/>`; }
+    else if (i === 1 || i === 2) {
+      for (let k = 0; k <= 12; k++) { const u = k / 12; let v = f(u); if (i === 2) v = Math.round(v * 3) / 3; const px = cx - W / 2 + u * W, py = cy - H * v; s += `<line x1="${px}" y1="${cy}" x2="${px}" y2="${py}" class="s-line" style="stroke-width:1"/><circle cx="${px}" cy="${py}" r="2.6" class="f-acc"/>`; }
+      if (i === 2) for (let q = -3; q <= 3; q++) s += `<line x1="${cx - W / 2}" x2="${cx + W / 2}" y1="${cy - (H * q) / 3}" y2="${cy - (H * q) / 3}" class="s-axis" style="stroke-width:.5;stroke-dasharray:2 3"/>`;
+    } else if (i === 3) { s += `<text x="${cx}" y="${cy - 4}" text-anchor="middle" class="t-mono">0110 1011</text><text x="${cx}" y="${cy + 12}" text-anchor="middle" class="t-mono">1001 0011</text>`; }
+    else if (i === 4) { for (let k = 0; k < 12; k++) { const u0 = k / 12, u1 = (k + 1) / 12, v = Math.round(f(u0) * 3) / 3; p += (k ? "L" : "M") + (cx - W / 2 + u0 * W).toFixed(1) + "," + (cy - H * v).toFixed(1) + "L" + (cx - W / 2 + u1 * W).toFixed(1) + "," + (cy - H * v).toFixed(1); } s += `<path d="${p}" class="s-acc"/>`; }
+    s += `<line x1="${cx - W / 2}" x2="${cx + W / 2}" y1="${cy}" y2="${cy}" class="s-axis" style="stroke-width:.6"/>`;
+  });
+  const xl = x0 + 5 * (bw + gap) + bw;
+  s += `<line x1="${xl + 2}" y1="${y0 + bh / 2}" x2="${748}" y2="${y0 + bh / 2}" class="s-line" marker-end="url(#dsp-arr)"/>`;
+  s += `<text x="${x0 + bw + gap}" y="182" class="t-dim">← 아날로그 · · · · · · · · · · · · 디지털(정수 열) · · · · · · · · · · · · 아날로그 →</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 그림 15-2: 접힘 */
+(function () {
+  const g = document.getElementById("dsp-fig-fold");
+  const X = (f) => 50 + f * 270, base = 170; // f는 fs 단위
+  let s = `<rect x="${X(0)}" y="30" width="${X(0.5) - X(0)}" height="${base - 30}" class="f-acc-soft" style="stroke:none"/>`;
+  s += `<text x="${X(0.25)}" y="46" text-anchor="middle" class="t-acc" style="font-size:12px">기저대역</text>`;
+  s += `<line x1="30" x2="780" y1="${base}" y2="${base}" class="s-axis"/>`;
+  [[0, "0"], [0.5, "fs/2"], [1, "fs"], [1.5, "3fs/2"], [2, "2fs"], [2.5, "5fs/2"]].forEach(([f, l]) => { s += `<line x1="${X(f)}" x2="${X(f)}" y1="${base}" y2="${base + 6}" class="s-axis"/><text x="${X(f)}" y="${base + 20}" text-anchor="middle" class="t-mono">${l}</text>`; if (f % 1) s += `<line x1="${X(f)}" x2="${X(f)}" y1="36" y2="${base}" class="s-axis" style="stroke-dasharray:3 4"/>`; });
+  // 대역 제한 신호의 스펙트럼(삼각형)과 그 복제
+  const tri = (c, dir, cls, dash) => { const B = 0.38, H = 70; const pts = dir ? [[c - B, base], [c, base - H], [c + B, base]] : [[c, base], [c, base - H], [c + B, base]]; return `<path d="M${X(pts[0][0])},${pts[0][1]} L${X(pts[1][0])},${pts[1][1]} L${X(pts[2][0])},${pts[2][1]}" class="${cls}" style="${dash ? "stroke-dasharray:5 4;" : ""}fill:none"/>`; };
+  s += tri(0, false, "s-acc");
+  s += tri(1, true, "s-line", true) + tri(2, true, "s-line", true);
+  s += `<text x="${X(1)}" y="${base - 78}" text-anchor="middle" class="t-dim">복제(이미지)</text>`;
+  // 대역 밖 사인 0.7 fs와 그 에일리어스 0.3 fs
+  const fa = 0.7, H2 = 110;
+  s += `<line x1="${X(fa)}" x2="${X(fa)}" y1="${base}" y2="${base - H2}" style="stroke:var(--bad);stroke-width:3"/><circle cx="${X(fa)}" cy="${base - H2}" r="4" style="fill:var(--bad)"/>`;
+  s += `<text x="${X(fa) + 8}" y="${base - H2 + 4}" class="t" style="font-size:12px">입력 0.7 fs</text>`;
+  s += `<line x1="${X(1 - fa)}" x2="${X(1 - fa)}" y1="${base}" y2="${base - H2}" style="stroke:var(--accent-2);stroke-width:3;stroke-dasharray:6 4"/><circle cx="${X(1 - fa)}" cy="${base - H2}" r="4" style="fill:var(--accent-2)"/>`;
+  s += `<text x="${X(1 - fa) - 8}" y="${base - H2 + 4}" text-anchor="end" class="t" style="font-size:12px">에일리어스 0.3 fs</text>`;
+  s += `<path d="M${X(fa)},${base - H2 - 10} Q${X(0.5)},${base - H2 - 58} ${X(1 - fa)},${base - H2 - 10}" class="s-line" marker-end="url(#dsp-arr)"/>`;
+  s += `<text x="${X(0.5)}" y="${base - H2 - 40}" text-anchor="middle" class="t-dim">fs/2에서 접힘</text>`;
+  s += `<text x="${X(1.9)}" y="40" class="t-dim">— 원래 스펙트럼 / - - 샘플링이 만든 복제</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 그림 15-3: 샘플 간 피크 */
+(function () {
+  const g = document.getElementById("dsp-fig-isp");
+  const x0 = 60, x1 = 770, cy = 118, A = 62; // A = 0 dBFS 높이
+  const T = (n) => x0 + ((n + 0.5) / 12) * (x1 - x0); // 샘플 n의 위치(12샘플 = 3주기)
+  let s = "";
+  [1, -1].forEach((v) => (s += `<line x1="${x0 - 10}" x2="${x1}" y1="${cy - v * A}" y2="${cy - v * A}" style="stroke:var(--warn);stroke-dasharray:5 4;stroke-width:1.3"/>`));
+  s += `<line x1="${x0 - 10}" x2="${x1}" y1="${cy}" y2="${cy}" class="s-axis"/>`;
+  s += `<text x="${x0 - 14}" y="${cy - A + 4}" text-anchor="end" class="t-mono">0 dBFS</text><text x="${x0 - 14}" y="${cy + A + 4}" text-anchor="end" class="t-mono">−0 dBFS</text>`;
+  let p = "";
+  for (let k = 0; k <= 400; k++) { const n = -0.5 + (k / 400) * 12; const v = Math.SQRT2 * Math.sin((Math.PI / 2) * n + Math.PI / 4); p += (k ? "L" : "M") + T(n).toFixed(1) + "," + (cy - A * v).toFixed(1); }
+  s += `<path d="${p}" class="s-acc"/>`;
+  for (let n = 0; n < 12; n++) { const v = Math.SQRT2 * Math.sin((Math.PI / 2) * n + Math.PI / 4); const x = T(n), y = cy - A * v; s += `<line x1="${x}" x2="${x}" y1="${cy}" y2="${y}" class="s-line"/><circle cx="${x}" cy="${y}" r="5" style="fill:var(--accent-2)"/>`; }
+  const pkx = T(0.5); s += `<circle cx="${pkx}" cy="${cy - A * Math.SQRT2}" r="4" style="fill:var(--bad)"/><text x="${pkx + 10}" y="${cy - A * Math.SQRT2 + 2}" class="t" style="font-size:12px;fill:var(--bad)">실제 피크 +3.01 dBTP</text>`;
+  s += `<text x="${T(4)}" y="${cy + A * Math.SQRT2 + 22}" text-anchor="middle" class="t-dim">점: 샘플(모두 정확히 ±0 dBFS) · 선: DAC가 복원한 파형 (fs/4 사인, 위상 45°)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 그림 15-4: 슈뢰더 리버브 */
+(function () {
+  const g = document.getElementById("dsp-fig-schroeder");
+  const D = [29.7, 37.1, 41.1, 43.7];
+  let s = "";
+  const arrow = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="s-line" marker-end="url(#dsp-arr)"/>`;
+  s += `<text x="20" y="129" class="t-acc">x</text>` + arrow(34, 125, 78, 125);
+  s += `<line x1="80" x2="80" y1="35" y2="215" class="s-line"/>`;
+  D.forEach((d, i) => {
+    const y = 35 + i * 60;
+    s += arrow(80, y, 118, y);
+    s += `<rect x="120" y="${y - 20}" width="190" height="40" rx="8" class="f-acc2-soft"/>`;
+    s += `<text x="215" y="${y - 3}" text-anchor="middle" class="t" style="font-size:12.5px">되먹임 콤 ${i + 1}</text>`;
+    s += `<text x="215" y="${y + 13}" text-anchor="middle" class="t-mono">z^−D · g${"₁₂₃₄"[i]} · ${d} ms</text>`;
+    s += `<line x1="310" y1="${y}" x2="330" y2="${y}" class="s-line"/><line x1="330" y1="${y}" x2="${352}" y2="${125 + (y - 125) * 0.25}" class="s-line" marker-end="url(#dsp-arr)"/>`;
+  });
+  s += `<circle cx="368" cy="125" r="15" class="f-elev"/><text x="368" y="130" text-anchor="middle" class="t" style="font-size:16px">+</text>`;
+  s += arrow(383, 125, 418, 125);
+  [["올패스 1", "5.0 ms · g 0.7"], ["올패스 2", "1.7 ms · g 0.7"]].forEach((a, i) => {
+    const x = 420 + i * 170;
+    s += `<rect x="${x}" y="100" width="130" height="50" rx="8" class="f-acc-soft"/>`;
+    s += `<text x="${x + 65}" y="121" text-anchor="middle" class="t" style="font-size:12.5px">${a[0]}</text><text x="${x + 65}" y="138" text-anchor="middle" class="t-mono">${a[1]}</text>`;
+    s += arrow(x + 130, 125, x + 168, 125);
+  });
+  s += `<text x="${762}" y="129" class="t-acc">y</text>`;
+  s += `<text x="420" y="190" class="t-dim">콤: 메아리 열 만들기(감쇠 = RT60)</text><text x="420" y="208" class="t-dim">올패스: 크기는 그대로, 메아리를 잘게 흩기</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 1. 에일리어싱 */
+(function () {
+  const FS = [4000, 6000, 8000, 11025, 16000, 22050, 32000, 44100, 48000];
+  const F_LO = 50, F_HI = 20000, XMAX = 24000, SWEEP = 6;
+  const s2f = (v) => F_LO * Math.pow(F_HI / F_LO, v / 1000);
+  const fs = MB.steps("al-fs", FS, (v) => MB.fmt(v / 1000, 4) + " kHz", 8000, () => refresh());
+  const fSl = MB.range("al-f", (v) => DSP.fmtHz(s2f(v)), () => refresh());
+  const sig = MB.seg("al-sig", () => refresh());
+  const rec = MB.seg("al-rec", () => refresh());
+  let sweepF = null, sweepV = null, sweepT0 = 0, token = 0;
+  const curF = () => (sweepF != null ? sweepF : s2f(fSl()));
+  const alias = (f, s) => Math.abs(f - s * Math.round(f / s));
+  const blep = (t, dt) => { if (t < dt) { t /= dt; return t + t - t * t - 1; } if (t > 1 - dt) { t = (t - 1) / dt; return t * t + t + t + 1; } return 0; };
+  /** 가상 샘플레이트 fsv에서 직접 표본 계산(대역 제한 없음) */
+  function gen(fsv, n, freqAt, type) {
+    const x = new Float32Array(n); let ph = 0;
+    for (let i = 0; i < n; i++) {
+      const f = freqAt(i), dt = f / fsv;
+      if (type === "sine") x[i] = Math.sin(2 * Math.PI * ph);
+      else { let v = 2 * ph - 1; if (type === "blep") v -= blep(ph, Math.min(dt, 0.5)); x[i] = 0.8 * v; }
+      ph += dt; ph -= Math.floor(ph);
+    }
+    return x;
+  }
+  /** 출력 장치 레이트로 복원: Lanczos 창 sinc(±8) 또는 영차 유지 */
+  function reconstruct(x, fsv, outSr, mode) {
+    const len = Math.floor((x.length * outSr) / fsv), y = new Float32Array(len), r = fsv / outSr;
+    if (mode === "zoh") { for (let m = 0; m < len; m++) y[m] = x[Math.min(x.length - 1, Math.floor(m * r))]; return y; }
+    const A = 8, sc = Math.min(1, outSr / fsv), half = Math.ceil(A / sc);
+    for (let m = 0; m < len; m++) {
+      const t = m * r, n0 = Math.floor(t); let acc = 0;
+      for (let k = n0 - half + 1; k <= n0 + half; k++) {
+        if (k < 0 || k >= x.length) continue;
+        const u = (t - k) * sc; if (Math.abs(u) >= A) continue;
+        acc += x[k] * (u === 0 ? 1 : (Math.sin(Math.PI * u) / (Math.PI * u)) * (Math.sin((Math.PI * u) / A) / ((Math.PI * u) / A)));
+      }
+      y[m] = acc * sc;
+    }
+    return y;
+  }
+  const fadeEnds = (y, sr) => { const n = Math.min(y.length / 2, Math.round(sr * 0.01)); for (let i = 0; i < n; i++) { y[i] *= i / n; y[y.length - 1 - i] *= i / n; } return y; };
+  function play(dur, freqAt) {
+    const ctx = MB.ctx(), s = fs();
+    const x = gen(s, Math.round(dur * s), freqAt, sig());
+    const y = fadeEnds(reconstruct(x, s, ctx.sampleRate, rec()), ctx.sampleRate);
+    return MB.playBuffer(y, ctx.sampleRate, { gain: 0.22 });
+  }
+  const sweepFreq = (t) => F_LO * Math.pow(F_HI / F_LO, MB.clamp(t / SWEEP, 0, 1));
+  const pb = MB.playButton("al-sweep", () => {
+    const ctx = MB.ctx(), s = fs(), my = ++token;
+    sweepV = play(SWEEP, (i) => sweepFreq(i / s));
+    sweepT0 = ctx.currentTime + 0.01;
+    setTimeout(() => { if (my === token) { pb.set(false); stopSweep(); } }, SWEEP * 1000 + 150);
+  }, () => stopSweep(), ["▶ 스윕 50 Hz→20 kHz", "■ 정지"]);
+  function stopSweep() { token++; if (sweepV) sweepV.release(); sweepV = null; sweepF = null; refresh(); }
+  document.getElementById("al-tone").addEventListener("click", () => { const f = s2f(fSl()); play(1.5, () => f); });
+  MB.loop(document.getElementById("cv-al-fold"), () => { if (!sweepV) return; sweepF = sweepFreq(MB.now() - sweepT0); refresh(); });
+
+  function bhSpec(x) { // 블랙먼–해리스 4항 창(−92 dB) 크기 스펙트럼, 사인 진폭 A → 20log A
+    const n = x.length, re = new Float64Array(n), im = new Float64Array(n); let ws = 0;
+    for (let i = 0; i < n; i++) { const t = (2 * Math.PI * i) / (n - 1), w = 0.35875 - 0.48829 * Math.cos(t) + 0.14128 * Math.cos(2 * t) - 0.01168 * Math.cos(3 * t); re[i] = x[i] * w; ws += w; }
+    MB.fft(re, im);
+    const out = new Float32Array(n / 2); for (let k = 0; k < n / 2; k++) out[k] = 20 * Math.log10((2 * Math.hypot(re[k], im[k])) / ws + 1e-12);
+    return out;
+  }
+  function linSpec(ctx, box, db, bin, fmax, lo, hi, color) {
+    const data = [], cols = Math.max(50, Math.floor(box.w)), kmax = Math.min(db.length - 1, Math.floor(fmax / bin));
+    for (let c = 0; c < cols; c++) { const a = Math.max(1, Math.floor((c / cols) * kmax)), b = Math.max(a + 1, Math.floor(((c + 1) / cols) * kmax)); let m = -1e9; for (let k = a; k < b; k++) m = Math.max(m, db[k]); data.push([a * bin, MB.clamp(m, lo - 5, hi)]); }
+    return MB.chart(ctx, box, { x: [0, fmax], y: [lo, hi], yTicks: [-100, -80, -60, -40, -20, 0], xFmt: (v) => (v >= 1000 ? MB.fmt(v / 1000, 3) + "k" : MB.fmt(v, 3)), series: [{ data, color, width: 1.4, fill: color + "22" }] });
+  }
+  const cvF = MB.canvas("#cv-al-fold", (ctx, w, h) => {
+    const P = MB.palette(), s = fs(), ny = s / 2, f = curF(), type = sig();
+    const box = { x: 46, y: 22, w: w - 58, h: h - 58 };
+    const zig = []; for (let k = 0; k * ny <= XMAX; k++) zig.push([k * ny, k % 2 ? ny : 0]); zig.push([XMAX, alias(XMAX, s)]);
+    for (let z = 1; z * ny < XMAX; z += 2) { const xa = box.x + ((z * ny) / XMAX) * box.w, xb = box.x + (Math.min(XMAX, (z + 1) * ny) / XMAX) * box.w; ctx.fillStyle = P.grid; ctx.fillRect(xa, box.y, xb - xa, box.h); }
+    const C = MB.chart(ctx, box, { x: [0, XMAX], y: [0, ny], xFmt: (v) => v / 1000 + "k", yFmt: (v) => (v >= 1000 ? MB.fmt(v / 1000, 3) + "k" : String(v)), yTicks: [0, ny / 2, ny], series: [{ data: zig, color: P.faint, width: 1.5 }], vlines: [{ x: ny, color: P.warn, label: "fs/2" }] });
+    const comps = [];
+    if (type === "sine") comps.push({ f, a: 1 });
+    else for (let n = 1; n * f <= XMAX && n <= 400; n++) comps.push({ f: n * f, a: 1 / n });
+    ctx.save();
+    if (type === "sine") {
+      const x = C.X(f), y = C.Y(alias(f, s));
+      ctx.strokeStyle = P.dim; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(x, box.y + box.h); ctx.lineTo(x, y); ctx.lineTo(box.x, y); ctx.stroke(); ctx.setLineDash([]);
+    }
+    comps.forEach((c) => {
+      const over = c.f > ny;
+      ctx.globalAlpha = over && type === "blep" ? 0.3 : 1;
+      ctx.fillStyle = over ? P.bad : P.accent2;
+      ctx.beginPath(); ctx.arc(C.X(c.f), C.Y(alias(c.f, s)), 2 + 5 * Math.sqrt(c.a), 0, 7); ctx.fill();
+    });
+    ctx.globalAlpha = 1; ctx.fillStyle = P.dim; ctx.font = DSP.font(11);
+    ctx.textAlign = "right"; ctx.fillText("입력 주파수 →", box.x + box.w, box.y + box.h + 32);
+    ctx.textAlign = "left"; ctx.fillText("↑ 나타나는 주파수 (0 … fs/2)", box.x, box.y - 8);
+    ctx.restore();
+  }, { aspect: 0.4, maxHeight: 260, minHeight: 190 });
+  const cvT = MB.canvas("#cv-al-time", (ctx, w, h) => {
+    const P = MB.palette(), s = fs(), ny = s / 2, f = curF(), type = sig(), fa = alias(f, s);
+    // --- 시간 영역
+    const tb = { x: 12, y: 10, w: w - 24, h: h * 0.42 - 14 };
+    const M = Math.round(MB.clamp((2.5 * s) / Math.max(fa, 1), 12, 64)), PAD = 12;
+    const xs = gen(s, M + 2 * PAD, () => f, type);
+    const ideal = (tau) => { const ph = (f * tau) / s; return type === "sine" ? Math.sin(2 * Math.PI * ph) : 0.8 * (2 * (ph - Math.floor(ph)) - 1); };
+    const TX = (tau) => tb.x + ((tau - PAD) / M) * tb.w, TY = (v) => tb.y + tb.h / 2 - v * tb.h * 0.45;
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(tb.x, TY(0)); ctx.lineTo(tb.x + tb.w, TY(0)); ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.rect(tb.x, tb.y - 4, tb.w, tb.h + 8); ctx.clip();
+    const steps = Math.min(4000, M * 60);
+    ctx.strokeStyle = P.faint; ctx.lineWidth = 1.2; ctx.beginPath();
+    for (let i = 0; i <= steps; i++) { const tau = PAD + (i / steps) * M; i ? ctx.lineTo(TX(tau), TY(ideal(tau))) : ctx.moveTo(TX(tau), TY(ideal(tau))); }
+    ctx.stroke();
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i <= 600; i++) {
+      const tau = PAD + (i / 600) * M; let v = 0;
+      if (rec() === "zoh") v = xs[Math.floor(tau)] || 0;
+      else for (let k = 0; k < xs.length; k++) { const u = tau - k; v += xs[k] * (Math.abs(u) < 1e-9 ? 1 : Math.sin(Math.PI * u) / (Math.PI * u)); }
+      i ? ctx.lineTo(TX(tau), TY(v)) : ctx.moveTo(TX(tau), TY(v));
+    }
+    ctx.stroke();
+    for (let k = PAD; k <= PAD + M; k++) { const x = TX(k), y = TY(xs[k]); ctx.strokeStyle = P.accent; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, TY(0)); ctx.lineTo(x, y); ctx.stroke(); ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(x, y, M > 40 ? 2.2 : 3.2, 0, 7); ctx.fill(); }
+    ctx.restore();
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.textAlign = "left";
+    ctx.fillText(`시간: 샘플 ${M}개 (${MB.fmt((M / s) * 1000, 3)} ms)`, tb.x + 2, tb.y + 10);
+    // --- 스펙트럼
+    const sb = { x: 40, y: h * 0.42 + 8, w: w - 52, h: h * 0.58 - 32 };
+    const NF = 8192, db = bhSpec(gen(s, NF, () => f, type)), bin = s / NF;
+    linSpec(ctx, sb, db, bin, ny, -100, 0, P.accent);
+    const exp = []; if (type === "sine") { if (f < ny) exp.push(f); } else for (let n = 1; n * f < ny && n < 200; n++) exp.push(n * f);
+    ctx.strokeStyle = P.ok; ctx.setLineDash([2, 3]); ctx.lineWidth = 1;
+    exp.slice(0, 60).forEach((e) => { const x = sb.x + (e / ny) * sb.w; ctx.beginPath(); ctx.moveTo(x, sb.y); ctx.lineTo(x, sb.y + sb.h); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText("출력 스펙트럼 0 … fs/2 (dB)", sb.x + sb.w, sb.y + 10);
+    // 기대 배음 ±6빈 밖의 전력: 겹쳐 접힌 성분은 제외되며 창 누설이 포함될 수 있다.
+    let tot = 0, bad = 0;
+    for (let k = 3; k < db.length; k++) { const p = Math.pow(10, db[k] / 10); tot += p; const fk = k * bin; let near = false; for (const e of exp) if (Math.abs(fk - e) <= 6 * bin) { near = true; break; } if (!near) bad += p; }
+    MB.stat("al-en", tot > 0 ? (bad / tot > 0.98 ? "전부 <small>(0 dB)</small>" : MB.fmt(10 * Math.log10(bad / tot + 1e-15), 3) + " dB <small>(전체 대비)</small>") : "—");
+    MB.stat("al-ny", DSP.fmtHz(ny));
+    MB.stat("al-fa", `${DSP.fmtHz(f)} → <b>${DSP.fmtHz(fa)}</b>${f < ny ? " <small>(그대로)</small>" : ` <small>(k=${Math.round(f / s)})</small>`}`);
+  }, { aspect: 0.62, maxHeight: 400, minHeight: 300 });
+  function refresh() { cvF.redraw(); cvT.redraw(); }
+})();
+
+/* ================================================================ 2. 양자화·디더 */
+(function () {
+  const SR = 48000, F = 997, NB = SR, NF = 16384;
+  const bits = MB.range("q-bits", (v) => v + " bit" + (v === 1 ? " (부호)" : ""), () => upd());
+  const amp = MB.range("q-amp", (v) => v + " dBFS", () => upd());
+  const dith = MB.seg("q-dither", () => upd());
+  const ns = MB.check("q-ns", () => upd());
+  const errOnly = MB.check("q-err", () => upd(true));
+  let X = null, Y = null, E = null, D = 0, db = null, loopV = null, fade = null;
+  function quantize(x, N, dm, shape, seed = 11) {
+    const d = N === 1 ? 1 : 2 / Math.pow(2, N), r = MB.rng(seed), y = new Float32Array(x.length), e = new Float32Array(x.length);
+    let e1 = 0, e2 = 0;
+    for (let n = 0; n < x.length; n++) {
+      const v = shape ? x[n] - (2 * e1 - e2) : x[n];
+      const di = dm === "rpdf" ? (r() - 0.5) * d : dm === "tpdf" ? (r() + r() - 1) * d : 0;
+      let q = N === 1 ? (v + di >= 0 ? 0.5 : -0.5) : MB.clamp(d * Math.round((v + di) / d), -1, 1 - d);
+      e2 = e1; e1 = MB.clamp(q - v, -2 * d, 2 * d);
+      y[n] = q; e[n] = q - x[n];
+    }
+    return { y, e, d };
+  }
+  let S1 = 0, S2 = 0; for (let i = 0; i < NF; i++) { const w = MB.WINDOWS.blackman(i, NF); S1 += w; S2 += w * w; }
+  function upd(audioOnly) {
+    if (!audioOnly) {
+      const a = MB.undb(amp());
+      X = new Float32Array(NB); for (let n = 0; n < NB; n++) X[n] = a * Math.sin((2 * Math.PI * F * n) / SR);
+      const q = quantize(X, bits(), dith(), ns());
+      Y = q.y; E = q.e; D = q.d;
+      db = MB.spectrum(Y.subarray(0, NF), "blackman", NF);
+      let pe = 0; for (let n = 0; n < NB; n++) pe += E[n] * E[n]; pe /= NB;
+      const N = bits();
+      MB.stat("q-th", (6.02 * N + 1.76).toFixed(1) + " dB");
+      MB.stat("q-snr", pe > 0 ? (10 * Math.log10((a * a) / 2 / pe)).toFixed(1) + " dB" : "∞");
+      MB.stat("q-lsb", `${MB.fmt(a / D, 3)} LSB <small>(LSB ${MB.db(D).toFixed(1)} dBFS)</small>`);
+      cvW.redraw(); cvS.redraw();
+    }
+    if (loopV) { loopV.release(); loopV = startLoop(); }
+  }
+  function startLoop() {
+    let out = Y;
+    if (errOnly()) { let r = 0; for (let n = 0; n < NB; n++) r += E[n] * E[n]; r = Math.sqrt(r / NB) || 1; out = new Float32Array(NB); for (let n = 0; n < NB; n++) out[n] = (E[n] / r) * 0.05; }
+    return MB.playBuffer(out, SR, { loop: true, gain: 0.5 });
+  }
+  MB.playButton("q-play", () => { loopV = startLoop(); }, () => { if (loopV) loopV.release(); loopV = null; }, ["▶ 997 Hz 듣기", "■ 정지"]);
+  document.getElementById("q-fade").addEventListener("click", () => {
+    const len = SR * 6, x = new Float32Array(len);
+    for (let n = 0; n < len; n++) { const a = MB.undb(-10 - (70 * n) / len); x[n] = a * Math.sin((2 * Math.PI * F * n) / SR); }
+    const q = quantize(x, bits(), dith(), ns(), 5);
+    MB.ctx();
+    if (fade && fade.v) fade.v.release();
+    fade = { x, y: q.y, t0: MB.now() + 0.01, v: MB.playBuffer(q.y, SR, { gain: 0.5 }) };
+  });
+  MB.loop(document.getElementById("cv-q-wave"), () => { if (!fade) return; if (MB.now() - fade.t0 > 6) { fade = null; cvW.redraw(); return; } cvW.redraw(); });
+
+  const cvW = MB.canvas("#cv-q-wave", (ctx, w, h) => {
+    const P = MB.palette(); if (!X) return;
+    let x = X, y = Y, o = 0, title = "";
+    if (fade) { const n = Math.floor((MB.now() - fade.t0) * SR); o = MB.clamp(n, 0, fade.x.length - 200); x = fade.x; y = fade.y; title = `페이드 재생 중: ${(-10 - (70 * o) / fade.x.length).toFixed(0)} dBFS`; }
+    const L = 144; let a = 0; for (let i = 0; i < L; i++) a = Math.max(a, Math.abs(x[o + i]));
+    const sc = 0.92 / Math.max(a, D * 0.75, 1e-6);
+    const wb = { x: 12, y: 8, w: w - 24, h: h * 0.64 - 12 }, eb = { x: 12, y: h * 0.64 + 4, w: w - 24, h: h * 0.36 - 12 };
+    const XX = (i) => wb.x + (i / (L - 1)) * wb.w, YY = (v) => wb.y + wb.h / 2 - (v * sc * wb.h) / 2;
+    if (a / D < 24 && D > 0) { ctx.strokeStyle = P.grid; for (let k = -Math.ceil(a / D) - 1; k <= Math.ceil(a / D) + 1; k++) { const yy = YY(k * D); if (yy < wb.y || yy > wb.y + wb.h) continue; ctx.beginPath(); ctx.moveTo(wb.x, yy); ctx.lineTo(wb.x + wb.w, yy); ctx.stroke(); } }
+    ctx.strokeStyle = P.faint; ctx.lineWidth = 1.4; ctx.beginPath(); for (let i = 0; i < L; i++) i ? ctx.lineTo(XX(i), YY(x[o + i])) : ctx.moveTo(XX(i), YY(x[o + i])); ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i < L; i++) { const yy = YY(y[o + i]); i ? ctx.lineTo(XX(i), yy) : ctx.moveTo(XX(i), yy); ctx.lineTo(XX(i + 1 < L ? i + 1 : i), yy); }
+    ctx.stroke();
+    let em = D; for (let i = 0; i < L; i++) em = Math.max(em, Math.abs(y[o + i] - x[o + i]));
+    MB.drawWave(ctx, eb, Array.from({ length: L }, (_, i) => y[o + i] - x[o + i]), { yScale: 0.9 / em, color: P.accent2, width: 1.5 });
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.textAlign = "left";
+    ctx.fillText(title || `출력 (세로 확대 ×${MB.fmt(sc, 3)}, 가는 선 = 양자화 준위)`, wb.x + 2, wb.y + 10);
+    ctx.fillText(`오차 e = y − x (±${MB.fmt(em / D, 2)} LSB 범위)`, eb.x + 2, eb.y + 10);
+  }, { aspect: 0.5, maxHeight: 300, minHeight: 210 });
+  const cvS = MB.canvas("#cv-q-spec", (ctx, w, h) => {
+    const P = MB.palette(); if (!db) return;
+    const box = { x: 42, y: 10, w: w - 54, h: h - 30 };
+    const m = MB.drawSpectrum(ctx, box, db, SR / NF, { fmin: 20, fmax: 24000, dbMin: -170, dbMax: 0, fill: P.accent + "22" });
+    const mult = dith() === "tpdf" ? 3 : dith() === "rpdf" ? 2 : 1, sig2 = ((D * D) / 12) * mult;
+    const floor = (f) => 10 * Math.log10((4 * sig2 * S2) / (S1 * S1)) + (ns() ? 20 * Math.log10(Math.pow(2 * Math.sin((Math.PI * f) / SR), 2) + 1e-12) : 0);
+    ctx.strokeStyle = P.warn; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5; ctx.beginPath();
+    for (let i = 0; i <= 200; i++) { const f = 20 * Math.pow(1200, i / 200), x = m.X(f), yv = m.Y(floor(f)); i ? ctx.lineTo(x, yv) : ctx.moveTo(x, yv); }
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.textAlign = "right";
+    ctx.fillText("출력 스펙트럼 dB · 점선: 이론 잡음 바닥(빈당)", box.x + box.w, box.y + 10);
+  }, { aspect: 0.42, maxHeight: 260, minHeight: 190 });
+  upd();
+})();
+
+/* ================================================================ 3. FFT 창 함수 */
+(function () {
+  const FSR = 8000, NS = [64, 128, 256, 512, 1024, 2048, 4096];
+  const WIN = {
+    rect: () => 1, hann: MB.WINDOWS.hann, hamming: MB.WINDOWS.hamming, blackman: MB.WINDOWS.blackman,
+    bh4: (i, n) => { const t = (2 * Math.PI * i) / (n - 1); return 0.35875 - 0.48829 * Math.cos(t) + 0.14128 * Math.cos(2 * t) - 0.01168 * Math.cos(3 * t); },
+  };
+  const INFO = { rect: "−13.3 dB", hann: "−31.5 dB", hamming: "−42.7 dB", blackman: "−58.1 dB", bh4: "−92 dB" };
+  const N = MB.steps("fft-n", NS, (v) => String(v), 512, () => cv.redraw());
+  const win = MB.seg("fft-win", () => cv.redraw());
+  const df = MB.range("fft-df", (v) => v + " Hz", () => cv.redraw());
+  const a2 = MB.range("fft-a2", (v) => v + " dB", () => cv.redraw());
+  const off = MB.range("fft-off", (v) => (v / 100).toFixed(2) + " 빈", () => cv.redraw());
+  const zp = MB.seg("fft-zp", () => cv.redraw());
+  const zoom = MB.check("fft-zoom", () => cv.redraw());
+  const freqs = () => { const f1 = 1000 + (off() / 100) * (FSR / N()); return [f1, f1 + df()]; };
+  function spec(n, wn, pad, f1, f2, A2) {
+    const L = n * pad, re = new Float64Array(L), im = new Float64Array(L), W = WIN[wn]; let ws = 0;
+    for (let i = 0; i < n; i++) { const w = W(i, n); re[i] = w * (Math.sin((2 * Math.PI * f1 * i) / FSR) + A2 * Math.sin((2 * Math.PI * f2 * i) / FSR + 0.7)); ws += w; }
+    MB.fft(re, im);
+    const out = new Float32Array(L / 2); for (let k = 0; k < L / 2; k++) out[k] = 20 * Math.log10((2 * Math.hypot(re[k], im[k])) / ws + 1e-12);
+    return out;
+  }
+  const cv = MB.canvas("#cv-fft", (ctx, w, h) => {
+    const P = MB.palette(), n = N(), wn = win(), pad = +zp(), [f1, f2] = freqs(), A2 = MB.undb(a2()), bin = FSR / n;
+    // 시간 영역
+    const tb = { x: 12, y: 8, w: w - 24, h: h * 0.24 };
+    const W = WIN[wn], xs = new Float32Array(n), wv = new Float32Array(n);
+    for (let i = 0; i < n; i++) { wv[i] = W(i, n); xs[i] = wv[i] * (Math.sin((2 * Math.PI * f1 * i) / FSR) + A2 * Math.sin((2 * Math.PI * f2 * i) / FSR + 0.7)); }
+    MB.drawWave(ctx, tb, xs, { yScale: 0.9 / (1 + A2), color: P.accent, width: 1.2 });
+    ctx.save(); ctx.setLineDash([4, 3]); MB.drawWave(ctx, tb, wv, { yScale: 0.9, color: P.warn, width: 1.2, axis: false }); ctx.restore();
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.fillText(`창을 곱한 프레임 (N = ${n}, ${MB.fmt((n / FSR) * 1000, 3)} ms)`, tb.x + 2, tb.y + 10);
+    // 스펙트럼
+    const sp = spec(n, wn, pad, f1, f2, A2), fb = FSR / (n * pad);
+    let lo = 0, hi = FSR / 2;
+    if (zoom()) { const c = (f1 + f2) / 2, half = Math.max(14 * bin, (f2 - f1) / 2 + 8 * bin); lo = Math.max(0, c - half); hi = Math.min(FSR / 2, c + half); }
+    const box = { x: 46, y: h * 0.24 + 22, w: w - 58, h: h * 0.76 - 68 };
+    const data = []; const k0 = Math.floor(lo / fb), k1 = Math.min(sp.length - 1, Math.ceil(hi / fb)); const stride = Math.max(1, Math.floor((k1 - k0) / 1500));
+    for (let k = k0; k <= k1; k += stride) data.push([k * fb, Math.max(-140, sp[k])]);
+    const C = MB.chart(ctx, box, { x: [lo, hi], y: [-120, 5], xLabel: "주파수 (Hz)", yTicks: [-120, -100, -80, -60, -40, -20, 0], series: [{ data, color: P.accent, width: 1.6, fill: P.accent + "1c" }], vlines: [{ x: f1, color: P.ok, label: "f₁" }, { x: f2, color: P.warn, label: "f₂" }] });
+    // 실제 FFT 빈(영 채우기 전 격자)
+    const nb = Math.ceil((hi - lo) / bin);
+    if (nb < 260) { ctx.fillStyle = P.text; for (let k = Math.ceil(lo / bin); k * bin <= hi; k++) { const v = sp[k * pad]; if (v < -120) continue; ctx.beginPath(); ctx.arc(C.X(k * bin), C.Y(v), nb < 80 ? 3 : 2, 0, 7); ctx.fill(); } }
+    // 분해 판정(×16 영 채우기로 미세 탐색)
+    const fine = pad >= 16 ? sp : spec(n, wn, 16, f1, f2, A2), ff = FSR / (n * 16);
+    const i1 = Math.round(f1 / ff), i2 = Math.round(f2 / ff);
+    let pk = -1e9, pi = i2; for (let i = Math.max(1, i2 - 8); i <= Math.min(fine.length - 2, i2 + 8); i++) if (fine[i] > pk) { pk = fine[i]; pi = i; }
+    const isMax = fine[pi] >= fine[pi - 1] && fine[pi] >= fine[pi + 1] && pi > i2 - 8 && pi < i2 + 8;
+    let dip = 1e9; for (let i = Math.min(i1, pi); i <= Math.max(i1, pi); i++) dip = Math.min(dip, fine[i]);
+    const ok = isMax && pk - dip >= 3 && pk > -125;
+    const kb = Math.floor(f1 / bin); const p1 = Math.max(fine[kb * 16], fine[(kb + 1) * 16]); // 실제 빈에서 본 f₁ 높이
+    MB.stat("fft-bin", `${MB.fmt(bin, 3)} Hz <small>· 사이드로브 ${INFO[wn]}</small>`);
+    MB.stat("fft-t", `${MB.fmt((n / FSR) * 1000, 3)} ms <small>· Δf/빈 = ${MB.fmt(df() / bin, 2)}</small>`);
+    MB.stat("fft-res", ok ? `<span style="color:var(--ok)">분해됨</span> <small>골 ${(pk - dip).toFixed(1)} dB</small>` : `<span style="color:var(--bad)">안 됨</span> <small>${isMax ? "골 " + Math.max(0, pk - dip).toFixed(1) + " dB" : "봉우리 없음"}</small>`);
+    MB.stat("fft-pk", `${p1.toFixed(2)} dB <small>(스캘럽 손실)</small>`);
+  }, { aspect: 0.66, maxHeight: 440, minHeight: 320 });
+  document.getElementById("fft-play").addEventListener("click", () => {
+    const ctx = MB.ctx(), t = ctx.currentTime + 0.02, [f1, f2] = freqs(), A2 = MB.undb(a2());
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.18, t + 0.05); g.gain.setValueAtTime(0.18, t + 2); g.gain.linearRampToValueAtTime(0, t + 2.2); g.connect(MB.out);
+    [[f1, 1], [f2, A2]].forEach(([f, a]) => { const o = ctx.createOscillator(), og = ctx.createGain(); o.frequency.value = f; og.gain.value = a; o.connect(og); og.connect(g); o.start(t); o.stop(t + 2.25); });
+  });
+})();
+
+/* ================================================================ 4. 스펙트로그램 */
+(function () {
+  const NS = [256, 512, 1024, 2048, 4096, 8192], FMIN = 40, FMAX = 16000, DBMAX = -15;
+  const sr = () => (MB.out ? MB.out.context.sampleRate : 48000);
+  const n = MB.steps("sp-n", NS, (v) => String(v), 2048, () => apply());
+  const scale = MB.seg("sp-scale", () => { if (off) off.getContext("2d").clearRect(0, 0, off.width, off.height); cv.redraw(); });
+  const range = MB.range("sp-range", (v) => v + " dB", () => {});
+  const pause = MB.check("sp-pause", () => {});
+  let bus = null, an = null, mic = null, src = null, clock = null, fd = null, off = null, lut = null;
+  const oscs = new Set();
+  function ensure() {
+    const ctx = MB.ctx();
+    if (!bus) { bus = ctx.createGain(); an = ctx.createAnalyser(); bus.connect(an); bus.connect(MB.out); }
+    if (!mic) src = an;
+    apply();
+    return ctx;
+  }
+  function apply() {
+    if (src) { src.fftSize = n(); src.smoothingTimeConstant = 0; }
+    MB.stat("sp-t", `${MB.fmt((n() / sr()) * 1000, 3)} ms`);
+    MB.stat("sp-df", `${MB.fmt(sr() / n(), 3)} Hz`);
+  }
+  function buildLut() {
+    const P = MB.palette(), st = [[0, DSP.rgb(P.bg)], [0.45, DSP.rgb(P.accent)], [0.75, DSP.rgb(P.bad)], [1, DSP.rgb(P.warn)]];
+    lut = new Uint8ClampedArray(256 * 3);
+    for (let i = 0; i < 256; i++) {
+      const u = i / 255; let j = 0; while (j < st.length - 2 && u > st[j + 1][0]) j++;
+      const t = (u - st[j][0]) / (st[j + 1][0] - st[j][0]);
+      for (let c = 0; c < 3; c++) lut[i * 3 + c] = st[j][1][c] + (st[j + 1][1][c] - st[j][1][c]) * t;
+    }
+  }
+  buildLut(); MB.onTheme(buildLut);
+  const rowFreq = (r, H) => { const u = 1 - r / (H - 1); return scale() === "log" ? FMIN * Math.pow(FMAX / FMIN, u) : u * FMAX; };
+  const cv = MB.canvas("#cv-sp", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 46, y: 8, w: w - 54, h: h - 28 };
+    if (!off || off.width !== Math.floor(box.w) || off.height !== Math.floor(box.h)) { off = document.createElement("canvas"); off.width = Math.floor(box.w); off.height = Math.floor(box.h); }
+    ctx.fillStyle = P.bg; ctx.fillRect(box.x, box.y, box.w, box.h);
+    ctx.drawImage(off, box.x, box.y);
+    ctx.strokeStyle = P.border; ctx.strokeRect(box.x + 0.5, box.y + 0.5, box.w - 1, box.h - 1);
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(10, true); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    const ticks = scale() === "log" ? [50, 100, 200, 500, 1000, 2000, 5000, 10000] : [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000];
+    ticks.forEach((f) => { const u = scale() === "log" ? Math.log(f / FMIN) / Math.log(FMAX / FMIN) : f / FMAX; const y = box.y + (1 - u) * box.h; if (y < box.y || y > box.y + box.h) return; ctx.fillText(f >= 1000 ? f / 1000 + "k" : String(f), box.x - 5, y); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, y); ctx.lineTo(box.x + 6, y); ctx.stroke(); });
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.font = DSP.font(11);
+    ctx.fillText("← 과거", box.x, h - 6); ctx.textAlign = "right"; ctx.fillText("지금 →", box.x + box.w, h - 6);
+    if (!src) { ctx.textAlign = "center"; ctx.fillStyle = P.faint; ctx.font = DSP.font(13); ctx.fillText("테스트 소리 버튼을 누르거나 마이크를 켜세요", box.x + box.w / 2, box.y + box.h / 2); }
+  }, { aspect: 0.56, maxHeight: 380, minHeight: 240 });
+  MB.loop(cv.canvas, () => {
+    if (!src || pause() || !off) return;
+    if (!fd || fd.length !== src.frequencyBinCount) fd = new Float32Array(src.frequencyBinCount);
+    src.getFloatFrequencyData(fd);
+    const H = off.height, W = off.width, oc = off.getContext("2d"), binHz = src.context.sampleRate / src.fftSize, R = range();
+    oc.drawImage(off, -2, 0);
+    const img = oc.createImageData(2, H);
+    let best = -1e9, bk = 0;
+    for (let r = 0; r < H; r++) {
+      const fa = rowFreq(r + 0.5, H + 1), fb2 = rowFreq(r + 1.5, H + 1);
+      let k0 = Math.floor(Math.min(fa, fb2) / binHz), k1 = Math.ceil(Math.max(fa, fb2) / binHz); k0 = MB.clamp(k0, 1, fd.length - 1); k1 = MB.clamp(Math.max(k1, k0), 1, fd.length - 1);
+      let v = -1e9; for (let k = k0; k <= k1; k++) v = Math.max(v, fd[k]);
+      const idx = Math.round(MB.clamp((v - (DBMAX - R)) / R, 0, 1) * 255) * 3;
+      for (let c = 0; c < 2; c++) { const p = (r * 2 + c) * 4; img.data[p] = lut[idx]; img.data[p + 1] = lut[idx + 1]; img.data[p + 2] = lut[idx + 2]; img.data[p + 3] = 255; }
+    }
+    for (let k = 2; k < fd.length; k++) if (fd[k] > best) { best = fd[k]; bk = k; }
+    oc.putImageData(img, W - 2, 0);
+    MB.stat("sp-pk", best > -95 ? `${DSP.fmtHz(bk * binHz)} <small>${MB.noteName(MB.ftom(bk * binHz))}</small>` : "—");
+    cv.redraw();
+  });
+  function tone(build, dur) { const ctx = ensure(); const t = ctx.currentTime + 0.02; const nodes = build(ctx, t); nodes.forEach((o) => { oscs.add(o); o.onended = () => oscs.delete(o); o.stop(t + dur); }); }
+  const env = (ctx, t, dur, peak) => { const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + 0.03); g.gain.setValueAtTime(peak, t + dur - 0.08); g.gain.linearRampToValueAtTime(0, t + dur); g.connect(bus); return g; };
+  document.getElementById("sp-chirp").addEventListener("click", () => tone((ctx, t) => { const o = ctx.createOscillator(); o.frequency.setValueAtTime(100, t); o.frequency.linearRampToValueAtTime(12000, t + 4); o.connect(env(ctx, t, 4, 0.12)); o.start(t); return [o]; }, 4));
+  document.getElementById("sp-echirp").addEventListener("click", () => tone((ctx, t) => { const o = ctx.createOscillator(); o.frequency.setValueAtTime(50, t); o.frequency.exponentialRampToValueAtTime(12000, t + 4); o.connect(env(ctx, t, 4, 0.12)); o.start(t); return [o]; }, 4));
+  document.getElementById("sp-chord").addEventListener("click", () => { const ctx = ensure(), t = ctx.currentTime + 0.03; MB.playChord([48, 55, 64, 71, 74], { inst: "piano", when: t, dur: 2.5, dest: bus, strum: 0.03, vel: 0.7 }); [60, 64, 67, 71, 74, 79].forEach((m, i) => MB.play(m, { inst: "piano", when: t + 1.6 + i * 0.18, dur: 0.6, dest: bus, vel: 0.6 })); });
+  document.getElementById("sp-bell").addEventListener("click", () => { const ctx = ensure(), t = ctx.currentTime + 0.03; [72, 79, 76, 84].forEach((m, i) => MB.play(m, { inst: "bell", when: t + i * 0.55, dur: 2.2, dest: bus, vel: 0.7 })); });
+  document.getElementById("sp-vowel").addEventListener("click", () => tone((ctx, t) => {
+    const o = ctx.createOscillator(); o.type = "sawtooth"; o.frequency.setValueAtTime(130, t); o.frequency.linearRampToValueAtTime(115, t + 3.2);
+    const out = env(ctx, t, 3.2, 0.5);
+    const path = [[780, 1300], [290, 2200], [330, 900]];
+    [0, 1, 2].forEach((j) => {
+      const b = ctx.createBiquadFilter(); b.type = "bandpass"; b.Q.value = 9; const gg = ctx.createGain(); gg.gain.value = [1.6, 1.1, 0.5][j];
+      if (j < 2) { b.frequency.setValueAtTime(path[0][j], t); b.frequency.setValueAtTime(path[0][j], t + 0.7); b.frequency.linearRampToValueAtTime(path[1][j], t + 1.3); b.frequency.setValueAtTime(path[1][j], t + 1.9); b.frequency.linearRampToValueAtTime(path[2][j], t + 2.5); }
+      else b.frequency.value = 2500;
+      o.connect(b); b.connect(gg); gg.connect(out);
+    });
+    o.start(t); return [o];
+  }, 3.2));
+  const drums = MB.playButton("sp-drums", () => { ensure(); clock = clock || DSP.loop(() => bus, { style: () => "drums", bpm: 104 }); clock.start(); }, () => { if (clock) clock.stop(); }, ["드럼 루프", "■ 드럼 정지"]);
+  const micBtn = document.getElementById("sp-mic");
+  micBtn.addEventListener("click", async () => {
+    if (mic) { mic.stop(); mic = null; micBtn.textContent = "🎤 마이크"; src = an; apply(); return; }
+    try { ensure(); mic = await MB.mic(); src = mic.analyser; micBtn.textContent = "🎤 마이크 끄기"; apply(); }
+    catch (e) { mic = null; MB.stat("sp-pk", "마이크를 쓸 수 없음"); }
+  });
+  document.getElementById("sp-stop").addEventListener("click", () => {
+    MB.stopAll(); if (clock && clock.running) { clock.stop(); drums.set(false); }
+    oscs.forEach((o) => { try { o.stop(); } catch (e) {} }); oscs.clear();
+    if (mic) { mic.stop(); mic = null; micBtn.textContent = "🎤 마이크"; src = an; apply(); }
+  });
+  apply();
+})();
+
+/* ================================================================ 5. EQ 설계기 */
+(function () {
+  const FSR = 48000;
+  const fFromS = (v) => 20 * Math.pow(1000, v / 1000), sFromF = (f) => (1000 * Math.log(f / 20)) / Math.log(1000);
+  const qFromS = (v) => 0.2 * Math.pow(100, v / 100), sFromQ = (q) => (100 * Math.log(q / 0.2)) / Math.log(100);
+  const isShelf = (t) => t === "lowshelf" || t === "highshelf";
+  const hasGain = (t) => t === "peaking" || isShelf(t);
+  const DEF = () => [{ type: "lowshelf", f: 90, g: 3, q: 0.707 }, { type: "peaking", f: 350, g: -3, q: 1.2 }, { type: "peaking", f: 3000, g: 4, q: 1.0 }, { type: "highshelf", f: 9000, g: 2, q: 0.707 }];
+  let bands = DEF(), sel = 0, nodes = null, inBus = null, outBus = null, an = null, srcNode = null, clock = null, playing = false, handles = [], map = null;
+  const coefs = (b) => MB.biquad(b.type, b.f, isShelf(b.type) ? 0.7071 : b.q, hasGain(b.type) ? b.g : 0, FSR);
+  const typeSel = document.getElementById("eq-type");
+  const fS = MB.range("eq-f", (v) => DSP.fmtHz(fFromS(v)), (v) => { bands[sel].f = fFromS(v); changed(); });
+  const gS = MB.range("eq-g", (v) => MB.signed(v, 1) + " dB", (v) => { bands[sel].g = v; changed(); });
+  const qS = MB.range("eq-q", (v) => qFromS(v).toFixed(2), (v) => { bands[sel].q = qFromS(v); changed(); });
+  const src = MB.seg("eq-src", () => { if (playing) { stop(); start(); } });
+  const bypass = MB.check("eq-bypass", () => route());
+  typeSel.addEventListener("change", () => { const b = bands[sel]; b.type = typeSel.value; if (isShelf(b.type)) b.q = 0.707; sync(); changed(); });
+  const bandBtns = [...document.querySelectorAll("#eq-bands button")];
+  bandBtns.forEach((b, i) => b.addEventListener("click", () => { sel = i; sync(); cv.redraw(); }));
+  document.getElementById("eq-reset").addEventListener("click", () => { bands = DEF().map((b) => Object.assign(b, { g: 0 })); sync(); changed(); });
+  function sync() {
+    const b = bands[sel];
+    typeSel.value = b.type; fS.set(sFromF(b.f), false); gS.set(b.g, false); qS.set(sFromQ(b.q), false);
+    gS.el.disabled = !hasGain(b.type); qS.el.disabled = isShelf(b.type);
+    bandBtns.forEach((x, i) => x.classList.toggle("on", i === sel));
+    readout();
+  }
+  function readout() {
+    const c = coefs(bands[sel]), f5 = (v) => v.toFixed(5);
+    MB.stat("eq-b", c.b.map(f5).join(" "));
+    MB.stat("eq-a", c.a.slice(1).map(f5).join(" "));
+    let mn = 1e9, mx = -1e9; const all = bands.map(coefs);
+    for (let i = 0; i <= 120; i++) { const v = MB.freqResponse(all, 20 * Math.pow(1000, i / 120), FSR); mn = Math.min(mn, v); mx = Math.max(mx, v); }
+    MB.stat("eq-rng", `${MB.signed(mn, 1)} … ${MB.signed(mx, 1)} dB`);
+  }
+  function setNode(nd, b, t) {
+    nd.type = b.type;
+    nd.frequency.setTargetAtTime(b.f, t, 0.01);
+    nd.gain.setTargetAtTime(hasGain(b.type) ? b.g : 0, t, 0.01);
+    // Web Audio: 로우/하이패스의 Q는 dB 단위, 셸프는 Q 무시(S=1 고정)
+    nd.Q.setTargetAtTime(b.type === "lowpass" || b.type === "highpass" ? 20 * Math.log10(b.q) : isShelf(b.type) ? 0.7071 : b.q, t, 0.01);
+  }
+  function changed() { if (nodes) { const t = MB.now(); bands.forEach((b, i) => setNode(nodes[i], b, t)); } readout(); cv.redraw(); }
+  function build() {
+    const ctx = MB.ctx(); if (nodes) return ctx;
+    inBus = ctx.createGain(); outBus = ctx.createGain(); outBus.gain.value = 0.85;
+    nodes = bands.map(() => ctx.createBiquadFilter());
+    for (let i = 0; i < 3; i++) nodes[i].connect(nodes[i + 1]);
+    nodes[3].connect(outBus); outBus.connect(MB.out);
+    an = ctx.createAnalyser(); an.fftSize = 4096; an.smoothingTimeConstant = 0.82; outBus.connect(an);
+    bands.forEach((b, i) => setNode(nodes[i], b, ctx.currentTime));
+    route();
+    return ctx;
+  }
+  function route() { if (!inBus) return; inBus.disconnect(); inBus.connect(bypass() ? outBus : nodes[0]); }
+  function start() {
+    const ctx = build(); playing = true;
+    if (src() === "pink") { srcNode = ctx.createBufferSource(); srcNode.buffer = DSP.pinkBuffer(ctx); srcNode.loop = true; const g = ctx.createGain(); g.gain.value = 0.35; srcNode.connect(g); g.connect(inBus); srcNode.start(); }
+    else { clock = clock || DSP.loop(() => inBus, { style: () => "band" }); clock.start(); }
+  }
+  function stop() { playing = false; if (srcNode) { try { srcNode.stop(); } catch (e) {} srcNode = null; } if (clock) clock.stop(); }
+  MB.playButton("eq-play", start, stop);
+  const fd = new Float32Array(2048);
+  const cv = MB.canvas("#cv-eq", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 40, y: 10, w: w - 52, h: h - 34 };
+    if (playing && an) { an.getFloatFrequencyData(fd); MB.drawSpectrum(ctx, box, fd, an.context.sampleRate / an.fftSize, { fmin: 20, fmax: 20000, dbMin: -110, dbMax: -10, grid: false, color: P.accent2 + "88", width: 1, fill: P.accent2 + "18" }); }
+    const all = bands.map(coefs), FN = 260, fr = (i) => 20 * Math.pow(1000, i / FN);
+    const series = bands.map((b, j) => ({ data: [...Array(FN + 1)].map((_, i) => [fr(i), MB.clamp(MB.freqResponse(all[j], fr(i), FSR), -30, 30)]), color: j === sel ? P.warn : P.faint, width: j === sel ? 1.4 : 1, dash: [4, 3] }));
+    const tot = [...Array(FN + 1)].map((_, i) => [fr(i), MB.clamp(MB.freqResponse(all, fr(i), FSR), -30, 30)]);
+    series.push({ data: tot, color: P.accent, width: 2.6 });
+    const C = MB.chart(ctx, box, { x: [20, 20000], y: [-24, 24], logX: true, xTicks: [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000], xFmt: (v) => (v >= 1000 ? v / 1000 + "k" : String(v)), yTicks: [-24, -12, -6, 0, 6, 12, 24], series });
+    map = C;
+    handles = bands.map((b) => ({ x: C.X(b.f), y: C.Y(MB.clamp(hasGain(b.type) ? b.g : MB.freqResponse(all, b.f, FSR), -24, 24)) }));
+    ctx.font = DSP.font(11, true); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    handles.forEach((p, i) => {
+      ctx.beginPath(); ctx.arc(p.x, p.y, i === sel ? 11 : 9, 0, 7);
+      ctx.fillStyle = i === sel ? P.accent : P.surface; ctx.fill(); ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = i === sel ? (MB.isDark() ? "#120a26" : "#fff") : P.text; ctx.fillText(String(i + 1), p.x, p.y + 0.5);
+    });
+    ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = DSP.font(11);
+    ctx.fillText("dB", 6, box.y + 10);
+  }, { aspect: 0.56, maxHeight: 380, minHeight: 240 });
+  MB.loop(cv.canvas, () => { if (playing) cv.redraw(); });
+  let drag = -1;
+  const pos = (e) => { const r = cv.canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    const [x, y] = pos(e); let bi = -1, bd = 26;
+    handles.forEach((p, i) => { const d = Math.hypot(p.x - x, p.y - y); if (d < bd) { bd = d; bi = i; } });
+    if (bi < 0) return;
+    drag = bi; sel = bi; cv.canvas.setPointerCapture(e.pointerId); sync(); cv.redraw();
+  });
+  cv.canvas.addEventListener("pointermove", (e) => {
+    if (drag < 0 || !map) return;
+    const [x, y] = pos(e), b = bands[drag], bx = map.box;
+    b.f = MB.clamp(20 * Math.pow(1000, (x - bx.x) / bx.w), 20, 20000);
+    if (hasGain(b.type)) b.g = Math.round(MB.clamp(24 - ((y - bx.y) / bx.h) * 48, -18, 18) * 2) / 2;
+    sync(); changed();
+  });
+  cv.canvas.addEventListener("pointerup", () => (drag = -1));
+  cv.canvas.addEventListener("wheel", (e) => { const b = bands[sel]; if (isShelf(b.type)) return; e.preventDefault(); b.q = MB.clamp(b.q * (e.deltaY > 0 ? 1 / 1.12 : 1.12), 0.2, 20); sync(); changed(); }, { passive: false });
+  sync();
+})();
+
+/* ================================================================ 6. 딜레이·콤·플랜저·코러스 */
+(function () {
+  const PROC = `
+class MBDelay extends AudioWorkletProcessor {
+  static get parameterDescriptors() { return [
+    { name: "delay", defaultValue: 3, minValue: 0.02, maxValue: 1200, automationRate: "k-rate" },
+    { name: "depth", defaultValue: 0, minValue: 0, maxValue: 30, automationRate: "k-rate" },
+    { name: "rate", defaultValue: 0.3, minValue: 0.001, maxValue: 20, automationRate: "k-rate" },
+    { name: "fb", defaultValue: 0, minValue: -0.99, maxValue: 0.99, automationRate: "k-rate" },
+    { name: "mix", defaultValue: 0.5, minValue: 0, maxValue: 1, automationRate: "k-rate" },
+    { name: "voices", defaultValue: 1, minValue: 1, maxValue: 3, automationRate: "k-rate" } ]; }
+  constructor() { super(); this.N = 131072; this.buf = new Float32Array(this.N); this.w = 0; this.ph = 0; this.cnt = 0; this.cur = 0; }
+  process(inputs, outputs, p) {
+    const inp = inputs[0] && inputs[0][0], out = outputs[0], M = this.N - 1, sr = sampleRate;
+    const d0 = p.delay[0] * sr / 1000, dep = p.depth[0] * sr / 1000, rate = p.rate[0], fb = p.fb[0], mix = p.mix[0], V = Math.round(p.voices[0]);
+    const y = out[0];
+    for (let i = 0; i < y.length; i++) {
+      const x = inp ? inp[i] : 0; let wet = 0, first = 0;
+      for (let v = 0; v < V; v++) {
+        let d = d0 + dep * (0.5 + 0.5 * Math.sin(2 * Math.PI * (this.ph + v / V)));
+        if (d < 1) d = 1; if (d > this.N - 4) d = this.N - 4;
+        const r = this.w - d, i0 = Math.floor(r), fr = r - i0, a = this.buf[i0 & M], b = this.buf[(i0 + 1) & M], s = a + (b - a) * fr;
+        if (v === 0) { first = s; this.cur = d; }
+        wet += s;
+      }
+      wet /= V;
+      this.buf[this.w] = x + fb * first;
+      this.w = (this.w + 1) & M;
+      this.ph += rate / sr; if (this.ph >= 1) this.ph -= 1;
+      y[i] = (1 - mix) * x + mix * wet;
+    }
+    for (let c = 1; c < out.length; c++) out[c].set(y);
+    if (++this.cnt % 6 === 0) this.port.postMessage(this.cur * 1000 / sr);
+    return true;
+  }
+}
+registerProcessor("mb-delay", MBDelay);`;
+  const d2s = (ms) => (1000 * Math.log10(ms / 0.1)) / 4, s2d = (v) => 0.1 * Math.pow(10, (4 * v) / 1000);
+  const r2s = (hz) => (100 * Math.log(hz / 0.02)) / Math.log(500), s2r = (v) => 0.02 * Math.pow(500, v / 100);
+  const dl = MB.range("cb-d", (v) => MB.fmt(s2d(v), 3) + " ms", () => params());
+  const fb = MB.range("cb-fb", (v) => MB.signed(v / 100, 2), () => params());
+  const mix = MB.range("cb-mix", (v) => v + "%", () => params());
+  const dep = MB.range("cb-dep", (v) => MB.fmt((v / 100) * 20, 2) + " ms", () => params());
+  const rate = MB.range("cb-rate", (v) => MB.fmt(s2r(v), 2) + " Hz", () => params());
+  const src = MB.seg("cb-src", () => { if (playing) { stopSrc(); startSrc(); } });
+  let voices = 1, node = null, inNode = null, an = null, playing = false, curMs = null, srcNodes = [], clock = null, fallback = false, loading = null;
+  const PRE = {
+    comb: { d: 1, fb: 0, mix: 50, dep: 0, rate: 0.2, v: 1 },
+    reso: { d: 5, fb: 0.85, mix: 70, dep: 0, rate: 0.2, v: 1 },
+    flanger: { d: 0.4, fb: 0.6, mix: 50, dep: 4.5, rate: 0.15, v: 1 },
+    chorus: { d: 14, fb: 0, mix: 50, dep: 5, rate: 0.8, v: 3 },
+    echo: { d: 350, fb: 0.45, mix: 35, dep: 0, rate: 0.2, v: 1 },
+  };
+  document.querySelectorAll("#cb-pre button").forEach((b) => b.addEventListener("click", () => {
+    const p = PRE[b.dataset.p]; voices = p.v;
+    dl.set(d2s(p.d), false); fb.set(p.fb * 100, false); mix.set(p.mix, false); dep.set((p.dep / 20) * 100, false); rate.set(r2s(p.rate), false);
+    params();
+  }));
+  const P_ = () => ({ delay: s2d(dl()), fb: fb() / 100, mix: mix() / 100, depth: (dep() / 100) * 20, rate: s2r(rate()), voices });
+  function params() {
+    const p = P_();
+    if (node) {
+      const t = MB.now();
+      if (!fallback) Object.keys(p).forEach((k) => node.parameters.get(k).setValueAtTime(p[k], t));
+      else { node.delay.delayTime.setTargetAtTime(p.delay / 1000, t, 0.02); node.fbG.gain.setTargetAtTime(p.fb, t, 0.02); node.dry.gain.setTargetAtTime(1 - p.mix, t, 0.02); node.wet.gain.setTargetAtTime(p.mix, t, 0.02); node.lfo.frequency.setTargetAtTime(p.rate, t, 0.02); node.lfoG.gain.setTargetAtTime(p.depth / 2000, t, 0.02); }
+    }
+    if (!playing) curMs = null;
+    cv.redraw();
+  }
+  async function build() {
+    const ctx = MB.ctx();
+    if (node) return ctx;
+    if (loading) { await loading; return ctx; }
+    loading = (async () => {
+      inNode = ctx.createGain();
+      an = ctx.createAnalyser(); an.fftSize = 8192; an.smoothingTimeConstant = 0.75;
+      try {
+        if (!ctx.audioWorklet) throw new Error("no worklet");
+        const url = URL.createObjectURL(new Blob([PROC], { type: "application/javascript" }));
+        await ctx.audioWorklet.addModule(url);
+        node = new AudioWorkletNode(ctx, "mb-delay", { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
+        node.port.onmessage = (e) => { curMs = e.data; };
+        inNode.connect(node); node.connect(an); node.connect(MB.out);
+      } catch (e) {
+        fallback = true;
+        const msg = document.getElementById("cb-msg"); msg.hidden = false; msg.className = "sim-msg bad";
+        msg.textContent = "이 브라우저에서 AudioWorklet을 쓸 수 없어 DelayNode로 대신합니다(되먹임이 있으면 지연이 2.7 ms 이상으로 제한됨).";
+        const delay = ctx.createDelay(2), fbG = ctx.createGain(), dry = ctx.createGain(), wet = ctx.createGain(), out = ctx.createGain(), lfo = ctx.createOscillator(), lfoG = ctx.createGain();
+        inNode.connect(dry); inNode.connect(delay); delay.connect(wet); delay.connect(fbG); fbG.connect(delay); dry.connect(out); wet.connect(out); lfo.connect(lfoG); lfoG.connect(delay.delayTime); lfo.start();
+        out.connect(an); out.connect(MB.out);
+        node = { delay, fbG, dry, wet, lfo, lfoG };
+      }
+      params();
+    })();
+    await loading;
+    return ctx;
+  }
+  function startSrc() {
+    const ctx = MB.ctx(), s = src();
+    if (s === "noise") { const b = ctx.createBufferSource(); b.buffer = DSP.pinkBuffer(ctx); b.loop = true; const g = ctx.createGain(); g.gain.value = 0.32; b.connect(g); g.connect(inNode); b.start(); srcNodes.push(b); }
+    else if (s === "saw") { const g = ctx.createGain(); g.gain.value = 0; g.gain.setTargetAtTime(0.05, ctx.currentTime, 0.05); g.connect(inNode); [130.81, 164.81, 196, 261.63].forEach((f) => { const o = ctx.createOscillator(); o.type = "sawtooth"; o.frequency.value = f; o.connect(g); o.start(); srcNodes.push(o); }); }
+    else { clock = DSP.loop(() => inNode, { style: () => (s === "drums" ? "drums" : "pluck"), bpm: s === "drums" ? 100 : 84 }); clock.start(); }
+  }
+  function stopSrc() { srcNodes.forEach((n) => { try { n.stop(); } catch (e) {} }); srcNodes = []; if (clock) { clock.stop(); clock = null; } }
+  MB.playButton("cb-play", async () => { playing = true; await build(); if (playing) startSrc(); }, () => { playing = false; stopSrc(); curMs = null; cv.redraw(); });
+  function H(f, p, tau) { // H = (1−m) + m·e^{−jωτ}/(1 − g e^{−jωτ})
+    const w = 2 * Math.PI * f * tau, c = Math.cos(w), s = Math.sin(w), g = p.fb;
+    const dr = 1 - g * c, di = g * s, den = dr * dr + di * di; // (c − js)/(dr + j di)
+    const er = (c * dr - s * di) / den, ei = (-s * dr - c * di) / den;
+    return 20 * Math.log10(Math.hypot(1 - p.mix + p.mix * er, p.mix * ei) + 1e-9);
+  }
+  const fdat = new Float32Array(4096);
+  const cv = MB.canvas("#cv-comb", (ctx, w, h) => {
+    const P = MB.palette(), p = P_();
+    const ms = curMs != null ? curMs : p.delay + p.depth / 2, tau = ms / 1000;
+    const fmax = MB.clamp(20 / tau, 100, 10000);
+    const box = { x: 44, y: 12, w: w - 56, h: h - 60 };
+    if (playing && an) { an.getFloatFrequencyData(fdat); MB.drawSpectrum(ctx, box, fdat, an.context.sampleRate / an.fftSize, { fmin: 1e-6, fmax, log: false, dbMin: -110, dbMax: -20, grid: false, color: P.accent2 + "99", width: 1, fill: P.accent2 + "1a" }); }
+    const data = []; let mx = -1e9, mn = 1e9;
+    for (let i = 0; i <= 1200; i++) { const f = (i / 1200) * fmax, v = H(f, p, tau); data.push([f, MB.clamp(v, -40, 30)]); if (i) { mx = Math.max(mx, v); mn = Math.min(mn, v); } }
+    MB.chart(ctx, box, { x: [0, fmax], y: [-30, 20], xLabel: "주파수 (Hz, 선형)", yTicks: [-30, -20, -10, 0, 10, 20], xFmt: (v) => (v >= 1000 ? MB.fmt(v / 1000, 3) + "k" : MB.fmt(v, 3)), series: [{ data, color: P.accent, width: 2 }] });
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.textAlign = "right"; ctx.fillText(`|H(f)| dB · τ = ${MB.fmt(ms, 3)} ms${voices > 1 ? " (코러스: 첫 목소리 기준)" : ""}`, box.x + box.w, box.y + 10);
+    MB.stat("cb-now", MB.fmt(ms, 3) + " ms");
+    MB.stat("cb-sp", DSP.fmtHz(1 / tau));
+    const t60 = Math.abs(p.fb) > 0.01 ? (-3 * tau) / Math.log10(Math.abs(p.fb)) : 0;
+    MB.stat("cb-pk", `${MB.signed(mx, 1)} / ${mn < -60 ? "−∞" : MB.signed(mn, 1)} dB${t60 ? ` <small>T₆₀ ${MB.fmt(t60 < 1 ? t60 * 1000 : t60, 3)}${t60 < 1 ? " ms" : " s"}</small>` : ""}`);
+  }, { aspect: 0.66, maxHeight: 420, minHeight: 240 });
+  MB.loop(cv.canvas, () => { if (playing) cv.redraw(); });
+})();
+
+/* ================================================================ 7. 리버브 */
+(function () {
+  const algo = MB.seg("rv-algo", () => regen());
+  const T = MB.range("rv-t", (v) => (v / 10).toFixed(1) + " s", () => regen());
+  const pre = MB.range("rv-pre", (v) => v + " ms", () => regen());
+  const damp = MB.range("rv-damp", (v) => v + "%", () => regen());
+  const mix = MB.range("rv-mix", (v) => v + "%", () => setMix());
+  const early = MB.check("rv-early", () => cv.redraw());
+  let IR = null, edc = null, meas = null, timer = 0, inBus = null, conv = null, dryG = null, wetG = null, clock = null, irSr = 48000;
+  function gen(kind, rt, preMs, dm, sr) {
+    const preN = Math.round((preMs / 1000) * sr), len = preN + Math.round(Math.min(rt * 1.15 + 0.08, 7.5) * sr);
+    const ch = [new Float32Array(len), new Float32Array(len)];
+    for (let c = 0; c < 2; c++) {
+      const out = ch[c], spread = c ? 23 : 0;
+      if (kind === "noise") {
+        const r = MB.rng(7 + c); let lp = 0;
+        for (let n = preN; n < len; n++) { const t = (n - preN) / sr, k = dm * (1 - Math.exp(-t / (0.3 * rt))); lp = (1 - k) * (r() * 2 - 1) + k * lp; out[n] = lp * Math.pow(10, (-3 * t) / rt); }
+      } else {
+        const sch = kind === "schroeder";
+        const cl = sch ? [29.7, 37.1, 41.1, 43.7].map((ms) => Math.round((ms / 1000) * sr) + spread) : [1116, 1188, 1277, 1356, 1422, 1491, 1557, 1617].map((L) => Math.round((L * sr) / 44100) + spread);
+        const al = sch ? [5.0, 1.7].map((ms) => Math.round((ms / 1000) * sr) + (c ? 7 : 0)) : [556, 441, 341, 225].map((L) => Math.round((L * sr) / 44100) + spread);
+        const tmp = new Float32Array(len);
+        cl.forEach((D) => {
+          const buf = new Float32Array(D), g = Math.pow(10, (-3 * D) / sr / rt); let idx = 0, st = 0;
+          for (let n = preN; n < len; n++) { const x = n === preN ? 1 : 0, o = buf[idx]; st = o * (1 - dm) + st * dm; buf[idx] = x + g * st; idx = idx + 1 === D ? 0 : idx + 1; tmp[n] += o; }
+        });
+        al.forEach((D) => {
+          const buf = new Float32Array(D); let idx = 0;
+          for (let n = preN; n < len; n++) {
+            const x = tmp[n], bo = buf[idx];
+            if (sch) { const v = x + 0.7 * bo; tmp[n] = -0.7 * v + bo; buf[idx] = v; } // H = (−g + z^−D)/(1 − g z^−D)
+            else { tmp[n] = -x + bo; buf[idx] = x + bo * 0.5; } // 프리버브 방식
+            idx = idx + 1 === D ? 0 : idx + 1;
+          }
+        });
+        out.set(tmp);
+      }
+    }
+    let e = 0; for (let c = 0; c < 2; c++) for (let n = 0; n < len; n++) e += ch[c][n] * ch[c][n];
+    const k = Math.sqrt(0.5 / (e / 2 || 1)); ch.forEach((a) => { for (let n = 0; n < len; n++) a[n] *= k; });
+    return { ch, len, sr, preN };
+  }
+  function analyse() {
+    const h = IR.ch[0], n = h.length; edc = new Float32Array(n); let acc = 0;
+    for (let i = n - 1; i >= 0; i--) { acc += h[i] * h[i]; edc[i] = acc; }
+    const tot = edc[0] || 1; let t5 = -1, t35 = -1, t25 = -1;
+    for (let i = 0; i < n; i++) { const d = 10 * Math.log10(edc[i] / tot + 1e-30); edc[i] = d; if (t5 < 0 && d <= -5) t5 = i; if (t25 < 0 && d <= -25) t25 = i; if (t35 < 0 && d <= -35) t35 = i; }
+    meas = t35 > 0 ? (2 * (t35 - t5)) / IR.sr : t25 > 0 ? (3 * (t25 - t5)) / IR.sr : null;
+    MB.stat("rv-meas", meas ? `${meas.toFixed(2)} s <small>(목표 ${(T() / 10).toFixed(1)})</small>` : "—");
+    const rt = T() / 10, a = algo();
+    if (a === "noise") MB.stat("rv-g", "— <small>(잡음 IR)</small>");
+    else { const ds = a === "schroeder" ? [29.7, 43.7] : [(1116 / 44.1), (1617 / 44.1)]; MB.stat("rv-g", ds.map((d) => Math.pow(10, (-3 * d) / 1000 / rt).toFixed(3)).join(" / ") + ` <small>(${ds.map((d) => d.toFixed(1)).join("·")} ms)</small>`); }
+    MB.stat("rv-len", `${(IR.len / IR.sr).toFixed(2)} s <small>${IR.len.toLocaleString()}샘플</small>`);
+  }
+  function compute() {
+    irSr = MB.out ? MB.out.context.sampleRate : 48000;
+    IR = gen(algo(), T() / 10, pre(), (damp() / 100) * 0.9, irSr); analyse(); cv.redraw();
+    if (conv) { const ctx = conv.context, b = ctx.createBuffer(2, IR.len, IR.sr); b.getChannelData(0).set(IR.ch[0]); b.getChannelData(1).set(IR.ch[1]); conv.buffer = b; }
+  }
+  function regen() { clearTimeout(timer); timer = setTimeout(compute, 90); }
+  function setMix() { if (!dryG) return; const m = mix() / 100, t = MB.now(); dryG.gain.setTargetAtTime(Math.cos((m * Math.PI) / 2), t, 0.02); wetG.gain.setTargetAtTime(Math.sin((m * Math.PI) / 2) * 1.2, t, 0.02); }
+  function build() {
+    const ctx = MB.ctx(); if (inBus) return ctx;
+    inBus = ctx.createGain(); dryG = ctx.createGain(); wetG = ctx.createGain(); conv = ctx.createConvolver(); conv.normalize = false;
+    inBus.connect(dryG); dryG.connect(MB.out); inBus.connect(conv); conv.connect(wetG); wetG.connect(MB.out);
+    setMix(); compute();
+    return ctx;
+  }
+  document.getElementById("rv-hit").addEventListener("click", () => { build(); MB.drum("snare", null, { dest: inBus, vel: 0.9 }); });
+  document.getElementById("rv-clap").addEventListener("click", () => { build(); MB.drum("clap", null, { dest: inBus, vel: 0.9 }); });
+  MB.playButton("rv-loop", () => { build(); clock = clock || DSP.loop(() => inBus, { style: () => "pluck", bpm: 76 }); clock.start(); }, () => { if (clock) clock.stop(); }, ["▶ 기타 프레이즈 반복", "■ 정지"]);
+  const cv = MB.canvas("#cv-rv", (ctx, w, h) => {
+    const P = MB.palette(); if (!IR) return;
+    const span = early() ? Math.min(IR.len, Math.round(0.15 * IR.sr)) : IR.len, h0 = IR.ch[0];
+    const tb = { x: 46, y: 24, w: w - 58, h: h * 0.4 - 30 };
+    let pk = 1e-9; for (let i = 0; i < span; i++) pk = Math.max(pk, Math.abs(h0[i]));
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(tb.x, tb.y + tb.h / 2); ctx.lineTo(tb.x + tb.w, tb.y + tb.h / 2); ctx.stroke();
+    ctx.fillStyle = P.accent;
+    const cols = Math.floor(tb.w);
+    for (let c = 0; c < cols; c++) {
+      const a = Math.floor((c / cols) * span), b = Math.max(a + 1, Math.floor(((c + 1) / cols) * span)); let lo = 0, hi = 0;
+      for (let i = a; i < b; i++) { const v = h0[i] / pk; if (v < lo) lo = v; if (v > hi) hi = v; }
+      ctx.fillRect(tb.x + c, tb.y + tb.h / 2 - (hi * tb.h) / 2, 1, Math.max(1, ((hi - lo) * tb.h) / 2));
+    }
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.textAlign = "left"; ctx.fillText(`임펄스 응답 h[n] (왼쪽, 0–${early() ? "150 ms" : (IR.len / IR.sr).toFixed(2) + " s"})`, tb.x + 2, 14);
+    const eb = { x: 46, y: h * 0.4 + 10, w: w - 58, h: h * 0.6 - 58 }, tmax = span / IR.sr, data = [], st = Math.max(1, Math.floor(span / 900));
+    for (let i = 0; i < span; i += st) data.push([i / IR.sr, Math.max(-80, edc[i])]);
+    const rt = T() / 10, p0 = IR.preN / IR.sr;
+    MB.chart(ctx, eb, { x: [0, tmax], y: [-70, 0], xLabel: "시간 (s)", yLabel: "EDC dB", yTicks: [-60, -40, -20, 0], xFmt: (v) => MB.fmt(v, 3), series: [{ data: [[p0, 0], [p0 + rt * 1.2, -72]], color: P.faint, width: 1.4, dash: [5, 4] }, { data, color: P.accent2, width: 2.2 }], hlines: [{ y: -5, color: P.grid }, { y: -35, color: P.grid }, { y: -60, color: P.warn, label: "−60 dB" }] });
+  }, { aspect: 0.62, maxHeight: 400, minHeight: 280 });
+  compute();
+})();
+
+/* ================================================================ 8. 컴프레서 */
+(function () {
+  const rFromS = (v) => Math.pow(20, v / 100), aFromS = (v) => 0.1 * Math.pow(2000, v / 100), lFromS = (v) => 10 * Math.pow(100, v / 100);
+  const th = MB.range("cp-th", (v) => v + " dB", () => params());
+  const ra = MB.range("cp-r", (v) => rFromS(v).toFixed(1) + ":1", () => params());
+  const kn = MB.range("cp-k", (v) => v + " dB", () => params());
+  const at = MB.range("cp-at", (v) => MB.fmt(aFromS(v), 2) + " ms", () => params());
+  const rl = MB.range("cp-rl", (v) => MB.fmt(lFromS(v), 3) + " ms", () => params());
+  const mk = MB.range("cp-mk", (v) => MB.signed(v, 0) + " dB", () => params());
+  const srcSel = MB.seg("cp-src", () => {});
+  const bypass = MB.check("cp-bypass", () => route());
+  let comp = null, inBus = null, trim = null, outBus = null, inAn = null, outAn = null, clock = null, playing = false;
+  const HN = 360, hIn = new Float32Array(HN).fill(-90), hOut = new Float32Array(HN).fill(-90), hGr = new Float32Array(HN), hInR = new Float32Array(HN).fill(-90), hOutR = new Float32Array(HN).fill(-90);
+  let lvIn = -90, lvOut = -90, grNow = 0;
+  const td = new Float32Array(2048);
+  function curve(x, T, R, K) { if (x <= T) return x; if (K > 0 && x < T + K) { const u = x - T; return x - ((1 - 1 / R) * u * u) / (2 * K); } return T + (K > 0 ? K - ((1 - 1 / R) * K) / 2 : 0) + (x - T - K) / R; }
+  function params() {
+    if (comp) { const t = MB.now(); comp.threshold.setTargetAtTime(th(), t, 0.01); comp.ratio.setTargetAtTime(rFromS(ra()), t, 0.01); comp.knee.setTargetAtTime(kn(), t, 0.01); comp.attack.setTargetAtTime(aFromS(at()) / 1000, t, 0.01); comp.release.setTargetAtTime(Math.min(1, lFromS(rl()) / 1000), t, 0.01); trim.gain.setTargetAtTime(MB.undb(mk()), t, 0.01); }
+    cvC.redraw();
+  }
+  function build() {
+    const ctx = MB.ctx(); if (comp) return ctx;
+    inBus = ctx.createGain(); inBus.gain.value = 0.9; comp = ctx.createDynamicsCompressor(); trim = ctx.createGain(); outBus = ctx.createGain();
+    inAn = ctx.createAnalyser(); inAn.fftSize = 2048; outAn = ctx.createAnalyser(); outAn.fftSize = 2048;
+    inBus.connect(inAn); comp.connect(trim); trim.connect(outBus); outBus.connect(outAn); outBus.connect(MB.out);
+    route(); params();
+    return ctx;
+  }
+  function route() { if (!inBus) return; inBus.disconnect(); inBus.connect(inAn); inBus.connect(bypass() ? outBus : comp); }
+  MB.playButton("cp-play", () => { build(); playing = true; clock = clock || DSP.loop(() => inBus, { style: () => (srcSel() === "drums" ? "drums" : srcSel() === "band" ? "band" : "piano"), dyn: true, bpm: 96 }); clock.start(); }, () => { playing = false; if (clock) clock.stop(); });
+  function meter(an) { an.getFloatTimeDomainData(td); let pk = 0, s = 0; for (let i = 0; i < td.length; i++) { const a = Math.abs(td[i]); if (a > pk) pk = a; s += td[i] * td[i]; } return [MB.db(pk), MB.db(Math.sqrt(s / td.length))]; }
+  const cvC = MB.canvas("#cv-cp-curve", (ctx, w, h) => {
+    const P = MB.palette(), T = th(), R = rFromS(ra()), K = kn();
+    const side = Math.min(w - 70, h - 60), box = { x: (w - side) / 2 + 16, y: 10, w: side, h: side };
+    const data = []; for (let x = -60; x <= 0; x += 0.25) data.push([x, curve(x, T, R, K)]);
+    const C = MB.chart(ctx, box, { x: [-60, 0], y: [-60, 0], xLabel: "입력 레벨 (dBFS)", xTicks: [-60, -48, -36, -24, -12, 0], yTicks: [-60, -48, -36, -24, -12, 0], bands: K > 0 ? [{ x0: T, x1: Math.min(0, T + K), color: P.accent + "18" }] : [], series: [{ data: [[-60, -60], [0, 0]], color: P.faint, width: 1, dash: [4, 4] }, { data, color: P.accent, width: 2.6 }], vlines: [{ x: T, color: P.warn, label: "T" }] });
+    if (playing) {
+      const yOp = MB.clamp(lvIn + (bypass() ? 0 : grNow), -60, 0);
+      ctx.strokeStyle = P.text; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(C.X(MB.clamp(lvIn, -60, 0)), C.Y(MB.clamp(curve(lvIn, T, R, K), -60, 0)), 6, 0, 7); ctx.stroke();
+      ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(C.X(MB.clamp(lvIn, -60, 0)), C.Y(yOp), 5, 0, 7); ctx.fill();
+    }
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.save(); ctx.translate(box.x - 34, box.y + box.h / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillText("출력 (dB)", 0, 0); ctx.restore();
+    ctx.textAlign = "left"; ctx.fillText(`${R.toFixed(1)}:1`, C.X(Math.min(-4, T + K + 4)), C.Y(curve(Math.min(-4, T + K + 4), T, R, K)) + 18);
+  }, { aspect: 0.62, maxHeight: 330, minHeight: 250 });
+  const cvH = MB.canvas("#cv-cp-hist", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 40, y: 8, w: w - 50, h: h - 26 };
+    MB.chart(ctx, box, { x: [0, HN - 1], y: [-60, 0], xTicks: [], yTicks: [-60, -40, -20, 0] });
+    const X = (i) => box.x + (i / (HN - 1)) * box.w, Y = (d) => box.y + box.h - ((MB.clamp(d, -60, 0) + 60) / 60) * box.h;
+    ctx.fillStyle = P.bad; ctx.globalAlpha = 0.55;
+    for (let i = 0; i < HN; i++) if (hGr[i] < -0.2) ctx.fillRect(X(i), box.y, Math.max(1, box.w / HN), Y(hGr[i]) - box.y);
+    ctx.globalAlpha = 1;
+    [[hIn, P.faint, 1.3], [hOut, P.accent, 1.8]].forEach(([arr, c, lw]) => { ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.beginPath(); for (let i = 0; i < HN; i++) i ? ctx.lineTo(X(i), Y(arr[i])) : ctx.moveTo(X(i), Y(arr[i])); ctx.stroke(); });
+    ctx.fillStyle = P.dim; ctx.font = DSP.font(11); ctx.fillText("최근 6초 — 회색: 입력 피크, 보라: 출력 피크, 빨강: 이득 감소", box.x + 4, h - 4);
+  }, { aspect: 0.3, maxHeight: 190, minHeight: 140 });
+  MB.loop(cvH.canvas, (dt) => {
+    if (!playing || !inAn) return;
+    const [pi, ri] = meter(inAn), [po, ro] = meter(outAn), fall = 30 * dt;
+    lvIn = Math.max(pi, lvIn - fall); lvOut = Math.max(po, lvOut - fall);
+    grNow = bypass() ? 0 : typeof comp.reduction === "number" ? comp.reduction : comp.reduction.value || 0;
+    hIn.copyWithin(0, 1); hOut.copyWithin(0, 1); hGr.copyWithin(0, 1); hInR.copyWithin(0, 1); hOutR.copyWithin(0, 1);
+    hIn[HN - 1] = lvIn; hOut[HN - 1] = lvOut; hGr[HN - 1] = grNow; hInR[HN - 1] = ri; hOutR[HN - 1] = ro;
+    const cf = (pk, rr) => { let m = -200, e = 0, c = 0; for (let i = HN - 180; i < HN; i++) { m = Math.max(m, pk[i]); if (rr[i] > -80) { e += Math.pow(10, rr[i] / 10); c++; } } return c ? m - 10 * Math.log10(e / c) : null; };
+    const ci = cf(hIn, hInR), co = cf(hOut, hOutR);
+    MB.stat("cp-gr", `${grNow.toFixed(1)} dB`);
+    MB.stat("cp-io", `${lvIn.toFixed(1)} / ${lvOut.toFixed(1)} <small>dBFS</small>`);
+    MB.stat("cp-cf", ci != null && co != null ? `${ci.toFixed(1)} → ${co.toFixed(1)} dB` : "—");
+    cvH.redraw(); cvC.redraw();
+  });
+})();
+
+/* ================================================================ 이 브라우저의 지연 */
+(function () {
+  const el = document.getElementById("dsp-latency-live");
+  const show = () => {
+    if (!MB.out) return;
+    const c = MB.out.context, b = c.baseLatency, o = c.outputLatency;
+    el.innerHTML = `이 브라우저: 샘플레이트 <b>${c.sampleRate} Hz</b>, 렌더 퀀텀 128샘플 = ${((128 / c.sampleRate) * 1000).toFixed(2)} ms` + (b != null ? `, baseLatency <b>${(b * 1000).toFixed(1)} ms</b>` : "") + (o ? `, outputLatency <b>${(o * 1000).toFixed(1)} ms</b>` : "") + ".";
+  };
+  document.addEventListener("click", () => { setTimeout(show, 50); setTimeout(show, 1500); });
+})();
+</script>
+</body>
+</html>

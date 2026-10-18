@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>엔벨로프와 신시사이저 · MusicBook</title>
+<meta name="description" content="ADSR 엔벨로프의 해석식, 감산 합성과 2차 공진 필터, LFO 비브라토·트레몰로, AM과 링 변조의 측파대, 베셀 함수로 보는 FM 합성, 유니즌 디튠까지 직접 연주하며 배운다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/synthesis.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="엔벨로프와 신시사이저 · MusicBook">
+<meta property="og:description" content="ADSR 엔벨로프의 해석식, 감산 합성과 2차 공진 필터, LFO 비브라토·트레몰로, AM과 링 변조의 측파대, 베셀 함수로 보는 FM 합성, 유니즌 디튠까지 직접 연주하며 배운다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/synthesis.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"엔벨로프와 신시사이저","name":"엔벨로프와 신시사이저 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/synthesis.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/synthesis.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":4,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"ADSR 엔벨로프의 해석식, 감산 합성과 2차 공진 필터, LFO 비브라토·트레몰로, AM과 링 변조의 측파대, 베셀 함수로 보는 FM 합성, 유니즌 디튠까지 직접 연주하며 배운다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"04 엔벨로프와 신시사이저","item":"https://music.euiyun.com/fundamentals/chapters/synthesis.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .syn-drag { cursor: grab; touch-action: none; }
+  .syn-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .syn-presets .btn { padding: 5px 10px; font-size: 13px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="synthesis">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 04</div>
+    <h1>엔벨로프와 신시사이저</h1>
+    <p class="lead">2장에서 음색의 '사진'(배음 스펙트럼)을, 3장에서 그것을 만드는 물리를 보았습니다. 신시사이저는 거꾸로 갑니다. 물리 대신 몇 개의 블록 — 발진기, 필터, 증폭기, 그리고 그것들을 움직이는 엔벨로프와 LFO — 을 이어 원하는 소리를 설계합니다. 이 장의 모든 블록은 신호 처리의 기본 연산(곱셈, 필터링, 변조)이고, 각 블록이 스펙트럼에 무슨 일을 하는지 식 하나로 설명됩니다.</p>
+    <ul class="objectives">
+      <li>ADSR 엔벨로프를 해석식으로 쓰고, 악기별 어택·감쇠 모양을 설계한다.</li>
+      <li>감산 합성의 신호 흐름(OSC → VCF → VCA)과 2차 저역 통과 필터의 \(|H|\), 공진 봉우리, 키 트래킹, 필터 엔벨로프를 안다.</li>
+      <li>LFO 비브라토·트레몰로를 각각 느린 FM·AM으로 이해한다.</li>
+      <li>AM·링 변조가 \(f_c \pm f_m\) 측파대를 만드는 것을 삼각함수로 유도하고 듣는다.</li>
+      <li>FM 합성(Chowning 1973)의 스펙트럼을 베셀 함수 \(J_n(I)\)로 계산하고, c:m 비와 카슨 대역폭을 쓴다.</li>
+      <li>유니즌·디튠이 만드는 맥놀이와 코러스 효과를 정량적으로 설명한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="adsr">
+    <h2>엔벨로프: 소리의 시간 모양</h2>
+    <p>배음이 같아도 시작과 끝의 모양이 다르면 전혀 다른 악기로 들립니다. 피아노 녹음을 거꾸로 틀면 오르간처럼 들린다는 실험은 유명합니다. 신시사이저는 시간에 따른 크기 곡선을 네 개의 파라미터로 요약한 <span class="term">ADSR 엔벨로프</span><span class="en">(Attack–Decay–Sustain–Release)</span>를 씁니다. 1960년대 무그(Moog)의 요청으로 블라디미르 우사체프스키가 제안한 구조로 알려져 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="ADSR 엔벨로프">
+        <line x1="50" y1="190" x2="770" y2="190" class="s-axis"/><line x1="50" y1="20" x2="50" y2="190" class="s-axis"/>
+        <path d="M50 190 L150 40 C 175 95, 200 110, 290 112 L520 112 C 550 160, 580 182, 700 189" class="s-acc"/>
+        <line x1="150" y1="40" x2="150" y2="200" class="s-line" stroke-dasharray="3 4"/><line x1="290" y1="40" x2="290" y2="200" class="s-line" stroke-dasharray="3 4"/><line x1="520" y1="40" x2="520" y2="200" class="s-line" stroke-dasharray="3 4"/>
+        <text x="100" y="212" text-anchor="middle" class="t-acc">A</text><text x="220" y="212" text-anchor="middle" class="t-acc">D</text><text x="405" y="212" text-anchor="middle" class="t-acc">S (유지)</text><text x="610" y="212" text-anchor="middle" class="t-acc">R</text>
+        <text x="520" y="32" text-anchor="middle" class="t-dim">키 놓음</text><text x="50" y="16" text-anchor="middle" class="t-dim">키 누름</text>
+        <line x1="40" y1="112" x2="60" y2="112" class="s-line"/><text x="36" y="116" text-anchor="end" class="t-mono">S</text><text x="36" y="44" text-anchor="end" class="t-mono">1</text>
+        <text x="300" y="100" class="t-dim">지수 감쇠 τ_D = D/4</text><text x="560" y="150" class="t-dim">지수 감쇠 τ_R = R/5</text>
+      </svg>
+      <figcaption><b>그림 4-1.</b> ADSR. A·D·R은 <b>시간</b>, S만 <b>레벨</b>이다. 어택은 선형, 감쇠와 릴리스는 아날로그 RC 회로처럼 지수로 내려간다. 키를 누르고 있는 동안은 S에 머물고, 놓는 순간의 레벨에서 릴리스가 시작된다.</figcaption>
+    </figure>
+    <div class="formula">$$\ell(t) = \begin{cases} t/A, & 0 \le t < \min(A,t_r) \\ S + (1-S)\,e^{-(t-A)/\tau_D}, & A \le t < t_r \\ \ell(t_r^-)\,e^{-(t-t_r)/\tau_R}, & t \ge t_r \end{cases}\qquad \tau_D = \frac{D}{4},\ \tau_R = \frac{R}{5}$$
+      <div class="where">\(t_r\): 키를 놓은 시각. 이 책의 엔진(<code>MB.adsr</code>)은 감쇠 구간이 \(D\) 동안 약 98%(\(e^{-4}\)) 진행하도록 \(\tau_D = D/4\)를 쓴다. 놓기 직전 레벨 ℓ(tᵣ⁻)에서 릴리스를 시작한다. 0을 향하는 순수 지수 감쇠는 dB로 보면 직선이지만 S &gt; 0인 감쇠 구간의 전체 레벨은 곡선이다: 릴리스는 \(8.686/\tau_R\) dB/s로 떨어지며 −60 dB까지 \(\tau_R\ln 1000 \approx 1.38R\)이 걸린다. 지수 곡선이 귀에 자연스러운 이유는 크기 지각이 대략 로그이기 때문이다.</div>
+    </div>
+
+    <div class="sim" id="sim-syn-adsr">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>ADSR 편집기 (점을 끌어 보세요)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-ad" class="syn-drag"></canvas><div class="mb-kb short" id="syn-ad-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span><div class="syn-presets" id="syn-ad-pre">
+            <button class="btn" data-p="organ">오르간</button><button class="btn" data-p="piano">피아노</button><button class="btn" data-p="pluck">플럭</button><button class="btn" data-p="strings">현</button><button class="btn" data-p="brass">금관</button><button class="btn" data-p="pad">패드</button>
+          </div></div>
+          <label class="ctrl"><span>Attack <output id="syn-ad-a-out"></output></span><input type="range" id="syn-ad-a" min="0" max="1000"></label>
+          <label class="ctrl"><span>Decay <output id="syn-ad-d-out"></output></span><input type="range" id="syn-ad-d" min="0" max="1000"></label>
+          <label class="ctrl"><span>Sustain <output id="syn-ad-s-out"></output></span><input type="range" id="syn-ad-s" min="0" max="100" value="60"></label>
+          <label class="ctrl"><span>Release <output id="syn-ad-r-out"></output></span><input type="range" id="syn-ad-r" min="0" max="1000"></label>
+          <div class="ctrl"><span>파형</span><div class="seg" id="syn-ad-wave"><button data-value="sawtooth" class="on">톱니</button><button data-value="square">사각</button><button data-value="triangle">삼각</button></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">현재 단계</span><span class="v" id="syn-ad-o-st">—</span></div>
+        <div class="stat"><span class="k">현재 레벨</span><span class="v" id="syn-ad-o-lv">—</span></div>
+        <div class="stat"><span class="k">릴리스 −60 dB까지</span><span class="v" id="syn-ad-o-r60">—</span></div>
+      </div>
+      <div class="sim-note">곡선의 세 점(어택 끝, 감쇠 끝·유지 레벨, 릴리스 끝)을 드래그하거나 슬라이더를 쓰세요. 건반(<kbd>A</kbd>–<kbd>K</kbd> 키)을 누르고 있으면 빨간 점이 곡선을 따라가고, 떼면 릴리스로 넘어갑니다. 회색 유지 구간 폭은 표시용입니다(실제로는 키를 누르는 동안 계속). 해볼 것: ① 피아노 프리셋으로 짧게/길게 눌러 비교 — S = 0이면 누르고 있어도 소리가 사라진다. ② 어택만 2 ms → 300 ms로 바꾸면 같은 톱니파가 '뜯기'에서 '켜기'로 바뀐다. ③ 어택 0에 가까울 때의 '딸깍' — 갑작스런 계단은 넓은 대역의 잡음이다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="subtractive">
+    <h2>감산 합성: 배음을 깎아 만드는 소리</h2>
+    <p>1960–70년대 아날로그 신시사이저(Moog, ARP, Roland)의 기본 구조는 <span class="term">감산 합성</span><span class="en">(Subtractive Synthesis)</span>입니다. 배음이 풍부한 파형(톱니·사각)을 만들고, 전압 제어 필터(VCF)로 원하지 않는 배음을 깎은 뒤, 전압 제어 증폭기(VCA)로 크기 엔벨로프를 씌웁니다. 2장의 음원–필터 모델을 전자 회로로 만든 것입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="감산 합성 신호 흐름">
+        <rect x="20" y="40" width="120" height="56" rx="10" class="f-acc-soft"/><text x="80" y="64" text-anchor="middle" class="t-acc">VCO</text><text x="80" y="84" text-anchor="middle" class="t-mono">톱니·사각·서브</text>
+        <rect x="230" y="40" width="140" height="56" rx="10" class="f-acc-soft"/><text x="300" y="64" text-anchor="middle" class="t-acc">VCF</text><text x="300" y="84" text-anchor="middle" class="t-mono">저역 통과 f_c, Q</text>
+        <rect x="460" y="40" width="120" height="56" rx="10" class="f-acc-soft"/><text x="520" y="64" text-anchor="middle" class="t-acc">VCA</text><text x="520" y="84" text-anchor="middle" class="t-mono">× ℓ(t)</text>
+        <rect x="670" y="40" width="110" height="56" rx="10" class="f-elev"/><text x="725" y="72" text-anchor="middle" class="t">출력</text>
+        <line x1="140" y1="68" x2="230" y2="68" class="s-acc"/><line x1="370" y1="68" x2="460" y2="68" class="s-acc"/><line x1="580" y1="68" x2="670" y2="68" class="s-acc"/>
+        <rect x="20" y="140" width="120" height="44" rx="10" class="f-acc2-soft"/><text x="80" y="167" text-anchor="middle" class="t">LFO</text>
+        <rect x="230" y="140" width="140" height="44" rx="10" class="f-acc2-soft"/><text x="300" y="160" text-anchor="middle" class="t">필터 엔벨로프</text><text x="300" y="176" text-anchor="middle" class="t-mono">+ 키 트래킹</text>
+        <rect x="460" y="140" width="120" height="44" rx="10" class="f-acc2-soft"/><text x="520" y="167" text-anchor="middle" class="t">앰프 ADSR</text>
+        <line x1="80" y1="140" x2="80" y2="96" class="s-line" stroke-dasharray="4 3"/><line x1="300" y1="140" x2="300" y2="96" class="s-line" stroke-dasharray="4 3"/><line x1="520" y1="140" x2="520" y2="96" class="s-line" stroke-dasharray="4 3"/>
+        <text x="88" y="124" class="t-mono">음높이</text><text x="308" y="124" class="t-mono">차단 주파수</text><text x="528" y="124" class="t-mono">이득</text>
+        <text x="185" y="58" text-anchor="middle" class="t-dim">오디오</text>
+      </svg>
+      <figcaption><b>그림 4-2.</b> 감산 합성의 고전적 신호 흐름. 실선은 오디오 경로, 점선은 제어 신호(변조). 소리의 '움직임'은 거의 전부 점선에서 나온다.</figcaption>
+    </figure>
+    <p>가장 기본적인 공진 필터는 2차 저역 통과입니다(아날로그 상태 변수 필터, 디지털 RBJ 바이쿼드).</p>
+    <div class="formula">$$H(s) = \frac{\omega_c^2}{s^2 + \frac{\omega_c}{Q}s + \omega_c^2}, \qquad |H(f)| = \frac{1}{\sqrt{\left(1 - x^2\right)^2 + \left(x/Q\right)^2}},\ x = \frac{f}{f_c}$$
+      <div class="where">차단 주파수에서 \(|H(f_c)| = Q\)(\(Q = 0.707\)이면 −3 dB, 버터워스), \(Q > 1/\sqrt2\)이면 봉우리 \(Q/\sqrt{1 - 1/(4Q^2)}\)가 \(f_c\sqrt{1-1/(2Q^2)}\)에 생긴다. 차단 위로는 −12 dB/옥타브. 무그 래더 필터는 4차(−24 dB/oct)이고, 공진을 끝까지 올리면 스스로 발진해 사인파를 낸다. <b>키 트래킹</b> \(k\): 실효 차단 = \(f_c\cdot(f_{\text{note}}/f_{\text{ref}})^{k}\) — \(k=1\)이면 모든 음에서 같은 배음 번호가 깎여 음색이 일정하다.</div>
+    </div>
+
+    <div class="sim" id="sim-syn-sub">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>감산 합성기: 필터 응답과 배음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-sb"></canvas><canvas id="cv-syn-sb-live"></canvas><div class="mb-kb short" id="syn-sb-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>오실레이터</span><div class="seg" id="syn-sb-wave"><button data-value="sawtooth" class="on">톱니</button><button data-value="square">사각</button><button data-value="triangle">삼각</button></div></div>
+          <label class="ctrl"><span>서브 오실레이터(−1 옥타브) <output id="syn-sb-sub-out"></output></span><input type="range" id="syn-sb-sub" min="0" max="100" value="30"></label>
+          <label class="ctrl"><span>차단 주파수 f_c <output id="syn-sb-cut-out"></output></span><input type="range" id="syn-sb-cut" min="0" max="1000"></label>
+          <label class="ctrl"><span>공진 Q <output id="syn-sb-q-out"></output></span><input type="range" id="syn-sb-q" min="0.5" max="20" step="0.1" value="5"></label>
+          <label class="ctrl"><span>필터 엔벨로프 양 <output id="syn-sb-env-out"></output></span><input type="range" id="syn-sb-env" min="0" max="5" step="0.1" value="2.5"></label>
+          <label class="ctrl"><span>필터 엔벨로프 감쇠 <output id="syn-sb-dec-out"></output></span><input type="range" id="syn-sb-dec" min="0" max="1000"></label>
+          <label class="ctrl"><span>키 트래킹 <output id="syn-sb-kt-out"></output></span><input type="range" id="syn-sb-kt" min="0" max="100" value="50"></label>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">실효 차단(마지막 음)</span><span class="v" id="syn-sb-o-fc">—</span></div>
+        <div class="stat"><span class="k">공진 봉우리</span><span class="v" id="syn-sb-o-pk">—</span></div>
+        <div class="stat"><span class="k">엔벨로프 최고 차단</span><span class="v" id="syn-sb-o-max">—</span></div>
+      </div>
+      <div class="sim-note">위: 필터 응답 |H| (실선 = 엔벨로프가 가라앉은 뒤, 점선 = 엔벨로프 정점)과 마지막 음의 배음(막대 = 필터를 거친 뒤 dB). 아래: 실제 출력 스펙트럼(실시간). 건반(<kbd>A</kbd>–<kbd>K</kbd>)으로 C2–C4 베이스를 쳐 보세요. 해볼 것: ① Q를 12 이상, 엔벨로프 양을 4로 → '뾰옹' 하는 애시드 베이스(TB-303 계열). ② 키 트래킹 0%에서 높은 음과 낮은 음의 밝기 차이, 100%에서 일정함. ③ 차단을 배음 사이로 옮기며 공진 봉우리가 특정 배음을 키우는 소리(포먼트처럼 들림). 참고: Web Audio <code>BiquadFilterNode</code>의 lowpass Q는 dB 단위라 여기서는 \(20\log_{10}Q\)로 변환해 넣습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="lfo">
+    <h2>LFO: 느린 변조, 비브라토와 트레몰로</h2>
+    <p>가청 대역 아래(보통 0.1–20 Hz)의 <span class="term">저주파 발진기</span><span class="en">(LFO)</span>로 파라미터를 주기적으로 흔들면 소리가 '살아' 움직입니다. 음높이를 흔들면 <span class="term">비브라토</span>, 크기를 흔들면 <span class="term">트레몰로</span>, 차단 주파수를 흔들면 '와우'입니다. 바이올린과 성악가의 비브라토는 대략 5–7 Hz, 깊이 ±20–100센트입니다.</p>
+    <div class="formula">$$\text{비브라토: } f(t) = f_0\, 2^{\frac{d}{1200}\,\mathrm{lfo}(t)}, \qquad \text{트레몰로: } a(t) = 1 - \frac{m}{2}\big(1 - \mathrm{lfo}(t)\big)$$
+      <div class="where">\(d\): 깊이(센트), \(m\): 깊이(0–1). 비브라토는 변조 주파수가 매우 낮은 FM이고(5절), 트레몰로는 AM이다(4절). 사인 비브라토의 주파수 편이 \(\Delta f \approx f_0 \ln 2\cdot d/1200\)를 LFO 주파수로 나눈 값이 FM의 변조 지수 \(I\)다. 440 Hz, ±50센트, 6 Hz라면 \(\Delta f \approx 12.7\) Hz, \(I \approx 2.1\) — 그러나 측파대 간격 6 Hz가 청각 필터 폭보다 훨씬 좁아 '스펙트럼'이 아니라 '흔들리는 음높이'로 들린다.</div>
+    </div>
+    <div class="sim" id="sim-syn-lfo">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>LFO 놀이터: 비브라토와 트레몰로</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-lfo"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>LFO 파형</span><div class="seg" id="syn-lf-shape"><button data-value="sine" class="on">사인</button><button data-value="triangle">삼각</button><button data-value="square">사각</button><button data-value="sawtooth">톱니</button></div></div>
+          <label class="ctrl"><span>비브라토 깊이 <output id="syn-lf-vd-out"></output></span><input type="range" id="syn-lf-vd" min="0" max="200" value="40"></label>
+          <label class="ctrl"><span>비브라토 속도 <output id="syn-lf-vr-out"></output></span><input type="range" id="syn-lf-vr" min="0.2" max="20" step="0.1" value="5.5"></label>
+          <label class="ctrl"><span>트레몰로 깊이 <output id="syn-lf-td-out"></output></span><input type="range" id="syn-lf-td" min="0" max="100" value="0"></label>
+          <label class="ctrl"><span>트레몰로 속도 <output id="syn-lf-tr-out"></output></span><input type="range" id="syn-lf-tr" min="0.2" max="20" step="0.1" value="4"></label>
+          <div class="btn-row"><button class="btn primary" id="syn-lf-play">▶ 지속음 (A4)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">주파수 편이 ±Δf</span><span class="v" id="syn-lf-o-df">—</span></div>
+        <div class="stat"><span class="k">FM 변조 지수 I = Δf/f_LFO</span><span class="v" id="syn-lf-o-i">—</span></div>
+        <div class="stat"><span class="k">트레몰로 레벨 변화</span><span class="v" id="syn-lf-o-tdb">—</span></div>
+      </div>
+      <div class="sim-note">위: 음높이(센트), 아래: 진폭 — 최근 2초가 오른쪽으로 흘러갑니다(재생 중에는 실제 오디오 시계에 동기). 음원은 삼각파 A4. 해볼 것: ① 비브라토 속도를 0.5 → 6 → 15 Hz로: 느리면 '음이 흔들림', 6 Hz 근처는 '노래하는 음', 15 Hz 이상은 거칠어지다가 음색 변화로 들리기 시작(측파대가 갈라지기 시작). ② 사각 LFO + 깊이 200센트 = 트릴(장2도 왕복). ③ 트레몰로 100% · 사각 = 게이트(초퍼) 효과.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="am">
+    <h2>AM과 링 변조: 곱셈은 측파대를 만든다</h2>
+    <p>두 신호를 <b>곱하면</b> 주파수가 더해지고 빠집니다. 삼각함수의 곱–합 공식 하나가 전부입니다.</p>
+    <div class="formula">$$\underbrace{\big(1 + m\cos\omega_m t\big)\cos\omega_c t}_{\text{AM}} = \cos\omega_c t + \frac{m}{2}\cos(\omega_c+\omega_m)t + \frac{m}{2}\cos(\omega_c-\omega_m)t$$
+      <div class="where"><span class="term">진폭 변조</span>(AM)는 반송파 \(f_c\)를 남기고 양쪽에 \(f_c \pm f_m\) 측파대를 하나씩 만든다. \(m\)은 변조 깊이(0–1). <span class="term">링 변조</span><span class="en">(Ring Modulation)</span>는 직류 오프셋 없는 순수 곱 \(\cos\omega_m t\cos\omega_c t\)라 반송파가 사라지고 측파대 \(f_c\pm f_m\)만 남는다(다이오드 링 회로에서 이름이 왔다). \(f_c, f_m\)이 정수비가 아니면 측파대들이 배음열에 놓이지 않아 종소리·금속성 소리가 된다. 반송파가 배음 \(n f_c\)를 가지면 각 배음마다 \(n f_c \pm f_m\)이 생긴다.</div>
+    </div>
+    <div class="sim" id="sim-syn-am">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>AM / 링 변조와 측파대</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-am"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>방식</span><div class="seg" id="syn-am-mode"><button data-value="am" class="on">AM</button><button data-value="ring">링 변조</button></div></div>
+          <label class="ctrl"><span>반송파 f_c <output id="syn-am-fc-out"></output></span><input type="range" id="syn-am-fc" min="100" max="2000" step="10" value="600"></label>
+          <label class="ctrl"><span>변조파 f_m <output id="syn-am-fm-out"></output></span><input type="range" id="syn-am-fm" min="0" max="1000"></label>
+          <label class="ctrl"><span>깊이 m (AM) <output id="syn-am-m-out"></output></span><input type="range" id="syn-am-m" min="0" max="100" value="100"></label>
+          <div class="btn-row"><button class="btn primary" id="syn-am-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">성분</span><span class="v" id="syn-am-o-c">—</span></div>
+        <div class="stat"><span class="k">f_c : f_m</span><span class="v" id="syn-am-o-r">—</span></div>
+        <div class="stat"><span class="k">지각</span><span class="v" id="syn-am-o-p">—</span></div>
+      </div>
+      <div class="sim-note">위: 출력 파형(점선 = AM 포락선 \(1 + m\cos\omega_m t\)), 아래: 선 스펙트럼. f_m을 1 Hz부터 천천히 올려 보세요: 수 Hz에서는 트레몰로(크기 출렁임), 20–30 Hz 근처부터 거칠기, 그 위로는 측파대가 따로 들리는 '세 음' 또는 '두 음'으로 바뀝니다 — 1장의 맥놀이 → 거칠기 → 분리와 같은 순서입니다. 링 변조로 f_c = 600, f_m = 200(3:1)이면 400과 800 Hz — 400 Hz의 1, 2번 배음이며 합성 파형의 최소 주기는 1/400초입니다. 이를 200 Hz의 짝수 배음이라고도 쓸 수 있지만 그것만으로 200 Hz 음높이 지각을 단정할 수는 없습니다. f_m = 233이면 비조화.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="fm">
+    <h2>FM 합성: 베셀 함수가 만드는 스펙트럼</h2>
+    <p>비브라토의 속도 \(f_m\)을 가청 대역까지 올리고 깊이를 키우면 무슨 일이 생길까요? 존 차우닝(Stanford)은 1967년 이 실험에서 단 두 개의 사인 발진기로 금관·종·타악기 같은 복잡한 음색을 만들 수 있음을 발견했고, 1973년 논문 「The Synthesis of Complex Audio Spectra by Means of Frequency Modulation」(<i>JAES</i> 21(7))으로 발표했습니다. 야마하가 Stanford University와 FM 특허의 독점 라이선스 계약을 맺고 만든 DX7(1983)은 1980년대 대중음악의 소리가 되었습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 160" role="img" aria-label="FM 연산자 구조">
+        <circle cx="110" cy="80" r="42" class="f-acc2-soft"/><text x="110" y="76" text-anchor="middle" class="t">모듈레이터</text><text x="110" y="96" text-anchor="middle" class="t-mono">f_m = M·f</text>
+        <rect x="220" y="56" width="120" height="48" rx="10" class="f-elev"/><text x="280" y="78" text-anchor="middle" class="t">× I·f_m</text><text x="280" y="96" text-anchor="middle" class="t-mono">(Δf, 인덱스 env)</text>
+        <circle cx="460" cy="80" r="42" class="f-acc-soft"/><text x="460" y="76" text-anchor="middle" class="t">캐리어</text><text x="460" y="96" text-anchor="middle" class="t-mono">f_c = C·f</text>
+        <rect x="570" y="56" width="90" height="48" rx="10" class="f-elev"/><text x="615" y="85" text-anchor="middle" class="t">× ℓ(t)</text>
+        <text x="740" y="85" text-anchor="middle" class="t">출력</text>
+        <line x1="152" y1="80" x2="220" y2="80" class="s-line"/><line x1="340" y1="80" x2="418" y2="80" class="s-acc"/><line x1="502" y1="80" x2="570" y2="80" class="s-line"/><line x1="660" y1="80" x2="712" y2="80" class="s-line"/>
+        <text x="380" y="70" text-anchor="middle" class="t-mono">주파수 입력</text>
+      </svg>
+      <figcaption><b>그림 4-3.</b> 2-연산자 FM. 모듈레이터 출력이 캐리어의 순간 주파수를 \(\pm\Delta f = I f_m\)만큼 흔든다. DX7은 이런 연산자 6개를 32가지 '알고리즘'으로 연결했다(엄밀히는 위상 변조로 구현).</figcaption>
+    </figure>
+    <div class="formula">$$x(t) = \sin\!\big(2\pi f_c t + I\sin 2\pi f_m t\big) = \sum_{n=-\infty}^{\infty} J_n(I)\,\sin\!\big(2\pi(f_c + n f_m)t\big)$$
+      <div class="where">야코비–앵거 전개. \(J_n\): 제1종 베셀 함수, \(I = \Delta f/f_m\): 변조 지수, \(J_{-n} = (-1)^n J_n\). 측파대는 \(f_c\)에서 \(f_m\) 간격으로 양쪽에 무한히 있지만 \(|n| > I + 1\)이면 급격히 작아진다. 유효 대역폭은 <b>카슨 규칙</b> \(B \approx 2(\Delta f + f_m) = 2f_m(I+1)\). 음의 주파수 측파대는 \(0\) Hz에서 부호가 바뀌어 접혀 올라와 양의 성분과 간섭한다. \(I\)를 시간에 따라 바꾸면(인덱스 엔벨로프) 밝기가 시간에 따라 변하는 자연스러운 음색이 나온다 — 금관은 \(I\)가 크기와 함께 올라가고, 종·피아노는 시간이 지나며 내려간다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>C : M</th><th>측파대 위치(× f)</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td>1 : 1</td><td>0, 1, 2, 3, …</td><td>모든 배음 — 톱니파 계열(금관, 현)</td></tr>
+        <tr><td>1 : 2</td><td>1, 3, 5, …</td><td>홀수 배음 — 사각파·클라리넷 계열</td></tr>
+        <tr><td>1 : 3</td><td>1, 2, 4, 5, 7, …</td><td>3의 배수 배음이 빠짐</td></tr>
+        <tr><td>1 : 1.4 (≈√2)</td><td>비정수</td><td>비조화 — 종, 금속 타악기</td></tr>
+        <tr><td>N₁ : N₂ (서로소)</td><td>\(f/N_1\cdot(N_1 + kN_2)\)</td><td>기본음 \(f_c/N_1\)의 배음열 일부</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-syn-fm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>2-연산자 FM 신시사이저</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-fm"></canvas><canvas id="cv-syn-fm-live"></canvas><div class="mb-kb short" id="syn-fm-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span><div class="syn-presets" id="syn-fm-pre">
+            <button class="btn" data-p="ep">일렉 피아노</button><button class="btn" data-p="bell">종</button><button class="btn" data-p="brass">금관</button><button class="btn" data-p="bass">베이스</button><button class="btn" data-p="clar">클라리넷</button>
+          </div></div>
+          <label class="ctrl"><span>캐리어 비 C <output id="syn-fm-c-out"></output></span><input type="range" id="syn-fm-c" min="0.5" max="4" step="0.5" value="1"></label>
+          <label class="ctrl"><span>모듈레이터 비 M <output id="syn-fm-m-out"></output></span><input type="range" id="syn-fm-m" min="0.25" max="8" step="0.05" value="1"></label>
+          <label class="ctrl"><span>변조 지수 I (정점) <output id="syn-fm-i-out"></output></span><input type="range" id="syn-fm-i" min="0" max="12" step="0.1" value="3"></label>
+          <label class="ctrl"><span>I 유지 비율 <output id="syn-fm-is-out"></output></span><input type="range" id="syn-fm-is" min="0" max="100" value="20"></label>
+          <label class="ctrl"><span>I 감쇠 시간 <output id="syn-fm-id-out"></output></span><input type="range" id="syn-fm-id" min="0.02" max="3" step="0.01" value="0.5"></label>
+          <div class="ctrl"><span>앰프 엔벨로프</span><div class="seg" id="syn-fm-amp"><button data-value="perc" class="on">감쇠형</button><button data-value="sus">지속형</button></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기본 음높이(C4 기준)</span><span class="v" id="syn-fm-o-f0">—</span></div>
+        <div class="stat"><span class="k">카슨 대역폭</span><span class="v" id="syn-fm-o-bw">—</span></div>
+        <div class="stat"><span class="k">J₀(I) (캐리어 남은 양)</span><span class="v" id="syn-fm-o-j0">—</span></div>
+      </div>
+      <div class="sim-note">위: 지정한 I(정점)에서 C4(261.6 Hz)의 이론 스펙트럼 — 막대 = \(|J_n(I)|\)를 접힌 성분까지 합친 크기, 빨강 = 캐리어 자리, 청록 = 0 Hz에서 접혀 올라온 성분이 섞인 막대, 회색 숫자 = n. 아래: 실제 출력의 실시간 스펙트럼. 건반(<kbd>A</kbd>–<kbd>K</kbd>)으로 연주하세요. 해볼 것: ① I를 0에서 천천히 올리면 측파대가 하나씩 생기고, I ≈ 2.405에서 n=0 계수 J₀가 0이 됨. 캐리어 주파수로 접히는 다른 측파대까지 사라지는 것은 아니며, C:M=1:1에서는 J₀−J₂ 성분이 남는다. ② M을 1 → 2로: 홀수 배음만(클라리넷). ③ M = 1.41이나 3.5: 종소리. 키를 누를 때마다 I가 정점에서 '유지 비율'까지 '감쇠 시간'에 걸쳐 내려갑니다(금관 프리셋은 반대로 올라감).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="unison">
+    <h2>유니즌과 디튠: 굵은 소리의 정체</h2>
+    <p>발진기 여러 개를 몇 센트씩 어긋나게 겹치면(<span class="term">유니즌 디튠</span><span class="en">(Unison Detune)</span>) 소리가 넓고 굵어집니다. 정체는 1장의 맥놀이입니다. 음 \(f\)에서 \(\pm c\)센트 어긋난 두 발진기의 \(h\)번 배음은 초당 \(h\cdot f\,(2^{c/1200} - 2^{-c/1200})\)번 맥놀이칩니다. 배음마다 맥놀이 속도가 달라 스펙트럼 전체가 서로 다른 속도로 '반짝이고', 귀는 이것을 여러 연주자가 함께 연주하는 합주(앙상블) 감각으로 듣습니다. 코러스 이펙트는 같은 효과를 하나의 신호와 LFO로 지연 시간이 흔들리는 사본(도플러 피치 변화)을 섞어 만듭니다.</p>
+    <div class="formula">$$y(t) = \frac{1}{\sqrt N}\sum_{k=1}^{N} \mathrm{saw}\!\big(2\pi f\,2^{c_k/1200}\,t + \phi_k\big), \qquad c_k = s\left(\frac{k-1}{N-1} - \frac12\right)$$
+      <div class="where">\(s\): 전체 디튠 폭(센트), \(\phi_k\): 무작위 시작 위상. 위상이 서로 무관하면 파워가 더해지므로 \(1/\sqrt N\)로 정규화한다(1장의 비상관 합산, \(N\)배 → \(+10\log_{10}N\) dB). 하드웨어 '슈퍼소'(Roland JP-8000, 1996)는 톱니 7개를 쓴다.</div>
+    </div>
+    <div class="sim" id="sim-syn-unison">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>유니즌 디튠과 배음별 맥놀이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-syn-un"></canvas><div class="mb-kb short" id="syn-un-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>보이스 수 N <output id="syn-un-n-out"></output></span><input type="range" id="syn-un-n" min="1" max="9" value="5"></label>
+          <label class="ctrl"><span>디튠 폭 s <output id="syn-un-s-out"></output></span><input type="range" id="syn-un-s" min="0" max="100" value="24"></label>
+          <label class="check"><input type="checkbox" id="syn-un-st" checked> 스테레오로 펼치기</label>
+          <div class="btn-row"><button class="btn primary" id="syn-un-play">▶ 지속음 (C3 화음)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">보이스 간 최소 맥놀이(1배음)</span><span class="v" id="syn-un-o-b1">—</span></div>
+        <div class="stat"><span class="k">같은 쌍, 8번 배음</span><span class="v" id="syn-un-o-b8">—</span></div>
+        <div class="stat"><span class="k">레벨 증가(비상관)</span><span class="v" id="syn-un-o-db">—</span></div>
+      </div>
+      <div class="sim-note">위: 각 보이스의 디튠(센트). 아래: 마지막 음(지속음은 C3)에서 1번 배음(보라)과 8번 배음(청록)의 합성 진폭 포락선 \(|\sum_k e^{j2\pi h f_k t + j\phi_k}|/N\)을 2초 동안 그린 것. 재생 중이면 세로선이 지금 시각입니다. 높은 배음일수록 훨씬 빠르게 출렁입니다. 해볼 것: ① N = 1과 7 비교. ② 디튠 0 → 10 → 50센트: 굵어짐 → 코러스 → 음정이 틀린 느낌. ③ 스테레오를 끄면 헤드폰에서 소리가 가운데로 모이고 '넓이'가 줄어듭니다(두 귀가 서로 다른 맥놀이를 듣는 것이 넓이감의 원천).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="methods">
+    <h2>웨이브테이블, 샘플링, 그리고 나머지</h2>
+    <p>지금까지의 방법은 모두 '작은 수의 파라미터로 스펙트럼을 지배하는' 방식입니다. 메모리가 싸지면서 다른 접근이 등장했습니다. <span class="term">웨이브테이블</span><span class="en">(Wavetable)</span> 합성(PPG Wave, 1981)은 한 주기 파형 여러 장을 표로 저장하고 그 사이를 미끄러지듯 읽어 스펙트럼을 시간에 따라 바꿉니다. <span class="term">샘플링</span>은 실제 악기 녹음을 음높이·세기별로 저장해 재생하며, 음높이를 바꾸려면 재생 속도를 바꾸는데 이때 포먼트까지 같이 이동해 '다람쥐 목소리'가 되므로 반음 몇 개마다 따로 녹음(멀티샘플)합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>방식</th><th>핵심 연산</th><th>장점</th><th>약점</th><th>이 책</th></tr></thead>
+      <tbody>
+        <tr><td>가산</td><td>사인파의 합</td><td>스펙트럼 완전 제어</td><td>파라미터가 너무 많음</td><td>2장</td></tr>
+        <tr><td>감산</td><td>필터링</td><td>직관적, 아날로그 감성</td><td>비조화 음색 어려움</td><td>4장</td></tr>
+        <tr><td>FM / PM</td><td>위상 변조</td><td>적은 연산으로 복잡한 스펙트럼</td><td>파라미터와 결과의 관계가 비직관적</td><td>4장</td></tr>
+        <tr><td>AM / 링</td><td>곱셈</td><td>측파대, 금속성</td><td>쓰임새가 좁음</td><td>4장</td></tr>
+        <tr><td>웨이브테이블</td><td>표 읽기 + 보간</td><td>움직이는 음색, 효율적</td><td>표 사이 전환의 부자연스러움, 에일리어싱 관리</td><td>15장</td></tr>
+        <tr><td>샘플링</td><td>녹음 재생</td><td>사실성</td><td>메모리, 표현의 경직성</td><td>15장</td></tr>
+        <tr><td>물리 모델링</td><td>파동 방정식의 이산화</td><td>자연스러운 연주 반응</td><td>악기마다 모델 설계</td><td>3장(카플러스–스트롱)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>ADSR: A·D·R은 시간, S는 레벨. 선형 어택 + 지수 감쇠·릴리스(0을 향하는 순수 지수만 dB 직선). 릴리스가 −60 dB에 이르는 시간은 \(\tau_R\ln1000\).</li>
+      <li>감산 합성 = 배음이 풍부한 발진기 → 공진 저역 통과 필터 → VCA. 2차 필터는 \(|H(f_c)| = Q\), 차단 위 −12 dB/oct.</li>
+      <li>필터 엔벨로프와 키 트래킹이 '움직이는 밝기'를 만든다. 실효 차단 \(f_c(f/f_{\text{ref}})^k\).</li>
+      <li>LFO 비브라토는 느린 FM(\(I=\Delta f/f_{\text{LFO}}\)), 트레몰로는 느린 AM이다.</li>
+      <li>곱셈(AM·링)은 \(f_c \pm f_m\) 측파대를 만든다. AM은 반송파를 남기고 링 변조는 지운다.</li>
+      <li>FM 스펙트럼은 \(J_n(I)\) 진폭의 측파대 \(f_c + nf_m\). 대역폭 \(\approx 2f_m(I+1)\), c:m이 정수비면 조화, 아니면 비조화.</li>
+      <li>유니즌 디튠은 배음마다 다른 속도의 맥놀이를 만들어 합주감과 넓이를 준다. 비상관 합산이므로 \(1/\sqrt N\)로 정규화한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>Sustain = 0, Decay = 1 s인 엔벨로프로 건반을 3초 동안 누르고 있었다. 무엇이 들리는가?</p><div class="opts">
+        <button class="opt">3초 동안 같은 크기의 소리</button><button class="opt" data-correct>처음에 크게 났다가 약 1초에 걸쳐 사라지고, 나머지는 무음</button><button class="opt">키를 놓을 때 릴리스 소리만</button><button class="opt">아무 소리도 안 난다</button>
+      </div><div class="quiz-exp">S는 유지 레벨이므로 0이면 감쇠가 끝난 뒤 누르고 있어도 소리가 없다. 피아노·기타 같은 타현·발현 악기를 흉내 내는 설정.</div></div>
+      <div class="quiz-q"><p>Q = 4인 2차 저역 통과 필터의 차단 주파수에서 이득은?</p><div class="opts">
+        <button class="opt">−3 dB</button><button class="opt">0 dB</button><button class="opt" data-correct>약 +12 dB</button><button class="opt">+24 dB</button>
+      </div><div class="quiz-exp">|H(f_c)| = Q = 4 → 20 log₁₀ 4 = 12.0 dB. 봉우리 최대는 약간 아래 주파수에서 Q/√(1−1/(4Q²)) ≈ 4.032(12.11 dB).</div></div>
+      <div class="quiz-q"><p>500 Hz 사인파를 100 Hz 사인파로 링 변조하면 출력 성분은?</p><div class="opts">
+        <button class="opt">400, 500, 600 Hz</button><button class="opt" data-correct>400, 600 Hz</button><button class="opt">100, 500 Hz</button><button class="opt">600 Hz만</button>
+      </div><div class="quiz-exp">cos A·cos B = ½[cos(A−B) + cos(A+B)]. 반송파(500 Hz)는 남지 않는다. AM이었다면 500 Hz도 남는다.</div></div>
+      <div class="quiz-q"><p>FM에서 n=0 캐리어 계수 J₀(I)가 처음 0이 되는 변조 지수는?</p><div class="opts">
+        <button class="opt">I = 1</button><button class="opt" data-correct>I ≈ 2.405</button><button class="opt">I = π</button><button class="opt">I = 0</button>
+      </div><div class="quiz-exp">n=0 성분의 계수는 J₀(I)이고 J₀의 첫 영점이 2.405다(3장 원형 막의 (0,1) 모드와 같은 숫자). 다른 측파대는 남는다. 음의 주파수에서 접힌 측파대가 캐리어 주파수에 겹치면 그 주파수의 총 성분도 남을 수 있다.</div></div>
+      <div class="quiz-q"><p>f_c = f_m = 200 Hz, I = 4인 FM의 카슨 대역폭은?</p><div class="opts">
+        <button class="opt">400 Hz</button><button class="opt">800 Hz</button><button class="opt" data-correct>2000 Hz</button><button class="opt">무한대</button>
+      </div><div class="quiz-exp">B ≈ 2 f_m (I + 1) = 2 × 200 × 5 = 2000 Hz. Δf = I·f_m = 800 Hz이고 B = 2(Δf + f_m).</div></div>
+      <div class="quiz-q"><p>유니즌 보이스를 1개에서 4개로 늘렸다(위상 무관, 각각 같은 레벨). 1/√N 정규화를 하지 않으면 레벨은 대략?</p><div class="opts">
+        <button class="opt">+12 dB</button><button class="opt" data-correct>+6 dB</button><button class="opt">+3 dB</button><button class="opt">변화 없음</button>
+      </div><div class="quiz-exp">디튠된 보이스들은 서로 비상관으로 더해지므로 파워가 4배 → 10 log₁₀ 4 = +6 dB. 위상이 완전히 같다면(디튠 0, 같은 시작) 압력이 4배라 +12 dB가 된다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------- 공용 */
+const SYN_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const SYN_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const synHz = (f) => (f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 1 : 2) + " kHz" : f.toFixed(f < 100 ? 1 : 0) + " Hz");
+const synMs = (s) => (s >= 1 ? s.toFixed(2) + " s" : (s * 1000).toFixed(s < 0.01 ? 1 : 0) + " ms");
+/** 로그 슬라이더(0..1000 → lo..hi) */
+function synLogRange(id, lo, hi, init, fmt, cb) {
+  const map = (v) => lo * Math.pow(hi / lo, v / 1000);
+  const inv = (f) => Math.round((1000 * Math.log(f / lo)) / Math.log(hi / lo));
+  const out = document.getElementById(id + "-out");
+  let exact = null;
+  const r = MB.range(id, (v) => fmt(map(v)), (v) => { exact = null; cb && cb(map(v)); });
+  const get = () => (exact != null ? exact : map(r()));
+  get.set = (f, fire = true) => { r.set(MB.clamp(inv(f), 0, 1000), false); exact = MB.clamp(f, lo, hi); if (out) out.textContent = fmt(exact); if (fire && cb) cb(exact); };
+  get.set(init, false);
+  return get;
+}
+/** 베셀 함수 J_n(x), 정수 n (음수 허용) */
+function synJ(n, x) {
+  const N = 128; let s = 0;
+  for (let i = 0; i <= N; i++) { const t = (Math.PI * i) / N, w = i === 0 || i === N ? 0.5 : 1; s += w * Math.cos(n * t - x * Math.sin(t)); }
+  return s / N;
+}
+
+/* ---------------------------------------------------------------- 1. ADSR 편집기 */
+(function () {
+  const PRE = { organ: [0.005, 0.01, 100, 0.02], piano: [0.003, 1.5, 0, 0.3], pluck: [0.002, 0.25, 0, 0.12], strings: [0.4, 0.3, 85, 0.6], brass: [0.06, 0.2, 75, 0.15], pad: [1.2, 0.8, 70, 2.0] };
+  const A = synLogRange("syn-ad-a", 0.002, 2, 0.02, synMs, () => redraw());
+  const D = synLogRange("syn-ad-d", 0.005, 2, 0.3, synMs, () => redraw());
+  const S = MB.range("syn-ad-s", (v) => v + "%", () => redraw());
+  const R = synLogRange("syn-ad-r", 0.005, 4, 0.4, synMs, () => redraw());
+  const wave = MB.seg("syn-ad-wave");
+  let cur = null, Tfix = null, drag = -1;
+  const hold = () => Math.max(0.4, 0.3 * (A() + D() + R()));
+  const s = () => S() / 100;
+  const pre = (t) => (t <= 0 ? 0 : t < A() ? t / A() : s() + (1 - s()) * Math.exp(-(t - A()) / (D() / 4)));
+  const levelAt = (n, now) => { const t = now - n.t0; if (n.tr == null || now < n.tr) return pre(t); return pre(n.tr - n.t0) * Math.exp(-(now - n.tr) / (n.R / 5)); };
+  function redraw() { MB.stat("syn-ad-o-r60", synMs((R() / 5) * Math.log(1000))); cv.redraw(); }
+  document.querySelectorAll("#syn-ad-pre button").forEach((b) => b.addEventListener("click", () => { const p = PRE[b.dataset.p]; A.set(p[0], false); D.set(p[1], false); S.set(p[2], false); R.set(p[3], false); redraw(); }));
+  let box = null, T = 1;
+  const cv = MB.canvas("#cv-syn-ad", (ctx, w, h) => {
+    const P = MB.palette();
+    box = { x: 40, y: 14, w: w - 54, h: h - 44 };
+    T = Tfix || A() + D() + hold() + R();
+    const X = (t) => box.x + (t / T) * box.w, Y = (l) => box.y + box.h - l * box.h;
+    const tH0 = A() + D(), tH1 = tH0 + hold();
+    ctx.fillStyle = P.surface; ctx.fillRect(X(tH0), box.y, X(tH1) - X(tH0), box.h);
+    MB.chart(ctx, box, { x: [0, T], y: [0, 1], yTicks: [0, 0.25, 0.5, 0.75, 1], yFmt: (v) => v.toFixed(2), xFmt: (v) => synMs(v), series: [] });
+    // 곡선
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath();
+    const M = 400;
+    for (let i = 0; i <= M; i++) {
+      const t = (i / M) * T;
+      const l = t < tH0 ? pre(t) : t < tH1 ? pre(t) : pre(tH1) * Math.exp(-(t - tH1) / (R() / 5));
+      i ? ctx.lineTo(X(t), Y(l)) : ctx.moveTo(X(t), Y(l));
+    }
+    ctx.stroke();
+    // 핸들
+    const hs = [[A(), 1], [tH0, s()], [tH1 + R(), 0]];
+    hs.forEach(([t, l], i) => { ctx.fillStyle = drag === i ? P.accent : P.bg; ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(X(t), Y(l), 7, 0, 7); ctx.fill(); ctx.stroke(); });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText("유지(누르는 동안)", (X(tH0) + X(tH1)) / 2, box.y + 4);
+    // 플레이헤드
+    if (cur && MB.out) {
+      const now = MB.now(), t = now - cur.t0;
+      let x;
+      if (cur.tr == null) x = t < tH0 ? t : Math.min(t, tH1);
+      else { const tr = cur.tr - cur.t0, start = tr < tH0 ? tr : Math.min(tr, tH1); x = start + (now - cur.tr); }
+      const l = levelAt(cur, now);
+      if (x <= T) { ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(X(x), Y(l), 6, 0, 7); ctx.fill(); ctx.strokeStyle = P.bad; ctx.globalAlpha = 0.4; ctx.beginPath(); ctx.moveTo(X(x), box.y); ctx.lineTo(X(x), box.y + box.h); ctx.stroke(); ctx.globalAlpha = 1; }
+      const st = cur.tr == null ? (t < A() ? "Attack" : t < tH0 ? "Decay" : "Sustain") : (now - cur.tr < cur.R * 1.4 ? "Release" : "끝");
+      MB.stat("syn-ad-o-st", st); MB.stat("syn-ad-o-lv", l > 1e-4 ? `${l.toFixed(3)} <small>${MB.db(l).toFixed(1)} dB</small>` : "−∞");
+    }
+  }, { aspect: 0.46, maxHeight: 300, minHeight: 220 });
+  MB.loop(cv.canvas, () => { if (cur && MB.out && (cur.tr == null || MB.now() - cur.tr < cur.R * 1.6)) cv.redraw(); });
+  // 드래그
+  const ptT = (e) => { const r = cv.canvas.getBoundingClientRect(); return [((e.clientX - r.left - box.x) / box.w) * T, 1 - (e.clientY - r.top - box.y) / box.h]; };
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (!box) return; const r = cv.canvas.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+    const tH0 = A() + D(), tH1 = tH0 + hold(), hs = [[A(), 1], [tH0, s()], [tH1 + R(), 0]];
+    let bi = -1, bd = 26; hs.forEach(([t, l], i) => { const d = Math.hypot(box.x + (t / T) * box.w - px, box.y + box.h - l * box.h - py); if (d < bd) { bd = d; bi = i; } });
+    if (bi < 0) return; drag = bi; Tfix = T; cv.canvas.setPointerCapture(e.pointerId); cv.redraw();
+  });
+  cv.canvas.addEventListener("pointermove", (e) => {
+    if (drag < 0) return; const [t, l] = ptT(e);
+    if (drag === 0) A.set(MB.clamp(t, 0.002, 2), false);
+    else if (drag === 1) { D.set(MB.clamp(t - A(), 0.005, 2), false); S.set(Math.round(MB.clamp(l, 0, 1) * 100), false); }
+    else R.set(MB.clamp(t - (A() + D() + hold()), 0.005, 4), false);
+    redraw();
+  });
+  const end = () => { if (drag >= 0) { drag = -1; Tfix = null; redraw(); } };
+  cv.canvas.addEventListener("pointerup", end); cv.canvas.addEventListener("pointercancel", end);
+  MB.keyboard("#syn-ad-kb", {
+    lo: 48, hi: 72,
+    onDown: (m) => {
+      const ctx = MB.ctx(), t0 = ctx.currentTime + 0.005;
+      const osc = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain(), out = ctx.createGain();
+      osc.type = wave(); osc.frequency.value = MB.mtof(m); f.type = "lowpass"; f.frequency.value = 4500; out.gain.value = wave() === "triangle" ? 0.5 : 0.22;
+      osc.connect(f); f.connect(g); g.connect(out); out.connect(MB.out); osc.start(t0);
+      const env = MB.adsr(g.gain, t0, { a: A(), d: D(), s: s(), r: R() });
+      const n = { t0, tr: null, R: R() }; cur = n;
+      return { release() { const now = MB.now(); n.tr = now; const e = env.release(now, n.R); osc.stop(e + 0.1); } };
+    },
+  });
+  redraw();
+})();
+
+/* ---------------------------------------------------------------- 2. 감산 합성기 */
+(function () {
+  const voices = new Set();
+  let lastM = 36;
+  const wave = MB.seg("syn-sb-wave", () => redraw());
+  const sub = MB.range("syn-sb-sub", (v) => v + "%", () => redraw());
+  const cut = synLogRange("syn-sb-cut", 60, 12000, 600, synHz, () => retune());
+  const Q = MB.range("syn-sb-q", (v) => v.toFixed(1) + ` (${MB.db(v).toFixed(1)} dB)`, () => retune());
+  const env = MB.range("syn-sb-env", (v) => "+" + v.toFixed(1) + " oct", () => redraw());
+  const dec = synLogRange("syn-sb-dec", 0.02, 2, 0.3, synMs, () => redraw());
+  const kt = MB.range("syn-sb-kt", (v) => v + "%", () => retune());
+  const base = (m) => MB.clamp(cut() * Math.pow(MB.mtof(m) / 261.63, kt() / 100), 20, 18000);
+  const peakF = (m) => Math.min(18000, base(m) * Math.pow(2, env()));
+  function retune() { const t = MB.out ? MB.now() : 0; voices.forEach((v) => { v.f.Q.setTargetAtTime(MB.db(Q()), t, 0.02); v.f.frequency.cancelScheduledValues(t); v.f.frequency.setTargetAtTime(base(v.m), t, 0.03); }); redraw(); }
+  function redraw() {
+    const b = base(lastM), q = Q();
+    MB.stat("syn-sb-o-fc", `${synHz(b)} <small>${MB.noteName(lastM)}</small>`);
+    MB.stat("syn-sb-o-pk", q > Math.SQRT1_2 ? `+${MB.db(q / Math.sqrt(1 - 1 / (4 * q * q))).toFixed(1)} dB <small>@${synHz(b * Math.sqrt(1 - 1 / (2 * q * q)))}</small>` : "없음 <small>(Q ≤ 0.707)</small>");
+    MB.stat("syn-sb-o-max", synHz(peakF(lastM)));
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-syn-sb", (ctx, w, h) => {
+    const P = MB.palette(), b = base(lastM), pk = peakF(lastM), q = Q();
+    const box = { x: 40, y: 10, w: w - 52, h: h - 34 };
+    const H = (f, fc) => 1 / Math.sqrt(Math.pow(1 - (f / fc) ** 2, 2) + Math.pow(f / fc / q, 2));
+    const c1 = [], c2 = [];
+    for (let i = 0; i <= 300; i++) { const f = 20 * Math.pow(1000, i / 300); c1.push([f, MB.db(H(f, b))]); c2.push([f, MB.db(H(f, pk))]); }
+    const ch = MB.chart(ctx, box, { x: [20, 20000], y: [-60, 30], logX: true, xTicks: [50, 100, 200, 500, 1000, 2000, 5000, 10000], xFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), yTicks: [-60, -40, -20, 0, 20], series: [{ data: c2, color: P.faint, width: 1.2, dash: [4, 4] }, { data: c1, color: P.accent, width: 2.2 }] });
+    // 배음 막대: 파형 진폭 × |H|
+    const f0 = MB.mtof(lastM), wv = wave();
+    const am = (k) => (wv === "sawtooth" ? 1 / k : wv === "square" ? (k % 2 ? 1 / k : 0) : k % 2 ? 1 / (k * k) : 0);
+    ctx.save(); ctx.beginPath(); ctx.rect(box.x, box.y, box.w, box.h); ctx.clip();
+    const bar = (f, a, col) => { if (a <= 0 || f > 20000) return; const d = MB.db(a * H(f, b)); const x = ch.X(f), y = ch.Y(Math.max(-60, d)); ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x, ch.Y(-60)); ctx.lineTo(x, y); ctx.stroke(); };
+    if (sub() > 0) bar(f0 / 2, (sub() / 100) * 0.9, P.accent2);
+    for (let k = 1; k * f0 < 20000 && k <= 200; k++) bar(k * f0, am(k), P.text);
+    ctx.restore();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText(`|H| (dB) · 막대 = ${MB.noteName(lastM)}의 배음, 청록 = 서브`, box.x + box.w - 4, box.y + 4);
+  }, { aspect: 0.42, maxHeight: 280, minHeight: 200 });
+  MB.liveView("#cv-syn-sb-live", { mode: "spectrum", aspect: 0.22, minHeight: 100, maxHeight: 150, fmin: 30, fmax: 12000, idleText: "건반을 누르면 실제 출력 스펙트럼" });
+  MB.keyboard("#syn-sb-kb", {
+    lo: 36, hi: 60,
+    onDown: (m) => {
+      lastM = m; redraw();
+      const ctx = MB.ctx(), t0 = ctx.currentTime + 0.005, fr = MB.mtof(m);
+      const o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), g2 = ctx.createGain(), f = ctx.createBiquadFilter(), vca = ctx.createGain(), out = ctx.createGain();
+      o1.type = wave(); o1.frequency.value = fr; o2.type = "square"; o2.frequency.value = fr / 2; g2.gain.value = (sub() / 100) * 0.7;
+      f.type = "lowpass"; f.Q.value = MB.db(Q());
+      f.frequency.setValueAtTime(peakF(m), t0); f.frequency.setTargetAtTime(base(m), t0 + 0.003, dec() / 3);
+      out.gain.value = wave() === "triangle" ? 0.4 : 0.2;
+      o1.connect(f); o2.connect(g2); g2.connect(f); f.connect(vca); vca.connect(out); out.connect(MB.out);
+      o1.start(t0); o2.start(t0);
+      const e = MB.adsr(vca.gain, t0, { a: 0.004, d: 0.5, s: 0.65, r: 0.18 });
+      const v = { m, f, release() { const end = e.release(MB.now()); o1.stop(end + 0.1); o2.stop(end + 0.1); voices.delete(v); } };
+      voices.add(v);
+      return v;
+    },
+  });
+  redraw();
+})();
+
+/* ---------------------------------------------------------------- 3. LFO 놀이터 */
+(function () {
+  const F0 = 440;
+  let au = null;
+  const shape = MB.seg("syn-lf-shape", () => apply());
+  const vd = MB.range("syn-lf-vd", (v) => "±" + v + "¢", () => apply());
+  const vr = MB.range("syn-lf-vr", (v) => v.toFixed(1) + " Hz", () => apply());
+  const td = MB.range("syn-lf-td", (v) => v + "%", () => apply());
+  const tr = MB.range("syn-lf-tr", (v) => v.toFixed(1) + " Hz", () => apply());
+  const lfo = (ph, sh) => { const u = ph - Math.floor(ph); return sh === "sine" ? Math.sin(2 * Math.PI * u) : sh === "triangle" ? (u < 0.25 ? 4 * u : u < 0.75 ? 2 - 4 * u : 4 * u - 4) : sh === "square" ? (u < 0.5 ? 1 : -1) : u < 0.5 ? 2 * u : 2 * u - 2; };
+  // 위상 누적(속도를 바꿔도 연속): [{t, ph, rate}]
+  let vph = { t: 0, ph: 0, r: 5.5 }, tph = { t: 0, ph: 0, r: 4 };
+  const phaseAt = (p, t) => p.ph + p.r * (t - p.t);
+  function start() {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.03;
+    const osc = ctx.createOscillator(); osc.type = "triangle"; osc.frequency.value = F0;
+    const l1 = ctx.createOscillator(), g1 = ctx.createGain(), l2 = ctx.createOscillator(), g2 = ctx.createGain(), amp = ctx.createGain(), out = ctx.createGain();
+    l1.connect(g1); g1.connect(osc.detune); l2.connect(g2); g2.connect(amp.gain);
+    osc.connect(amp); amp.connect(out); out.connect(MB.out); out.gain.value = 0; out.gain.setTargetAtTime(0.4, t0, 0.03);
+    [osc, l1, l2].forEach((o) => o.start(t0));
+    au = { osc, l1, g1, l2, g2, amp, out, t0 };
+    vph = { t: t0, ph: 0, r: vr() }; tph = { t: t0, ph: 0, r: tr() };
+    apply(true);
+  }
+  function stop() { if (!au) return; const t = MB.now(); au.out.gain.setTargetAtTime(0, t, 0.03); [au.osc, au.l1, au.l2].forEach((o) => o.stop(t + 0.2)); au = null; }
+  MB.playButton("syn-lf-play", start, stop, ["▶ 지속음 (A4)", "■ 정지"]);
+  function apply(first) {
+    if (au) {
+      const t = MB.now();
+      if (!first) { vph = { t, ph: phaseAt(vph, t), r: vr() }; tph = { t, ph: phaseAt(tph, t), r: tr() }; }
+      [au.l1, au.l2].forEach((l) => (l.type = shape()));
+      au.l1.frequency.setValueAtTime(vr(), t); au.l2.frequency.setValueAtTime(tr(), t);
+      au.g1.gain.setTargetAtTime(vd(), t, 0.02);
+      const m = td() / 100; au.amp.gain.setTargetAtTime(1 - m / 2, t, 0.02); au.g2.gain.setTargetAtTime(m / 2, t, 0.02);
+    }
+    const df = F0 * (Math.pow(2, vd() / 1200) - 1);
+    MB.stat("syn-lf-o-df", `${df.toFixed(1)} Hz <small>@ A4</small>`);
+    MB.stat("syn-lf-o-i", (df / vr()).toFixed(2));
+    const m = td() / 100; MB.stat("syn-lf-o-tdb", m >= 0.999 ? "−∞ dB까지" : `${MB.db(1 - m).toFixed(1)} dB까지`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-syn-lfo", (ctx, w, h) => {
+    const P = MB.palette(), sh = shape();
+    const now = au && MB.out ? MB.now() : performance.now() / 1000, span = 2;
+    const b1 = { x: 48, y: 10, w: w - 72, h: h / 2 - 26 }, b2 = { x: 48, y: h / 2 + 8, w: w - 72, h: h / 2 - 32 };
+    const yr = Math.max(50, vd() * 1.2);
+    const d1 = [], d2 = [];
+    for (let i = 0; i <= 400; i++) {
+      const t = now - span + (i / 400) * span;
+      const pv = au ? phaseAt(vph, t) : t * vr(), pt = au ? phaseAt(tph, t) : t * tr();
+      d1.push([i / 400 * span - span, vd() * lfo(pv, sh)]);
+      const m = td() / 100; d2.push([i / 400 * span - span, 1 - (m / 2) * (1 - lfo(pt, sh))]);
+    }
+    MB.chart(ctx, b1, { x: [-span, 0], y: [-yr, yr], yFmt: (v) => Math.round(v) + "¢", xFmt: (v) => v.toFixed(1) + " s", series: [{ data: d1, color: P.accent, width: 2 }] });
+    MB.chart(ctx, b2, { x: [-span, 0], y: [0, 1.05], yTicks: [0, 0.5, 1], xFmt: (v) => v.toFixed(1) + " s", series: [{ data: d2, color: P.accent2, width: 2, fill: P.accent2 + "22" }] });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("음높이 (센트, A4 기준)", b1.x + 6, b1.y + 2); ctx.fillText("진폭", b2.x + 6, b2.y + 2);
+    if (!au) { ctx.textAlign = "right"; ctx.fillStyle = P.faint; ctx.fillText("미리보기 (재생하면 실제 시계)", b1.x + b1.w - 4, b1.y + 2); }
+  }, { aspect: 0.55, maxHeight: 360, minHeight: 260 });
+  MB.loop(cv.canvas, () => cv.redraw());
+  apply();
+})();
+
+/* ---------------------------------------------------------------- 4. AM / 링 변조 */
+(function () {
+  let au = null;
+  const mode = MB.seg("syn-am-mode", () => apply());
+  const fc = MB.range("syn-am-fc", (v) => v + " Hz", () => apply());
+  const fm = synLogRange("syn-am-fm", 0.5, 1000, 200, (v) => (v < 10 ? v.toFixed(1) : v.toFixed(0)) + " Hz", () => apply());
+  const m = MB.range("syn-am-m", (v) => (v / 100).toFixed(2), () => apply());
+  function start() {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.03;
+    const car = ctx.createOscillator(), mod = ctx.createOscillator(), mg = ctx.createGain(), vca = ctx.createGain(), out = ctx.createGain();
+    car.frequency.value = fc(); mod.frequency.value = fm();
+    car.connect(vca); mod.connect(mg); mg.connect(vca.gain); vca.connect(out); out.connect(MB.out);
+    out.gain.value = 0; out.gain.setTargetAtTime(0.3, t0, 0.03);
+    car.start(t0); mod.start(t0);
+    au = { car, mod, mg, vca, out }; apply();
+  }
+  function stop() { if (!au) return; const t = MB.now(); au.out.gain.setTargetAtTime(0, t, 0.03); au.car.stop(t + 0.2); au.mod.stop(t + 0.2); au = null; }
+  MB.playButton("syn-am-play", start, stop);
+  function apply() {
+    const ring = mode() === "ring", M = m() / 100;
+    if (au) {
+      const t = MB.now();
+      au.car.frequency.setValueAtTime(fc(), t); au.mod.frequency.setValueAtTime(fm(), t);
+      // AM: (1 + m cos)/(1+m) — 정규화, 링: cos
+      au.vca.gain.setTargetAtTime(ring ? 0 : 1 / (1 + M), t, 0.02);
+      au.mg.gain.setTargetAtTime(ring ? 1 : M / (1 + M), t, 0.02);
+    }
+    const c = fc(), f = fm();
+    MB.stat("syn-am-o-c", ring ? `${(c - f).toFixed(0)}, ${(c + f).toFixed(0)} Hz` : `${(c - f).toFixed(0)}, ${c}, ${(c + f).toFixed(0)} Hz`);
+    // 정수비 근사
+    let rs = (c / f).toFixed(2); for (let q = 1; q <= 8; q++) { const p = Math.round((c / f) * q); if (p && Math.abs(p / q - c / f) < 0.005) { rs = p + " : " + q; break; } }
+    MB.stat("syn-am-o-r", rs);
+    MB.stat("syn-am-o-p", f < 15 ? (ring ? "맥놀이(2f_m)" : "트레몰로") : f < 60 ? "거칠기" : "측파대가 따로 들림");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-syn-am", (ctx, w, h) => {
+    const P = MB.palette(), ring = mode() === "ring", M = m() / 100, c = fc(), f = fm();
+    const wb = { x: 12, y: 8, w: w - 24, h: h * 0.42 };
+    const span = Math.max(4 / Math.max(f, 1), 0.01), N = Math.round(wb.w * 2);
+    const sig = new Float32Array(N), envU = new Float32Array(N);
+    for (let i = 0; i < N; i++) { const t = (i / N) * Math.min(span, 0.5); const mo = Math.cos(2 * Math.PI * f * t); sig[i] = (ring ? mo : (1 + M * mo) / (1 + M)) * Math.cos(2 * Math.PI * c * t); envU[i] = ring ? Math.abs(mo) : (1 + M * mo) / (1 + M); }
+    MB.drawWave(ctx, wb, sig, { color: P.accent, width: 1.2, yScale: 0.95 });
+    ctx.save(); ctx.setLineDash([4, 3]); MB.drawWave(ctx, wb, envU, { color: P.text, width: 1, yScale: 0.95, axis: false }); ctx.restore();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText(synMs(Math.min(span, 0.5)), wb.x + wb.w, wb.y + wb.h + 2);
+    // 스펙트럼
+    const sb = { x: 40, y: h * 0.55, w: w - 52, h: h * 0.45 - 30 };
+    const fmax = Math.max(2500, c + f + 200);
+    const lines = ring ? [[c - f, 0.5], [c + f, 0.5]] : [[c - f, M / 2 / (1 + M)], [c, 1 / (1 + M)], [c + f, M / 2 / (1 + M)]];
+    const ch = MB.chart(ctx, sb, { x: [0, fmax], y: [0, 1.05], yTicks: [0, 0.5, 1], xFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), series: [] });
+    lines.forEach(([fr, a], i) => { const ff = Math.abs(fr); ctx.strokeStyle = fr < 0 ? P.accent2 : !ring && i === 1 ? P.accent : P.bad; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(ch.X(ff), ch.Y(0)); ctx.lineTo(ch.X(ff), ch.Y(a)); ctx.stroke(); });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText(ring ? "빨강 = 측파대 f_c ± f_m (반송파 없음)" : "보라 = 반송파, 빨강 = 측파대", sb.x + 6, sb.y + 2);
+  }, { aspect: 0.55, maxHeight: 340, minHeight: 260 });
+  apply();
+})();
+
+/* ---------------------------------------------------------------- 5. FM 신시사이저 */
+(function () {
+  const PRE = {
+    ep: { C: 1, M: 1, I: 3.5, Is: 8, Id: 0.6, amp: "perc" },
+    bell: { C: 1, M: 3.5, I: 6, Is: 0, Id: 2.5, amp: "perc" },
+    brass: { C: 1, M: 1, I: 5, Is: 70, Id: 0.12, amp: "sus", rise: true },
+    bass: { C: 1, M: 1, I: 4, Is: 15, Id: 0.15, amp: "perc" },
+    clar: { C: 1, M: 2, I: 2, Is: 80, Id: 0.3, amp: "sus" },
+  };
+  let rise = false;
+  const C = MB.range("syn-fm-c", (v) => v.toFixed(1), () => update());
+  const M = MB.range("syn-fm-m", (v) => v.toFixed(2), () => update());
+  const I = MB.range("syn-fm-i", (v) => v.toFixed(1), () => update());
+  const Is = MB.range("syn-fm-is", (v) => v + "%", () => update());
+  const Id = MB.range("syn-fm-id", (v) => synMs(v), () => update());
+  const amp = MB.seg("syn-fm-amp", () => update());
+  document.querySelectorAll("#syn-fm-pre button").forEach((b) => b.addEventListener("click", () => {
+    const p = PRE[b.dataset.p]; C.set(p.C, false); M.set(p.M, false); I.set(p.I, false); Is.set(p.Is, false); Id.set(p.Id, false); amp.set(p.amp, false); rise = !!p.rise; update();
+    playNote(60, 1.2);
+  }));
+  [C, M, I, Is, Id].forEach((g) => g.el.addEventListener("input", () => (rise = false)));
+  function voice(m) {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.005, f = MB.mtof(m), fc = C() * f, fmod = M() * f;
+    const car = ctx.createOscillator(), mod = ctx.createOscillator(), mg = ctx.createGain(), vca = ctx.createGain(), out = ctx.createGain();
+    car.frequency.value = fc; mod.frequency.value = fmod;
+    const pk = I() * fmod, su = pk * (Is() / 100);
+    if (rise) { mg.gain.setValueAtTime(0, t0); mg.gain.linearRampToValueAtTime(pk, t0 + Id()); mg.gain.setTargetAtTime(su || pk * 0.7, t0 + Id(), 0.3); }
+    else { mg.gain.setValueAtTime(pk, t0); mg.gain.setTargetAtTime(su, t0, Id() / 3); }
+    mod.connect(mg); mg.connect(car.frequency); car.connect(vca); vca.connect(out); out.connect(MB.out); out.gain.value = 0.3;
+    car.start(t0); mod.start(t0);
+    const e = MB.adsr(vca.gain, t0, amp() === "perc" ? { a: 0.002, d: Math.max(1.5, Id() * 2.5), s: 0, r: 0.35 } : { a: rise ? 0.05 : 0.02, d: 0.2, s: 0.85, r: 0.2 });
+    return { release(t) { const end = e.release(t != null ? t : MB.now()); car.stop(end + 0.1); mod.stop(end + 0.1); } };
+  }
+  function playNote(m, dur) { const v = voice(m); v.release(MB.now() + dur); }
+  function spectrum(Ival) {
+    const c = C(), mm = M(), K = Math.ceil(Ival + 8), comps = new Map();
+    for (let n = -K; n <= K; n++) {
+      let fr = c + n * mm, a = synJ(n, Ival), fold = false;
+      if (fr < 0) { fr = -fr; a = -a; fold = true; }
+      if (Math.abs(fr) < 1e-9) continue;
+      const key = fr.toFixed(4), o = comps.get(key) || { r: fr, a: 0, fold: false, n };
+      o.a += a; o.fold = o.fold || fold; if (!fold) o.n = n; comps.set(key, o);
+    }
+    return [...comps.values()];
+  }
+  function update() {
+    const f = 261.63, c = C(), mm = M();
+    // c:m 정수비 → 기본음
+    let f0txt = "비조화";
+    for (let q = 1; q <= 20; q++) { const p1 = c * q, p2 = mm * q; if (Math.abs(p1 - Math.round(p1)) < 1e-6 && Math.abs(p2 - Math.round(p2)) < 1e-6) { const g = (a, b) => (b ? g(b, a % b) : a); const N1 = Math.round(p1), N2 = Math.round(p2), d = g(N1, N2); const f0 = (f * c) / (N1 / d); f0txt = `${synHz(f0)} <small>${MB.noteName(MB.ftom(f0))} · ${N1 / d}:${N2 / d}</small>`; break; } }
+    MB.stat("syn-fm-o-f0", f0txt);
+    MB.stat("syn-fm-o-bw", `${synHz(2 * mm * f * (I() + 1))} <small>Δf = ${synHz(I() * mm * f)}</small>`);
+    MB.stat("syn-fm-o-j0", synJ(0, I()).toFixed(3));
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-syn-fm", (ctx, w, h) => {
+    const P = MB.palette(), comps = spectrum(I()), f = 261.63;
+    const box = { x: 36, y: 16, w: w - 48, h: h - 44 };
+    const rmax = Math.max(C() + (I() + 2) * M(), 6);
+    const ch = MB.chart(ctx, box, { x: [0, rmax * f], y: [0, 1], yTicks: [0, 0.5, 1], xFmt: (v) => (v >= 1000 ? (v / 1000).toFixed(1) + "k" : Math.round(v)), series: [] });
+    // 정수배 격자
+    ctx.save(); ctx.setLineDash([2, 4]); ctx.strokeStyle = P.faint;
+    for (let k = 1; k <= rmax; k++) { ctx.beginPath(); ctx.moveTo(ch.X(k * f), box.y); ctx.lineTo(ch.X(k * f), box.y + box.h); ctx.stroke(); }
+    ctx.restore();
+    comps.forEach((o) => {
+      if (o.r > rmax) return; const a = Math.abs(o.a); if (a < 0.003) return;
+      const x = ch.X(o.r * f); ctx.strokeStyle = o.n === 0 ? P.bad : o.fold ? P.accent2 : P.accent; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(x, ch.Y(0)); ctx.lineTo(x, ch.Y(Math.min(1, a))); ctx.stroke();
+      if (a > 0.05) { ctx.fillStyle = P.faint; ctx.font = "10px " + SYN_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(o.n > 0 ? "+" + o.n : String(o.n), x, ch.Y(Math.min(1, a)) - 2); }
+    });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText(`|Jₙ(${I().toFixed(1)})| — 빨강 = 캐리어(n=0), 점선 = C4 정수배`, box.x + box.w - 4, 2);
+  }, { aspect: 0.42, maxHeight: 280, minHeight: 200 });
+  MB.liveView("#cv-syn-fm-live", { mode: "spectrum", aspect: 0.22, minHeight: 100, maxHeight: 150, fmin: 50, fmax: 12000, idleText: "건반을 누르면 실제 출력 스펙트럼" });
+  MB.keyboard("#syn-fm-kb", { lo: 48, hi: 72, onDown: (m) => voice(m) });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 6. 유니즌 디튠 */
+(function () {
+  const CHORD = [48, 55, 60, 64];
+  let lastF = MB.mtof(48), held = [], t0a = null, delays = [];
+  const N = MB.range("syn-un-n", (v) => v + "개", () => update());
+  const S = MB.range("syn-un-s", (v) => v + "¢", () => update());
+  const st = MB.check("syn-un-st");
+  const cents = () => { const n = N(); return [...Array(n)].map((_, k) => (n === 1 ? 0 : S() * (k / (n - 1) - 0.5))); };
+  const rnd = MB.rng(9); for (let k = 0; k < 9; k++) delays.push(rnd());
+  function voice(m, gainMul = 1) {
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.01, f = MB.mtof(m), n = N();
+    const out = ctx.createGain(); out.gain.value = 0; out.gain.setTargetAtTime((0.16 * gainMul) / Math.sqrt(n), t0, 0.01); out.connect(MB.out);
+    const oscs = cents().map((c, k) => {
+      const o = ctx.createOscillator(), p = ctx.createStereoPanner(); o.type = "sawtooth"; o.frequency.value = f; o.detune.value = c;
+      p.pan.value = st() && n > 1 ? (k / (n - 1)) * 1.6 - 0.8 : 0;
+      o.connect(p); p.connect(out); o.start(t0 + (delays[k] / f)); return o;
+    });
+    lastF = f; t0a = t0; update();
+    return { release() { const t = MB.now(); out.gain.setTargetAtTime(0, t, 0.08); oscs.forEach((o) => o.stop(t + 0.6)); } };
+  }
+  MB.playButton("syn-un-play", () => { held = CHORD.map((m) => voice(m, 0.6)); lastF = MB.mtof(48); }, () => { held.forEach((v) => v.release()); held = []; t0a = null; }, ["▶ 지속음 (C3 화음)", "■ 정지"]);
+  MB.keyboard("#syn-un-kb", { lo: 48, hi: 72, onDown: (m) => voice(m) });
+  function update() {
+    const cs = cents(), n = cs.length;
+    if (n > 1) {
+      const step = S() / (n - 1), b1 = lastF * Math.pow(2, -S() / 2400) * (Math.pow(2, step / 1200) - 1);
+      MB.stat("syn-un-o-b1", `${b1.toFixed(2)} Hz <small>${synHz(lastF)}</small>`);
+      MB.stat("syn-un-o-b8", `${(8 * b1).toFixed(1)} Hz`);
+    } else { MB.stat("syn-un-o-b1", "— <small>(보이스 1개)</small>"); MB.stat("syn-un-o-b8", "—"); }
+    MB.stat("syn-un-o-db", "+" + (10 * Math.log10(n)).toFixed(1) + " dB <small>(동상이면 +" + (20 * Math.log10(n)).toFixed(1) + ")</small>");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-syn-un", (ctx, w, h) => {
+    const P = MB.palette(), cs = cents(), n = cs.length;
+    // 디튠 축
+    const ax = { x: 40, y: 22, w: w - 60 }, X = (c) => ax.x + ((c + 50) / 100) * ax.w;
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(ax.x, ax.y); ctx.lineTo(ax.x + ax.w, ax.y); ctx.stroke();
+    ctx.font = "10px " + SYN_MONO(); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [-50, -25, 0, 25, 50].forEach((c) => { ctx.fillText((c > 0 ? "+" : "") + c + "¢", X(c), ax.y + 10); ctx.beginPath(); ctx.moveTo(X(c), ax.y - 4); ctx.lineTo(X(c), ax.y + 4); ctx.stroke(); });
+    cs.forEach((c) => { ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(X(c), ax.y, 6, 0, 7); ctx.fill(); });
+    // 포락선
+    const box = { x: 40, y: 60, w: w - 60, h: h - 90 }, span = 2;
+    const fk = cs.map((c) => lastF * Math.pow(2, c / 1200));
+    const envAt = (hh, t) => { let re = 0, im = 0; fk.forEach((f, k) => { const ph = 2 * Math.PI * hh * f * (t - delays[k] / lastF); re += Math.cos(ph); im += Math.sin(ph); }); return Math.hypot(re, im) / n; };
+    const d1 = [], d8 = [];
+    for (let i = 0; i <= 600; i++) { const t = (i / 600) * span; d1.push([t, envAt(1, t)]); d8.push([t, envAt(8, t)]); }
+    MB.chart(ctx, box, { x: [0, span], y: [0, 1.05], yTicks: [0, 0.5, 1], xFmt: (v) => v.toFixed(1) + " s", series: [{ data: d8, color: P.accent2, width: 1.4 }, { data: d1, color: P.accent, width: 2.2 }] });
+    if (t0a != null && MB.out) { const t = (MB.now() - t0a) % span, x = box.x + (t / span) * box.w; ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, box.y); ctx.lineTo(x, box.y + box.h); ctx.stroke(); }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + SYN_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText("합성 진폭/N: 보라 1번 배음, 청록 8번 배음", box.x + box.w - 4, box.y + 2);
+  }, { aspect: 0.55, maxHeight: 340, minHeight: 250 });
+  MB.loop(cv.canvas, () => { if (t0a != null) cv.redraw(); });
+  update();
+})();
+</script>
+</body>
+</html>

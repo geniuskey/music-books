@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>음정과 협화 · MusicBook</title>
+<meta name="description" content="음정의 이름과 정수비, 겹치는 배음과 맥놀이, 임계대역과 거칠기, 플롬프–레벨트 곡선과 세타레스 불협화 곡선, 음색에 따라 움직이는 협화점, 화음의 거칠기 순위와 음정 청음 훈련까지 듣고 계산한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/consonance.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="음정과 협화 · MusicBook">
+<meta property="og:description" content="음정의 이름과 정수비, 겹치는 배음과 맥놀이, 임계대역과 거칠기, 플롬프–레벨트 곡선과 세타레스 불협화 곡선, 음색에 따라 움직이는 협화점, 화음의 거칠기 순위와 음정 청음 훈련까지 듣고 계산한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/consonance.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"음정과 협화","name":"음정과 협화 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/consonance.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/consonance.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":6,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"음정의 이름과 정수비, 겹치는 배음과 맥놀이, 임계대역과 거칠기, 플롬프–레벨트 곡선과 세타레스 불협화 곡선, 음색에 따라 움직이는 협화점, 화음의 거칠기 순위와 음정 청음 훈련까지 듣고 계산한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"06 음정과 협화","item":"https://music.euiyun.com/fundamentals/chapters/consonance.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .con-click { cursor: crosshair; touch-action: manipulation; }
+  .seg.con-many button { padding: 5px 8px; font-family: var(--mono); font-size: 12.5px; }
+  .pads.con-ans { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+  .pad.right { background: color-mix(in srgb, var(--ok) 22%, var(--bg-elev)); border-color: var(--ok); }
+  .pad.wrong { background: color-mix(in srgb, var(--bad) 18%, var(--bg-elev)); border-color: var(--bad); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="consonance">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 06</div>
+    <h1>음정과 협화</h1>
+    <p class="lead">도와 솔을 함께 누르면 맑고, 도와 도♯을 함께 누르면 거칠게 들립니다. 피타고라스는 그 이유를 '단순한 정수비'에서 찾았고, 헬름홀츠는 '배음끼리의 맥놀이'에서, 현대 청각 과학은 '임계대역 안의 거칠기'와 '주기성'에서 찾습니다. 이 장에서는 협화(consonance)를 감상이 아니라 <b>계산할 수 있는 양</b>으로 다룹니다. 그리고 그 양이 악기의 음색에 따라 달라진다는 놀라운 사실을 직접 듣습니다.</p>
+    <ul class="objectives">
+      <li>음정의 이름·반음 수·순정 비율·센트를 서로 바꾸고, 단순한 정수비가 배음 일치를 뜻함을 설명한다.</li>
+      <li>맥놀이, 거칠기, 두 음 분리의 경계를 임계대역(ERB, 바크)으로 설명한다(플롬프–레벨트 1965).</li>
+      <li>세타레스 모델로 임의의 스펙트럼에 대한 불협화 곡선을 계산하고, 음색이 바뀌면 협화점이 이동함을 듣는다.</li>
+      <li>배음 일치 행렬과 화음 거칠기 순위로 '왜 장3화음이 단3화음보다 매끄러운가'를 정량적으로 따진다.</li>
+      <li>조화성(주기성) 이론과 거칠기 이론, 그리고 문화적 학습의 역할(치마네 연구)을 비교한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="names">
+    <h2>음정의 이름과 정수비</h2>
+    <p><span class="term">음정</span><span class="en">(Interval)</span>은 두 음의 높이 차이입니다. 서양 음악 이론은 음정을 '몇 도'(음이름 글자 수)와 '성질'(완전·장·단·증·감)로 부릅니다. 엔지니어에게는 반음 수 \(s\)와 주파수비 \(r\)이 더 편합니다. 평균율에서는 \(r = 2^{s/12}\)이고, 순정률에서는 작은 정수비입니다(5장).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">반음</th><th>이름</th><th>약호</th><th class="num">순정 비율</th><th class="num">순정 센트</th><th class="num">평균율 − 순정</th><th>전통적 분류</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0</td><td>완전 1도</td><td>P1</td><td class="num">1:1</td><td class="num">0</td><td class="num">0</td><td>완전 협화</td></tr>
+        <tr><td class="num">1</td><td>단 2도</td><td>m2</td><td class="num">16:15</td><td class="num">111.73</td><td class="num">−11.73</td><td>불협화</td></tr>
+        <tr><td class="num">2</td><td>장 2도</td><td>M2</td><td class="num">9:8</td><td class="num">203.91</td><td class="num">−3.91</td><td>불협화</td></tr>
+        <tr><td class="num">3</td><td>단 3도</td><td>m3</td><td class="num">6:5</td><td class="num">315.64</td><td class="num">−15.64</td><td>불완전 협화</td></tr>
+        <tr><td class="num">4</td><td>장 3도</td><td>M3</td><td class="num">5:4</td><td class="num">386.31</td><td class="num">+13.69</td><td>불완전 협화</td></tr>
+        <tr><td class="num">5</td><td>완전 4도</td><td>P4</td><td class="num">4:3</td><td class="num">498.04</td><td class="num">+1.96</td><td>완전 협화(문맥 따라 불협화)</td></tr>
+        <tr><td class="num">6</td><td>증4도/감5도</td><td>TT</td><td class="num">45:32</td><td class="num">590.22</td><td class="num">+9.78</td><td>불협화(트라이톤)</td></tr>
+        <tr><td class="num">7</td><td>완전 5도</td><td>P5</td><td class="num">3:2</td><td class="num">701.96</td><td class="num">−1.96</td><td>완전 협화</td></tr>
+        <tr><td class="num">8</td><td>단 6도</td><td>m6</td><td class="num">8:5</td><td class="num">813.69</td><td class="num">−13.69</td><td>불완전 협화</td></tr>
+        <tr><td class="num">9</td><td>장 6도</td><td>M6</td><td class="num">5:3</td><td class="num">884.36</td><td class="num">+15.64</td><td>불완전 협화</td></tr>
+        <tr><td class="num">10</td><td>단 7도</td><td>m7</td><td class="num">9:5 (또는 16:9, 7:4)</td><td class="num">1017.60</td><td class="num">−17.60</td><td>불협화</td></tr>
+        <tr><td class="num">11</td><td>장 7도</td><td>M7</td><td class="num">15:8</td><td class="num">1088.27</td><td class="num">+11.73</td><td>불협화</td></tr>
+        <tr><td class="num">12</td><td>완전 8도</td><td>P8</td><td class="num">2:1</td><td class="num">1200</td><td class="num">0</td><td>완전 협화</td></tr>
+      </tbody>
+    </table></div>
+    <p>음정을 거꾸로 뒤집은 것을 <span class="term">자리바꿈 음정</span><span class="en">(Inversion)</span>이라 하며, 두 음정의 합은 옥타브입니다: 5도 ↔ 4도(3/2 × 4/3 = 2), 장3도 ↔ 단6도(5/4 × 8/5 = 2). 그래서 반음 수는 \(s \leftrightarrow 12-s\), 센트는 \(c\leftrightarrow 1200-c\)로 바뀝니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="coincide">
+    <h2>정수비 = 배음이 겹친다</h2>
+    <p>왜 '단순한 정수비'가 협화일까요? 2장에서 본 것처럼 악기 소리는 배음 \(f, 2f, 3f, \dots\)을 가집니다. 비율이 \(p:q\)(기약)인 두 음 \(f_1\), \(f_2 = \tfrac{p}{q}f_1\)의 배음은 \(p f_1 = q f_2\)에서 처음 일치하고, 그 뒤로 매 \(p\)번째·\(q\)번째마다 계속 일치합니다. \(p, q\)가 작을수록 <b>겹치는 배음이 많고, 겹치지 않는 배음끼리의 간격도 넓습니다</b>. 반대로 비율이 복잡하면 서로 가까이 있지만 일치하지 않는 배음 쌍이 많아집니다—이것이 맥놀이와 거칠기의 원천입니다(헬름홀츠, 「음 감각론」 1863).</p>
+    <div class="formula">$$p f_1 = q f_2 \quad\Rightarrow\quad b = \lvert q f_2 - p f_1\rvert\ \text{(어긋났을 때의 맥놀이)}$$
+      <div class="where">평균율 5도 C4–G4: \(p:q = 3:2\), \(b = \lvert 2\times392.00 - 3\times261.63\rvert = 0.89\) Hz. 순정이면 \(b=0\). 오실로스코프의 X–Y 모드(리사주 도형)로 보면 순정 음정은 정지한 도형, 어긋난 음정은 \(b\)의 속도로 회전하는 도형이 된다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="완전5도와 트라이톤의 배음 일치 비교"><g id="con-fig-coin"></g></svg>
+      <figcaption><b>그림 6-1.</b> C3(130.8 Hz)과 순정 5도 G3(3:2, 위) 및 순정 트라이톤 F♯3(45:32, 아래)의 배음 10개(가로: 로그 주파수). 초록 선은 일치하는 배음, 빨간 선은 임계대역 안에서 서로 부딪히는(가깝지만 다른) 배음 쌍. 5도는 일치가 많고 충돌이 적다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-con-interval">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음정 재생기: 리사주 도형과 배음 일치</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-con-int"></canvas><div class="mb-kb short" id="kb-con-int"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음정(아래 음 기준)</span><div class="seg con-many" id="ci-iv"><button data-value="0">P1</button><button data-value="1">m2</button><button data-value="2">M2</button><button data-value="3">m3</button><button data-value="4">M3</button><button data-value="5">P4</button><button data-value="6">TT</button><button data-value="7" class="on">P5</button><button data-value="8">m6</button><button data-value="9">M6</button><button data-value="10">m7</button><button data-value="11">M7</button><button data-value="12">P8</button></div></div>
+          <div class="ctrl"><span>조율</span><div class="seg" id="ci-tun"><button data-value="et" class="on">12평균율</button><button data-value="just">순정 비율</button></div></div>
+          <div class="ctrl"><span>음색</span><div class="seg" id="ci-tim"><button data-value="harm" class="on">배음 6개</button><button data-value="sine">사인</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ci-mel">▶ 선율적</button><button class="btn primary" id="ci-har">▶ 화성적</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음정</span><span class="v" id="ci-name">—</span></div>
+        <div class="stat"><span class="k">순정 비율</span><span class="v" id="ci-ratio">—</span></div>
+        <div class="stat"><span class="k">실제 크기</span><span class="v" id="ci-cents">—</span></div>
+        <div class="stat"><span class="k">첫 일치 배음의 맥놀이</span><span class="v" id="ci-beat">—</span></div>
+      </div>
+      <div class="sim-note">건반을 두 번 누르면 첫 음이 아래 음(진보라), 둘째 음이 위 음(청록)이 됩니다(<kbd>A</kbd>–<kbd>K</kbd> 키 가능). 또는 음정 버튼으로 위 음을 정합니다. 왼쪽: 두 사인파 \(x=\sin 2\pi f_1t,\ y=\sin 2\pi f_2 t\)의 리사주 도형을 <b>실제 맥놀이 속도 그대로</b> 회전시킨 것. '순정 비율'에서는 도형이 멈추고, '12평균율'에서는 5도가 약 2초에 한 바퀴, 장3도는 훨씬 빠르게 돕니다. 오른쪽: 아래 음(위 줄)과 위 음(아래 줄)의 배음 10개. 초록 = 일치(±3 ¢), 빨강 = 거칠기를 만드는 근접 쌍(진할수록 거칠다).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="roughness">
+    <h2>맥놀이, 거칠기, 그리고 임계대역</h2>
+    <p>두 사인파의 주파수 차 \(\Delta f\)를 0에서 늘려 가면 지각이 세 단계로 바뀝니다. ① \(\Delta f\)가 수 Hz 이하이면 하나의 음이 \(\Delta f\) 속도로 커졌다 작아지는 <span class="term">맥놀이</span><span class="en">(Beats)</span>. ② 약 15–20 Hz를 넘으면 일렁임이 너무 빨라 개별로 셀 수 없고 '지글지글한' <span class="term">거칠기</span><span class="en">(Roughness)</span>로 들립니다. ③ 차이가 <span class="term">임계대역</span><span class="en">(Critical Band)</span>을 넘으면 두 음이 따로 분리되어 매끄럽게 들립니다.</p>
+    <p>임계대역은 달팽이관을 대역통과 필터뱅크로 볼 때 한 필터의 유효 대역폭입니다(14장). 두 성분이 같은 필터 안에 들어오면 그 필터 출력이 맥놀이 포락선으로 흔들리고, 다른 필터로 갈라지면 흔들림이 사라집니다. 플롬프와 레벨트(Plomp &amp; Levelt, 1965)는 두 사인파의 불협화도 판단 실험에서 <b>최대 불협화가 임계대역폭의 약 25%</b>에서 나타나고, 약 100%를 넘으면 거의 협화가 됨을 보였습니다. 중요한 것은 이 곡선이 <b>음정(비율)이 아니라 Hz 차이</b>, 정확히는 임계대역 단위의 차이에 따른다는 점입니다.</p>
+    <div class="formula">$$\mathrm{ERB}(f) = 24.7\left(\frac{4.37 f}{1000}+1\right)\ \text{Hz}, \qquad \mathrm{CB}_{\text{Zwicker}}(f) = 25 + 75\left[1+1.4\left(\tfrac{f}{1000}\right)^2\right]^{0.69}\ \text{Hz}$$
+      <div class="where">ERB: 등가 직사각형 대역폭(Glasberg &amp; Moore 1990). 440 Hz에서 72 Hz, 1 kHz에서 133 Hz. Zwicker–Terhardt(1980)의 임계대역폭은 저역에서 약 100 Hz로 더 넓다(440 Hz에서 113 Hz). 플롬프–레벨트 실험은 후자 계열의 값을 썼다. 결과적으로 같은 단3도라도 저음역에서는 \(\Delta f\)가 작아 임계대역 안에 들어가 거칠다—낮은 음역에서 3도 화음이 '탁해지는' 이유(저음 한계, low interval limit).</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="플롬프–레벨트 불협화 곡선"><g id="con-fig-pl"></g></svg>
+      <figcaption><b>그림 6-2.</b> 두 사인파의 불협화도를 임계대역 단위 \(\Delta f/\mathrm{CB}\)로 그린 곡선(세타레스의 매개화로 계산). 최대값은 약 0.25 CB, 1 CB를 넘으면 거의 0. 위 띠는 지각의 세 영역.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-con-beats">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>맥놀이 → 거칠기 → 두 음: Δf 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-con-beats"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>기준 주파수 f <output id="cb-f-out"></output></span><input type="range" id="cb-f" min="100" max="2000" value="440" step="1"></label>
+          <label class="ctrl"><span>주파수 차 Δf <output id="cb-d-out"></output></span><input type="range" id="cb-d" min="0" max="100" value="45" step="0.5"></label>
+          <div class="presets"><button class="btn" data-d="2">2 Hz</button><button class="btn" data-d="8">8 Hz</button><button class="btn" data-d="25">25 Hz</button><button class="btn" data-d="60">60 Hz</button><button class="btn" data-d="150">150 Hz</button></div>
+          <div class="btn-row"><button class="btn primary" id="cb-play">▶ 두 사인파</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">두 주파수</span><span class="v" id="cb-fs">—</span></div>
+        <div class="stat"><span class="k">ERB / CB(Zwicker)</span><span class="v" id="cb-cb">—</span></div>
+        <div class="stat"><span class="k">Δf / CB</span><span class="v" id="cb-ratio">—</span></div>
+        <div class="stat"><span class="k">예상 지각</span><span class="v" id="cb-region">—</span></div>
+      </div>
+      <div class="sim-note">재생 중에 슬라이더를 움직이면 소리가 바로 바뀝니다(사인파 두 개, 각각 gain 0.15). Δf 슬라이더는 작은 값을 세밀하게 고르도록 지수 눈금입니다(0–400 Hz). 위: 두 사인파의 합 0.5초(포락선 \(2\lvert\cos\pi\Delta f t\rvert\)). 아래: 기준 주파수 f에서 세타레스 모델로 계산한 불협화 곡선과 지금 위치. 해볼 것: f = 200 Hz와 f = 1500 Hz에서 같은 Δf = 50 Hz가 얼마나 다르게 들리는지(CB에 대한 비율이 다르다). 경계값(15 Hz, 1 CB)은 개인차가 큰 대략값입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="sethares">
+    <h2>세타레스 불협화 곡선: 스펙트럼에서 협화를 계산하기</h2>
+    <p>플롬프–레벨트 곡선은 사인파 두 개에 대한 것입니다. 실제 음 두 개의 불협화는 <b>모든 성분 쌍의 불협화를 더한 것</b>으로 근사할 수 있습니다(Plomp &amp; Levelt 1965, Kameoka &amp; Kuriyagawa 1969). 세타레스(William Sethares, 「Tuning, Timbre, Spectrum, Scale」 1998/2005)는 곡선을 두 지수의 차로 매개화해 계산을 간단히 했습니다.</p>
+    <div class="formula">$$d(f_i,f_j,a_i,a_j) = a_i a_j\left(e^{-b_1 s\,\lvert f_j-f_i\rvert} - e^{-b_2 s\,\lvert f_j-f_i\rvert}\right),\quad s = \frac{x^*}{s_1 \min(f_i,f_j) + s_2}$$
+      $$D(\text{음색},\, r) = \sum_{i<j} d(\cdot)\quad\text{(두 음의 모든 성분 } \{f_k\}\cup\{r f_k\}\text{ 쌍에 대해)}$$
+      <div class="where">\(b_1 = 3.5,\ b_2 = 5.75,\ x^* = 0.24,\ s_1 = 0.0207,\ s_2 = 18.96\). \(s\)가 '임계대역 스케일링'으로, 최대값 위치 \(\Delta f^* = \ln(b_2/b_1)/((b_2-b_1)s) \approx 0.92(0.0207 f+18.96)\)는 440 Hz에서 약 26 Hz다. 세타레스의 후기 구현은 진폭 가중을 \(\min(a_i,a_j)\)로 쓰기도 한다. 여기서는 \(a_ia_j\).</div>
+    </div>
+
+    <div class="sim" id="sim-con-sethares">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음색별 불협화 곡선 (세타레스 모델)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-con-seth" class="con-click"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음색(스펙트럼)</span><div class="seg" id="cs-tim"><button data-value="sine">사인</button><button data-value="harm" class="on">배음 6개</button><button data-value="odd">홀수 배음</button><button data-value="stretch">늘인 배음</button></div></div>
+          <label class="ctrl"><span>늘임 옥타브 S (늘인 배음) <output id="cs-st-out"></output></span><input type="range" id="cs-st" min="180" max="225" value="210" step="1"></label>
+          <label class="ctrl"><span>아래 음 f <output id="cs-f-out"></output></span><input type="range" id="cs-f" min="110" max="660" value="262" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="cs-sweep">▶ 1 → 2.3 천천히 쓸기</button></div>
+          <div class="btn-row"><button class="btn" id="cs-oct">▶ 이 음색의 '옥타브' S</button><button class="btn" id="cs-oct2">▶ 정확한 2:1</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">고른 음정</span><span class="v" id="cs-pick">—</span></div>
+        <div class="stat"><span class="k">불협화 D</span><span class="v" id="cs-d">—</span></div>
+        <div class="stat"><span class="k">협화점(국소 최소)</span><span class="v" id="cs-min" style="font-size:13px">—</span></div>
+      </div>
+      <div class="sim-note">곡선을 클릭하면 그 비율의 두 음을 같은 음색으로 들려줍니다. 가로축: 주파수비 1–2.3(로그), 회색 눈금 = 평균율 반음, 아래 글자 = 순정 비율. 보라 점 = 국소 최소(협화점). ① '배음 6개': 1/1, 6/5, 5/4, 4/3, 3/2, 5/3, 2/1에 골짜기. ② '사인': 골짜기가 1:1 근처 하나뿐 — 사인파에는 '협화 음정'이 따로 없다. ③ '홀수 배음'(사각파형): 짝수 배음이 없어 5/4·5/3 골짜기가 얕아지고, 3/2·2/1보다 7/5 등의 성질이 바뀐다. ④ '늘인 배음' S = 2.1: 배음 \(f_n = f\,n^{\log_2 S}\)(피아노 저음현·종 같은 비조화). 골짜기가 2/1이 아니라 S로 이동해, 정확한 옥타브가 오히려 거칠어집니다. 모델: 성분별 사인 합성, 진폭 0.88ⁿ⁻¹(홀수 배음은 1/n).</div>
+    </div>
+    <div class="callout deep"><strong>조율–음색 짝짓기</strong> 세타레스의 결론은 "협화한 음정은 음색이 정한다"이다. 늘인 배음을 가진 소리에는 늘인 옥타브를 가진 음계가, 가믈란 메탈로폰의 비조화 스펙트럼에는 슬렌드로·펠로그 음계가 더 잘 맞는다. 거꾸로 원하는 음계(예: 10-EDO)에 맞춰 배음 위치를 옮긴 인공 음색을 설계하면, 그 음계에서도 '협화음'을 만들 수 있다. 피아노 조율사가 고음은 높게, 저음은 낮게 조율하는 '레일스백 곡선'(늘인 조율)도 같은 원리다(3장).</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="matrix">
+    <h2>어디서 거칠기가 생기나: 배음 쌍 행렬</h2>
+    <p>불협화 합 \(D\)를 '행렬'로 펼쳐 보면 어느 배음 쌍이 소리를 거칠게 만드는지 보입니다. 행은 아래 음의 배음 \(i\), 열은 위 음의 배음 \(j\), 칸의 값은 쌍 \((i f_1, j f_2)\)의 \(d\)입니다. 순정 \(p:q\)에서는 \(i/j = p/q\)인 칸이 정확히 일치(맥놀이 0)하고, 그 주변 칸이 거칠기를 만듭니다. 평균율로 바꾸면 일치하던 칸이 '거의 일치'가 되어 매우 느린 맥놀이를 냅니다—5도는 거의 느끼지 못할 만큼, 장3도는 분명히 들릴 만큼.</p>
+
+    <div class="sim" id="sim-con-matrix">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>배음 일치 행렬</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-con-mat" class="con-click"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음정</span><div class="seg con-many" id="cm-iv"><button data-value="12">2:1</button><button data-value="7" class="on">3:2</button><button data-value="5">4:3</button><button data-value="9">5:3</button><button data-value="4">5:4</button><button data-value="3">6:5</button><button data-value="8">8:5</button><button data-value="2">9:8</button><button data-value="11">15:8</button><button data-value="1">16:15</button><button data-value="6">45:32</button></div></div>
+          <div class="ctrl"><span>조율</span><div class="seg" id="cm-tun"><button data-value="just" class="on">순정</button><button data-value="et">12평균율</button></div></div>
+          <label class="ctrl"><span>배음 수 <output id="cm-n-out"></output></span><input type="range" id="cm-n" min="4" max="12" value="8" step="1"></label>
+          <label class="ctrl"><span>아래 음 <output id="cm-root-out"></output></span><input type="range" id="cm-root" min="43" max="72" value="55" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="cm-play">▶ 두 음</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">불협화 합 D</span><span class="v" id="cm-d">—</span></div>
+        <div class="stat"><span class="k">일치하는 쌍</span><span class="v" id="cm-co">—</span></div>
+        <div class="stat"><span class="k">가장 거친 쌍</span><span class="v" id="cm-worst">—</span></div>
+        <div class="stat"><span class="k">고른 칸</span><span class="v" id="cm-cell">—</span></div>
+      </div>
+      <div class="sim-note">칸을 클릭하면 그 두 배음(사인파 두 개)만 2초간 들려줍니다 — 빨간 칸은 맥놀이·거칠기가, ◎ 칸은 하나로 녹은 소리가 들립니다. 색: 쌍의 불협화 \(d\)(진할수록 거칠다), ◎ = 일치(±3 ¢), ○ = 거의 일치(평균율에서 느린 맥놀이, 칸 안 숫자 = 맥놀이 Hz). 해볼 것: 5:4를 순정 ↔ 평균율로 바꾸면 ◎이 ○로 바뀌고, 아래 음을 낮출수록 행렬 전체가 붉어집니다(같은 음정도 저음에서 거칠다).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="chords">
+    <h2>화음의 협화도 순위</h2>
+    <p>세 음 이상도 같은 방법으로 계산합니다. 모든 음의 모든 배음을 모아 서로 다른 음에 속한 쌍의 \(d\)를 더하면 됩니다. 이 단순한 모델만으로도 음악 이론의 직관이 상당 부분 재현됩니다: 장3화음 &lt; 단3화음 &lt; 감3화음, 증3화음, 그리고 반음이 들어간 화음(장7, 클러스터)이 가장 거칩니다. 장3화음이 단3화음보다 매끄러운 이유는 4:5:6이라는 배음열의 연속 구간이기 때문이고, 단3화음 10:12:15는 같은 음정들(장3·단3·5도)로 이루어졌어도 배열이 다릅니다.</p>
+
+    <div class="sim" id="sim-con-chords">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>화음 거칠기 순위표</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-con-ch" class="con-click"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>근음 <output id="cc-root-out"></output></span><input type="range" id="cc-root" min="45" max="67" value="57" step="1"></label>
+          <div class="ctrl"><span>조율</span><div class="seg" id="cc-tun"><button data-value="et" class="on">12평균율</button><button data-value="just">순정(5한계)</button></div></div>
+          <div class="ctrl"><span>음색</span><div class="seg" id="cc-tim"><button data-value="harm" class="on">배음 6개</button><button data-value="sine">사인</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="cc-all">▶ 매끄러운 순서로 모두</button><button class="btn" id="cc-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">가장 매끄러움</span><span class="v" id="cc-best">—</span></div>
+        <div class="stat"><span class="k">가장 거침</span><span class="v" id="cc-worst">—</span></div>
+        <div class="stat"><span class="k">고른 화음</span><span class="v" id="cc-pick">—</span></div>
+      </div>
+      <div class="sim-note">막대를 클릭하면 그 화음을 펼친 뒤 동시에 들려줍니다. 값 D는 서로 다른 음에 속한 모든 배음 쌍의 세타레스 불협화 합(음 쌍 수로 나누지 않음 — 4음 화음은 쌍이 많아 불리합니다). 해볼 것: ① 근음을 낮추면(A2 근처) 모든 값이 커지고 단3화음이 급격히 나빠집니다. ② '사인'으로 바꾸면 순위가 크게 흐트러집니다 — 화음의 협화 순서는 배음이 만든다는 증거. ③ 순정으로 바꾸면 장3화음이 특히 좋아집니다. 한계: 이 모델은 거칠기만 보며, 조화성(한 기본음으로 묶이는 정도)과 문맥(기능 화성)은 반영하지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="theories">
+    <h2>협화의 이론들: 거칠기, 조화성, 그리고 문화</h2>
+    <p>거칠기 모델은 강력하지만 협화의 전부는 아닙니다. 경쟁하는(그리고 보완하는) 설명은 다음과 같습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이론</th><th>핵심 주장</th><th>근거/한계</th></tr></thead>
+      <tbody>
+        <tr><td>정수비(피타고라스)</td><td>단순한 비율 = 협화</td><td>현상 기술일 뿐 메커니즘이 없다. 평균율의 '무리수' 음정도 협화로 들린다.</td></tr>
+        <tr><td>거칠기(헬름홀츠, 플롬프–레벨트)</td><td>임계대역 안 성분 쌍의 맥놀이가 불협화</td><td>음역 의존성·음색 의존성을 잘 설명. 하지만 성분을 양쪽 귀에 따로 들려줘도(거칠기 없음) 불협화 판단이 남는다.</td></tr>
+        <tr><td>조화성·주기성(Stumpf의 융합, 터하르트의 가상 피치)</td><td>성분 전체가 하나의 배음열(공통 기본음)에 잘 맞을수록 협화</td><td>McDermott, Lehr &amp; Oxenham(2010): 서양 청자의 협화 선호는 거칠기 회피보다 조화성 선호와 더 강하게 상관하고, 음악 훈련과 함께 커졌다.</td></tr>
+        <tr><td>문화·학습</td><td>익숙한 화음이 '좋게' 들린다</td><td>McDermott 등(2016, Nature): 서양 음악 노출이 적은 볼리비아 아마존의 치마네(Tsimane') 사람들은 협화·불협화 화음을 비슷하게 좋아했다(거칠기 차이는 구별함). 협화 '선호'는 상당 부분 학습된 것일 수 있다.</td></tr>
+      </tbody>
+    </table></div>
+    <p>요컨대 <b>거칠기는 물리·생리적으로 측정 가능한 감각</b>이고, <b>협화 선호는 그 감각 + 조화성 + 문화가 섞인 판단</b>입니다. 엔지니어 관점에서 유용한 결론: 같은 음표라도 음역(저음에서 3도를 피하라), 음색(배음 구조), 조율(평균율의 3도 맥놀이)에 따라 거칠기는 수치로 달라지며, 편곡과 믹싱에서 이를 조절할 수 있습니다.</p>
+    <p>마지막으로 귀를 훈련해 봅시다. 음정 청음은 악보 없이 음악을 이해하는 기본기입니다. 처음에는 기준 노래(완전 4도 = "결혼 행진곡"의 시작처럼 각자에게 익숙한 곡)를 연결하는 방법이 흔히 쓰이지만, 결국에는 각 음정의 고유한 '색'—5도의 텅 빈 울림, 장3도의 밝음, 트라이톤의 긴장—을 직접 알아듣게 됩니다.</p>
+
+    <div class="sim" id="sim-con-ear">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음정 청음 훈련</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="cv-con-ear"></canvas><div class="mb-kb short" id="kb-con-ear"></div>
+          <div class="pads con-ans" id="ce-pads"></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="ce-msg">'새 문제'를 누르면 두 음이 울립니다. 아래 버튼에서 음정을 고르세요.</div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>문제 범위</span><div class="seg" id="ce-set"><button data-value="basic" class="on">기초(m3 M3 P4 P5 P8)</button><button data-value="all">전체(m2–P8)</button></div></div>
+        <div class="ctrl"><span>들려주는 방식</span><div class="seg" id="ce-mode"><button data-value="up" class="on">상행</button><button data-value="down">하행</button><button data-value="har">동시(화성)</button></div></div>
+        <div class="btn-row"><button class="btn primary" id="ce-new">▶ 새 문제</button><button class="btn" id="ce-again">↻ 다시 듣기</button><button class="btn" id="ce-reset">기록 지우기</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점수</span><span class="v" id="ce-score">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="ce-streak">0</span></div>
+        <div class="stat"><span class="k">최고 연속</span><span class="v" id="ce-best">0</span></div>
+        <div class="stat"><span class="k">정답률</span><span class="v" id="ce-acc">—</span></div>
+      </div>
+      <div class="sim-note">아래 음은 C3–C4에서 무작위, 음색은 피아노, 12평균율. 위 그래프는 음정별 정답률(막대 높이)과 시도 횟수(숫자)로, 어떤 음정을 자주 헷갈리는지 보여 줍니다. 답을 고르면 건반에 두 음이 표시됩니다. 기록은 이 페이지를 닫으면 사라집니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>음정은 반음 수 \(s\), 비율 \(r\), 센트 \(1200\log_2 r\)로 표현한다. 자리바꿈은 \(s\leftrightarrow12-s\), \(r\leftrightarrow 2/r\).</li>
+      <li>비율 \(p:q\)가 단순할수록 두 음의 배음이 많이 일치하고, 서로 가까운 비일치 쌍이 적다. 어긋나면 \(\lvert qf_2-pf_1\rvert\) Hz로 맥놀이한다.</li>
+      <li>두 사인파의 \(\Delta f\)가 커지면 맥놀이 → 거칠기 → 분리된 두 음. 최대 거칠기는 임계대역의 약 25%, 1 CB 이상은 매끄럽다(플롬프–레벨트 1965). ERB = 24.7(4.37f/1000 + 1).</li>
+      <li>세타레스 모델: 모든 성분 쌍의 \(a_ia_j(e^{-b_1s\Delta f}-e^{-b_2s\Delta f})\)을 더한 불협화 곡선의 골짜기가 협화 음정이다.</li>
+      <li>협화점은 음색이 정한다. 조화 배음은 단순 정수비에 골짜기를, 늘인 배음은 늘인 음정에 골짜기를 만든다(조율–음색 짝짓기).</li>
+      <li>같은 음정도 저음역에서 더 거칠다(임계대역이 상대적으로 넓다). 화음의 거칠기 순위는 장3 &lt; 단3 &lt; 감·증 &lt; 반음 포함 화음.</li>
+      <li>협화 선호는 거칠기 + 조화성 + 문화적 학습의 합작이다(McDermott 2010, 2016).</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>완전 5도(3:2)의 자리바꿈 음정과 그 비율은?</p><div class="opts">
+        <button class="opt">장 3도, 5:4</button><button class="opt" data-correct>완전 4도, 4:3</button><button class="opt">단 6도, 8:5</button><button class="opt">완전 5도, 2:3</button>
+      </div><div class="quiz-exp">자리바꿈 음정은 곱해서 옥타브(2)가 된다: 2 ÷ 3/2 = 4/3. 반음으로는 12 − 7 = 5(완전 4도).</div></div>
+      <div class="quiz-q"><p>평균율 장3도 C4–E4(261.63, 329.63 Hz)에서 가장 먼저 어긋나 맥놀이를 내는 배음 쌍과 맥놀이 속도는?</p><div class="opts">
+        <button class="opt">C의 2배음과 E의 1배음, 67 Hz</button><button class="opt" data-correct>C의 5배음과 E의 4배음, 약 10 Hz</button><button class="opt">C의 3배음과 E의 2배음, 약 0.9 Hz</button><button class="opt">맥놀이 없음</button>
+      </div><div class="quiz-exp">순정 5:4에서는 5·f_C = 4·f_E로 일치한다. 평균율에서는 5 × 261.63 = 1308.1, 4 × 329.63 = 1318.5 → 약 10.4 Hz.</div></div>
+      <div class="quiz-q"><p>플롬프–레벨트 실험에서 두 사인파가 가장 불협화하게 들린 주파수 차는?</p><div class="opts">
+        <button class="opt">반음(약 6%)</button><button class="opt" data-correct>임계대역폭의 약 25%</button><button class="opt">임계대역폭과 같을 때</button><button class="opt">정확히 15 Hz</button>
+      </div><div class="quiz-exp">최대 불협화는 약 0.25 CB에서 나타난다. 임계대역폭은 주파수에 따라 달라지므로 '몇 반음'으로 고정되지 않는다—그래서 같은 음정도 저음에서 더 거칠다.</div></div>
+      <div class="quiz-q"><p>순수 사인파 두 개로 세타레스 불협화 곡선을 그리면 어떻게 되는가?</p><div class="opts">
+        <button class="opt">3/2, 4/3, 5/4 등에 골짜기가 생긴다</button><button class="opt" data-correct>1:1 근처 한 봉우리 뒤로는 거의 평평해져 특별한 협화 음정이 없다</button><button class="opt">2:1에서만 골짜기가 생긴다</button><button class="opt">비율이 클수록 불협화가 커진다</button>
+      </div><div class="quiz-exp">사인파에는 배음이 없으므로 일치할 상위 성분도 없다. 불협화는 Δf가 임계대역 안일 때만 생기고, 그 밖은 모두 거의 0이다. 협화 음정의 '골짜기'는 배음이 만든다.</div></div>
+      <div class="quiz-q"><p>배음이 \(f_n = f\cdot n^{\log_2 2.1}\)로 늘어난 음색에서 가장 매끄러운 '옥타브'는?</p><div class="opts">
+        <button class="opt">정확히 2:1(1200 ¢)</button><button class="opt" data-correct>2.1:1(약 1284 ¢)</button><button class="opt">1.9:1</button><button class="opt">음색과 무관하게 3:2</button>
+      </div><div class="quiz-exp">\(n=2\) 배음이 \(2.1f\)에 있으므로 위 음을 2.1배에 두어야 위 음의 기본음과 아래 음의 2배음(그리고 위 음 \(m\)과 아래 음 \(2m\) 배음들)이 일치한다. \(1200\log_2 2.1 = 1284\) ¢.</div></div>
+      <div class="quiz-q"><p>치마네 연구(McDermott 등 2016)가 시사하는 바로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">협화 선호는 모든 인간에게 선천적이다</button><button class="opt">치마네 사람들은 거칠기를 구별하지 못했다</button><button class="opt" data-correct>거칠기는 구별하지만 협화 화음을 더 '좋아하는' 선호는 뚜렷하지 않아, 선호에는 문화적 학습이 크게 작용한다</button><button class="opt">서양 음악이 협화를 발명했다</button>
+      </div><div class="quiz-exp">치마네 참가자들은 거친 소리를 덜 좋아하는 경향(감각적 구별)은 보였지만, 협화·불협화 화음에 대한 선호 차이는 거의 없었다. 협화의 '감각'과 '선호'를 구별해야 한다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const CON_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const CON_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+/* 세타레스 모델 (Sethares 1993/2005): 성분 쌍의 불협화 */
+const conPair = (f1, f2, a1, a2) => {
+  const df = Math.abs(f2 - f1), s = 0.24 / (0.0207 * Math.min(f1, f2) + 18.96);
+  return a1 * a2 * (Math.exp(-3.5 * s * df) - Math.exp(-5.75 * s * df));
+};
+const CON_DMAX = 0.1806; // 단일 쌍 최대값(a=1)
+/** 스펙트럼 목록들(각 [{f,a}])의 서로 다른 음 사이 쌍의 불협화 합. within=true면 같은 음 안의 쌍도 포함 */
+const conDiss = (tones, within = false) => {
+  let D = 0;
+  for (let u = 0; u < tones.length; u++) for (let v = u; v < tones.length; v++) {
+    if (u === v && !within) continue;
+    const A = tones[u], B = tones[v];
+    for (let i = 0; i < A.length; i++) for (let j = u === v ? i + 1 : 0; j < B.length; j++) D += conPair(A[i].f, B[j].f, A[i].a, B[j].a);
+  }
+  return D;
+};
+const conHarm = (f, n = 6, decay = 0.88) => [...Array(n)].map((_, k) => ({ f: f * (k + 1), a: Math.pow(decay, k) }));
+/** 성분 목록으로 소리 내기(비조화 배음 가능). parts: [{f,a}] */
+const conVoices = new Set();
+function conTone(parts, o = {}) {
+  const ctx = MB.ctx(); if (!ctx) return null;
+  const t0 = o.when != null ? Math.max(o.when, ctx.currentTime) : ctx.currentTime + 0.01;
+  const sum = parts.reduce((s, p) => s + p.a, 0) || 1;
+  const peak = (o.gain != null ? o.gain : 0.22) / Math.max(1, sum * 0.8);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(peak, t0 + (o.a || 0.02)); g.connect(MB.out);
+  const oscs = parts.filter((p) => p.f < 16000).map((p) => { const os = ctx.createOscillator(), og = ctx.createGain(); os.frequency.value = p.f; og.gain.value = p.a; os.connect(og); og.connect(g); os.start(t0); return { os, ratio: p.f }; });
+  const v = {
+    oscs, g,
+    release(t = ctx.currentTime) { t = Math.max(t, t0 + 0.03); g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(0, t, 0.04); oscs.forEach((x) => { try { x.os.stop(t + 0.35); } catch (e) {} }); conVoices.delete(v); },
+  };
+  conVoices.add(v);
+  if (o.dur != null) { g.gain.setTargetAtTime(0, t0 + o.dur, 0.06); oscs.forEach((x) => x.os.stop(t0 + o.dur + 0.5)); setTimeout(() => conVoices.delete(v), (o.dur + 1) * 1000 + (t0 - ctx.currentTime) * 1000); }
+  return v;
+}
+const conStopAll = () => { [...conVoices].forEach((v) => v.release()); MB.stopAll(); };
+
+/* ---------------------------------------------------------------- 그림 6-1 */
+(function () {
+  const g = document.getElementById("con-fig-coin");
+  const f1 = 130.81, X = (f) => 40 + (Math.log2(f / f1) / Math.log2(11)) * 730;
+  let s = "";
+  [[3 / 2, "C3 + G3 (3:2)", 20], [45 / 32, "C3 + F♯3 (45:32)", 135]].forEach(([r, lab, y0]) => {
+    const f2 = f1 * r;
+    s += `<text x="40" y="${y0 + 4}" class="t" style="font-weight:700">${lab}</text>`;
+    const yA = y0 + 30, yB = y0 + 80;
+    s += `<line x1="40" x2="770" y1="${yA}" y2="${yA}" class="s-axis"/><line x1="40" x2="770" y1="${yB}" y2="${yB}" class="s-axis"/>`;
+    for (let i = 1; i <= 10; i++) for (let j = 1; j <= 10; j++) {
+      const a = i * f1, b = j * f2; if (b > 11 * f1) continue;
+      const c = Math.abs(1200 * Math.log2(a / b));
+      if (c < 3) s += `<line x1="${X(a)}" x2="${X(b)}" y1="${yA}" y2="${yB}" style="stroke:var(--ok);stroke-width:2.5"/>`;
+      else { const d = conPair(a, b, Math.pow(0.88, i - 1), Math.pow(0.88, j - 1)) / CON_DMAX; if (d > 0.12) s += `<line x1="${X(a)}" x2="${X(b)}" y1="${yA}" y2="${yB}" style="stroke:var(--bad);stroke-width:${1 + 2 * d};opacity:${0.3 + 0.6 * d}"/>`; }
+    }
+    for (let i = 1; i <= 10; i++) s += `<circle cx="${X(i * f1)}" cy="${yA}" r="5" class="f-acc"/><text x="${X(i * f1)}" y="${yA - 9}" text-anchor="middle" class="t-mono">${i}</text>`;
+    for (let j = 1; j * f2 <= 11 * f1; j++) s += `<circle cx="${X(j * f2)}" cy="${yB}" r="5" style="fill:var(--accent-2)"/><text x="${X(j * f2)}" y="${yB + 18}" text-anchor="middle" class="t-mono">${j}</text>`;
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 6-2: 플롬프–레벨트 곡선 */
+(function () {
+  const g = document.getElementById("con-fig-pl");
+  const f = 500, cb = 25 + 75 * Math.pow(1 + 1.4 * 0.25, 0.69);
+  const x0 = 60, x1 = 770, y0 = 220, y1 = 60, X = (u) => x0 + (u / 1.2) * (x1 - x0);
+  let mx = 0; const pts = [];
+  for (let u = 0; u <= 1.2; u += 0.005) { const d = conPair(f, f + u * cb, 1, 1); mx = Math.max(mx, d); pts.push([u, d]); }
+  const Y = (d) => y0 - (d / mx) * (y0 - y1);
+  let s = `<rect x="${X(0)}" y="18" width="${X(15 / cb) - X(0)}" height="22" class="f-acc2-soft"/><text x="${X(0) + 4}" y="33" class="t-dim" style="font-size:11px">맥놀이</text>`;
+  s += `<rect x="${X(15 / cb)}" y="18" width="${X(1) - X(15 / cb)}" height="22" style="fill:color-mix(in srgb, var(--bad) 18%, transparent);stroke:var(--bad)"/><text x="${(X(15 / cb) + X(1)) / 2}" y="33" text-anchor="middle" class="t-dim" style="font-size:11px">거칠기</text>`;
+  s += `<rect x="${X(1)}" y="18" width="${x1 - X(1)}" height="22" class="f-acc-soft"/><text x="${(X(1) + x1) / 2}" y="33" text-anchor="middle" class="t-dim" style="font-size:11px">두 음 분리</text>`;
+  s += `<line x1="${x0}" x2="${x1}" y1="${y0}" y2="${y0}" class="s-axis"/><line x1="${x0}" x2="${x0}" y1="${y1 - 6}" y2="${y0}" class="s-axis"/>`;
+  s += `<path d="M${pts.map(([u, d]) => X(u).toFixed(1) + "," + Y(d).toFixed(1)).join(" L")}" class="s-acc" style="stroke-width:3"/>`;
+  [0, 0.25, 0.5, 0.75, 1, 1.2].forEach((u) => (s += `<text x="${X(u)}" y="${y0 + 18}" text-anchor="middle" class="t-mono">${u}</text>`));
+  const um = pts.reduce((b, p) => (p[1] > b[1] ? p : b))[0];
+  s += `<line x1="${X(um)}" x2="${X(um)}" y1="${y1}" y2="${y0}" class="s-line" stroke-dasharray="4 3"/><text x="${X(um) + 6}" y="${y1 + 10}" class="t-acc">최대 ≈ ${um.toFixed(2)} CB</text>`;
+  s += `<text x="${(x0 + x1) / 2}" y="${y0 + 36}" text-anchor="middle" class="t-dim">Δf / 임계대역폭 (f = 500 Hz 기준)</text><text x="14" y="${(y0 + y1) / 2}" class="t-dim" transform="rotate(-90 14 ${(y0 + y1) / 2})" text-anchor="middle">불협화</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 음정 재생기 */
+(function () {
+  let lo = 60, hi = 67, clickN = 0, phi = 0;
+  const tun = MB.seg("ci-tun", () => update());
+  const tim = MB.seg("ci-tim");
+  const iv = MB.seg("ci-iv", (v) => { hi = lo + +v; if (hi > 72) { lo = 72 - +v; hi = 72; } marks(); update(); });
+  const info = () => {
+    const s = hi - lo, base = MB.INTERVALS[s % 12], oct = Math.floor(s / 12) + (s % 12 === 0 && s ? -1 : 0);
+    let [p, q] = s % 12 === 0 && s ? [2, 1] : base.ratio; p *= Math.pow(2, Math.max(0, oct));
+    const gcd = (a, b) => (b ? gcd(b, a % b) : a), g = gcd(p, q); p /= g; q /= g;
+    const f1 = MB.mtof(lo), r = tun() === "just" ? p / q : Math.pow(2, s / 12);
+    return { s, p, q, f1, f2: f1 * r, r };
+  };
+  const parts = (f) => (tim() === "sine" ? [{ f, a: 1 }] : conHarm(f, 6));
+  function update() {
+    const I = info();
+    MB.stat("ci-name", `${MB.noteName(lo)}–${MB.noteName(hi)} <small>${MB.intervalName(I.s)}</small>`);
+    MB.stat("ci-ratio", `${I.p}:${I.q}`);
+    const c = MB.cents(I.r); MB.stat("ci-cents", c.toFixed(1) + ` ¢ <small>순정 ${MB.signed(c - MB.cents(I.p / I.q), 2)}</small>`);
+    const b = Math.abs(I.q * I.f2 - I.p * I.f1);
+    MB.stat("ci-beat", (b < 0.005 ? "0" : b.toFixed(2)) + ` Hz <small>${I.p}·f₁ vs ${I.q}·f₂</small>`);
+  }
+  function marks() { kb.clear("root"); kb.clear("alt"); kb.mark(lo, "root"); kb.mark(hi, "alt"); }
+  document.getElementById("ci-mel").addEventListener("click", () => { conStopAll(); const I = info(), t = MB.now() + 0.03; conTone(parts(I.f1), { when: t, dur: 0.8 }); conTone(parts(I.f2), { when: t + 0.9, dur: 0.8 }); });
+  document.getElementById("ci-har").addEventListener("click", () => { conStopAll(); const I = info(), t = MB.now() + 0.03; conTone(parts(I.f1), { when: t, dur: 3, gain: 0.18 }); conTone(parts(I.f2), { when: t, dur: 3, gain: 0.18 }); });
+  const cv = MB.canvas("#cv-con-int", (ctx, w, h) => {
+    const P = MB.palette(), I = info(), stack = w < 560;
+    // 리사주
+    const L = stack ? { x: (w - Math.min(w - 20, h * 0.48)) / 2, y: 8, s: Math.min(w - 20, h * 0.48) } : { x: 12, y: (h - Math.min(h - 20, w * 0.42)) / 2, s: Math.min(h - 20, w * 0.42) };
+    ctx.strokeStyle = P.grid; ctx.strokeRect(L.x, L.y, L.s, L.s);
+    const Pn = I.p, Qn = I.q, M = Math.min(6000, 500 + 80 * (Pn + Qn));
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 1.4; ctx.beginPath();
+    for (let k = 0; k <= M; k++) { const s = k / M; const x = L.x + L.s / 2 + Math.sin(2 * Math.PI * Qn * s) * L.s * 0.45, y = L.y + L.s / 2 - Math.sin(2 * Math.PI * Pn * s + phi) * L.s * 0.45; k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.dim; ctx.font = "11px " + CON_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("x: f₁, y: f₂", L.x + 4, L.y + 4);
+    // 배음 일치
+    const R = stack ? { x: 14, y: L.y + L.s + 16, w: w - 28, h: h - L.s - 30 } : { x: L.x + L.s + 24, y: 14, w: w - L.x - L.s - 40, h: h - 28 };
+    const fmax = 10.5 * I.f1, X = (f) => R.x + (Math.log(f / I.f1) / Math.log(fmax / I.f1)) * R.w;
+    const yA = R.y + R.h * 0.22, yB = R.y + R.h * 0.78;
+    ctx.strokeStyle = P.axis; [yA, yB].forEach((y) => { ctx.beginPath(); ctx.moveTo(R.x, y); ctx.lineTo(R.x + R.w, y); ctx.stroke(); });
+    for (let i = 1; i <= 10; i++) for (let j = 1; j * I.f2 <= fmax; j++) {
+      const a = i * I.f1, b = j * I.f2, c = Math.abs(MB.cents(a / b));
+      if (c < 3) { ctx.strokeStyle = P.ok; ctx.lineWidth = 2.5; ctx.globalAlpha = 1; }
+      else { const d = conPair(a, b, Math.pow(0.88, i - 1), Math.pow(0.88, j - 1)) / CON_DMAX; if (d < 0.08) continue; ctx.strokeStyle = P.bad; ctx.lineWidth = 1 + 2.5 * d; ctx.globalAlpha = 0.25 + 0.7 * d; }
+      ctx.beginPath(); ctx.moveTo(X(a), yA); ctx.lineTo(X(b), yB); ctx.stroke();
+    }
+    ctx.globalAlpha = 1; ctx.lineWidth = 1; ctx.font = "10px " + CON_MONO(); ctx.textAlign = "center";
+    for (let i = 1; i <= 10; i++) { ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(X(i * I.f1), yA, 4.5, 0, 7); ctx.fill(); ctx.fillStyle = P.dim; ctx.textBaseline = "bottom"; ctx.fillText(i, X(i * I.f1), yA - 6); }
+    for (let j = 1; j * I.f2 <= fmax; j++) { ctx.fillStyle = P.accent2; ctx.beginPath(); ctx.arc(X(j * I.f2), yB, 4.5, 0, 7); ctx.fill(); ctx.fillStyle = P.dim; ctx.textBaseline = "top"; ctx.fillText(j, X(j * I.f2), yB + 6); }
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.font = "11px " + CON_FONT();
+    ctx.fillStyle = P.accent; ctx.fillText(MB.noteName(lo) + " 배음", R.x, R.y + 8);
+    ctx.fillStyle = P.accent2; ctx.fillText(MB.noteName(hi) + " 배음", R.x, R.y + R.h - 2);
+  }, { aspect: (w) => (w < 560 ? 1.2 : 0.5), maxHeight: 520, minHeight: 240 });
+  MB.loop(cv.canvas, (dt) => { const I = info(); phi += 2 * Math.PI * (I.f2 - (I.f1 * I.p) / I.q) * dt; cv.redraw(); });
+  const kb = MB.keyboard("#kb-con-int", { lo: 48, hi: 72, onDown: (m) => {
+    if (clickN % 2 === 0) { lo = m; if (hi <= lo) hi = Math.min(72, lo + 7); } else { if (m >= lo) hi = m; else { hi = lo; lo = m; } }
+    clickN++; if (hi - lo <= 12) iv.set(String(hi - lo), false); marks(); update();
+    return MB.play(m, { inst: "piano", dur: null });
+  } });
+  marks(); update();
+})();
+
+/* ---------------------------------------------------------------- 2. 맥놀이 → 거칠기 */
+(function () {
+  const dOf = (v) => (v <= 0 ? 0 : 0.1 * (Math.pow(4001, v / 100) - 1));
+  const vOf = (d) => (100 * Math.log(d / 0.1 + 1)) / Math.log(4001);
+  let d1 = null, d2 = null;
+  const f = MB.range("cb-f", (v) => v + " Hz", () => update());
+  const dv = MB.range("cb-d", (v) => dOf(v).toFixed(dOf(v) < 10 ? 2 : 1) + " Hz", () => update());
+  dv.set(vOf(25), false);
+  document.querySelectorAll("#sim-con-beats .presets button").forEach((b) => b.addEventListener("click", () => dv.set(vOf(+b.dataset.d))));
+  const df = () => dOf(dv());
+  MB.playButton("cb-play", () => { d1 = MB.drone({ freq: f(), gain: 0.15 }); d2 = MB.drone({ freq: f() + df(), gain: 0.15 }); }, () => { if (d1) d1.stop(); if (d2) d2.stop(); d1 = d2 = null; }, ["▶ 두 사인파", "■ 정지"]);
+  const erb = (x) => 24.7 * ((4.37 * x) / 1000 + 1), cbz = (x) => 25 + 75 * Math.pow(1 + 1.4 * (x / 1000) ** 2, 0.69);
+  function update() { if (d1) { d1.set({ freq: f() }); d2.set({ freq: f() + df() }); } cv.redraw(); }
+  const cv = MB.canvas("#cv-con-beats", (ctx, w, h) => {
+    const P = MB.palette(), F = f(), D = df(), fm = F + D / 2, CB = cbz(fm);
+    // 파형
+    const sr = 8000, N = 4000, x = new Float32Array(N);
+    for (let i = 0; i < N; i++) x[i] = 0.5 * (Math.sin((2 * Math.PI * F * i) / sr) + Math.sin((2 * Math.PI * (F + D) * i) / sr));
+    const wb = { x: 12, y: 8, w: w - 24, h: h * 0.38 };
+    ctx.globalAlpha = 0.55; MB.drawWave(ctx, wb, x, { color: P.accent2, width: 0.8, yScale: 0.95 }); ctx.globalAlpha = 1;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i <= 400; i++) { const t = (i / 400) * 0.5, e = Math.abs(Math.cos(Math.PI * D * t)); const px = wb.x + (i / 400) * wb.w, py = wb.y + wb.h / 2 - e * 0.95 * wb.h / 2; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.dim; ctx.font = "11px " + CON_FONT(); ctx.textAlign = "left"; ctx.fillText("합성 파형 0.5초 · 보라 = 포락선", 16, wb.y + 12);
+    // 불협화 곡선
+    const box = { x: 46, y: h * 0.38 + 30, w: w - 60, h: h * 0.62 - 66 };
+    const curve = []; let mx = 0; for (let u = 0; u <= 400; u += 1) { const v = conPair(F, F + u, 1, 1); mx = Math.max(mx, v); curve.push([u, v]); }
+    const ch = MB.chart(ctx, box, {
+      x: [0, 400], y: [0, 1.1], yTicks: [0, 0.5, 1], xLabel: "Δf (Hz)", series: [{ data: curve.map(([u, v]) => [u, v / mx]), color: P.accent, width: 2, fill: P.accent + "22" }],
+      bands: [{ x0: 0, x1: 15, color: P.accent2 + "22" }, { x0: Math.min(400, CB), x1: 400, color: P.ok + "18" }],
+      vlines: [{ x: 15, color: P.accent2, label: "15 Hz" }, { x: Math.min(399, erb(fm)), color: P.warn, label: "ERB" }, { x: Math.min(399, CB), color: P.ok, label: "CB" }],
+    });
+    const yv = conPair(F, F + D, 1, 1) / mx;
+    ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(ch.X(Math.min(400, D)), ch.Y(yv), 6, 0, 7); ctx.fill();
+    MB.stat("cb-fs", `${F} + ${(F + D).toFixed(1)} Hz`);
+    MB.stat("cb-cb", `${erb(fm).toFixed(0)} / ${CB.toFixed(0)} Hz`);
+    MB.stat("cb-ratio", (D / CB).toFixed(2) + ` <small>(${MB.cents((F + D) / F).toFixed(0)} ¢)</small>`);
+    MB.stat("cb-region", D < 0.3 ? "한 음(거의 같음)" : D < 15 ? "맥놀이 <small>" + D.toFixed(1) + "회/초</small>" : D < CB ? (D / CB < 0.4 ? "거칠기 (최대 근처)" : "거칠기 (약해지는 중)") : "두 음으로 분리");
+  }, { aspect: 0.7, maxHeight: 440, minHeight: 300 });
+})();
+
+/* ---------------------------------------------------------------- 3. 세타레스 곡선 */
+(function () {
+  const RMIN = 1, RMAX = 2.3;
+  let curve = [], minima = [], pick = null, sweep = null;
+  const tim = MB.seg("cs-tim", () => recompute());
+  const S = MB.range("cs-st", (v) => (v / 100).toFixed(2) + " (" + MB.cents(v / 100).toFixed(0) + "¢)", () => { if (tim() === "stretch") recompute(); });
+  const f = MB.range("cs-f", (v) => v + " Hz", () => recompute());
+  const spec = (f0) => {
+    const t = tim();
+    if (t === "sine") return [{ f: f0, a: 1 }];
+    if (t === "odd") return [1, 3, 5, 7, 9, 11].map((n) => ({ f: f0 * n, a: 1 / n }));
+    if (t === "stretch") { const e = Math.log2(S() / 100); return [1, 2, 3, 4, 5, 6].map((n) => ({ f: f0 * Math.pow(n, e), a: Math.pow(0.88, n - 1) })); }
+    return conHarm(f0, 6);
+  };
+  function recompute() {
+    const f0 = f(), base = spec(f0); curve = [];
+    for (let k = 0; k <= 700; k++) { const r = RMIN * Math.pow(RMAX / RMIN, k / 700); curve.push([r, conDiss([base, spec(f0 * r)], true)]); }
+    const mx = Math.max(...curve.map((c) => c[1])), mn = Math.min(...curve.map((c) => c[1]));
+    curve = curve.map(([r, d]) => [r, (d - mn) / (mx - mn || 1)]);
+    minima = [];
+    for (let k = 3; k < curve.length - 3; k++) { const d = curve[k][1]; if (d < curve[k - 1][1] && d <= curve[k + 1][1]) { const pr = Math.min(Math.max(...curve.slice(Math.max(0, k - 40), k).map((c) => c[1])), Math.max(...curve.slice(k + 1, k + 41).map((c) => c[1]))) - d; if (pr > 0.015) minima.push({ r: curve[k][0], d, pr }); } }
+    if (curve[0][1] <= curve[1][1]) minima.unshift({ r: 1, d: curve[0][1], pr: 1 });
+    MB.stat("cs-min", minima.slice(0, 9).map((m) => Math.round(MB.cents(m.r))).join(", ") + " ¢");
+    cv.redraw(); readPick();
+  }
+  function readPick() {
+    if (!pick) { MB.stat("cs-pick", "—"); MB.stat("cs-d", "—"); return; }
+    const c = MB.cents(pick), n = Math.round(c / 100);
+    MB.stat("cs-pick", c.toFixed(0) + ` ¢ <small>${pick.toFixed(3)} · ${MB.intervalName(n)} ${MB.signed(c - n * 100, 0)}¢</small>`);
+    const k = Math.round((Math.log(pick / RMIN) / Math.log(RMAX / RMIN)) * 700); MB.stat("cs-d", curve[MB.clamp(k, 0, 700)][1].toFixed(3));
+  }
+  function playRatio(r, dur = 2) { conStopAll(); const t = MB.now() + 0.03; conTone(spec(f()), { when: t, dur, gain: 0.18 }); conTone(spec(f() * r), { when: t, dur, gain: 0.18 }); }
+  let box = null;
+  const cv = MB.canvas("#cv-con-seth", (ctx, w, h) => {
+    const P = MB.palette();
+    box = { x: 40, y: 14, w: w - 52, h: h - 62 };
+    const ch = MB.chart(ctx, box, { x: [RMIN, RMAX], logX: true, y: [-0.05, 1.08], yTicks: [0, 0.5, 1], xTicks: [], series: [{ data: curve, color: P.accent, width: 2.2, fill: P.accent + "18" }] });
+    ctx.font = "10px " + CON_MONO(); ctx.textAlign = "center";
+    for (let k = 0; k <= 14; k++) { const r = Math.pow(2, k / 12); if (r > RMAX) break; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(ch.X(r), box.y); ctx.lineTo(ch.X(r), box.y + box.h); ctx.stroke(); ctx.fillStyle = P.faint; ctx.textBaseline = "top"; if (w > 520 || k % 2 === 0) ctx.fillText(MB.INTERVALS[k % 12].short + (k >= 12 ? (k === 12 ? "" : "+8") : ""), ch.X(r), box.y + box.h + 4); }
+    [[6, 5], [5, 4], [4, 3], [3, 2], [5, 3], [2, 1]].forEach(([p, q]) => { ctx.fillStyle = P.dim; ctx.textBaseline = "top"; ctx.fillText(p + "/" + q, ch.X(p / q), box.y + box.h + 18); });
+    if (tim() === "stretch") { const s = S() / 100; ctx.strokeStyle = P.warn; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(ch.X(s), box.y); ctx.lineTo(ch.X(s), box.y + box.h); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.warn; ctx.textBaseline = "top"; ctx.fillText("S", ch.X(s), box.y + 2); }
+    minima.forEach((m) => { ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(ch.X(m.r), ch.Y(m.d), 4, 0, 7); ctx.fill(); });
+    const mark = sweep ? sweep.r : pick;
+    if (mark) { ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ch.X(mark), box.y); ctx.lineTo(ch.X(mark), box.y + box.h); ctx.stroke(); ctx.lineWidth = 1; }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + CON_FONT(); ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillText("주파수비 (로그 축)", box.x + box.w / 2, h - 4);
+    ctx.save(); ctx.translate(12, box.y + box.h / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("불협화 D (정규화)", 0, 0); ctx.restore();
+  }, { aspect: 0.58, maxHeight: 420, minHeight: 260 });
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (!box) return; const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left;
+    const u = MB.clamp((x - box.x) / box.w, 0, 1); pick = RMIN * Math.pow(RMAX / RMIN, u);
+    readPick(); cv.redraw(); playRatio(pick);
+  });
+  // 쓸기
+  const loop = MB.loop(cv.canvas, () => {
+    if (!sweep) return; const ctx = MB.ctx(); const u = MB.clamp((ctx.currentTime - sweep.t0) / sweep.T, 0, 1);
+    sweep.r = RMIN * Math.pow(RMAX / RMIN, u); cv.redraw();
+    if (u >= 1) { sweepBtn.set(false); stopSweep(); }
+  });
+  function stopSweep() { if (sweep) { sweep.v.forEach((v) => v.release()); sweep = null; cv.redraw(); } }
+  const sweepBtn = MB.playButton("cs-sweep", () => {
+    conStopAll(); const ctx = MB.ctx(), T = 12, t0 = ctx.currentTime + 0.05;
+    const a = conTone(spec(f()), { when: t0, gain: 0.16, a: 0.1 }), b = conTone(spec(f()), { when: t0, gain: 0.16, a: 0.1 });
+    b.oscs.forEach((o) => { o.os.frequency.setValueAtTime(o.ratio * RMIN, t0); o.os.frequency.exponentialRampToValueAtTime(o.ratio * RMAX, t0 + T); });
+    sweep = { v: [a, b], t0, T, r: 1 };
+  }, stopSweep, ["▶ 1 → 2.3 천천히 쓸기", "■ 정지"]);
+  document.getElementById("cs-oct").addEventListener("click", () => { pick = tim() === "stretch" ? S() / 100 : 2; readPick(); cv.redraw(); playRatio(pick, 2.5); });
+  document.getElementById("cs-oct2").addEventListener("click", () => { pick = 2; readPick(); cv.redraw(); playRatio(2, 2.5); });
+  recompute();
+})();
+
+/* ---------------------------------------------------------------- 4. 배음 일치 행렬 */
+(function () {
+  const iv = MB.seg("cm-iv", () => cv.redraw());
+  const tun = MB.seg("cm-tun", () => cv.redraw());
+  const N = MB.range("cm-n", (v) => v + "개", () => cv.redraw());
+  const root = MB.range("cm-root", (v) => MB.noteName(v) + " · " + MB.mtof(v).toFixed(0) + " Hz", () => cv.redraw());
+  let geom = null, sel = null;
+  const pq = () => { const s = +iv(); return s === 12 ? [2, 1] : MB.INTERVALS[s].ratio; };
+  const freqs = () => { const s = +iv(), f1 = MB.mtof(root()), [p, q] = pq(); return [f1, f1 * (tun() === "just" ? p / q : Math.pow(2, s / 12))]; };
+  document.getElementById("cm-play").addEventListener("click", () => { conStopAll(); const [f1, f2] = freqs(), t = MB.now() + 0.03; conTone(conHarm(f1, N()), { when: t, dur: 2.5, gain: 0.18 }); conTone(conHarm(f2, N()), { when: t, dur: 2.5, gain: 0.18 }); });
+  const cv = MB.canvas("#cv-con-mat", (ctx, w, h) => {
+    const P = MB.palette(), n = N(), [f1, f2] = freqs();
+    const lab = 44, size = Math.min(w - lab - 12, h - lab - 12), cs = size / n, ox = lab + (w - lab - 12 - size) / 2, oy = lab;
+    geom = { ox, oy, cs, n };
+    let D = 0, co = 0, worst = null;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let i = 1; i <= n; i++) for (let j = 1; j <= n; j++) {
+      const a = i * f1, b = j * f2, d = conPair(a, b, Math.pow(0.88, i - 1), Math.pow(0.88, j - 1)); D += d;
+      const c = Math.abs(MB.cents(a / b)), x = ox + (j - 1) * cs, y = oy + (i - 1) * cs, u = d / CON_DMAX;
+      ctx.fillStyle = P.bad; ctx.globalAlpha = Math.min(0.9, Math.sqrt(u) * 0.95); ctx.fillRect(x + 1, y + 1, cs - 2, cs - 2); ctx.globalAlpha = 1;
+      ctx.strokeStyle = P.grid; ctx.strokeRect(x + 0.5, y + 0.5, cs - 1, cs - 1);
+      if (!worst || d > worst.d) worst = { d, i, j, df: Math.abs(a - b) };
+      if (c < 3) { co++; ctx.strokeStyle = P.ok; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x + cs / 2, y + cs / 2, cs * 0.32, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.arc(x + cs / 2, y + cs / 2, cs * 0.14, 0, 7); ctx.stroke(); ctx.lineWidth = 1; }
+      else if (c < 25) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x + cs / 2, y + cs / 2, cs * 0.32, 0, 7); ctx.stroke(); ctx.lineWidth = 1; if (cs > 30) { ctx.fillStyle = P.text; ctx.font = "9px " + CON_MONO(); ctx.fillText(Math.abs(a - b).toFixed(1), x + cs / 2, y + cs / 2); } }
+      if (sel && sel[0] === i && sel[1] === j) { ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.strokeRect(x + 2, y + 2, cs - 4, cs - 4); ctx.lineWidth = 1; }
+    }
+    ctx.font = "10px " + CON_MONO(); ctx.fillStyle = P.accent;
+    for (let i = 1; i <= n; i++) ctx.fillText(i, ox - 12, oy + (i - 0.5) * cs);
+    ctx.fillStyle = P.accent2; for (let j = 1; j <= n; j++) ctx.fillText(j, ox + (j - 0.5) * cs, oy - 10);
+    ctx.font = "11px " + CON_FONT(); ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText("열: 위 음 배음 j →", ox, 12);
+    ctx.save(); ctx.translate(12, oy + size / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillText("행: 아래 음 배음 i", 0, 0); ctx.restore();
+    MB.stat("cm-d", D.toFixed(3));
+    MB.stat("cm-co", co + "쌍");
+    MB.stat("cm-worst", `${worst.i}·f₁ / ${worst.j}·f₂ <small>Δf ${worst.df.toFixed(1)} Hz</small>`);
+  }, { aspect: (w) => (w < 560 ? 1.05 : 0.8), maxHeight: 480, minHeight: 280 });
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (!geom) return; const r = cv.canvas.getBoundingClientRect();
+    const j = Math.floor((e.clientX - r.left - geom.ox) / geom.cs) + 1, i = Math.floor((e.clientY - r.top - geom.oy) / geom.cs) + 1;
+    if (i < 1 || j < 1 || i > geom.n || j > geom.n) return;
+    sel = [i, j]; const [f1, f2] = freqs(), a = i * f1, b = j * f2;
+    conStopAll(); conTone([{ f: a, a: 1 }, { f: b, a: 1 }], { dur: 2, gain: 0.2 });
+    MB.stat("cm-cell", `${a.toFixed(1)} + ${b.toFixed(1)} Hz <small>Δ ${Math.abs(a - b).toFixed(1)}</small>`);
+    cv.redraw();
+  });
+})();
+
+/* ---------------------------------------------------------------- 5. 화음 순위 */
+(function () {
+  const LIST = [["maj", "C"], ["min", "Cm"], ["sus4", "Csus4"], ["sus2", "Csus2"], ["aug", "Caug"], ["dim", "Cdim"], ["dom7", "C7"], ["maj7", "Cmaj7"], ["min7", "Cm7"], ["hdim7", "Cm7♭5"], ["dim7", "Cdim7"], ["maj6", "C6"], ["pow", "C5(파워)"], ["clu", "C–C♯–D"]];
+  const root = MB.range("cc-root", (v) => MB.noteName(v) + " · " + MB.mtof(v).toFixed(0) + " Hz", () => cv.redraw());
+  const tun = MB.seg("cc-tun", () => cv.redraw());
+  const tim = MB.seg("cc-tim", () => cv.redraw());
+  let rows = [], hl = -1, timers = [];
+  const ivs = (q) => (q === "clu" ? [0, 1, 2] : MB.CHORDS[q].iv);
+  const fr = (q) => { const f0 = MB.mtof(root()); return ivs(q).map((s) => f0 * (tun() === "just" ? (s % 12 === 0 && s ? 2 : (MB.INTERVALS[s % 12].ratio[0] / MB.INTERVALS[s % 12].ratio[1])) * Math.pow(2, Math.floor(s / 12) - (s % 12 === 0 && s ? 1 : 0)) : Math.pow(2, s / 12))); };
+  const sp = (f) => (tim() === "sine" ? [{ f, a: 1 }] : conHarm(f, 6));
+  const name = (q, sym) => MB.pcName(root()) + sym.slice(1).replace(/^–C♯–D$/, "").replace("–C♯–D", "") + (q === "clu" ? "–" + MB.pcName(root() + 1) + "–" + MB.pcName(root() + 2) : "");
+  function play(k, when) { const q = rows[k].q; const fs = fr(q), t = when != null ? when : MB.now() + 0.03; fs.forEach((f, i) => conTone(sp(f), { when: t + i * 0.18, dur: 1.9 - i * 0.18, gain: 0.15 })); }
+  const clearT = () => { timers.forEach(clearTimeout); timers = []; };
+  document.getElementById("cc-all").addEventListener("click", () => {
+    clearT(); conStopAll(); const t0 = MB.now() + 0.05;
+    rows.forEach((r, k) => { play(k, t0 + k * 2.1); timers.push(setTimeout(() => { hl = k; cv.redraw(); MB.stat("cc-pick", rows[k].label + ` <small>${rows[k].D.toFixed(3)}</small>`); }, (k * 2.1 + 0.05) * 1000)); });
+    timers.push(setTimeout(() => { hl = -1; cv.redraw(); }, rows.length * 2100 + 300));
+  });
+  document.getElementById("cc-stop").addEventListener("click", () => { clearT(); conStopAll(); hl = -1; cv.redraw(); });
+  let geom = null;
+  const cv = MB.canvas("#cv-con-ch", (ctx, w, h) => {
+    const P = MB.palette();
+    rows = LIST.map(([q, sym]) => ({ q, label: name(q, sym), D: conDiss(fr(q).map(sp)) })).sort((a, b) => a.D - b.D);
+    const mx = Math.max(...rows.map((r) => r.D)) || 1, lab = 96, rh = (h - 16) / rows.length;
+    geom = { y0: 8, rh };
+    rows.forEach((r, k) => {
+      const y = 8 + k * rh, bw = ((w - lab - 70) * r.D) / mx, u = r.D / mx;
+      ctx.fillStyle = k === hl ? P.warn : u < 0.35 ? P.ok : u < 0.7 ? P.accent : P.bad; ctx.globalAlpha = k === hl ? 1 : 0.75;
+      ctx.fillRect(lab, y + rh * 0.15, Math.max(2, bw), rh * 0.7); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.text; ctx.font = (k === hl ? "bold " : "") + "12px " + CON_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+      ctx.fillText(r.label, lab - 8, y + rh / 2);
+      ctx.fillStyle = P.dim; ctx.font = "10px " + CON_MONO(); ctx.textAlign = "left"; ctx.fillText(r.D.toFixed(3), lab + Math.max(2, bw) + 6, y + rh / 2);
+    });
+    MB.stat("cc-best", rows[0].label); MB.stat("cc-worst", rows[rows.length - 1].label);
+  }, { aspect: (w) => (w < 560 ? 1.1 : 0.72), maxHeight: 460, minHeight: 320 });
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    if (!geom) return; const r = cv.canvas.getBoundingClientRect(), k = Math.floor((e.clientY - r.top - geom.y0) / geom.rh);
+    if (k < 0 || k >= rows.length) return; clearT(); conStopAll(); hl = k; play(k); cv.redraw();
+    MB.stat("cc-pick", rows[k].label + ` <small>${rows[k].D.toFixed(3)}</small>`);
+  });
+})();
+
+/* ---------------------------------------------------------------- 6. 청음 훈련 */
+(function () {
+  const SETS = { basic: [3, 4, 5, 7, 12], all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] };
+  const set = MB.seg("ce-set", () => buildPads());
+  const mode = MB.seg("ce-mode");
+  const stats = {}; let cur = null, score = 0, tries = 0, streak = 0, best = 0;
+  const pads = document.getElementById("ce-pads"), msg = document.getElementById("ce-msg");
+  const say = (html, cls) => { msg.innerHTML = html; msg.className = "sim-msg" + (cls ? " " + cls : ""); };
+  function buildPads() {
+    pads.innerHTML = SETS[set()].map((s) => `<button class="pad" data-s="${s}"><b>${MB.INTERVALS[s].short}</b><small>${MB.INTERVALS[s].name}</small></button>`).join("");
+    pads.querySelectorAll(".pad").forEach((b) => b.addEventListener("click", () => answer(+b.dataset.s, b)));
+  }
+  function playQ() {
+    if (!cur) return; MB.stopAll();
+    const t = MB.now() + 0.03, a = cur.lo, b = cur.lo + cur.s;
+    if (cur.mode === "har") { MB.play(a, { when: t, dur: 1.6 }); MB.play(b, { when: t, dur: 1.6 }); }
+    else { const [x, y] = cur.mode === "up" ? [a, b] : [b, a]; MB.play(x, { when: t, dur: 0.75 }); MB.play(y, { when: t + 0.8, dur: 0.9 }); }
+  }
+  document.getElementById("ce-new").addEventListener("click", () => {
+    const pool = SETS[set()]; let s; do { s = pool[Math.floor(Math.random() * pool.length)]; } while (cur && pool.length > 2 && s === cur.s && Math.random() < 0.6);
+    cur = { s, lo: 48 + Math.floor(Math.random() * 13), mode: mode(), done: false };
+    kb.clear("root"); kb.clear("alt"); pads.querySelectorAll(".pad").forEach((p) => p.classList.remove("right", "wrong"));
+    say("어떤 음정일까요?"); playQ();
+  });
+  document.getElementById("ce-again").addEventListener("click", () => { if (!cur) return say("'새 문제'를 먼저 누르세요."); playQ(); });
+  document.getElementById("ce-reset").addEventListener("click", () => { Object.keys(stats).forEach((k) => delete stats[k]); score = tries = streak = best = 0; readout(); cv.redraw(); say("기록을 지웠습니다."); });
+  function answer(s, btn) {
+    if (!cur) return say("'새 문제'를 먼저 누르세요.");
+    if (cur.done) { MB.play(cur.lo, { dur: 0.6 }); MB.play(cur.lo + s, { when: MB.now() + 0.65, dur: 0.7 }); return; }
+    cur.done = true; tries++;
+    const ok = s === cur.s, st = stats[cur.s] || (stats[cur.s] = { n: 0, ok: 0 }); st.n++;
+    if (ok) { score++; streak++; best = Math.max(best, streak); st.ok++; btn.classList.add("right"); say(`정답! <b>${MB.INTERVALS[cur.s].name}</b> (${cur.s}반음, ${MB.INTERVALS[cur.s].ratio.join(":")}). 다른 버튼을 누르면 그 음정과 비교해 들을 수 있습니다.`, "ok"); }
+    else { streak = 0; btn.classList.add("wrong"); const r = pads.querySelector(`.pad[data-s="${cur.s}"]`); if (r) r.classList.add("right"); say(`아쉽습니다. 정답은 <b>${MB.INTERVALS[cur.s].name}</b>(${cur.s}반음), 고른 것은 ${MB.INTERVALS[s].name}. 버튼을 눌러 둘을 비교해 들어 보세요.`, "bad"); }
+    kb.mark(cur.lo, "root"); kb.mark(cur.lo + cur.s, "alt"); readout(); cv.redraw();
+  }
+  function readout() {
+    MB.stat("ce-score", `${score} / ${tries}`); MB.stat("ce-streak", streak); MB.stat("ce-best", best);
+    MB.stat("ce-acc", tries ? Math.round((100 * score) / tries) + "%" : "—");
+  }
+  const cv = MB.canvas("#cv-con-ear", (ctx, w, h) => {
+    const P = MB.palette(), list = SETS.all, bw = (w - 40) / list.length, base = h - 22;
+    if (!tries) { ctx.fillStyle = P.faint; ctx.font = "12px " + CON_FONT(); ctx.textAlign = "center"; ctx.fillText("음정별 정답률이 여기에 쌓입니다", w / 2, h / 2 - 10); }
+    ctx.strokeStyle = P.grid; [0.5, 1].forEach((u) => { const y = base - u * (h - 40); ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(w - 10, y); ctx.stroke(); });
+    ctx.fillStyle = P.faint; ctx.font = "10px " + CON_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText("100%", 28, base - (h - 40)); ctx.fillText("50%", 28, base - (h - 40) / 2);
+    list.forEach((s, k) => {
+      const st = stats[s], x = 34 + k * bw; ctx.textAlign = "center";
+      if (st) { const u = st.ok / st.n; ctx.fillStyle = u >= 0.8 ? P.ok : u >= 0.5 ? P.warn : P.bad; ctx.fillRect(x + bw * 0.15, base - u * (h - 40), bw * 0.7, Math.max(2, u * (h - 40))); ctx.fillStyle = P.dim; ctx.fillText(st.n, x + bw / 2, base - u * (h - 40) - 8); }
+      ctx.fillStyle = SETS[set()].includes(s) ? P.text : P.faint; ctx.textBaseline = "top"; ctx.fillText(MB.INTERVALS[s].short, x + bw / 2, base + 5); ctx.textBaseline = "middle";
+    });
+  }, { aspect: 0.22, maxHeight: 160, minHeight: 120 });
+  const kb = MB.keyboard("#kb-con-ear", { lo: 48, hi: 72, labels: "c" });
+  buildPads(); readout();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "guitarbook",
+    "slug": "guitar",
+    "title": "GuitarBook",
+    "subtitle": "기타 교과서",
+    "code": "GTR",
+    "color": "#9a6237",
+    "headline": "줄 하나에서 코드와 스트로크까지",
+    "topics": [
+      "기타",
+      "코드",
+      "스트로크",
+      "핑거스타일"
+    ],
+    "stage": "instruments",
+    "status": "planned",
+    "motif": "guitar"
+  },
+  {
+    "id": "pianobook",
+    "slug": "piano",
+    "title": "PianoBook",
+    "subtitle": "피아노 교과서",
+    "code": "PNO",
+    "color": "#7256a6",
+    "headline": "건반 위에서 만나는 화성과 선율",
+    "topics": [
+      "피아노",
+      "건반",
+      "보이싱",
+      "반주"
+    ],
+    "stage": "instruments",
+    "status": "planned",
+    "motif": "piano"
+  },
+  {
+    "id": "drumbook",
+    "slug": "drums",
+    "title": "DrumBook",
+    "subtitle": "드럼 교과서",
+    "code": "DRM",
+    "color": "#ae4954",
+    "headline": "첫 박자에서 나만의 그루브까지",
+    "topics": [
+      "드럼",
+      "리듬",
+      "그루브",
+      "필인"
+    ],
+    "stage": "instruments",
+    "status": "planned",
+    "motif": "drums"
+  }
+]

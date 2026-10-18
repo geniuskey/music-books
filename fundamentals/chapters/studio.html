@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>종합 작업실 · MusicBook</title>
+<meta name="description" content="조성·코드 진행·베이스·드럼·선율을 한 화면에서 엮는 루프 스테이션. 믹서와 센드 리버브, 곡 형식 편곡, 주파수 마스킹 분석, WAV 내보내기, 코드 진행 귀 훈련까지 책 전체의 도구를 하나로 묶는다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/studio.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="종합 작업실 · MusicBook">
+<meta property="og:description" content="조성·코드 진행·베이스·드럼·선율을 한 화면에서 엮는 루프 스테이션. 믹서와 센드 리버브, 곡 형식 편곡, 주파수 마스킹 분석, WAV 내보내기, 코드 진행 귀 훈련까지 책 전체의 도구를 하나로 묶는다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/studio.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"종합 작업실","name":"종합 작업실 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/studio.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/studio.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":17,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"조성·코드 진행·베이스·드럼·선율을 한 화면에서 엮는 루프 스테이션. 믹서와 센드 리버브, 곡 형식 편곡, 주파수 마스킹 분석, WAV 내보내기, 코드 진행 귀 훈련까지 책 전체의 도구를 하나로 묶는다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"17 종합 작업실","item":"https://music.euiyun.com/fundamentals/chapters/studio.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .std-top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--canvas-bg); }
+  .std-top .big-readout { min-width: 120px; }
+  .std-chord { display: grid; gap: 0; }
+  .std-chord b { font-size: 26px; font-family: var(--mono); color: var(--text); line-height: 1.1; }
+  .std-chord small { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+  .std-top .grow { flex: 1; min-width: 160px; }
+  .std-sec { padding: 14px 18px; border-top: 1px solid var(--border); }
+  .std-sec > h4 { margin: 0 0 10px; font-size: 14.5px; color: var(--text); display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .std-sec > h4 small { font-weight: 400; color: var(--text-dim); font-size: 12.5px; }
+  .std-row { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: end; margin-top: 10px; }
+  .std-row > .ctrl { flex: 1 1 170px; min-width: 0; }
+  .std-sec .slots, .std-sec .pads { padding: 0; background: transparent; }
+  .std-sec .pads { margin-top: 10px; }
+  .std-sec .steps-grid { border-radius: 10px; }
+  .std-roll { overflow-x: auto; background: var(--canvas-bg); border: 1px solid var(--border); border-radius: 10px; margin-top: 10px; }
+  .std-roll canvas { display: block; cursor: pointer; touch-action: manipulation; }
+  .std-mix { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .std-mix .card { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: var(--bg-elev); display: grid; gap: 8px; }
+  .std-mix .card h5 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .std-mix .card h5 i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .std-mix .checks { display: flex; gap: 14px; }
+  .std-btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; align-self: end; }
+  .std-btns .btn { padding: 7px 12px; font-size: 13.5px; }
+  .std-arr { display: grid; gap: 6px; padding: 12px 18px; overflow-x: auto; }
+  .std-arr .arow { display: grid; grid-template-columns: 74px repeat(4, minmax(46px, 1fr)) 64px 84px; gap: 6px; align-items: center; min-width: 500px; font-size: 13px; }
+  .std-arr .arow.head { color: var(--text-dim); font-size: 12px; }
+  .std-arr .arow.now { background: var(--accent-soft); border-radius: 8px; }
+  .std-arr .tg { height: 30px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--text-faint); font: inherit; font-size: 12px; cursor: pointer; }
+  .std-arr .tg.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+  .std-arr select { font: inherit; font-size: 12.5px; padding: 4px 6px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .std-opts { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); padding: 14px 18px; border-top: 1px solid var(--border); }
+  .std-opts .btn { text-align: left; font-family: var(--mono); font-size: 15px; padding: 12px 14px; }
+  .std-opts .btn.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 15%, transparent); }
+  .std-opts .btn.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="studio">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 17</div>
+    <h1>종합 작업실</h1>
+    <p class="lead">지금까지 소리를 신호로, 음계를 집합으로, 화성을 그래프로, 리듬을 이산 시계열로 다뤘습니다. 이 장에서는 그 부품을 전부 한 기계에 넣습니다. 조성을 고르면 다이아토닉 화음이 생기고, 진행을 고르면 보이스 리딩 알고리즘이 손가락 위치를 정하고, 베이스는 규칙으로, 선율은 제약이 걸린 난수로 만들어지고, 하나의 오디오 시계가 16분음표마다 모든 악기에 '언제 울릴지'를 예약합니다. 결과물은 WAV 파일로 내보낼 수 있는 진짜 음악입니다.</p>
+    <ul class="objectives">
+      <li>스케줄러 → 악기 → 트랙 버스 → 센드 이펙트 → 마스터 → 출력으로 이어지는 작업실의 신호 흐름을 그리고 설명한다.</li>
+      <li>조성·코드 진행·베이스 패턴·드럼 패턴·선율 생성 규칙을 조합해 4–12마디 루프를 만들고 저장·공유한다.</li>
+      <li>루프를 곡 형식(인트로–벌스–코러스–브리지–아웃트로)으로 편곡하며 트랙의 켜고 끔으로 에너지 곡선을 설계한다.</li>
+      <li>악기별 주파수 대역을 알고, 실시간 스펙트럼에서 마스킹이 생기는 대역을 찾아 EQ로 자리를 나눈다.</li>
+      <li>OfflineAudioContext로 실시간보다 빠르게 렌더링하고, 16비트 WAV(RIFF) 파일을 직접 인코딩한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="flow">
+    <h2>작업실의 설계도: 신호 흐름</h2>
+    <p>DAW(디지털 오디오 워크스테이션)든 하드웨어 스튜디오든 구조는 같습니다. <b>시간</b>을 관리하는 시계가 있고, 시계가 <b>음표 사건</b>을 만들고, 사건이 <b>악기</b>를 울리고, 악기 소리는 <b>트랙 버스</b>(채널 스트립)에서 볼륨·EQ를 거쳐 <b>마스터 버스</b>로 모이며, 일부는 <b>센드</b>로 갈라져 공유 이펙트(리버브)를 거쳐 돌아옵니다. 이 장의 작업실도 정확히 그 그래프를 Web Audio 노드로 만듭니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="작업실 신호 흐름">
+        <g id="std-fig-flow"></g>
+      </svg>
+      <figcaption><b>그림 17-1.</b> 작업실의 신호 흐름. 시계(<code>MB.Clock</code>)는 25 ms마다 깨어나 앞으로 120 ms 안에 올 16분음표를 오디오 시계 위에 <b>예약</b>한다(11·12장). 각 트랙은 자기 버스(볼륨 → 하이패스 EQ)를 가지며, 센드 양만큼 공유 리버브(컨볼버)로 보낸다. 모든 소리는 마스터 저역 통과 필터와 리미터를 지나 분석기와 스피커로 간다. 내부 작업실 믹서 그래프를 <code>OfflineAudioContext</code>에 다시 지으면 WAV로 렌더링된다. 실시간 청취에는 그 뒤 MB.out의 마스터 이득(기본 0.8)·추가 컴프레서가 붙고 WAV에는 없으므로 스피커 출력과 파일의 음량을 직접 동일시하지 않는다.</figcaption>
+    </figure>
+    <p>시계가 왜 '앞을 내다보며 예약'해야 하는지는 12장에서 보았습니다. JavaScript 타이머는 수 ms에서 수십 ms까지 흔들리지만, <code>start(when)</code>으로 예약한 소리는 오디오 하드웨어 시계에 샘플 단위로 맞춰 울립니다. 16분음표 하나의 길이와 스윙 오프셋은 다음과 같습니다.</p>
+    <div class="formula">$$\Delta t_{16} = \frac{60}{\mathrm{BPM}\cdot 4}, \qquad t_{\text{swing}} = \begin{cases} (s - 0.5)\cdot 2\,\Delta t_{16} & \text{16분 스윙: 홀수 스텝} \\ (s - 0.5)\cdot 4\,\Delta t_{16} & \text{8분 스윙: 스텝} \equiv 2 \pmod 4 \\ (s - 0.5)\cdot 2\,\Delta t_{16} & \text{8분 스윙: 홀수 스텝} \end{cases}$$
+      <div class="where">\(s\): 스윙 비율(0.5 = 정박, 0.667 = 셋잇단 셔플). 100 BPM에서 16분음표 = 150 ms. 스윙은 '짝'의 앞 음표가 차지하는 비율이다(11장). 블루스 셔플은 8분음표 단위로, 로파이·힙합은 16분음표 단위로 건다.</div>
+    <p>8분 스윙에서는 긴 앞 8분과 짧은 뒤 8분을 각각 같은 길이의 16분 두 개로 나눈다. 따라서 중간 16분 시작점도 함께 이동하고 서로 겹치지 않는다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="station">
+    <h2>루프 스테이션</h2>
+    <p>아래가 이 책의 마지막 대형 시뮬레이터입니다. 위에서 아래로 내려가며 곡을 쌓습니다. 각 층이 어떤 장의 개념인지 함께 적었습니다.</p>
+    <ul>
+      <li><b>① 화성 층</b>: 조성(근음 + 음계)을 정하면 7개의 다이아토닉 화음이 생긴다(7·9장). 패드의 색은 화성 기능(초록 T, 주황 S, 빨강 D). 칸을 고른 뒤 패드를 눌러 진행을 채운다. 각 화음의 실제 보이싱은 앞 화음에서 성부 이동 합에 빠진 화음 음당 6·동일 MIDI 음 중복 8의 벌점을 더한 점수가 작아지도록(성부별 가까운 후보 네 개만 탐색) <code>MB.voiceLead</code>가 고른다(9장).</li>
+      <li><b>② 리듬 층</b>: 6×16 스텝 그리드(12장). 템포와 스윙은 전체에 적용된다.</li>
+      <li><b>③ 베이스 층</b>: 화음의 근음·5음·3음과 다음 화음의 근음으로 규칙적으로 생성한다. '워킹'은 마지막 박에 다음 근음으로 반음 접근한다.</li>
+      <li><b>④ 선율 층</b>: 시드 고정 난수로 만든 선율(13장). 강박(1·3박)에는 음계 안에서 실제 반주 화음과 겹치는 음을 고른다(후보가 있을 때). 마지막 으뜸음 종지는 이 규칙의 예외다. 그 사이는 <b>순차 진행</b>(±1 음계 단계) 위주, 마지막 마디는 으뜸음으로 끝난다. 앞 두 마디의 리듬을 뒤 두 마디에 반복해 동기를 만든다. 피아노 롤을 눌러 직접 고칠 수 있다.</li>
+      <li><b>⑤ 믹서 층</b>: 트랙별 악기·볼륨·리버브 센드·뮤트·솔로, 마스터 저역 통과 필터(15장).</li>
+    </ul>
+
+    <div class="sim" id="sim-std-main">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>루프 스테이션: 화성 · 드럼 · 베이스 · 선율 · 믹서</h3></div>
+      <div class="std-top">
+        <button class="btn primary" id="std-play">▶ 재생</button>
+        <div class="big-readout" id="std-pos">1 · 1</div>
+        <div class="std-chord"><b id="std-csym">—</b><small id="std-croman">마디 · 박 / 지금 화음</small></div>
+        <label class="ctrl grow"><span>곡 프리셋</span><select id="std-preset"></select></label>
+      </div>
+      <div class="sim-view"><div class="mb-kb short" id="std-kb"></div></div>
+      <div class="sim-controls">
+        <label class="ctrl"><span>템포 <output id="std-bpm-out"></output></span><input type="range" id="std-bpm" min="60" max="160" value="90"></label>
+        <label class="ctrl"><span>스윙 <output id="std-swing-out"></output></span><input type="range" id="std-swing" min="50" max="75" value="50"></label>
+        <div class="ctrl"><span>스윙 단위</span><div class="seg" id="std-swres"><button data-value="16" class="on">16분</button><button data-value="8">8분(셔플)</button></div></div>
+        <label class="ctrl"><span>조(으뜸음)</span><select id="std-key"></select></label>
+        <label class="ctrl"><span>음계</span><select id="std-scale"><option value="major">장조(이오니안)</option><option value="minor">자연단조(에올리안)</option><option value="dorian">도리안</option><option value="mixolydian">믹솔리디안</option><option value="harmonicMinor">화성단조</option></select></label>
+        <label class="ctrl"><span>마스터 저역 통과 <output id="std-cut-out"></output></span><input type="range" id="std-cut" min="0" max="1000" value="1000"></label>
+      </div>
+
+      <div class="std-sec">
+        <h4>① 코드 진행 <small>칸을 고르고 패드를 누르세요 · 마디 수와 화음 종류</small></h4>
+        <div class="std-row" style="margin-top:0">
+          <div class="ctrl"><span>마디 수</span><div class="seg" id="std-bars"><button data-value="4" class="on">4</button><button data-value="8">8</button><button data-value="12">12</button></div></div>
+          <div class="ctrl"><span>화음</span><div class="seg" id="std-mode"><button data-value="triad" class="on">3화음</button><button data-value="seventh">7화음</button><button data-value="dom7">모두 속7(블루스)</button></div></div>
+          <div class="ctrl"><span>코드 리듬</span><div class="seg" id="std-crhy"><button data-value="whole" class="on">온음표</button><button data-value="half">2분</button><button data-value="offbeat">뒷박 스탭</button><button data-value="bossa">보사노바</button><button data-value="charleston">찰스턴</button></div></div>
+        </div>
+        <div class="slots" id="std-slots" style="margin-top:12px"></div>
+        <div class="pads" id="std-pads"></div>
+      </div>
+
+      <div class="std-sec">
+        <h4>② 드럼 <small>칸을 눌러 켜고 끄기 · 이름을 누르면 미리 듣기</small></h4>
+        <div class="steps-grid" id="std-drums"></div>
+      </div>
+
+      <div class="std-sec">
+        <h4>③ 베이스</h4>
+        <div class="seg" id="std-bpat"><button data-value="root" class="on">근음</button><button data-value="rootfifth">근음–5음</button><button data-value="walking">워킹</button><button data-value="arp">아르페지오</button><button data-value="octave">옥타브</button><button data-value="offbeat">뒷박</button></div>
+      </div>
+
+      <div class="std-sec">
+        <h4>④ 리드 선율 <small>피아노 롤을 눌러 음 넣기/빼기 · 옅은 칸 = 그 마디의 화음 구성음</small></h4>
+        <div class="std-row" style="margin-top:0">
+          <label class="ctrl"><span>시드 <output id="std-seed-out"></output></span><input type="range" id="std-seed" min="1" max="99" value="7"></label>
+          <label class="ctrl"><span>음표 밀도 <output id="std-dens-out"></output></span><input type="range" id="std-dens" min="10" max="90" value="45"></label>
+          <div class="std-btns"><button class="btn" id="std-gen">🎲 새 선율</button><button class="btn" id="std-clear">지우기</button></div>
+        </div>
+        <div class="std-roll" id="std-roll-wrap"><canvas id="std-roll"></canvas></div>
+      </div>
+
+      <div class="std-sec">
+        <h4>⑤ 믹서</h4>
+        <div class="std-mix" id="std-mix"></div>
+      </div>
+
+      <div class="std-sec">
+        <h4>⑥ 저장 · 공유 · 내보내기</h4>
+        <div class="std-btns">
+          <button class="btn" id="std-save">브라우저에 저장</button><button class="btn" id="std-load">불러오기</button><button class="btn" id="std-link">🔗 공유 링크 복사</button><button class="btn primary" id="std-wav">⬇ WAV 내보내기 (2회 반복)</button>
+        </div>
+      </div>
+      <div class="sim-msg" id="std-msg" hidden></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">16분음표 길이</span><span class="v" id="std-r-step">—</span></div>
+        <div class="stat"><span class="k">루프 길이</span><span class="v" id="std-r-len">—</span></div>
+        <div class="stat"><span class="k">이번 마디 베이스 · 리드</span><span class="v" id="std-r-notes">—</span></div>
+      </div>
+      <div class="sim-note">▶ 재생으로 시작합니다(소리는 버튼을 누른 뒤에만 납니다). 재생 중에도 모든 것을 바꿀 수 있고, 다음 스텝부터 반영됩니다. 건반(또는 <kbd>A</kbd>–<kbd>K</kbd> 키)은 리드 악기로 연주되며 리드 트랙 버스를 지나므로 같은 리버브가 걸립니다. 건반 표시: 보라 = 지금 화음 보이싱, 청록 = 베이스 음. 저장은 이 브라우저(localStorage)에, 공유 링크는 주소의 <code>#std=…</code>에 전체 상태를 담습니다. WAV는 44.1 kHz 16비트 스테레오(TPDF 디더)로 루프를 두 번 렌더링합니다. 모델: 모든 악기는 <code>MB.play</code>/<code>MB.drum</code> 실시간 합성(3·4·12장), 리버브는 지수 감쇠 잡음 IR 컨볼루션(15장), 마스터 리미터는 문턱 −4 dB, 20:1.</div>
+    </div>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>프리셋</th><th class="num">템포</th><th>스윙</th><th>진행</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td>로파이 힙합</td><td class="num">78</td><td>16분 60%</td><td>ii7–V7–Imaj7–vi7 (F)</td><td>뒤로 끌리는 킥, 어두운 마스터 필터, 일렉트릭 피아노</td></tr>
+        <tr><td>신스팝</td><td class="num">112</td><td>정박</td><td>i–VI–III–VII (A단조)</td><td>16분 하이햇, 옥타브 베이스, 패드</td></tr>
+        <tr><td>보사노바</td><td class="num">120</td><td>정박</td><td>Imaj7–vi7–ii7–V7 (D)</td><td>3-2 클라베 림샷, 근음–5음 베이스, 엇박 기타 컴핑</td></tr>
+        <tr><td>블루스 셔플</td><td class="num">92</td><td>8분 67%</td><td>12마디 I7–IV7–V7 (A)</td><td>셋잇단 셔플, 워킹 베이스, 오르간 찰스턴 리듬</td></tr>
+        <tr><td>EDM 4-온-더-플로어</td><td class="num">124</td><td>정박</td><td>i–VI–III–VII (F단조)</td><td>매 박 킥, 뒷박 오픈 햇과 베이스, 톱니 스탭</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 이 루프 스테이션의 상태는 JSON 하나다(조, 음계, 진행 배열, 6×16 비트 드럼 행렬, 길이 64–192의 선율 배열, 믹서 값). 저장 링크는 이것을 UTF-8 → Base64로 주소에 넣은 것이고, MIDI 파일(16장)도 결국 같은 정보를 '시각 + 노트 번호 + 벨로시티' 사건 목록으로 직렬화한 것이다. 상태(데이터)와 렌더링(소리)을 분리하면 같은 상태를 실시간으로도, 오프라인으로도, 다른 악기로도 재생할 수 있다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="arrange">
+    <h2>곡 형식: 루프를 노래로</h2>
+    <p>루프 하나를 3분 동안 반복하면 음악이 아니라 벽지가 됩니다. 대중음악의 대부분은 같은 재료를 <b>더하고 빼는</b> 편곡으로 긴장과 해소의 곡선을 만듭니다. 인트로에서 화음만 들려주고, 벌스에서 드럼과 베이스를 넣고, 코러스에서 선율까지 모든 층을 쌓고, 브리지에서 드럼을 빼고 필터를 닫아 숨을 고른 뒤, 마지막 코러스를 두 번 반복해 정점을 찍는 식입니다. 전자음악에서는 이 '빼고 넣기'를 브레이크다운과 드롭이라 부릅니다.</p>
+    <div class="formula">$$E(\text{구간}) \approx \sum_{\text{트랙 } k} w_k \cdot \mathbb{1}[k \text{ 켜짐}] \cdot g_k, \qquad T_{\text{곡}} = \sum_{\text{구간}} n_i \cdot \frac{4\,B \cdot 60}{\mathrm{BPM}}$$
+      <div class="where">\(E\): 체감 에너지의 아주 거친 모형(트랙 가중치 \(w_k\)·볼륨 \(g_k\)의 합. 드럼과 베이스의 가중치가 크다). \(n_i\): 구간 반복 횟수, \(B\): 루프의 마디 수(4/4박). 4마디 루프를 90 BPM으로 9번 돌리면 96초.</div>
+    </div>
+
+    <div class="sim" id="sim-std-arrange">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>편곡기: 구간마다 트랙 켜고 끄기</h3></div>
+      <div class="sim-view"><canvas id="cv-arr"></canvas></div>
+      <div class="std-arr" id="arr-grid"></div>
+      <div class="sim-controls">
+        <div class="btn-row std-btns"><button class="btn primary" id="arr-play">▶ 처음부터 재생</button><button class="btn" id="arr-reset">기본 형식으로</button><button class="btn" id="arr-wav">⬇ 곡 전체 WAV</button></div>
+      </div>
+      <div class="sim-msg" id="arr-msg" hidden></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 구간</span><span class="v" id="arr-now">—</span></div>
+        <div class="stat"><span class="k">곡 길이</span><span class="v" id="arr-len">—</span></div>
+        <div class="stat"><span class="k">경과</span><span class="v" id="arr-t">—</span></div>
+      </div>
+      <div class="sim-note">위 루프 스테이션의 현재 루프(진행·드럼·베이스·선율·믹서)를 재료로 씁니다. 각 구간의 트랙 버튼으로 켜고 끄며, '반복'은 그 구간에서 루프를 몇 번 돌지, '필터'는 그 구간의 마스터 저역 통과 필터(어둡게 = 900 Hz로 0.3초 동안 미끄러짐)입니다. 위 그래프는 구간별 에너지 모형 \(E\)(막대 높이)와 재생 위치입니다. 해볼 것: 브리지에서 드럼과 베이스를 끄고 필터를 어둡게 → 다음 코러스에서 모든 층이 '터지는' 대비를 들어 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="mixing">
+    <h2>주파수 자리 배치와 마스킹</h2>
+    <p>14장에서 본 것처럼 큰 소리는 같은 임계대역 안의 작은 소리를 가립니다(마스킹). 각 악기가 혼자일 때는 멋진데 합치면 탁해지는 이유의 대부분이 이것입니다. 믹싱의 첫 원칙은 <b>악기마다 주파수 '자리'를 나눠 주는 것</b>입니다. 아래 그림은 대표적인 자리입니다. 기본음 대역(진한 막대)과 음색·공격음이 사는 배음 대역(옅은 막대)을 구별하세요.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 330" role="img" aria-label="악기별 주파수 대역">
+        <g id="std-fig-ranges"></g>
+      </svg>
+      <figcaption><b>그림 17-2.</b> 악기의 주파수 대역(로그 축, 대략값). 킥의 '쿵'은 50–80 Hz, '딱'은 2–5 kHz. 베이스 기본음은 40–250 Hz지만 작은 스피커에서 들리는 것은 700 Hz–2 kHz의 배음이다(잃어버린 기본음, 2장). 패드·피아노 같은 화음 악기는 200 Hz–4 kHz를 넓게 덮어 보컬·리드와 정면으로 겹친다. 그래서 화음 악기의 저역을 하이패스로 걷어 내는 것이 가장 흔한 첫 EQ다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>대역</th><th>이름(믹싱 은어)</th><th>너무 많으면</th><th>너무 적으면</th></tr></thead>
+      <tbody>
+        <tr><td>20–60 Hz</td><td>서브</td><td>스피커가 헛힘을 씀, 헤드룸 낭비</td><td>클럽에서 몸으로 못 느낌</td></tr>
+        <tr><td>60–250 Hz</td><td>저음(바디)</td><td>부밍, 킥과 베이스가 뭉개짐</td><td>얇다</td></tr>
+        <tr><td>250–500 Hz</td><td>저중음(머드)</td><td>탁하고 '상자 속' 같음</td><td>차갑고 비었음</td></tr>
+        <tr><td>0.5–2 kHz</td><td>중음</td><td>'뿡뿡'거리는 경적 소리</td><td>멀게 들림</td></tr>
+        <tr><td>2–6 kHz</td><td>고중음(존재감)</td><td>귀가 아픔(등청감 곡선의 가장 민감한 대역, 14장)</td><td>뒤로 숨음</td></tr>
+        <tr><td>6–20 kHz</td><td>공기·치찰음</td><td>쇳소리, 치찰음</td><td>둔하고 어두움</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-std-spectrum">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>믹스 스펙트럼: 트랙별 색으로 보는 마스킹</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-mix"></canvas></div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="mix-play">▶ 루프 재생</button></div>
+          <label class="check"><input type="checkbox" id="mix-carve"> EQ로 자리 나누기 (코드 HPF 220 Hz, 리드 HPF 300 Hz, 베이스 HPF 35 Hz)</label>
+          <label class="check"><input type="checkbox" id="mix-mask" checked> 겹치는 대역 표시</label>
+          <div class="ctrl"><span>보기</span><div class="seg" id="mix-view"><button data-value="tracks" class="on">트랙별</button><button data-value="sum">마스터 합</button></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">드럼 무게중심</span><span class="v" id="mix-c-drums">—</span></div>
+        <div class="stat"><span class="k">베이스</span><span class="v" id="mix-c-bass">—</span></div>
+        <div class="stat"><span class="k">코드</span><span class="v" id="mix-c-chords">—</span></div>
+        <div class="stat"><span class="k">리드</span><span class="v" id="mix-c-lead">—</span></div>
+        <div class="stat"><span class="k">겹치는 1/3옥타브 대역</span><span class="v" id="mix-overlap">—</span></div>
+      </div>
+      <div class="sim-note">트랙 버스마다 따로 단 <code>AnalyserNode</code>(4096점)로 그린 스펙트럼입니다. 빨간 띠는 1/3옥타브 대역 중 두 트랙 이상이 가장 센 트랙의 6 dB 안에서 경쟁하는 곳(마스킹 후보)입니다. 해볼 것: ① '로파이'나 '신스팝' 프리셋을 재생하며 200–500 Hz에서 코드와 베이스가 겹치는 것을 확인. ② 'EQ로 자리 나누기'를 켜면 코드·리드의 저역이 빠지며 빨간 띠가 줄고 베이스가 또렷해집니다 — 혼자 들으면 얇아진 코드가 섞으면 오히려 좋게 들리는 것이 믹싱의 역설입니다. ③ 루프 스테이션 믹서의 솔로 버튼과 함께 쓰세요. 모델 한계: 겹침 판정은 단순 레벨 비교이며 실제 마스킹 문턱(14장)보다 거칩니다.</div>
+    </div>
+    <div class="callout deep"><strong>사이드체인</strong> 킥과 베이스는 같은 50–100 Hz에서 싸운다. EQ로 나누기 어려우면 <b>시간</b>으로 나눈다: 킥 신호를 베이스 컴프레서의 검출기(사이드체인)에 넣어 킥이 칠 때마다 베이스를 몇 dB 눌렀다 놓는다(15장의 어택·릴리스). EDM의 '펌핑' 효과는 이를 과장한 것이다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="export">
+    <h2>내보내기: 오프라인 렌더링과 WAV</h2>
+    <p>실시간 재생은 스피커 시계에 묶여 있지만, <code>OfflineAudioContext</code>는 같은 노드 그래프를 <b>가능한 한 빨리</b> 계산해 버퍼로 돌려줍니다. 작업실의 내보내기 버튼은 그림 17-1의 내부 작업실 믹서를 오프라인 컨텍스트에 다시 짓고(공통 청취용 MB.out의 이득·컴프레서는 제외), 모든 스텝을 시각 계산으로 미리 예약한 뒤 렌더링합니다. 보통 실시간의 10–50배 속도입니다.</p>
+    <p>결과는 가장 단순한 무압축 형식인 WAV(RIFF)로 저장합니다. 44바이트 헤더 뒤에 16비트 정수 샘플을 채널 교대(LRLR…)로 늘어놓으면 끝입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="num">오프셋</th><th>필드</th><th>값(이 작업실)</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0</td><td>"RIFF", 파일 크기 − 8</td><td>리틀 엔디언 uint32</td></tr>
+        <tr><td class="num">8</td><td>"WAVE", "fmt ", 16</td><td>PCM 형식 블록 길이</td></tr>
+        <tr><td class="num">20</td><td>형식 1(PCM), 채널 2</td><td>uint16 × 2</td></tr>
+        <tr><td class="num">24</td><td>샘플레이트, 바이트/초</td><td>44100, 44100 × 2 × 2 = 176,400</td></tr>
+        <tr><td class="num">32</td><td>블록 정렬, 비트 수</td><td>4, 16</td></tr>
+        <tr><td class="num">36</td><td>"data", 데이터 크기</td><td>샘플 수 × 4</td></tr>
+        <tr><td class="num">44</td><td>샘플</td><td>int16, TPDF 디더 ±1 LSB 후 반올림(15장)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="formula">$$\text{크기} = f_s \cdot C \cdot \frac{b}{8} \cdot T = 44100 \cdot 2 \cdot 2 \cdot 60 \approx 10.6\ \mathrm{MB/분}$$
+      <div class="where">CD 음질 무압축 스테레오의 데이터율은 1411.2 kbit/s. MP3 128 kbit/s는 약 1/11이다. 내보낸 파일을 스트리밍에 올린다면 통합 라우드니스 약 −14 LUFS, 트루 피크 −1 dBTP를 목표로 한다(15장).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="ear">
+    <h2>귀 훈련: 이 진행은 무엇일까</h2>
+    <p>작업실에서 가장 중요한 장비는 귀입니다. 9장의 화성 기능을 듣고 알아맞히는 연습을 해 봅시다. 진행은 항상 으뜸화음(I)으로 시작합니다. 베이스(근음)의 움직임을 먼저 따라가면 훨씬 쉽습니다: IV로 가면 4도 위, V로 가면 5도 위(또는 4도 아래), vi로 가면 3도 아래로 내려갑니다.</p>
+    <div class="sim" id="sim-std-challenge">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>코드 진행 받아쓰기</h3></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>난이도</span><div class="seg" id="ch-level"><button data-value="easy" class="on">쉬움 (I IV V vi)</button><button data-value="mid">보통 (+ ii iii)</button><button data-value="hard">어려움 (7화음)</button></div></div>
+        <div class="btn-row std-btns"><button class="btn primary" id="ch-new">▶ 새 문제</button><button class="btn" id="ch-again">다시 듣기</button><button class="btn" id="ch-tonic">으뜸화음 듣기</button></div>
+      </div>
+      <div class="slots" id="ch-slots" style="padding-top:12px"></div>
+      <div class="std-opts" id="ch-opts"></div>
+      <div class="sim-msg" id="ch-msg" hidden></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점수</span><span class="v" id="ch-score">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="ch-streak">0</span></div>
+        <div class="stat"><span class="k">이번 조</span><span class="v" id="ch-key">?</span></div>
+      </div>
+      <div class="sim-note">'새 문제'를 누르면 무작위 장조에서 4마디 진행이 피아노와 베이스로 연주됩니다(90 BPM, 한 마디에 한 화음). 네 보기 중 들은 진행을 고르세요. 답한 뒤에는 각 보기를 눌러 비교해 들을 수 있습니다. 조가 매번 바뀌므로 절대음이 아니라 <b>상대적인 기능</b>을 들어야 합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="map">
+    <h2>이 작업실의 지도</h2>
+    <p>작업실의 각 기능은 앞 장들의 개념을 그대로 코드로 옮긴 것입니다. 궁금한 부품이 있으면 해당 장으로 돌아가세요.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>작업실 기능</th><th>원리</th><th>장</th></tr></thead>
+      <tbody>
+        <tr><td>악기 소리(피아노, 패드, 베이스, 리드, 기타)</td><td>가산 합성, 감산 합성과 필터 엔벨로프, FM, 카플러스–스트롱</td><td><a href="harmonics.html">02</a> · <a href="instruments.html">03</a> · <a href="synthesis.html">04</a></td></tr>
+        <tr><td>조성과 음 이름, 12평균율 주파수</td><td>\(f = 440\cdot 2^{(m-69)/12}\)</td><td><a href="tuning.html">05</a></td></tr>
+        <tr><td>음계 선택, 선율의 음 후보</td><td>12비트 피치 클래스 집합, 선법</td><td><a href="scales.html">07</a></td></tr>
+        <tr><td>화음 종류(3화음·7화음·속7), 코드 이름</td><td>음정 구조와 화음 사전</td><td><a href="chords.html">08</a></td></tr>
+        <tr><td>다이아토닉 패드, 기능 색, 보이스 리딩</td><td>T–S–D 기능, 최소 이동 보이싱</td><td><a href="progressions.html">09</a></td></tr>
+        <tr><td>템포, 스윙, 16분음표 격자</td><td>박자와 스윙 비율</td><td><a href="rhythm.html">11</a></td></tr>
+        <tr><td>드럼 그리드, 드럼 합성, 예약 시계</td><td>스텝 시퀀서, 룩어헤드 스케줄링</td><td><a href="sequencer.html">12</a></td></tr>
+        <tr><td>선율 생성기</td><td>제약 기반 난수 선율, 동기 반복</td><td><a href="melody.html">13</a></td></tr>
+        <tr><td>믹스 스펙트럼, 자리 나누기</td><td>임계대역과 마스킹, 등청감</td><td><a href="psychoacoustics.html">14</a></td></tr>
+        <tr><td>EQ, 리버브, 리미터, WAV·디더</td><td>바이쿼드, 컨볼루션, 다이내믹스, 양자화</td><td><a href="dsp.html">15</a></td></tr>
+        <tr><td>상태 저장, 노트 번호</td><td>음악 데이터의 직렬화</td><td><a href="midi.html">16</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>작업실의 골격은 시계 → 음표 사건 → 악기 → 트랙 버스 → (센드 → 공유 이펙트) → 마스터 → 출력이다. 시계는 오디오 하드웨어 시계 위에 미리 예약해 지터를 없앤다.</li>
+      <li>조성 하나가 다이아토닉 화음 7개를 정하고, 진행은 그 인덱스의 배열이며, 보이싱은 최소 이동 탐색이 정한다. 베이스·선율은 화음에서 규칙과 제약으로 유도된다.</li>
+      <li>좋은 생성 선율의 제약: 강박에는 화음 구성음, 사이는 순차 진행, 범위 제한, 동기(리듬) 반복, 으뜸음 종지.</li>
+      <li>편곡은 같은 재료를 더하고 빼는 에너지 설계다. 대비(브리지의 비움)가 정점(마지막 코러스)을 만든다.</li>
+      <li>믹싱의 첫 원칙은 주파수 자리 나누기다. 화음 악기의 저역을 걷어 내고, 킥–베이스는 EQ 또는 사이드체인으로 나눈다.</li>
+      <li>OfflineAudioContext는 같은 그래프를 실시간보다 빠르게 렌더링한다. WAV는 44바이트 RIFF 헤더 + 인터리브된 PCM 샘플이며, 16비트로 줄일 때는 디더를 건다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>120 BPM에서 16분음표 스텝 하나의 길이는?</p><div class="opts">
+        <button class="opt">500 ms</button><button class="opt">250 ms</button><button class="opt" data-correct>125 ms</button><button class="opt">62.5 ms</button>
+      </div><div class="quiz-exp">한 박(4분음표) = 60/120 = 0.5 s. 16분음표는 그 1/4이므로 125 ms. 한 마디(4/4)는 16스텝 = 2 s.</div></div>
+      <div class="quiz-q"><p>16분 스윙 67%, 100 BPM일 때 짝을 이루는 두 16분음표의 길이는?</p><div class="opts">
+        <button class="opt">150 ms와 150 ms</button><button class="opt" data-correct>약 200 ms와 100 ms</button><button class="opt">약 225 ms와 75 ms</button><button class="opt">100 ms와 200 ms</button>
+      </div><div class="quiz-exp">짝(8분음표 하나) = 300 ms. 앞 음표가 67%인 약 200 ms, 뒤 음표가 33%인 약 100 ms — 셋잇단 2:1 셔플이다.</div></div>
+      <div class="quiz-q"><p>A 자연단조에서 VI 화음(3화음)은?</p><div class="opts">
+        <button class="opt">F♯m</button><button class="opt" data-correct>F</button><button class="opt">Fdim</button><button class="opt">E</button>
+      </div><div class="quiz-exp">A 자연단조 = A B C D E F G. 6번째 음 F 위에 3도씩 쌓으면 F–A–C, 장3화음 F. 단조의 i–VI–III–VII(Am–F–C–G)은 신스팝·EDM의 단골 진행이다.</div></div>
+      <div class="quiz-q"><p>코드 패드와 베이스가 섞이면 탁하게 들린다. 가장 먼저 시도할 만한 조치는?</p><div class="opts">
+        <button class="opt">베이스에 하이 셸프 +6 dB</button><button class="opt" data-correct>코드 트랙에 200 Hz 안팎 하이패스를 걸어 저역을 비운다</button><button class="opt">마스터 볼륨을 올린다</button><button class="opt">리버브 센드를 모든 트랙에서 올린다</button>
+      </div><div class="quiz-exp">두 악기가 250 Hz 아래(특히 '머드' 대역)에서 겹치면 마스킹으로 둘 다 흐려진다. 저역 역할은 베이스에 맡기고 화음 악기는 하이패스로 비우는 것이 정석이다. 리버브는 오히려 저역을 더 뭉갠다.</div></div>
+      <div class="quiz-q"><p>44.1 kHz, 16비트, 스테레오 WAV로 3분짜리 곡을 내보내면 대략 크기는?</p><div class="opts">
+        <button class="opt">약 5 MB</button><button class="opt">약 16 MB</button><button class="opt" data-correct>약 32 MB</button><button class="opt">약 64 MB</button>
+      </div><div class="quiz-exp">44100 × 2채널 × 2바이트 × 180초 = 31,752,000바이트 ≈ 31.8 MB(+44바이트 헤더).</div></div>
+      <div class="quiz-q"><p>JavaScript의 <code>setTimeout</code>으로 매 스텝 직접 소리를 내지 않고 '앞을 내다보며 예약'하는 이유는?</p><div class="opts">
+        <button class="opt">CPU 사용량을 줄이려고</button><button class="opt" data-correct>타이머 지터(수–수십 ms)와 무관하게 오디오 시계에 샘플 단위로 맞춰 울리려고</button><button class="opt">브라우저 자동재생 정책 때문에</button><button class="opt">AudioContext가 하나만 허용되어서</button>
+      </div><div class="quiz-exp">메인 스레드 타이머는 렌더링·GC로 흔들리지만, <code>start(when)</code>으로 예약한 소리는 오디오 스레드가 정확한 샘플에서 시작한다. 타이머는 '예약 담당'일 뿐이다(12장의 두 시계 방식).</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 작업실 엔진 (상태 · 그래프 · 스케줄 · 렌더) */
+const STD = (function () {
+  const TR = ["drums", "bass", "chords", "lead"];
+  const TNAME = { drums: "드럼", bass: "베이스", chords: "코드", lead: "리드" };
+  const DROWS = ["kick", "snare", "clap", "rim", "hat", "openhat"];
+  const CARVE = { drums: 20, bass: 35, chords: 220, lead: 300 };
+  const P = (str) => str.padEnd(16, ".").split("").slice(0, 16).map((c) => (c === "x" ? 1 : 0));
+  const E = "................";
+  const PRESETS = {
+    lofi: { name: "로파이 힙합", key: 5, scale: "major", mode: "seventh", bpm: 78, swing: 0.6, swingRes: 16, bars: 4, prog: [1, 4, 0, 5], bassPat: "root", chordRhy: "whole", seed: 7, density: 0.45, cutoff: 3200,
+      drums: { kick: "x......x..x.....", snare: "....x.......x...", clap: E, rim: "..............x.", hat: "x.x.x.x.x.x.x.x.", openhat: E },
+      tracks: { drums: { vol: 0.8, send: 0.12 }, bass: { inst: "bass", vol: 0.7, send: 0 }, chords: { inst: "epiano", vol: 0.75, send: 0.35 }, lead: { inst: "pluck", vol: 0.6, send: 0.3 } } },
+    synthpop: { name: "신스팝", key: 9, scale: "minor", mode: "triad", bpm: 112, swing: 0.5, swingRes: 16, bars: 4, prog: [0, 5, 2, 6], bassPat: "octave", chordRhy: "whole", seed: 3, density: 0.55, cutoff: 14000,
+      drums: { kick: "x.......x.......", snare: "....x.......x...", clap: "....x.......x...", rim: E, hat: "xxxxxxxxxxxxxxxx", openhat: E },
+      tracks: { drums: { vol: 0.75, send: 0.1 }, bass: { inst: "bass", vol: 0.7, send: 0 }, chords: { inst: "pad", vol: 0.8, send: 0.3 }, lead: { inst: "lead", vol: 0.55, send: 0.25 } } },
+    bossa: { name: "보사노바", key: 2, scale: "major", mode: "seventh", bpm: 120, swing: 0.5, swingRes: 16, bars: 4, prog: [0, 5, 1, 4], bassPat: "rootfifth", chordRhy: "bossa", seed: 21, density: 0.35, cutoff: 9000,
+      drums: { kick: "x..x....x..x....", snare: E, clap: E, rim: "x..x..x...x..x..", hat: "x.xxx.xxx.xxx.xx", openhat: E },
+      tracks: { drums: { vol: 0.6, send: 0.1 }, bass: { inst: "bass", vol: 0.65, send: 0 }, chords: { inst: "pluck", vol: 0.8, send: 0.25 }, lead: { inst: "triangle", vol: 0.55, send: 0.3 } } },
+    blues: { name: "블루스 셔플 (12마디)", key: 9, scale: "mixolydian", mode: "dom7", bpm: 92, swing: 0.67, swingRes: 8, bars: 12, prog: [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4], bassPat: "walking", chordRhy: "charleston", seed: 12, density: 0.4, cutoff: 8000,
+      drums: { kick: "x.......x.......", snare: "....x.......x...", clap: E, rim: E, hat: "x.x.x.x.x.x.x.x.", openhat: E },
+      tracks: { drums: { vol: 0.7, send: 0.15 }, bass: { inst: "bass", vol: 0.7, send: 0 }, chords: { inst: "organ", vol: 0.6, send: 0.25 }, lead: { inst: "epiano", vol: 0.65, send: 0.3 } } },
+    edm: { name: "EDM 4-온-더-플로어", key: 5, scale: "minor", mode: "triad", bpm: 124, swing: 0.5, swingRes: 16, bars: 4, prog: [0, 5, 2, 6], bassPat: "offbeat", chordRhy: "offbeat", seed: 5, density: 0.5, cutoff: 16000,
+      drums: { kick: "x...x...x...x...", snare: E, clap: "....x.......x...", rim: E, hat: "xxxxxxxxxxxxxxxx", openhat: "..x...x...x...x." },
+      tracks: { drums: { vol: 0.75, send: 0.08 }, bass: { inst: "bass", vol: 0.7, send: 0 }, chords: { inst: "saw", vol: 0.7, send: 0.3 }, lead: { inst: "lead", vol: 0.5, send: 0.3 } } },
+  };
+  const st = {};
+  function loadPreset(id) {
+    const p = PRESETS[id];
+    Object.assign(st, JSON.parse(JSON.stringify(p)));
+    delete st.name;
+    st.preset = id;
+    Object.keys(st.drums).forEach((k) => (st.drums[k] = P(st.drums[k])));
+    TR.forEach((n) => Object.assign(st.tracks[n], { mute: false, solo: false }));
+    st.carve = false;
+    genMelody();
+  }
+  function fromJSON(o) {
+    if (!o || !o.prog || !o.drums || !o.tracks) throw new Error("bad state");
+    Object.assign(st, o);
+    st.bars = [4, 8, 12].includes(+st.bars) ? +st.bars : 4;
+    fitBars();
+  }
+  const scaleSteps = () => MB.SCALES[st.scale].steps;
+  const flat = () => MB.prefersFlats(st.key, ["minor", "dorian", "harmonicMinor"].includes(st.scale));
+  function chordOf(deg) {
+    const dia = MB.diatonic(st.key, st.scale, st.mode !== "triad"), c = dia[deg];
+    let q = c.quality, roman = c.roman;
+    if (st.mode === "dom7") { q = "dom7"; roman = MB.ROMAN[deg] + "7"; }
+    const pcs = MB.CHORDS[q].iv.map((i) => MB.mod(c.root + i, 12));
+    const fn = ["t", "s", "t", "s", "d", "t", "d"][deg];
+    return { deg, root: c.root, q, roman, pcs, sym: MB.chordSymbol(c.root, q, flat()), fn };
+  }
+  const chordAt = (bar) => chordOf(st.prog[MB.mod(bar, st.bars)]);
+  let vKey = "", vCache = [];
+  function voicings() {
+    const k = [st.key, st.scale, st.mode, st.prog.join(","), st.bars].join("|");
+    if (k === vKey) return vCache;
+    let prev = st.mode === "triad" ? [55, 60, 64] : [55, 59, 62, 65];
+    vCache = [];
+    for (let b = 0; b < st.bars; b++) { prev = MB.voiceLead(prev, chordAt(b).pcs, [52, 76]); vCache.push(prev); }
+    vKey = k;
+    return vCache;
+  }
+  const bassRoot = (pc) => { const m = 36 + pc; return m > 43 ? m - 12 : m; };
+  function bassNotes(bar) {
+    const c = chordAt(bar), r = bassRoot(c.root), iv = (k) => MB.mod(c.pcs[k] - c.root, 12);
+    const t3 = iv(1), t5 = iv(2), nr = bassRoot(chordAt(bar + 1).root);
+    switch (st.bassPat) {
+      case "rootfifth": return [{ s: 0, m: r, l: 6 }, { s: 6, m: r + 7, l: 2 }, { s: 8, m: r + 7 - 12 >= 28 ? r + 7 - 12 : r + 7, l: 6 }, { s: 14, m: r, l: 2 }];
+      case "walking": { const ap = nr + (bar % 2 ? 1 : -1); return [{ s: 0, m: r, l: 4 }, { s: 4, m: r + t3, l: 4 }, { s: 8, m: r + t5, l: 4 }, { s: 12, m: ap, l: 4 }]; }
+      case "arp": return [0, t3, t5, 12, t5, t3, 0, t5].map((o, i) => ({ s: i * 2, m: r + o, l: 2 }));
+      case "octave": return [...Array(8)].map((_, i) => ({ s: i * 2, m: r + (i % 2 ? 12 : 0), l: 1.6 }));
+      case "offbeat": return [2, 6, 10, 14].map((s) => ({ s, m: r + 12, l: 1.6 }));
+      default: return [{ s: 0, m: r, l: 7 }, { s: 8, m: r, l: 7 }];
+    }
+  }
+  function chordHits() {
+    switch (st.chordRhy) {
+      case "half": return [{ s: 0, l: 8 }, { s: 8, l: 8 }];
+      case "offbeat": return [2, 6, 10, 14].map((s) => ({ s, l: 1.5 }));
+      case "bossa": return [{ s: 0, l: 2 }, { s: 3, l: 2 }, { s: 6, l: 3 }, { s: 10, l: 2 }, { s: 12, l: 3 }];
+      case "charleston": return [{ s: 0, l: 3 }, { s: 6, l: 6 }];
+      default: return [{ s: 0, l: 16 }];
+    }
+  }
+  const leadBase = () => 60 + st.key - (st.key >= 7 ? 12 : 0);
+  const leadMidi = (row) => MB.scaleNote(leadBase(), scaleSteps(), row);
+  const chordRows = (bar) => { const pcs = chordAt(bar).pcs; return Array.from({ length: 14 }, (_, r) => r).filter((r) => pcs.includes(MB.mod(leadMidi(r), 12))); };
+  /** 제약 기반 선율: 강박 = 화음 구성음, 그 사이 = 순차 위주, 마지막 마디 = 으뜸음 종지, 2마디 리듬 반복 */
+  function genMelody() {
+    const rnd = MB.rng(st.seed * 7919 + 13), n = st.bars * 16, mel = new Array(n).fill(-1), dens = st.density;
+    const rhythm = [];
+    for (let b = 0; b < 2; b++) for (let s = 0; s < 16; s++) {
+      const p = s % 8 === 0 ? 0.92 : s % 4 === 0 ? dens + 0.2 : s % 2 === 0 ? dens : dens * 0.3;
+      rhythm.push(rnd() < p);
+    }
+    let cur = 7 + MB.mod(st.prog[0], 7) % 3;
+    for (let b = 0; b < st.bars; b++) {
+      const last = b === st.bars - 1, ct = chordRows(b);
+      for (let s = 0; s < 16; s++) {
+        let on = rhythm[(b % 2) * 16 + s];
+        if (last && s > 8) on = false;
+        if (last && s === 8) on = true;
+        if (!on) continue;
+        if (last && s === 8) { cur = Math.abs(cur - 7) <= Math.abs(cur - 0) + 2 ? 7 : 0; }
+        else if (s % 8 === 0 || (s % 4 === 0 && rnd() < 0.5)) {
+          let best = cur, bd = 99;
+          for (let r = 0; r <= 13; r++) if (ct.includes(r)) { const d = Math.abs(r - cur) + rnd() * 0.9; if (d < bd) { bd = d; best = r; } }
+          cur = best;
+        } else {
+          const dir = cur > 10 ? -1 : cur < 3 ? 1 : rnd() < 0.5 ? -1 : 1, u = rnd();
+          cur = MB.clamp(cur + (u < 0.66 ? dir : u < 0.88 ? 2 * dir : 0), 0, 13);
+        }
+        mel[b * 16 + s] = cur;
+      }
+    }
+    st.mel = mel;
+  }
+  function fitBars() {
+    const n = st.bars;
+    const orig = st.prog.length ? st.prog.slice() : [0];
+    while (st.prog.length < n) st.prog.push(orig[st.prog.length % orig.length]);
+    st.prog.length = n;
+    if (!st.mel || st.mel.length !== n * 16) { const old = st.mel || []; st.mel = [...Array(n * 16)].map((_, i) => (old.length ? old[i % old.length] : -1)); }
+    vKey = "";
+  }
+  /* ---------- 그래프 */
+  const irCache = new WeakMap();
+  function irBuffer(ctx) {
+    if (irCache.has(ctx)) return irCache.get(ctx);
+    const sr = ctx.sampleRate, len = Math.round(sr * 2.4), b = ctx.createBuffer(2, len, sr);
+    for (let c = 0; c < 2; c++) { const d = b.getChannelData(c), r = MB.rng(3 + c); let lp = 0; for (let n = 0; n < len; n++) { const t = n / sr, k = 0.6 * (1 - Math.exp(-t / 0.5)); lp = (1 - k) * (r() * 2 - 1) + k * lp; d[n] = lp * Math.pow(10, (-3 * t) / 2.0) * (n < sr * 0.012 ? n / (sr * 0.012) : 1) * 0.12; } }
+    irCache.set(ctx, b);
+    return b;
+  }
+  function makeGraph(ctx, out, live) {
+    const g = { tr: {}, ctx };
+    g.filt = ctx.createBiquadFilter(); g.filt.type = "lowpass"; g.filt.Q.value = 0.8; g.filt.frequency.value = st.cutoff;
+    g.lim = ctx.createDynamicsCompressor(); g.lim.threshold.value = -4; g.lim.knee.value = 0; g.lim.ratio.value = 20; g.lim.attack.value = 0.002; g.lim.release.value = 0.12;
+    g.conv = ctx.createConvolver(); g.conv.normalize = false; g.conv.buffer = irBuffer(ctx);
+    g.ret = ctx.createGain(); g.ret.gain.value = 1;
+    g.conv.connect(g.ret); g.ret.connect(g.filt); g.filt.connect(g.lim);
+    if (live) { g.an = ctx.createAnalyser(); g.an.fftSize = 4096; g.an.smoothingTimeConstant = 0.8; g.lim.connect(g.an); }
+    g.lim.connect(out);
+    TR.forEach((n) => {
+      const i = ctx.createGain(), hp = ctx.createBiquadFilter(), send = ctx.createGain();
+      hp.type = "highpass"; hp.Q.value = 0.7; hp.frequency.value = 20;
+      i.connect(hp); hp.connect(g.filt); hp.connect(send); send.connect(g.conv);
+      const tr = { in: i, hp, send };
+      if (live) { tr.an = ctx.createAnalyser(); tr.an.fftSize = 4096; tr.an.smoothingTimeConstant = 0.82; hp.connect(tr.an); }
+      g.tr[n] = tr;
+    });
+    applyMix(g, true);
+    return g;
+  }
+  function applyMix(g, now) {
+    const t = g.ctx.currentTime, set = (p, v) => (now ? (p.value = v) : p.setTargetAtTime(v, t, 0.03));
+    const anySolo = TR.some((n) => st.tracks[n].solo);
+    TR.forEach((n) => {
+      const tr = st.tracks[n], on = !tr.mute && (!anySolo || tr.solo);
+      set(g.tr[n].in.gain, on ? tr.vol : 0); set(g.tr[n].send.gain, tr.send); set(g.tr[n].hp.frequency, st.carve ? CARVE[n] : 20);
+    });
+    set(g.filt.frequency, st.cutoff);
+  }
+  let live = null;
+  function liveGraph() { const ctx = MB.ctx(); if (!live) live = makeGraph(ctx, MB.out, true); return live; }
+  /* ---------- 스텝 하나 예약: s = 루프 안의 스텝, t = 정박 시각 */
+  // In eighth-note swing, subdivide each long/short eighth equally into two sixteenths.
+  function studioSwingOffset(step, base, swing, resolution) {
+    if (swing <= 0.5) return 0;
+    const phase = step % 4;
+    if (resolution === 8) return (swing - 0.5) * (phase === 2 ? 4 : phase % 2 ? 2 : 0) * base;
+    return step % 2 ? (swing - 0.5) * 2 * base : 0;
+  }
+  const ALL = { drums: 1, bass: 1, chords: 1, lead: 1 };
+  function schedule(g, s, t, mask = ALL) {
+    const ctx = g.ctx, base = 60 / st.bpm / 4, stp = s % 16, bar = Math.floor(s / 16) % st.bars;
+    let tt = t;
+    tt += studioSwingOffset(stp, base, st.swing, +st.swingRes);
+    const V = voicings()[bar];
+    const play = (m, tr, dur, vel) => MB.play(m, { ctx, inst: st.tracks[tr].inst, when: tt, dur, vel, dest: g.tr[tr].in });
+    if (mask.drums) DROWS.forEach((r) => {
+      if (!st.drums[r] || !st.drums[r][stp]) return;
+      const vel = r === "hat" ? (stp % 4 === 0 ? 0.5 : 0.3) : r === "openhat" ? 0.4 : r === "rim" ? 0.55 : r === "clap" ? 0.75 : 0.9;
+      MB.drum(r, tt, { ctx, dest: g.tr.drums.in, vel });
+    });
+    if (mask.bass) bassNotes(bar).forEach((nt) => { if (nt.s === stp) play(nt.m, "bass", nt.l * base * 0.92, 0.75); });
+    if (mask.chords) chordHits().forEach((h) => { if (h.s === stp) V.forEach((m) => play(m, "chords", h.l * base * 0.96, 0.5)); });
+    if (mask.lead) { const r = st.mel[s]; if (r >= 0) { let L = 1; while (L < 4 && s + L < st.mel.length && st.mel[s + L] < 0) L++; play(leadMidi(r), "lead", L * base * 0.9, 0.7); } }
+  }
+  /* ---------- 단일 재생권: 루프 스테이션과 편곡기가 서로를 멈춘다 */
+  let owner = null;
+  function claim(api) { if (owner && owner !== api) owner.halt(); owner = api; }
+  /* ---------- 오프라인 렌더링 + WAV */
+  async function render(plan) { // plan: [{steps, mask, dark}]
+    const sr = 44100, base = 60 / st.bpm / 4, total = plan.reduce((a, p) => a + p.steps, 0);
+    const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    const ctx = new OAC(2, Math.ceil((total * base + 3) * sr), sr), g = makeGraph(ctx, ctx.destination, false);
+    const loop = st.bars * 16, t0 = 0.05; let s = 0;
+    plan.forEach((sec) => {
+      g.filt.frequency.setTargetAtTime(sec.dark ? 900 : st.cutoff, t0 + s * base, 0.3);
+      for (let k = 0; k < sec.steps; k++) schedule(g, k % loop, t0 + (s + k) * base, sec.mask || ALL);
+      s += sec.steps;
+    });
+    return ctx.startRendering();
+  }
+  function wav(buf) {
+    const nch = buf.numberOfChannels, n = buf.length, sr = buf.sampleRate, ab = new ArrayBuffer(44 + n * nch * 2), v = new DataView(ab);
+    const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+    w(0, "RIFF"); v.setUint32(4, 36 + n * nch * 2, true); w(8, "WAVE"); w(12, "fmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, nch, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * nch * 2, true); v.setUint16(32, nch * 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, n * nch * 2, true);
+    const ch = [...Array(nch)].map((_, c) => buf.getChannelData(c));
+    let o = 44;
+    for (let i = 0; i < n; i++) for (let c = 0; c < nch; c++) { const x = ch[c][i] * 32767 + (Math.random() + Math.random() - 1); v.setInt16(o, MB.clamp(Math.round(x), -32768, 32767), true); o += 2; }
+    return new Blob([ab], { type: "audio/wav" });
+  }
+  function download(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 8000); }
+  const listeners = [];
+  const changed = (what) => listeners.forEach((f) => f(what));
+  loadPreset("lofi");
+  return { st, TR, TNAME, DROWS, PRESETS, loadPreset, fromJSON, chordOf, chordAt, voicings, bassNotes, leadMidi, chordRows, genMelody, fitBars, liveGraph, applyMix, schedule, claim, render, wav, download, flat, onChange: (f) => listeners.push(f), changed, get live() { return live; }, main: null };
+})();
+
+/* ================================================================ 그림 17-1: 신호 흐름 */
+(function () {
+  const g = document.getElementById("std-fig-flow");
+  const box = (x, y, w, h, t1, t2, cls = "f-surface") => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" class="${cls}"/><text x="${x + w / 2}" y="${y + (t2 ? h / 2 - 2 : h / 2 + 4)}" text-anchor="middle" class="t" style="font-size:12.5px">${t1}</text>` + (t2 ? `<text x="${x + w / 2}" y="${y + h / 2 + 13}" text-anchor="middle" class="t-mono">${t2}</text>` : "");
+  const ar = (x1, y1, x2, y2, dash) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="s-line" ${dash ? 'style="stroke-dasharray:4 4"' : ""} marker-end="url(#std-arr)"/>`;
+  let s = `<defs><marker id="std-arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" style="fill:var(--text-dim)"/></marker></defs>`;
+  s += box(10, 120, 92, 56, "시계", "MB.Clock", "f-acc-soft");
+  const T = [["드럼", "MB.drum"], ["베이스", "bass"], ["코드", "pad · epiano"], ["리드", "lead · pluck"]];
+  T.forEach((t, i) => {
+    const y = 18 + i * 70;
+    s += ar(102, 148, 130, y + 25, true);
+    s += box(132, y, 112, 50, t[0], t[1], "f-acc2-soft");
+    s += ar(244, y + 25, 272, y + 25);
+    s += box(274, y, 128, 50, "트랙 버스", "볼륨 → HPF");
+    s += ar(402, y + 25, 498, 148);
+    s += `<line x1="380" y1="${y + 50}" x2="${470}" y2="${262}" class="s-line" style="stroke-dasharray:2 3;opacity:.7"/>`;
+  });
+  s += `<text x="300" y="292" class="t-dim">센드(점선)</text>`;
+  s += box(426, 248, 120, 40, "리버브(컨볼버)", "", "f-acc2-soft");
+  s += ar(546, 268, 560, 176);
+  s += box(500, 120, 104, 56, "마스터", "LPF → 리미터", "f-acc-soft");
+  s += ar(604, 148, 630, 148);
+  s += box(632, 120, 76, 56, "분석기", "Analyser");
+  s += ar(708, 148, 730, 148);
+  s += `<text x="736" y="152" class="t">🔊</text><text x="732" y="190" class="t-dim">출력</text>`;
+  s += `<text x="10" y="200" class="t-dim">16분음표마다</text><text x="10" y="216" class="t-dim">예약(when)</text>`;
+  s += `<text x="630" y="230" class="t-dim">= OfflineAudioContext</text><text x="630" y="246" class="t-dim">로 다시 지으면 WAV</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 그림 17-2: 악기 주파수 대역 */
+(function () {
+  const g = document.getElementById("std-fig-ranges");
+  const X = (f) => 130 + (Math.log10(f / 20) / 3) * 650;
+  const R = [
+    ["킥", [45, 100], [2000, 5000], "쿵 / 딱"], ["베이스", [40, 250], [250, 2000], "기본음 / 배음"], ["스네어", [150, 250], [2000, 8000], "몸통 / 줄 소리"],
+    ["하이햇·심벌", [6000, 16000], [3000, 6000], "반짝임"], ["코드(패드·피아노)", [130, 1000], [1000, 5000], "넓게 덮음"], ["리드·보컬", [200, 1100], [1100, 8000], "기본음 / 포먼트·치찰음"],
+  ];
+  let s = "";
+  [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000].forEach((f) => { s += `<line x1="${X(f)}" x2="${X(f)}" y1="14" y2="292" class="s-axis" style="stroke-width:.5;stroke-dasharray:2 4"/><text x="${X(f)}" y="310" text-anchor="middle" class="t-mono">${f >= 1000 ? f / 1000 + "k" : f}</text>`; });
+  R.forEach((r, i) => {
+    const y = 22 + i * 46;
+    s += `<text x="120" y="${y + 18}" text-anchor="end" class="t" style="font-size:12.5px">${r[0]}</text>`;
+    s += `<rect x="${X(r[2][0])}" y="${y + 4}" width="${X(r[2][1]) - X(r[2][0])}" height="22" rx="6" class="f-acc2-soft" style="opacity:.75"/>`;
+    s += `<rect x="${X(r[1][0])}" y="${y + 4}" width="${X(r[1][1]) - X(r[1][0])}" height="22" rx="6" class="f-acc"/>`;
+    s += `<text x="${X(r[2][1]) + 6}" y="${y + 19}" class="t-dim" style="font-size:11px">${r[3]}</text>`;
+  });
+  s += `<text x="130" y="326" class="t-dim" style="font-size:11px">주파수 (Hz, 로그) · 진한 막대 = 기본음·몸통, 옅은 막대 = 배음·공격음</text>`;
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 1. 루프 스테이션 */
+(function () {
+  const st = STD.st;
+  const msg = (t, ok = true) => { const m = document.getElementById("std-msg"); m.hidden = false; m.className = "sim-msg " + (ok ? "ok" : "bad"); m.textContent = t; };
+  // --- 셀렉트 채우기
+  const presetSel = document.getElementById("std-preset");
+  presetSel.innerHTML = Object.entries(STD.PRESETS).map(([k, p]) => `<option value="${k}">${p.name}</option>`).join("") + `<option value="custom" hidden>(사용자 설정)</option>`;
+  const keySel = document.getElementById("std-key");
+  keySel.innerHTML = [...Array(12)].map((_, i) => `<option value="${i}">${MB.pcName(i, [1, 3, 6, 8, 10].includes(i))}</option>`).join("");
+  const scaleSel = document.getElementById("std-scale");
+  const cutF = (v) => 200 * Math.pow(100, v / 1000), cutS = (f) => (1000 * Math.log(f / 200)) / Math.log(100);
+  const bpm = MB.range("std-bpm", (v) => v + " BPM", (v) => { st.bpm = v; custom(); readout(); });
+  const swing = MB.range("std-swing", (v) => v + "%", (v) => { st.swing = v / 100; custom(); });
+  const swres = MB.seg("std-swres", (v) => { st.swingRes = +v; custom(); });
+  const cut = MB.range("std-cut", (v) => DSP_fmt(cutF(v)), (v) => { st.cutoff = cutF(v); mix(); });
+  function DSP_fmt(f) { return f >= 1000 ? (f / 1000).toFixed(1) + " kHz" : Math.round(f) + " Hz"; }
+  const bars = MB.seg("std-bars", (v) => { st.bars = +v; STD.fitBars(); if (clock.running) { clock.stop(); clock.start(); } custom(); buildSlots(); roll.resize(); readout(); });
+  const mode = MB.seg("std-mode", (v) => { st.mode = v; custom(); buildSlots(); buildPads(); });
+  const crhy = MB.seg("std-crhy", (v) => { st.chordRhy = v; custom(); });
+  const bpat = MB.seg("std-bpat", (v) => { st.bassPat = v; custom(); });
+  const seed = MB.range("std-seed", (v) => "#" + v, (v) => { st.seed = v; STD.genMelody(); roll.redraw(); custom(); });
+  const dens = MB.range("std-dens", (v) => v + "%", (v) => { st.density = v / 100; STD.genMelody(); roll.redraw(); custom(); });
+  keySel.addEventListener("change", () => { st.key = +keySel.value; custom(); buildSlots(); buildPads(); roll.redraw(); });
+  scaleSel.addEventListener("change", () => { st.scale = scaleSel.value; custom(); buildSlots(); buildPads(); roll.redraw(); });
+  presetSel.addEventListener("change", () => { if (presetSel.value === "custom") return; STD.loadPreset(presetSel.value); syncAll(); });
+  document.getElementById("std-gen").addEventListener("click", () => { seed.set(1 + Math.floor(Math.random() * 99)); });
+  document.getElementById("std-clear").addEventListener("click", () => { st.mel = st.mel.map(() => -1); roll.redraw(); custom(); });
+  function custom() { if (presetSel.value !== "custom") presetSel.value = "custom"; st.preset = "custom"; }
+  function mix() { if (STD.live) STD.applyMix(STD.live); }
+
+  // --- 화성: 칸과 패드
+  let selSlot = 0, curBar = -1, curStep = -1;
+  const slotsEl = document.getElementById("std-slots"), padsEl = document.getElementById("std-pads");
+  function preview(deg) { const g = STD.liveGraph(), c = STD.chordOf(deg); const v = MB.voiceLead(st.mode === "triad" ? [55, 60, 64] : [55, 59, 62, 65], c.pcs, [52, 76]); v.forEach((m) => MB.play(m, { inst: st.tracks.chords.inst, dur: 0.9, vel: 0.55, dest: g.tr.chords.in })); MB.play(36 + c.root > 43 ? 24 + c.root : 36 + c.root, { inst: st.tracks.bass.inst, dur: 0.9, vel: 0.7, dest: g.tr.bass.in }); kb.set(v, "mark"); }
+  function buildSlots() {
+    slotsEl.innerHTML = st.prog.map((d, i) => { const c = STD.chordOf(d); return `<div class="slot filled${i === selSlot ? " sel" : ""}${i === curBar ? " now" : ""}" data-i="${i}">${c.sym}<small>${i + 1} · ${c.roman}</small></div>`; }).join("");
+    slotsEl.querySelectorAll(".slot").forEach((el) => el.addEventListener("click", () => { selSlot = +el.dataset.i; buildSlots(); preview(st.prog[selSlot]); }));
+  }
+  function buildPads() {
+    padsEl.innerHTML = [0, 1, 2, 3, 4, 5, 6].map((d) => { const c = STD.chordOf(d); return `<button class="pad ${c.fn}" data-d="${d}"><b>${c.sym}</b><small>${c.roman}</small></button>`; }).join("");
+    padsEl.querySelectorAll(".pad").forEach((el) => el.addEventListener("click", () => { const d = +el.dataset.d; st.prog[selSlot] = d; selSlot = (selSlot + 1) % st.bars; custom(); buildSlots(); preview(d); roll.redraw(); }));
+  }
+
+  // --- 드럼 그리드
+  const drumsEl = document.getElementById("std-drums");
+  drumsEl.innerHTML = STD.DROWS.map((r) => `<div class="row"><div class="lab" data-r="${r}">${MB.DRUM_NAMES[r]}</div><div class="cells" style="--n:16">${[...Array(16)].map((_, i) => `<button class="cell${i % 4 === 0 ? " beat" : ""}" data-r="${r}" data-i="${i}" aria-label="${MB.DRUM_NAMES[r]} ${i + 1}"></button>`).join("")}</div></div>`).join("");
+  const cells = {}; drumsEl.querySelectorAll(".cell").forEach((c) => { (cells[c.dataset.r] = cells[c.dataset.r] || [])[+c.dataset.i] = c; c.addEventListener("click", () => { const a = st.drums[c.dataset.r]; a[+c.dataset.i] ^= 1; c.classList.toggle("on", !!a[+c.dataset.i]); custom(); }); });
+  drumsEl.querySelectorAll(".lab").forEach((l) => l.addEventListener("click", () => MB.drum(l.dataset.r, null, { dest: STD.liveGraph().tr.drums.in })));
+  function syncDrums() { STD.DROWS.forEach((r) => cells[r].forEach((c, i) => c.classList.toggle("on", !!st.drums[r][i]))); }
+
+  // --- 피아노 롤
+  const CW = 15, RH = 13, HDR = 18, ROWS = 14;
+  const wrap = document.getElementById("std-roll-wrap"), rollOpts = { height: HDR + ROWS * RH + 4, width: 0 };
+  rollOpts.width = Math.max(st.bars * 16 * CW + 34, 200);
+  const roll = MB.canvas("#std-roll", (ctx, w, h) => {
+    const P = MB.palette(), n = st.bars * 16, x0 = 34;
+    for (let b = 0; b < st.bars; b++) {
+      const ct = STD.chordRows(b);
+      for (let r = 0; r < ROWS; r++) if (ct.includes(r)) { ctx.fillStyle = P.accent + "14"; ctx.fillRect(x0 + b * 16 * CW, HDR + (ROWS - 1 - r) * RH, 16 * CW, RH); }
+      ctx.fillStyle = b === curBar ? P.accent : P.dim; ctx.font = DSP_font(11); ctx.textAlign = "left";
+      ctx.fillText(`${b + 1} ${STD.chordAt(b).sym}`, x0 + b * 16 * CW + 4, 13);
+    }
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    for (let r = 0; r <= ROWS; r++) { ctx.beginPath(); ctx.moveTo(x0, HDR + r * RH + 0.5); ctx.lineTo(x0 + n * CW, HDR + r * RH + 0.5); ctx.stroke(); }
+    for (let s = 0; s <= n; s++) { ctx.strokeStyle = s % 16 === 0 ? P.axis : s % 4 === 0 ? P.border : P.grid; ctx.beginPath(); ctx.moveTo(x0 + s * CW + 0.5, HDR); ctx.lineTo(x0 + s * CW + 0.5, HDR + ROWS * RH); ctx.stroke(); }
+    ctx.font = DSP_font(9.5, true); ctx.textAlign = "right"; ctx.fillStyle = P.dim;
+    for (let r = 0; r < ROWS; r++) ctx.fillText(MB.noteName(STD.leadMidi(r), STD.flat()), x0 - 4, HDR + (ROWS - 1 - r) * RH + 10);
+    for (let s = 0; s < n; s++) {
+      const r = st.mel[s]; if (r < 0) continue;
+      let L = 1; while (L < 4 && s + L < n && st.mel[s + L] < 0) L++;
+      ctx.fillStyle = s === curStep ? P.warn : P.accent;
+      ctx.fillRect(x0 + s * CW + 1, HDR + (ROWS - 1 - r) * RH + 1.5, L * CW - 2, RH - 2.5);
+    }
+    if (curStep >= 0) { ctx.fillStyle = P.warn + "33"; ctx.fillRect(x0 + curStep * CW, HDR, CW, ROWS * RH); }
+  }, rollOpts);
+  roll.canvas.style.width = rollOpts.width + "px";
+  const _resize = roll.resize;
+  roll.resize = () => { rollOpts.width = Math.max(st.bars * 16 * CW + 34, 200); roll.canvas.style.width = rollOpts.width + "px"; _resize(); };
+  function DSP_font(px, mono) { return px + "px " + getComputedStyle(document.body).getPropertyValue(mono ? "--mono" : "--font"); }
+  roll.canvas.addEventListener("click", (e) => {
+    const r = roll.canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    const s = Math.floor((x - 34) / CW), row = ROWS - 1 - Math.floor((y - HDR) / RH);
+    if (s < 0 || s >= st.mel.length || row < 0 || row >= ROWS) return;
+    st.mel[s] = st.mel[s] === row ? -1 : row;
+    if (st.mel[s] >= 0) MB.play(STD.leadMidi(row), { inst: st.tracks.lead.inst, dur: 0.3, dest: STD.liveGraph().tr.lead.in });
+    custom(); roll.redraw();
+  });
+
+  // --- 믹서
+  const mixEl = document.getElementById("std-mix"), INSTS = { bass: ["bass", "pluck", "sine", "triangle", "square", "saw"], chords: ["pad", "epiano", "piano", "organ", "strings", "pluck", "saw", "bell"], lead: ["lead", "pluck", "bell", "epiano", "piano", "square", "triangle", "sine", "organ", "strings"] };
+  const COL = { drums: "var(--warn)", bass: "var(--accent-2)", chords: "var(--accent)", lead: "var(--bad)" };
+  mixEl.innerHTML = STD.TR.map((n) => `<div class="card"><h5><i style="background:${COL[n]}"></i>${STD.TNAME[n]}</h5>
+    ${INSTS[n] ? `<label class="ctrl"><span>악기</span><select id="std-inst-${n}">${INSTS[n].map((k) => `<option value="${k}">${MB.INSTRUMENT_NAMES[k]}</option>`).join("")}</select></label>` : ""}
+    <label class="ctrl"><span>볼륨 <output id="std-vol-${n}-out"></output></span><input type="range" id="std-vol-${n}" min="0" max="100"></label>
+    <label class="ctrl"><span>리버브 센드 <output id="std-snd-${n}-out"></output></span><input type="range" id="std-snd-${n}" min="0" max="100"></label>
+    <div class="checks"><label class="check"><input type="checkbox" id="std-mute-${n}"> 뮤트</label><label class="check"><input type="checkbox" id="std-solo-${n}"> 솔로</label></div></div>`).join("");
+  const M = {};
+  STD.TR.forEach((n) => {
+    M[n] = {
+      vol: MB.range(`std-vol-${n}`, (v) => v + "%", (v) => { st.tracks[n].vol = v / 100; mix(); }),
+      snd: MB.range(`std-snd-${n}`, (v) => v + "%", (v) => { st.tracks[n].send = v / 100; mix(); }),
+      mute: MB.check(`std-mute-${n}`, (v) => { st.tracks[n].mute = v; mix(); }),
+      solo: MB.check(`std-solo-${n}`, (v) => { st.tracks[n].solo = v; mix(); }),
+      inst: document.getElementById(`std-inst-${n}`),
+    };
+    if (M[n].inst) M[n].inst.addEventListener("change", () => { st.tracks[n].inst = M[n].inst.value; custom(); });
+  });
+
+  // --- 건반(리드 악기, 리드 버스로)
+  const kb = MB.keyboard("#std-kb", { lo: 36, hi: 84, onDown: (m) => MB.play(m, { inst: st.tracks.lead.inst, dur: null, vel: 0.75, dest: STD.liveGraph().tr.lead.in }) });
+
+  // --- 트랜스포트
+  const clock = MB.Clock({
+    bpm: () => st.bpm, div: 4, swing: 0.5, length: () => st.bars * 16,
+    onStep(s, t) { STD.schedule(STD.liveGraph(), s % (st.bars * 16), t); },
+    onUI(s) { ui(s % (st.bars * 16)); },
+  });
+  const api = { halt() { if (clock.running) { clock.stop(); pb.set(false); idle(); } } };
+  const pb = MB.playButton("std-play", () => { STD.claim(api); STD.liveGraph(); STD.applyMix(STD.live); clock.start(); }, () => { clock.stop(); idle(); });
+  STD.main = { toggle() { if (clock.running) { clock.stop(); pb.set(false); idle(); } else { STD.claim(api); STD.liveGraph(); clock.start(); pb.set(true); } return clock.running; }, get running() { return clock.running; } };
+  let lastNow = [];
+  function ui(s) {
+    const bar = Math.floor(s / 16), stp = s % 16;
+    lastNow.forEach((c) => c.classList.remove("now")); lastNow = STD.DROWS.map((r) => cells[r][stp]); lastNow.forEach((c) => c.classList.add("now"));
+    document.getElementById("std-pos").textContent = `${bar + 1} · ${Math.floor(stp / 4) + 1}`;
+    curStep = s;
+    if (bar !== curBar) {
+      curBar = bar; const c = STD.chordAt(bar);
+      MB.stat("std-csym", c.sym); MB.stat("std-croman", `${c.roman} · 마디 ${bar + 1}/${st.bars}`);
+      slotsEl.querySelectorAll(".slot").forEach((el, i) => el.classList.toggle("now", i === bar));
+      kb.set(STD.voicings()[bar], "mark");
+      const bn = STD.bassNotes(bar).map((n) => MB.noteName(n.m, STD.flat()));
+      const ln = st.mel.slice(bar * 16, bar * 16 + 16).filter((r) => r >= 0).map((r) => MB.noteName(STD.leadMidi(r), STD.flat(), false));
+      MB.stat("std-r-notes", `${[...new Set(bn)].join(" ")} <small>· ${ln.join(" ") || "쉼"}</small>`);
+      const x = 34 + bar * 16 * CW; if (x < wrap.scrollLeft || x > wrap.scrollLeft + wrap.clientWidth - 60) wrap.scrollLeft = x - 20;
+    }
+    const bnow = STD.bassNotes(bar).find((n) => n.s === stp); if (bnow) kb.set([bnow.m], "alt");
+    const r = st.mel[s]; if (r >= 0) kb.flash(STD.leadMidi(r), 140);
+    roll.redraw();
+  }
+  function idle() { lastNow.forEach((c) => c.classList.remove("now")); lastNow = []; curStep = -1; curBar = -1; roll.redraw(); kb.clear("alt"); slotsEl.querySelectorAll(".slot").forEach((el) => el.classList.remove("now")); }
+  function readout() {
+    const b = 60 / st.bpm / 4;
+    MB.stat("std-r-step", `${(b * 1000).toFixed(1)} ms`);
+    MB.stat("std-r-len", `${(b * 16 * st.bars).toFixed(2)} s <small>(${st.bars}마디)</small>`);
+  }
+  function syncAll() {
+    presetSel.value = STD.PRESETS[st.preset] ? st.preset : "custom";
+    bpm.set(st.bpm, false); swing.set(Math.round(st.swing * 100), false); swres.set(String(st.swingRes || 16), false); cut.set(cutS(st.cutoff), false);
+    keySel.value = st.key; scaleSel.value = st.scale; bars.set(String(st.bars), false); mode.set(st.mode, false); crhy.set(st.chordRhy, false); bpat.set(st.bassPat, false);
+    seed.set(st.seed, false); dens.set(Math.round(st.density * 100), false);
+    STD.TR.forEach((n) => { const t = st.tracks[n]; M[n].vol.set(Math.round(t.vol * 100), false); M[n].snd.set(Math.round(t.send * 100), false); document.getElementById(`std-mute-${n}`).checked = !!t.mute; document.getElementById(`std-solo-${n}`).checked = !!t.solo; if (M[n].inst) M[n].inst.value = t.inst; });
+    selSlot = 0; buildSlots(); buildPads(); syncDrums(); roll.resize(); readout(); mix();
+    const c = STD.chordAt(0); MB.stat("std-csym", c.sym); MB.stat("std-croman", `${c.roman} · ${MB.pcName(st.key, STD.flat())} ${MB.SCALES[st.scale].name}`);
+    STD.changed("all");
+  }
+  // --- 저장 · 공유 · WAV
+  const enc = () => btoa(unescape(encodeURIComponent(JSON.stringify(st))));
+  const dec = (s) => JSON.parse(decodeURIComponent(escape(atob(s))));
+  document.getElementById("std-save").addEventListener("click", () => { try { localStorage.setItem("mb-studio-v1", JSON.stringify(st)); msg("이 브라우저에 저장했습니다."); } catch (e) { msg("저장할 수 없습니다(저장소 차단).", false); } });
+  document.getElementById("std-load").addEventListener("click", () => { try { const s = localStorage.getItem("mb-studio-v1"); if (!s) { msg("저장된 루프가 없습니다.", false); return; } STD.fromJSON(JSON.parse(s)); syncAll(); msg("저장된 루프를 불러왔습니다."); } catch (e) { msg("불러오기 실패: 형식이 맞지 않습니다.", false); } });
+  document.getElementById("std-link").addEventListener("click", async () => {
+    const url = location.href.split("#")[0] + "#std=" + enc();
+    try { history.replaceState(null, "", url); } catch (e) {}
+    try { await navigator.clipboard.writeText(url); msg(`공유 링크를 복사했습니다 (${url.length}자).`); } catch (e) { msg("주소창에 공유 링크를 넣었습니다. 주소를 복사해 공유하세요."); }
+  });
+  const wavBtn = document.getElementById("std-wav");
+  wavBtn.addEventListener("click", async () => {
+    if (wavBtn.disabled) return; wavBtn.disabled = true; msg("렌더링 중…");
+    try {
+      const t0 = performance.now(), buf = await STD.render([{ steps: st.bars * 32 }]), blob = STD.wav(buf);
+      STD.download(blob, `musicbook-loop-${st.bpm}bpm.wav`);
+      msg(`완료: ${buf.duration.toFixed(1)}초 오디오를 ${((performance.now() - t0) / 1000).toFixed(2)}초에 렌더링 (${(blob.size / 1048576).toFixed(2)} MB, 44.1 kHz/16비트/스테레오).`);
+    } catch (e) { msg("렌더링 실패: " + e.message, false); }
+    wavBtn.disabled = false;
+  });
+  // 주소에 상태가 있으면 불러오기
+  try { const m = location.hash.match(/^#std=(.+)$/); if (m) { STD.fromJSON(dec(m[1])); } } catch (e) { console.warn("공유 링크 해석 실패", e); }
+  syncAll();
+})();
+
+/* ================================================================ 2. 편곡기 */
+(function () {
+  const st = STD.st;
+  const DEF = () => [
+    { name: "인트로", n: 1, on: { drums: 0, bass: 0, chords: 1, lead: 0 }, dark: 1 },
+    { name: "벌스 1", n: 1, on: { drums: 1, bass: 1, chords: 1, lead: 0 }, dark: 0 },
+    { name: "코러스", n: 1, on: { drums: 1, bass: 1, chords: 1, lead: 1 }, dark: 0 },
+    { name: "벌스 2", n: 1, on: { drums: 1, bass: 1, chords: 1, lead: 0 }, dark: 0 },
+    { name: "코러스", n: 1, on: { drums: 1, bass: 1, chords: 1, lead: 1 }, dark: 0 },
+    { name: "브리지", n: 1, on: { drums: 0, bass: 0, chords: 1, lead: 1 }, dark: 1 },
+    { name: "코러스 ×2", n: 2, on: { drums: 1, bass: 1, chords: 1, lead: 1 }, dark: 0 },
+    { name: "아웃트로", n: 1, on: { drums: 0, bass: 1, chords: 1, lead: 0 }, dark: 1 },
+  ];
+  const W = { drums: 3, bass: 2.5, chords: 1.5, lead: 2 };
+  let secs = DEF(), curSec = -1, curStep = -1;
+  const grid = document.getElementById("arr-grid");
+  const loopSteps = () => st.bars * 16;
+  const plan = () => secs.map((s) => ({ steps: s.n * loopSteps(), mask: s.on, dark: s.dark }));
+  const energy = (s) => STD.TR.reduce((a, k) => a + (s.on[k] ? W[k] * st.tracks[k].vol : 0), 0);
+  function build() {
+    grid.innerHTML = `<div class="arow head"><span>구간</span>${STD.TR.map((k) => `<span>${STD.TNAME[k]}</span>`).join("")}<span>반복</span><span>필터</span></div>` +
+      secs.map((s, i) => `<div class="arow${i === curSec ? " now" : ""}" data-i="${i}"><span>${s.name}</span>${STD.TR.map((k) => `<button class="tg${s.on[k] ? " on" : ""}" data-i="${i}" data-k="${k}">${s.on[k] ? "켬" : "끔"}</button>`).join("")}<select data-i="${i}" data-f="n">${[1, 2, 3, 4].map((v) => `<option value="${v}"${v === s.n ? " selected" : ""}>×${v}</option>`).join("")}</select><select data-i="${i}" data-f="dark"><option value="0"${s.dark ? "" : " selected"}>열림</option><option value="1"${s.dark ? " selected" : ""}>어둡게</option></select></div>`).join("");
+    grid.querySelectorAll(".tg").forEach((b) => b.addEventListener("click", () => { const s = secs[+b.dataset.i]; s.on[b.dataset.k] ^= 1; build(); cv.redraw(); }));
+    grid.querySelectorAll("select").forEach((el) => el.addEventListener("change", () => { secs[+el.dataset.i][el.dataset.f] = +el.value; build(); cv.redraw(); readout(); }));
+  }
+  const total = () => secs.reduce((a, s) => a + s.n * loopSteps(), 0);
+  const fmtT = (sec) => `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, "0")}`;
+  function readout() { MB.stat("arr-len", `${fmtT((total() * 60) / st.bpm / 4)} <small>${secs.reduce((a, s) => a + s.n, 0) * st.bars}마디</small>`); }
+  function secAt(s) { let a = 0; for (let i = 0; i < secs.length; i++) { const L = secs[i].n * loopSteps(); if (s < a + L) return { i, local: s - a, start: a }; a += L; } return { i: secs.length - 1, local: 0, start: a }; }
+  const cv = MB.canvas("#cv-arr", (ctx, w, h) => {
+    const P = MB.palette(), T = total(), box = { x: 12, y: 12, w: w - 24, h: h - 40 };
+    const emax = STD.TR.reduce((a, k) => a + W[k], 0);
+    let a = 0;
+    secs.forEach((s, i) => {
+      const x = box.x + (a / T) * box.w, ww = ((s.n * loopSteps()) / T) * box.w, e = energy(s) / emax, hh = Math.max(4, e * box.h);
+      ctx.fillStyle = i === curSec ? P.accent : P.accent + "66"; ctx.fillRect(x + 1, box.y + box.h - hh, ww - 2, hh);
+      if (s.dark) { ctx.fillStyle = P.text + "22"; ctx.fillRect(x + 1, box.y, ww - 2, box.h - hh); }
+      ctx.fillStyle = P.dim; ctx.font = DSP_font(11); ctx.textAlign = "center"; if (ww > 34) ctx.fillText(s.name, x + ww / 2, h - 12);
+      a += s.n * loopSteps();
+    });
+    if (curStep >= 0) { const x = box.x + (curStep / T) * box.w; ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, box.y - 4); ctx.lineTo(x, box.y + box.h); ctx.stroke(); }
+    ctx.fillStyle = P.faint; ctx.font = DSP_font(11); ctx.textAlign = "left"; ctx.fillText("에너지 모형 E (막대 높이) · 어두운 칸 = 필터 닫힘", box.x, 10);
+  }, { aspect: 0.22, maxHeight: 170, minHeight: 120 });
+  function DSP_font(px) { return px + "px " + getComputedStyle(document.body).getPropertyValue("--font"); }
+  let lastSec = -1;
+  const clock = MB.Clock({
+    bpm: () => st.bpm, div: 4, swing: 0.5, length: () => total(),
+    onStep(s, t) {
+      const g = STD.liveGraph(), p = secAt(s), sec = secs[p.i];
+      if (p.local === 0) g.filt.frequency.setTargetAtTime(sec.dark ? 900 : st.cutoff, t, 0.3);
+      STD.schedule(g, p.local % loopSteps(), t, sec.on);
+    },
+    onUI(s) {
+      curStep = s; const p = secAt(s);
+      if (p.i !== lastSec) { lastSec = curSec = p.i; build(); MB.stat("arr-now", `${secs[p.i].name} <small>(${p.i + 1}/${secs.length})</small>`); }
+      MB.stat("arr-t", `${fmtT((s * 60) / st.bpm / 4)} / ${fmtT((total() * 60) / st.bpm / 4)}`);
+      cv.redraw();
+    },
+  });
+  const api = { halt() { if (clock.running) { clock.stop(); pb.set(false); stopped(); } } };
+  function stopped() { curStep = -1; curSec = -1; lastSec = -1; build(); cv.redraw(); if (STD.live) STD.live.filt.frequency.setTargetAtTime(st.cutoff, MB.now(), 0.1); }
+  const pb = MB.playButton("arr-play", () => { STD.claim(api); STD.liveGraph(); clock.start(0); }, () => { clock.stop(); stopped(); }, ["▶ 처음부터 재생", "■ 정지"]);
+  document.getElementById("arr-reset").addEventListener("click", () => { secs = DEF(); build(); cv.redraw(); readout(); });
+  const wb = document.getElementById("arr-wav"), m = document.getElementById("arr-msg");
+  wb.addEventListener("click", async () => {
+    if (wb.disabled) return; wb.disabled = true; m.hidden = false; m.className = "sim-msg ok"; m.textContent = "곡 전체 렌더링 중… (길이에 따라 몇 초 걸립니다)";
+    try { const t0 = performance.now(), buf = await STD.render(plan()), blob = STD.wav(buf); STD.download(blob, `musicbook-song-${st.bpm}bpm.wav`); m.textContent = `완료: ${fmtT(buf.duration)} 분량을 ${((performance.now() - t0) / 1000).toFixed(1)}초에 렌더링 (${(blob.size / 1048576).toFixed(1)} MB).`; }
+    catch (e) { m.className = "sim-msg bad"; m.textContent = "렌더링 실패: " + e.message; }
+    wb.disabled = false;
+  });
+  STD.onChange(() => { build(); cv.redraw(); readout(); });
+  build(); readout();
+})();
+
+/* ================================================================ 3. 믹스 스펙트럼 */
+(function () {
+  const view = MB.seg("mix-view", () => {});
+  const carve = MB.check("mix-carve", (v) => { STD.st.carve = v; if (STD.live) STD.applyMix(STD.live); });
+  const showMask = MB.check("mix-mask", () => {});
+  const btn = document.getElementById("mix-play");
+  btn.addEventListener("click", () => { const on = STD.main.toggle(); btn.textContent = on ? "■ 정지" : "▶ 루프 재생"; btn.classList.toggle("playing", on); });
+  const COLV = { drums: "warn", bass: "accent2", chords: "accent", lead: "bad" };
+  const fd = new Float32Array(2048);
+  const BANDS = []; for (let f = 31.5; f < 16000; f *= Math.pow(2, 1 / 3)) BANDS.push(f);
+  const cv = MB.canvas("#cv-mix", (ctx, w, h) => {
+    const P = MB.palette(), g = STD.live, box = { x: 36, y: 10, w: w - 46, h: h - 30 };
+    const fmin = 30, fmax = 16000, X = (f) => box.x + (Math.log(f / fmin) / Math.log(fmax / fmin)) * box.w, dbMin = -110, dbMax = -20, Y = (d) => box.y + box.h - ((MB.clamp(d, dbMin, dbMax) - dbMin) / (dbMax - dbMin)) * box.h;
+    if (!g || !STD.main.running) {
+      MB.drawSpectrum(ctx, box, new Float32Array(16).fill(-200), 1000, { fmin, fmax, dbMin, dbMax, color: "rgba(0,0,0,0)" });
+      ctx.fillStyle = P.faint; ctx.font = "13px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "center"; ctx.fillText("▶ 루프 재생을 누르면 트랙별 스펙트럼이 나타납니다", box.x + box.w / 2, box.y + box.h / 2);
+      return;
+    }
+    const sr = g.ctx.sampleRate, binHz = sr / 4096;
+    const lv = {}; // 트랙별 1/3옥타브 레벨
+    const spec = {};
+    STD.TR.forEach((k) => { const a = new Float32Array(2048); g.tr[k].an.getFloatFrequencyData(a); spec[k] = a; lv[k] = BANDS.map((fc) => { const lo = Math.floor((fc / Math.pow(2, 1 / 6)) / binHz), hi = Math.max(lo + 1, Math.ceil((fc * Math.pow(2, 1 / 6)) / binHz)); let e = 0; for (let i = lo; i < hi && i < a.length; i++) e += Math.pow(10, a[i] / 10); return 10 * Math.log10(e + 1e-20); }); });
+    // 겹침 대역
+    let overlap = 0;
+    BANDS.forEach((fc, j) => {
+      const vals = STD.TR.map((k) => lv[k][j]), mx = Math.max(...vals), cnt = vals.filter((v) => v > mx - 6).length;
+      if (mx > -80 && cnt >= 2) { overlap++; if (showMask()) { ctx.fillStyle = P.bad + "26"; ctx.fillRect(X(fc / Math.pow(2, 1 / 6)), box.y, X(fc * Math.pow(2, 1 / 6)) - X(fc / Math.pow(2, 1 / 6)), box.h); } }
+    });
+    MB.drawSpectrum(ctx, box, new Float32Array(16).fill(-200), 1000, { fmin, fmax, dbMin, dbMax, color: "rgba(0,0,0,0)" });
+    if (view() === "sum") { g.an.getFloatFrequencyData(fd); MB.drawSpectrum(ctx, box, fd, binHz, { fmin, fmax, dbMin, dbMax, grid: false, color: P.text, fill: P.text + "18", width: 1.4 }); }
+    else STD.TR.forEach((k) => MB.drawSpectrum(ctx, box, spec[k], binHz, { fmin, fmax, dbMin, dbMax, grid: false, color: P[COLV[k]], width: 1.8 }));
+    // 범례 + 무게중심
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "left";
+    STD.TR.forEach((k, i) => {
+      ctx.fillStyle = P[COLV[k]]; ctx.fillRect(box.x + box.w - 230 + i * 58, box.y + 4, 10, 10); ctx.fillStyle = P.text; ctx.fillText(STD.TNAME[k], box.x + box.w - 216 + i * 58, box.y + 13);
+      let e = 0, ef = 0; const a = spec[k]; for (let b = 2; b < a.length; b++) { const p = Math.pow(10, a[b] / 10); e += p; ef += p * b * binHz; }
+      MB.stat("mix-c-" + k, e > 1e-11 ? `${ef / e >= 1000 ? (ef / e / 1000).toFixed(2) + " kHz" : Math.round(ef / e) + " Hz"}` : "—");
+    });
+    MB.stat("mix-overlap", `${overlap} <small>/ ${BANDS.length}</small>`);
+  }, { aspect: 0.5, maxHeight: 360, minHeight: 230 });
+  MB.loop(cv.canvas, () => {
+    const on = STD.main && STD.main.running;
+    if (btn.classList.contains("playing") !== !!on) { btn.textContent = on ? "■ 정지" : "▶ 루프 재생"; btn.classList.toggle("playing", !!on); }
+    if (on) cv.redraw();
+  });
+  STD.onChange(() => { carve.set(!!STD.st.carve); });
+})();
+
+/* ================================================================ 4. 코드 진행 받아쓰기 */
+(function () {
+  const level = MB.seg("ch-level", () => newQ(false));
+  let q = null, score = 0, tries = 0, streak = 0, answered = false, playing = [];
+  const POOL = { easy: [3, 4, 5], mid: [1, 2, 3, 4, 5], hard: [1, 2, 3, 4, 5] };
+  const slots = document.getElementById("ch-slots"), opts = document.getElementById("ch-opts"), msgEl = document.getElementById("ch-msg");
+  const rnd = MB.rng((Date.now() % 100000) + 1);
+  const romanOf = (d) => MB.diatonic(0, "major", level() === "hard")[d].roman;
+  function progGen() { const p = [0]; while (p.length < 4) { const pool = p.length >= 2 ? [0].concat(POOL[level()]) : POOL[level()], c = pool[Math.floor(rnd() * pool.length)]; if (c !== p[p.length - 1]) p.push(c); } return p; }
+  function mutate(p) { const o = p.slice(), pool = [0].concat(POOL[level()]), k = 1 + Math.floor(rnd() * 3); let c; let g = 0; do { c = pool[Math.floor(rnd() * pool.length)]; } while ((c === o[k] || c === o[k - 1] || c === o[k + 1]) && g++ < 50); o[k] = c; if (rnd() < 0.35) { const k2 = 1 + (k % 3); let c2; g = 0; do { c2 = pool[Math.floor(rnd() * pool.length)]; } while ((c2 === o[k2] || c2 === o[k2 - 1] || c2 === o[k2 + 1]) && g++ < 50); o[k2] = c2; } return o; }
+  function newQ(play = true) {
+    const key = Math.floor(rnd() * 12), ans = progGen(), set = [ans.join()], options = [ans];
+    let guard = 0; while (options.length < 4 && guard++ < 200) { const m = mutate(ans); if (!set.includes(m.join())) { set.push(m.join()); options.push(m); } }
+    for (let i = options.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [options[i], options[j]] = [options[j], options[i]]; }
+    q = { key, ans, options }; answered = false; msgEl.hidden = true;
+    draw(); if (play) hear(ans);
+  }
+  function hear(p, hi) {
+    if (!q) return;
+    playing.forEach(clearTimeout); playing = [];
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.08, bar = (60 / 90) * 4, sev = level() === "hard";
+    const dia = MB.diatonic(q.key, "major", sev);
+    let prev = sev ? [55, 59, 62, 65] : [55, 60, 64];
+    p.forEach((d, i) => {
+      const c = dia[d], pcs = MB.CHORDS[c.quality].iv.map((x) => MB.mod(c.root + x, 12));
+      prev = MB.voiceLead(prev, pcs, [52, 76]);
+      const t = t0 + i * bar;
+      prev.forEach((m) => MB.play(m, { inst: "piano", when: t, dur: bar * 0.95, vel: 0.6 }));
+      MB.play(36 + c.root > 47 ? 24 + c.root : 36 + c.root, { inst: "bass", when: t, dur: bar * 0.9, vel: 0.65 });
+      playing.push(setTimeout(() => mark(i, hi), (t - ctx.currentTime) * 1000));
+    });
+    playing.push(setTimeout(() => mark(-1, hi), (t0 + 4 * bar - ctx.currentTime) * 1000));
+  }
+  function mark(i) { slots.querySelectorAll(".slot").forEach((el, j) => el.classList.toggle("now", j === i)); }
+  function draw() {
+    const show = answered;
+    slots.innerHTML = q.ans.map((d, i) => `<div class="slot${show ? " filled" : ""}">${show ? MB.chordSymbol(MB.diatonic(q.key, "major", level() === "hard")[d].root, MB.diatonic(q.key, "major", level() === "hard")[d].quality, MB.prefersFlats(q.key)) : "?"}<small>${show ? romanOf(d) : i + 1 + "마디"}</small></div>`).join("");
+    opts.innerHTML = q.options.map((o, i) => `<button class="btn" data-i="${i}">${o.map(romanOf).join(" – ")}</button>`).join("");
+    opts.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => pick(+b.dataset.i, b)));
+    MB.stat("ch-key", show ? `${MB.pcName(q.key, MB.prefersFlats(q.key))} 장조` : "?");
+  }
+  function pick(i, b) {
+    const o = q.options[i], right = o.join() === q.ans.join();
+    if (answered) { hear(o); return; }
+    answered = true; tries++;
+    if (right) { score++; streak++; } else streak = 0;
+    draw();
+    opts.querySelectorAll("button").forEach((x, j) => { if (q.options[j].join() === q.ans.join()) x.classList.add("right"); else if (j === i) x.classList.add("wrong"); });
+    msgEl.hidden = false; msgEl.className = "sim-msg " + (right ? "ok" : "bad");
+    const diff = q.ans.map((d, k) => (d !== o[k] ? `${k + 1}마디: ${romanOf(d)} (고른 것 ${romanOf(o[k])})` : null)).filter(Boolean).join(", ");
+    msgEl.textContent = right ? "정답입니다! 보기를 눌러 다른 진행과 비교해 들어 보세요." : `아쉽습니다. 다른 곳 — ${diff}. 보기를 눌러 비교해 들을 수 있습니다.`;
+    MB.stat("ch-score", `${score} / ${tries}`); MB.stat("ch-streak", String(streak));
+  }
+  document.getElementById("ch-new").addEventListener("click", () => newQ(true));
+  document.getElementById("ch-again").addEventListener("click", () => { if (!q) newQ(true); else hear(q.ans); });
+  document.getElementById("ch-tonic").addEventListener("click", () => { if (!q) newQ(false); const dia = MB.diatonic(q.key, "major"); const c = dia[0]; MB.chord(60 + MB.mod(c.root - 0, 12) - (c.root > 6 ? 12 : 0), "maj").forEach((m) => MB.play(m, { inst: "piano", dur: 1.4, vel: 0.6 })); MB.play(36 + c.root, { inst: "bass", dur: 1.4, vel: 0.6 }); });
+  newQ(false);
+})();
+</script>
+</body>
+</html>

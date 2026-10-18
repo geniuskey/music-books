@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>리듬과 박자 · MusicBook</title>
+<meta name="description" content="리듬을 이산 시계열로 다룬다. 템포와 박 간격, 위계적 박자 격자와 박자표, 음표 길이와 잇단음표, 당김음 측도, 스윙 비율, 폴리리듬·폴리미터, 가산 박자와 한국 장단, 사람의 타이밍까지 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/rhythm.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="리듬과 박자 · MusicBook">
+<meta property="og:description" content="리듬을 이산 시계열로 다룬다. 템포와 박 간격, 위계적 박자 격자와 박자표, 음표 길이와 잇단음표, 당김음 측도, 스윙 비율, 폴리리듬·폴리미터, 가산 박자와 한국 장단, 사람의 타이밍까지 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/rhythm.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"리듬과 박자","name":"리듬과 박자 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/rhythm.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/rhythm.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":11,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"리듬을 이산 시계열로 다룬다. 템포와 박 간격, 위계적 박자 격자와 박자표, 음표 길이와 잇단음표, 당김음 측도, 스윙 비율, 폴리리듬·폴리미터, 가산 박자와 한국 장단, 사람의 타이밍까지 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"11 리듬과 박자","item":"https://music.euiyun.com/fundamentals/chapters/rhythm.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .rhy-click { cursor: pointer; touch-action: manipulation; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .presets .btn { padding: 5px 10px; font-size: 13px; }
+  .presets .btn.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  #sim-rhy-sync .steps-grid .row { min-width: 420px; }
+  #sim-rhy-sync .steps-grid .cell { height: 34px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="rhythm">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 11</div>
+    <h1>리듬과 박자</h1>
+    <p class="lead">음높이가 주파수 축의 구조라면 리듬은 시간 축의 구조입니다. 공학적으로 보면 리듬은 <b>시각의 목록</b>, 즉 온셋(onset) 시각들의 이산 시계열이고, 박자는 그 시각들을 재는 <b>위계적인 격자</b>입니다. 이 장에서는 템포를 밀리초로 바꾸고, 박자를 가중치 배열로 만들고, 당김음과 스윙을 숫자로 재고, 서로 다른 주기의 리듬이 최소공배수에서 다시 만나는 것을 귀로 확인합니다.</p>
+    <ul class="objectives">
+      <li>BPM과 박 간격(ms)을 자유롭게 바꾸고, 사람이 선호하는 템포 범위(약 2 Hz 근처)를 설명한다.</li>
+      <li>박자를 위계적 격자와 박절 가중치로 표현하고, 홑박자·겹박자(3/4와 6/8)의 차이를 그룹핑으로 설명한다.</li>
+      <li>음표 길이의 이진 분할, 점음표와 잇단음표를 공통 격자(최소공배수)로 다룬다.</li>
+      <li>롱게–히긴스·리의 당김음 측도를 계산하고, 스윙 비율을 온셋 위치(%)와 ms로 환산한다.</li>
+      <li>폴리리듬·폴리미터·헤미올라를 구별하고, 가산 박자(아크사크)와 한국 장단을 그룹핑 구조로 읽는다.</li>
+      <li>탭 비동기, 미세 타이밍, 템포 흔들림 같은 사람의 타이밍 특성과 '그루브'의 관계를 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="pulse">
+    <h2>펄스, 박, 템포</h2>
+    <p>규칙적으로 반복되는 시점의 열을 <span class="term">펄스</span><span class="en">(Pulse)</span>라 하고, 그중 사람이 발로 박자를 맞추는 층위를 <span class="term">박</span><span class="en">(Beat, Tactus)</span>이라 합니다. <span class="term">템포</span><span class="en">(Tempo)</span>는 박의 반복률이고 단위는 분당 박 수(BPM)입니다. 엔지니어에게 필요한 첫 공식은 단위 변환 하나입니다.</p>
+    <div class="formula">$$T_{\text{beat}}\,[\text{ms}] = \frac{60\,000}{\text{BPM}}, \qquad f_{\text{beat}}\,[\text{Hz}] = \frac{\text{BPM}}{60}$$
+      <div class="where">120 BPM = 500 ms = 2 Hz. 박을 \(k\)등분한 음표의 길이는 \(T_{\text{beat}}/k\)이므로 120 BPM의 16분음표는 125 ms(8 Hz)다. 이 값은 딜레이 이펙트의 '템포 동기' 시간을 계산할 때 그대로 쓰인다(점8분 딜레이 = 0.75 × 500 = 375 ms).</div>
+    </div>
+    <p>사람이 '박'으로 느끼는 반복률에는 뚜렷한 선호 구간이 있습니다. 대략 250 ms(240 BPM)보다 빠르면 박이 아니라 잘게 나눈 음(분할)으로 들리고, 1.5–2 s(30–40 BPM)보다 느리면 다음 박을 예측하기 어려워 박으로 묶이지 않습니다. 그 사이에서도 자발적으로 두드리는 템포(spontaneous tempo)와 음악의 박으로 고르는 템포는 <b>약 100–120 BPM, 즉 2 Hz 근처</b>에 몰립니다. van Noorden &amp; Moelants(1999)는 이를 공진 모델로 설명했습니다. 사람의 박 지각을 감쇠 진동자로 보고 외부 리듬에 대한 '공진 곡선'을 맞추면 공진 주파수가 약 2 Hz로 나옵니다. 걸음걸이 주기(약 1.7–2 Hz)와 비슷하다는 점도 자주 언급됩니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>나타냄말</th><th>뜻</th><th class="num">대략의 BPM</th><th class="num">박 간격</th></tr></thead>
+      <tbody>
+        <tr><td>Largo / Adagio</td><td>아주 느리게 / 느리게</td><td class="num">40–76</td><td class="num">1500–790 ms</td></tr>
+        <tr><td>Andante</td><td>걷는 빠르기로</td><td class="num">76–108</td><td class="num">790–556 ms</td></tr>
+        <tr><td>Moderato</td><td>보통 빠르기로</td><td class="num">108–120</td><td class="num">556–500 ms</td></tr>
+        <tr><td>Allegro</td><td>빠르게</td><td class="num">120–156</td><td class="num">500–385 ms</td></tr>
+        <tr><td>Presto</td><td>매우 빠르게</td><td class="num">168–200</td><td class="num">357–300 ms</td></tr>
+      </tbody>
+    </table></div>
+    <p>나타냄말의 BPM 범위는 메트로놈 제조사마다 조금씩 다른 관례일 뿐 정의가 아닙니다. 대중음악 장르는 템포 분포가 좁아서, 하우스는 120–128, 드럼앤베이스는 160–180, 힙합 붐뱁은 85–95 BPM 근처에 몰립니다(12장).</p>
+
+    <div class="sim" id="sim-rhy-metro">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>메트로놈 · 탭 템포 · 비동기 측정</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="rm-cv" class="rhy-click"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="rm-bpm-out"></output></span><input type="range" id="rm-bpm" min="30" max="240" value="100" step="1"></label>
+          <label class="ctrl"><span>박자표</span><select id="rm-meter">
+            <option value="2/4">2/4</option><option value="3/4">3/4</option><option value="4/4" selected>4/4</option><option value="5/4">5/4 (3+2)</option>
+            <option value="6/8">6/8 (3+3)</option><option value="7/8">7/8 (2+2+3)</option><option value="9/8">9/8 (3+3+3)</option><option value="12/8">12/8 (3+3+3+3)</option>
+          </select></label>
+          <div class="ctrl"><span>펄스 분할</span><div class="seg" id="rm-sub"><button data-value="1" class="on">×1</button><button data-value="2">×2</button><button data-value="3">×3</button><button data-value="4">×4</button></div></div>
+          <div class="ctrl"><span>음색</span><div class="seg" id="rm-snd"><button data-value="blip" class="on">전자음</button><button data-value="wood">우드블록</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="rm-play">▶ 시작</button><button class="btn" id="rm-tap">탭 (T)</button><button class="btn" id="rm-apply">탭 템포 적용</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">박 간격</span><span class="v" id="rm-o-beat">—</span></div>
+        <div class="stat"><span class="k">마디 길이</span><span class="v" id="rm-o-bar">—</span></div>
+        <div class="stat"><span class="k">탭 템포</span><span class="v" id="rm-o-tap">—</span></div>
+        <div class="stat"><span class="k">탭 간격 SD</span><span class="v" id="rm-o-sd">—</span></div>
+        <div class="stat"><span class="k">평균 비동기</span><span class="v" id="rm-o-async">—</span></div>
+      </div>
+      <div class="sim-note">아래 동그라미(펄스)를 클릭하면 강세가 강 → 중 → 약 → 끔 순서로 바뀝니다. 진자는 박마다 끝에 닿습니다(7/8의 마지막 박은 1.5배 길다). <b>탭 템포</b>: 버튼이나 <kbd>T</kbd> 키를 박에 맞춰 4번 이상 두드리면 간격의 중앙값에서 ±20%를 벗어나는 값을 버리고(이상치 제거) 나머지를 평균해 BPM을 추정합니다. 메트로놈을 켠 채 두드리면 소리 대비 탭의 <b>비동기(asynchrony)</b>도 잽니다. 음수는 클릭보다 먼저 두드렸다는 뜻인데, 사람은 보통 수십 ms 앞서 칩니다(8절). 측정값에는 출력 지연(<code>outputLatency</code>로 보정)과 키 입력 지연이 섞여 있으니 절대값보다 경향을 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="meter">
+    <h2>박자: 위계적 격자와 그룹핑</h2>
+    <p><span class="term">박자</span><span class="en">(Meter)</span>는 펄스를 여러 층위로 묶은 위계 구조입니다. Lerdahl &amp; Jackendoff(1983, <i>A Generative Theory of Tonal Music</i>)는 이를 점 격자로 그렸습니다. 가장 촘촘한 층위의 점 위에 '한 단계 위에서도 박인 점'을 하나 더 쌓고, 그 위에 또 쌓습니다. 각 위치에 쌓인 점의 개수가 그 위치의 <span class="term">박절 가중치</span><span class="en">(Metrical Weight)</span>이고, 클수록 강박입니다. 규칙은 간단합니다. 어떤 층위의 박이든 바로 아래 층위의 박이어야 하고, 한 층위의 박 간격은 아래 층위 간격의 2배나 3배여야 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="4/4 박자의 위계적 점 격자"><g id="rhy-fig-grid"></g></svg>
+      <figcaption><b>그림 11-1.</b> 4/4 박자를 16분음표 해상도까지 쌓은 박절 격자. 점의 개수가 박절 가중치다(1박 5개, 3박 4개, 2·4박 3개, 8분 뒷박 2개, 16분 1개). 아래 숫자는 롱게–히긴스·리(1984)의 가중치 표기(0, −1, −2, …)로, 당김음 계산(4절)에 쓴다.</figcaption>
+    </figure>
+    <div class="formula">$$W(i) = \max\{\,\ell \;:\; i \equiv 0 \pmod{p_\ell}\,\},\qquad p_\ell = \prod_{j<\ell} r_j,\; r_j\in\{2,3\}$$
+      <div class="where">\(p_\ell\): 층위 \(\ell\)의 간격(가장 촘촘한 펄스 단위). \(r_j\): 층위 사이의 분할비. 4/4는 16분 해상도에서 \(r = (2,2,2,2)\), 6/8은 8분 해상도에서 \(r = (3,2)\), 3/4는 \(r = (2,3)\)이다. 박자표는 결국 이 분할비 벡터를 압축한 표기다.</div>
+    </div>
+    <h3>홑박자와 겹박자: 같은 여섯 개, 다른 묶음</h3>
+    <p>박자표 \(n/d\)는 '\(d\)분음표가 \(n\)개'라는 뜻일 뿐, 묶음 방식은 관례로 정합니다. 박이 2등분되면 <span class="term">홑박자</span><span class="en">(Simple Meter)</span>, 3등분되면 <span class="term">겹박자</span><span class="en">(Compound Meter)</span>입니다. 3/4와 6/8은 모두 8분음표 6개이지만 3/4는 2+2+2(박 3개, 각각 2분할), 6/8은 3+3(박 2개, 각각 3분할)입니다. 분할비 벡터로 쓰면 \((2,3)\)과 \((3,2)\), 곱은 같고 순서만 다릅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="3/4와 6/8의 그룹핑 비교"><g id="rhy-fig-68"></g></svg>
+      <figcaption><b>그림 11-2.</b> 8분음표 여섯 개를 3/4(2+2+2)와 6/8(3+3)로 묶은 모습. 막대 높이가 박절 가중치다. 3/4에서는 3번째 8분음표가 약하고 5번째가 박인 반면, 6/8에서는 4번째가 둘째 박이다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>박자표</th><th>종류</th><th>박의 음표</th><th>분할</th><th>그룹핑(8분 단위)</th></tr></thead>
+      <tbody>
+        <tr><td>2/4, 3/4, 4/4</td><td>홑박자</td><td>4분음표</td><td>2</td><td>2+2, 2+2+2, 2+2+2+2</td></tr>
+        <tr><td>6/8, 9/8, 12/8</td><td>겹박자</td><td>점4분음표</td><td>3</td><td>3+3, 3+3+3, 3+3+3+3</td></tr>
+        <tr><td>5/8, 7/8, 9/8(아크사크)</td><td>가산(불균등)</td><td>4분·점4분 섞임</td><td>2와 3</td><td>2+3, 2+2+3, 2+2+2+3</td></tr>
+      </tbody>
+    </table></div>
+    <p>박의 길이가 2와 3으로 섞인 박자를 <span class="term">가산 박자</span><span class="en">(Additive Meter)</span>라 합니다. 발칸·튀르키예 음악에서는 이런 '절뚝이는' 박을 <span class="term">아크사크</span><span class="en">(Aksak, '절름발이')</span>라 부르며, 7/8(2+2+3), 9/8(2+2+2+3), 11/8 등이 춤곡의 기본입니다. 박 길이의 비가 정확히 3:2로 고정되지 않고 연주자마다 2.5:2 근처로 줄어드는 경우도 측정되어 있어, '정수 격자'는 근사라는 점도 기억해 둡시다.</p>
+
+    <div class="sim" id="sim-rhy-group">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>박절 그룹핑 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="rg-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>펄스 수(한 마디의 8분음표)</span><div class="seg" id="rg-n"><button data-value="6" class="on">6</button><button data-value="7">7</button><button data-value="8">8</button><button data-value="9">9</button><button data-value="12">12</button></div></div>
+          <div class="ctrl"><span>그룹핑</span><div class="seg" id="rg-group"></div></div>
+          <label class="ctrl"><span>펄스 템포 <output id="rg-bpm-out"></output></span><input type="range" id="rg-bpm" min="150" max="480" value="300" step="5"></label>
+          <label class="check"><input type="checkbox" id="rg-kick" checked> 그룹 시작에 베이스 드럼</label>
+          <div class="btn-row"><button class="btn primary" id="rg-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">그룹 구조</span><span class="v" id="rg-o-g">—</span></div>
+        <div class="stat"><span class="k">박 수 · 박 템포</span><span class="v" id="rg-o-beat">—</span></div>
+        <div class="stat"><span class="k">긴 박 / 짧은 박</span><span class="v" id="rg-o-ratio">—</span></div>
+      </div>
+      <div class="sim-note">같은 펄스 열을 서로 다르게 묶어 들어 봅니다. 막대는 위 식의 박절 가중치(마디 첫 펄스 &gt; 반 마디 &gt; 그룹 시작 &gt; 나머지)이고 소리의 세기와 음높이도 가중치를 따릅니다. 해볼 것: ① 6에서 3+3과 2+2+2를 번갈아 눌러 '두 박 vs 세 박'을 비교. ② '헤미올라 교대'는 두 그룹핑이 마디마다 바뀝니다(6절). ③ 7과 9에서 2+2+3, 2+2+2+3의 절뚝임을 느껴 보고, 박 템포가 '평균'으로만 정의된다는 점을 확인하세요. 펄스 템포는 8분음표 기준입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="durations">
+    <h2>음표 길이: 이진 분할과 잇단음표</h2>
+    <p>서양 기보법의 음표 길이는 온음표를 계속 반으로 나눈 이진 트리입니다. 온음표 = 2분음표 2개 = 4분음표 4개 = … 4분음표를 박으로 잡으면 \(k\)번 나눈 음표의 길이는 다음과 같습니다.</p>
+    <div class="formula">$$d_k = 4\cdot 2^{-k}\;\text{박},\qquad d^{\text{점}} = d\left(2 - 2^{-m}\right),\qquad d^{\,n:m} = d\cdot\frac{m}{n}$$
+      <div class="where">\(k=0\) 온음표, k=1 2분음표, k=2 4분음표, k=3 8분음표… 점이 \(m\)개 붙으면 길이가 \(1.5d\)(점 1개), \(1.75d\)(점 2개)가 된다. 잇단음표 \(n{:}m\)은 '\(m\)개 자리에 \(n\)개'를 넣는다. 셋잇단 8분음표(3:2)는 \(0.5\times 2/3 = 1/3\)박, 5잇단 16분음표(5:4)는 \(0.25\times 4/5 = 0.2\)박이다.</div>
+    </div>
+    <p>이진 분할만으로는 3이나 5로 나눈 길이를 표현할 수 없으므로 잇단음표가 필요합니다. 여러 분할이 한 마디 안에 공존하면 모든 온셋을 표현하는 공통 격자의 해상도는 각 분할 수의 <b>최소공배수</b>로 정해집니다. 16분음표(박당 4)와 셋잇단(박당 3)이 함께 있으면 박당 12칸, 여기에 5잇단까지 더하면 박당 60칸이 필요합니다. MIDI 시퀀서의 PPQ(박당 틱 수)로 480, 960처럼 2와 3과 5를 모두 약수로 갖는 수를 쓰는 이유가 이것입니다(16장). PPQ 96은 5로 나누어지지 않아 균등 5잇단음표 간격 19.2틱을 정수 틱으로 정확하게 표현할 수 없습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>음표</th><th class="num">박</th><th class="num">120 BPM</th><th class="num">90 BPM</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>4분음표</td><td class="num">1</td><td class="num">500 ms</td><td class="num">667 ms</td><td>박</td></tr>
+        <tr><td>점8분음표</td><td class="num">3/4</td><td class="num">375 ms</td><td class="num">500 ms</td><td>'점8분 딜레이'</td></tr>
+        <tr><td>4분 셋잇단</td><td class="num">2/3</td><td class="num">333 ms</td><td class="num">444 ms</td><td>2박에 3개</td></tr>
+        <tr><td>8분음표</td><td class="num">1/2</td><td class="num">250 ms</td><td class="num">333 ms</td><td></td></tr>
+        <tr><td>8분 셋잇단</td><td class="num">1/3</td><td class="num">167 ms</td><td class="num">222 ms</td><td>스윙의 격자</td></tr>
+        <tr><td>16분음표</td><td class="num">1/4</td><td class="num">125 ms</td><td class="num">167 ms</td><td></td></tr>
+        <tr><td>5잇단 16분</td><td class="num">1/5</td><td class="num">100 ms</td><td class="num">133 ms</td><td></td></tr>
+        <tr><td>32분음표</td><td class="num">1/8</td><td class="num">62.5 ms</td><td class="num">83 ms</td><td>트랩 하이햇 롤</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-rhy-notes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음표 길이 시각화기 (한 마디 4/4)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="rn-cv" class="rhy-click"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포(4분음표) <output id="rn-bpm-out"></output></span><input type="range" id="rn-bpm" min="40" max="200" value="80" step="1"></label>
+          <div class="ctrl"><span>조합 예</span><div class="presets" id="rn-presets">
+            <button class="btn" data-p="2:3">2 대 3</button><button class="btn" data-p="3:4">3 대 4</button><button class="btn" data-p="4:5">4 대 5</button><button class="btn" data-p="dot">점음표 비교</button><button class="btn" data-p="tree">이진 트리</button><button class="btn" data-p="none">모두 끄기</button>
+          </div></div>
+          <div class="ctrl"><span>소리</span><div class="seg" id="rn-snd"><button data-value="pitch" class="on">음높이</button><button data-value="perc">타악기</button></div></div>
+          <label class="check"><input type="checkbox" id="rn-click" checked> 박 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="rn-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">박 · 마디</span><span class="v" id="rn-o-beat">—</span></div>
+        <div class="stat"><span class="k">가장 짧은 활성 음</span><span class="v" id="rn-o-min">—</span></div>
+        <div class="stat"><span class="k">공통 격자</span><span class="v" id="rn-o-grid">—</span></div>
+      </div>
+      <div class="sim-note">줄(레인)을 클릭해 켜고 끕니다. 켜진 줄은 서로 다른 음높이로 동시에 연주되고, 각 줄 왼쪽에 음표 하나의 길이(ms)가 현재 템포로 표시됩니다. '공통 격자'는 켜진 레인의 모든 온셋을 담는 가장 거친 균등 격자(박당 칸 수 = 분할 수들의 최소공배수)입니다. 해볼 것: 8분음표와 8분 셋잇단을 함께 켜면 두 번째 음이 1/6박(이 템포에서 약 125 ms) 어긋나 '덜컹'거립니다. 5잇단을 켜면 격자가 박당 60칸으로 뛰는 것을 확인하세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="syncopation">
+    <h2>당김음: 약박에 놓인 온셋을 재다</h2>
+    <p><span class="term">당김음</span><span class="en">(Syncopation)</span>은 강박에 와야 할 강세가 약박으로 '당겨진' 상태입니다. 정확히는 약한 위치에서 시작한 음이 그보다 강한 위치를 소리 없이(쉼표나 붙임줄로) 지나갈 때 생깁니다. Longuet-Higgins &amp; Lee(1984)는 이것을 박절 가중치의 차이로 수치화했습니다.</p>
+    <div class="formula">$$S = \sum_{\text{음 } n}\;\max\!\Big(0,\;\max_{r\,\in\,\text{gap}(n)} W(r) - W(n)\Big)$$
+      <div class="where">\(W\): 그림 11-1 아래의 LHL 가중치(1박 0, 3박 −1, 2·4박 −2, 8분 뒷박 −3, 16분 −4). gap(n): 음 \(n\)부터 다음 음 직전까지 온셋 없이 지나가는 위치들. 음보다 강한 쉼 위치가 있으면 그 차이만큼 당김음 점수가 쌓인다. 마디는 순환한다고 본다(루프 음악에 맞는 가정).</div>
+    </div>
+    <p>예를 들어 트레실로를 8칸씩 반복한 16분 격자의 온셋은 0·3·6·8·11·14입니다. 3→4와 11→12가 각각 +2를 기여하여 합계 4입니다. 당김음과 춤추고 싶은 정도의 관계는 <b>역U자</b>입니다. Witek 등(2014)의 청취 실험에서 '그루브'와 '몸을 움직이고 싶음' 평가는 중간 정도의 당김음에서 가장 높았고, 당김음이 전혀 없거나 지나치게 많으면 떨어졌습니다. 예측이 가능하면서도 적당히 어긋나야 한다는 뜻입니다.</p>
+
+    <div class="sim" id="sim-rhy-sync">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>당김음 실험실 (LHL 점수)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="steps-grid" id="rs-grid"></div>
+          <canvas id="rs-cv"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>리듬 예</span><div class="presets" id="rs-presets">
+            <button class="btn" data-p="quarter">4분음표</button><button class="btn" data-p="offbeat">8분 뒷박</button><button class="btn" data-p="tresillo">트레실로</button><button class="btn" data-p="son">손 클라베 3-2</button><button class="btn" data-p="rumba">룸바 클라베</button><button class="btn" data-p="bossa">보사노바</button><button class="btn" data-p="charleston">찰스턴</button><button class="btn" data-p="sixteenth">16분 뒷박</button><button class="btn" data-p="random">무작위</button><button class="btn" data-p="clear">지우기</button>
+          </div></div>
+          <label class="ctrl"><span>템포 <output id="rs-bpm-out"></output></span><input type="range" id="rs-bpm" min="60" max="160" value="100" step="1"></label>
+          <div class="ctrl"><span>리듬 음색</span><div class="seg" id="rs-snd"><button data-value="rim" class="on">림</button><button data-value="cowbell">카우벨</button><button data-value="clap">클랩</button></div></div>
+          <label class="check"><input type="checkbox" id="rs-beat" checked> 배경 박(킥·하이햇)</label>
+          <div class="btn-row"><button class="btn primary" id="rs-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">LHL 당김음 점수</span><span class="v" id="rs-o-s">—</span></div>
+        <div class="stat"><span class="k">온셋 수</span><span class="v" id="rs-o-n">—</span></div>
+        <div class="stat"><span class="k">온셋 간격(IOI, 16분)</span><span class="v" id="rs-o-ioi">—</span></div>
+      </div>
+      <div class="sim-note">칸을 클릭해 16분음표 온셋을 켜고 끕니다(진한 칸 = 4분음표 박). 아래 그래프의 막대는 위치별 LHL 가중치, 호(arc)는 당김음이 생긴 쌍(음 → 그 음이 소리 없이 지나간 가장 강한 위치)과 기여 점수입니다. 해볼 것: 4분음표(0점)에서 한 음씩 16분 하나만큼 앞당겨 보세요. 앞당긴 음이 원래 박을 '밟지 않고' 지나가므로 점수가 오릅니다. 모델: 한 마디 순환, 셈여림 무시, 배경 박은 판정에 넣지 않음.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="swing">
+    <h2>스윙: 8분음표를 길게–짧게</h2>
+    <p>재즈와 셔플에서는 악보에 같은 8분음표 두 개로 적혀 있어도 앞을 길게, 뒤를 짧게 연주합니다. 이 비를 <span class="term">스윙 비율</span><span class="en">(Swing Ratio)</span>이라 합니다.</p>
+    <div class="formula">$$r = \frac{d_{\text{long}}}{d_{\text{short}}},\qquad \phi_{\text{off}} = \frac{r}{1+r},\qquad \Delta t = \left(\frac{r}{1+r} - \frac12\right)T_{\text{beat}}$$
+      <div class="where">\(\phi_{\text{off}}\): 박 안에서 뒷박 8분음표가 놓이는 위치(0–1). \(r=1\)이면 50%(스트레이트), \(r=2\)면 66.7%(셋잇단 위치, '트리플렛 스윙'), \(r=3\)이면 75%(점8분+16분). \(\Delta t\)는 스트레이트 대비 뒷박의 지연이다. 드럼 머신과 DAW의 '스윙 %'는 대개 \(\phi_{\text{off}}\)를 그대로 표시한다(MPC의 50–75%).</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="스윙 비율에 따른 뒷박 위치"><g id="rhy-fig-swing"></g></svg>
+      <figcaption><b>그림 11-3.</b> 한 박(4분음표) 안에서 뒷박 8분음표의 위치. 스윙 비율이 1:1에서 3:1로 갈수록 뒷박이 다음 박 쪽으로 밀린다. 점선은 셋잇단(2/3) 위치다.</figcaption>
+    </figure>
+    <p>스윙 비율은 고정값이 아닙니다. Friberg &amp; Sundström(2002)은 재즈 음반의 라이드 심벌 패턴을 측정해 <b>템포가 빨라질수록 스윙 비율이 줄어든다</b>는 것을 보였습니다. 느린 템포에서는 3:1을 넘기도 하고, 매우 빠른 템포(300 BPM 근처)에서는 거의 1:1입니다. 또 중간–빠른 템포에서는 짧은 음의 절대 길이가 약 100 ms로 거의 일정했습니다. 그래서 '2:1 셋잇단 스윙'은 교과서적 기준일 뿐 실제 스윙 비율은 약 1.5–2.5 사이에서 템포와 연주자에 따라 연속적으로 움직이며, 같은 곡에서도 솔로이스트가 드러머보다 더 스트레이트하게 연주하는 경향이 있습니다.</p>
+
+    <div class="sim" id="sim-rhy-swing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스윙 비율 실험실</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="rw-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>스윙 비율 r <output id="rw-r-out"></output></span><input type="range" id="rw-r" min="1" max="3.5" value="1" step="0.05"></label>
+          <label class="ctrl"><span>템포 <output id="rw-bpm-out"></output></span><input type="range" id="rw-bpm" min="60" max="300" value="120" step="1"></label>
+          <div class="ctrl"><span>패턴</span><div class="seg" id="rw-pat"><button data-value="shuffle" class="on">셔플</button><button data-value="jazz">재즈 라이드</button><button data-value="hat">하이햇만</button></div></div>
+          <label class="check"><input type="checkbox" id="rw-auto"> 템포에 맞춰 r 자동(짧은 음 ≈ 100 ms 모델)</label>
+          <div class="btn-row"><button class="btn primary" id="rw-play">▶ 재생</button><button class="btn" id="rw-straight">1:1</button><button class="btn" id="rw-trip">2:1</button><button class="btn" id="rw-dot">3:1</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">뒷박 위치</span><span class="v" id="rw-o-pos">—</span></div>
+        <div class="stat"><span class="k">긴 음 / 짧은 음</span><span class="v" id="rw-o-ms">—</span></div>
+        <div class="stat"><span class="k">스트레이트 대비 지연</span><span class="v" id="rw-o-delay">—</span></div>
+      </div>
+      <div class="sim-note">위: 한 마디의 온셋 위치(세로 막대). 가는 선은 스트레이트 8분, 점선은 셋잇단 위치입니다. 아래: 템포–스윙 비율 평면에서 현재 설정(점)과 '짧은 음이 100 ms로 일정' 모델 곡선 \(r = 600/\text{BPM} - 1\)(1–3.5로 제한)을 비교합니다. 이 곡선은 Friberg &amp; Sundström의 관찰을 단순화한 것이지 측정 데이터가 아닙니다. 해볼 것: 재생 중 r을 1.0에서 천천히 올리면 어느 순간 '스트레이트 록'이 '셔플'로 범주가 바뀌어 들립니다. 그 경계가 어디쯤인지(대개 1.3–1.5) 기록해 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="poly">
+    <h2>폴리리듬, 폴리미터, 헤미올라</h2>
+    <p>둘 이상의 주기 구조가 동시에 흐르는 경우는 두 가지로 나뉩니다. <span class="term">폴리리듬</span><span class="en">(Polyrhythm)</span>은 <b>같은 시간 구간</b>(사이클)을 서로 다른 수로 등분합니다. 3:2라면 한 사이클에 한 성부는 3번, 다른 성부는 2번 칩니다. <span class="term">폴리미터</span><span class="en">(Polymeter)</span>는 <b>같은 펄스</b>를 공유하되 마디(주기) 길이가 다릅니다. 3박 패턴과 4박 패턴을 같은 펄스로 돌리면 강세가 어긋나다가 12펄스 뒤에 다시 만납니다.</p>
+    <div class="formula">$$\text{폴리리듬 } N{:}M:\; t^{(1)}_i = \frac{i}{N}C,\;\; t^{(2)}_j = \frac{j}{M}C,\qquad \text{공통 격자} = \frac{C}{\operatorname{lcm}(N,M)}$$
+      <div class="where">\(C\): 사이클 길이. 3:2는 6칸 격자에서 \(\{0,2,4\}\)와 \(\{0,3\}\)이고, 합친 리듬의 간격은 2–1–1–2다. 폴리미터에서 길이 \(a\), \(b\)인 두 패턴이 다시 같은 위상으로 만나는 주기는 \(\operatorname{lcm}(a,b)\) 펄스다(3과 4 → 12, 3과 4와 5 → 60).</div>
+    </div>
+    <p><span class="term">헤미올라</span><span class="en">(Hemiola)</span>는 3:2 관계를 박자 층위에서 쓰는 기법입니다. 6개의 펄스를 3+3(두 박)으로 듣다가 2+2+2(세 박)로 바꾸어 듣게 만드는 것으로, 바로크 미뉴에트와 쿠랑트의 종지 직전에 3/4 두 마디가 3/2 한 마디처럼 들리는 것이 대표적입니다. 라틴 아메리카와 서아프리카 음악에서는 6/8과 3/4의 겹침이 기본 질감입니다. 2절 시뮬레이터의 '헤미올라 교대'로 들어 볼 수 있습니다.</p>
+
+    <div class="sim" id="sim-rhy-poly">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>폴리리듬 · 폴리미터 원형 시계</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="rp-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모드</span><div class="seg" id="rp-mode"><button data-value="rhythm" class="on">폴리리듬(같은 사이클)</button><button data-value="meter">폴리미터(같은 펄스)</button></div></div>
+          <label class="ctrl"><span>바깥 고리 N <output id="rp-n-out"></output></span><input type="range" id="rp-n" min="1" max="7" value="3" step="1"></label>
+          <label class="ctrl"><span>가운데 고리 M <output id="rp-m-out"></output></span><input type="range" id="rp-m" min="1" max="7" value="2" step="1"></label>
+          <label class="ctrl"><span>안쪽 고리 L (0 = 끔) <output id="rp-l-out"></output></span><input type="range" id="rp-l" min="0" max="7" value="0" step="1"></label>
+          <label class="ctrl"><span>템포(N 고리 기준 BPM) <output id="rp-bpm-out"></output></span><input type="range" id="rp-bpm" min="40" max="200" value="90" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="rp-play">▶ 재생</button><button class="btn" id="rp-32">3:2</button><button class="btn" id="rp-43">4:3</button><button class="btn" id="rp-75">7:5</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">공통 격자(LCM)</span><span class="v" id="rp-o-lcm">—</span></div>
+        <div class="stat"><span class="k">사이클 · 재정렬 주기</span><span class="v" id="rp-o-cyc">—</span></div>
+        <div class="stat"><span class="k">합성 리듬 간격</span><span class="v" id="rp-o-ioi">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 원: 고리마다 N, M, L개의 점이 있고 바늘이 돌며 점을 지날 때 소리가 납니다(바깥 = 로우 탐, 가운데 = 카우벨, 안쪽 = 림). 오른쪽(좁은 화면에서는 아래) 띠: 공통 격자 위의 온셋 배치와 재생 위치입니다. <b>폴리리듬</b>에서는 모든 고리가 같은 사이클을 공유하고, <b>폴리미터</b>에서는 모든 고리가 같은 펄스(하이햇)로 돌되 각자의 주기 첫 박에만 악기가 울립니다. 이때 바늘의 속도가 고리마다 다르고, LCM 펄스 뒤에야 세 바늘이 동시에 꼭대기에 옵니다. 해볼 것: 4:3을 '박 3개 위의 4개'로도, '박 4개 위의 3개'로도 들어 보세요. 주의를 어디에 두느냐에 따라 박이 바뀝니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="jangdan">
+    <h2>한국 장단: 겹박자와 혼소박의 순환</h2>
+    <p>한국 전통음악의 리듬 단위는 <span class="term">장단</span><span class="en">(Jangdan)</span>입니다. 장단은 정해진 길이의 순환 주기와 그 안의 장구 연주법(타점) 패턴, 그리고 그에 어울리는 빠르기를 함께 가리키는 말로, 서양의 '박자표 + 리듬 패턴 + 템포'를 한 덩어리로 묶은 개념입니다. 구조적으로 보면 대부분이 <b>한 박이 세 소박으로 나뉘는 겹박자</b>입니다. 세마치는 9/8(3소박 × 3박), 굿거리와 자진모리는 12/8(3소박 × 4박)로 옮겨 적는 것이 관례이고, 엇모리처럼 3+2+3+2 소박의 <b>혼소박</b>(가산 박자) 장단도 있습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>장구 소리</th><th>치는 방법</th><th>음향적 성격</th></tr></thead>
+      <tbody>
+        <tr><td>덩</td><td>궁편(왼쪽)과 채편(오른쪽)을 동시에</td><td>낮은 울림 + 날카로운 타격, 가장 강한 소리</td></tr>
+        <tr><td>쿵</td><td>궁편만(궁채나 손바닥)</td><td>낮고 둥근 막 울림(약 100 Hz 부근 기본 모드)</td></tr>
+        <tr><td>덕</td><td>채편만(열채)</td><td>짧고 높은 '딱' 소리, 고주파 잡음 성분</td></tr>
+        <tr><td>기덕</td><td>채편 꾸밈음 + 덕</td><td>앞꾸밈(플램)</td></tr>
+        <tr><td>더러러러</td><td>채편을 굴림</td><td>롤(빠른 연타)</td></tr>
+      </tbody>
+    </table></div>
+    <p>같은 12/8이라도 굿거리는 느긋하게 흔들리고 자진모리는 몰아칩니다. 차이는 템포와 타점 배치(어느 소박에 덩·쿵·덕이 오는지)에서 나옵니다. 연주에서는 소박의 길이도 균등하지 않아서, 각 박의 첫 소박이 조금 길게 늘어지는 미세 타이밍이 장단의 '맛'을 만든다는 측정 연구도 있습니다. 아래 시뮬레이터의 패턴은 각 장단의 <b>가장 단순한 기본형</b>입니다. 실제 연주는 지역과 유파, 곡에 따라 변형이 많습니다.</p>
+
+    <div class="sim" id="sim-rhy-jangdan">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장단 플레이어 (장구 합성)</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="rj-cv"></canvas></div>
+      </div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>장단</span><div class="seg" id="rj-kind"><button data-value="semachi" class="on">세마치</button><button data-value="gutgeori">굿거리</button><button data-value="jajin">자진모리</button><button data-value="eotmori">엇모리</button></div></div>
+        <label class="ctrl"><span>박 템포 <output id="rj-bpm-out"></output></span><input type="range" id="rj-bpm" min="40" max="140" value="66" step="1"></label>
+        <label class="check"><input type="checkbox" id="rj-click"> 소박 클릭(서양식 8분음표 격자)</label>
+        <label class="check"><input type="checkbox" id="rj-lilt" checked> 첫 소박 늘이기(미세 타이밍)</label>
+        <div class="btn-row"><button class="btn primary" id="rj-play">▶ 재생</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">서양식 표기</span><span class="v" id="rj-o-meter">—</span></div>
+        <div class="stat"><span class="k">소박 구조</span><span class="v" id="rj-o-group">—</span></div>
+        <div class="stat"><span class="k">한 장단 길이</span><span class="v" id="rj-o-len">—</span></div>
+      </div>
+      <div class="sim-note">정간(칸) 하나가 소박 하나, 굵은 세로선이 박의 경계입니다. 위 줄은 구음(덩·쿵·덕), 아래 줄은 장구 기호(○ 쿵, │ 덕, ⦶ 덩, ⁞ 굴림)입니다. 장단을 바꾸면 그 장단에 흔히 쓰이는 템포로 맞춰집니다. '첫 소박 늘이기'는 각 박의 첫 소박을 12% 늘이고 나머지를 줄여 박 길이를 유지합니다(교육용 단순 모델). 장구 소리는 합성 근사입니다. 궁편은 하강하는 사인파 + 저역 잡음, 채편은 짧은 삼각파 + 대역통과 잡음이고, 궁편은 왼쪽, 채편은 오른쪽으로 약간 팬했습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="human">
+    <h2>사람의 타이밍과 그루브</h2>
+    <p>지금까지는 온셋이 격자 위에 정확히 놓인다고 가정했습니다. 사람의 연주는 그렇지 않고, 그 어긋남에도 체계가 있습니다.</p>
+    <div class="cards">
+      <div><span class="big">−20 ~ −50 ms</span><b>음의 평균 비동기</b>메트로놈에 맞춰 두드리게 하면 사람은 클릭보다 평균 수십 ms <i>먼저</i> 칩니다(NMA, Negative Mean Asynchrony). 음악 훈련을 받은 사람일수록 작아집니다(Repp 2005, Aschersleben 2002의 리뷰).</div>
+      <div><span class="big">σ ≈ 2–5%</span><b>탭 간격의 흔들림</b>반복 탭 간격의 표준편차는 대략 간격의 몇 %입니다. Wing &amp; Kristofferson(1973) 모델은 이를 내부 시계 분산과 운동 지연 분산의 합 \(\sigma^2 = \sigma_C^2 + 2\sigma_M^2\)으로 분해하고, 운동 성분 때문에 인접 간격이 음의 상관(−0.5 이하는 아님)을 갖는다고 예측합니다.</div>
+      <div><span class="big">±10–30 ms</span><b>미세 타이밍</b>스네어를 일관되게 늦게 치면 '레이드백', 하이햇을 앞당기면 '푸시' 느낌이 납니다. 스윙 비율도 일종의 체계적 미세 타이밍입니다. 12장에서 직접 조작합니다.</div>
+      <div><span class="big">수 %</span><b>템포 흐름</b>클릭 없이 연주한 밴드는 곡 진행에 따라 템포가 조금씩 빨라지거나(흔히 후렴) 프레이즈 끝에서 느려집니다. 의도된 루바토와 의도치 않은 드리프트가 섞여 있습니다.</div>
+    </div>
+    <p><span class="term">그루브</span><span class="en">(Groove)</span>는 '몸을 움직이고 싶게 만드는 음악의 성질'로 정의되며(Janata 등 2012), 청취 실험에서 꽤 안정적으로 측정됩니다. 지금까지 알려진 주요 요인은 적당한 당김음(4절의 역U자), 저음역의 뚜렷한 박, 이벤트 밀도, 그리고 반복입니다. 흥미롭게도 미세 타이밍을 크게 늘릴수록 그루브가 좋아진다는 일반 법칙은 확인되지 않았습니다. 양자화된 패턴이 비슷하거나 더 높게 평가된 실험도 많아서(Davies 등 2013), 미세 타이밍은 '많을수록'이 아니라 '스타일에 맞는 방향과 크기'가 중요한 것으로 보입니다.</p>
+    <div class="callout tip"><strong>엔지니어의 눈으로</strong> 리듬 분석 파이프라인은 대개 ① 온셋 검출(스펙트럼 플럭스의 피크) → ② 템포 추정(온셋 강도 함수의 자기상관이나 콤 필터 뱅크, 120 BPM 근처에 사전확률을 주는 경우가 많다) → ③ 비트 추적(동적 계획법) → ④ 다운비트·박자 추정 순서입니다. ②의 사전확률이 바로 1절의 '선호 템포'이고, 이 단계의 대표적 오류가 템포를 2배나 1/2로 잡는 <b>옥타브 오류</b>입니다. 사람끼리도 박을 어느 층위에서 세는지 갈리는 경우가 많아서 생기는 오류입니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>박 간격은 \(60000/\text{BPM}\) ms다. 사람의 선호 박 템포는 약 100–120 BPM(2 Hz 근처)이고, 대략 250 ms–1.5 s 바깥은 박으로 묶이기 어렵다.</li>
+      <li>박자는 2 또는 3으로 나누는 층위들의 위계이고, 각 위치의 박절 가중치는 그 위치가 박으로 남는 층위 수다. 3/4와 6/8은 분할비 벡터의 순서((2,3) 대 (3,2))만 다르다.</li>
+      <li>음표 길이는 이진 분할이 기본이고, 점음표는 ×1.5, 잇단음표 n:m은 ×m/n이다. 여러 분할이 섞이면 공통 격자는 분할 수들의 최소공배수다.</li>
+      <li>당김음은 약한 위치의 음이 더 강한 위치를 소리 없이 지나갈 때 생기며, LHL 측도는 그 가중치 차이를 합한다. 그루브는 중간 정도의 당김음에서 가장 높다.</li>
+      <li>스윙 비율 r의 뒷박 위치는 r/(1+r)이다. 2:1이 셋잇단이지만 실제 비율은 템포가 빠를수록 작아진다.</li>
+      <li>폴리리듬은 같은 사이클을 다른 수로 나누고, 폴리미터는 같은 펄스에서 주기 길이가 다르다. 둘 다 최소공배수에서 다시 맞물린다.</li>
+      <li>가산 박자(2+2+3)와 한국 장단(세마치 9/8, 굿거리·자진모리 12/8, 엇모리 3+2+3+2)은 모두 그룹핑 구조로 읽을 수 있다.</li>
+      <li>사람의 타이밍에는 음의 평균 비동기, 간격 흔들림, 체계적 미세 타이밍, 템포 흐름이 있다. 그루브는 이것과 당김음·저음·반복이 함께 만든다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>6/8 박자에서 점4분음표 = 80 BPM일 때 8분음표 하나의 길이는?</p><div class="opts">
+        <button class="opt">187.5 ms</button><button class="opt" data-correct>250 ms</button><button class="opt">375 ms</button><button class="opt">750 ms</button>
+      </div><div class="quiz-exp">박(점4분음표) 간격은 60000/80 = 750 ms이고, 겹박자이므로 박 하나가 8분음표 3개다. 750/3 = 250 ms.</div></div>
+      <div class="quiz-q"><p>120 BPM에서 스윙 비율을 2:1로 하면 뒷박 8분음표는 스트레이트 위치보다 얼마나 늦게 울리는가?</p><div class="opts">
+        <button class="opt">약 42 ms</button><button class="opt" data-correct>약 83 ms</button><button class="opt">약 167 ms</button><button class="opt">250 ms</button>
+      </div><div class="quiz-exp">박 = 500 ms. 스트레이트 뒷박은 250 ms, 2:1 스윙의 뒷박은 500 × 2/3 ≈ 333 ms에 놓인다. 차이는 약 83 ms(=1/6박)다.</div></div>
+      <div class="quiz-q"><p>4:3 폴리리듬의 두 성부 온셋을 모두 정확히 표현하는 가장 거친 균등 격자는 한 사이클에 몇 칸인가?</p><div class="opts">
+        <button class="opt">7</button><button class="opt" data-correct>12</button><button class="opt">24</button><button class="opt">1</button>
+      </div><div class="quiz-exp">lcm(4, 3) = 12. 4개 성부는 3칸마다, 3개 성부는 4칸마다 친다. 7은 두 수의 합일 뿐 격자와 관계없다.</div></div>
+      <div class="quiz-q"><p>같은 펄스로 길이 4인 드럼 패턴과 길이 6인 베이스 패턴을 반복할 때, 둘의 첫 박이 다시 함께 오는 주기는?</p><div class="opts">
+        <button class="opt">10 펄스</button><button class="opt" data-correct>12 펄스</button><button class="opt">24 펄스</button><button class="opt">2 펄스</button>
+      </div><div class="quiz-exp">폴리미터의 재정렬 주기는 lcm(4, 6) = 12 펄스다. 곱 24가 아니라 최소공배수라는 점에 주의.</div></div>
+      <div class="quiz-q"><p>16분음표 격자(LHL 가중치)에서 다음 중 당김음 점수가 0인 리듬은?</p><div class="opts">
+        <button class="opt">트레실로 x..x..x.x..x..x.</button><button class="opt">8분 뒷박 ..x...x...x...x.</button><button class="opt" data-correct>4분음표 x...x...x...x...</button><button class="opt">손 클라베 x..x..x...x.x...</button>
+      </div><div class="quiz-exp">4분음표 리듬은 모든 음이 박 위에 있고, 각 음이 지나가는 쉼 위치는 모두 그 음보다 약하므로 0점이다. 뒷박만 친 리듬은 매 음이 다음 박(더 강한 위치)을 소리 없이 지나가므로 점수가 크다.</div></div>
+      <div class="quiz-q"><p>7/8(2+2+3) 같은 박자를 부르는 말로 알맞은 것은?</p><div class="opts">
+        <button class="opt">겹박자</button><button class="opt">폴리미터</button><button class="opt" data-correct>가산 박자(아크사크)</button><button class="opt">헤미올라</button>
+      </div><div class="quiz-exp">2와 3 길이의 박이 섞여 박 길이가 불균등한 박자를 가산 박자라 하고, 발칸·튀르키예 음악에서는 아크사크라 부른다. 겹박자는 모든 박이 3분할되는 경우(6/8, 9/8, 12/8)다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통: 한 번에 하나의 루프만 */
+const Solo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
+const lcm = (a, b) => (a && b ? (a / gcd(a, b)) * b : a || b);
+const FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+/** 짧은 전자 클릭(사인 + 2배음, 지수 감쇠) */
+function blip(freq, when, vel = 0.5, dec = 0.035, pan = 0) {
+  const ctx = MB.ctx(); if (!ctx) return;
+  const t = Math.max(when != null ? when : ctx.currentTime, ctx.currentTime);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.42 * vel, t + 0.001); g.gain.setTargetAtTime(0, t + 0.001, dec / 3);
+  [[1, 1], [2.0, 0.35]].forEach(([r, a]) => { const o = ctx.createOscillator(), og = ctx.createGain(); o.frequency.value = freq * r; og.gain.value = a; o.connect(og); og.connect(g); o.start(t); o.stop(t + dec * 2 + 0.05); });
+  let out = g;
+  if (pan) { const p = ctx.createStereoPanner(); p.pan.value = pan; g.connect(p); out = p; }
+  out.connect(MB.out);
+}
+/** MB.Clock + 재생 버튼 + 페이지 전체 단일 재생 */
+function looper(btnId, opts, labels) {
+  const clk = MB.Clock(opts);
+  const halt = () => { if (clk.running) clk.stop(); pb.set(false); };
+  const pb = MB.playButton(btnId, () => { Solo.take(halt); clk.start(); }, () => { clk.stop(); Solo.drop(halt); }, labels);
+  return { clk, pb, halt };
+}
+/** onUI에서 받은 (step, time)으로 현재 연속 위치(스텝 단위)를 추정 */
+function tracker() {
+  let s = 0, t = 0, on = false;
+  return {
+    mark(step, time) { s = step; t = time; on = true; },
+    reset() { on = false; },
+    get on() { return on; },
+    pos(stepDur) { if (!on) return null; return s + Math.max(0, MB.now() - t) / stepDur; },
+  };
+}
+
+/* ---------------------------------------------------------------- 그림 11-1: 박절 격자 */
+(function () {
+  const g = document.getElementById("rhy-fig-grid");
+  const x0 = 112, dx = 42;
+  const lhl = [0, -4, -3, -4, -2, -4, -3, -4, -1, -4, -3, -4, -2, -4, -3, -4];
+  const labels = ["16분", "8분", "4분(박)", "2분", "온음표(마디)"];
+  let s = "";
+  for (let lv = 0; lv < 5; lv++) {
+    const y = 160 - lv * 26;
+    s += `<text x="${x0 - 14}" y="${y + 4}" text-anchor="end" class="t-dim" style="font-size:11px">${labels[lv]}</text>`;
+    for (let i = 0; i < 16; i++) {
+      const W = 5 + lhl[i];
+      if (W > lv) s += `<circle cx="${x0 + 14 + i * dx}" cy="${y}" r="${lv === 4 ? 6 : 5}" class="${W === 5 ? "f-acc" : W >= 3 ? "f-acc-soft" : "f-surface"}" stroke="var(--accent)" stroke-width="1"/>`;
+    }
+  }
+  s += `<line x1="${x0}" x2="${x0 + 16 * dx}" y1="178" y2="178" class="s-axis"/>`;
+  for (let i = 0; i < 16; i++) {
+    const x = x0 + 14 + i * dx;
+    s += `<text x="${x}" y="196" text-anchor="middle" class="${i % 4 ? "t-dim" : "t"}" style="font-size:12px">${i % 4 === 0 ? i / 4 + 1 : ["", "e", "&", "a"][i % 4]}</text>`;
+    s += `<text x="${x}" y="222" text-anchor="middle" class="t-mono ${lhl[i] >= -1 ? "t-acc" : ""}" style="font-size:11px">${lhl[i]}</text>`;
+  }
+  s += `<text x="${x0 - 14}" y="196" text-anchor="end" class="t-dim" style="font-size:11px">위치</text><text x="${x0 - 14}" y="222" text-anchor="end" class="t-dim" style="font-size:11px">LHL W</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-2: 3/4 vs 6/8 */
+(function () {
+  const g = document.getElementById("rhy-fig-68");
+  const rows = [{ name: "3/4 = 2+2+2", w: [3, 1, 2, 1, 2, 1], groups: [2, 2, 2], y: 20 }, { name: "6/8 = 3+3", w: [3, 1, 1, 2, 1, 1], groups: [3, 3], y: 110 }];
+  let s = "";
+  rows.forEach((r) => {
+    const x0 = 190, dx = 92;
+    s += `<text x="20" y="${r.y + 46}" class="t" style="font-size:15px;font-weight:700">${r.name}</text>`;
+    let p = 0;
+    r.groups.forEach((n) => { const xa = x0 + p * dx + 6, xb = x0 + (p + n) * dx - 18; s += `<path d="M${xa} ${r.y + 8} V${r.y} H${xb} V${r.y + 8}" fill="none" class="s-acc" stroke-width="2"/>`; p += n; });
+    r.w.forEach((w, i) => {
+      const x = x0 + i * dx, h = w * 16;
+      s += `<rect x="${x}" y="${r.y + 70 - h}" width="${dx - 24}" height="${h}" rx="3" class="${w === 3 ? "f-acc" : w === 2 ? "f-acc-soft" : "f-surface"}" stroke="var(--border)"/>`;
+      s += `<text x="${x + (dx - 24) / 2}" y="${r.y + 86}" text-anchor="middle" class="t-mono" style="font-size:12px">${i + 1}</text>`;
+    });
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-3: 스윙 위치 */
+(function () {
+  const g = document.getElementById("rhy-fig-swing");
+  const x0 = 170, W = 560;
+  let s = `<line x1="${x0 + (W * 2) / 3}" x2="${x0 + (W * 2) / 3}" y1="14" y2="200" stroke="var(--text-faint)" stroke-dasharray="4 4"/>`;
+  s += `<text x="${x0 + (W * 2) / 3}" y="214" text-anchor="middle" class="t-dim" style="font-size:11px">셋잇단 2/3</text>`;
+  [1, 1.5, 2, 3].forEach((r, i) => {
+    const y = 34 + i * 44, ph = r / (1 + r), xo = x0 + ph * W;
+    s += `<text x="20" y="${y + 5}" class="t" style="font-size:14px">r = ${r}:1</text>`;
+    s += `<line x1="${x0}" x2="${x0 + W}" y1="${y}" y2="${y}" class="s-axis"/>`;
+    s += `<rect x="${x0}" y="${y - 9}" width="${xo - x0 - 4}" height="18" rx="4" class="f-acc-soft"/>`;
+    s += `<rect x="${xo}" y="${y - 9}" width="${x0 + W - xo - 4}" height="18" rx="4" class="f-acc2-soft"/>`;
+    s += `<circle cx="${x0}" cy="${y}" r="6" class="f-acc"/><circle cx="${xo}" cy="${y}" r="6" class="f-acc"/>`;
+    s += `<text x="${xo + 10}" y="${y - 12}" class="t-mono" style="font-size:11px">${(ph * 100).toFixed(1)}%</text>`;
+  });
+  s += `<text x="${x0}" y="214" text-anchor="middle" class="t-dim" style="font-size:11px">박</text><text x="${x0 + W}" y="214" text-anchor="middle" class="t-dim" style="font-size:11px">다음 박</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 메트로놈 + 탭 템포 */
+(function () {
+  const METERS = {
+    "2/4": { groups: [2], beats: [1, 1], ppb: 1 },
+    "3/4": { groups: [3], beats: [1, 1, 1], ppb: 1 },
+    "4/4": { groups: [2, 2], beats: [1, 1, 1, 1], ppb: 1 },
+    "5/4": { groups: [3, 2], beats: [1, 1, 1, 1, 1], ppb: 1 },
+    "6/8": { groups: [3, 3], beats: [3, 3], ppb: 3 },
+    "7/8": { groups: [2, 2, 3], beats: [2, 2, 3], ppb: 2 },
+    "9/8": { groups: [3, 3, 3], beats: [3, 3, 3], ppb: 3 },
+    "12/8": { groups: [3, 3, 3, 3], beats: [3, 3, 3, 3], ppb: 3 },
+  };
+  const meterSel = document.getElementById("rm-meter");
+  const M = () => METERS[meterSel.value];
+  const pulses = () => M().groups.reduce((a, b) => a + b, 0);
+  let levels = [];
+  const resetLevels = () => { levels = []; let p = 0; M().groups.forEach((n, gi) => { for (let i = 0; i < n; i++) levels.push(i === 0 ? (gi === 0 ? 3 : 2) : 1); p += n; }); };
+  resetLevels();
+  const bpm = MB.range("rm-bpm", (v) => `${v} BPM · ${Math.round(60000 / v)} ms`, () => readout());
+  const sub = MB.seg("rm-sub", () => readout());
+  const snd = MB.seg("rm-snd");
+  const flash = [];
+  const beatTimes = [];
+  const tr = tracker();
+  let bar = 0, lastStep = -1;
+  const div = () => M().ppb * +sub();
+  const stepDur = () => 60 / bpm() / div();
+  function click(level, t, isSub) {
+    if (isSub) { if (snd() === "wood") MB.drum("shaker", t, { vel: 0.35, decay: 0.6 }); else blip(2637, t, 0.13, 0.018); return; }
+    if (!level) return;
+    if (snd() === "wood") MB.drum("rim", t, { vel: [0, 0.45, 0.7, 1][level], tune: [0, -5, 0, 4][level] });
+    else blip([0, 880, 1318.5, 1760][level], t, [0, 0.45, 0.7, 0.95][level]);
+  }
+  const lp = looper("rm-play", {
+    bpm: () => bpm(), div: () => div(), length: () => pulses() * +sub(),
+    onStep(step, time) {
+      const s = +sub(), isPulse = step % s === 0, p = Math.floor(step / s);
+      click(levels[p] || 0, time, !isPulse);
+      if (isPulse) { const m = M(); let acc = 0; for (const b of m.beats) { if (acc === p) { beatTimes.push(time); if (beatTimes.length > 64) beatTimes.shift(); } acc += b; } }
+    },
+    onUI(step, time) {
+      if (step < lastStep) bar++;
+      lastStep = step; tr.mark(step, time);
+      if (step % +sub() === 0) flash[Math.floor(step / +sub())] = performance.now();
+    },
+    onStart() { bar = 0; lastStep = -1; beatTimes.length = 0; asyncs = []; },
+    onStop() { tr.reset(); cv.redraw(); },
+  }, ["▶ 시작", "■ 정지"]);
+  let circ = [];
+  const cv = MB.canvas("#rm-cv", (ctx, w, h) => {
+    const P = MB.palette(), m = M(), n = pulses();
+    // 진자
+    let ang = -0.42;
+    if (lp.clk.running && tr.on) {
+      const pos = tr.pos(stepDur()) / +sub();
+      const pp = ((pos % n) + n) % n;
+      let acc = 0, bi = 0, frac = 0;
+      for (let i = 0; i < m.beats.length; i++) { if (pp < acc + m.beats[i]) { bi = i; frac = (pp - acc) / m.beats[i]; break; } acc += m.beats[i]; }
+      const k = bar * m.beats.length + bi + frac;
+      ang = -0.42 * Math.cos(Math.PI * k);
+    }
+    const cx = w / 2, cy = h * 0.6, L = h * 0.5;
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, L, -Math.PI / 2 - 0.5, -Math.PI / 2 + 0.5); ctx.stroke();
+    const tx = cx + L * Math.sin(ang), ty = cy - L * Math.cos(ang);
+    ctx.strokeStyle = P.text; ctx.lineWidth = 3; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(tx, ty); ctx.stroke();
+    ctx.fillStyle = P.accent; ctx.beginPath();
+    const wy = 0.55; ctx.arc(cx + L * wy * Math.sin(ang), cy - L * wy * Math.cos(ang), 9, 0, 7); ctx.fill();
+    ctx.fillStyle = P.dim; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, 7); ctx.fill();
+    ctx.font = "12px " + FONT(); ctx.textAlign = "left"; ctx.fillStyle = P.dim;
+    ctx.fillText(meterSel.value + " · " + bpm() + " BPM", 12, 20);
+    // 펄스 원
+    const gap = 10, totalGap = (m.groups.length - 1) * gap;
+    const r = Math.min(17, (w - 40 - totalGap) / (n * 2.5));
+    const span = n * r * 2.5 + totalGap;
+    let x = (w - span) / 2 + r * 1.25, idx = 0;
+    const y = h - r - 14;
+    circ = [];
+    const now = performance.now();
+    m.groups.forEach((gn) => {
+      for (let i = 0; i < gn; i++) {
+        const lvl = levels[idx], fl = flash[idx] ? Math.max(0, 1 - (now - flash[idx]) / 180) : 0;
+        const rr = r * [0.45, 0.7, 0.85, 1][lvl];
+        ctx.beginPath(); ctx.arc(x, y, rr, 0, 7);
+        ctx.fillStyle = lvl === 0 ? P.surface : lvl === 3 ? P.accent : lvl === 2 ? P.accent2 : P.faint;
+        ctx.globalAlpha = 0.45 + 0.55 * Math.max(fl, lp.clk.running ? 0 : 0.8); ctx.fill(); ctx.globalAlpha = 1;
+        ctx.strokeStyle = fl > 0 ? P.warn : P.border; ctx.lineWidth = fl > 0 ? 3 : 1; ctx.stroke();
+        circ.push({ x, y, r: Math.max(rr, r * 0.8), i: idx });
+        x += r * 2.5; idx++;
+      }
+      x += gap;
+    });
+  }, { aspect: 0.5, maxHeight: 300, minHeight: 220 });
+  MB.loop(cv.canvas, () => { if (lp.clk.running) cv.redraw(); });
+  cv.canvas.addEventListener("click", (e) => {
+    const b = cv.canvas.getBoundingClientRect(), px = e.clientX - b.left, py = e.clientY - b.top;
+    const c = circ.find((c) => Math.hypot(c.x - px, c.y - py) <= c.r + 6); if (!c) return;
+    levels[c.i] = (levels[c.i] + 3) % 4; cv.redraw();
+  });
+  meterSel.addEventListener("change", () => { resetLevels(); readout(); cv.redraw(); });
+  function readout() {
+    const T = 60000 / bpm(), m = M();
+    MB.stat("rm-o-beat", `${MB.fmt(T, 4)} ms <small>${(bpm() / 60).toFixed(2)} Hz</small>`);
+    const barMs = (pulses() / m.ppb) * T;
+    MB.stat("rm-o-bar", `${(barMs / 1000).toFixed(3)} s <small>${m.beats.length}박</small>`);
+    cv.redraw();
+  }
+  // 탭 템포
+  let taps = [], asyncs = [], tapBpm = 0;
+  const median = (a) => { const s = a.slice().sort((x, y) => x - y), k = s.length >> 1; return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2; };
+  function tap() {
+    const now = performance.now();
+    if (taps.length && now - taps[taps.length - 1] > 2500) taps = [];
+    taps.push(now); if (taps.length > 13) taps.shift();
+    if (lp.clk.running && beatTimes.length) {
+      const ctx = MB.ctx(), heard = ctx.currentTime - (ctx.outputLatency || ctx.baseLatency || 0);
+      let best = beatTimes[0]; beatTimes.forEach((t) => { if (Math.abs(t - heard) < Math.abs(best - heard)) best = t; });
+      const d = (heard - best) * 1000;
+      if (Math.abs(d) < stepDur() * +sub() * M().ppb * 500) { asyncs.push(d); if (asyncs.length > 12) asyncs.shift(); }
+      if (asyncs.length >= 2) { const mu = asyncs.reduce((a, b) => a + b, 0) / asyncs.length; MB.stat("rm-o-async", `${MB.signed(mu, 0)} ms <small>n=${asyncs.length}</small>`); }
+    }
+    const iv = []; for (let i = 1; i < taps.length; i++) iv.push(taps[i] - taps[i - 1]);
+    if (iv.length < 3) { MB.stat("rm-o-tap", `… <small>${4 - taps.length}번 더</small>`); return; }
+    const med = median(iv), kept = iv.filter((x) => Math.abs(x - med) <= 0.2 * med);
+    const mean = kept.reduce((a, b) => a + b, 0) / kept.length;
+    const sd = Math.sqrt(kept.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, kept.length - 1));
+    tapBpm = 60000 / mean;
+    MB.stat("rm-o-tap", `${tapBpm.toFixed(1)} <small>BPM · 버림 ${iv.length - kept.length}</small>`);
+    MB.stat("rm-o-sd", `${sd.toFixed(1)} ms <small>CV ${((sd / mean) * 100).toFixed(1)}%</small>`);
+  }
+  document.getElementById("rm-tap").addEventListener("click", tap);
+  document.getElementById("rm-apply").addEventListener("click", () => { if (tapBpm) bpm.set(MB.clamp(Math.round(tapBpm), 30, 240)); });
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "t" && e.key !== "T") return;
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+    const a = document.activeElement; if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.type !== "range") return;
+    const r = document.getElementById("sim-rhy-metro").getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    tap();
+  });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 2. 그룹핑 탐색기 */
+(function () {
+  const OPTS = {
+    6: [{ g: [3, 3], name: "3+3 (6/8)" }, { g: [2, 2, 2], name: "2+2+2 (3/4)" }, { alt: [[3, 3], [2, 2, 2]], name: "헤미올라 교대" }],
+    7: [{ g: [2, 2, 3], name: "2+2+3" }, { g: [3, 2, 2], name: "3+2+2" }, { g: [2, 3, 2], name: "2+3+2" }],
+    8: [{ g: [2, 2, 2, 2], name: "2+2+2+2 (4/4)" }, { g: [3, 3, 2], name: "3+3+2 (트레실로)" }, { g: [3, 2, 3], name: "3+2+3" }],
+    9: [{ g: [3, 3, 3], name: "3+3+3 (9/8)" }, { g: [2, 2, 2, 3], name: "2+2+2+3 (아크사크)" }, { g: [2, 3, 2, 2], name: "2+3+2+2" }],
+    12: [{ g: [3, 3, 3, 3], name: "3+3+3+3 (12/8)" }, { g: [2, 2, 2, 2, 2, 2], name: "2×6 (6/4)" }, { g: [4, 4, 4], name: "4+4+4 (3/4)" }, { g: [3, 3, 2, 2, 2], name: "3+3+2+2+2" }],
+  };
+  let N = 6, opt = 0;
+  const groupEl = document.getElementById("rg-group");
+  const bpm = MB.range("rg-bpm", (v) => `${v} /분 · ${Math.round(60000 / v)} ms`, () => readout());
+  const kick = MB.check("rg-kick");
+  const cur = () => OPTS[N][opt];
+  const bars = () => (cur().alt ? cur().alt : [cur().g]);
+  function weights(g) {
+    const n = g.reduce((a, b) => a + b, 0), w = Array(n).fill(1);
+    const equal = g.every((x) => x === g[0]), half = equal && g.length >= 4 && g.length % 2 === 0;
+    let p = 0; g.forEach((x) => { w[p] += 1; p += x; });
+    w[0] += 1; if (half) { w[0] += 1; w[n / 2] += 1; }
+    return w;
+  }
+  function buildGroups() {
+    groupEl.innerHTML = OPTS[N].map((o, i) => `<button data-value="${i}" class="${i === opt ? "on" : ""}">${o.name}</button>`).join("");
+  }
+  groupEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; opt = +b.dataset.value; buildGroups(); readout(); });
+  MB.seg("rg-n", (v) => { N = +v; opt = 0; buildGroups(); readout(); });
+  const tr = tracker();
+  let nowStep = -1;
+  const lp = looper("rg-play", {
+    bpm: () => bpm(), div: 1, length: () => N * bars().length,
+    onStep(step, time) {
+      const bi = Math.floor(step / N), p = step % N, g = bars()[bi], w = weights(g), maxW = Math.max(...w);
+      const lv = w[p];
+      blip([0, 784, 1046.5, 1318.5, 1568, 1760][lv] || 784, time, 0.25 + 0.7 * (lv - 1) / Math.max(1, maxW - 1));
+      let acc = 0; const starts = g.map((x) => { const s = acc; acc += x; return s; });
+      if (kick() && starts.includes(p)) MB.drum("kick", time, { vel: p === 0 ? 0.95 : 0.6 });
+    },
+    onUI(step, time) { nowStep = step; tr.mark(step, time); cv.redraw(); },
+    onStop() { nowStep = -1; tr.reset(); cv.redraw(); },
+  });
+  const cv = MB.canvas("#rg-cv", (ctx, w, h) => {
+    const P = MB.palette(), B = bars(), rows = B.length;
+    const rh = (h - 16) / rows, x0 = 16, cw = (w - 32) / N;
+    B.forEach((g, bi) => {
+      const y0 = 8 + bi * rh, wts = weights(g), maxW = 5;
+      const active = nowStep >= 0 && Math.floor(nowStep / N) === bi;
+      if (rows > 1) { ctx.fillStyle = active ? P.accent + "18" : "transparent"; ctx.fillRect(4, y0, w - 8, rh - 6); }
+      // 그룹 괄호
+      let p = 0;
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.font = "bold 12px " + MONO(); ctx.textAlign = "center"; ctx.fillStyle = P.accent;
+      g.forEach((n) => { const xa = x0 + p * cw + 4, xb = x0 + (p + n) * cw - 4, yb = y0 + 18; ctx.beginPath(); ctx.moveTo(xa, yb + 6); ctx.lineTo(xa, yb); ctx.lineTo(xb, yb); ctx.lineTo(xb, yb + 6); ctx.stroke(); ctx.fillText(String(n), (xa + xb) / 2, yb - 5); p += n; });
+      // 가중치 막대
+      const base = y0 + rh - 26, hmax = rh - 60;
+      for (let i = 0; i < N; i++) {
+        const isNow = active && nowStep % N === i;
+        const bh = (wts[i] / maxW) * hmax;
+        ctx.fillStyle = isNow ? P.warn : wts[i] >= 3 ? P.accent : wts[i] === 2 ? P.accent2 : P.faint;
+        ctx.globalAlpha = isNow ? 1 : 0.85;
+        ctx.fillRect(x0 + i * cw + cw * 0.18, base - bh, cw * 0.64, bh);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = P.dim; ctx.font = "11px " + MONO(); ctx.fillText(String(i + 1), x0 + i * cw + cw / 2, base + 14);
+      }
+      if (rows > 1) { ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = "11px " + FONT(); ctx.fillText(bi === 0 ? "마디 A" : "마디 B", 8, y0 + rh - 8); }
+    });
+  }, { aspect: 0.42, maxHeight: 280, minHeight: 200 });
+  function readout() {
+    const B = bars();
+    MB.stat("rg-o-g", B.map((g) => g.join("+")).join(" | "));
+    const g = B[0], beatsN = g.length, beatBpm = bpm() / (N / beatsN);
+    MB.stat("rg-o-beat", `${beatsN}박 · ${beatBpm.toFixed(1)} <small>BPM(평균)</small>`);
+    const mx = Math.max(...g), mn = Math.min(...g);
+    MB.stat("rg-o-ratio", mx === mn ? "1 <small>(균등)</small>" : `${(mx / mn).toFixed(2)} <small>${Math.round((mx * 60000) / bpm())}/${Math.round((mn * 60000) / bpm())} ms</small>`);
+    cv.redraw();
+  }
+  buildGroups(); readout();
+})();
+
+/* ---------------------------------------------------------------- 3. 음표 길이 */
+(function () {
+  const TPB = 60; // 박당 틱(2·3·4·5의 공배수)
+  const LANES = [
+    { name: "온음표", d: [4], m: 36 },
+    { name: "2분음표", d: [2, 2], m: 43 },
+    { name: "4분음표", d: [1, 1, 1, 1], m: 48 },
+    { name: "8분음표", d: Array(8).fill(0.5), m: 55 },
+    { name: "16분음표", d: Array(16).fill(0.25), m: 60 },
+    { name: "점4분+8분", d: [1.5, 0.5, 1.5, 0.5], m: 52 },
+    { name: "점8분+16분", d: [0.75, 0.25, 0.75, 0.25, 0.75, 0.25, 0.75, 0.25], m: 57 },
+    { name: "4분 셋잇단", d: Array(6).fill(2 / 3), m: 64 },
+    { name: "8분 셋잇단", d: Array(12).fill(1 / 3), m: 67 },
+    { name: "16분 5잇단", d: Array(20).fill(0.2), m: 72 },
+  ];
+  LANES.forEach((L) => { let t = 0; L.on = L.d.map((d) => { const s = Math.round(t * TPB); t += d; return s; }); L.len = L.d.map((d) => Math.round(d * TPB)); });
+  const PERC = ["kick", "tomL", "tomM", "snare", "hat", "rim", "shaker", "cowbell", "clap", "tomH"];
+  let act = new Set([2, 8]);
+  const bpm = MB.range("rn-bpm", (v) => `♩ = ${v}`, () => readout());
+  const snd = MB.seg("rn-snd");
+  const clickOn = MB.check("rn-click");
+  const tr = tracker();
+  const lp = looper("rn-play", {
+    bpm: () => bpm(), div: TPB, length: 4 * TPB,
+    onStep(step, time) {
+      if (clickOn() && step % TPB === 0) blip(step === 0 ? 1760 : 1318.5, time, step === 0 ? 0.5 : 0.3, 0.02);
+      const spb = 60 / bpm();
+      LANES.forEach((L, li) => {
+        if (!act.has(li)) return;
+        const k = L.on.indexOf(step); if (k < 0) return;
+        if (snd() === "pitch") MB.play(L.m, { inst: li === 0 ? "bass" : "pluck", when: time, dur: Math.min(1.6, L.d[k] * spb * 0.92), vel: 0.55 });
+        else MB.drum(PERC[li], time, { vel: k === 0 ? 0.9 : 0.6 });
+      });
+    },
+    onUI(step, time) { tr.mark(step, time); },
+    onStop() { tr.reset(); cv.redraw(); },
+  });
+  let geo = null;
+  const cv = MB.canvas("#rn-cv", (ctx, w, h) => {
+    const P = MB.palette(), spb = 60000 / bpm();
+    const lw = w < 520 ? 96 : 140, x0 = lw, gw = w - lw - 12, top = 22, rh = (h - top - 6) / LANES.length;
+    geo = { top, rh };
+    const X = (tick) => x0 + (tick / (4 * TPB)) * gw;
+    ctx.font = "11px " + MONO(); ctx.textAlign = "center";
+    for (let b = 0; b <= 4; b++) { ctx.strokeStyle = b % 4 ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(X(b * TPB), top - 4); ctx.lineTo(X(b * TPB), h - 4); ctx.stroke(); if (b < 4) { ctx.fillStyle = P.dim; ctx.fillText(String(b + 1), X(b * TPB + TPB / 2), 14); } }
+    let ph = null;
+    if (lp.clk.running && tr.on) ph = tr.pos(60 / bpm() / TPB) % (4 * TPB);
+    LANES.forEach((L, li) => {
+      const y = top + li * rh, on = act.has(li);
+      ctx.textAlign = "left"; ctx.fillStyle = on ? P.text : P.faint; ctx.font = (w < 520 ? "11px " : "12.5px ") + FONT();
+      ctx.fillText(L.name, 6, y + rh * 0.45);
+      ctx.fillStyle = on ? P.accent : P.faint; ctx.font = "10.5px " + MONO();
+      ctx.fillText(MB.fmt(L.d[0] * spb, 3) + " ms" + (L.d[0] !== L.d[1] && L.d.length > 1 ? " / " + MB.fmt(L.d[1] * spb, 3) : ""), 6, y + rh * 0.45 + 13);
+      L.on.forEach((s, k) => {
+        const xa = X(s) + 1, xb = X(s + L.len[k]) - 1;
+        const playing = on && ph != null && ph >= s && ph < s + L.len[k];
+        ctx.fillStyle = playing ? P.warn : on ? (li % 2 ? P.accent2 : P.accent) : P.surface;
+        ctx.globalAlpha = on ? (playing ? 1 : 0.75) : 1;
+        ctx.beginPath(); ctx.roundRect ? ctx.roundRect(xa, y + 4, Math.max(1, xb - xa), rh - 8, 3) : ctx.rect(xa, y + 4, Math.max(1, xb - xa), rh - 8); ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    });
+    if (ph != null) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(ph), top - 6); ctx.lineTo(X(ph), h - 2); ctx.stroke(); }
+  }, { height: 330 });
+  MB.loop(cv.canvas, () => { if (lp.clk.running) cv.redraw(); });
+  cv.canvas.addEventListener("click", (e) => {
+    if (!geo) return;
+    const r = cv.canvas.getBoundingClientRect(), li = Math.floor((e.clientY - r.top - geo.top) / geo.rh);
+    if (li < 0 || li >= LANES.length) return;
+    act.has(li) ? act.delete(li) : act.add(li); readout();
+  });
+  const PRE = { "2:3": [3, 7], "3:4": [3, 8], "4:5": [4, 9], dot: [3, 5, 6], tree: [0, 1, 2, 3, 4], none: [] };
+  document.querySelectorAll("#rn-presets button").forEach((b) => b.addEventListener("click", () => { act = new Set(PRE[b.dataset.p]); readout(); }));
+  function readout() {
+    const spb = 60000 / bpm();
+    MB.stat("rn-o-beat", `${MB.fmt(spb, 4)} ms <small>마디 ${MB.fmt((4 * spb) / 1000, 3)} s</small>`);
+    let mn = Infinity, gg = 4 * TPB;
+    act.forEach((li) => { const L = LANES[li]; L.d.forEach((d) => (mn = Math.min(mn, d))); L.on.forEach((s) => (gg = gcd(gg, s))); });
+    MB.stat("rn-o-min", isFinite(mn) ? `${MB.fmt(mn * spb, 3)} ms <small>${MB.fmt(1000 / (mn * spb), 3)} Hz</small>` : "—");
+    MB.stat("rn-o-grid", act.size ? `박당 ${TPB / gg}칸 <small>${MB.fmt((gg / TPB) * spb, 3)} ms</small>` : "—");
+    cv.redraw();
+  }
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 4. 당김음 (LHL) */
+(function () {
+  const W = [0, -4, -3, -4, -2, -4, -3, -4, -1, -4, -3, -4, -2, -4, -3, -4];
+  const PRE = {
+    quarter: [0, 4, 8, 12], offbeat: [2, 6, 10, 14], tresillo: [0, 3, 6, 8, 11, 14], son: [0, 3, 6, 10, 12], rumba: [0, 3, 7, 10, 12],
+    bossa: [0, 3, 6, 10, 13], charleston: [0, 6], sixteenth: [1, 3, 5, 7, 9, 11, 13, 15], clear: [],
+  };
+  let pat = Array(16).fill(0); PRE.son.forEach((i) => (pat[i] = 1));
+  const grid = document.getElementById("rs-grid");
+  grid.innerHTML = `<div class="row"><div class="lab">리듬</div><div class="cells" style="--n:16">${[...Array(16)].map((_, i) => `<button class="cell${i % 4 === 0 ? " beat" : ""}" data-i="${i}" aria-label="스텝 ${i + 1}"></button>`).join("")}</div></div>`;
+  const cells = [...grid.querySelectorAll(".cell")];
+  grid.addEventListener("click", (e) => { const c = e.target.closest(".cell"); if (!c) return; const i = +c.dataset.i; pat[i] ^= 1; update(); });
+  const bpm = MB.range("rs-bpm", (v) => v + " BPM");
+  const snd = MB.seg("rs-snd");
+  const beat = MB.check("rs-beat");
+  function lhl(p) {
+    const on = []; p.forEach((v, i) => v && on.push(i));
+    const pairs = []; let S = 0;
+    on.forEach((n, k) => {
+      const next = k + 1 < on.length ? on[k + 1] : on[0] + 16;
+      let best = -99, bi = -1;
+      for (let r = n + 1; r < next; r++) { const ww = W[r % 16]; if (ww > best) { best = ww; bi = r % 16; } }
+      if (bi >= 0 && best > W[n]) { S += best - W[n]; pairs.push({ n, r: bi, v: best - W[n] }); }
+    });
+    return { S, pairs, on };
+  }
+  let res = lhl(pat), nowStep = -1;
+  const lp = looper("rs-play", {
+    bpm: () => bpm(), div: 4, length: 16,
+    onStep(step, time) {
+      if (beat()) { if (step % 4 === 0) MB.drum("kick", time, { vel: 0.6 }); if (step % 2 === 0) MB.drum("hat", time, { vel: step % 4 ? 0.25 : 0.4 }); }
+      if (pat[step]) MB.drum(snd(), time, { vel: 0.9 });
+    },
+    onUI(step) { if (nowStep >= 0) cells[nowStep].classList.remove("now"); nowStep = step; cells[step].classList.add("now"); cv.redraw(); },
+    onStop() { if (nowStep >= 0) cells[nowStep].classList.remove("now"); nowStep = -1; cv.redraw(); },
+  });
+  const cv = MB.canvas("#rs-cv", (ctx, w, h) => {
+    const P = MB.palette(), x0 = 16, cw = (w - 32) / 16, base = h - 22, hmax = h * 0.42;
+    for (let i = 0; i < 16; i++) {
+      const bh = ((W[i] + 5) / 5) * hmax, x = x0 + i * cw;
+      ctx.fillStyle = i === nowStep ? P.warn : pat[i] ? P.accent : P.faint;
+      ctx.globalAlpha = pat[i] || i === nowStep ? 1 : 0.45;
+      ctx.fillRect(x + cw * 0.2, base - bh, cw * 0.6, bh);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = P.dim; ctx.font = "10px " + MONO(); ctx.textAlign = "center"; ctx.fillText(String(W[i]), x + cw / 2, base + 13);
+    }
+    res.pairs.forEach((p) => {
+      let a = x0 + p.n * cw + cw / 2, b = x0 + p.r * cw + cw / 2; if (p.r < p.n) b += 16 * cw;
+      const top = base - hmax - 14 - Math.min(40, (b - a) * 0.25);
+      ctx.strokeStyle = P.bad; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(a, base - hmax - 6); ctx.quadraticCurveTo((a + b) / 2, top - 10, Math.min(b, w - 6), base - hmax - 6); ctx.stroke();
+      ctx.fillStyle = P.bad; ctx.font = "bold 12px " + MONO(); ctx.fillText("+" + p.v, Math.min((a + b) / 2, w - 16), top - 2);
+    });
+  }, { aspect: 0.3, minHeight: 150, maxHeight: 200 });
+  function update() {
+    cells.forEach((c, i) => c.classList.toggle("on", !!pat[i]));
+    res = lhl(pat);
+    MB.stat("rs-o-s", `<b>${res.S}</b>`);
+    MB.stat("rs-o-n", String(res.on.length));
+    MB.stat("rs-o-ioi", res.on.length ? res.on.map((n, k) => (k + 1 < res.on.length ? res.on[k + 1] : res.on[0] + 16) - n).join("-") : "—");
+    cv.redraw();
+  }
+  document.querySelectorAll("#rs-presets button").forEach((b) => b.addEventListener("click", () => {
+    const k = b.dataset.p;
+    if (k === "random") { pat = [...Array(16)].map((_, i) => (Math.random() < 0.18 + 0.12 * (W[i] + 4) / 4 ? 1 : 0)); }
+    else { pat = Array(16).fill(0); PRE[k].forEach((i) => (pat[i] = 1)); }
+    update();
+  }));
+  update();
+})();
+
+/* ---------------------------------------------------------------- 5. 스윙 비율 */
+(function () {
+  const r = MB.range("rw-r", (v) => v.toFixed(2) + " : 1", () => readout());
+  const bpm = MB.range("rw-bpm", (v) => v + " BPM", () => { if (auto()) r.set(model(bpm())); readout(); });
+  const pat = MB.seg("rw-pat");
+  const model = (b) => MB.clamp(600 / b - 1, 1, 3.5);
+  const auto = MB.check("rw-auto", (on) => { if (on) r.set(model(bpm())); });
+  const sw = () => r() / (1 + r());
+  const BOOGIE = [36, 40, 43, 45, 46, 45, 43, 40];
+  const WALK = [[36, 40, 43, 45], [41, 45, 48, 46], [43, 47, 50, 49], [36, 43, 40, 38]];
+  let barN = 0, nowStep = -1;
+  const lp = looper("rw-play", {
+    bpm: () => bpm(), div: 2, length: 8, swing: () => sw(),
+    onStep(step, time, dur) {
+      const p = pat(), on = step % 2 === 0, beatI = step >> 1;
+      if (step === 0) barN++;
+      if (p === "hat") { MB.drum("hat", time, { vel: on ? 0.7 : 0.5 }); return; }
+      if (p === "shuffle") {
+        MB.drum("hat", time, { vel: on ? 0.55 : 0.38 });
+        if (on && beatI % 2 === 0) MB.drum("kick", time, { vel: 0.85 });
+        if (on && beatI % 2 === 1) MB.drum("snare", time, { vel: 0.7 });
+        MB.play(BOOGIE[step] - (barN % 4 === 2 ? -5 : 0), { inst: "bass", when: time, dur: dur * 0.85, vel: on ? 0.75 : 0.55 });
+      } else {
+        // 재즈 라이드: 1, 2, 2a, 3, 4, 4a
+        if (on || beatI % 2 === 1) MB.drum("ride", time, { vel: on ? (beatI % 2 ? 0.75 : 0.6) : 0.45 });
+        if (on && beatI % 2 === 1) MB.drum("hat", time, { vel: 0.35, decay: 0.8 });
+        if (on) MB.play(WALK[barN % 4][beatI], { inst: "pluck", when: time, dur: dur * 1.7, vel: 0.85, ks: { decay: 0.994, bright: 0.25 } });
+      }
+    },
+    onUI(step) { nowStep = step; cv.redraw(); },
+    onStart() { barN = -1; },
+    onStop() { nowStep = -1; cv.redraw(); },
+  });
+  [["rw-straight", 1], ["rw-trip", 2], ["rw-dot", 3]].forEach(([id, v]) => document.getElementById(id).addEventListener("click", () => { document.getElementById("rw-auto").checked = false; r.set(v); }));
+  const cv = MB.canvas("#rw-cv", (ctx, w, h) => {
+    const P = MB.palette(), ph = sw();
+    // 타임라인(한 마디)
+    const tb = { x: 20, y: 22, w: w - 40, h: h * 0.36 };
+    const X = (beats) => tb.x + (beats / 4) * tb.w;
+    ctx.font = "11px " + MONO(); ctx.textAlign = "center";
+    for (let b = 0; b < 4; b++) {
+      ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(b), tb.y); ctx.lineTo(X(b), tb.y + tb.h); ctx.stroke();
+      ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(b + 0.5), tb.y + tb.h * 0.3); ctx.lineTo(X(b + 0.5), tb.y + tb.h); ctx.stroke();
+      ctx.setLineDash([3, 3]); ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(X(b + 2 / 3), tb.y + tb.h * 0.15); ctx.lineTo(X(b + 2 / 3), tb.y + tb.h); ctx.stroke(); ctx.setLineDash([]);
+      [0, 1].forEach((k) => {
+        const st = b * 2 + k, x = X(b + (k ? ph : 0)), isNow = st === nowStep;
+        ctx.fillStyle = isNow ? P.warn : k ? P.accent2 : P.accent;
+        const hh = k ? tb.h * 0.6 : tb.h * 0.85;
+        ctx.fillRect(x - 3, tb.y + tb.h - hh, 6, hh);
+      });
+      ctx.fillStyle = P.dim; ctx.fillText(String(b + 1), X(b), tb.y - 6);
+    }
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(tb.x, tb.y + tb.h); ctx.lineTo(tb.x + tb.w, tb.y + tb.h); ctx.stroke();
+    // 템포–비율 평면
+    const box = { x: 50, y: tb.y + tb.h + 26, w: w - 70, h: h - (tb.y + tb.h + 26) - 40 };
+    const curve = []; for (let b = 60; b <= 320; b += 4) curve.push([b, model(b)]);
+    MB.chart(ctx, box, {
+      x: [60, 320], y: [0.8, 3.8], xLabel: "템포 (BPM)", yLabel: "r", yTicks: [1, 1.5, 2, 2.5, 3, 3.5],
+      series: [{ data: curve, color: P.faint, width: 2, dash: [5, 4] }],
+      hlines: [{ y: 2, color: P.accent2, label: "셋잇단 2:1", dash: [2, 4] }],
+      points: [{ x: bpm(), y: r(), color: P.accent, r: 6 }],
+    });
+  }, { aspect: 0.72, maxHeight: 440, minHeight: 300 });
+  function readout() {
+    const T = 60000 / bpm(), p = sw();
+    MB.stat("rw-o-pos", `${(p * 100).toFixed(1)}% <small>박 안</small>`);
+    MB.stat("rw-o-ms", `${Math.round(p * T)} / ${Math.round((1 - p) * T)} ms`);
+    MB.stat("rw-o-delay", `${MB.signed((p - 0.5) * T, 1)} ms`);
+    cv.redraw();
+  }
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 6. 폴리리듬·폴리미터 */
+(function () {
+  const mode = MB.seg("rp-mode", () => readout());
+  const N = MB.range("rp-n", (v) => String(v), () => readout());
+  const M = MB.range("rp-m", (v) => String(v), () => readout());
+  const L = MB.range("rp-l", (v) => (v ? String(v) : "끔"), () => readout());
+  const bpm = MB.range("rp-bpm", (v) => v + " BPM", () => readout());
+  const rings = () => [N(), M(), L()].filter((x) => x > 0);
+  const G = () => rings().reduce((a, b) => lcm(a, b), 1);
+  const SND = [["tomL", 0], ["cowbell", 0], ["rim", 0]];
+  const flash = [0, 0, 0];
+  const tr = tracker();
+  const lp = looper("rp-play", {
+    bpm: () => bpm(),
+    div: () => (mode() === "rhythm" ? G() / N() : 1),
+    length: () => G(),
+    onStep(step, time) {
+      const rs = rings(), g = G();
+      if (mode() === "rhythm") {
+        let all = true;
+        rs.forEach((n, i) => { if (step % (g / n) === 0) MB.drum(SND[i][0], time, { vel: step === 0 ? 1 : 0.75 }); else all = false; });
+        if (step === 0) MB.drum("kick", time, { vel: 0.5 });
+      } else {
+        MB.drum("hat", time, { vel: 0.3 });
+        rs.forEach((n, i) => { if (step % n === 0) MB.drum(SND[i][0], time, { vel: 0.9 }); });
+        if (step === 0) MB.drum("kick", time, { vel: 0.8 });
+      }
+    },
+    onUI(step, time) {
+      tr.mark(step, time);
+      const rs = rings(), g = G();
+      rs.forEach((n, i) => { if ((mode() === "rhythm" && step % (g / n) === 0) || (mode() === "meter" && step % n === 0)) flash[i] = performance.now(); });
+    },
+    onStop() { tr.reset(); cv.redraw(); },
+  });
+  const stepDur = () => (mode() === "rhythm" ? 60 / bpm() / (G() / N()) : 60 / bpm());
+  const cv = MB.canvas("#rp-cv", (ctx, w, h) => {
+    const P = MB.palette(), rs = rings(), g = G(), narrow = w < 560;
+    const cols = [P.accent, P.accent2, P.warn];
+    const pos = lp.clk.running && tr.on ? tr.pos(stepDur()) % g : null;
+    const D = narrow ? Math.min(w - 20, h * 0.62) : Math.min(h - 20, w * 0.48);
+    const cx = narrow ? w / 2 : D / 2 + 12, cy = narrow ? D / 2 + 8 : h / 2, R0 = D / 2 - 14;
+    const now = performance.now();
+    rs.forEach((n, i) => {
+      const R = R0 * (1 - i * 0.27);
+      ctx.strokeStyle = P.grid; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+      const pts = [...Array(n)].map((_, k) => { const a = -Math.PI / 2 + (2 * Math.PI * k) / n; return [cx + R * Math.cos(a), cy + R * Math.sin(a)]; });
+      ctx.strokeStyle = cols[i]; ctx.globalAlpha = 0.35; ctx.lineWidth = 2; ctx.beginPath(); pts.forEach(([x, y], k) => (k ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); if (n > 2) ctx.closePath(); ctx.stroke(); ctx.globalAlpha = 1;
+      const fl = Math.max(0, 1 - (now - flash[i]) / 200);
+      pts.forEach(([x, y], k) => { ctx.fillStyle = cols[i]; ctx.beginPath(); ctx.arc(x, y, k === 0 ? 8 : 6, 0, 7); ctx.fill(); });
+      // 바늘
+      if (pos != null) {
+        const frac = mode() === "rhythm" ? pos / g : (pos % n) / n;
+        const a = -Math.PI / 2 + 2 * Math.PI * frac;
+        ctx.strokeStyle = cols[i]; ctx.lineWidth = 2 + 3 * fl; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); ctx.stroke();
+        ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(cx + R * Math.cos(a), cy + R * Math.sin(a), 3.5 + 4 * fl, 0, 7); ctx.fill();
+      }
+    });
+    // LCM 띠
+    const bx = narrow ? 14 : D + 40, by = narrow ? D + 30 : h / 2 - rs.length * 15 - 10, bw = narrow ? w - 28 : w - D - 56, rh = 26;
+    const cw = bw / g;
+    ctx.font = "12px " + FONT(); ctx.textAlign = "left"; ctx.fillStyle = P.dim;
+    ctx.fillText(mode() === "rhythm" ? `한 사이클 = ${g}칸 격자` : `${g} 펄스 = 재정렬 주기`, bx, by - 8);
+    rs.forEach((n, i) => {
+      const y = by + i * rh;
+      for (let s = 0; s < g; s++) {
+        const hit = mode() === "rhythm" ? s % (g / n) === 0 : s % n === 0;
+        ctx.fillStyle = hit ? cols[i] : P.surface; ctx.globalAlpha = hit ? 0.9 : 1;
+        ctx.fillRect(bx + s * cw + (cw > 4 ? 1 : 0), y, Math.max(1, cw - (cw > 4 ? 2 : 0)), rh - 6);
+        ctx.globalAlpha = 1;
+      }
+    });
+    if (pos != null) { const x = bx + (pos / g) * bw; ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, by - 2); ctx.lineTo(x, by + rs.length * rh); ctx.stroke(); }
+  }, { aspect: (w) => (w < 560 ? 1.2 : 0.5), maxHeight: 460, minHeight: 260 });
+  MB.loop(cv.canvas, () => { if (lp.clk.running) cv.redraw(); });
+  function readout() {
+    const rs = rings(), g = G();
+    MB.stat("rp-o-lcm", `lcm(${rs.join(", ")}) = ${g}`);
+    if (mode() === "rhythm") {
+      const C = (N() * 60) / bpm();
+      MB.stat("rp-o-cyc", `${C.toFixed(2)} s <small>격자 ${MB.fmt((C / g) * 1000, 3)} ms</small>`);
+      const on = []; for (let s = 0; s < g; s++) if (rs.some((n) => s % (g / n) === 0)) on.push(s);
+      MB.stat("rp-o-ioi", on.length <= 16 ? on.map((s, k) => (k + 1 < on.length ? on[k + 1] : g) - s).join("-") : `${on.length}개 온셋`);
+    } else {
+      MB.stat("rp-o-cyc", `${g} 펄스 <small>${((g * 60) / bpm()).toFixed(1)} s 뒤 재정렬</small>`);
+      MB.stat("rp-o-ioi", rs.map((n) => n + "펄스").join(" / ") + " 주기");
+    }
+    cv.redraw();
+  }
+  [["rp-32", [3, 2, 0]], ["rp-43", [4, 3, 0]], ["rp-75", [7, 5, 0]]].forEach(([id, v]) => document.getElementById(id).addEventListener("click", () => { N.set(v[0], false); M.set(v[1], false); L.set(v[2], false); readout(); }));
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 7. 장단 */
+(function () {
+  const J = {
+    semachi: { name: "세마치", meter: "9/8", groups: [3, 3, 3], bpm: 66, s: ["덩", "", "", "덩", "", "덕", "쿵", "덕", ""] },
+    gutgeori: { name: "굿거리", meter: "12/8", groups: [3, 3, 3, 3], bpm: 60, s: ["덩", "", "기덕", "쿵", "", "더러러러", "쿵", "", "기덕", "쿵", "", "더러러러"] },
+    jajin: { name: "자진모리", meter: "12/8", groups: [3, 3, 3, 3], bpm: 100, s: ["덩", "", "덕", "쿵", "덕", "", "쿵", "", "덕", "쿵", "덕", ""] },
+    eotmori: { name: "엇모리", meter: "10/8", groups: [3, 2, 3, 2], bpm: 84, s: ["덩", "", "", "쿵", "", "덕", "", "", "쿵", ""] },
+  };
+  const kind = MB.seg("rj-kind", (k) => { bpm.set(J[k].bpm); });
+  const bpm = MB.range("rj-bpm", (v) => `${v} (박/분)`, () => readout());
+  const clickOn = MB.check("rj-click");
+  const lilt = MB.check("rj-lilt");
+  const cur = () => J[kind()];
+  function membrane(ctx, t, vel, pan, f0, f1, dec) {
+    const o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = pan;
+    o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + 0.09);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.75 * vel, t + 0.003); g.gain.setTargetAtTime(0, t + 0.003, dec / 4);
+    o.connect(g); g.connect(p); p.connect(MB.out); o.start(t); o.stop(t + dec * 1.6 + 0.05);
+    const n = ctx.createBufferSource(); n.buffer = MB.noiseBuffer(ctx); const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 420;
+    const ng = ctx.createGain(); ng.gain.setValueAtTime(0.0001, t); ng.gain.linearRampToValueAtTime(0.35 * vel, t + 0.002); ng.gain.setTargetAtTime(0, t + 0.002, 0.02);
+    n.connect(lp); lp.connect(ng); ng.connect(p); n.start(t, Math.random()); n.stop(t + 0.2);
+  }
+  function crack(ctx, t, vel, pan) {
+    const o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = pan; o.type = "triangle";
+    o.frequency.setValueAtTime(560, t); o.frequency.exponentialRampToValueAtTime(470, t + 0.05);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.4 * vel, t + 0.001); g.gain.setTargetAtTime(0, t + 0.001, 0.025);
+    o.connect(g); g.connect(p); p.connect(MB.out); o.start(t); o.stop(t + 0.2);
+    const n = ctx.createBufferSource(); n.buffer = MB.noiseBuffer(ctx); const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 3200; bp.Q.value = 1.4;
+    const ng = ctx.createGain(); ng.gain.setValueAtTime(0.0001, t); ng.gain.linearRampToValueAtTime(0.9 * vel, t + 0.001); ng.gain.setTargetAtTime(0, t + 0.001, 0.018);
+    n.connect(bp); bp.connect(ng); ng.connect(p); n.start(t, Math.random()); n.stop(t + 0.15);
+  }
+  function stroke(s, t, slot) {
+    const ctx = MB.ctx();
+    const kung = (v) => membrane(ctx, t, v, -0.3, 118, 92, 0.5);
+    const deok = (tt, v) => crack(ctx, tt, v, 0.3);
+    if (s === "덩") { kung(1); deok(t, 0.9); }
+    else if (s === "쿵") kung(0.9);
+    else if (s === "덕") deok(t, 0.85);
+    else if (s === "기덕") { deok(Math.max(ctx.currentTime, t - Math.min(0.07, slot * 0.35)), 0.35); deok(t, 0.85); }
+    else if (s === "더러러러") { for (let k = 0; k < 5; k++) deok(t + (k * slot * 1.6) / 5, 0.75 - k * 0.1); }
+  }
+  // 소박 시각(늘이기 반영): 박 안 위치 k → 박 시작으로부터의 비율
+  function offsets(n) {
+    if (!lilt() || n < 2) return [...Array(n)].map((_, k) => k / n);
+    const first = (1 / n) * 1.12, rest = (1 - first) / (n - 1);
+    return [...Array(n)].map((_, k) => (k === 0 ? 0 : first + (k - 1) * rest));
+  }
+  let nowStep = -1;
+  const pulses = () => cur().groups.reduce((a, b) => a + b, 0);
+  const lp = looper("rj-play", {
+    bpm: () => bpm() * 3, div: 1, length: () => pulses(),
+    onStep(step, time, dur) {
+      const j = cur(); let acc = 0, gi = 0;
+      while (step >= acc + j.groups[gi]) { acc += j.groups[gi]; gi++; }
+      const n = j.groups[gi], k = step - acc, beatDur = dur * n, offs = offsets(n);
+      const t = time - (k / n) * beatDur + offs[k] * beatDur;
+      if (clickOn()) blip(k === 0 ? 1318.5 : 988, time, k === 0 ? 0.35 : 0.18, 0.02);
+      if (j.s[step]) stroke(j.s[step], t, dur);
+    },
+    onUI(step) { nowStep = step; cv.redraw(); },
+    onStop() { nowStep = -1; cv.redraw(); },
+  });
+  function glyph(ctx, s, x, y, r, col) {
+    ctx.strokeStyle = col; ctx.lineWidth = 2.2;
+    const circle = () => { ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke(); };
+    const bar = (dx = 0, len = 1) => { ctx.beginPath(); ctx.moveTo(x + dx, y - r * 1.15 * len); ctx.lineTo(x + dx, y + r * 1.15 * len); ctx.stroke(); };
+    if (s === "덩") { circle(); bar(); }
+    else if (s === "쿵") circle();
+    else if (s === "덕") bar();
+    else if (s === "기덕") { bar(r * 0.45); ctx.lineWidth = 1.4; bar(-r * 0.45, 0.5); }
+    else if (s === "더러러러") { ctx.fillStyle = col; for (let k = -1; k <= 1; k++) { ctx.beginPath(); ctx.arc(x, y + k * r * 0.7, 2.2, 0, 7); ctx.fill(); } bar(r * 0.6); }
+  }
+  const cv = MB.canvas("#rj-cv", (ctx, w, h) => {
+    const P = MB.palette(), j = cur(), n = pulses();
+    const x0 = 14, cw = (w - 28) / n, y0 = 30, ch = (h - y0 - 12) / 2;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    let acc = 0;
+    j.groups.forEach((g, gi) => { ctx.fillStyle = P.dim; ctx.font = "12px " + FONT(); ctx.fillText(`${gi + 1}박 (${g})`, x0 + (acc + g / 2) * cw, 14); acc += g; });
+    for (let i = 0; i < n; i++) {
+      const x = x0 + i * cw, isNow = i === nowStep, s = j.s[i];
+      ctx.fillStyle = isNow ? P.accent + "33" : P.surface; ctx.fillRect(x + 1, y0, cw - 2, ch * 2);
+      if (isNow) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.strokeRect(x + 2, y0 + 1, cw - 4, ch * 2 - 2); }
+      if (s) {
+        let fs = Math.min(20, cw * 0.5); ctx.font = `700 ${fs}px ` + FONT();
+        while (ctx.measureText(s).width > cw - 6 && fs > 8) { fs -= 1; ctx.font = `700 ${fs}px ` + FONT(); }
+        ctx.fillStyle = s === "덩" ? P.accent : s === "쿵" ? P.accent2 : P.text;
+        ctx.fillText(s, x + cw / 2, y0 + ch / 2);
+        glyph(ctx, s, x + cw / 2, y0 + ch * 1.45, Math.min(11, cw * 0.28, ch * 0.3), ctx.fillStyle);
+      } else { ctx.fillStyle = P.faint; ctx.font = "13px " + FONT(); ctx.fillText("·", x + cw / 2, y0 + ch / 2); }
+    }
+    acc = 0;
+    ctx.strokeStyle = P.text; ctx.lineWidth = 2.5;
+    [0, ...j.groups].forEach((g) => { acc += g; const x = x0 + acc * cw; ctx.beginPath(); ctx.moveTo(x, y0 - 4); ctx.lineTo(x, y0 + ch * 2 + 4); ctx.stroke(); });
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, y0 + ch); ctx.lineTo(x0 + n * cw, y0 + ch); ctx.stroke();
+    ctx.textBaseline = "alphabetic";
+  }, { aspect: 0.26, minHeight: 170, maxHeight: 230 });
+  function readout() {
+    const j = cur(), n = pulses(), sb = 60 / (bpm() * 3);
+    MB.stat("rj-o-meter", `${j.meter} <small>${j.name}</small>`);
+    MB.stat("rj-o-group", j.groups.join("+") + ` <small>소박 ${Math.round(sb * 1000)} ms</small>`);
+    MB.stat("rj-o-len", `${(n * sb).toFixed(2)} s`);
+    cv.redraw();
+  }
+  readout();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>악기의 물리 · MusicBook</title>
+<meta name="description" content="현의 정상파와 메르센 법칙, 뜯는 위치와 사라지는 배음, 카플러스–스트롱 현 모델, 피아노의 비조화성과 늘린 조율, 열린 관과 닫힌 관, 막과 막대·종의 비조화 모드를 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/fundamentals/chapters/instruments.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MusicBook">
+<meta property="og:title" content="악기의 물리 · MusicBook">
+<meta property="og:description" content="현의 정상파와 메르센 법칙, 뜯는 위치와 사라지는 배음, 카플러스–스트롱 현 모델, 피아노의 비조화성과 늘린 조율, 열린 관과 닫힌 관, 막과 막대·종의 비조화 모드를 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/fundamentals/chapters/instruments.html">
+<meta property="og:image" content="https://music.euiyun.com/fundamentals/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"악기의 물리","name":"악기의 물리 · MusicBook","url":"https://music.euiyun.com/fundamentals/chapters/instruments.html","mainEntityOfPage":"https://music.euiyun.com/fundamentals/chapters/instruments.html","inLanguage":"ko","isAccessibleForFree":true,"learningResourceType":"interactive textbook chapter","position":3,"image":"https://music.euiyun.com/fundamentals/og.png","dateModified":"2026-10-04","isPartOf":{"@type":"Book","@id":"https://music.euiyun.com/fundamentals/#book","name":"MusicBook — 인터랙티브 음악 교과서","url":"https://music.euiyun.com/fundamentals/"},"publisher":{"@type":"Organization","name":"MusicBook","url":"https://music.euiyun.com/fundamentals/"},"description":"현의 정상파와 메르센 법칙, 뜯는 위치와 사라지는 배음, 카플러스–스트롱 현 모델, 피아노의 비조화성과 늘린 조율, 열린 관과 닫힌 관, 막과 막대·종의 비조화 모드를 듣고 조작한다."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MusicBook","item":"https://music.euiyun.com/fundamentals/"},{"@type":"ListItem","position":2,"name":"03 악기의 물리","item":"https://music.euiyun.com/fundamentals/chapters/instruments.html"}]}]}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/common.js"></script>
+<style>
+  .ins-chords { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ins-chords .btn { padding: 5px 11px; font-size: 13px; min-width: 44px; }
+  #ins-dr-mode button { font-family: var(--mono); font-size: 12px; padding: 4px 7px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="fundamentals"></script>
+</head>
+<body data-chapter="instruments">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 03</div>
+    <h1>악기의 물리</h1>
+    <p class="lead">악기는 공진기입니다. 줄, 공기 기둥, 막, 금속 막대가 각자의 경계 조건이 허락하는 주파수(모드)로만 진동하고, 그 모드들의 주파수 비가 정수에 가까운지 아닌지가 '음높이가 또렷한 악기'와 '타악기'를 가릅니다. 이 장에서는 파동 방정식의 해를 직접 울려 보고, 1983년 논문으로 발표된 간결한 카플러스–스트롱 알고리즘이 어떻게 기타 소리를 내는지 해부합니다.</p>
+    <ul class="objectives">
+      <li>현의 모드 주파수 \(f_n = n v/2L\), \(v=\sqrt{T/\mu}\)와 메르센 법칙으로 실제 현의 장력을 계산한다.</li>
+      <li>뜯는 위치 \(\beta\)가 \(n\beta\)가 정수인 배음을 지우는 이유를 푸리에 계수로 설명하고 듣는다.</li>
+      <li>카플러스–스트롱 알고리즘을 지연선 + 저역 통과 루프로 이해하고, 감쇠·밝기·분수 지연 조율을 계산한다.</li>
+      <li>피아노 현의 비조화성 \(f_n = nf_0\sqrt{1+Bn^2}\)과 늘린 조율(레일스백 곡선)의 관계를 안다.</li>
+      <li>열린 관·닫힌 관·원뿔관의 공명열, 끝 보정, 막(베셀 영점)과 막대·종의 비조화 모드를 비교한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="string">
+    <h2>현의 정상파와 배음열</h2>
+    <p>양 끝이 고정된 줄의 작은 가로 변위 \(y(x,t)\)는 1차원 파동 방정식 \(\partial_t^2 y = v^2\,\partial_x^2 y\)를 따릅니다. 1장의 정상파가 바로 이 방정식의 해이고, 양 끝(\(x=0, L\))에서 변위가 0이어야 한다는 <b>경계 조건</b>이 허락하는 모양은 반 파장의 정수배가 줄 길이에 꼭 맞는 것들뿐입니다.</p>
+    <div class="formula">$$y_n(x,t) = \sin\frac{n\pi x}{L}\,\cos(2\pi f_n t), \qquad f_n = \frac{n\,v}{2L}, \qquad v = \sqrt{\frac{T}{\mu}}$$
+      <div class="where">\(T\): 장력(N), \(\mu\): 선밀도(kg/m), \(v\): 줄 위 파동 속도(공기 중 음속과 무관!). 모드 주파수가 정확히 \(f_1\)의 정수배이므로 이상적인 현은 완벽한 배음열(2장)을 만든다. \(n\)번째 모드에는 양 끝을 뺀 \(n-1\)개의 마디가 있다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="현의 첫 네 모드"><g id="ins-fig-modes"></g></svg>
+      <figcaption><b>그림 3-1.</b> 양 끝이 고정된 현의 모드 1–4. 점선은 반주기 뒤의 모양, 작은 원은 마디. 줄을 어느 한 점에서 뜯으면 그 점이 마디인 모드는 처음부터 움직일 수 없다 — 다음 시뮬레이터의 핵심.</figcaption>
+    </figure>
+    <p>실제로 줄을 뜯으면 처음 모양(삼각형)을 푸리에 사인 급수로 분해한 계수만큼 각 모드가 들뜹니다. 위치 \(\beta L\)에서 높이 \(h\)로 뜯은 삼각형의 계수와, 해머로 친(초기 속도 충격) 경우의 계수는</p>
+    <div class="formula">$$a_n^{\text{pluck}} = \frac{2h}{\pi^2\beta(1-\beta)}\cdot\frac{\sin(n\pi\beta)}{n^2}, \qquad a_n^{\text{strike}} \propto \frac{\sin(n\pi\beta)}{n}$$
+      <div class="where">\(\sin(n\pi\beta) = 0\), 즉 <b>\(n\beta\)가 정수인 모드는 전혀 들뜨지 않는다</b>. 줄 길이의 1/5 지점에서 뜯으면 5, 10, 15번 배음이 빠진다. 몸통을 흔드는 것은 브리지에 걸리는 힘(줄 기울기 \(\propto n a_n\))이므로, 소리 스펙트럼은 뜯기에서 \(\sin(n\pi\beta)/n\), 치기에서 \(\sin(n\pi\beta)\)를 따른다. 활로 켜는 현은 마찰의 '붙었다–미끄러졌다'가 만드는 헬름홀츠 운동으로 꺾인 점 하나가 줄을 따라 도는데, 이것은 진폭 \(1/n^2\)(소리는 \(1/n\), 톱니파)인 운동이다.</div>
+    </div>
+
+    <div class="sim" id="sim-ins-string">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>뜯는 위치와 현의 모드 합성</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-st"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>들뜨기 방식</span><div class="seg" id="ins-st-ex"><button data-value="pluck" class="on">뜯기</button><button data-value="strike">치기</button><button data-value="bow">활</button></div></div>
+          <label class="ctrl"><span>위치 β <output id="ins-st-beta-out"></output></span><input type="range" id="ins-st-beta" min="2" max="50" step="0.5" value="20"></label>
+          <label class="ctrl"><span>기본 주파수 <output id="ins-st-f0-out"></output></span><input type="range" id="ins-st-f0" min="55" max="440" value="110"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-st-play">▶ 퉁기기 / 듣기</button><button class="btn" id="ins-st-slow">애니메이션 다시</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">빠지는 배음</span><span class="v" id="ins-st-o-miss">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="ins-st-o-cent">—</span></div>
+        <div class="stat"><span class="k">β의 분수 근사</span><span class="v" id="ins-st-o-frac">—</span></div>
+      </div>
+      <div class="sim-note">위: 모드 40개를 겹친 줄의 실제 움직임(슬로 모션, 높은 모드가 더 빨리 감쇠). 빨간 삼각형이 뜯는/치는 위치입니다. 아래: 소리(브리지 힘) 스펙트럼 dB — 빨간 ×가 사라진 배음. β를 50%(정중앙)로 놓으면 짝수 배음이 모두 사라져 속이 빈 클라리넷 같은 소리, 5% 근처(브리지 가까이)는 날카로운 소리가 납니다. 기타리스트가 사운드홀 위와 브리지 앞을 오가며 음색을 바꾸는 이유입니다. 모델: 이상 현 + 모드별 지수 감쇠 가산 합성(몸통 공명 없음). '활'은 이상적인 헬름홀츠 운동(위치 무관)으로 근사.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="mersenne">
+    <h2>메르센 법칙: 실제 현의 숫자</h2>
+    <p>마랭 메르센(1636)은 현의 진동수가 길이에 반비례하고, 장력의 제곱근에 비례하며, 선밀도의 제곱근에 반비례함을 실험으로 밝혔습니다. 위 식에서 \(\mu = \rho\pi d^2/4\)(지름 \(d\), 재질 밀도 \(\rho\))를 넣으면</p>
+    <div class="formula">$$f_1 = \frac{1}{2L}\sqrt{\frac{T}{\mu}} = \frac{1}{Ld}\sqrt{\frac{T}{\pi\rho}}, \qquad T = \mu\,(2Lf_1)^2$$
+      <div class="where">옥타브를 올리려면 길이를 절반으로(프렛 12번), 또는 장력을 4배로, 또는 지름을 절반으로. 그래서 기타 저음현은 장력을 너무 낮추지 않으면서 \(\mu\)를 키우려고 심선에 구리선을 감는다(감은 현, wound string). 피아노 저음현도 같다.</div>
+    </div>
+    <div class="sim" id="sim-ins-mersenne">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>현 계산기: 길이·장력·지름·재질 → 음높이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ms"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>프리셋</span><select id="ins-ms-pre">
+            <option value="gE">기타 1번줄 E4 (강철 .010")</option>
+            <option value="gG">기타 3번줄 G3 (강철 .017")</option>
+            <option value="cE">클래식 기타 1번줄 E4 (나일론)</option>
+            <option value="vE">바이올린 E5 (강철)</option>
+            <option value="pA">피아노 A4 (강철 1.025 mm)</option>
+          </select></label>
+          <label class="ctrl"><span>진동 길이 L <output id="ins-ms-L-out"></output></span><input type="range" id="ins-ms-L" min="200" max="1300" value="648"></label>
+          <label class="ctrl"><span>장력 T <output id="ins-ms-T-out"></output></span><input type="range" id="ins-ms-T" min="0" max="1000" value="500"></label>
+          <label class="ctrl"><span>지름 d <output id="ins-ms-d-out"></output></span><input type="range" id="ins-ms-d" min="0.1" max="2" step="0.001" value="0.254"></label>
+          <div class="ctrl"><span>재질</span><div class="seg" id="ins-ms-mat"><button data-value="steel" class="on">강철</button><button data-value="nylon">나일론</button><button data-value="gut">거트</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-ms-play">▶ 퉁겨 보기</button><button class="btn" id="ins-ms-ref">기준음(목표 음)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기본 주파수</span><span class="v" id="ins-ms-o-f">—</span></div>
+        <div class="stat"><span class="k">선밀도 μ</span><span class="v" id="ins-ms-o-mu">—</span></div>
+        <div class="stat"><span class="k">파동 속도 v</span><span class="v" id="ins-ms-o-v">—</span></div>
+        <div class="stat"><span class="k">장력(kgf) / 응력</span><span class="v" id="ins-ms-o-T">—</span></div>
+      </div>
+      <div class="sim-note">프리셋은 목표 음에 맞춘 실제 규격(장력은 계산값)입니다. 기타 1번줄은 약 7.4 kgf, 피아노 현 하나는 약 78 kgf — 피아노 230여 줄의 장력 합은 약 20톤입니다. 응력은 인장 강도(강철 피아노선 ≈ 2.2 GPa, 나일론 ≈ 0.4 GPa, 거트 ≈ 0.35 GPa로 가정) 대비 비율이며, 강철 고음현은 강도의 60–70%까지 당겨 씁니다. 그래프: 위는 f–T(√ 관계), 아래는 f–L(반비례). 소리는 카플러스–스트롱 합성.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="karplus">
+    <h2>카플러스–스트롱: 열 줄짜리 기타</h2>
+    <p>알렉스 스트롱은 1978년 12월 기본 평균 알고리즘을 발명했고, 케빈 카플러스는 1979년 12월 드럼 변형을 발견했습니다. 두 저자(논문 당시 카플러스: Cornell, 스트롱: Stanford)는 1983년 잡음으로 채운 원형 버퍼를 돌리면서 이웃한 두 샘플의 평균을 다시 써넣기만 해도 놀랍도록 사실적인 뜯은 현 소리가 난다는 것을 발표했습니다(<i>Computer Music Journal</i> 7(2)). 같은 해 데이비드 재피와 줄리어스 스미스가 이것을 물리적인 현의 <b>디지털 도파관</b>(digital waveguide) 모델로 해석하고 확장했습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="카플러스-스트롱 블록 다이어그램">
+        <rect x="20" y="70" width="100" height="50" rx="8" class="f-surface"/><text x="70" y="100" text-anchor="middle" class="t">잡음 버스트</text>
+        <circle cx="175" cy="95" r="16" class="f-elev"/><text x="175" y="100" text-anchor="middle" class="t">+</text>
+        <rect x="230" y="70" width="140" height="50" rx="8" class="f-acc-soft"/><text x="300" y="92" text-anchor="middle" class="t-acc">지연선 z⁻ᴺ</text><text x="300" y="110" text-anchor="middle" class="t-mono">N ≈ fs/f − ½</text>
+        <rect x="560" y="70" width="110" height="50" rx="8" class="f-elev"/><text x="615" y="100" text-anchor="middle" class="t">출력 y[n]</text>
+        <line x1="120" y1="95" x2="159" y2="95" class="s-line"/><line x1="191" y1="95" x2="230" y2="95" class="s-line"/><line x1="370" y1="95" x2="560" y2="95" class="s-line"/>
+        <path d="M470 95 V160 H420" class="s-line"/>
+        <rect x="290" y="138" width="130" height="44" rx="8" class="f-acc2-soft"/><text x="355" y="157" text-anchor="middle" class="t">ρ·(1+z⁻¹)/2</text><text x="355" y="174" text-anchor="middle" class="t-mono">저역 통과 + 감쇠</text>
+        <rect x="190" y="138" width="80" height="44" rx="8" class="f-surface"/><text x="230" y="157" text-anchor="middle" class="t">올패스</text><text x="230" y="174" text-anchor="middle" class="t-mono">분수 지연 Δ</text>
+        <line x1="290" y1="160" x2="270" y2="160" class="s-line"/>
+        <path d="M190 160 H175 V111" class="s-line"/>
+        <circle cx="470" cy="95" r="3.5" class="f-acc"/>
+        <text x="470" y="40" text-anchor="middle" class="t-dim">한 바퀴 지연 P = N + ½ + Δ = fs / f</text>
+      </svg>
+      <figcaption><b>그림 3-2.</b> 카플러스–스트롱 루프. 지연선은 줄 위를 왕복하는 파동, 평균 필터는 진동할 때마다 높은 주파수를 더 많이 잃는 줄의 손실, 올패스는 정수 샘플로 맞출 수 없는 나머지 지연을 채운다.</figcaption>
+    </figure>
+    <div class="formula">$$y[n] = x[n] + \frac{\rho}{2}\big(y[n-N] + y[n-N-1]\big), \qquad |H_{\text{loop}}(f)| = \rho\,\left|\cos\frac{\pi f}{f_s}\right|$$
+      <div class="where">한 바퀴(주기 \(P\))마다 \(k\)번째 배음은 \(\rho\cos(\pi k f_1/f_s)\)배가 된다 — 높은 배음일수록 빨리 사라지는 실제 현의 성질이 공짜로 나온다. 60 dB 감쇠 시간은 \(T_{60} = \dfrac{-3}{f_1\log_{10}(\rho\cos(\pi k f_1/f_s))}\). 평균 필터가 반 샘플을 지연시키므로 주기는 \(N + \tfrac12\). 44.1 kHz에서 1 kHz 음은 \(P = 44.1\)이라 정수 \(N\)만 쓰면 \(43.5\) 또는 \(44.5\) — 최대 ±20센트 가까이 틀린다. 1차 올패스 \(A(z) = (a + z^{-1})/(1 + az^{-1})\), \(a = (1-\Delta)/(1+\Delta)\)가 저주파에서 \(\Delta\) 샘플 지연을 만들어 이 오차를 없앤다(Jaffe & Smith 1983).</div>
+    </div>
+
+    <div class="sim" id="sim-ins-ks">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>카플러스–스트롱 기타와 스펙트로그램</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ks"></canvas><div class="mb-kb short" id="ins-ks-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>코드 스트럼</span><div class="ins-chords" id="ins-ks-chords">
+            <button class="btn" data-ch="E">E</button><button class="btn" data-ch="A">A</button><button class="btn" data-ch="D">D</button><button class="btn" data-ch="G">G</button><button class="btn" data-ch="C">C</button><button class="btn" data-ch="Am">Am</button><button class="btn" data-ch="Em">Em</button><button class="btn" data-ch="Dm">Dm</button>
+          </div></div>
+          <label class="ctrl"><span>감쇠 ρ <output id="ins-ks-decay-out"></output></span><input type="range" id="ins-ks-decay" min="9800" max="9999" value="9920"></label>
+          <label class="ctrl"><span>밝기(초기 잡음) <output id="ins-ks-bright-out"></output></span><input type="range" id="ins-ks-bright" min="0" max="100" value="60"></label>
+          <label class="ctrl"><span>뜯는 위치 β <output id="ins-ks-pos-out"></output></span><input type="range" id="ins-ks-pos" min="0" max="50" value="0"></label>
+          <label class="check"><input type="checkbox" id="ins-ks-frac" checked> 올패스 분수 지연으로 정확히 조율</label>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">루프 지연 P</span><span class="v" id="ins-ks-o-n">—</span></div>
+        <div class="stat"><span class="k">정수 지연만 쓸 때 오차</span><span class="v" id="ins-ks-o-err">—</span></div>
+        <div class="stat"><span class="k">T₆₀: 기본음 / 10배음</span><span class="v" id="ins-ks-o-t60">—</span></div>
+      </div>
+      <div class="sim-note">건반(<kbd>A</kbd>–<kbd>K</kbd> 키, E2–B4)이나 코드 버튼(줄당 25 ms 간격 다운 스트럼)으로 연주하세요. 위: 마지막 소리의 파형 포락선, 아래: 스펙트로그램(세로 로그 주파수 50 Hz–8 kHz, 밝을수록 강함). 높은 배음 줄이 먼저 사라지는 것과 β를 키울 때 빗살처럼 빠지는 배음이 보입니다. 고음(B4 근처)에서 분수 지연을 끄면 음이 눈에 띄게 어긋납니다 — 오차 표시를 확인하세요. 버퍼는 44.1 kHz로 직접 계산합니다(페이지 스크립트, 약 30줄).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="piano">
+    <h2>피아노: 뻣뻣한 현과 늘린 조율</h2>
+    <p>실제 강철선은 굽힘 강성이 있어 이상적인 현이 아닙니다. 짧은 파장(높은 모드)일수록 굽힘이 복원력에 더 많이 보태져 모드 주파수가 정수배보다 조금씩 높아집니다(Fletcher 1964).</p>
+    <div class="formula">$$f_n = n f_0 \sqrt{1 + Bn^2}, \qquad B = \frac{\pi^3 E d^4}{64\,T L^2}$$
+      <div class="where">\(E\): 영률(강철 약 200 GPa), \(d\): 지름, \(T\): 장력, \(L\): 길이. \(B\)는 피아노 중음역에서 대략 \(10^{-4}\)–\(10^{-3}\), 짧고 굵은 최고음 현에서 \(10^{-2}\)에 가깝다. 그랜드 피아노가 업라이트보다 저음이 깨끗한 이유는 긴 현(\(L\)이 큼) 덕분에 \(B\)가 작아서다. \(B=0.0004\)이면 16번 부분음은 실제 첫 부분음의 16배보다 약 +84.04센트 높다(이상적 16f₀ 대비로는 +84.39센트).</div>
+    </div>
+    <p>조율사는 옥타브를 맞출 때 아래 음의 2번 배음과 위 음의 기본음 사이의 맥놀이를 없앱니다. 그런데 아래 음의 2번 배음이 이미 \(2f_0\)보다 높으므로, 귀로 맞춘 옥타브는 2:1보다 약간 넓어집니다. 이것이 건반 전체에 누적된 것이 <span class="term">늘린 조율</span><span class="en">(Stretch Tuning)</span>이고, 그 편차를 그린 것이 <span class="term">레일스백 곡선</span><span class="en">(Railsback Curve, 1938)</span>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 240" role="img" aria-label="레일스백 곡선"><g id="ins-fig-rails"></g></svg>
+      <figcaption><b>그림 3-3.</b> 레일스백 곡선의 대략적 모양. 가로는 88건반, 세로는 평균율 대비 센트 편차. 가운데(A4 근처)는 거의 0이고, 양 끝으로 갈수록 벌어진다(최저음 약 −20 ~ −30¢, 최고음 약 +30¢). 실제 값은 피아노와 조율사마다 다르다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-inharm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>비조화성 B와 옥타브의 맥놀이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ih"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>비조화 계수 B <output id="ins-ih-B-out"></output></span><input type="range" id="ins-ih-B" min="0" max="100" value="55"></label>
+          <label class="ctrl"><span>아래 음 <output id="ins-ih-m-out"></output></span><input type="range" id="ins-ih-m" min="33" max="69" value="45"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-ih-play">▶ 한 음</button><button class="btn" id="ins-ih-harm">비교: B = 0</button></div>
+          <div class="btn-row"><button class="btn" id="ins-ih-pure">▶ 옥타브: 순수 2:1</button><button class="btn" id="ins-ih-str">▶ 옥타브: 늘린 조율</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">2번 배음 편차</span><span class="v" id="ins-ih-o-2">—</span></div>
+        <div class="stat"><span class="k">16번 배음 편차</span><span class="v" id="ins-ih-o-16">—</span></div>
+        <div class="stat"><span class="k">순수 옥타브 맥놀이</span><span class="v" id="ins-ih-o-beat">—</span></div>
+        <div class="stat"><span class="k">필요한 늘림</span><span class="v" id="ins-ih-o-str">—</span></div>
+      </div>
+      <div class="sim-note">위: 배음 번호에 따른 편차(센트) 곡선 \(600\log_2[(1+Bn^2)/(1+B)]\), 실제 첫 부분음의 정수배를 기준으로 한다. 아래: 옥타브 두 음의 배음 위치 — 보라는 아래 음, 청록은 위 음(순수 2:1), 겹치지 않는 쌍이 맥놀이를 만듭니다. B를 크게(10⁻³ 이상) 하고 두 옥타브 버튼을 번갈아 들어 보세요. 순수 2:1은 느린 '와우와우', 늘린 조율은 아래 음의 2번과 위 음의 1번 부분음만 일치시켜 그 쌍의 맥놀이를 없앱니다. 다른 부분음 쌍에는 맥놀이가 남을 수 있습니다. '한 음'과 'B = 0'을 비교하면 비조화성이 피아노다운 '쇳소리'를 만든다는 것도 들립니다. 모델: 배음 16개 가산 합성, 두 음의 B는 같다고 가정.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="pipes">
+    <h2>관악기: 열린 관, 닫힌 관, 원뿔관</h2>
+    <p>관 안의 공기 기둥도 1차원 파동 방정식을 따르지만, 경계 조건이 현과 다릅니다. <b>열린 끝</b>에서는 압력이 대기압으로 고정되어 압력의 마디가 되고, <b>닫힌 끝</b>(리드나 입술로 막힌 쪽)에서는 공기가 움직일 수 없어 압력의 배가 됩니다.</p>
+    <div class="formula">$$\text{열린–열린: } f_n = \frac{n c}{2L'},\qquad \text{닫힌–열린: } f_n = \frac{(2n-1)c}{4L'},\qquad L' = L + 0.61a\ (\text{열린 끝마다})$$
+      <div class="where">\(a\): 관 반지름. 실제 압력 마디는 관 끝보다 약간 바깥에 생기므로 <b>끝 보정</b>(end correction) \(\approx 0.61a\)(플랜지 없음, Levine–Schwinger 1948) — 플랜지가 있으면 \(0.82a\). 닫힌 관은 같은 길이의 열린 관보다 한 옥타브 낮고 <b>홀수 배음만</b> 공명한다. 원뿔관(오보에, 색소폰, 바순)은 꼭짓점이 닫혀 있어도 구면파 해 \(\sin(kx)/x\) 덕분에 열린 관처럼 모든 배음을 가진다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>악기</th><th>관 모양 / 끝</th><th>공명열</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td>플루트</td><td>원통, 열린–열린</td><td>모든 배음</td><td>세게 불면 옥타브 위(2번 모드)로 '오버블로'</td></tr>
+        <tr><td>클라리넷</td><td>원통, 닫힌(리드)–열린</td><td>홀수 배음</td><td>오버블로하면 12도(3번 모드) 위 — 운지가 옥타브마다 반복되지 않음</td></tr>
+        <tr><td>오보에·색소폰</td><td>원뿔, 닫힌–열린</td><td>모든 배음</td><td>옥타브 키로 옥타브 위</td></tr>
+        <tr><td>트럼펫</td><td>원통+벨+마우스피스, 입술 리드</td><td>보정된 배음열</td><td>벨과 마우스피스가 닫힌 관의 홀수 공명을 2, 3, 4, 5…배에 가깝게 끌어다 놓는다(최저 '페달 음'은 공명이 약함)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-ins-tube">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>관 공명기: 열린·닫힌·원뿔</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-tb"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>관 종류</span><div class="seg" id="ins-tb-type"><button data-value="open" class="on">열린–열린</button><button data-value="closed">닫힌–열린</button><button data-value="cone">원뿔</button></div></div>
+          <label class="ctrl"><span>길이 L <output id="ins-tb-L-out"></output></span><input type="range" id="ins-tb-L" min="10" max="300" value="62"></label>
+          <label class="ctrl"><span>반지름 a <output id="ins-tb-a-out"></output></span><input type="range" id="ins-tb-a" min="3" max="40" step="0.5" value="9.5"></label>
+          <label class="ctrl"><span>그릴 모드 n <output id="ins-tb-n-out"></output></span><input type="range" id="ins-tb-n" min="1" max="5" value="1"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-tb-play">▶ 관의 소리</button><button class="btn" id="ins-tb-mode">이 모드만</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">유효 길이 L′</span><span class="v" id="ins-tb-o-L">—</span></div>
+        <div class="stat"><span class="k">최저 공명 f₁</span><span class="v" id="ins-tb-o-f">—</span></div>
+        <div class="stat"><span class="k">공명열</span><span class="v" id="ins-tb-o-ser">—</span></div>
+      </div>
+      <div class="sim-note">위: 관 속 n번 모드의 압력 정상파(보라, 출렁임)와 공기 변위(청록 점선). 닫힌 끝은 압력의 배, 열린 끝은 압력의 마디입니다. 아래: 기본음 기준 배음 자리 — 빈 칸은 그 관이 공명하지 않는 배음. 같은 길이에서 '열린–열린'과 '닫힌–열린'을 바꿔 들어 보세요. 한 옥타브 내려가고 소리가 속 빈 클라리넷 쪽으로 바뀝니다. 소리 모델: 공명열 위의 배음을 1/n 진폭으로 쌓은 지속음(실제 리드·에지 음원의 비선형성은 생략).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="membrane">
+    <h2>막: 베셀 함수와 비조화 모드</h2>
+    <p>가장자리가 고정된 원형 막의 2차원 파동 방정식을 극좌표에서 풀면, 지름 방향 모양이 베셀 함수 \(J_m\)이 됩니다. 가장자리(\(r=a\))에서 변위가 0이어야 하므로 허용 주파수는 베셀 함수의 영점 \(j_{mn}\)에 비례합니다.</p>
+    <div class="formula">$$z_{mn}(r,\theta,t) = J_m\!\left(j_{mn}\tfrac{r}{a}\right)\cos(m\theta)\cos(2\pi f_{mn}t), \qquad f_{mn} = \frac{j_{mn}}{2\pi a}\sqrt{\frac{T_s}{\sigma}}$$
+      <div class="where">\(m\): 마디 지름의 수, \(n\): 마디 원의 수(가장자리 포함). \(T_s\): 막의 단위 길이당 장력(N/m), \(\sigma\): 면밀도. \(j_{01}=2.405,\ j_{11}=3.832,\ j_{21}=5.136,\ j_{02}=5.520,\ j_{31}=6.380\) → 주파수비 <b>1 : 1.59 : 2.14 : 2.30 : 2.65</b>. 정수비가 아니므로 북은 또렷한 음높이를 내지 못한다. 팀파니는 막에 실린 공기의 질량과 통(케틀)이 이 비를 고쳐 (1,1), (2,1), (3,1), (4,1) 모드를 약 2 : 3 : 4 : 5에 가깝게 만들고, 이 성분들을 2f·3f·4f·5f로 해석하면 (1,1)의 2f보다 한 옥타브 낮은 f가 빠진 기본음으로 지각될 수 있다. 물리적 모드 주파수와 지각된 음높이는 구분한다.</div>
+    </div>
+
+    <div class="sim" id="sim-ins-drum">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>원형 막의 모드와 타격 위치</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-dr"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모드 (m, n)</span><div class="seg" id="ins-dr-mode"></div></div>
+          <label class="ctrl"><span>f₀₁ <output id="ins-dr-f-out"></output></span><input type="range" id="ins-dr-f" min="60" max="300" value="110"></label>
+          <label class="ctrl"><span>타격 위치 r/a <output id="ins-dr-r-out"></output></span><input type="range" id="ins-dr-r" min="0" max="90" value="65"></label>
+          <div class="ctrl"><span>모드 주파수</span><div class="seg" id="ins-dr-tune"><button data-value="real" class="on">실제(베셀)</button><button data-value="harm">가상: 정수비</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-dr-hit">▶ 막 치기</button><button class="btn" id="ins-dr-one">이 모드만</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선택 모드</span><span class="v" id="ins-dr-o-m">—</span></div>
+        <div class="stat"><span class="k">주파수</span><span class="v" id="ins-dr-o-f">—</span></div>
+        <div class="stat"><span class="k">이 위치에서 들뜨는 정도</span><span class="v" id="ins-dr-o-e">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽: 선택한 모드의 모양(위에서 본 변위, 보라 = 위, 청록 = 아래, 배경색 줄 = 마디선). 흰 점이 타격 위치. 오른쪽: 막대 = 이 위치에서 친 각 모드의 세기, 점선 = f₀₁의 정수배. 정중앙(0%)을 치면 m = 0 모드만 울려 '퉁' 하는 둔한 소리, 가장자리 쪽으로 갈수록 많은 모드가 섞여 밝아집니다. 드러머가 가장자리에서 1/3쯤 안쪽을 치는 이유. '정수비'로 바꾸면 같은 세기 분포가 음높이 있는 소리로 변합니다. 모델: 이상적인 막(공기 부하·강성 없음) 12개 모드, 높은 모드가 빨리 감쇠한다고 가정.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="bars">
+    <h2>막대와 종: 비조화를 깎아서 고치기</h2>
+    <p>양 끝이 자유로운 막대의 굽힘 진동은 4차 미분 방정식(오일러–베르누이 보)을 따르고, 모드 주파수가 \(n^2\)에 가깝게 벌어집니다: \(f_n \propto (\beta_n L)^2\), \(\beta_n L = 4.730,\ 7.853,\ 10.996, \dots\) → <b>1 : 2.76 : 5.40 : 8.93</b>. 실로폰·마림바 제작자는 막대 가운데 아랫면을 아치 모양으로 깎아(undercut) 가운데의 강성을 줄여서 1번 모드를 크게 내리고, 2번 모드를 정수비에 맞춥니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>악기</th><th class="num">모드 주파수비</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td>깎지 않은 막대</td><td class="num">1 : 2.76 : 5.40</td><td>글로켄슈필(높은 모드가 빨리 사라져 괜찮다)</td></tr>
+        <tr><td>실로폰</td><td class="num">1 : 3 : 6</td><td>2번 모드를 12도(3배)에 — 공명관도 닫힌 관이라 3배를 돕는다</td></tr>
+        <tr><td>마림바·비브라폰</td><td class="num">1 : 4 : 9.2</td><td>2번 모드를 두 옥타브(4배)에 — 부드럽고 깊은 소리</td></tr>
+        <tr><td>교회 종</td><td class="num">0.5 : 1 : 1.2 : 1.5 : 2</td><td>험(hum)·프라임·<b>티어스(단3도)</b>·퀸트·노미널. 종 특유의 슬픈 단3도 성분</td></tr>
+        <tr><td>관 종(튜블러 벨)</td><td class="num">… 8.93 : 13.34 : 18.64</td><td>4–6번 모드가 약 2 : 3 : 4 → 귀는 그 '잃어버린 기본음'을 타격음으로 듣는다</td></tr>
+      </tbody>
+    </table></div>
+    <div class="sim" id="sim-ins-idio">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>타악기의 배음 지도: 막대·종·현 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-id"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기 모델</span><div class="seg" id="ins-id-pre"><button data-value="bar" class="on">깎지 않은 막대</button><button data-value="xylo">실로폰</button><button data-value="marimba">마림바</button><button data-value="bell">교회 종</button><button data-value="tube">관 종</button><button data-value="string">현(조화)</button></div></div>
+          <label class="ctrl"><span>기준 주파수 <output id="ins-id-f-out"></output></span><input type="range" id="ins-id-f" min="110" max="880" value="262"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-id-play">▶ 치기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">모드 비</span><span class="v" id="ins-id-o-r">—</span></div>
+        <div class="stat"><span class="k">기대 음높이</span><span class="v" id="ins-id-o-p">—</span></div>
+      </div>
+      <div class="sim-note">가로축은 기준 주파수 대비 비(로그), 막대 높이는 초기 세기, 점선은 정수배 격자입니다. 재생하면 각 부분음이 자기 감쇠율로 사라지며 막대가 줄어듭니다. 종에서는 단3도(1.2)가 장3도 배음(5:4 = 1.25)이 있어야 할 자리 근처에 있다는 것, 관 종에서는 1번 모드가 아닌 높은 모드들의 공통 기본음이 들린다는 것을 확인하세요. 모델: 부분음 가산 합성, 비와 감쇠는 문헌의 대표값 근사(Rossing, <i>The Science of Sound</i>; Fletcher &amp; Rossing).</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>양 끝 고정 현의 모드는 \(f_n = n\sqrt{T/\mu}/2L\)로 정확한 배음열이다. 옥타브 = 길이 ½ 또는 장력 ×4.</li>
+      <li>위치 \(\beta\)에서 뜯으면 계수 \(\propto \sin(n\pi\beta)/n^2\): \(n\beta\)가 정수인 배음이 사라지고, 브리지 쪽일수록 밝다.</li>
+      <li>카플러스–스트롱 = 지연선(주기) + 평균 필터(주파수 의존 손실). 루프 이득 \(\rho\cos(\pi f/f_s)\), 분수 지연은 올패스로 맞춘다.</li>
+      <li>뻣뻣한 현은 \(f_n = nf_0\sqrt{1+Bn^2}\)로 배음이 위로 벌어지고, 귀로 맞춘 옥타브가 넓어져 늘린 조율(레일스백 곡선)이 된다.</li>
+      <li>열린 관은 모든 배음(\(nc/2L'\)), 닫힌 관은 홀수 배음(\((2n-1)c/4L'\))이 공명한다. 끝 보정 \(\approx 0.61a\). 원뿔관은 모든 배음.</li>
+      <li>원형 막의 모드는 베셀 영점에 비례해 1 : 1.59 : 2.14 : 2.30 …으로 비조화다. 중심 타격은 m = 0 모드만 울린다.</li>
+      <li>막대(1 : 2.76 : 5.40)와 종은 본래 비조화이고, 깎기와 모양 설계로 주요 모드를 정수비 근처로 옮겨 음높이를 만든다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>기타 줄의 장력을 4배로 올리면(줄이 끊어지지 않는다면) 음높이는?</p><div class="opts">
+        <button class="opt">4배(두 옥타브)</button><button class="opt" data-correct>2배(한 옥타브)</button><button class="opt">√2배(증4도)</button><button class="opt">변하지 않는다</button>
+      </div><div class="quiz-exp">f ∝ √T이므로 √4 = 2배. 실제로는 그 전에 강철 줄이 인장 강도를 넘어 끊어진다.</div></div>
+      <div class="quiz-q"><p>줄 길이의 1/4 지점을 뜯었다. 빠지는 배음은?</p><div class="opts">
+        <button class="opt">홀수 배음 전부</button><button class="opt">2, 4, 6, …</button><button class="opt" data-correct>4, 8, 12, …</button><button class="opt">아무것도 빠지지 않는다</button>
+      </div><div class="quiz-exp">sin(nπ/4) = 0이 되는 것은 n이 4의 배수일 때. 그 모드들은 뜯은 지점이 마디라 들뜨지 않는다.</div></div>
+      <div class="quiz-q"><p>한쪽이 닫힌 원통관의 최저 공명이 200 Hz다. 그다음 공명 주파수는?</p><div class="opts">
+        <button class="opt">400 Hz</button><button class="opt" data-correct>600 Hz</button><button class="opt">300 Hz</button><button class="opt">800 Hz</button>
+      </div><div class="quiz-exp">닫힌–열린 관은 홀수 배만 공명한다: 200, 600, 1000 Hz… 클라리넷이 오버블로하면 옥타브가 아니라 12도(3배) 위로 가는 이유.</div></div>
+      <div class="quiz-q"><p>카플러스–스트롱에서 높은 배음이 먼저 사라지는 직접적인 이유는?</p><div class="opts">
+        <button class="opt">초기 잡음에 높은 성분이 적어서</button><button class="opt" data-correct>루프 안의 평균 필터 이득 cos(πf/fs)가 높은 주파수일수록 작아서</button><button class="opt">지연선 길이가 정수라서</button><button class="opt">출력 리미터 때문에</button>
+      </div><div class="quiz-exp">한 바퀴마다 k번 배음은 ρ·cos(πkf₁/fs)배가 된다. 매 주기 반복 적용되므로 높은 배음의 감쇠가 기하급수적으로 빠르다. 실제 현에서 공기 저항·내부 마찰이 높은 주파수에서 큰 것과 같은 효과.</div></div>
+      <div class="quiz-q"><p>피아노를 귀로 조율하면 옥타브가 2:1보다 넓어지는 이유는?</p><div class="opts">
+        <button class="opt">고음을 밝게 들리게 하려는 관습</button><button class="opt">평균율 계산의 반올림 오차</button><button class="opt" data-correct>현의 굽힘 강성 때문에 배음이 정수배보다 높아, 아래 음의 2번 배음에 맞추기 때문</button><button class="opt">해머가 현을 늘려서</button>
+      </div><div class="quiz-exp">f₂ = 2f₀√(1+4B) > 2f₀√(1+B) = 2f₁. 위 음의 기본음을 아래 음의 2번 배음에 맞춰 맥놀이를 없애면 옥타브가 넓어지고, 이것이 건반 전체에 누적된다.</div></div>
+      <div class="quiz-q"><p>북의 정중앙을 치면 어떤 모드가 울리는가?</p><div class="opts">
+        <button class="opt">모든 모드가 고르게</button><button class="opt" data-correct>마디 지름이 없는(m = 0) 축대칭 모드만</button><button class="opt">(1,1) 모드만</button><button class="opt">홀수 m 모드만</button>
+      </div><div class="quiz-exp">m ≥ 1 모드는 중심에서 J_m(0) = 0이라 중심이 마디다. 따라서 (0,1), (0,2), (0,3)…만 들뜬다. 이 모드들은 소리를 효율적으로 내보내지만 빨리 감쇠해 '퉁' 하는 둔한 소리가 난다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------- 공용 */
+const INS_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const INS_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const insHz = (f) => (f >= 1000 ? (f / 1000).toFixed(2) + " kHz" : f.toFixed(f < 100 ? 1 : 0) + " Hz");
+const insNote = (f) => { const m = MB.ftom(f), r = Math.round(m), c = Math.round((m - r) * 100); return `${MB.noteName(r)} ${c >= 0 ? "+" : "−"}${Math.abs(c)}¢`; };
+function insRGB(c) {
+  c = (c || "").trim();
+  if (c[0] === "#") { if (c.length === 4) c = "#" + [...c.slice(1)].map((x) => x + x).join(""); const n = parseInt(c.slice(1, 7), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  const m = c.match(/[\d.]+/g); return m ? m.slice(0, 3).map(Number) : [128, 128, 128];
+}
+/** 베셀 함수 J_m(x) (정수 m), 적분 표현을 사다리꼴로 */
+function besselJ(m, x) {
+  const N = 64; let s = 0;
+  for (let i = 0; i <= N; i++) { const t = (Math.PI * i) / N, w = i === 0 || i === N ? 0.5 : 1; s += w * Math.cos(m * t - x * Math.sin(t)); }
+  return s / N;
+}
+/**
+ * 부분음 가산 합성: parts = [{f, a, tau}] (tau 초: 지수 감쇠, 없으면 o.dur 동안 지속)
+ * → voice {release()}
+ */
+function insPartials(parts, o = {}) {
+  const ctx = MB.ctx(); if (!ctx) return null;
+  const t0 = (o.when || ctx.currentTime) + 0.01, at = o.attack || 0.004;
+  const out = ctx.createGain(); out.gain.value = o.gain != null ? o.gain : 0.3; out.connect(MB.out);
+  const ok = parts.filter((p) => p.a && p.f > 15 && p.f < ctx.sampleRate / 2 - 500);
+  const sum = ok.reduce((s, p) => s + Math.abs(p.a), 0) || 1;
+  let last = t0;
+  const nodes = ok.map((p) => {
+    const osc = ctx.createOscillator(), g = ctx.createGain(), A = Math.abs(p.a) / sum;
+    osc.frequency.value = p.f;
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(A, t0 + at);
+    let end;
+    if (p.tau) { g.gain.setTargetAtTime(0, t0 + at, p.tau); end = t0 + at + p.tau * 7; }
+    else { const d = o.dur || 1.5; g.gain.setValueAtTime(A, t0 + d); g.gain.setTargetAtTime(0, t0 + d, 0.08); end = t0 + d + 0.6; }
+    osc.connect(g); g.connect(out); osc.start(t0); osc.stop(end); last = Math.max(last, end);
+    return osc;
+  });
+  return { t0, end: last, release() { const t = ctx.currentTime; out.gain.setTargetAtTime(0, t, 0.03); nodes.forEach((n) => { try { n.stop(t + 0.2); } catch (e) {} }); } };
+}
+
+/* ---------------------------------------------------------------- 그림 3-1: 현의 모드 */
+(function () {
+  const g = document.getElementById("ins-fig-modes");
+  let s = "";
+  for (let n = 1; n <= 4; n++) {
+    const y0 = 34 + (n - 1) * 62, x0 = 110, W = 640, A = 20;
+    let p1 = "", p2 = "";
+    for (let i = 0; i <= 200; i++) { const x = x0 + (i / 200) * W, v = Math.sin((n * Math.PI * i) / 200); p1 += (i ? "L" : "M") + x.toFixed(1) + " " + (y0 - A * v).toFixed(1); p2 += (i ? "L" : "M") + x.toFixed(1) + " " + (y0 + A * v).toFixed(1); }
+    s += `<path d="${p1}" class="s-acc"/><path d="${p2}" class="s-line" stroke-dasharray="4 4"/>`;
+    for (let k = 0; k <= n; k++) s += `<circle cx="${x0 + (k / n) * W}" cy="${y0}" r="${k === 0 || k === n ? 5 : 4}" class="${k === 0 || k === n ? "f-acc" : "f-elev"}"/>`;
+    s += `<text x="20" y="${y0 - 4}" class="t">n = ${n}</text><text x="20" y="${y0 + 14}" class="t-mono">f = ${n}·f₁</text>`;
+    s += `<text x="${x0 + W + 14}" y="${y0 + 4}" class="t-dim">${n === 1 ? "λ = 2L" : "λ = 2L/" + n}</text>`;
+  }
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 3-3: 레일스백 */
+(function () {
+  const g = document.getElementById("ins-fig-rails");
+  const X = (k) => 60 + ((k - 1) / 87) * 700, Y = (c) => 120 - c * 2.8;
+  const dev = (k) => (k >= 49 ? 30 * Math.pow((k - 49) / 39, 2.4) : -24 * Math.pow((49 - k) / 48, 2.2));
+  let s = `<line x1="60" x2="760" y1="${Y(0)}" y2="${Y(0)}" class="s-axis"/>`;
+  [-30, -15, 15, 30].forEach((c) => { s += `<line x1="60" x2="760" y1="${Y(c)}" y2="${Y(c)}" class="s-line" stroke-dasharray="2 5" opacity="0.4"/><text x="52" y="${Y(c) + 4}" text-anchor="end" class="t-mono">${c > 0 ? "+" : ""}${c}¢</text>`; });
+  let p = "";
+  for (let k = 1; k <= 88; k++) { p += (k > 1 ? "L" : "M") + X(k).toFixed(1) + " " + Y(dev(k)).toFixed(1); s += `<circle cx="${X(k).toFixed(1)}" cy="${Y(dev(k) + Math.sin(k * 2.3) * 2.2).toFixed(1)}" r="2" class="f-acc" opacity="0.55"/>`; }
+  s += `<path d="${p}" class="s-acc"/>`;
+  [[1, "A0"], [16, "C2"], [40, "C4"], [49, "A4"], [64, "C6"], [88, "C8"]].forEach(([k, n]) => { s += `<line x1="${X(k)}" x2="${X(k)}" y1="${Y(0) - 4}" y2="${Y(0) + 4}" class="s-axis"/><text x="${X(k)}" y="224" text-anchor="middle" class="t-mono">${n}</text>`; });
+  s += `<text x="${X(70)}" y="${Y(25)}" class="t-dim">고음: 높게(+)</text><text x="${X(4)}" y="${Y(-26) + 18}" class="t-dim">저음: 낮게(−)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 현의 모드 */
+(function () {
+  const NM = 40;
+  let t = 0, voice = null;
+  const ex = MB.seg("ins-st-ex", () => reset());
+  const beta = MB.range("ins-st-beta", (v) => (v / 100).toFixed(3) + " L", () => reset());
+  const f0 = MB.range("ins-st-f0", (v) => v + " Hz · " + MB.noteName(MB.ftom(v)), () => readout());
+  // 변위 모드 진폭 a_n (부호 포함)
+  function amps() {
+    const b = beta() / 100, e = ex(), a = [];
+    for (let n = 1; n <= NM; n++) {
+      if (e === "pluck") a.push(Math.sin(n * Math.PI * b) / (n * n));
+      else if (e === "strike") a.push((Math.sin(n * Math.PI * b) / n) / (1 + Math.pow(n / 12, 2)));
+      else a.push(1 / (n * n));
+    }
+    return a;
+  }
+  // 소리(브리지 힘) 스펙트럼 ∝ n·a_n
+  const force = () => amps().map((a, i) => a * (i + 1));
+  let norm = 1;
+  function reset() { t = 0; const a = amps(); let mx = 1e-9; for (let k = 0; k < 8; k++) for (let i = 0; i <= 100; i++) mx = Math.max(mx, Math.abs(shape(a, i / 100, (k / 8) * 2))); norm = mx; readout(); }
+  const tau = (n) => 8 / (1 + 0.35 * (n - 1));
+  function shape(a, x, tt) {
+    let y = 0; const e = ex();
+    for (let n = 1; n <= NM; n++) {
+      const ph = 2 * Math.PI * n * 0.5 * tt, dec = e === "bow" ? 1 : Math.exp(-tt / tau(n));
+      y += a[n - 1] * Math.sin(n * Math.PI * x) * (e === "pluck" ? Math.cos(ph) : Math.sin(ph)) * dec;
+    }
+    return y;
+  }
+  function readout() {
+    const b = beta() / 100, fr = force();
+    const miss = []; if (ex() !== "bow") for (let n = 1; n <= 24; n++) if (Math.abs(Math.sin(n * Math.PI * b)) < 0.03) miss.push(n);
+    MB.stat("ins-st-o-miss", miss.length ? miss.slice(0, 5).join(", ") + (miss.length > 5 ? " …" : "") : "없음 <small>(24번까지)</small>");
+    let e = 0, ef = 0; fr.slice(0, 24).forEach((a, i) => { e += a * a; ef += a * a * (i + 1); });
+    MB.stat("ins-st-o-cent", `${(ef / e).toFixed(2)}·f₀ <small>${Math.round((ef / e) * f0())} Hz</small>`);
+    // 연분수 근사
+    let best = "—"; for (let q = 1; q <= 12; q++) { const p = Math.round(b * q); if (p > 0 && Math.abs(p / q - b) < 0.004) { best = `${p}/${q}`; break; } }
+    MB.stat("ins-st-o-frac", best === "—" ? "<small>단순 분수 아님</small>" : best + " L");
+    cv.redraw();
+  }
+  function play() {
+    if (voice) voice.release();
+    const fr = force(), e = ex(), parts = [];
+    for (let n = 1; n <= 30; n++) parts.push({ f: n * f0(), a: Math.abs(fr[n - 1]) < 1e-6 ? 0 : fr[n - 1], tau: e === "bow" ? null : (e === "pluck" ? 2.6 : 2.0) / (1 + 0.3 * (n - 1)) });
+    voice = insPartials(parts, { gain: 0.32, dur: 1.8, attack: e === "bow" ? 0.12 : 0.003 });
+    t = 0;
+  }
+  document.getElementById("ins-st-play").addEventListener("click", play);
+  document.getElementById("ins-st-slow").addEventListener("click", () => { t = 0; });
+  const cv = MB.canvas("#cv-ins-st", (ctx, w, h) => {
+    const P = MB.palette(), a = amps(), b = beta() / 100;
+    const sx = 24, sw = w - 48, sy = h * 0.26, A = h * 0.18;
+    ctx.fillStyle = P.dim; ctx.fillRect(sx - 6, sy - 16, 6, 32); ctx.fillRect(sx + sw, sy - 16, 6, 32);
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + sw, sy); ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.6; ctx.beginPath();
+    for (let i = 0; i <= 240; i++) { const x = i / 240, y = shape(a, x, t) / norm; const px = sx + x * sw, py = sy - y * A; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.stroke();
+    if (ex() !== "bow") { const px = sx + b * sw; ctx.fillStyle = P.bad; ctx.beginPath(); ctx.moveTo(px, sy + A + 8); ctx.lineTo(px - 7, sy + A + 20); ctx.lineTo(px + 7, sy + A + 20); ctx.closePath(); ctx.fill(); }
+    ctx.fillStyle = P.faint; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "right"; ctx.fillText("너트", sx + sw, sy + A + 20); ctx.textAlign = "left"; ctx.fillText("브리지", sx, sy + A + 20);
+    // 스펙트럼
+    const fr = force(), mx = Math.max(...fr.slice(0, 24).map(Math.abs));
+    const box = { x: 40, y: h * 0.56, w: w - 52, h: h * 0.44 - 22 }, n = 24, bw = box.w / n;
+    const Y = (d) => box.y + box.h - ((MB.clamp(d, -48, 0) + 48) / 48) * box.h;
+    ctx.font = "10px " + INS_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -12, -24, -36, -48].forEach((d) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(d)); ctx.lineTo(box.x + box.w, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d, box.x - 4, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let i = 0; i < n; i++) {
+      const v = Math.abs(fr[i]) / mx, d = MB.db(v), x = box.x + i * bw;
+      if (v < 0.01 && ex() !== "bow") { ctx.fillStyle = P.bad; ctx.font = "bold 12px " + INS_MONO(); ctx.fillText("×", x + bw / 2, box.y + box.h - 14); }
+      else { ctx.fillStyle = i % 2 ? P.accent2 : P.accent; ctx.fillRect(x + bw * 0.18, Y(d), bw * 0.64, box.y + box.h - Y(d)); }
+      if (n <= 24 && (i < 9 || i % 2)) { ctx.fillStyle = P.dim; ctx.font = "10px " + INS_MONO(); ctx.fillText(String(i + 1), x + bw / 2, box.y + box.h + 3); }
+    }
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.font = "11px " + INS_FONT(); ctx.textBaseline = "bottom";
+    ctx.fillText("소리 스펙트럼 (dB, 배음 번호)", box.x, box.y - 4);
+  }, { aspect: 0.62, maxHeight: 400, minHeight: 280 });
+  MB.loop(cv.canvas, (dt) => { t += dt; cv.redraw(); });
+  reset();
+})();
+
+/* ---------------------------------------------------------------- 2. 메르센 계산기 */
+(function () {
+  const RHO = { steel: 7850, nylon: 1140, gut: 1300 }, UTS = { steel: 2.2e9, nylon: 0.4e9, gut: 0.35e9 };
+  const PRE = {
+    gE: { L: 0.648, d: 0.254, mat: "steel", f: 329.63 }, gG: { L: 0.648, d: 0.432, mat: "steel", f: 196.0 },
+    cE: { L: 0.65, d: 0.71, mat: "nylon", f: 329.63 }, vE: { L: 0.328, d: 0.26, mat: "steel", f: 659.26 }, pA: { L: 0.39, d: 1.025, mat: "steel", f: 440 },
+  };
+  const Tlo = 5, Thi = 1500, Tmap = (v) => Tlo * Math.pow(Thi / Tlo, v / 1000), Tinv = (T) => Math.round((1000 * Math.log(T / Tlo)) / Math.log(Thi / Tlo));
+  const L = MB.range("ins-ms-L", (v) => v + " mm", () => update());
+  const Tr = MB.range("ins-ms-T", (v) => Tmap(v).toFixed(1) + " N", () => update());
+  const d = MB.range("ins-ms-d", (v) => v.toFixed(3) + " mm", () => update());
+  const mat = MB.seg("ins-ms-mat", () => update());
+  const pre = document.getElementById("ins-ms-pre");
+  const mu = () => (RHO[mat()] * Math.PI * Math.pow(d() / 1000, 2)) / 4;
+  const freq = (T = Tmap(Tr()), Lm = L() / 1000) => Math.sqrt(T / mu()) / (2 * Lm);
+  function load() {
+    const p = PRE[pre.value];
+    mat.set(p.mat, false); L.set(Math.round(p.L * 1000), false); d.set(p.d, false);
+    const T = (RHO[p.mat] * Math.PI * Math.pow(p.d / 1000, 2) / 4) * Math.pow(2 * p.L * p.f, 2);
+    Tr.set(Tinv(T), false); update();
+  }
+  pre.addEventListener("change", load);
+  function update() {
+    const T = Tmap(Tr()), f = freq(), A = (Math.PI * Math.pow(d() / 1000, 2)) / 4;
+    MB.stat("ins-ms-o-f", `${f.toFixed(1)} Hz <small>${insNote(f)}</small>`);
+    MB.stat("ins-ms-o-mu", (mu() * 1000).toPrecision(3) + " g/m");
+    MB.stat("ins-ms-o-v", Math.sqrt(T / mu()).toFixed(0) + " m/s");
+    const st = T / A, r = st / UTS[mat()];
+    MB.stat("ins-ms-o-T", `${(T / 9.80665).toFixed(1)} kgf <small style="color:${r > 0.85 ? "var(--bad)" : ""}">${(st / 1e9).toFixed(2)} GPa · ${(r * 100).toFixed(0)}%${r > 1 ? " 끊어짐!" : ""}</small>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-ins-ms", (ctx, w, h) => {
+    const P = MB.palette(), T = Tmap(Tr()), Lm = L() / 1000, f = freq();
+    const b1 = { x: 54, y: 14, w: w - 70, h: h / 2 - 44 }, b2 = { x: 54, y: h / 2 + 14, w: w - 70, h: h / 2 - 44 };
+    const yr = [20, 4000];
+    const s1 = []; for (let i = 0; i <= 120; i++) { const t = Tlo * Math.pow(Thi / Tlo, i / 120); s1.push([t, freq(t, Lm)]); }
+    MB.chart(ctx, b1, { x: [Tlo, Thi], y: yr, logX: true, logY: true, xLabel: "", yFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), xFmt: (v) => v + " N", series: [{ data: s1, color: P.accent, width: 2 }], points: [{ x: T, y: f, color: P.bad, r: 5 }], hlines: [{ y: 440, color: P.faint, label: "A4" }] });
+    const s2 = []; for (let i = 0; i <= 120; i++) { const l = 0.2 + (i / 120) * 1.1; s2.push([l, freq(T, l)]); }
+    MB.chart(ctx, b2, { x: [0.2, 1.3], y: yr, logY: true, yFmt: (v) => (v >= 1000 ? v / 1000 + "k" : v), xFmt: (v) => v.toFixed(1) + " m", series: [{ data: s2, color: P.accent2, width: 2 }], points: [{ x: Lm, y: f, color: P.bad, r: 5 }], hlines: [{ y: 440, color: P.faint, label: "A4" }] });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("f vs 장력 T (L, d 고정) — 기울기 ½", b1.x + 6, b1.y + 2);
+    ctx.fillText("f vs 길이 L (T, d 고정) — 반비례", b2.x + 6, b2.y + 2);
+  }, { aspect: 0.8, maxHeight: 440, minHeight: 360 });
+  document.getElementById("ins-ms-play").addEventListener("click", () => { const f = freq(); if (f > 20 && f < 5000) MB.play({ freq: f }, { inst: "pluck", dur: 2.5 }); });
+  document.getElementById("ins-ms-ref").addEventListener("click", () => MB.play({ freq: PRE[pre.value].f }, { inst: "piano", dur: 1.2 }));
+  load();
+})();
+
+/* ---------------------------------------------------------------- 3. 카플러스–스트롱 */
+(function () {
+  const FS = 44100;
+  const CH = { E: [40, 47, 52, 56, 59, 64], A: [45, 52, 57, 61, 64], D: [50, 57, 62, 66], G: [43, 47, 50, 55, 59, 67], C: [48, 52, 55, 60, 64], Am: [45, 52, 57, 60, 64], Em: [40, 47, 52, 55, 59, 64], Dm: [50, 57, 62, 65] };
+  const decay = MB.range("ins-ks-decay", (v) => (v / 10000).toFixed(4), () => readout());
+  const bright = MB.range("ins-ks-bright", (v) => v + "%", () => readout());
+  const pos = MB.range("ins-ks-pos", (v) => (v ? (v / 100).toFixed(2) : "끔"), () => readout());
+  const frac = MB.check("ins-ks-frac", () => readout());
+  let lastF = MB.mtof(52), samples = null, spec = null, lastRender = 0;
+  /** 카플러스–스트롱 한 음 */
+  function ks(f, dur, seed) {
+    const P = FS / f, rho = decay() / 10000, br = bright() / 100, useFrac = frac();
+    let N, Dl;
+    if (useFrac) { N = Math.floor(P - 0.5 - 0.1); Dl = P - 0.5 - N; } else { N = Math.max(2, Math.round(P - 0.5)); Dl = 0; }
+    const a = useFrac ? (1 - Dl) / (1 + Dl) : 0;
+    const len = Math.floor(FS * dur), out = new Float32Array(len), buf = new Float32Array(N);
+    const rnd = MB.rng(seed || 3);
+    for (let i = 0; i < N; i++) buf[i] = rnd() * 2 - 1;
+    const k = 0.92 * (1 - br); // 초기 잡음 1차 저역 통과
+    for (let p = 0; p < 2; p++) for (let i = 1; i < N; i++) buf[i] = buf[i] * (1 - k) + buf[i - 1] * k;
+    const b = pos() / 100;
+    if (b > 0) { const D = Math.max(1, Math.round(b * N)), c = buf.slice(); for (let i = 0; i < N; i++) buf[i] = c[i] - c[MB.mod(i - D, N)]; }
+    let mean = 0; buf.forEach((v) => (mean += v)); mean /= N; let pk = 0; for (let i = 0; i < N; i++) { buf[i] -= mean; pk = Math.max(pk, Math.abs(buf[i])); } for (let i = 0; i < N; i++) buf[i] /= pk || 1;
+    let idx = 0, prev = 0, x1 = 0, y1 = 0;
+    for (let n = 0; n < len; n++) {
+      const cur = buf[idx];
+      const avg = 0.5 * (cur + prev); prev = cur;
+      let v = avg;
+      if (useFrac) { v = a * avg + x1 - a * y1; x1 = avg; y1 = v; }
+      out[n] = cur; buf[idx] = rho * v; idx = (idx + 1) % N;
+    }
+    return out;
+  }
+  function playMidis(ms, strum) {
+    MB.ctx();
+    const dur = 3, len = Math.floor(FS * dur), mix = new Float32Array(len);
+    ms.forEach((m, i) => {
+      const f = MB.mtof(m), off = Math.floor(i * strum * FS), s = ks(f, dur, 5 + m);
+      for (let n = 0; n + off < len && n < s.length; n++) mix[n + off] += s[n] * (0.9 - 0.04 * i);
+    });
+    let pk = 0; for (let n = 0; n < len; n++) pk = Math.max(pk, Math.abs(mix[n]));
+    for (let n = 0; n < len; n++) mix[n] /= pk || 1;
+    MB.playBuffer(mix, FS, { gain: 0.42 });
+    lastF = MB.mtof(ms[0]); samples = mix; analyse(); readout();
+  }
+  function analyse() {
+    const n = 2048, hop = 512, frames = Math.floor((Math.min(samples.length, FS * 2.4) - n) / hop);
+    spec = []; for (let i = 0; i < frames; i++) spec.push(MB.spectrum(samples.subarray(i * hop, i * hop + n), "hann", n));
+    lastRender = performance.now();
+  }
+  function readout() {
+    const f = lastF, P = FS / f, rho = decay() / 10000;
+    const Nf = Math.floor(P - 0.5 - 0.1), Ni = Math.max(2, Math.round(P - 0.5));
+    MB.stat("ins-ks-o-n", frac() ? `${Nf} + ½ + ${(P - 0.5 - Nf).toFixed(3)} <small>= ${P.toFixed(2)} 샘플</small>` : `${Ni} + ½ <small>(정수 지연)</small>`);
+    const err = 1200 * Math.log2(P / (Ni + 0.5));
+    MB.stat("ins-ks-o-err", `${MB.signed(err, 1)}¢ <small>${MB.noteName(MB.ftom(f))}, ${insHz(f)}</small>`);
+    const t60 = (k) => { const g = rho * Math.cos((Math.PI * k * f) / FS); return g > 0 ? -3 / (f * Math.log10(g)) : 0; };
+    MB.stat("ins-ks-o-t60", `${t60(1).toFixed(1)} s / ${t60(10).toFixed(2)} s`);
+    cv.redraw();
+  }
+  document.querySelectorAll("#ins-ks-chords button").forEach((b) => b.addEventListener("click", () => playMidis(CH[b.dataset.ch], 0.025)));
+  MB.keyboard("#ins-ks-kb", { lo: 40, hi: 71, onDown: (m) => { playMidis([m], 0); return false; } });
+  const cv = MB.canvas("#cv-ins-ks", (ctx, w, h) => {
+    const P = MB.palette();
+    const eb = { x: 40, y: 8, w: w - 50, h: h * 0.18 }, sb = { x: 40, y: h * 0.18 + 18, w: w - 50, h: h * 0.82 - 40 };
+    if (!samples) { ctx.fillStyle = P.faint; ctx.font = "13px " + INS_FONT(); ctx.textAlign = "center"; ctx.fillText("건반이나 코드 버튼을 누르면 파형과 스펙트로그램이 나타납니다", w / 2, h / 2); return; }
+    // 포락선
+    const len = Math.min(samples.length, FS * 2.4), cols = Math.floor(eb.w);
+    ctx.fillStyle = P.accent; ctx.globalAlpha = 0.7;
+    for (let c = 0; c < cols; c++) { const a = Math.floor((c / cols) * len), b = Math.floor(((c + 1) / cols) * len); let m = 0; for (let i = a; i < b; i++) m = Math.max(m, Math.abs(samples[i])); const hh = m * eb.h; ctx.fillRect(eb.x + c, eb.y + eb.h / 2 - hh / 2, 1, hh); }
+    ctx.globalAlpha = 1;
+    // 스펙트로그램
+    const F0 = 50, F1 = 8000, rows = Math.min(180, Math.floor(sb.h)), fr = spec.length, binHz = FS / 2048;
+    const off = document.createElement("canvas"); off.width = fr; off.height = rows;
+    const o = off.getContext("2d"), img = o.createImageData(fr, rows), D = img.data;
+    const bg = insRGB(P.bg), ac = insRGB(P.accent), hi = insRGB(P.text);
+    for (let r = 0; r < rows; r++) {
+      const f = F0 * Math.pow(F1 / F0, 1 - (r + 0.5) / rows), k = Math.round(f / binHz);
+      for (let c = 0; c < fr; c++) {
+        const d = Math.max(spec[c][k], spec[c][k + 1] || -200, spec[c][k - 1] || -200), t = Math.pow(MB.clamp((d + 62) / 52, 0, 1), 1.6), p = (r * fr + c) * 4;
+        const col = t > 0.75 ? hi : ac, tt = t > 0.75 ? (t - 0.75) / 0.25 : t / 0.75, base = t > 0.75 ? ac : bg;
+        D[p] = base[0] + (col[0] - base[0]) * tt; D[p + 1] = base[1] + (col[1] - base[1]) * tt; D[p + 2] = base[2] + (col[2] - base[2]) * tt; D[p + 3] = 255;
+      }
+    }
+    o.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.drawImage(off, sb.x, sb.y, sb.w, sb.h);
+    const Yf = (f) => sb.y + (1 - Math.log(f / F0) / Math.log(F1 / F0)) * sb.h;
+    ctx.font = "10px " + INS_MONO(); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [100, 200, 500, 1000, 2000, 5000].forEach((f) => { ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, sb.x - 4, Yf(f)); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(sb.x, Yf(f)); ctx.lineTo(sb.x + 6, Yf(f)); ctx.stroke(); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [0, 0.5, 1, 1.5, 2].forEach((s) => { const x = sb.x + (s / 2.4) * sb.w; ctx.fillText(s + " s", x, sb.y + sb.h + 4); });
+  }, { aspect: 0.62, maxHeight: 400, minHeight: 280 });
+  readout();
+})();
+
+/* ---------------------------------------------------------------- 4. 비조화성 */
+(function () {
+  const NP = 16;
+  const Bv = (v) => (v === 0 ? 0 : Math.pow(10, -5 + (3 * v) / 100));
+  const Br = MB.range("ins-ih-B", (v) => (v === 0 ? "0" : Bv(v).toExponential(1)), () => update());
+  const m = MB.range("ins-ih-m", (v) => MB.noteName(v) + " · " + MB.mtof(v).toFixed(1) + " Hz", () => update());
+  const B = () => Bv(Br());
+  const fn = (f0, n, b = B()) => n * f0 * Math.sqrt(1 + b * n * n);
+  const amp = (n) => 1 / Math.pow(n, 1.1);
+  const tone = (f0, b, when) => insPartials([...Array(NP)].map((_, i) => ({ f: fn(f0, i + 1, b), a: amp(i + 1), tau: 3.2 / (1 + 0.25 * i) })), { gain: 0.3, when });
+  // 아래 음의 f0(이상적), 위 음 f0
+  const lowF = () => MB.mtof(m()), upPure = () => 2 * lowF(), upStr = () => (2 * lowF() * Math.sqrt(1 + 4 * B())) / Math.sqrt(1 + B());
+  document.getElementById("ins-ih-play").addEventListener("click", () => tone(lowF(), B()));
+  document.getElementById("ins-ih-harm").addEventListener("click", () => tone(lowF(), 0));
+  let mode = "pure";
+  const oct = (up) => { const ctx = MB.ctx(); const t = ctx.currentTime + 0.02; tone(lowF(), B(), t); tone(up, B(), t); };
+  document.getElementById("ins-ih-pure").addEventListener("click", () => { mode = "pure"; oct(upPure()); cv.redraw(); });
+  document.getElementById("ins-ih-str").addEventListener("click", () => { mode = "str"; oct(upStr()); cv.redraw(); });
+  function update() {
+    const b = B(), c = (n) => 1200 * Math.log2(Math.sqrt(1 + b * n * n) / Math.sqrt(1 + b));
+    MB.stat("ins-ih-o-2", MB.signed(c(2), 2) + "¢ <small>(기본음 대비)</small>");
+    MB.stat("ins-ih-o-16", MB.signed(c(16), 1) + "¢");
+    const lf = lowF(), beat = Math.abs(fn(lf, 2) - fn(upPure(), 1)), beat2 = Math.abs(fn(lf, 4) - fn(upPure(), 2));
+    MB.stat("ins-ih-o-beat", `${beat.toFixed(2)} Hz <small>4:2쌍 ${beat2.toFixed(2)} Hz</small>`);
+    MB.stat("ins-ih-o-str", MB.signed(1200 * Math.log2(upStr() / upPure()), 2) + "¢ / 옥타브");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-ins-ih", (ctx, w, h) => {
+    const P = MB.palette(), b = B();
+    const b1 = { x: 50, y: 12, w: w - 64, h: h * 0.5 - 40 };
+    const cmax = Math.max(10, 1200 * Math.log2(Math.sqrt(1 + b * 256)) * 1.1);
+    const data = [], pts = [];
+    for (let n = 1; n <= 16; n += 0.25) data.push([n, 1200 * Math.log2(Math.sqrt(1 + b * n * n) / Math.sqrt(1 + b))]);
+    for (let n = 1; n <= 16; n++) pts.push({ x: n, y: 1200 * Math.log2(Math.sqrt(1 + b * n * n) / Math.sqrt(1 + b)), r: 3.5, color: P.accent });
+    MB.chart(ctx, b1, { x: [1, 16], y: [0, cmax], xTicks: [1, 2, 4, 6, 8, 10, 12, 14, 16], yFmt: (v) => Math.round(v) + "¢", series: [{ data, color: P.accent, width: 2 }], points: pts });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("배음 번호 n별 편차 (정수배 n·f₁ 대비)", b1.x + 6, b1.y + 2);
+    // 옥타브 배음 겹침
+    const lf = lowF(), up = mode === "pure" ? upPure() : upStr();
+    const b2 = { x: 50, y: h * 0.5 + 18, w: w - 64, h: h * 0.5 - 44 };
+    const fmax = lf * 12.5;
+    MB.chart(ctx, b2, { x: [0, fmax], y: [0, 2], yTicks: [], xFmt: (v) => Math.round(v) + "", series: [] });
+    const X = (f) => b2.x + (f / fmax) * b2.w;
+    for (let n = 1; n <= 12; n++) { const x = X(fn(lf, n)); ctx.fillStyle = P.accent; ctx.fillRect(x - 1.5, b2.y + b2.h * 0.5, 3, b2.h * 0.5); }
+    for (let n = 1; n <= 6; n++) {
+      const x = X(fn(up, n)); ctx.fillStyle = P.accent2; ctx.fillRect(x - 1.5, b2.y + 4, 3, b2.h * 0.5 - 4);
+      const dfz = Math.abs(fn(up, n) - fn(lf, 2 * n));
+      ctx.fillStyle = dfz > 0.05 ? P.bad : P.ok; ctx.font = "10px " + INS_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+      if (x < b2.x + b2.w - 10) ctx.fillText(dfz > 0.05 ? dfz.toFixed(1) : "0", x, b2.y - 12);
+    }
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+    ctx.fillText(`옥타브(${mode === "pure" ? "순수 2:1" : "늘린 조율"}): 보라=아래 음, 청록=위 음, 숫자=맥놀이 Hz`, b2.x, b2.y - 14);
+  }, { aspect: 0.66, maxHeight: 420, minHeight: 320 });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 5. 관 공명기 */
+(function () {
+  const C = 343;
+  let drone = null, t = 0;
+  const type = MB.seg("ins-tb-type", () => update());
+  const L = MB.range("ins-tb-L", (v) => v + " cm", () => update());
+  const a = MB.range("ins-tb-a", (v) => v + " mm", () => update());
+  const n = MB.range("ins-tb-n", (v) => String(v), () => update());
+  const Leff = () => L() / 100 + (type() === "open" ? 2 : 1) * 0.61 * (a() / 1000);
+  const f1 = () => (type() === "closed" ? C / (4 * Leff()) : C / (2 * Leff()));
+  const series = () => { const o = []; for (let k = 1; k <= 12; k++) o.push(type() === "closed" ? (k % 2 ? 1 / k : 0) : 1 / k); return o; };
+  const modeF = (k) => (type() === "closed" ? (2 * k - 1) * f1() : k * f1());
+  MB.playButton("ins-tb-play", () => { drone = MB.drone({ freq: f1(), amps: series().map((x) => x * 0.6), gain: 0.35 }); }, () => { if (drone) drone.stop(); drone = null; }, ["▶ 관의 소리", "■ 정지"]);
+  document.getElementById("ins-tb-mode").addEventListener("click", () => MB.play({ freq: modeF(n()) }, { inst: "sine", dur: 1.2, vel: 0.7 }));
+  function update() {
+    if (drone) drone.set({ freq: f1(), amps: series().map((x) => x * 0.6) });
+    MB.stat("ins-tb-o-L", `${(Leff() * 100).toFixed(1)} cm <small>+${((Leff() - L() / 100) * 1000).toFixed(1)} mm</small>`);
+    MB.stat("ins-tb-o-f", `${f1().toFixed(1)} Hz <small>${insNote(f1())}</small>`);
+    MB.stat("ins-tb-o-ser", (type() === "closed" ? "1, 3, 5, 7 …" : "1, 2, 3, 4 …") + ` <small>× f₁ · n번=${modeF(n()).toFixed(0)} Hz</small>`);
+    cv.redraw();
+  }
+  // 압력 모양(위치 u = x/L', 0 = 왼쪽 끝)
+  function pShape(u, k) {
+    const ty = type();
+    if (ty === "open") return Math.sin(k * Math.PI * u);
+    if (ty === "closed") return Math.cos(((2 * k - 1) * Math.PI * u) / 2);
+    const x = Math.max(u, 1e-4); return Math.sin(k * Math.PI * x) / (k * Math.PI * x);
+  }
+  function dShape(u, k) { // 변위 ∝ −dp/dx (정규화)
+    const e = 1e-3; const v = (pShape(Math.min(1, u + e), k) - pShape(Math.max(0, u - e), k)) / (2 * e);
+    return v / (k * Math.PI);
+  }
+  const cv = MB.canvas("#cv-ins-tb", (ctx, w, h) => {
+    const P = MB.palette(), k = n(), ty = type();
+    const tx = 30, tw = w - 60, ty0 = 20, th = h * 0.42, mid = ty0 + th / 2;
+    // 관 그리기
+    ctx.fillStyle = P.surface; ctx.strokeStyle = P.dim; ctx.lineWidth = 2;
+    if (ty === "cone") { ctx.beginPath(); ctx.moveTo(tx, mid - 4); ctx.lineTo(tx + tw, ty0); ctx.lineTo(tx + tw, ty0 + th); ctx.lineTo(tx, mid + 4); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(tx, mid - 4); ctx.lineTo(tx + tw, ty0); ctx.moveTo(tx, mid + 4); ctx.lineTo(tx + tw, ty0 + th); ctx.stroke(); }
+    else { ctx.fillRect(tx, ty0, tw, th); ctx.beginPath(); ctx.moveTo(tx, ty0); ctx.lineTo(tx + tw, ty0); ctx.moveTo(tx, ty0 + th); ctx.lineTo(tx + tw, ty0 + th); ctx.stroke(); }
+    if (ty !== "open") { ctx.fillStyle = P.text; ctx.fillRect(tx - 6, ty === "cone" ? mid - 8 : ty0 - 2, 6, ty === "cone" ? 16 : th + 4); }
+    const c = Math.cos(2 * Math.PI * 0.6 * t), A = th * 0.4;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath();
+    for (let i = 0; i <= 200; i++) { const u = i / 200, x = tx + u * tw, y = mid - A * pShape(u, k) * c; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.setLineDash([2, 3]); ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+    [1, -1].forEach((s) => { ctx.beginPath(); for (let i = 0; i <= 200; i++) { const u = i / 200, x = tx + u * tw, y = mid - s * A * Math.abs(pShape(u, k)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); });
+    ctx.globalAlpha = 1; ctx.strokeStyle = P.accent2; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.6; ctx.beginPath();
+    for (let i = 0; i <= 200; i++) { const u = i / 200, x = tx + u * tw, y = mid + 0.8 * A * MB.clamp(dShape(u, k), -1.1, 1.1) * Math.sin(2 * Math.PI * 0.6 * t); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText(ty === "open" ? "열린 끝 (p = 0)" : "닫힌 끝 (p 최대)", tx, ty0 + th + 4);
+    ctx.textAlign = "right"; ctx.fillText("열린 끝 (p = 0)", tx + tw, ty0 + th + 4);
+    // 배음 칸
+    const bb = { x: 40, y: h * 0.62, w: w - 56, h: h * 0.38 - 34 }, s = series(), bw = bb.w / 12;
+    for (let i = 0; i < 12; i++) {
+      const x = bb.x + i * bw, v = s[i], hh = v * (bb.h - 4);
+      ctx.strokeStyle = P.border; ctx.strokeRect(x + bw * 0.15, bb.y, bw * 0.7, bb.h);
+      if (v) { ctx.fillStyle = (ty === "closed" ? 2 * k - 1 : k) === i + 1 ? P.bad : P.accent; ctx.fillRect(x + bw * 0.15, bb.y + bb.h - hh, bw * 0.7, hh); }
+      ctx.fillStyle = P.dim; ctx.font = "10px " + INS_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText(String(i + 1), x + bw / 2, bb.y + bb.h + 3);
+    }
+    ctx.textAlign = "left"; ctx.textBaseline = "bottom"; ctx.font = "11px " + INS_FONT(); ctx.fillStyle = P.dim;
+    ctx.fillText("공명하는 배음 (× f₁, 빨강 = 위에 그린 모드)", bb.x, bb.y - 4);
+  }, { aspect: 0.6, maxHeight: 380, minHeight: 280 });
+  MB.loop(cv.canvas, (dt) => { t += dt; cv.redraw(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 6. 원형 막 */
+(function () {
+  const MODES = [[0, 1, 2.4048], [1, 1, 3.8317], [2, 1, 5.1356], [0, 2, 5.5201], [3, 1, 6.3802], [1, 2, 7.0156], [4, 1, 7.5883], [2, 2, 8.4172], [0, 3, 8.6537], [5, 1, 8.7715], [3, 2, 9.761], [1, 3, 10.1735]];
+  const segEl = document.getElementById("ins-dr-mode");
+  segEl.innerHTML = MODES.map((md, i) => `<button data-value="${i}"${i === 0 ? ' class="on"' : ""}>(${md[0]},${md[1]})</button>`).join("");
+  let t = 0, img = null, off = null, S = 0;
+  const sel = MB.seg("ins-dr-mode", () => update());
+  const f = MB.range("ins-dr-f", (v) => v + " Hz", () => update());
+  const r0 = MB.range("ins-dr-r", (v) => (v / 100).toFixed(2), () => update());
+  const tune = MB.seg("ins-dr-tune", () => update());
+  const norm = MODES.map(([m, , j]) => Math.abs(besselJ(m + 1, j)));
+  const exc = () => MODES.map(([m, , j], i) => Math.abs(besselJ(m, (j * r0()) / 100)) / norm[i] / Math.pow(j / 2.4048, 0.6));
+  const ratio = (i) => (tune() === "real" ? MODES[i][2] / 2.4048 : i + 1);
+  // 반지름 방향 표(선택 모드)
+  let radial = null, radialFor = -1;
+  function prepRadial() { const i = +sel(); if (radialFor === i) return; const [m, , j] = MODES[i]; radial = new Float32Array(201); let mx = 0; for (let k = 0; k <= 200; k++) { radial[k] = besselJ(m, (j * k) / 200); mx = Math.max(mx, Math.abs(radial[k])); } for (let k = 0; k <= 200; k++) radial[k] /= mx; radialFor = i; }
+  function update() {
+    const i = +sel(), [m, nn] = MODES[i], e = exc(), emx = Math.max(...e);
+    MB.stat("ins-dr-o-m", `(${m},${nn}) <small>지름 ${m} · 원 ${nn - 1}</small>`);
+    MB.stat("ins-dr-o-f", `${(f() * ratio(i)).toFixed(1)} Hz <small>× ${ratio(i).toFixed(3)}</small>`);
+    MB.stat("ins-dr-o-e", e[i] / emx < 0.01 ? "0 <small>(마디 위)</small>" : MB.db(e[i] / emx).toFixed(1) + " dB");
+    cv.redraw();
+  }
+  document.getElementById("ins-dr-hit").addEventListener("click", () => {
+    const e = exc(); insPartials(MODES.map((md, i) => ({ f: f() * ratio(i), a: e[i], tau: 0.9 / Math.pow(MODES[i][2] / 2.4048, 1.3) })), { gain: 0.42, attack: 0.002 });
+  });
+  document.getElementById("ins-dr-one").addEventListener("click", () => { const i = +sel(); insPartials([{ f: f() * ratio(i), a: 1, tau: 0.8 }], { gain: 0.3 }); });
+  const cv = MB.canvas("#cv-ins-dr", (ctx, w, h) => {
+    const P = MB.palette(); prepRadial();
+    const stacked = w < 520, D = stacked ? Math.min(w - 20, h * 0.55) : Math.min(h - 20, w * 0.45);
+    const cx = stacked ? w / 2 : 10 + D / 2, cy = 10 + D / 2;
+    const Sz = 120;
+    if (S !== Sz) { S = Sz; off = document.createElement("canvas"); off.width = S; off.height = S; img = off.getContext("2d").createImageData(S, S); }
+    const [m] = MODES[+sel()], c = Math.cos(2 * Math.PI * 0.5 * t);
+    const bg = insRGB(P.bg), ca = insRGB(P.accent), cb = insRGB(P.accent2), Dd = img.data;
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const u = (x + 0.5) / S * 2 - 1, v = (y + 0.5) / S * 2 - 1, r = Math.hypot(u, v), p = (y * S + x) * 4;
+      if (r > 1) { Dd[p + 3] = 0; continue; }
+      const z = radial[Math.round(r * 200)] * Math.cos(m * Math.atan2(v, u)) * c, tt = Math.min(1, Math.abs(z) * 1.3), col = z >= 0 ? ca : cb;
+      Dd[p] = bg[0] + (col[0] - bg[0]) * tt; Dd[p + 1] = bg[1] + (col[1] - bg[1]) * tt; Dd[p + 2] = bg[2] + (col[2] - bg[2]) * tt; Dd[p + 3] = 255;
+    }
+    off.getContext("2d").putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.drawImage(off, cx - D / 2, cy - D / 2, D, D);
+    ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, D / 2, 0, 7); ctx.stroke();
+    const hx = cx + (r0() / 100) * (D / 2);
+    ctx.fillStyle = "#fff"; ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(hx, cy, 5, 0, 7); ctx.fill(); ctx.stroke();
+    // 모드 막대
+    const box = stacked ? { x: 34, y: D + 34, w: w - 46, h: h - D - 60 } : { x: D + 50, y: 24, w: w - D - 62, h: h - 50 };
+    const e = exc(), emx = Math.max(...e), rmax = tune() === "real" ? 4.4 : 13;
+    const X = (rr) => box.x + (rr / rmax) * box.w;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+    ctx.setLineDash([3, 4]); ctx.strokeStyle = P.faint;
+    for (let k = 1; k <= rmax; k++) { ctx.beginPath(); ctx.moveTo(X(k), box.y); ctx.lineTo(X(k), box.y + box.h); ctx.stroke(); ctx.fillStyle = P.dim; ctx.font = "10px " + INS_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText(k + "×", X(k), box.y + box.h + 4); }
+    ctx.setLineDash([]);
+    MODES.forEach((md, i) => {
+      const rr = ratio(i), hh = (e[i] / emx) * (box.h - 16);
+      ctx.fillStyle = i === +sel() ? P.bad : md[0] === 0 ? P.accent : P.accent2;
+      ctx.fillRect(X(rr) - 3, box.y + box.h - hh, 6, hh);
+      if (i < 5 && tune() === "real") { ctx.fillStyle = P.dim; ctx.font = "9px " + INS_MONO(); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(rr.toFixed(2), X(rr), box.y + box.h - hh - 2); }
+    });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+    ctx.fillText("모드 세기 (보라 m=0, 청록 m≥1)", box.x, box.y - 6);
+  }, { aspect: (w) => (w < 520 ? 1.05 : 0.5), maxHeight: 440, minHeight: 260 });
+  MB.loop(cv.canvas, (dt) => { t += dt; cv.redraw(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 7. 타악기 배음 지도 */
+(function () {
+  const PRE = {
+    bar: { name: "깎지 않은 막대", r: [1, 2.756, 5.404, 8.933], a: [1, 0.55, 0.3, 0.18], tau: [1.6, 0.45, 0.18, 0.1], pitch: 1 },
+    xylo: { name: "실로폰", r: [1, 3, 6.0, 10.2], a: [1, 0.6, 0.25, 0.1], tau: [0.6, 0.35, 0.15, 0.08], pitch: 1 },
+    marimba: { name: "마림바", r: [1, 3.99, 9.2], a: [1, 0.45, 0.15], tau: [1.4, 0.5, 0.15], pitch: 1 },
+    bell: { name: "교회 종", r: [0.5, 1, 1.2, 1.5, 2, 2.5, 2.67, 3, 4], a: [0.7, 0.8, 0.9, 0.35, 1, 0.4, 0.35, 0.3, 0.2], tau: [5, 3, 2.6, 1.8, 2.2, 1.2, 1, 0.9, 0.7], pitch: 1, names: ["험", "프라임", "티어스", "퀸트", "노미널", "", "", "", ""] },
+    tube: { name: "관 종", r: [1, 2.756, 5.404, 8.933, 13.34, 18.64], a: [0.15, 0.4, 0.7, 1, 0.9, 0.7], tau: [2, 2, 1.8, 1.6, 1.3, 1], pitch: 8.933 / 2 },
+    string: { name: "현", r: [1, 2, 3, 4, 5, 6, 7, 8], a: [1, 0.5, 0.33, 0.25, 0.2, 0.17, 0.14, 0.12], tau: [1.8, 1.4, 1.1, 0.9, 0.75, 0.6, 0.5, 0.45], pitch: 1 },
+  };
+  let t0 = -1;
+  const pre = MB.seg("ins-id-pre", () => update());
+  const f = MB.range("ins-id-f", (v) => v + " Hz · " + MB.noteName(MB.ftom(v)), () => update());
+  document.getElementById("ins-id-play").addEventListener("click", () => {
+    const p = PRE[pre()]; const v = insPartials(p.r.map((r, i) => ({ f: f() * r, a: p.a[i], tau: p.tau[i] })), { gain: 0.4, attack: 0.002 });
+    if (v) t0 = v.t0;
+  });
+  function update() {
+    const p = PRE[pre()];
+    MB.stat("ins-id-o-r", p.r.slice(0, 6).map((r) => (Number.isInteger(r) ? r : r.toFixed(2))).join(" : "));
+    const fp = f() * p.pitch;
+    MB.stat("ins-id-o-p", `${fp.toFixed(0)} Hz <small>${insNote(fp)}${pre() === "tube" ? " (4–6번 모드의 공통 기본음)" : pre() === "bell" ? " (프라임 기준)" : ""}</small>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-ins-id", (ctx, w, h) => {
+    const P = MB.palette(), p = PRE[pre()];
+    const box = { x: 20, y: 30, w: w - 40, h: h - 70 };
+    const lo = 0.4, hi = 22, X = (r) => box.x + (Math.log(r / lo) / Math.log(hi / lo)) * box.w;
+    const base = p.pitch === 1 ? 1 : p.pitch;
+    ctx.setLineDash([3, 4]); ctx.strokeStyle = P.faint; ctx.lineWidth = 1;
+    for (let k = 1; k * base <= hi; k++) { const x = X(k * base); ctx.beginPath(); ctx.moveTo(x, box.y); ctx.lineTo(x, box.y + box.h); ctx.stroke(); }
+    if (pre() === "bell") { ctx.strokeStyle = P.ok; [1.25].forEach((r) => { ctx.beginPath(); ctx.moveTo(X(r), box.y); ctx.lineTo(X(r), box.y + box.h); ctx.stroke(); }); }
+    ctx.setLineDash([]);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+    ctx.font = "10px " + INS_MONO(); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [0.5, 1, 2, 3, 4, 6, 8, 10, 15, 20].forEach((r) => ctx.fillText(String(r), X(r), box.y + box.h + 4));
+    const now = t0 > 0 && MB.out ? MB.now() - t0 : -1;
+    p.r.forEach((r, i) => {
+      let a = p.a[i]; if (now >= 0) a *= Math.exp(-now / p.tau[i]);
+      const hh = a * (box.h - 18), x = X(r);
+      ctx.fillStyle = i % 2 ? P.accent2 : P.accent; ctx.fillRect(x - 3, box.y + box.h - hh, 6, hh);
+      ctx.globalAlpha = 0.3; ctx.fillRect(x - 3, box.y + box.h - p.a[i] * (box.h - 18), 6, 2); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.text; ctx.font = "10px " + INS_MONO(); ctx.textBaseline = "bottom";
+      if (i < 9) ctx.fillText(p.names && p.names[i] ? p.names[i] : (Number.isInteger(r) ? r : r.toFixed(2)), x, box.y + box.h - p.a[i] * (box.h - 18) - 4);
+    });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText(pre() === "tube" ? "점선 = 타격음 기본(8.93/2)의 정수배" : pre() === "bell" ? "점선 = 프라임의 정수배, 초록 = 장3도 자리(1.25)" : "점선 = 정수배 격자 (기준 주파수 대비 비, 로그 축)", box.x, 6);
+  }, { aspect: 0.45, maxHeight: 300, minHeight: 220 });
+  MB.loop(cv.canvas, () => { if (t0 > 0 && MB.out && MB.now() - t0 < 6) cv.redraw(); });
+  update();
+})();
+</script>
+</body>
+</html>
