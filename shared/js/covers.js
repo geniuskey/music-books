@@ -11,9 +11,130 @@
   const rnd = (seed) => () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
 
   const M = {
-    guitar() { return svg(`<g fill="none" stroke="currentColor" stroke-width="2"><path d="M110 20l-14 45c-25-17-38 8-24 21-28 10-14 39 8 31 25-8 33-28 17-38l17-56z"/><circle cx="84" cy="89" r="8"/><path d="M83 89l30-72m-36 86 16 6m13-90 13 5"/></g>`); },
-    piano() { return svg(`<g fill="none" stroke="currentColor" stroke-width="2"><rect x="20" y="35" width="160" height="72" rx="4"/>${Array.from({length:7},(_,i)=>`<path d="M${40+i*20} 35v72"/>`).join('')}${[0,1,3,4,5].map(i=>`<rect x="${34+i*20}" y="35" width="12" height="42" fill="currentColor"/>`).join('')}</g>`); },
-    drums() { return svg(`<g fill="none" stroke="currentColor" stroke-width="2"><circle cx="100" cy="83" r="31"/><circle cx="100" cy="83" r="24"/><ellipse cx="48" cy="37" rx="27" ry="6"/><path d="M48 31v75m-12 12 12-12 12 12m92-87v75m-12 12 12-12 12 12M80 20l24 26m16-26L96 46"/><ellipse cx="152" cy="37" rx="27" ry="6"/></g>`); },
+    // 이하 guitar·piano·drums는 MusicBooks 악기 표지다. 움직임은 .gt-·.pn-·.dr- 클래스가 맡고, 멈춘 첫 프레임도 완성된 그림이다.
+    // 기타: 비스듬히 놓인 어쿠스틱 기타. 프렛은 너트에서 줄 길이 × (1 − 2^(−n/12))만큼 떨어진 12평균율 자리에 놓인다.
+    // 피크는 8분음표로 쉬지 않고 오르내리며 오른쪽 아래의 ↓ ↓↑ ↑↓↑ 패턴을 치고, 친 박마다 여섯 줄의 진동 폭이 부풀었다 잦아든다.
+    guitar() {
+      const L = 101.5, nut = 136.3, saddle = nut - L, end = 73.5, f = (v) => +v.toFixed(2);
+      const fret = (n) => nut - L * (1 - 2 ** (-n / 12)), half = (x) => 4.7 - (1.1 * (x - end)) / (nut - end);
+      const lo = (k) => -6.25 + 2.5 * k, hi = (k) => -3 + 1.2 * k; // 새들·너트 위 k번째 줄(0: 저음 E)
+      const edge = (x) => 3.9 + (2.9 * (x - 137.7)) / 24.8; // 헤드 가장자리
+      let g = `<path d="M0 0C0-19 9-31 24-31C36-31 40-21 47-21C53-21 57-26 65-26C74-26 80-18 80-9V9C80 18 74 26 65 26C57 26 53 21 47 21C40 21 36 31 24 31C9 31 0 19 0 0Z" fill="url(#gt-top)" stroke="#fff4e0" stroke-width="1.5"/>`;
+      // 사운드홀과 로제트, 픽가드, 브리지와 새들
+      g += `<circle cx="61" cy="0" r="8.6" fill="#2b170c"/><circle cx="61" cy="0" r="10.6" fill="none" stroke="#fff4e0" stroke-width="1.1"/><circle cx="61" cy="0" r="11.8" fill="none" stroke="#7a3d17" stroke-dasharray=".9 .9"/><circle cx="61" cy="0" r="12.8" fill="none" stroke="#fff4e0" stroke-opacity=".7" stroke-width=".5"/>`;
+      g += `<path d="M71.3 8.7C72.5 16 67 23 58 23C51 23 46.5 18 47.5 12C48 9.8 48.6 8.2 49.3 6.75A13.5 13.5 0 0 0 71.3 8.7Z" fill="#4a230e" fill-opacity=".55"/>`;
+      g += `<rect x="${f(saddle - 5.2)}" y="-12" width="7" height="24" rx="3" fill="#2b170c"/><path d="M${f(saddle)} -8.2V8.2" stroke="#fff8ea" stroke-width="1.1" stroke-linecap="round"/>`;
+      range(6).forEach((k) => { g += `<circle cx="${f(saddle - 2.9)}" cy="${lo(k)}" r=".75" fill="#fff4e0"/>`; });
+      // 지판: 반음마다 좁아지는 프렛, 3·5·7·9·12·15 프렛 자리표
+      g += `<path d="M${end} ${-half(end)}L${nut} ${f(-half(nut))}V${f(half(nut))}L${end} ${half(end)}Z" fill="#2b170c" stroke="#fff4e0" stroke-width=".6"/>`;
+      range(16).forEach((i) => { const x = f(fret(i + 1)), h = f(half(x)); g += `<path d="M${x} ${-h}V${h}" stroke="#e9dcc8" stroke-width=".55"/>`; });
+      [3, 5, 7, 9, 12, 15].forEach((n) => {
+        const x = f((fret(n - 1) + fret(n)) / 2);
+        g += (n === 12 ? [-1.9, 1.9] : [0]).map((y) => `<circle cx="${x}" cy="${y}" r=".9" fill="#f6ecd9"/>`).join("");
+      });
+      // 너트와 헤드, 줄감개
+      g += `<path d="M137.7-3.9 162.5-6.8Q165.5-7.1 165.5-4V4Q165.5 7.1 162.5 6.8L137.7 3.9Z" fill="#2b170c" stroke="#fff4e0" stroke-width=".7"/><rect x="${nut}" y="-4" width="1.5" height="8" rx=".4" fill="#fff8ea"/>`;
+      [145, 152, 159].forEach((x) => [-1, 1].forEach((s) => {
+        const e = edge(x);
+        g += `<path d="M${x} ${f(s * e)}V${f(s * (e + 2.2))}" stroke="#e9dcc8"/><ellipse cx="${x}" cy="${f(s * (e + 3.4))}" rx="1.6" ry="1.9" fill="#f6ecd9"/><circle cx="${x}" cy="${f(s * (e - 1.7))}" r=".85" fill="#e9dcc8"/>`;
+      }));
+      // 여섯 줄은 새들에서 너트를 지나 줄감개로 간다. 줄마다 새들~너트 사이에 기본 진동의 폭(배 모양)을 겹쳐 둔다.
+      const posts = [145, 152, 159, 159, 152, 145];
+      range(6).forEach((k) => {
+        const px = posts[k], py = f((k < 3 ? -1 : 1) * (edge(px) - 1.7)), m = f((saddle + nut) / 2), y = (lo(k) + hi(k)) / 2;
+        g += `<path d="M${f(saddle)} ${lo(k)}L${nut} ${f(hi(k))}L${px} ${py}" fill="none" stroke="#fff6e4" stroke-width="${[1, 0.88, 0.76, 0.64, 0.54, 0.46][k]}" stroke-linejoin="round"/>`;
+        g += `<path class="gt-ring" opacity="0" style="animation-delay:${(0.13 + k * 0.012).toFixed(3)}s" d="M${f(saddle)} ${lo(k)}Q${m} ${f(y - 3.2)} ${nut} ${f(hi(k))}Q${m} ${f(y + 3.2)} ${f(saddle)} ${lo(k)}Z" fill="#fff6e4" fill-opacity=".45"/>`;
+      });
+      g += `<g transform="translate(58 -17.5)"><path class="gt-pick" style="--dy:35px" d="M-3.9-3Q0-5.1 3.9-3 3.9.9 0 4.8-3.9.9-3.9-3Z" fill="#e8590c" stroke="#fff4e0" stroke-width=".6"/></g>`;
+      let s = `<defs><radialGradient id="gt-top" cx=".5" cy=".5" r=".58"><stop offset="0" stop-color="#fff2d2"/><stop offset=".55" stop-color="#f4cd86"/><stop offset=".82" stop-color="#d0843b"/><stop offset="1" stop-color="#7a3d17"/></radialGradient></defs>`;
+      s += `<g transform="translate(19.8 93.2) rotate(-24) scale(1.08)">${g}</g>`;
+      // 왼쪽 위로 떠오르는 음표
+      const note = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="3.9" ry="2.9" transform="rotate(-20 ${x} ${y})"/><path d="M${x + 3.5} ${y - 0.8}V${y - 15}" stroke="${W}" stroke-width="1.3"/>`;
+      s += `<g class="cv-bob" fill="${W}" fill-opacity=".92">${note(24, 36)}${note(40, 31)}<path d="M27 20.4 44.1 15.2V18L27 23.2Z"/></g>`;
+      s += `<g class="cv-bob" style="animation-delay:.6s" fill="${W}" fill-opacity=".92">${note(66, 22)}<path d="M69.5 7c.6 4 5.6 5 5 10.5c-.7-3.2-2.8-4.5-5-4.9z"/></g>`;
+      // 오른쪽 아래 스트로크 패턴: 피크가 지나는 박마다 화살표가 빛난다
+      [..."D-DU-UDU"].forEach((c, i) => {
+        const x = 122 + i * 10;
+        if (c === "-") { s += `<circle cx="${x}" cy="111" r="1.1" fill="${W}" fill-opacity=".45"/>`; return; }
+        const [a, b] = c === "D" ? [104, 118] : [118, 104], t = c === "D" ? -4 : 4;
+        s += `<path class="gt-beat" style="animation-delay:${(0.13 + i * 0.3).toFixed(2)}s" d="M${x} ${a}V${b}M${x - 3} ${b + t}L${x} ${b}L${x + 3} ${b + t}" fill="none" stroke="${W}" stroke-opacity=".7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+      });
+      return svg(s);
+    },
+    // 피아노: 두 옥타브(C3–C5) 건반을 앞에서 살짝 내려다본 모습. 왼손은 C–Am–F–G 화음을 금빛으로 한 박씩 짚고,
+    // 오른손 선율은 하늘빛으로 8분음표마다 옮겨 가며 위 오선에서 같은 음표가 함께 빛난다. 멈춰 있을 때는 C 화음과 첫 음 E4.
+    piano() {
+      const x0 = 14, x1 = 186, w = (x1 - x0) / 15, top = 64, front = 112, f = (v) => +v.toFixed(1);
+      const X = (x, y) => f(100 + (x - 100) * (0.9 + (0.1 * (y - top)) / (front - top))); // 앞쪽이 넓은 원근
+      const quad = (a, b, y0, y1) => `M${X(a, y0)} ${y0}L${X(b, y0)} ${y0}L${X(b, y1)} ${y1}L${X(a, y1)} ${y1}Z`;
+      const wave = (x) => 3 * Math.sin(((x - 8) / 184) * Math.PI * 2);
+      const gold = "#ffd27a", sky = "#8fd3ff";
+      const melody = [[9, 8], [11, 6], [12, 5], [14, 3], [12, 5], [10, 7], [11, 6], [8, 9]]; // [흰 건반 번호, 오선 위치(위 줄 F5=0)]
+      let s = `<defs><linearGradient id="pn-fade" gradientUnits="userSpaceOnUse" x1="8" x2="192" y1="0" y2="0"><stop offset="0" stop-color="${W}" stop-opacity="0"/><stop offset=".15" stop-color="${W}" stop-opacity=".6"/><stop offset=".85" stop-color="${W}" stop-opacity=".6"/><stop offset="1" stop-color="${W}" stop-opacity="0"/></linearGradient></defs>`;
+      // 물결치는 오선과 선율
+      range(5).forEach((k) => { s += `<path d="M${range(37).map((i) => { const x = 8 + (i * 184) / 36; return `${f(x)} ${f(12 + k * 4.4 + wave(x))}`; }).join("L")}" fill="none" stroke="url(#pn-fade)" stroke-width=".7"/>`; });
+      const heads = melody.map(([, p], i) => { const x = 44 + i * 17.5; return [x, f(12 + p * 2.2 + wave(x))]; });
+      heads.forEach(([x, y], i) => {
+        const head = (fill, extra = "") => `<ellipse${extra} cx="${x}" cy="${y}" rx="2.8" ry="2" transform="rotate(-20 ${x} ${y})" fill="${fill}"/>`;
+        s += head(W) + `<path d="M${f(x + 2.5)} ${f(y - 0.6)}V${f(y - 12)}" stroke="${W}"/>` + head(sky, ` class="pn-note"${i ? ' opacity="0"' : ""} style="animation-delay:${(i * 0.4).toFixed(1)}s"`);
+        if (i % 2 === 0) { const [x2, y2] = heads[i + 1]; s += `<path d="M${f(x + 2)} ${f(y - 12)}L${f(x2 + 3)} ${f(y2 - 12)}V${f(y2 - 10.2)}L${f(x + 2)} ${f(y - 10.2)}Z" fill="${W}"/>`; }
+      });
+      // 케이스(뒤판·양옆·앞 레일), 금색 띠와 붉은 펠트
+      s += `<ellipse cx="100" cy="${front + 9}" rx="94" ry="2.6" fill="#000" fill-opacity=".22"/><path d="${quad(x0 - 7, x1 + 7, 54, front + 7)}" fill="#1d1631"/>`;
+      s += `<path d="M${X(x0 - 4, 57.5)} 57.5H${X(x1 + 4, 57.5)}" stroke="${gold}" stroke-opacity=".75" stroke-width=".6"/><path d="${quad(x0, x1, 62, top)}" fill="#b3214f"/>`;
+      const key = (i) => [x0 + i * w + 0.35, x0 + (i + 1) * w - 0.35];
+      range(15).forEach((i) => { const [a, b] = key(i); s += `<path d="${quad(a, b, top, front)}" fill="#fbf8f1"/><path d="${quad(a, b, front, front + 4.5)}" fill="#d6cce2"/>`; });
+      const press = (i, color, cls, delay, on) => { const [a, b] = key(i); return `<path class="${cls}"${on ? "" : ' opacity="0"'} style="animation-delay:${delay}s" d="${quad(a + 0.4, b - 0.4, top + 0.5, front - 0.4)}" fill="${color}" fill-opacity=".9"/>`; };
+      [[0, 2, 4], [0, 2, 5], [0, 3, 5], [1, 4, 6]].forEach((keys, j) => keys.forEach((i) => { s += press(i, gold, "pn-chord", (j * 0.8).toFixed(1), !j); }));
+      melody.forEach(([i], k) => { s += press(i, sky, "pn-note", (k * 0.4).toFixed(1), !k); });
+      // 검은 건반: 앞면이 보이도록 몸통 위에 밝은 윗면을 얹는다
+      const back = top + 0.62 * (front - top);
+      [0, 7].forEach((o) => [[1, -0.12], [2, 0.12], [4, -0.15], [5, 0], [6, 0.15]].forEach(([j, d]) => {
+        const c = x0 + (o + j + d) * w, h = 0.29 * w;
+        s += `<path d="${quad(c - h, c + h, top, back + 2.6)}" fill="#1d1631"/><path d="${quad(c - h + 0.7, c + h - 0.7, top, back - 0.4)}" fill="#3b3157"/>`;
+        s += `<path d="M${X(c - h + 1.3, top)} ${top}L${X(c - h + 1.3, back - 1.4)} ${f(back - 1.4)}" stroke="${W}" stroke-opacity=".3" stroke-width=".5"/>`;
+      }));
+      return svg(s);
+    },
+    // 드럼: 객석에서 본 드럼 세트. 오른손잡이 기준이라 하이햇·스네어·크래시는 오른쪽, 플로어 탐·라이드는 왼쪽에 놓이고
+    // 베이스 드럼 앞면에는 책 이름을 새겼다. 한 마디 2.4초(100 BPM)의 8비트: 하이햇은 8분음표마다, 킥은 1·3박,
+    // 스네어는 2·4박, 4박 뒤 두 탐으로 필인하고 다음 1박에 크래시가 흔들린다.
+    drums() {
+      const f = (v) => +v.toFixed(2), metal = "#c9ced6";
+      const ring = (shape, delay, dur = 2.4, stroke = 'stroke="#fff"') => `<${shape} class="dr-ring" opacity="0" style="animation-delay:${delay}s;animation-duration:${dur}s" fill="none" ${stroke} stroke-width="1.3"/>`;
+      const head = (cx, y, rx, ry) => `cx="${cx}" cy="${y}" rx="${rx}" ry="${ry}"`;
+      // 원통형 북: 셸, 아래 후프, 러그 세 개, 위 헤드와 후프
+      const drum = (cx, y, rx, ry, h) => `<path d="M${cx - rx} ${y}V${y + h}A${rx} ${ry} 0 0 0 ${cx + rx} ${y + h}V${y}Z" fill="url(#dr-shell)"/>`
+        + `<path d="M${cx - rx} ${y + h}A${rx} ${ry} 0 0 0 ${cx + rx} ${y + h}" fill="none" stroke="${metal}" stroke-width="1.1"/>`
+        + [-0.71, 0, 0.71].map((u) => `<rect x="${f(cx + u * rx - 0.8)}" y="${f(y + h * 0.3)}" width="1.6" height="${f(h * 0.42)}" rx=".8" fill="${metal}"/>`).join("")
+        + `<ellipse ${head(cx, y, rx, ry)} fill="#fffaf2" stroke="${metal}" stroke-width="1.4"/><ellipse ${head(cx, y, f(rx * 0.8), f(ry * 0.8))} fill="none" stroke="#000" stroke-opacity=".07"/>`;
+      const cymbal = (cx, cy, rx, ry) => `<ellipse ${head(cx, cy, rx, ry)} fill="url(#dr-brass)" stroke="#7a4c0c" stroke-opacity=".5" stroke-width=".5"/>`
+        + [0.72, 0.46].map((u) => `<ellipse ${head(cx, cy, f(rx * u), f(ry * u))} fill="none" stroke="#7a4c0c" stroke-opacity=".3" stroke-width=".5"/>`).join("")
+        + `<ellipse ${head(cx, f(cy - ry * 0.25), f(rx * 0.2), f(ry * 0.55))} fill="#ffe9a8"/><circle cx="${cx}" cy="${f(cy - ry * 0.45)}" r=".9" fill="#5c3a0a"/>`;
+      let s = `<defs><linearGradient id="dr-shell"><stop offset="0" stop-color="#3a0a14"/><stop offset=".22" stop-color="#7d1d2e"/><stop offset=".42" stop-color="#c44a5d"/><stop offset=".6" stop-color="#8d2536"/><stop offset="1" stop-color="#2e0810"/></linearGradient>`
+        + `<linearGradient id="dr-brass"><stop offset="0" stop-color="#a8741a"/><stop offset=".3" stop-color="#f2c14e"/><stop offset=".5" stop-color="#fff0b3"/><stop offset=".7" stop-color="#e6aa2e"/><stop offset="1" stop-color="#96620f"/></linearGradient></defs>`;
+      s += `<ellipse cx="100" cy="123" rx="92" ry="2.5" fill="#000" fill-opacity=".18"/><path d="M8 123H192" stroke="${W}" stroke-opacity=".25"/>`;
+      // 스탠드와 다리: 북보다 먼저 그려 뒤로 숨긴다
+      s += `<path d="M44 34 40 123M30 123 40 111 50 123M152 26 158 123M150 123 158 111 166 123M182 48V123M174 123 182 109 190 123M150 86V123M141 123 150 108 159 123M31 80 27 123M65 80 69 123M100 60V51M100 54 89 49M100 54 111 49M77 108 67 123M123 108 133 123" fill="none" stroke="${metal}" stroke-width="1.3" stroke-linecap="round"/>`;
+      // 라이드와 크래시: 기울기는 바깥 g가, 흔들림은 안쪽 g가 맡는다
+      s += `<g transform="rotate(-10 44 32)">${cymbal(44, 32, 25, 5.4)}</g>`;
+      s += `<g transform="rotate(14 152 24)"><g class="dr-crash" style="animation-delay:.01s">${cymbal(152, 24, 21, 4.8)}${ring(`ellipse ${head(152, 24, 21, 4.8)}`, 0.01, 2.4, 'stroke="#ffe9a8"')}</g></g>`;
+      // 랙 탐 둘: 바깥으로 살짝 기울고, 마디 끝 필인에서 차례로 울린다
+      [[84, -7, 2.1], [116, 7, 2.25]].forEach(([cx, a, t]) => { s += `<g transform="rotate(${a} ${cx} 52)">${drum(cx, 44, 14, 4.6, 15)}${ring(`ellipse ${head(cx, 44, 14, 4.6)}`, t)}</g>`; });
+      // 베이스 드럼: 나무 후프와 크롬 인레이, 클로, 검은 앞면 헤드의 금색 고리와 책 이름, 포트 구멍
+      let bd = `<circle cx="100" cy="90" r="30" fill="url(#dr-shell)"/>`;
+      range(8).forEach((k) => { bd += `<rect x="98.9" y="57.5" width="2.2" height="4.5" rx=".6" fill="${metal}" transform="rotate(${22.5 + k * 45} 100 90)"/>`; });
+      bd += `<circle cx="100" cy="90" r="27.6" fill="none" stroke="${metal}" stroke-width=".8"/><circle cx="100" cy="90" r="26.2" fill="#1d0b10"/>`;
+      bd += `<circle cx="100" cy="90" r="20.6" fill="none" stroke="#ffd27a" stroke-width="1.2"/><circle cx="100" cy="90" r="19" fill="none" stroke="#ffd27a" stroke-opacity=".6" stroke-width=".5"/>`;
+      bd += `<text x="100" y="92.4" text-anchor="middle" font-size="7" font-weight="800" font-style="italic" fill="#fffaf2">DrumBook</text><path d="M86 95.6H114" stroke="#ffd27a" stroke-width=".7"/>`;
+      bd += `<circle cx="116.7" cy="106.7" r="2.2" fill="#000" fill-opacity=".5" stroke="${metal}" stroke-width=".7"/>`;
+      s += `<g class="dr-kick" style="animation-delay:.01s">${bd}</g>${ring('circle cx="100" cy="90" r="13"', 0.01, 1.2, 'stroke="#ffd27a"')}`;
+      // 플로어 탐(왼쪽), 스네어(오른쪽)
+      s += drum(48, 72, 17, 5, 28) + drum(150, 76, 15, 4.5, 10) + ring(`ellipse ${head(150, 76, 15, 4.5)}`, 0.6, 1.2);
+      // 하이햇: 아래 심벌은 고정, 위 심벌은 8분음표마다 살짝 눌렸다 올라온다
+      s += cymbal(182, 61, 14, 2.4) + `<g class="dr-hat" style="animation-delay:.01s">${cymbal(182, 57.5, 14, 2.6)}</g>`;
+      return svg(s);
+    },
     // DRAM 셀 어레이: 워드라인·비트라인 위에서 비트가 깜박인다
     memory() {
       const r = rnd(7); let s = "";

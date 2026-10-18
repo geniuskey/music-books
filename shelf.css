@@ -176,7 +176,7 @@ a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:under
 }
 
 /* MusicBooks: forthcoming volumes are non-interactive. */
-.planned .book-cover { opacity:.65; cursor:default; }
+.planned .book-cover { cursor:default; }
 .planned .book-cover:hover { transform:none; }
 .experiments { grid-template-columns:repeat(2,minmax(0,1fr)); }
 @media(max-width:620px) { .experiments { grid-template-columns:1fr; } }

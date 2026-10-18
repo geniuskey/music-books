@@ -1,5 +1,6 @@
 /* Cover motion from geniuskey/books, MIT. See LICENSE-MIT. */
-.cover-art * { animation-play-state: paused; }
+/* svg.cover-art outranks the later .cv-* rules, whose animation shorthand would otherwise reset the play state to running. */
+svg.cover-art * { animation-play-state: paused; }
 .card:hover .cover-art *, .card:focus-within .cover-art *, .book:hover .cover-art *, .book:focus-within .cover-art * { animation-play-state: running; }
 .cv-blink { animation: cv-blink 1.6s steps(1) infinite; }
 @keyframes cv-blink { 50% { fill-opacity: .12; } }
@@ -101,5 +102,28 @@
 @keyframes et-out { 0% { transform: scale(.6); opacity: 0; } 20% { opacity: .95; } 100% { transform: translate(var(--ox), -46px) scale(1.25); opacity: 0; } }
 .et-drift { animation: et-drift 2.4s ease-in-out infinite alternate; }
 @keyframes et-drift { to { transform: translate(4px, -2px); } }
+
+/* guitar · piano · drums: MusicBooks instrument covers, MIT. Like fab · process · etch, the un-animated markup is a finished picture. */
+/* guitar: the pick strums eighth notes; on the hit beats of ↓ ↓↑ ↑↓↑ the six string envelopes swell and decay, and the arrow lights. */
+.gt-pick { animation: gt-pick .6s ease-in-out infinite; }
+@keyframes gt-pick { 50% { transform: translateY(var(--dy)); } }
+.gt-ring { transform-box: fill-box; transform-origin: center; animation: gt-ring 2.4s ease-out infinite; }
+@keyframes gt-ring { 0%, 25%, 37.5%, 62.5%, 75%, 87.5% { opacity: .8; transform: none; } 12.4%, 37.4%, 49.9%, 74.9%, 87.4%, 100% { opacity: .22; transform: scaleY(.45); } 24.9%, 62.4% { opacity: 0; transform: scaleY(.2); } }
+.gt-beat { animation: gt-beat 2.4s ease-out infinite; }
+@keyframes gt-beat { 0% { stroke: #ffd27a; stroke-opacity: 1; } 25%, 100% { stroke: currentColor; stroke-opacity: .45; } }
+/* piano: the left hand changes chord every beat (0.8 s), the right-hand melody every eighth note (0.4 s). */
+.pn-chord { animation: pn-chord 3.2s infinite; }
+@keyframes pn-chord { 0%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
+.pn-note { animation: pn-note 3.2s infinite; }
+@keyframes pn-note { 0%, 10% { opacity: 1; } 12.5%, 100% { opacity: 0; } }
+/* drums: one 2.4 s bar at 100 BPM. Rings mark hits; the kick head thumps, the hi-hat dips each eighth, the crash swings after the fill. */
+.dr-ring { transform-box: fill-box; transform-origin: center; animation: dr-ring 2.4s ease-out infinite; }
+@keyframes dr-ring { 0% { opacity: .95; transform: none; } 22%, 100% { opacity: 0; transform: scale(1.6); } }
+.dr-kick { transform-box: fill-box; transform-origin: center; animation: dr-kick 1.2s ease-out infinite; }
+@keyframes dr-kick { 0% { transform: scale(1.03); } 20%, 100% { transform: none; } }
+.dr-hat { animation: dr-hat .3s ease-out infinite; }
+@keyframes dr-hat { 0% { transform: translateY(1.3px); } 60%, 100% { transform: none; } }
+.dr-crash { transform-box: fill-box; transform-origin: center; animation: dr-crash 2.4s ease-out infinite; }
+@keyframes dr-crash { 0% { transform: rotate(8deg); } 10% { transform: rotate(-5deg); } 22% { transform: rotate(3deg); } 36% { transform: rotate(-1.5deg); } 50%, 100% { transform: none; } }
 
 @media (prefers-reduced-motion: reduce) { .cover-art * { animation: none !important; } .cover-art { transition: none; } }
