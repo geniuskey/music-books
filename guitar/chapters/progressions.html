@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<title>코드 진행 연주 · GuitarBook</title>
+<meta name="description" content="로마 숫자로 읽는 화성 진행, I–V–vi–IV와 같은 코드의 다른 출발점, 키를 옮기는 법을 재생기로 연주한다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/progressions.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="코드 진행 연주 · GuitarBook">
+<meta property="og:description" content="로마 숫자로 읽는 화성 진행, I–V–vi–IV와 같은 코드의 다른 출발점, 키를 옮기는 법을 재생기로 연주한다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/progressions.html">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/guitar.js"></script>
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="progressions">
+<header class="gb-topbar">
+<a class="gb-logo" href="../"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" style="fill:var(--accent)"/><g style="stroke:var(--on-accent)" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="6" x2="7" y2="22"/><line x1="10.2" y1="6" x2="10.2" y2="22"/><line x1="13.4" y1="6" x2="13.4" y2="22"/><line x1="16.6" y1="6" x2="16.6" y2="22"/><line x1="19.8" y1="6" x2="19.8" y2="22"/><line x1="23" y1="6" x2="23" y2="22"/></g></svg><span>GuitarBook</span> <small>기타 교과서</small></a>
+<span class="gb-spacer"></span>
+<button class="gb-btn theme" id="gb-theme" type="button">테마 · 자동</button>
+<button class="gb-btn gb-menu" id="gb-menu" type="button" aria-label="목차 열기">☰</button>
+<div class="gb-progress"></div>
+</header>
+<aside class="gb-drawer" aria-label="목차">
+<h4>목차</h4>
+<ul class="gb-chlist">
+<li><a href="../"><span class="num">··</span><span>GuitarBook 소개</span></a></li>
+<li><a href="tuning.html"><span class="num">01</span><span>기타의 구조와 튜닝</span></a></li>
+<li><a href="fretboard.html"><span class="num">02</span><span>지판 읽기와 음계</span></a></li>
+<li><a href="chords.html"><span class="num">03</span><span>코드 다이어그램</span></a></li>
+<li><a href="strumming.html"><span class="num">04</span><span>스트로크와 리듬</span></a></li>
+<li><a href="progressions.html" class="active"><span class="num">05</span><span>코드 진행 연주</span></a></li>
+<li><a href="capo.html"><span class="num">06</span><span>카포와 이조</span></a></li>
+<li><a href="fingerstyle.html"><span class="num">07</span><span>핑거스타일과 아르페지오</span></a></li>
+<li><a href="practice.html"><span class="num">08</span><span>종합 연습실</span></a></li>
+</ul>
+</aside>
+<div class="gb-backdrop" id="gb-backdrop"></div>
+<main class="chapter" id="main">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>코드 진행 연주</h1>
+    <p class="lead">노래 한 곡은 몇 개의 코드가 반복되는 진행으로 이뤄집니다. 이 장에서는 진행을 로마 숫자로 읽고, 재생기에서 직접 연주하며 키를 옮깁니다.</p>
+    <ul class="objectives">
+      <li>로마 숫자 I, ii, iii, IV, V, vi의 역할을 설명한다.</li>
+      <li>I–V–vi–IV 진행을 메트로놈에 맞춰 연주한다.</li>
+      <li>같은 코드라도 출발점에 따라 달라지는 느낌을 듣는다.</li>
+      <li>로마 숫자로 다른 키의 진행을 계산한다.</li>
+    </ul>
+  </header>
+
+  <section id="roman">
+    <h2>로마 숫자로 읽는 진행</h2>
+    <p>코드 진행은 같은 키 안에서 코드가 어떤 자리에 있는지로 기억하면 편합니다. 으뜸음(I)에서 시작하는 일곱 화음을 로마 숫자로 적으며, 대문자는 메이저, 소문자는 마이너입니다. 이 표만 외우면 어느 키의 노래든 같은 진행으로 옮길 수 있습니다.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>로마 숫자</th><th>C 키에서</th><th>역할</th></tr></thead>
+        <tbody>
+          <tr><td>I</td><td>C</td><td>안정, 으뜸</td></tr>
+          <tr><td>ii</td><td>Dm</td><td>IV로 가는 준비</td></tr>
+          <tr><td>iii</td><td>Em</td><td>I와 vi 사이의 부드러움</td></tr>
+          <tr><td>IV</td><td>F</td><td>출발과 밝은 전환</td></tr>
+          <tr><td>V</td><td>G</td><td>긴장, I로 돌아가려는 힘</td></tr>
+          <tr><td>vi</td><td>Am</td><td>감성적인 대조</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="first">
+    <h2>I–V–vi–IV 연주하기</h2>
+    <p>수많은 팝 곡이 C–G–Am–F, 즉 I–V–vi–IV 순서로 이뤄져 있습니다. 한 코드가 4박이며, 재생하면 매 박마다 다운 스트로크가 울리고 코드가 바뀝니다. 칩을 눌러 코드 하나씩 들어 본 뒤 전체를 재생해 보세요.</p>
+    <div class="wd" data-widget="progression" data-chords="C,G,Am,F" data-bpm="96"></div>
+    <div class="callout tip">
+      <p>코드를 바꾸기 직전 박에 손가락을 미리 옮겨 두세요. 마지막 박에 바꾸기 시작하면 다음 코드의 첫 박이 늦게 나옵니다.</p>
+    </div>
+  </section>
+
+  <section id="second">
+    <h2>같은 코드, 다른 출발점</h2>
+    <p>코드는 같아도 어디서 시작하느냐에 따라 노래의 느낌이 달라집니다. Am–G–C–F는 같은 네 코드를 vi에서 시작해 긴장을 먼저 둡니다. 두 진행을 번갈아 들어 보고 어느 쪽이 더 슬프게 들리는지 비교해 보세요.</p>
+    <div class="wd" data-widget="progression" data-chords="Am,G,C,F" data-bpm="84"></div>
+  </section>
+
+  <section id="transfer">
+    <h2>진행을 다른 키로 옮기기</h2>
+    <p>로마 숫자 표를 알면 키를 바꿔도 같은 진행을 만들 수 있습니다. G 키의 I–V–vi–IV는 G–D–Em–C입니다. 이 장의 진행을 그대로 옮길 수 있도록, 다른 키의 같은 진행도 함께 들어 보세요.</p>
+    <div class="wd" data-widget="progression" data-chords="G,D,Em,C" data-bpm="96"></div>
+    <div class="callout">
+      <p>진행이 익숙해지면 코드 이름을 보지 않고도 로마 숫자를 떠올릴 수 있습니다. 그때부터 키가 바뀌어도 손이 먼저 알아서 움직입니다.</p>
+    </div>
+  </section>
+
+<nav class="chapter-nav" aria-label="장 이동">
+<a href="strumming.html"><small>← 04</small><span>스트로크와 리듬</span></a>
+<a class="next" href="capo.html"><small>06 →</small><span>카포와 이조</span></a>
+</nav>
+</main>
+<footer class="gb-foot">GuitarBook · 기타 교과서. 글은 CC BY 4.0, 코드는 MIT 라이선스입니다. <a href="../../">음악 서가로</a></footer>
+</body>
+</html>

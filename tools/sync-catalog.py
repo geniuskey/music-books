@@ -4,6 +4,17 @@ import json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 books = json.loads((ROOT / 'migration/books.json').read_text())['books']
+# Books written here rather than imported. Keep these fields in sync with the book's own book.json.
+LOCAL_BOOKS = [{
+    'id': 'guitarbook', 'code': 'GTR', 'title': 'GuitarBook', 'subtitle': '기타 교과서',
+    'headline': '줄 하나에서 코드와 스트로크까지',
+    'description': '튜닝과 지판, 코드 다이어그램, 스트로크와 코드 진행, 카포, 핑거스타일을 브라우저에서 직접 튕기고 연주하며 배우는 기타 교과서.',
+    'url': 'https://music.euiyun.com/guitar/', 'repo': 'https://github.com/geniuskey/music-books', 'field': 'music',
+    'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'guitar', 'legacyUrl': None,
+    'color': '#9a6237', 'colorDark': '#d9a066', 'motif': 'guitar',
+    'topics': ['기타', '코드', '스트로크', '핑거스타일'],
+}]
+books = books + LOCAL_BOOKS
 catalog = []
 for book in books:
     entry = {k: book[k] for k in ('id','title','subtitle','headline','description','stage','status','color','colorDark','topics','motif','code','legacyUrl','slug')}

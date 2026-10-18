@@ -8,6 +8,7 @@
   "status": "published",
   "domain": "music.euiyun.com",
   "books": [
-    "fundamentals/book.json"
+    "fundamentals/book.json",
+    "guitar/book.json"
   ]
 }

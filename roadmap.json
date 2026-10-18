@@ -1,23 +1,5 @@
 [
   {
-    "id": "guitarbook",
-    "slug": "guitar",
-    "title": "GuitarBook",
-    "subtitle": "기타 교과서",
-    "code": "GTR",
-    "color": "#9a6237",
-    "headline": "줄 하나에서 코드와 스트로크까지",
-    "topics": [
-      "기타",
-      "코드",
-      "스트로크",
-      "핑거스타일"
-    ],
-    "stage": "instruments",
-    "status": "planned",
-    "motif": "guitar"
-  },
-  {
     "id": "pianobook",
     "slug": "piano",
     "title": "PianoBook",

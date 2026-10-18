@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<title>카포와 이조 · GuitarBook</title>
+<meta name="description" content="카포가 모든 음을 반음씩 올리는 원리, 누르는 모양과 소리의 관계를 계산하고 노래 키에 맞추는 법을 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/capo.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="카포와 이조 · GuitarBook">
+<meta property="og:description" content="카포가 모든 음을 반음씩 올리는 원리, 누르는 모양과 소리의 관계를 계산하고 노래 키에 맞추는 법을 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/capo.html">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/guitar.js"></script>
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="capo">
+<header class="gb-topbar">
+<a class="gb-logo" href="../"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" style="fill:var(--accent)"/><g style="stroke:var(--on-accent)" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="6" x2="7" y2="22"/><line x1="10.2" y1="6" x2="10.2" y2="22"/><line x1="13.4" y1="6" x2="13.4" y2="22"/><line x1="16.6" y1="6" x2="16.6" y2="22"/><line x1="19.8" y1="6" x2="19.8" y2="22"/><line x1="23" y1="6" x2="23" y2="22"/></g></svg><span>GuitarBook</span> <small>기타 교과서</small></a>
+<span class="gb-spacer"></span>
+<button class="gb-btn theme" id="gb-theme" type="button">테마 · 자동</button>
+<button class="gb-btn gb-menu" id="gb-menu" type="button" aria-label="목차 열기">☰</button>
+<div class="gb-progress"></div>
+</header>
+<aside class="gb-drawer" aria-label="목차">
+<h4>목차</h4>
+<ul class="gb-chlist">
+<li><a href="../"><span class="num">··</span><span>GuitarBook 소개</span></a></li>
+<li><a href="tuning.html"><span class="num">01</span><span>기타의 구조와 튜닝</span></a></li>
+<li><a href="fretboard.html"><span class="num">02</span><span>지판 읽기와 음계</span></a></li>
+<li><a href="chords.html"><span class="num">03</span><span>코드 다이어그램</span></a></li>
+<li><a href="strumming.html"><span class="num">04</span><span>스트로크와 리듬</span></a></li>
+<li><a href="progressions.html"><span class="num">05</span><span>코드 진행 연주</span></a></li>
+<li><a href="capo.html" class="active"><span class="num">06</span><span>카포와 이조</span></a></li>
+<li><a href="fingerstyle.html"><span class="num">07</span><span>핑거스타일과 아르페지오</span></a></li>
+<li><a href="practice.html"><span class="num">08</span><span>종합 연습실</span></a></li>
+</ul>
+</aside>
+<div class="gb-backdrop" id="gb-backdrop"></div>
+<main class="chapter" id="main">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 06</div>
+    <h1>카포와 이조</h1>
+    <p class="lead">카포는 넥 위에 끼워 모든 줄을 같은 프렛에 묶는 도구입니다. 익숙한 모양을 그대로 쓰면서 조만 바꿀 수 있어, 노래 키를 맞추는 가장 빠른 방법입니다.</p>
+    <ul class="objectives">
+      <li>카포 위치와 음이 올라가는 반음 수의 관계를 설명한다.</li>
+      <li>듣고 싶은 소리에서 누르는 모양을 계산한다.</li>
+      <li>카포 계산기로 결과를 확인하고 소리를 듣는다.</li>
+      <li>노래 키에 맞춰 카포 위치를 고른다.</li>
+    </ul>
+  </header>
+
+  <section id="principle">
+    <h2>카포는 가짜 넛을 만든다</h2>
+    <p>카포는 넥 위에 끼워 모든 줄을 한 프렛에 함께 묶는 도구입니다. 카포를 1프렛에 끼우면 개방현이 전부 1프렛처럼 바뀌어 <b>모든 음이 반음씩 올라갑니다</b>. 손에 익은 모양을 그대로 쓰면서 조만 높일 수 있다는 것이 카포의 힘입니다.</p>
+    <p>아래 도구에서 듣고 싶은 코드와 카포 위치를 고르세요. 누르는 모양은 소리와 카포 위치의 차이만큼 낮아진 코드입니다.</p>
+    <div class="wd" data-widget="capo" data-chord="G" data-capo="2"></div>
+  </section>
+
+  <section id="formula">
+    <h2>모양과 소리의 관계</h2>
+    <p>계산은 한 줄입니다. <b>누르는 모양 = 듣고 싶은 소리 − 카포 프렛 수</b>(반음 단위). 예를 들어 G를 2프렛 카포로 들으려면, 누르는 모양은 G에서 두 반음 내린 F입니다. 손에 익은 F 모양을 짚으면 2프렛 카포 덕분에 G가 울립니다.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>듣고 싶은 소리</th><th>카포</th><th>누르는 모양</th></tr></thead>
+        <tbody>
+          <tr><td>G</td><td>0</td><td>G</td></tr>
+          <tr><td>G</td><td>2</td><td>F</td></tr>
+          <tr><td>Bm</td><td>2</td><td>Am</td></tr>
+          <tr><td>D</td><td>2</td><td>C</td></tr>
+          <tr><td>Em</td><td>2</td><td>Dm</td></tr>
+          <tr><td>Am</td><td>4</td><td>Em</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip">
+      <p>카포를 끼우면 개방현 음이 바뀌므로, 모양 자체는 그대로 두고 손가락 위치만 기억하면 됩니다. 소리가 맞는지 귀로 확인하는 것이 가장 빠른 검증입니다.</p>
+    </div>
+  </section>
+
+  <section id="choose">
+    <h2>노래 키에 맞추기</h2>
+    <p>가수의 음역이 높아 원곡 키가 맞지 않을 때, 카포는 가장 간단한 해결책입니다. 키를 반음씩 옮겨 가며 노래의 목소리에 맞는 위치를 고르세요. 보통은 <b>1~3프렛</b>에서 맞춥니다.</p>
+    <ul>
+      <li>처음에는 카포 없이 악보의 모양을 익힌 뒤 카포를 씁니다.</li>
+      <li>카포는 프렛 금속선 바로 뒤(헤드 쪽)에 수직으로 끼우고, 여섯 줄이 모두 고르게 울리는지 확인합니다.</li>
+      <li>카포를 낀 뒤 줄이 조금씩 음정이 틀어지므로 튜너로 다시 확인합니다.</li>
+    </ul>
+    <div class="callout">
+      <p>카포 위치를 옮기면서 코드 이름을 계산하는 습관이 생기면, 화음 이론과 지판 지식이 한 번에 연결됩니다.</p>
+    </div>
+  </section>
+
+<nav class="chapter-nav" aria-label="장 이동">
+<a href="progressions.html"><small>← 05</small><span>코드 진행 연주</span></a>
+<a class="next" href="fingerstyle.html"><small>07 →</small><span>핑거스타일과 아르페지오</span></a>
+</nav>
+</main>
+<footer class="gb-foot">GuitarBook · 기타 교과서. 글은 CC BY 4.0, 코드는 MIT 라이선스입니다. <a href="../../">음악 서가로</a></footer>
+</body>
+</html>

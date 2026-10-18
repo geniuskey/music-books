@@ -7,11 +7,11 @@
 | 책 | 경로 | 상태 |
 |---|---|---|
 | MusicBook · 음악 기초 | `/fundamentals/` | 공개, 18개 장 |
-| GuitarBook · 기타 | `/guitar/` 예정 | 준비 예정 |
+| GuitarBook · 기타 | `/guitar/` | 공개, 8개 장 |
 | PianoBook · 피아노 | `/piano/` 예정 | 준비 예정 |
 | DrumBook · 드럼 | `/drums/` 예정 | 준비 예정 |
 
-준비 예정 책은 홈에 안내만 표시하며 아직 읽기 링크나 본문을 만들지 않았습니다.
+준비 예정 책은 홈에 안내만 표시하며 아직 읽기 링크나 본문을 만들지 않았습니다. GuitarBook은 `guitar/`에 직접 집필한 책으로, 지판·코드·스트로크 도구를 포함합니다.
 
 ## 실행과 배포
 
@@ -45,9 +45,9 @@ npm run build
 
 ## 새 책 추가
 
-책마다 `{slug}/index.html`, `{slug}/chapters/`, `{slug}/book.json`을 두고 `book.json`의 `books` 목록에 등록합니다. 외부 저장소에서 가져오는 책은 `migration/books.json`에 원본과 slug, 표지 정보를 추가합니다. `tools/sync-catalog.py`는 이 목록에서 공개 책을 생성하며, 로컬에서 새로 집필하는 책을 추가할 때는 카탈로그 생성기에 해당 메타데이터 입력도 추가합니다.
+책마다 `{slug}/index.html`, `{slug}/chapters/`, `{slug}/book.json`을 두고 `book.json`의 `books` 목록에 등록합니다. 외부 저장소에서 가져오는 책은 `migration/books.json`에 원본과 slug, 표지 정보를 추가합니다. `tools/sync-catalog.py`는 이 목록에서 공개 책을 생성하며, 로컬에서 새로 집필하는 책(`guitar/`)은 생성기의 `LOCAL_BOOKS`에 메타데이터를 추가합니다.
 
-`roadmap.json`은 아직 공개되지 않은 기타·피아노·드럼 목록입니다. 책을 공개할 때 해당 예정 항목을 제거하고 `npm run catalog`와 `npm run sitemap`을 실행합니다. 생성된 `catalog.js`는 직접 편집하지 않습니다.
+`roadmap.json`은 아직 공개되지 않은 피아노·드럼 목록입니다. 책을 공개할 때 해당 예정 항목을 제거하고 `npm run catalog`와 `npm run sitemap`을 실행합니다. 생성된 `catalog.js`는 직접 편집하지 않습니다.
 
 ## 라이선스
 

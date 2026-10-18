@@ -28,21 +28,27 @@ window.MUSIC_BOOKS = [
   },
   {
     "id": "guitarbook",
-    "slug": "guitar",
     "title": "GuitarBook",
     "subtitle": "기타 교과서",
-    "code": "GTR",
-    "color": "#9a6237",
     "headline": "줄 하나에서 코드와 스트로크까지",
+    "description": "튜닝과 지판, 코드 다이어그램, 스트로크와 코드 진행, 카포, 핑거스타일을 브라우저에서 직접 튕기고 연주하며 배우는 기타 교과서.",
+    "stage": "instruments",
+    "status": "published",
+    "color": "#9a6237",
+    "colorDark": "#d9a066",
     "topics": [
       "기타",
       "코드",
       "스트로크",
       "핑거스타일"
     ],
-    "stage": "instruments",
-    "status": "planned",
-    "motif": "guitar"
+    "motif": "guitar",
+    "code": "GTR",
+    "legacyUrl": null,
+    "slug": "guitar",
+    "url": "guitar/",
+    "chapters": 8,
+    "simulators": 0
   },
   {
     "id": "pianobook",
