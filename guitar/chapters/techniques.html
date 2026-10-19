@@ -1,0 +1,1214 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>리드 테크닉 · GuitarBook</title>
+<meta name="description" content="해머온·풀오프·슬라이드의 원리, 장력으로 계산하는 벤딩과 벤딩 트레이너, 비브라토의 속도와 폭, 줄의 마디로 만드는 자연·인공 하모닉스, 팜 뮤트를 가상 기타로 듣고 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/techniques.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="리드 테크닉 · GuitarBook">
+<meta property="og:description" content="해머온·풀오프·슬라이드의 원리, 장력으로 계산하는 벤딩과 벤딩 트레이너, 비브라토의 속도와 폭, 줄의 마디로 만드는 자연·인공 하모닉스, 팜 뮤트를 가상 기타로 듣고 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/techniques.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .tq-stack { display: grid; gap: 10px; padding: 10px; }
+  .tq-stack canvas { border-radius: var(--radius-sm); }
+  .tq-hold { touch-action: none; user-select: none; -webkit-user-select: none; }
+  .tq-hold.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .tq-demo { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tq-demo .btn { padding: 5px 10px; font-size: 13px; }
+  .tq-score { font: 600 13px var(--mono); color: var(--text-dim); }
+  .tq-fig-row { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 760px) { .tq-fig-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="techniques">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 11</div>
+    <h1>리드 테크닉</h1>
+    <p class="lead">같은 음 다섯 개를 쳐도 어떤 연주는 노래하고 어떤 연주는 타자기처럼 들립니다. 차이는 대부분 음과 음 <b>사이</b>에서 생깁니다. 피킹 없이 음을 잇는 해머온과 풀오프, 프렛을 미끄러지는 슬라이드, 줄을 밀어 음을 끌어올리는 벤딩, 음에 숨을 불어넣는 비브라토, 줄의 마디를 짚어 종소리를 내는 하모닉스, 그리고 소리를 일부러 죽이는 팜 뮤트까지. 이 장은 각 기술이 줄에 <b>물리적으로</b> 무슨 일을 하는지 계산하고, 가상 기타로 듣고, 실제 기타로 옮기는 방법을 다룹니다.</p>
+    <ul class="objectives">
+      <li>해머온·풀오프가 왼손만으로 소리를 이어 가는 원리(진동 길이 변화와 재여기)를 설명하고, 피킹 프레이즈와 레가토 프레이즈의 차이를 듣는다.</li>
+      <li>프렛 기타의 슬라이드가 연속이 아니라 <b>계단</b>인 이유를 \(f = f_0 L/(L-x)\)와 프렛 배치로 설명한다.</li>
+      <li>\(f \propto \sqrt{T}\)로 반음·온음 벤딩에 필요한 장력 증가(12.2%, 26.0%)와 줄이 늘어나는 길이, 밀어야 하는 거리를 계산한다.</li>
+      <li>비브라토의 속도(Hz)와 폭(센트)을 조절하고, 클래식(양쪽)과 록(위쪽) 비브라토의 평균 음높이 차이를 안다.</li>
+      <li>줄 길이의 \(1/n\) 지점이 \(n\)번 배음의 마디임을 이용해 자연·인공·핀치 하모닉스의 자리를 계산한다.</li>
+      <li>팜 뮤트가 높은 모드를 더 세게 죽이는 이유를 손날 위치와 모드 모양으로 설명하고, 모든 기술을 한 프레이즈로 묶어 연주한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="legato">
+    <h2>레가토: 해머온과 풀오프</h2>
+    <p>오른손으로 줄을 한 번 뜯으면 줄은 몇 초 동안 계속 떨립니다. 그 사이에 왼손이 진동 길이를 바꾸면, 줄은 <b>새로 뜯지 않았는데도</b> 새 음높이로 계속 울립니다. 이것이 레가토<span class="en">(Legato)</span> 기술의 핵심입니다. 1장에서 본 것처럼 줄의 기본 주파수는 진동하는 부분의 길이 \(L_v\)에 반비례하므로, 프렛에서 브리지까지의 길이가 짧아지면 음이 올라갑니다.</p>
+    <div class="formula">$$f = \frac{1}{2L_v}\sqrt{\frac{T}{\mu}}, \qquad L_v(n) = L\cdot 2^{-n/12} \;\;\Rightarrow\;\; \frac{f(n_2)}{f(n_1)} = 2^{(n_2-n_1)/12}$$
+      <div class="where">\(L\): 스케일 길이(너트–새들, 648 mm), \(n\): 누른 프렛 번호, \(T\): 장력, \(\mu\): 선밀도. 5프렛에서 7프렛으로 해머온하면 진동 길이가 \(2^{-2/12}\approx 0.891\)배(약 54 mm 짧아짐)가 되어 음이 온음 올라간다. 줄은 원래 떨던 에너지를 그대로 가지고 더 짧은 길이로 '갈아탄다'.</div>
+    </div>
+    <p><b>해머온</b><span class="en">(Hammer-on)</span>은 손가락 끝을 망치처럼 프렛 바로 뒤에 내리쳐 줄을 프렛에 붙이는 동작입니다. 줄이 이미 떨고 있다면 진동이 이어지고, 손가락이 줄을 때리는 충격이 약간의 에너지를 더 보탭니다. 그래서 개방현이나 낮은 프렛을 뜯지 않고 손가락으로만 때려도 소리가 납니다(왼손만으로 치는 '해머온 프롬 나싱'<span class="en">(Hammer-on from nowhere)</span>). <b>풀오프</b><span class="en">(Pull-off)</span>는 반대로, 누르고 있던 손가락을 그냥 들어 올리는 것이 아니라 줄을 옆으로(바닥 쪽으로) 살짝 걸어 당기면서 떼는 동작입니다. 사실상 <b>왼손 손가락으로 줄을 뜯는</b> 셈이어서, 아래 음(더 낮은 프렛이나 개방현)은 미리 짚어 두어야 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 250" role="img" aria-label="해머온 전후의 진동 길이">
+        <g id="tq-fig-hammer"></g>
+      </svg>
+      <figcaption><b>그림 11-1.</b> 해머온 전(위)과 후(아래). 5프렛을 누르고 뜯으면 5프렛–새들 구간이 떤다. 넷째 손가락이 7프렛 바로 뒤를 때리는 순간 진동 길이가 \(L\cdot 2^{-7/12}\)로 줄어들고, 이미 떨고 있던 줄은 새 길이의 모드로 이어서 진동한다. 풀오프는 이 과정을 거꾸로, 손가락으로 줄을 걸어 뜯으며 떼는 것이다.</figcaption>
+    </figure>
+    <p>레가토가 피킹과 다르게 들리는 이유는 <b>어택</b>에 있습니다. 픽이 줄을 칠 때는 넓은 대역의 날카로운 잡음 성분(트랜지언트)이 생기는데, 해머온은 손가락 살이 줄을 때리므로 어택이 부드럽고 작습니다. 풀오프는 해머온보다 어택이 조금 더 뚜렷합니다. 결과적으로 레가토 프레이즈는 첫 음에만 또렷한 어택이 있고 이후 음들은 한 호흡으로 이어져, 관악기나 노래의 슬러처럼 들립니다. TAB에서는 두 음 위에 호(슬러)를 그리고 H, P를 적습니다(4장).</p>
+
+    <div class="sim" id="sim-tq-legato">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>피킹 vs 레가토: 같은 음, 다른 연결</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <div id="tq-lg-fb"></div>
+            <div id="tq-lg-tab"></div>
+            <canvas id="tq-lg-cv"></canvas>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>연주 방식</span><div class="seg" id="tq-lg-mode"><button data-value="pick">모두 피킹</button><button data-value="legato" class="on">레가토(h·p)</button></div></div>
+          <label class="ctrl"><span>템포 <output id="tq-lg-bpm-out"></output></span><input type="range" id="tq-lg-bpm" min="50" max="140" value="84"></label>
+          <label class="check"><input type="checkbox" id="tq-lg-both"> 피킹 → 레가토 연달아 비교</label>
+          <div class="btn-row"><button class="btn primary" id="tq-lg-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 / 피킹 수</span><span class="v" id="tq-lg-o-n">—</span></div>
+        <div class="stat"><span class="k">지금 음</span><span class="v" id="tq-lg-o-now">—</span></div>
+        <div class="stat"><span class="k">기술</span><span class="v" id="tq-lg-o-tech">—</span></div>
+      </div>
+      <div class="sim-note">A 마이너 펜타토닉 5포지션에서 만든 짧은 연습 프레이즈(창작)입니다. '레가토'에서는 줄마다 첫 음만 피킹하고 나머지는 해머온(H)·풀오프(P)로 잇습니다. 아래 그래프는 진폭 개념도로, 피킹은 음마다 진폭이 1로 되살아나며 날카로운 어택(세로 막대)이 생기고, 레가토는 진동이 이어지면서 해머온은 약간, 풀오프는 조금 더 에너지를 보탭니다. 모델: 해머온·풀오프는 울리던 카플러스–스트롱 음의 재생 속도를 4 ms 안에 바꾸고(진동이 이어짐), 여린 재여기 음을 살짝 겹친 근사입니다. 줄을 옮길 때는 앞 줄을 왼손으로 뮤트한다고 가정했습니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 해머온·풀오프</strong> ① 해머온은 '세게'보다 '빠르게'. 손가락을 2–3 cm 위에서 프렛 바로 뒤로 떨어뜨리되, 손가락 끝(손톱 바로 아래)이 수직으로 닿게 합니다. 프렛 중간을 때리면 소리가 죽습니다. ② 풀오프는 줄을 바닥 쪽으로 1–2 mm 끌어내리며 떼어, 손가락이 바로 아래 줄에 닿아 멈추게 합니다(그래서 아래 줄 잡음도 함께 막힙니다). ③ 아래 손가락(검지)을 먼저 짚어 두는 것을 잊지 마세요. ④ 목표: 5–7 해머온·7–5 풀오프 반복을 메트로놈 60에서 8분음표로 1분, 피킹한 음과 레가토 음의 크기가 비슷해질 때까지. 그다음 트릴(5h7p5h7… 16분음표)로 넓힙니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="slide">
+    <h2>슬라이드: 프렛을 건너는 계단</h2>
+    <p>슬라이드<span class="en">(Slide)</span>는 줄을 누른 채 손가락을 지판 위로 미끄러뜨려 다른 프렛으로 옮기는 기술입니다. 귀에는 음이 '쭉' 미끄러지는 것처럼 들리지만, 프렛이 있는 기타에서는 사실 음높이가 <b>연속적으로 변하지 않습니다</b>. 손가락 아래의 줄은 늘 손가락 바로 앞의 프렛 와이어에 걸려 있으므로, 진동 길이는 손가락이 프렛 와이어를 하나 넘을 때마다 한 번씩 '툭' 짧아집니다. 즉 프렛 슬라이드는 반음 계단을 빠르게 오르는 <b>글리산도</b><span class="en">(Glissando)</span>이고, 바이올린이나 보틀넥(유리·금속 관을 줄 위에 얹어 미는 슬라이드 기타)처럼 음높이가 연속으로 변하는 <b>포르타멘토</b><span class="en">(Portamento)</span>와 다릅니다.</p>
+    <div class="formula">$$\underbrace{f(x) = f_0\,\frac{L}{L-x}}_{\text{보틀넥: 연속}} \qquad \underbrace{f = f_0\,2^{k/12},\;\; k = \#\{\text{손가락이 지난 프렛 와이어}\}}_{\text{프렛 슬라이드: 계단}}$$
+      <div class="where">\(x\): 너트에서 손가락(또는 보틀넥)까지 거리, \(f_0\): 개방현 주파수. 보틀넥은 관이 닿는 점이 곧 줄의 끝이 되므로 \(x\)가 연속으로 변하면 음도 연속이다. 반면 프렛 슬라이드는 \(k\)번 프렛 와이어 위치 \(d_k = L(1-2^{-k/12})\)를 지나는 순간에만 음이 반음씩 바뀐다. 높은 프렛일수록 와이어 간격이 좁아지므로, 같은 속도로 손을 밀면 계단이 점점 빨라진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 260" role="img" aria-label="프렛 슬라이드와 보틀넥 슬라이드의 음높이 변화"><g id="tq-fig-slide"></g></svg>
+      <figcaption><b>그림 11-2.</b> 5프렛 → 12프렛 슬라이드를 0.5초 동안 일정한 속도로 밀 때의 음높이. 실선(계단)은 프렛 슬라이드, 점선은 같은 손 움직임의 보틀넥 슬라이드. 프렛 간격이 좁아지는 위쪽에서 계단이 촘촘해진다. 손이 빨라지면 계단이 너무 촘촘해 귀는 연속적인 미끄러짐으로 듣는다.</figcaption>
+    </figure>
+    <p>슬라이드는 끝나는 방법에 따라 두 종류로 나뉩니다. 출발음만 피킹하고 도착음은 그대로 이어 울리는 <b>레가토 슬라이드</b>(TAB의 <code>5/7</code>), 도착음을 다시 피킹하는 <b>시프트 슬라이드</b>(shift slide)입니다. 또 출발음 없이 몇 프렛 아래에서 미끄러져 들어오는 <b>슬라이드 인</b>, 음을 낸 뒤 아래로 흘려 끝내는 <b>슬라이드 아웃</b>은 프레이즈의 시작과 끝을 장식하는 데 자주 쓰입니다. 슬라이드의 생명은 도착 프렛의 정확성입니다. 손가락이 도착 프렛을 지나치면 그만큼 반음 높은 음이 들립니다.</p>
+
+    <div class="sim" id="sim-tq-slide">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>슬라이드 실험실: 계단과 미끄럼</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <div id="tq-sl-fb"></div>
+            <canvas id="tq-sl-cv"></canvas>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>방식</span><div class="seg" id="tq-sl-mode"><button data-value="fret" class="on">프렛(계단)</button><button data-value="neck">보틀넥(연속)</button></div></div>
+          <div class="ctrl"><span>도착음</span><div class="seg" id="tq-sl-end"><button data-value="legato" class="on">레가토</button><button data-value="shift">시프트(다시 피킹)</button></div></div>
+          <label class="ctrl"><span>출발 프렛 <output id="tq-sl-a-out"></output></span><input type="range" id="tq-sl-a" min="1" max="15" value="5"></label>
+          <label class="ctrl"><span>도착 프렛 <output id="tq-sl-b-out"></output></span><input type="range" id="tq-sl-b" min="1" max="15" value="9"></label>
+          <label class="ctrl"><span>미는 시간 <output id="tq-sl-dur-out"></output></span><input type="range" id="tq-sl-dur" min="0.08" max="1.5" step="0.02" value="0.4"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-sl-play">▶ 슬라이드</button><button class="btn" id="tq-sl-stop">■ 정지</button></div>
+          <div class="tq-demo"><button class="btn" data-pre="3,5,0.18">3→5 짧게</button><button class="btn" data-pre="5,12,0.6">5→12 길게</button><button class="btn" data-pre="9,7,0.2">9→7 내려오기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음정</span><span class="v" id="tq-sl-o-iv">—</span></div>
+        <div class="stat"><span class="k">지나는 프렛 와이어</span><span class="v" id="tq-sl-o-k">—</span></div>
+        <div class="stat"><span class="k">손이 움직인 거리</span><span class="v" id="tq-sl-o-mm">—</span></div>
+      </div>
+      <div class="sim-note">3번 줄(G)에서 슬라이드합니다. 지판의 줄을 클릭하면 그 줄로 바뀌고, 클릭한 프렛이 출발 프렛이 됩니다. 그래프는 시간–음높이(반음)로, 강조된 선이 지금 방식, 흐린 선이 다른 방식입니다. 미는 시간을 1초 이상으로 늘려 '프렛' 방식의 계단을 들어 보고, 0.1초 근처로 줄여 계단이 미끄럼처럼 들리는 순간을 찾아보세요. 모델: 손가락은 출발 프렛의 칸 가운데에서 도착 프렛 칸 가운데까지 일정한 속도로 움직이고, 프렛 방식은 와이어를 넘는 순간 4 ms 안에 반음씩 바뀌며, 보틀넥은 \(f_0L/(L-x)\)를 24개 구간의 직선으로 근사합니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 슬라이드</strong> ① 누르는 힘을 평소의 60–70%로 줄이세요. 너무 세게 누르면 미끄러지지 않고, 너무 약하면 중간에 소리가 끊깁니다. ② 눈은 도착 프렛을 먼저 봅니다. 손보다 눈이 먼저 도착해야 합니다. ③ 3번 줄 5→7→5, 7→9→7을 레가토로 반복하다가, 도착 직후 손가락 힘을 다시 정상으로 주어 음이 또렷하게 서도록 합니다. ④ 목표: 5→12 긴 슬라이드에서 도착음이 한 번에 맞는 비율 10번 중 9번 이상. 틀리면 넘쳐서 13프렛까지 가는 경우가 대부분입니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="bend-physics">
+    <h2>벤딩의 물리: 장력과 음높이</h2>
+    <p>벤딩<span class="en">(String bending)</span>은 누른 줄을 지판 위에서 옆으로 밀어(또는 당겨) 음을 올리는 기술입니다. 진동 길이는 거의 그대로인데 음이 올라가는 이유는 메르센 법칙의 다른 변수, <b>장력</b> 때문입니다. 줄을 옆으로 밀면 줄이 지나는 경로가 직선에서 꺾인 선이 되어 길어지고, 늘어난 만큼 장력이 커집니다. 주파수는 장력의 제곱근에 비례하므로, 원하는 음정을 얻으려면 장력을 다음만큼 올려야 합니다.</p>
+    <div class="formula">$$\frac{f'}{f} = \sqrt{\frac{T+\Delta T}{T}} = 2^{c/1200} \quad\Longrightarrow\quad \frac{\Delta T}{T} = 2^{c/600} - 1 = \begin{cases} 12.2\% & \text{반음 } (c=100)\\ 26.0\% & \text{온음 } (c=200) \\ 41.4\% & \text{1음 반 } (c=300)\end{cases}$$
+      <div class="where">\(c\): 올리려는 음정(센트). 음정은 주파수 비의 로그이고 장력은 그 제곱이므로, 온음 벤딩에 필요한 장력 증가는 반음의 두 배(24.4%)가 아니라 \(1.122^2-1 = 26.0\%\)다. 1음 반을 올리려면 장력을 \(\sqrt{2}\)배로 키워야 한다.</div>
+    </div>
+    <p>숫자로 확인해 봅시다. 가장 흔한 일렉 기타 1번 줄은 지름 0.010인치(0.254 mm)의 민 강철 줄이고, 스케일 길이 648 mm에서 E4(329.63 Hz)로 맞춥니다. 단면적 \(A = \pi d^2/4 = 0.0507\ \text{mm}^2\), 강철 밀도 7850 kg/m³에서 선밀도 \(\mu = 0.398\ \text{g/m}\)이므로</p>
+    <div class="formula">$$T = \mu\,(2Lf)^2 = 3.98\times10^{-4}\times(2\times0.648\times329.63)^2 \approx 72.6\ \text{N}\ (\approx 7.4\ \text{kgf}), \qquad \sigma = \frac{T}{A} = \rho\,(2Lf)^2 \approx 1.43\ \text{GPa}$$
+      <div class="where">\(\sigma\): 응력. 민 강철 줄의 응력 \(\rho(2Lf)^2\)는 <b>지름과 무관</b>하고 음높이와 스케일 길이만으로 정해진다. 강철의 영률 \(E\approx 200\ \text{GPa}\)로 나누면 튜닝된 줄은 이미 0.72% 늘어나 있다(변형률 \(\varepsilon = \sigma/E\)). 줄 회사들이 공개하는 .010 1번 줄 장력(약 16 lb ≈ 7.3 kgf)과 잘 맞는다.</div>
+    </div>
+    <p>장력을 \(\Delta T\)만큼 올리려면 줄을 \(\Delta L = \Delta T\cdot L/(EA)\)만큼 늘여야 합니다(훅의 법칙). .010 줄의 \(EA \approx 10{,}100\ \text{N}\)이므로 반음 벤딩(\(\Delta T = 8.9\ \text{N}\))은 줄 전체를 <b>0.57 mm</b>, 온음(\(\Delta T = 18.9\ \text{N}\))은 <b>1.21 mm</b> 늘이는 일입니다. 그런데 손가락은 줄을 길이 방향이 아니라 옆으로 밉니다. 너트에서 \(a\), 새들에서 \(b\)인 점을 옆으로 \(\delta\)만큼 밀면 줄은 두 빗변이 되어</p>
+    <div class="formula">$$\Delta L = \sqrt{a^2+\delta^2} + \sqrt{b^2+\delta^2} - L \;\approx\; \frac{\delta^2}{2}\left(\frac{1}{a}+\frac{1}{b}\right), \qquad \Delta T = \frac{EA}{L}\,\Delta L$$
+      <div class="where">근사는 \(\delta \ll a, b\)일 때. 늘어나는 길이가 \(\delta^2\)에 비례하므로 <b>처음 몇 mm는 음이 거의 안 오르다가 갈수록 빨리 오른다</b>. 12프렛(\(a=b=324\) mm)에서 .010 1번 줄을 반음 올리려면 \(\delta \approx 14\) mm, 온음은 \(\approx 20\) mm를 밀어야 한다. 실제로는 너트 뒤(헤드 쪽) 줄도 일부 함께 늘어나고 프렛과 손가락의 마찰이 있어 값이 조금 달라진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 230" role="img" aria-label="벤딩의 기하">
+        <line x1="40" y1="150" x2="600" y2="150" class="s-line" stroke-dasharray="5 5"/>
+        <rect x="30" y="120" width="10" height="60" class="f-surface"/><text x="35" y="198" text-anchor="middle" class="t-dim">너트</text>
+        <rect x="600" y="120" width="10" height="60" class="f-surface"/><text x="605" y="198" text-anchor="middle" class="t-dim">새들</text>
+        <path d="M40 150 L260 64 L600 150" class="s-acc" stroke-width="2.5"/>
+        <circle cx="260" cy="64" r="9" class="f-acc"/>
+        <line x1="260" y1="64" x2="260" y2="150" class="s-axis" stroke-dasharray="3 3"/>
+        <text x="268" y="112" class="t-acc">δ</text>
+        <text x="150" y="170" text-anchor="middle" class="t">a</text><text x="430" y="170" text-anchor="middle" class="t">b</text>
+        <line x1="40" y1="160" x2="258" y2="160" class="s-axis"/><line x1="262" y1="160" x2="600" y2="160" class="s-axis"/>
+        <text x="138" y="94" text-anchor="middle" class="t-dim" transform="rotate(-21 138 94)">√(a²+δ²)</text>
+        <text x="440" y="96" text-anchor="middle" class="t-dim" transform="rotate(14 440 96)">√(b²+δ²) : 진동하는 부분</text>
+        <text x="260" y="40" text-anchor="middle" class="t">벤딩하는 손가락 (프렛 바로 뒤)</text>
+        <path d="M232 64 L196 64" class="s-line"/><path d="M196 64 l8 -4 v8 z" class="f-acc"/>
+        <path d="M288 64 L324 64" class="s-line"/><path d="M324 64 l-8 -4 v8 z" class="f-acc"/>
+        <text x="190" y="58" text-anchor="end" class="t-mono">T+ΔT</text><text x="330" y="58" class="t-mono">T+ΔT</text>
+        <text x="320" y="222" text-anchor="middle" class="t-dim">세로(δ)는 크게 과장해 그렸다. 실제 δ는 10–25 mm, a·b는 200–450 mm</text>
+      </svg>
+      <figcaption><b>그림 11-3.</b> 벤딩의 기하. 줄을 옆으로 \(\delta\) 밀면 두 빗변의 합이 \(L\)보다 길어지고, 그 늘어남이 장력을 올린다. 진동하는 부분은 손가락(프렛)에서 새들까지의 빗변 \(\sqrt{b^2+\delta^2}\)인데, 이 길이도 조금 길어져 음을 아주 약간(20 mm에서 약 3센트) 낮춘다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>줄(민 강철)</th><th>튜닝 장력</th><th>변형률</th><th>온음에 필요한 \(\Delta L\)</th><th>온음에 필요한 \(\delta\)</th><th>미는 힘(근사)</th></tr></thead>
+      <tbody>
+        <tr><td>1번 줄 .010, E4, 12프렛</td><td>72.6 N</td><td>0.72%</td><td>1.21 mm</td><td>≈ 20 mm</td><td>≈ 11 N</td></tr>
+        <tr><td>2번 줄 .013, B3, 8프렛</td><td>68.9 N</td><td>0.40%</td><td>0.68 mm</td><td>≈ 14 mm</td><td>≈ 8 N</td></tr>
+        <tr><td>3번 줄 .017, G3, 7프렛</td><td>74.2 N</td><td>0.25%</td><td>0.43 mm</td><td>≈ 11 mm</td><td>≈ 7 N</td></tr>
+      </tbody>
+    </table></div>
+    <p>표에서 두 가지 직관을 얻을 수 있습니다. 첫째, 민 줄에서는 변형률이 음높이에만 달려 있으므로, <b>같은 음을 내는 줄이라면 굵기와 상관없이 같은 거리를 밀어야</b> 같은 음정이 됩니다. 굵은 줄이 '뻑뻑한' 것은 거리 때문이 아니라 장력, 즉 힘 \(F \approx T\,\delta\,(1/a + 1/b)\)이 크기 때문입니다. .009 세트로 바꾸면 힘은 약 19% 줄지만 밀어야 할 거리는 그대로입니다. 둘째, 낮게 튜닝된 민 3번 줄(G3)은 이미 덜 늘어나 있어 같은 음정에 필요한 늘어남이 작고, 그래서 블루스 기타리스트들이 3번 줄 벤딩을 즐겨 씁니다(감은 3번 줄은 심선이 가늘어 계산이 달라집니다).</p>
+    <div class="callout deep"><strong>벤딩이 다른 줄을 끌어내리는 이유</strong> 플로팅 트레몰로(스프링으로 브리지를 붙잡는 방식) 기타에서 한 줄을 벤딩하면 그 줄의 장력 증가가 브리지를 앞으로 기울여, 다른 줄들의 장력이 조금 줄고 음이 내려갑니다. 더블 스톱 벤딩(두 줄을 같이 칠 때 한 줄만 벤딩)에서 벤딩하지 않은 줄이 살짝 플랫되는 현상이 이것입니다. 브리지를 바디에 고정한 기타에서는 이 효과가 훨씬 작습니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="bend-train">
+    <h2>벤딩을 귀로 맞추기</h2>
+    <p>벤딩은 프렛이 정해 주지 않는 음정을 <b>귀와 손의 감각</b>으로 찾아야 하는 유일한 기본 기술입니다. 벤딩한 음이 목표보다 낮으면 '덜 올라간' 아마추어 소리가 가장 먼저 드러납니다. 기보 관습은 다음과 같습니다. TAB의 숫자 옆 <code>b</code>와 화살표, 그 위에 <code>½</code>(반음), <code>full</code>(온음), <code>1½</code>(1음 반)을 적고, 미리 올린 상태로 치는 <b>프리벤드</b>(pre-bend, <code>pb</code>)와 올린 음을 원래 음으로 내리는 <b>릴리스</b>(release, <code>r</code>)를 구별합니다. 가장 많이 쓰는 것은 펜타토닉의 4도를 5도로(예: A 마이너 펜타토닉의 3번 줄 7프렛 D → E), 7도를 근음으로(2번 줄 8프렛 G → A) 올리는 온음 벤딩입니다.</p>
+    <p>목표 음을 귀로 확인하는 가장 확실한 방법은 <b>목표 음을 먼저 프렛으로 쳐 보는 것</b>입니다. 3번 줄 7프렛 D를 온음 올릴 계획이면 먼저 3번 줄 9프렛 E를 치고 그 음을 머릿속에 둔 채 7프렛에서 밀어 올립니다. 아래 트레이너는 바로 이 연습을 줄의 실제 역학으로 재현합니다. 슬라이더는 '음정'이 아니라 '줄을 민 거리 \(\delta\)'입니다. 앞 절의 식으로 장력을 계산해 음높이를 만들므로, 실제 기타처럼 처음에는 둔하고 갈수록 민감하게 반응합니다.</p>
+
+    <div class="sim" id="sim-tq-bend">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>벤딩 트레이너: 밀어서 목표 음 맞히기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <canvas id="tq-bd-cv"></canvas>
+            <div id="tq-bd-fb"></div>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>줄</span><div class="seg" id="tq-bd-str"><button data-value="0">1번 .010</button><button data-value="1">2번 .013</button><button data-value="2" class="on">3번 .017</button></div></div>
+          <label class="ctrl"><span>프렛 <output id="tq-bd-fret-out"></output></span><input type="range" id="tq-bd-fret" min="3" max="17" value="7"></label>
+          <div class="ctrl"><span>목표</span><div class="seg" id="tq-bd-tgt"><button data-value="1">½ (반음)</button><button data-value="2" class="on">full (온음)</button><button data-value="3">1½</button></div></div>
+          <label class="ctrl"><span>민 거리 δ <output id="tq-bd-d-out"></output></span><input type="range" id="tq-bd-d" min="0" max="30" step="0.1" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-bd-pick">▶ 피킹</button><button class="btn tq-hold" id="tq-bd-hold">누르고 있으면 밀기</button></div>
+          <div class="btn-row"><button class="btn" id="tq-bd-rel">↓ 릴리스</button><button class="btn" id="tq-bd-ref">목표 음 듣기</button><button class="btn" id="tq-bd-stop">■ 정지</button></div>
+          <div class="tq-demo"><button class="btn" data-demo="half">½ 벤드</button><button class="btn" data-demo="full">full 벤드</button><button class="btn" data-demo="br">벤드&amp;릴리스</button><button class="btn" data-demo="pb">프리벤드&amp;릴리스</button></div>
+          <div class="btn-row"><button class="btn" id="tq-bd-game">🎯 새 문제</button><span class="tq-score" id="tq-bd-score">0 / 0</span></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="tq-bd-msg">▶ 피킹을 누르고 슬라이더를 끌거나 '누르고 있으면 밀기' 버튼을 꾹 누르세요. 손을 떼는 순간의 음정을 판정합니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 음정</span><span class="v" id="tq-bd-o-c">—</span></div>
+        <div class="stat"><span class="k">목표 대비</span><span class="v" id="tq-bd-o-err">—</span></div>
+        <div class="stat"><span class="k">장력 T</span><span class="v" id="tq-bd-o-t">—</span></div>
+        <div class="stat"><span class="k">늘어난 길이 ΔL</span><span class="v" id="tq-bd-o-dl">—</span></div>
+        <div class="stat"><span class="k">목표에 필요한 δ</span><span class="v" id="tq-bd-o-need">—</span></div>
+      </div>
+      <div class="sim-note">위 그림: 줄의 모양(세로 3배 과장)과 센트 미터. 초록 띠가 목표 ±10센트입니다. '목표 음 듣기'는 목표 음을 프렛으로 친 소리(예: 7프렛 온음 → 9프렛)를 들려줍니다. '새 문제'는 줄·프렛·목표를 무작위로 내고, 버튼에서 손을 떼거나 슬라이더를 놓는 순간을 판정합니다(±10센트 성공, ±25센트 아까움). 슬라이더는 키보드 화살표로도 움직입니다. 모델: 민 강철 줄(밀도 7850 kg/m³, 영률 200 GPa), 스케일 648 mm, 손가락 위치 = 프렛 위치, 줄은 너트와 새들 사이에서만 늘어나고 마찰 없음. 음높이 = 장력 증가에 의한 상승 − 진동 길이 증가에 의한 하강. 소리는 길게 울리도록 감쇠를 줄인 카플러스–스트롱 음의 재생 속도를 실시간으로 바꿉니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 벤딩</strong> ① 손가락 하나로 밀지 마세요. 3번 손가락(약지)으로 벤딩한다면 2번·1번 손가락을 같은 줄 뒤 프렛에 붙여 셋이 함께 밉니다. ② 힘은 손가락이 아니라 <b>손목 회전</b>(문고리를 돌리듯)에서 나옵니다. 엄지를 넥 위로 걸어 회전축으로 쓰면 훨씬 쉽습니다. ③ 1·2·3번 줄은 천장 쪽으로 밀어 올리고, 4·5·6번 줄은 바닥 쪽으로 당깁니다(지판 밖으로 미끄러지지 않게). ④ 목표 음 먼저 치기 → 벤딩 → 다시 목표 음 치기를 한 세트로, 3번 줄 7프렛 온음 10회 연속 성공을 목표로 하세요. ⑤ 벤딩한 상태를 2초 유지할 때 음이 처지지 않는지 확인하고, 릴리스할 때는 원래 음에 정확히 '착지'해 멈춥니다. 미는 손가락의 굳은살이 생기기 전에는 하루 10분 이내로.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="vibrato">
+    <h2>비브라토: 속도와 폭</h2>
+    <p>오래 끄는 음을 그대로 두면 밋밋하고 기계적으로 들립니다. 성악가와 현악기 연주자는 음높이를 주기적으로 조금씩 흔들어 소리에 생기를 넣는데, 이것이 비브라토<span class="en">(Vibrato)</span>입니다. 비브라토는 두 숫자로 거의 다 설명됩니다. 1초에 몇 번 흔드는지(<b>속도</b>, Hz)와 얼마나 넓게 흔드는지(<b>폭</b>, 센트). 노래와 바이올린의 비브라토는 대략 초당 5–7회, 폭은 ±20–50센트 정도이고, 기타는 장르에 따라 훨씬 넓은 폭(반음 가까이)까지 씁니다.</p>
+    <p>기타에는 성격이 다른 비브라토가 두 가지 있습니다. <b>클래식 비브라토</b>는 손가락을 줄 방향(너트–브리지 방향)으로 흔듭니다. 손가락이 브리지 쪽으로 가면 진동 구간에 줄이 조금 밀려 들어가 장력이 줄고(음↓), 너트 쪽으로 가면 장력이 늘어(음↑) 원래 음을 <b>중심으로 위아래</b>로 흔들립니다. <b>록·블루스 비브라토</b>는 앞 절의 벤딩을 작게 반복하는 것, 즉 줄을 옆으로 밀었다 놓기를 반복합니다. \(\Delta L \propto \delta^2 \ge 0\)이므로 옆으로 미는 동작은 어느 쪽으로 밀든 음을 <b>올리기만</b> 합니다. 그래서 록 비브라토는 원래 음에서 위로만 흔들립니다.</p>
+    <div class="formula">$$c_{\text{클래식}}(t) = \frac{W}{2}\sin(2\pi r t), \qquad c_{\text{록}}(t) = \frac{W}{2}\bigl(1-\cos 2\pi r t\bigr), \qquad \bar c_{\text{록}} = \frac{W}{2}$$
+      <div class="where">\(c(t)\): 원래 음에서 벗어난 정도(센트), \(r\): 속도(Hz), \(W\): 위아래 끝 사이의 폭(센트). 귀는 빠르게 흔들리는 음의 높이를 대체로 흔들림의 <b>평균</b> 근처로 듣는다. 록 비브라토의 평균은 \(W/2\)만큼 높으므로, 폭 100센트로 흔들면 음 전체가 약 반음의 절반(50센트)만큼 높게 들리기 쉽다. 그래서 넓은 록 비브라토는 '내려올 때 원래 음에 정확히 착지'하는 것이 핵심이다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 230" role="img" aria-label="클래식 비브라토와 록 비브라토의 음높이 곡선"><g id="tq-fig-vib"></g></svg>
+      <figcaption><b>그림 11-4.</b> 폭 \(W = 60\)센트, 속도 5.5 Hz의 두 비브라토. 클래식(위)은 원래 음(0)을 중심으로, 록(아래)은 원래 음에서 위로만 흔들려 평균(점선)이 +30센트다. 두 곡선 모두 실제 연주처럼 처음 0.2초 동안 서서히 폭이 커진다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-tq-vibrato">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>비브라토 조각실: 속도·폭·모양을 실시간으로</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tq-vb-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모양</span><div class="seg" id="tq-vb-style"><button data-value="none">없음</button><button data-value="classic" class="on">클래식(양쪽)</button><button data-value="rock">록(위로)</button></div></div>
+          <label class="ctrl"><span>속도 r <output id="tq-vb-rate-out"></output></span><input type="range" id="tq-vb-rate" min="1.5" max="10" step="0.1" value="5.5"></label>
+          <label class="ctrl"><span>폭 W <output id="tq-vb-w-out"></output></span><input type="range" id="tq-vb-w" min="5" max="200" value="40"></label>
+          <label class="ctrl"><span>시작 지연 <output id="tq-vb-del-out"></output></span><input type="range" id="tq-vb-del" min="0" max="1.2" step="0.05" value="0.3"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-vb-play">▶ 피킹</button><button class="btn" id="tq-vb-stop">■ 정지</button></div>
+          <div class="tq-demo"><button class="btn" data-vb="classic,5.5,30">클래식 기타</button><button class="btn" data-vb="rock,5,100">넓은 블루스</button><button class="btn" data-vb="rock,8.5,30">빠르고 좁게</button><button class="btn" data-vb="classic,2.5,120">느리고 넓게(멀미)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">주기</span><span class="v" id="tq-vb-o-per">—</span></div>
+        <div class="stat"><span class="k">범위</span><span class="v" id="tq-vb-o-rng">—</span></div>
+        <div class="stat"><span class="k">평균 음높이</span><span class="v" id="tq-vb-o-mean">—</span></div>
+      </div>
+      <div class="sim-note">2번 줄 10프렛 A4(440 Hz)를 길게 울립니다. 소리가 나는 동안 슬라이더를 움직이면 비브라토가 즉시 바뀝니다. 그래프: 최근 2.5초의 음높이(센트), 점선은 평균. 해볼 것: 같은 폭에서 '클래식'과 '록'을 번갈아 들으며 록이 더 높게 들리는지, 속도 3 Hz 이하와 8 Hz 이상이 어떤 느낌인지 비교해 보세요. 모델: 재생 속도에 저주파 발진기(LFO)를 더하는 방식으로, 센트를 재생 속도 비율로 바꿀 때 선형 근사(100센트에서 오차 1.6센트 미만)를 씁니다. 손의 불규칙성은 넣지 않았습니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 비브라토</strong> ① 메트로놈 60에 맞춰 8분음표마다 한 번(2 Hz) 밀었다 놓는 '느린 벤딩 비브라토'부터 시작합니다. 위 끝은 반음, 아래 끝은 반드시 원래 음. ② 익숙해지면 셋잇단(3 Hz), 16분음표(4 Hz)로 올리고, 최종적으로 박과 무관하게 5–6 Hz를 유지합니다. ③ 록 비브라토는 손가락이 아니라 손목 회전으로, 엄지를 넥 위에 걸고 문고리를 돌리듯. 클래식 비브라토는 엄지를 넥 뒤에서 살짝 띄우고 팔뚝 전체를 줄 방향으로 흔듭니다. ④ 음을 친 직후가 아니라 0.2–0.5초 뒤에 비브라토를 시작하면 더 노래처럼 들립니다(위 '시작 지연').</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="harmonics">
+    <h2>자연 하모닉스: 줄의 마디를 짚다</h2>
+    <p>양 끝이 고정된 줄은 기본 진동(1번 모드)과 함께 2, 3, 4…번 모드로 동시에 떱니다. \(n\)번 모드는 줄을 \(n\)개의 고리로 나누어 진동하고, 고리 사이에 움직이지 않는 <b>마디</b><span class="en">(Node)</span>가 \(n-1\)개 생깁니다. 마디 하나를 손가락으로 아주 가볍게 건드린 채 줄을 뜯으면, 그 점에서 움직여야 하는 모드는 모두 죽고 <b>그 점이 마디인 모드만</b> 살아남습니다. 이렇게 얻는 맑고 종 같은 소리가 자연 하모닉스<span class="en">(Natural harmonics)</span>입니다.</p>
+    <div class="formula">$$x_{k} = \frac{k}{n}L \;(k = 1,\dots,n-1), \qquad \text{프렛 환산 } N = -12\log_2\!\left(1-\frac{k}{n}\right), \qquad f = n f_0$$
+      <div class="where">줄 길이의 \(k/n\) 지점(\(k/n\)이 기약분수)을 짚으면 \(n\)번 배음과 그 배수 배음들이 남아 음높이는 \(n f_0\)이 된다. 12프렛은 \(1/2\), 7·19프렛은 \(1/3\)·\(2/3\), 5·24프렛은 \(1/4\)·\(3/4\) 지점이다. \(1/5\) 지점은 \(N = 3.86\), 즉 4프렛 와이어보다 4 mm쯤 너트 쪽이다(2/5 → 8.84, 3/5 → 15.86).</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 330" role="img" aria-label="하모닉스 모드와 프렛 위치"><g id="tq-fig-harm"></g></svg>
+      <figcaption><b>그림 11-5.</b> 개방현의 모드 2–5와 마디 위치(프렛 환산). 원이 마디이며, 그 위를 가볍게 짚으면 해당 모드(와 그 배수)만 남는다. 같은 음정을 내는 마디가 여럿이다: 3번 배음은 7프렛과 19프렛 어느 쪽에서도 난다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>배음 \(n\)</th><th>마디 위치(프렛)</th><th>개방현 대비 음정</th><th>6번 줄(E2 82.41 Hz)에서</th><th>평균율 대비</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>12</td><td>1옥타브</td><td>E3 164.8 Hz</td><td>0 ¢</td></tr>
+        <tr><td>3</td><td>7.02, 19.02</td><td>1옥타브 + 완전5도</td><td>B3 247.2 Hz</td><td>+2.0 ¢</td></tr>
+        <tr><td>4</td><td>4.98, 24</td><td>2옥타브</td><td>E4 329.6 Hz</td><td>0 ¢</td></tr>
+        <tr><td>5</td><td>3.86, 8.84, 15.86</td><td>2옥타브 + 장3도</td><td>G♯4 412.1 Hz</td><td>−13.7 ¢</td></tr>
+        <tr><td>6</td><td>3.16 (31.0)</td><td>2옥타브 + 완전5도</td><td>B4 494.5 Hz</td><td>+2.0 ¢</td></tr>
+      </tbody>
+    </table></div>
+    <p>표의 마지막 열이 중요한 이유가 있습니다. 하모닉스는 정수 배음이므로 순정 음정이고, 평균율과 미세하게 다릅니다. 5번 배음(장3도)은 평균율보다 13.7센트 낮아서, 4프렛 부근 하모닉스로 화음을 만들면 독특하게 '순한' 장3도가 들립니다. 2장의 하모닉스 튜닝(5프렛·7프렛 비교)이 정확하지 않은 이유도 같습니다. 7프렛 하모닉스는 순정 완전5도라 평균율 5도보다 2센트 넓어서, 그 방법으로 줄을 차례로 맞추면 오차가 쌓입니다.</p>
+    <p>소리를 잘 내려면 세 가지가 필요합니다. 손가락은 프렛 칸 가운데가 아니라 <b>프렛 와이어 바로 위</b>(4프렛 부근은 와이어보다 조금 너트 쪽)를 줄이 지판에 닿지 않을 만큼만 건드리고, 오른손은 <b>브리지 가까이</b>를 뜯고(뜯는 점이 남길 모드의 마디이면 그 모드가 들뜨지 않으므로), 뜯은 직후 왼손을 떼어 높은 배음들도 자유롭게 울리게 합니다.</p>
+
+    <div class="sim" id="sim-tq-harmonics">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하모닉스 탐험: 마디를 짚어 배음 꺼내기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <div id="tq-hm-fb"></div>
+            <canvas id="tq-hm-cv"></canvas>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모드</span><div class="seg" id="tq-hm-mode"><button data-value="nat" class="on">자연 하모닉스</button><button data-value="fret">보통 운지(비교)</button><button data-value="art">인공 하모닉스</button></div></div>
+          <div class="ctrl"><span>인공: 터치 간격</span><div class="seg" id="tq-hm-art"><button data-value="12" class="on">+12 (×2)</button><button data-value="7">+7 (×3)</button><button data-value="5">+5 (×4)</button></div></div>
+          <div class="ctrl"><span>음색</span><div class="seg" id="tq-hm-tone"><button data-value="steel" class="on">통기타</button><button data-value="nylon">클래식</button><button data-value="electric">일렉</button></div></div>
+          <div class="btn-row"><button class="btn" id="tq-hm-chord">12프렛 하모닉스 화음</button><button class="btn" id="tq-hm-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">배음 n</span><span class="v" id="tq-hm-o-n">—</span></div>
+        <div class="stat"><span class="k">소리</span><span class="v" id="tq-hm-o-f">—</span></div>
+        <div class="stat"><span class="k">짚은 위치</span><span class="v" id="tq-hm-o-x">—</span></div>
+      </div>
+      <div class="sim-note">지판을 클릭하세요. 자연 하모닉스 모드에서 숫자 점(배음 번호)이 마디 자리이고, 보조색 점은 프렛 와이어와 몇 mm 어긋난 근사 자리입니다. 줄을 클릭하면 그 줄로 바뀌고, 마디가 아닌 칸을 짚으면 거의 모든 모드가 죽어 '퍽' 하는 소리만 납니다. 인공 하모닉스 모드에서는 0–7프렛을 클릭하면 그 프렛을 누르고 터치 간격만큼 위를 오른손으로 짚은 소리가 납니다. 아래 그래프: 남은 모드의 정상파(슬로 모션)와 짚은 점(▼). 모델: 마디가 맞으면 \(nf_0\)의 카플러스–스트롱 음(밝기 낮춤)으로, 마디에서 어긋나면 짧은 뮤트 음으로 근사합니다. 실제로는 짚는 위치가 1–2 mm 어긋나도 약하게 소리가 납니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="artificial">
+    <h2>인공 하모닉스와 핀치 하모닉스</h2>
+    <p>자연 하모닉스는 개방현의 배음만 낼 수 있습니다. 하지만 프렛을 누르면 진동하는 줄의 길이가 \(L_f = L\cdot2^{-f/12}\)인 새 줄이 생기고, 그 줄의 마디는 누른 프렛에서 다시 \(1/2, 1/3, 1/4\)… 지점에 있습니다. 프렛 간격은 길이에 비례해 줄어드므로 이 마디들은 정확히 <b>누른 프렛 + 12, +7(과 +19), +5</b>프렛 위에 옵니다. 이 원리로 아무 음이나 하모닉스로 내는 것이 <b>인공 하모닉스</b><span class="en">(Artificial harmonics)</span>입니다.</p>
+    <div class="formula">$$x_{\text{터치}} = d_f + \frac{L_f}{n} = d_{f + 12\log_2\frac{n}{n-1}}, \qquad n=2 \Rightarrow f+12, \quad n=3 \Rightarrow f+7.02, \quad n=4 \Rightarrow f+4.98$$
+      <div class="where">\(d_f = L(1-2^{-f/12})\): 너트에서 \(f\)프렛까지 거리. 누른 점을 새 너트로 보면 1절의 프렛 공식이 그대로 반복된다. 카포를 끼운 기타의 하모닉스 자리가 카포 프렛만큼 그대로 올라가는 것과 같은 이치다.</div>
+    </div>
+    <div class="tq-fig-row">
+      <figure class="diagram">
+        <svg viewBox="0 0 320 210" role="img" aria-label="클래식 기타 인공 하모닉스 손 모양">
+          <line x1="16" y1="110" x2="304" y2="110" class="s-line"/>
+          <rect x="10" y="90" width="6" height="40" class="f-surface"/><rect x="304" y="90" width="6" height="40" class="f-surface"/>
+          <g class="s-axis"><line x1="40" y1="95" x2="40" y2="125"/><line x1="66" y1="95" x2="66" y2="125"/><line x1="90" y1="95" x2="90" y2="125"/><line x1="112" y1="95" x2="112" y2="125"/><line x1="133" y1="95" x2="133" y2="125"/><line x1="152" y1="95" x2="152" y2="125"/><line x1="170" y1="95" x2="170" y2="125"/><line x1="186" y1="95" x2="186" y2="125"/></g>
+          <circle cx="78" cy="110" r="8" class="f-acc"/><text x="78" y="82" text-anchor="middle" class="t">왼손: f프렛</text>
+          <path d="M186 60 L186 102" class="s-acc"/><path d="M186 104 l-5 -9 h10 z" class="f-acc"/>
+          <text x="186" y="52" text-anchor="middle" class="t">오른손 i: f+12 위 터치</text>
+          <circle cx="250" cy="110" r="6" class="f-elev"/><text x="250" y="146" text-anchor="middle" class="t">a 또는 p로 뜯기</text>
+          <path d="M78 165 H186" class="s-axis"/><text x="132" y="182" text-anchor="middle" class="t-mono">L_f / 2</text>
+          <path d="M186 165 H304" class="s-axis"/><text x="245" y="182" text-anchor="middle" class="t-mono">L_f / 2</text>
+        </svg>
+        <figcaption><b>그림 11-6.</b> 인공 하모닉스(클래식 기법). 왼손으로 누른 프렛에서 12프렛 위를 오른손 검지(i)로 살짝 짚고, 약지(a)나 엄지(p)로 뜯는다. 누른 음의 한 옥타브 위가 난다.</figcaption>
+      </figure>
+      <figure class="diagram">
+        <svg viewBox="0 0 320 210" role="img" aria-label="핀치 하모닉스">
+          <line x1="16" y1="100" x2="304" y2="100" class="s-line"/>
+          <rect x="298" y="80" width="8" height="40" class="f-surface"/><text x="302" y="138" text-anchor="middle" class="t-dim">새들</text>
+          <path d="M120 100 Q155 70 190 100 Q225 130 260 100 Q281 82 302 100" class="s-acc"/>
+          <circle cx="190" cy="100" r="4" class="f-elev"/><circle cx="260" cy="100" r="4" class="f-elev"/>
+          <path d="M248 56 l14 30 l10 -6 z" class="f-acc-soft"/><text x="236" y="48" text-anchor="middle" class="t">픽 + 엄지 옆면</text>
+          <text x="160" y="160" text-anchor="middle" class="t-mono">새들에서 L_f/n 지점(마디)</text>
+          <text x="160" y="182" text-anchor="middle" class="t-dim">픽이 뜯는 순간 엄지가 마디를 건드린다</text>
+        </svg>
+        <figcaption><b>그림 11-7.</b> 핀치 하모닉스. 픽을 짧게 쥐어 줄을 뜯는 순간 엄지 옆면이 줄을 스치게 하면, 그 점이 마디인 높은 배음만 남아 '끼익' 하는 고음이 된다. 마디는 새들에서 \(L_f/n\) 지점이라 누른 프렛에 따라 자리가 바뀐다.</figcaption>
+      </figure>
+    </div>
+    <p><b>탭 하모닉스</b>는 오른손 손가락으로 누른 프렛의 12프렛 위 와이어를 탁 때리고 바로 떼는 방식이고, <b>핀치 하모닉스</b><span class="en">(Pinch harmonics)</span>는 피킹과 터치를 한 동작으로 합친 것입니다. 일렉 기타에서 디스토션을 걸면 높은 배음이 크게 증폭되어 핀치 하모닉스가 쉽게 들리지만, 원리는 같습니다. 마디 위치는 새들에서 \(L_f/n\)이므로, 같은 오른손 자리에서도 누른 프렛을 바꾸면 다른 배음이 걸리거나 아예 안 걸립니다. 잘 안 될 때는 오른손을 픽업 사이에서 몇 mm씩 옮겨 가며 '걸리는 자리'를 찾는 것이 정석입니다. 앞 시뮬레이터의 '인공 하모닉스' 모드로 누른 프렛과 터치 간격의 관계를 확인해 보세요.</p>
+    <div class="callout tip"><strong>연습법: 하모닉스</strong> ① 6번 줄부터 1번 줄까지 12프렛 하모닉스를 차례로 → 7프렛 → 5프렛. 손가락은 와이어 바로 위, 누르는 힘은 '먼지를 털듯'. ② 소리가 안 나면 오른손을 브리지 쪽으로 옮겨 보세요. ③ 4프렛·9프렛 하모닉스(5번 배음)는 와이어보다 너트 쪽으로 몇 mm 옮기면 잘 납니다. ④ 인공 하모닉스는 개방현 12→ 1프렛을 누르고 13프렛 위 → 2프렛/14프렛…으로 반음씩 올려 음계를 만들어 보세요. ⑤ 핀치 하모닉스는 픽 끝을 1–2 mm만 내밀고, 엄지가 줄에 '스치고 지나가게'. 디스토션을 약간 건 상태에서 3번 줄 7프렛(D)부터 시작하면 쉽습니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="mute">
+    <h2>팜 뮤트와 데드 노트</h2>
+    <p>록과 메탈의 '둥둥둥' 하는 단단한 리프, 펑크의 '칙' 하는 타격음은 소리를 <b>일부러 죽여서</b> 만듭니다. <b>팜 뮤트</b><span class="en">(Palm mute, P.M.)</span>는 피킹하는 손의 손날(새끼손가락 쪽 손바닥)을 새들 바로 앞 줄 위에 살짝 얹고 치는 기술입니다. 소리는 나되 짧고, 어둡고, 단단해집니다. 왜 손날을 새들 근처에 두어야 할까요? 줄의 끝(새들)은 모든 모드의 마디이므로 끝 가까이에서는 줄이 거의 움직이지 않습니다. 새들에서 \(x\) 떨어진 점에서 \(n\)번 모드의 진폭은 \(\sin(n\pi x/L) \approx n\pi x/L\)이고, 손날이 빼앗는 에너지(마찰 손실)는 그 점의 움직임의 제곱에 비례합니다.</p>
+    <div class="formula">$$\gamma_n \;\propto\; R\left(\frac{n\pi x}{L}\right)^{2} \qquad (x \ll L/n)$$
+      <div class="where">\(\gamma_n\): \(n\)번 모드의 감쇠율(클수록 빨리 죽음), \(R\): 손날의 저항(누르는 힘·살의 부드러움), \(x\): 새들에서 손날까지 거리. 손날을 새들에서 멀리 둘수록(\(x\uparrow\)) 모든 모드가 \(x^2\)으로 더 세게 죽고, 같은 위치에서도 높은 모드는 \(n^2\)배 더 빨리 죽는다. 그래서 팜 뮤트 소리는 짧아질 뿐 아니라 <b>어두워진다</b>. 손날을 브리지에서 2–3 cm 앞으로 옮기면 음높이마저 흐려진 '퍽' 소리가 된다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 220" role="img" aria-label="팜 뮤트 위치와 모드 진폭"><g id="tq-fig-pm"></g></svg>
+      <figcaption><b>그림 11-8.</b> 새들 근처의 모드 모양(모드 1, 3, 6). 새들에서 거리 \(x\)인 손날 위치에서 높은 모드일수록 진폭(세로선)이 크다. 손날이 거기서 에너지를 빼앗으므로 높은 모드가 먼저 죽는다. 왼쪽으로(새들에서 멀리) 갈수록 뮤트가 무거워진다.</figcaption>
+    </figure>
+    <p><b>데드 노트</b><span class="en">(Dead note, ghost note)</span>는 왼손을 줄에 얹기만 하고 누르지 않은 채 치는 소리입니다. 모든 모드가 거의 즉시 죽어 음높이 없는 '칙' 소리만 남습니다. TAB에서는 숫자 대신 <code>x</code>로 적습니다. 데드 노트는 리듬의 빈칸을 채우는 타악기 역할을 하며, 리듬 기타의 '칙'(6장)과 같은 원리입니다. 왼손 힘을 순간적으로 빼면 데드 노트, 다시 누르면 음 — 이 스위치를 리듬에 맞춰 켜고 끄는 것이 펑크 기타의 기본입니다.</p>
+
+    <div class="sim" id="sim-tq-mute">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>팜 뮤트 리프 머신</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <div id="tq-pm-tab"></div>
+            <canvas id="tq-pm-cv"></canvas>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>리프</span><div class="seg" id="tq-pm-riff"><button data-value="chug" class="on">8분 척</button><button data-value="gallop">갤럽</button><button data-value="dead">데드 노트</button></div></div>
+          <label class="ctrl"><span>손날 위치(새들에서) <output id="tq-pm-x-out"></output></span><input type="range" id="tq-pm-x" min="0" max="30" value="12"></label>
+          <label class="check"><input type="checkbox" id="tq-pm-off"> P.M. 표시 무시(모두 개방)</label>
+          <label class="ctrl"><span>템포 <output id="tq-pm-bpm-out"></output></span><input type="range" id="tq-pm-bpm" min="70" max="180" value="120"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-pm-play">▶ 리프</button></div>
+          <div class="tq-demo"><button class="btn" data-one="open">개방 E</button><button class="btn" data-one="pm">뮤트 E</button><button class="btn" data-one="dead">데드 노트</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기본음 감쇠 시간 τ</span><span class="v" id="tq-pm-o-tau">—</span></div>
+        <div class="stat"><span class="k">−40 dB까지</span><span class="v" id="tq-pm-o-t40">—</span></div>
+        <div class="stat"><span class="k">밝기(상대)</span><span class="v" id="tq-pm-o-br">—</span></div>
+      </div>
+      <div class="sim-note">손날 위치 0 mm는 새들 위에 겨우 닿은 가장 가벼운 뮤트, 30 mm는 음높이가 흐려지는 무거운 뮤트입니다. 리프를 재생하면서 슬라이더를 움직여 '단단한 척'이 나는 자리(대략 8–15 mm)를 찾아보세요. 그래프: 6번 줄 E2 기본음의 진폭 감쇠(dB). 회색은 개방, 강조색은 지금 뮤트 위치. 리프는 모두 이 책을 위해 만든 연습용입니다. 모델: 뮤트는 카플러스–스트롱 루프 감쇠를 \(1-(0.0012 + 8.2\times10^{-5}x^2)\)로, 밝기를 \(0.6-0.012x\)로 바꾸고 2.2 kHz 저역 통과 필터를 통과시키는 근사(위 식의 \(x^2\) 의존성을 반영). 데드 노트는 짧은 잡음 타격음입니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 팜 뮤트</strong> ① 손날을 새들 위에 올려 뮤트가 거의 안 되는 자리에서 시작해, 6번 줄 개방을 8분음표로 치면서 1 mm씩 앞으로 옮겨 '단단하지만 음높이가 들리는' 자리를 찾습니다. 그 자리를 손이 기억하게 하는 것이 목표입니다. ② 손목을 바디에 고정하지 말고, 손날이 줄 위에서 가볍게 '떠 있는' 느낌으로. 눌러 버리면 음이 플랫됩니다(줄이 새들 쪽으로 눌려 장력이 변함). ③ 뮤트 음과 개방 악센트를 번갈아 치는 리프(위 '8분 척')를 템포 90 → 140으로. ④ 데드 노트는 왼손 손가락 서너 개를 줄에 평평하게 얹고, 소리가 '칙' 하나만 날 때까지 힘을 조절합니다. 줄이 프렛에 닿으면 음이 섞입니다.</div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="phrase">
+    <h2>모아서 연주하기: 리드 프레이즈</h2>
+    <p>각 기술은 단어이고, 리드 연주는 문장입니다. 좋은 솔로 프레이즈는 대개 한 호흡 안에서 <b>질감이 바뀝니다</b>. 피킹으로 또렷하게 시작해 레가토로 흘리고, 벤딩으로 긴장을 쌓아 릴리스로 풀고, 긴 음에는 비브라토로 숨을 넣고, 짧은 뮤트 음으로 리듬을 주고, 하모닉스로 공간을 엽니다. 아래 네 마디는 A 마이너 펜타토닉(10장)으로 이 장의 기술을 모두 담아 만든 연습곡입니다.</p>
+    <ul>
+      <li><b>1마디</b>: 피킹 두 음 → 1번 줄 해머온·풀오프 → 2번 줄 8프렛 G를 온음 벤딩해 근음 A로 → 프리벤드한 A를 G로 릴리스.</li>
+      <li><b>2마디</b>: 하강하는 펜타토닉에 3번 줄 해머온, 2번 줄 5프렛 E에서 비브라토로 두 박 끌기.</li>
+      <li><b>3마디</b>: 저음으로 내려와 팜 뮤트와 데드 노트로 리듬, 5번 줄 슬라이드로 E에 도착.</li>
+      <li><b>4마디</b>: 12프렛 자연 하모닉스 세 줄(G·B·E)과 4번 줄 7프렛 하모닉스(A), 4번 줄 7프렛 A에 비브라토로 마무리.</li>
+    </ul>
+
+    <div class="sim" id="sim-tq-phrase">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>종합 프레이즈: 모든 기술을 한 번에</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-stack">
+            <div id="tq-ph-fb"></div>
+            <div id="tq-ph-tab"></div>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="tq-ph-bpm-out"></output></span><input type="range" id="tq-ph-bpm" min="40" max="120" value="72"></label>
+          <div class="ctrl"><span>음색</span><div class="seg" id="tq-ph-tone"><button data-value="electric" class="on">일렉(클린)</button><button data-value="steel">통기타</button></div></div>
+          <label class="check"><input type="checkbox" id="tq-ph-loop"> 반복</label>
+          <div class="btn-row"><button class="btn primary" id="tq-ph-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="tq-ph-o-now">—</span></div>
+        <div class="stat"><span class="k">기술</span><span class="v" id="tq-ph-o-tech">—</span></div>
+      </div>
+      <div class="sim-note">이 책을 위해 만든 창작 프레이즈입니다. TAB 기호: H 해머온, P 풀오프, / 슬라이드, 곡선+full 벤딩, ~~ 비브라토, P.M. 팜 뮤트, × 데드 노트, &lt;12&gt; 자연 하모닉스. 템포 50 정도로 느리게 들으며 TAB을 따라 읽고, 실제 기타로 한 마디씩 끊어 연습한 다음 이어 붙이세요. 재생은 GuitarBook 공용 TAB 플레이어(GT.playTab)로, 레가토 음은 여린 재피킹, 벤딩은 재생 속도 변화, 하모닉스는 배음 주파수로 근사합니다.</div>
+    </div>
+
+    <div class="callout tip"><strong>연습법: 프레이즈를 몸에 넣기</strong> ① 한 마디씩, 템포 50에서 4번 연속 틀리지 않으면 다음 마디로. ② 마디 경계를 이어 붙일 때(1→2, 2→3…) 경계 앞뒤 두 박만 따로 반복합니다. 실수는 대부분 경계에서 납니다. ③ 템포를 5%씩 올리되(50 → 53 → 55 → 58 …), 벤딩 음정이 흐트러지면 한 단계 내립니다. ④ 마지막으로 녹음해서 들어 보세요. 벤딩이 목표에 닿는지, 비브라토가 원래 음으로 돌아오는지, 뮤트 음과 개방 음의 크기 차이가 의도대로인지 귀로 확인합니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>해머온·풀오프는 울리고 있는 줄의 진동 길이를 왼손으로 바꿔 음을 잇는다. 음높이 비 \(2^{\Delta n/12}\), 피킹 어택이 없어 부드럽게 이어진다. 풀오프는 왼손으로 줄을 뜯는 동작이다.</li>
+      <li>프렛 슬라이드는 와이어를 넘을 때마다 반음씩 오르는 계단(글리산도)이고, 보틀넥은 \(f_0L/(L-x)\)로 연속(포르타멘토)이다.</li>
+      <li>벤딩은 장력을 올린다. \(\Delta T/T = 2^{c/600}-1\): 반음 12.2%, 온음 26.0%. .010 1번 줄 온음 = 1.21 mm 늘이기 ≈ 12프렛에서 옆으로 약 20 mm. 민 줄의 필요 변형은 굵기와 무관하다.</li>
+      <li>비브라토는 속도(약 5–7 Hz)와 폭(센트)으로 정해진다. 줄 방향 클래식 비브라토는 위아래로, 옆으로 미는 록 비브라토는 위로만 흔들려 평균이 \(W/2\) 높다.</li>
+      <li>줄 길이의 \(k/n\) 지점은 \(n\)번 배음의 마디: 12프렛(×2), 7·19(×3), 5·24(×4), 3.86·8.84·15.86(×5). 5번 배음은 평균율보다 13.7센트 낮다.</li>
+      <li>인공 하모닉스는 누른 프렛 +12/+7/+5 위를 짚고, 핀치 하모닉스는 새들에서 \(L_f/n\) 지점을 엄지로 스친다.</li>
+      <li>팜 뮤트의 손실은 \(\propto (n x)^2\): 손날이 새들에서 멀수록 무겁고, 높은 모드가 먼저 죽어 어두워진다. 데드 노트는 음높이 없는 타격이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>3번 줄 5프렛을 피킹한 뒤 7프렛을 해머온했다. 7프렛 음이 피킹 없이 나는 가장 근본적인 이유는?</p><div class="opts">
+        <button class="opt">해머온의 충격이 줄을 새로 뜯기 때문에 모든 에너지가 새로 생긴다</button><button class="opt" data-correct>줄은 이미 떨고 있고, 손가락이 진동 길이를 줄여 그 진동이 더 짧은 길이의 모드로 이어진다</button><button class="opt">픽업이 손가락 소리를 증폭하기 때문에</button><button class="opt">장력이 커져서 음이 올라간다</button>
+      </div><div class="quiz-exp">진동 에너지는 남아 있고 경계 조건(진동 길이)만 바뀐다. 충격이 약간의 에너지를 보태지만 주된 소리는 이어지는 진동이다. 그래서 레가토 음은 피킹 음보다 어택이 약하고 부드럽다.</div></div>
+      <div class="quiz-q"><p>온음 벤딩에 필요한 장력 증가는 반음 벤딩의 몇 배인가?</p><div class="opts">
+        <button class="opt">정확히 2배</button><button class="opt" data-correct>약 2.1배 (26.0% ÷ 12.2%)</button><button class="opt">√2배</button><button class="opt">4배</button>
+      </div><div class="quiz-exp">\(\Delta T/T = 2^{c/600}-1\). 반음 \(2^{1/6}-1 = 0.122\), 온음 \(2^{1/3}-1 = 0.260\). 장력은 주파수의 제곱이므로 음정이 두 배가 되면 필요한 장력 증가는 두 배보다 조금 더 크다.</div></div>
+      <div class="quiz-q"><p>지름이 다른 두 민 강철 줄(.009와 .011)을 같은 음 E4로 맞췄다. 12프렛에서 온음 벤딩하려면 옆으로 밀어야 하는 거리는?</p><div class="opts">
+        <button class="opt">굵은 줄이 더 많이 밀어야 한다</button><button class="opt">가는 줄이 더 많이 밀어야 한다</button><button class="opt" data-correct>거의 같다(필요한 힘만 다르다)</button><button class="opt">굵기의 제곱에 비례한다</button>
+      </div><div class="quiz-exp">민 줄의 응력 \(\sigma = \rho(2Lf)^2\)과 변형률은 지름과 무관하다. 같은 음정에 필요한 변형률 증가가 같으므로 늘어날 길이와 밀 거리도 같다. 다만 장력이 굵기의 제곱에 비례하므로 미는 힘은 굵은 줄이 크다.</div></div>
+      <div class="quiz-q"><p>6번 줄(E2) 5프렛 위 자연 하모닉스와 같은 음높이는?</p><div class="opts">
+        <button class="opt">6번 줄 5프렛(A2)</button><button class="opt">5번 줄 개방(A2)</button><button class="opt" data-correct>1번 줄 개방(E4)</button><button class="opt">3번 줄 개방(G3)</button>
+      </div><div class="quiz-exp">5프렛은 줄 길이의 1/4 지점이므로 4번 배음, \(4 \times 82.41 = 329.6\) Hz = E4로 1번 줄 개방현과 같다(두 옥타브 위). 하모닉스 음은 누른 음(A2)과 무관하다.</div></div>
+      <div class="quiz-q"><p>폭 80센트의 록(위로만) 비브라토와 같은 폭의 클래식(양쪽) 비브라토를 비교하면, 평균 음높이는?</p><div class="opts">
+        <button class="opt">둘 다 원래 음과 같다</button><button class="opt" data-correct>록 비브라토가 약 40센트 높다</button><button class="opt">클래식 비브라토가 40센트 낮다</button><button class="opt">록 비브라토가 80센트 높다</button>
+      </div><div class="quiz-exp">록은 \(0 \to W\) 사이를 오가 평균이 \(W/2 = 40\)센트, 클래식은 \(\pm W/2\)라 평균 0이다. 옆으로 미는 동작은 \(\Delta L \propto \delta^2\)이라 음을 올리기만 하기 때문이다.</div></div>
+      <div class="quiz-q"><p>팜 뮤트를 할 때 손날을 새들에서 더 멀리(넥 쪽으로) 옮기면?</p><div class="opts">
+        <button class="opt">뮤트가 가벼워지고 소리가 밝아진다</button><button class="opt" data-correct>뮤트가 무거워지고, 특히 높은 배음이 더 빨리 죽어 어두워진다</button><button class="opt">음이 한 옥타브 올라간다</button><button class="opt">아무 변화가 없다</button>
+      </div><div class="quiz-exp">새들에서 \(x\)인 점의 \(n\)번 모드 진폭은 \(\approx n\pi x/L\)이고 손실은 그 제곱 \(\propto n^2x^2\)이다. \(x\)가 커지면 모든 모드가 더 죽고, 높은 모드는 \(n^2\)배로 더 세게 죽는다.</div></div>
+      <div class="quiz-q"><p>3번 줄 2프렛(A3)을 누르고 인공 하모닉스로 한 옥타브 위 A4를 내려면 오른손으로 어디를 짚어야 하나?</p><div class="opts">
+        <button class="opt">12프렛 위</button><button class="opt" data-correct>14프렛 위</button><button class="opt">9프렛 위</button><button class="opt">7프렛 위</button>
+      </div><div class="quiz-exp">누른 프렛이 새 너트가 되므로 옥타브 마디(진동 길이의 1/2)는 2 + 12 = 14프렛 위다. 7프렛 위를 짚으면 2 + 5 = 7, 즉 4번 배음(두 옥타브 위 A5)이 난다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ===================================================================== 공용 도우미 */
+const TQX = {
+  mono: () => (getComputedStyle(document.documentElement).getPropertyValue("--mono").trim() || "monospace"),
+  font: () => (getComputedStyle(document.documentElement).getPropertyValue("--font").trim() || "sans-serif"),
+  /** 길게 울리는 기타 음(카플러스–스트롱): 벤딩·비브라토용 */
+  sus(midi, o = {}) {
+    return MB.play(midi, { inst: "guitar", dur: null, vel: o.vel != null ? o.vel : 0.8, when: o.when,
+      gt: { tone: o.tone || "electric", dur: o.dur || 6, decay: o.decay != null ? o.decay : 0.9993, bright: o.bright, pos: o.pos } });
+  },
+  name: (m) => MB.noteName(m),
+  centsName(midiF) { const r = Math.round(midiF), c = Math.round((midiF - r) * 100); return MB.noteName(r) + (c ? ` <small>${c > 0 ? "+" : ""}${c}¢</small>` : ""); },
+  TECH: { h: "해머온", p: "풀오프", "/": "슬라이드 ↑", "\\": "슬라이드 ↓", b: "벤딩", r: "프리벤드 & 릴리스", "~": "비브라토", x: "데드 노트", harm: "자연 하모닉스", pm: "팜 뮤트" },
+};
+
+/* ---------------------------------------------------------------- 그림 11-1 */
+(function () {
+  const g = document.getElementById("tq-fig-hammer");
+  const L = 560, x0 = 40, X = (f) => x0 + L * (1 - Math.pow(2, -f / 12)) * (L / L);
+  let s = "";
+  [[5, 60, "해머온 전: 5프렛을 누르고 피킹", false], [7, 175, "해머온 후: 7프렛을 내리침 → 진동 길이 ×0.891", true]].forEach(([f, y, lab, after]) => {
+    s += `<line x1="${x0}" y1="${y}" x2="${x0 + L}" y2="${y}" class="s-axis"/>`;
+    for (let k = 1; k <= 12; k++) s += `<line x1="${X(k).toFixed(1)}" y1="${y - 10}" x2="${X(k).toFixed(1)}" y2="${y + 10}" class="s-line" opacity="0.45"/>`;
+    s += `<rect x="${x0 - 6}" y="${y - 14}" width="6" height="28" class="f-surface"/><rect x="${x0 + L}" y="${y - 14}" width="6" height="28" class="f-surface"/>`;
+    const a = X(f) - 4, b = x0 + L, A = 22;
+    let p1 = "", p2 = "";
+    for (let i = 0; i <= 80; i++) { const x = a + ((b - a) * i) / 80, v = Math.sin((Math.PI * i) / 80); p1 += (i ? "L" : "M") + x.toFixed(1) + " " + (y - A * v).toFixed(1); p2 += (i ? "L" : "M") + x.toFixed(1) + " " + (y + A * v).toFixed(1); }
+    s += `<path d="${p1}" class="s-acc"/><path d="${p2}" class="s-acc" stroke-dasharray="4 4" opacity="0.6"/>`;
+    if (after) { s += `<circle cx="${X(5) - 6}" cy="${y}" r="7" class="f-elev"/><text x="${X(5) - 6}" y="${y - 14}" text-anchor="middle" class="t-mono">1</text>`; }
+    s += `<circle cx="${a}" cy="${y}" r="8" class="f-acc"/><text x="${a}" y="${y - 16}" text-anchor="middle" class="t-mono">${after ? "4 ↓" : "1"}</text>`;
+    s += `<text x="${x0}" y="${y - 30}" class="t">${lab}</text>`;
+    s += `<text x="${(a + b) / 2}" y="${y + 40}" text-anchor="middle" class="t-dim">진동 길이 L·2^(−${f}/12) = ${(648 * Math.pow(2, -f / 12)).toFixed(0)} mm → ${(329.63 * 0 + 196 * Math.pow(2, f / 12)).toFixed(1)} Hz (3번 줄)</text>`;
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-2 */
+(function () {
+  const g = document.getElementById("tq-fig-slide");
+  const fa = 5, fb = 12, dur = 0.5, pre = 0.08, post = 0.12, T = pre + dur + post;
+  const x0 = 56, x1 = 620, y0 = 220, y1 = 24;
+  const X = (t) => x0 + (t / T) * (x1 - x0), Y = (st) => y0 - ((st - fa + 0.5) / (fb - fa + 1)) * (y0 - y1);
+  const Lm = 648, d = (k) => Lm * (1 - Math.pow(2, -k / 12));
+  const xa = (d(fa - 1) + d(fa)) / 2, xb = (d(fb - 1) + d(fb)) / 2;
+  let s = `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" class="s-axis"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y1}" class="s-axis"/>`;
+  for (let k = fa; k <= fb; k++) s += `<line x1="${x0}" x2="${x1}" y1="${Y(k)}" y2="${Y(k)}" class="s-line" opacity="0.18"/><text x="${x0 - 6}" y="${Y(k) + 4}" text-anchor="end" class="t-mono">${k}</text>`;
+  s += `<text x="${x0 - 40}" y="${y1 - 8}" class="t-dim">프렛(반음)</text><text x="${x1}" y="${y0 + 18}" text-anchor="end" class="t-dim">시간 →</text>`;
+  // 계단
+  let p = `M${X(0)} ${Y(fa)}`, cur = fa;
+  for (let k = fa; k < fb; k++) { const t = pre + ((d(k) - xa) / (xb - xa)) * dur; p += ` H${X(t).toFixed(1)} V${Y(k + 1).toFixed(1)}`; cur = k + 1; s += `<circle cx="${X(t).toFixed(1)}" cy="${Y(k + 1).toFixed(1)}" r="2.6" class="f-acc"/>`; }
+  p += ` H${X(T)}`;
+  // 연속
+  let q = `M${X(0)} ${Y(fa)}`;
+  for (let i = 0; i <= 60; i++) { const t = pre + (i / 60) * dur, x = d(fa) + (d(fb) - d(fa)) * (i / 60), st = 12 * Math.log2(Lm / (Lm - x)); q += ` L${X(t).toFixed(1)} ${Y(st).toFixed(1)}`; }
+  q += ` L${X(T)} ${Y(fb)}`;
+  s += `<path d="${q}" class="s-line" stroke-dasharray="5 4"/><path d="${p}" class="s-acc" stroke-width="2.5"/>`;
+  s += `<text x="${X(pre + dur * 0.3)}" y="${Y(10.6)}" class="t-acc">프렛 슬라이드(계단)</text><text x="${X(pre + dur * 0.55)}" y="${Y(7.3)}" class="t-dim">보틀넥(연속)</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-4 */
+(function () {
+  const g = document.getElementById("tq-fig-vib");
+  const W = 60, r = 5.5, T = 1.2, x0 = 70, x1 = 620;
+  const X = (t) => x0 + (t / T) * (x1 - x0);
+  let s = "";
+  [["클래식", 62, (ph) => (W / 2) * Math.sin(ph), 0], ["록", 170, (ph) => (W / 2) * (1 - Math.cos(ph)), W / 2]].forEach(([lab, yc, fn, mean]) => {
+    const Y = (c) => yc - c * 0.75;
+    s += `<line x1="${x0}" x2="${x1}" y1="${Y(0)}" y2="${Y(0)}" class="s-axis"/><text x="${x0 - 8}" y="${Y(0) + 4}" text-anchor="end" class="t-mono">0¢</text>`;
+    s += `<line x1="${x0}" x2="${x1}" y1="${Y(W / 2)}" y2="${Y(W / 2)}" class="s-line" opacity="0.2"/><text x="${x0 - 8}" y="${Y(W / 2) + 4}" text-anchor="end" class="t-mono">+30</text>`;
+    if (lab === "클래식") s += `<line x1="${x0}" x2="${x1}" y1="${Y(-W / 2)}" y2="${Y(-W / 2)}" class="s-line" opacity="0.2"/><text x="${x0 - 8}" y="${Y(-W / 2) + 4}" text-anchor="end" class="t-mono">−30</text>`;
+    else s += `<line x1="${x0}" x2="${x1}" y1="${Y(W)}" y2="${Y(W)}" class="s-line" opacity="0.2"/><text x="${x0 - 8}" y="${Y(W) + 4}" text-anchor="end" class="t-mono">+60</text>`;
+    let p = "";
+    for (let i = 0; i <= 300; i++) { const t = (i / 300) * T, env = 1 - Math.exp(-t / 0.08); p += (i ? "L" : "M") + X(t).toFixed(1) + " " + Y(env * fn(2 * Math.PI * r * t)).toFixed(1); }
+    s += `<path d="${p}" class="s-acc"/>`;
+    s += `<line x1="${x0}" x2="${x1}" y1="${Y(mean)}" y2="${Y(mean)}" class="s-line" stroke-dasharray="6 4"/>`;
+    s += `<text x="${x1}" y="${yc - 42}" text-anchor="end" class="t">${lab}: 평균 ${mean ? "+" + mean : 0}¢</text>`;
+  });
+  s += `<text x="${x1}" y="226" text-anchor="end" class="t-dim">시간 0 → 1.2 s</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-5 */
+(function () {
+  const g = document.getElementById("tq-fig-harm");
+  const x0 = 70, W = 540, L = 648, xpos = (fr) => x0 + W * (1 - Math.pow(2, -fr / 12));
+  let s = "";
+  for (let n = 2; n <= 5; n++) {
+    const y = 40 + (n - 2) * 76, A = 18;
+    let p1 = "", p2 = "";
+    for (let i = 0; i <= 240; i++) { const x = x0 + (W * i) / 240, v = Math.sin((n * Math.PI * i) / 240); p1 += (i ? "L" : "M") + x.toFixed(1) + " " + (y - A * v).toFixed(1); p2 += (i ? "L" : "M") + x.toFixed(1) + " " + (y + A * v).toFixed(1); }
+    s += `<path d="${p1}" class="s-acc"/><path d="${p2}" class="s-line" stroke-dasharray="3 4" opacity="0.6"/>`;
+    s += `<rect x="${x0 - 5}" y="${y - 12}" width="5" height="24" class="f-surface"/><rect x="${x0 + W}" y="${y - 12}" width="5" height="24" class="f-surface"/>`;
+    for (let k = 1; k < n; k++) {
+      const x = x0 + (W * k) / n, fr = -12 * Math.log2(1 - k / n);
+      s += `<circle cx="${x.toFixed(1)}" cy="${y}" r="5" class="f-elev"/>`;
+      s += `<text x="${x.toFixed(1)}" y="${y + 34}" text-anchor="middle" class="t-mono">${Math.abs(fr - Math.round(fr)) < 0.05 ? Math.round(fr) : fr.toFixed(2)}</text>`;
+    }
+    s += `<text x="12" y="${y - 2}" class="t">n = ${n}</text><text x="12" y="${y + 14}" class="t-mono">${n}·f₀</text>`;
+  }
+  s += `<text x="${x0}" y="${322}" class="t-dim">너트</text><text x="${x0 + W}" y="322" text-anchor="end" class="t-dim">새들 · 숫자 = 마디의 프렛 환산 위치</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 11-8 */
+(function () {
+  const g = document.getElementById("tq-fig-pm");
+  const xs = 600, span = 520, Lshow = 0.22; // 오른쪽 끝 = 새들, 줄 길이의 22%만 표시
+  const X = (u) => xs - (u / Lshow) * span; // u: 새들에서 거리(L 단위)
+  let s = `<rect x="${xs}" y="40" width="10" height="150" class="f-surface"/><text x="${xs + 5}" y="208" text-anchor="middle" class="t-dim">새들</text>`;
+  const ys = [70, 120, 170], ns = [1, 3, 6], A = 26, xp = 0.045;
+  ns.forEach((n, i) => {
+    const y = ys[i];
+    let p = "";
+    for (let k = 0; k <= 120; k++) { const u = (k / 120) * Lshow; p += (k ? "L" : "M") + X(u).toFixed(1) + " " + (y - A * Math.sin(n * Math.PI * u)).toFixed(1); }
+    s += `<line x1="${X(Lshow)}" x2="${xs}" y1="${y}" y2="${y}" class="s-axis" opacity="0.5"/><path d="${p}" class="s-acc"/>`;
+    const amp = A * Math.sin(n * Math.PI * xp);
+    s += `<line x1="${X(xp)}" x2="${X(xp)}" y1="${y}" y2="${y - amp}" class="s-line" stroke-width="3"/>`;
+    s += `<text x="${X(Lshow) - 4}" y="${y + 4}" text-anchor="end" class="t-mono">n=${n}</text>`;
+  });
+  s += `<rect x="${X(xp) - 16}" y="34" width="32" height="160" rx="12" class="f-acc-soft" opacity="0.55"/>`;
+  s += `<text x="${X(xp)}" y="26" text-anchor="middle" class="t">손날</text>`;
+  s += `<path d="M${X(xp) - 26} 210 H${X(0.13)}" class="s-line"/><path d="M${X(0.13)} 210 l8 -4 v8 z" class="f-acc"/><text x="${X(0.13) + 10}" y="214" class="t-dim">멀어질수록 무거운 뮤트</text>`;
+  g.innerHTML = s;
+})();
+
+/* ===================================================================== 1. 피킹 vs 레가토 */
+(function () {
+  const PH = [
+    { t: 0, s: 5, f: 5 }, { t: 0.5, s: 5, f: 8, tech: "h" }, { t: 1, s: 5, f: 5, tech: "p" },
+    { t: 1.5, s: 4, f: 8 }, { t: 2, s: 4, f: 5, tech: "p" },
+    { t: 2.5, s: 3, f: 5 }, { t: 3, s: 3, f: 7, tech: "h" }, { t: 3.5, s: 3, f: 5, tech: "p" },
+    { t: 4, s: 2, f: 7 }, { t: 4.5, s: 2, f: 5, tech: "p" },
+    { t: 5, s: 1, f: 7 }, { t: 5.5, s: 1, f: 5, tech: "p" },
+    { t: 6, s: 2, f: 5 }, { t: 6.5, s: 2, f: 7, tech: "h", d: 1.5 },
+  ].map((n) => Object.assign({ d: 0.5 }, n));
+  const fb = GT.fretboard("#tq-lg-fb", { frets: 9, from: 2, labels: "none", play: false });
+  fb.mark(PH.map((n) => ({ s: n.s, f: n.f, cls: n.f === 5 && (n.s === 1 || n.s === 3) ? "ghost" : "ghost", label: "" })));
+  fb.mark([{ s: 5, f: 5, cls: "root", label: "A" }, { s: 2, f: 7, cls: "root", label: "A" }, { s: 1, f: 5, cls: "ghost", label: "" }]);
+  const mode = MB.seg("tq-lg-mode", () => { if (!btn.on) showMode(mode()); });
+  const bpm = MB.range("tq-lg-bpm", (v) => v + " BPM");
+  const both = MB.check("tq-lg-both");
+  const notesFor = (m) => PH.map((n) => (m === "pick" ? Object.assign({}, n, { tech: undefined }) : n));
+  const tab = GT.tab("#tq-lg-tab", notesFor("legato"), { beatsPerBar: 4, chords: [] });
+  let curMode = "legato", curBeat = -1, playing = [];
+  function showMode(m) { curMode = m; tab.setNotes(notesFor(m)); cv.redraw(); MB.stat("tq-lg-o-n", `${PH.length} / ${m === "pick" ? PH.length : PH.filter((n) => !n.tech).length}`); }
+  // 진폭 개념도
+  function envelope(m) {
+    const pts = [], marks = []; let a = 0, last = 0, k = 0;
+    for (let i = 0; i <= 480; i++) {
+      const t = (i / 480) * 8;
+      while (k < PH.length && PH[k].t <= t + 1e-9) {
+        a *= Math.exp(-(PH[k].t - last) / 1.6); last = PH[k].t;
+        const n = PH[k];
+        if (m === "pick" || !n.tech) { a = 1; marks.push({ t: n.t, kind: "pick" }); }
+        else if (n.tech === "h") { a = a * 0.85 + 0.12; marks.push({ t: n.t, kind: "h" }); }
+        else { a = a * 0.8 + 0.22; marks.push({ t: n.t, kind: "p" }); }
+        k++;
+      }
+      pts.push([t, a * Math.exp(-(t - last) / 1.6)]);
+    }
+    return { pts, marks };
+  }
+  const cv = MB.canvas("#tq-lg-cv", (ctx, w, h) => {
+    const P = MB.palette(), x0 = 52, x1 = w - 8, X = (t) => x0 + (t / 8) * (x1 - x0);
+    ctx.font = "11px " + TQX.font(); ctx.textBaseline = "middle";
+    [["pick", "피킹"], ["legato", "레가토"]].forEach(([m, lab], ri) => {
+      const top = 8 + ri * (h - 12) / 2, hh = (h - 12) / 2 - 12, base = top + hh;
+      const on = m === curMode;
+      ctx.globalAlpha = on ? 1 : 0.45;
+      ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+      for (let b = 0; b <= 8; b++) { ctx.beginPath(); ctx.moveTo(X(b), top); ctx.lineTo(X(b), base); ctx.stroke(); }
+      ctx.beginPath(); ctx.moveTo(x0, base); ctx.lineTo(x1, base); ctx.stroke();
+      ctx.fillStyle = on ? P.accent : P.dim; ctx.textAlign = "left"; ctx.fillText(lab, 4, top + hh / 2);
+      const { pts, marks } = envelope(m);
+      ctx.beginPath(); pts.forEach(([t, a], i) => { const x = X(t), y = base - a * (hh - 6); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+      ctx.strokeStyle = on ? P.accent : P.dim; ctx.lineWidth = 2; ctx.stroke();
+      marks.forEach((mk) => {
+        if (mk.kind === "pick") { ctx.fillStyle = P.bad; ctx.fillRect(X(mk.t) - 1.5, top, 3, hh); }
+        else { ctx.fillStyle = P.accent2; ctx.textAlign = "center"; ctx.fillText(mk.kind.toUpperCase(), X(mk.t), top + 6); }
+      });
+      ctx.globalAlpha = 1;
+    });
+    if (curBeat >= 0) { ctx.fillStyle = P.warn; ctx.fillRect(X(curBeat) - 1, 4, 2, h - 8); }
+  }, { aspect: 0.3, minHeight: 150, maxHeight: 210 });
+
+  // 재생 엔진: 레가토는 울리던 음의 피치를 바꾸고 여린 재여기를 겹친다
+  const ring = Array(6).fill(null);
+  function stopAll(t) { ring.forEach((r, s) => { if (r) { try { r.v.release(t, 0.05); r.extra.forEach((e) => e.release(t, 0.05)); } catch (e) {} ring[s] = null; } }); }
+  function hit(n, when, m) {
+    const midi = GT.STANDARD[n.s] + n.f, r = ring[n.s];
+    if (m === "legato" && (n.tech === "h" || n.tech === "p") && r) {
+      r.v.bend((n.f - r.f) * 100, when, 0.004);
+      r.extra.forEach((e) => e.release(when, 0.03));
+      const x = TQX.sus(midi, { when, vel: n.tech === "h" ? 0.16 : 0.27, bright: n.tech === "h" ? 0.2 : 0.4, dur: 2.5, decay: 0.9985 });
+      r.extra = x ? [x] : [];
+      return;
+    }
+    // 다른 줄은 왼손으로 뮤트
+    ring.forEach((o, s) => { if (o) { o.v.release(when, 0.06); o.extra.forEach((e) => e.release(when, 0.06)); ring[s] = null; } });
+    const v = TQX.sus(midi, { when, vel: 0.8, dur: 4, decay: 0.9988 });
+    if (v) ring[n.s] = { v, f: n.f, extra: [] };
+  }
+  let sch = null, queue = [];
+  function run(m, then) {
+    showMode(m);
+    const evs = tab.notes.map((n, i) => Object.assign({}, n, { i }));
+    sch = GT.scheduler(evs, {
+      bpm: () => bpm(), length: 8,
+      onEvent(n, when, spb) { hit(n, when, m); if (n.i === evs.length - 1) stopAll(when + n.d * spb); },
+      onUI(n) { tab.highlight(n.i); tab.at(n.t); curBeat = n.t; cv.redraw(); fb.flash(n.s, n.f, 300);
+        MB.stat("tq-lg-o-now", MB.noteName(GT.STANDARD[n.s] + n.f) + ` <small>${6 - n.s}번 줄 ${n.f}프렛</small>`);
+        MB.stat("tq-lg-o-tech", n.tech ? TQX.TECH[n.tech] : "피킹"); },
+      onEnd() { tab.clear(); curBeat = -1; cv.redraw(); if (then) then(); else btn.set(false); },
+    });
+    sch.start();
+  }
+  const btn = MB.playButton("tq-lg-play", () => {
+    if (both()) run("pick", () => setTimeout(() => { if (btn.on) run("legato"); }, 500));
+    else run(mode());
+  }, () => { if (sch) sch.stop(); stopAll(MB.now()); tab.clear(); curBeat = -1; cv.redraw(); });
+  showMode("legato");
+})();
+
+/* ===================================================================== 2. 슬라이드 */
+(function () {
+  const L = 648, d = (k) => L * (1 - Math.pow(2, -k / 12));
+  let str = 3, voice = null, anim = null, t0 = 0, plan = null;
+  const fb = GT.fretboard("#tq-sl-fb", { frets: 15, labels: "none", play: false, onClick(s, f) { str = s; if (f >= 1) A.set(f, false); update(); pluckOnly(); return false; } });
+  const mode = MB.seg("tq-sl-mode", () => update());
+  const endM = MB.seg("tq-sl-end", () => update());
+  const A = MB.range("tq-sl-a", (v) => v + "프렛", () => update());
+  const B = MB.range("tq-sl-b", (v) => v + "프렛", () => update());
+  const D = MB.range("tq-sl-dur", (v) => v.toFixed(2) + " s", () => update());
+  const PRE = 0.3, POST = 0.7;
+  function build() {
+    const fa = A(), fbb = B(), dur = D(), up = fbb >= fa;
+    const xa = (d(fa - 1) + d(fa)) / 2, xb = (d(fbb - 1) + d(fbb)) / 2;
+    const steps = []; // [시간(슬라이드 시작 기준), 프렛]
+    if (up) for (let k = fa; k < fbb; k++) steps.push([((d(k) - xa) / (xb - xa)) * dur, k + 1]);
+    else for (let k = fa - 1; k >= fbb; k--) steps.push([((d(k) - xa) / (xb - xa)) * dur, k]);
+    const cont = []; // 보틀넥: 와이어 위치 d(fa) → d(fb)
+    for (let i = 0; i <= 24; i++) { const x = d(fa) + (d(fbb) - d(fa)) * (i / 24); cont.push([(i / 24) * dur, 12 * Math.log2(L / (L - x))]); }
+    return { fa, fb: fbb, dur, steps, cont, total: PRE + dur + POST };
+  }
+  function update() {
+    plan = build();
+    fb.set([{ s: str, f: plan.fa, cls: "mark", label: String(plan.fa) }, { s: str, f: plan.fb, cls: "alt", label: String(plan.fb) }]);
+    const iv = plan.fb - plan.fa;
+    MB.stat("tq-sl-o-iv", `${iv >= 0 ? "+" : ""}${iv} 반음 <small>${MB.noteName(GT.STANDARD[str] + plan.fa)} → ${MB.noteName(GT.STANDARD[str] + plan.fb)}</small>`);
+    MB.stat("tq-sl-o-k", `${plan.steps.length}개 <small>${mode() === "fret" ? "→ 계단 " + plan.steps.length + "번" : "(연속이라 계단 없음)"}</small>`);
+    MB.stat("tq-sl-o-mm", `${Math.abs(d(plan.fb) - d(plan.fa)).toFixed(0)} mm`);
+    cv.redraw();
+  }
+  function pitchAt(t, m) { // 슬라이드 시작 기준 시간 t → 반음(개방현 기준)
+    if (t <= 0) return plan.fa;
+    if (m === "fret") { let p = plan.fa; plan.steps.forEach(([tt, k]) => { if (t >= tt) p = k; }); return p; }
+    if (t >= plan.dur) return plan.fb;
+    const i = Math.min(23, Math.floor((t / plan.dur) * 24)), [ta, ca] = plan.cont[i], [tb, cb] = plan.cont[i + 1];
+    return ca + ((cb - ca) * (t - ta)) / (tb - ta);
+  }
+  function pluckOnly() { stop(); MB.ctx(); voice = TQX.sus(GT.STANDARD[str] + plan.fa, { dur: 3, decay: 0.999 }); if (voice) voice.release(MB.now() + 1.2, 0.1); fb.flash(str, plan.fa, 300); }
+  function play() {
+    stop(); MB.ctx();
+    plan = build();
+    const now = MB.now() + 0.03, base = GT.STANDARD[str] + plan.fa;
+    voice = TQX.sus(base, { when: now, dur: 5, decay: 0.9993 });
+    if (!voice) return;
+    const ts = now + PRE, m = mode();
+    if (m === "fret") plan.steps.forEach(([tt, k]) => voice.bend((k - plan.fa) * 100, ts + tt, 0.004));
+    else for (let i = 1; i <= 24; i++) { const [ta] = plan.cont[i - 1], [tb, cb] = plan.cont[i]; voice.bend((cb - plan.fa) * 100, ts + ta + 0.0005, Math.max(0.004, tb - ta - 0.001)); }
+    if (endM() === "shift") { const t2 = ts + plan.dur + 0.01; voice.release(t2, 0.03); voice = TQX.sus(GT.STANDARD[str] + plan.fb, { when: t2, dur: 3, decay: 0.999 }); }
+    const endAt = ts + plan.dur + POST;
+    if (voice) voice.release(endAt, 0.15);
+    t0 = now;
+    if (!anim) anim = MB.loop(cv.canvas, () => {
+      const t = MB.now() - t0;
+      if (t > plan.total + 0.2) { anim.stop(); anim = null; t0 = 0; update(); return; }
+      const p = Math.round(pitchAt(t - PRE, mode()));
+      fb.set([{ s: str, f: plan.fa, cls: "ghost", label: "" }, { s: str, f: plan.fb, cls: "ghost", label: "" }, { s: str, f: Math.max(0, p), cls: "on", label: MB.pcName(GT.STANDARD[str] + p) }]);
+      cv.redraw();
+    });
+    else anim.start();
+  }
+  function stop() { if (voice) { try { voice.release(MB.now(), 0.04); } catch (e) {} voice = null; } if (anim) { anim.stop(); anim = null; } t0 = 0; }
+  const cv = MB.canvas("#tq-sl-cv", (ctx, w, h) => {
+    if (!plan) return;
+    const P = MB.palette(), x0 = 40, x1 = w - 10, y0 = h - 22, y1 = 12;
+    const lo = Math.min(plan.fa, plan.fb), hi = Math.max(plan.fa, plan.fb);
+    const X = (t) => x0 + (t / plan.total) * (x1 - x0), Y = (st) => y0 - ((st - lo + 0.5) / (hi - lo + 1)) * (y0 - y1);
+    ctx.font = "10px " + TQX.mono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let k = lo; k <= hi; k++) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x0, Y(k)); ctx.lineTo(x1, Y(k)); ctx.stroke(); if (hi - lo < 10 || k % 2 === 0) { ctx.fillStyle = P.dim; ctx.fillText(k, x0 - 5, Y(k)); } }
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText("시간 →", x1 - 46, y0 + 13);
+    [["fret", P.accent], ["neck", P.accent2]].forEach(([m, col]) => {
+      const on = mode() === m;
+      ctx.beginPath();
+      for (let i = 0; i <= 300; i++) { const t = (i / 300) * plan.total, y = Y(pitchAt(t - PRE, m)), x = X(t); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.strokeStyle = col; ctx.globalAlpha = on ? 1 : 0.35; ctx.lineWidth = on ? 2.6 : 1.4; ctx.setLineDash(m === "neck" ? [5, 4] : []); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    });
+    if (t0) { const t = MB.now() - t0; ctx.fillStyle = P.warn; ctx.fillRect(X(Math.min(t, plan.total)) - 1, y1, 2, y0 - y1); }
+  }, { aspect: 0.36, minHeight: 160, maxHeight: 240 });
+  document.getElementById("tq-sl-play").addEventListener("click", play);
+  document.getElementById("tq-sl-stop").addEventListener("click", stop);
+  document.querySelectorAll("#sim-tq-slide [data-pre]").forEach((b) => b.addEventListener("click", () => {
+    const [a, bb, du] = b.dataset.pre.split(",").map(Number); A.set(a, false); B.set(bb, false); D.set(du, false); update(); play();
+  }));
+  update();
+})();
+
+/* ===================================================================== 3. 벤딩 트레이너 */
+(function () {
+  const RHO = 7850, E = 200e9, L = 0.648;
+  const STR = [{ s: 5, d: 0.254, lab: "1번 줄 .010" }, { s: 4, d: 0.3302, lab: "2번 줄 .013" }, { s: 3, d: 0.4318, lab: "3번 줄 .017" }];
+  const strSel = MB.seg("tq-bd-str", () => { stopVoice(); setup(); });
+  const fret = MB.range("tq-bd-fret", (v) => v + "프렛", () => { stopVoice(); setup(); });
+  const tgt = MB.seg("tq-bd-tgt", () => { refresh(); });
+  const dR = MB.range("tq-bd-d", (v) => v.toFixed(1) + " mm", () => { ensureVoice(); refresh(true); });
+  const fb = GT.fretboard("#tq-bd-fb", { frets: 17, labels: "none", play: false, onClick(s, f) {
+    const k = STR.findIndex((o) => o.s === s); if (k < 0 || f < 3) { msg("벤딩 트레이너는 1–3번 줄의 3–17프렛을 씁니다.", ""); return false; }
+    strSel.set(String(k), false); fret.set(f, false); stopVoice(); setup(); pick(); return false; } });
+  let voice = null, vEnd = 0, game = null, tries = 0, hits = 0, holdRaf = 0, animRaf = 0;
+  const S = () => STR[+strSel()];
+  function model(delta) {
+    const st = S(), A = (Math.PI * Math.pow(st.d / 1000, 2)) / 4, f0 = MB.mtof(GT.STANDARD[st.s]);
+    const T0 = RHO * A * Math.pow(2 * L * f0, 2);
+    const a = GT.fretPos(fret(), L * 1000) / 1000, b = L - a, dm = delta / 1000;
+    const dL = Math.hypot(a, dm) + Math.hypot(b, dm) - L, dT = (E * A * dL) / L;
+    const cents = 600 * Math.log2(1 + dT / T0) - 1200 * Math.log2(Math.hypot(b, dm) / b);
+    const F = (T0 + dT) * (dm / Math.hypot(a, dm) + dm / Math.hypot(b, dm));
+    return { T0, dT, dL, cents, F, a, b };
+  }
+  function need(cents) { let lo = 0, hi = 45; for (let i = 0; i < 40; i++) { const m = (lo + hi) / 2; if (model(m).cents < cents) lo = m; else hi = m; } return (lo + hi) / 2; }
+  const target = () => +tgt() * 100;
+  const midi0 = () => GT.STANDARD[S().s] + fret();
+  function msg(t, cls) { const el = document.getElementById("tq-bd-msg"); el.innerHTML = t; el.className = "sim-msg" + (cls ? " " + cls : ""); }
+  function setup() {
+    dR.set(0, false);
+    const tg = S().s, f = fret();
+    fb.set([{ s: tg, f, cls: "root", label: String(f) }, { s: tg, f: Math.min(f + +tgt(), 17), cls: "ghost", label: "목" }]);
+    refresh();
+  }
+  function refresh(live) {
+    const m = model(dR()), c = m.cents, err = c - target();
+    MB.stat("tq-bd-o-c", `+${c.toFixed(0)}¢ <small>${TQX.centsName(midi0() + c / 100)}</small>`);
+    MB.stat("tq-bd-o-err", `${err >= 0 ? "+" : ""}${err.toFixed(0)}¢ <small>${Math.abs(err) <= 10 ? "✔ 맞음" : err < 0 ? "낮음 ↑" : "높음 ↓"}</small>`);
+    MB.stat("tq-bd-o-t", `${(m.T0 + m.dT).toFixed(1)} N <small>+${((m.dT / m.T0) * 100).toFixed(1)}%</small>`);
+    MB.stat("tq-bd-o-dl", `${(m.dL * 1000).toFixed(2)} mm`);
+    MB.stat("tq-bd-o-need", `${need(target()).toFixed(1)} mm <small>${tgt() === "1" ? "½" : tgt() === "2" ? "온음" : "1½"}</small>`);
+    if (live && voice) voice.bend(c, MB.now(), 0.03);
+    cv.redraw();
+  }
+  function stopVoice() { if (voice) { try { voice.release(MB.now(), 0.05); } catch (e) {} voice = null; } cancelAnimationFrame(animRaf); animRaf = 0; }
+  function pick() {
+    stopVoice(); MB.ctx();
+    voice = TQX.sus(midi0(), { dur: 8, decay: 0.99955, vel: 0.85 });
+    if (!voice) return;
+    vEnd = MB.now() + 7;
+    const c = model(dR()).cents; if (c > 0.5) voice.bend(c, MB.now() + 0.01, 0.003);
+    fb.flash(S().s, fret(), 300);
+  }
+  function ensureVoice() { if (!voice || MB.now() > vEnd) pick(); }
+  function judge() {
+    if (!game) return;
+    const err = model(dR()).cents - target(); tries++;
+    if (Math.abs(err) <= 10) { hits++; msg(`🎯 정확! ${err >= 0 ? "+" : ""}${err.toFixed(0)}센트. '새 문제'로 계속하세요.`, "ok"); game = null; }
+    else if (Math.abs(err) <= 25) msg(`아까워요: ${err >= 0 ? "+" : ""}${err.toFixed(0)}센트 (${err < 0 ? "조금 더 밀기" : "조금 덜 밀기"}). 릴리스하고 다시!`, "");
+    else msg(`${err < 0 ? "낮음" : "높음"}: ${err >= 0 ? "+" : ""}${err.toFixed(0)}센트. 목표 음을 다시 듣고 도전하세요.`, "bad");
+    document.getElementById("tq-bd-score").textContent = `${hits} / ${tries}`;
+  }
+  // 누르고 있으면 밀기
+  const hold = document.getElementById("tq-bd-hold");
+  let holding = false, lastT = 0;
+  function holdStep(ts) {
+    if (!holding) return;
+    const dt = lastT ? Math.min(0.05, (ts - lastT) / 1000) : 0; lastT = ts;
+    dR.set(Math.min(30, dR() + 13 * dt), false); refresh(true);
+    holdRaf = requestAnimationFrame(holdStep);
+  }
+  hold.addEventListener("pointerdown", (e) => { e.preventDefault(); try { hold.setPointerCapture(e.pointerId); } catch (er) {} cancelAnimationFrame(animRaf); ensureVoice(); holding = true; lastT = 0; hold.classList.add("active"); holdRaf = requestAnimationFrame(holdStep); });
+  const endHold = () => { if (!holding) return; holding = false; hold.classList.remove("active"); cancelAnimationFrame(holdRaf); judge(); };
+  hold.addEventListener("pointerup", endHold); hold.addEventListener("pointercancel", endHold); hold.addEventListener("lostpointercapture", endHold);
+  dR.el.addEventListener("pointerdown", () => ensureVoice());
+  dR.el.addEventListener("change", () => judge());
+  // 자동 연출(키프레임)
+  function animate(keys, after) {
+    cancelAnimationFrame(animRaf);
+    const start = performance.now();
+    const step = () => {
+      const t = (performance.now() - start) / 1000;
+      let v = keys[keys.length - 1][1];
+      for (let i = 1; i < keys.length; i++) if (t <= keys[i][0]) { const [ta, va] = keys[i - 1], [tb, vb] = keys[i]; v = va + ((vb - va) * (t - ta)) / Math.max(1e-6, tb - ta); break; }
+      dR.set(v, false); refresh(true);
+      if (t < keys[keys.length - 1][0]) animRaf = requestAnimationFrame(step); else { animRaf = 0; after && after(); }
+    };
+    animRaf = requestAnimationFrame(step);
+  }
+  document.getElementById("tq-bd-pick").addEventListener("click", pick);
+  document.getElementById("tq-bd-rel").addEventListener("click", () => { ensureVoice(); animate([[0, dR()], [0.35, 0]]); });
+  document.getElementById("tq-bd-stop").addEventListener("click", () => { stopVoice(); cancelAnimationFrame(holdRaf); });
+  document.getElementById("tq-bd-ref").addEventListener("click", () => {
+    MB.ctx(); const m = midi0() + +tgt();
+    const v = TQX.sus(m, { dur: 3, decay: 0.999, vel: 0.75 }); if (v) v.release(MB.now() + 1.6, 0.1);
+    fb.flash(S().s, Math.min(fret() + +tgt(), 17), 500);
+  });
+  document.querySelectorAll("#sim-tq-bend [data-demo]").forEach((b) => b.addEventListener("click", () => {
+    const k = b.dataset.demo, dh = need(100), dw = need(200);
+    if (k === "pb") { dR.set(dw, false); refresh(); pick(); animate([[0, dw], [0.5, dw], [1.0, 0], [1.6, 0]]); return; }
+    dR.set(0, false); pick();
+    if (k === "half") animate([[0, 0], [0.25, 0], [0.55, dh], [1.6, dh]]);
+    else if (k === "full") animate([[0, 0], [0.25, 0], [0.6, dw], [1.6, dw]]);
+    else animate([[0, 0], [0.25, 0], [0.6, dw], [1.05, dw], [1.4, 0], [2.0, 0]]);
+  }));
+  document.getElementById("tq-bd-game").addEventListener("click", () => {
+    const k = Math.floor(Math.random() * 3), ranges = [[10, 15], [7, 12], [5, 9]], [lo, hi] = ranges[k];
+    const f = lo + Math.floor(Math.random() * (hi - lo + 1)), steps = [1, 2, 2, 2, 3][Math.floor(Math.random() * 5)];
+    strSel.set(String(k), false); fret.set(f, false); tgt.set(String(steps), false); stopVoice(); setup();
+    game = { k, f, steps };
+    const st = STR[k];
+    msg(`문제: <b>${6 - st.s}번 줄 ${f}프렛</b>(${MB.noteName(GT.STANDARD[st.s] + f)})을 <b>${steps === 1 ? "반음" : steps === 2 ? "온음" : "1음 반"}</b> 올려 <b>${MB.noteName(GT.STANDARD[st.s] + f + steps)}</b>를 맞히세요. 먼저 '목표 음 듣기'!`, "");
+  });
+  const cv = MB.canvas("#tq-bd-cv", (ctx, w, h) => {
+    const P = MB.palette(), m = model(dR());
+    // 위: 줄의 모양
+    const x0 = 22, x1 = w - 22, yb = h * 0.42, sc = (x1 - x0) / (L * 1000), ex = 3;
+    const xa = x0 + m.a * 1000 * sc, dy = dR() * sc * ex;
+    ctx.fillStyle = P.dim; ctx.fillRect(x0 - 6, yb - 18, 6, 36); ctx.fillRect(x1, yb - 18, 6, 36);
+    ctx.strokeStyle = P.grid; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(x0, yb); ctx.lineTo(x1, yb); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(x0, yb); ctx.lineTo(xa, yb - dy); ctx.lineTo(x1, yb); ctx.stroke();
+    ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(xa, yb - dy, 7, 0, 7); ctx.fill();
+    ctx.font = "11px " + TQX.font(); ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.fillText("너트", x0 - 6, yb + 32); ctx.textAlign = "right"; ctx.fillText("새들", x1 + 6, yb + 32);
+    ctx.textAlign = "center"; ctx.fillStyle = P.text; ctx.fillText(`δ = ${dR().toFixed(1)} mm (세로 ×3) · 미는 힘 ≈ ${m.F.toFixed(1)} N`, MB.clamp(xa, 130, w - 130), Math.max(14, yb - dy - 14));
+    // 아래: 센트 미터 −50 … +350
+    const mx0 = 30, mx1 = w - 16, my = h * 0.78, C = (c) => mx0 + ((MB.clamp(c, -50, 350) + 50) / 400) * (mx1 - mx0);
+    const tg = target();
+    ctx.fillStyle = P.ok; ctx.globalAlpha = 0.28; ctx.fillRect(C(tg - 10), my - 16, C(tg + 10) - C(tg - 10), 32); ctx.globalAlpha = 1;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(mx0, my); ctx.lineTo(mx1, my); ctx.stroke();
+    ctx.font = "10px " + TQX.mono(); ctx.fillStyle = P.dim; ctx.textAlign = "center";
+    [0, 100, 200, 300].forEach((c) => { ctx.beginPath(); ctx.moveTo(C(c), my - 6); ctx.lineTo(C(c), my + 6); ctx.stroke(); ctx.fillText(["0", "½", "full", "1½"][c / 100], C(c), my + 18); });
+    ctx.strokeStyle = P.ok; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(C(tg), my - 18); ctx.lineTo(C(tg), my + 18); ctx.stroke();
+    const err = m.cents - tg, col = Math.abs(err) <= 10 ? P.ok : Math.abs(err) <= 25 ? P.warn : P.bad;
+    ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(C(m.cents), my - 4); ctx.lineTo(C(m.cents) - 7, my - 20); ctx.lineTo(C(m.cents) + 7, my - 20); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = P.text; ctx.font = "600 12px " + TQX.mono(); ctx.fillText(`+${m.cents.toFixed(0)}¢`, C(m.cents), my - 25);
+  }, { aspect: 0.42, minHeight: 190, maxHeight: 270 });
+  setup();
+})();
+
+/* ===================================================================== 4. 비브라토 */
+(function () {
+  const style = MB.seg("tq-vb-style", () => { live(); readout(); });
+  const rate = MB.range("tq-vb-rate", (v) => v.toFixed(1) + " Hz", () => { live(); readout(); });
+  const wid = MB.range("tq-vb-w", (v) => v + "¢", () => { live(); readout(); });
+  const del = MB.range("tq-vb-del", (v) => v.toFixed(2) + " s", () => readout());
+  let cur = null; // {v, osc, amp, off, t0, end}
+  const trace = []; let phase = 0, lastT = 0;
+  let cosWave = null;
+  function targets() {
+    const st = style(), W = wid(), r0 = cur ? cur.v.rate : 1;
+    if (st === "none") return { amp: 0, off: 0 };
+    if (st === "classic") return { amp: r0 * (Math.pow(2, W / 2 / 1200) - 1), off: 0 };
+    const a = (r0 * (Math.pow(2, W / 1200) - 1)) / 2; return { amp: a, off: a };
+  }
+  function live() {
+    if (!cur) return;
+    const ctx = MB.ctx(), t = ctx.currentTime, tg = targets();
+    if (t < cur.t0 + del()) return; // 아직 시작 전이면 예약값 유지
+    cur.osc.frequency.setTargetAtTime(rate(), t, 0.03);
+    cur.osc.setPeriodicWave(style() === "rock" ? cosWave : sineWave);
+    cur.amp.gain.setTargetAtTime(tg.amp, t, 0.05); cur.off.offset.setTargetAtTime(tg.off, t, 0.05);
+  }
+  let sineWave = null;
+  function stop() { if (cur) { const t = MB.now(); try { cur.v.release(t, 0.06); cur.osc.stop(t + 0.1); cur.off.stop(t + 0.1); } catch (e) {} cur = null; } }
+  function play() {
+    stop(); const ctx = MB.ctx(); if (!ctx) return;
+    if (!cosWave) { cosWave = ctx.createPeriodicWave(new Float32Array([0, -1]), new Float32Array([0, 0]), { disableNormalization: true }); sineWave = ctx.createPeriodicWave(new Float32Array([0, 0]), new Float32Array([0, 1]), { disableNormalization: true }); }
+    const t0 = ctx.currentTime + 0.02;
+    const v = TQX.sus(69, { when: t0, dur: 7, decay: 0.99955, vel: 0.8 }); if (!v) return;
+    const osc = ctx.createOscillator(), amp = ctx.createGain(), off = ctx.createConstantSource();
+    osc.setPeriodicWave(style() === "rock" ? cosWave : sineWave); osc.frequency.value = rate();
+    amp.gain.value = 0; off.offset.value = 0;
+    osc.connect(amp); amp.connect(v.src.playbackRate); off.connect(v.src.playbackRate);
+    osc.start(t0 + del()); off.start(t0);
+    cur = { v, osc, amp, off, t0, end: t0 + 6.2 };
+    const tg = targets();
+    amp.gain.setTargetAtTime(tg.amp, t0 + del(), 0.08); off.offset.setTargetAtTime(tg.off, t0 + del(), 0.08);
+    v.release(t0 + 6, 0.3);
+    trace.length = 0; phase = 0; lastT = 0;
+  }
+  function cAt(st, W, ph, env) { return st === "none" ? 0 : st === "classic" ? env * (W / 2) * Math.sin(ph) : env * (W / 2) * (1 - Math.cos(ph)); }
+  function readout() {
+    const st = style(), W = wid();
+    MB.stat("tq-vb-o-per", st === "none" ? "—" : `${(1000 / rate()).toFixed(0)} ms`);
+    MB.stat("tq-vb-o-rng", st === "none" ? "0¢" : st === "classic" ? `−${W / 2} … +${W / 2}¢` : `0 … +${W}¢`);
+    MB.stat("tq-vb-o-mean", st === "rock" ? `+${W / 2}¢ <small>높게 들림</small>` : "0¢");
+    if (!cur) cv.redraw();
+  }
+  const SPAN = 2.5;
+  const cv = MB.canvas("#tq-vb-cv", (ctx, w, h) => {
+    const P = MB.palette(), x0 = 46, x1 = w - 10, yc = h / 2, sc = (h / 2 - 18) / 110;
+    const Y = (c) => yc - c * sc;
+    ctx.font = "10px " + TQX.mono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-100, -50, 0, 50, 100].forEach((c) => { ctx.strokeStyle = c ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(x0, Y(c)); ctx.lineTo(x1, Y(c)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText((c > 0 ? "+" : "") + c + "¢", x0 - 4, Y(c)); });
+    let pts;
+    if (cur && trace.length) pts = trace.map(([t, c]) => [t - (trace[trace.length - 1][0] - SPAN), c]);
+    else { // 미리보기
+      pts = []; const st = style(), W = wid();
+      for (let i = 0; i <= 400; i++) { const t = (i / 400) * SPAN, env = t < del() ? 0 : 1 - Math.exp(-(t - del()) / 0.08); pts.push([t, cAt(st, W, 2 * Math.PI * rate() * Math.max(0, t - del()), env)]); }
+    }
+    ctx.beginPath(); pts.forEach(([t, c], i) => { const x = x0 + (Math.max(0, t) / SPAN) * (x1 - x0); i ? ctx.lineTo(x, Y(MB.clamp(c, -110, 210))) : ctx.moveTo(x, Y(c)); });
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.stroke();
+    const mean = style() === "rock" ? wid() / 2 : 0;
+    ctx.setLineDash([6, 4]); ctx.strokeStyle = P.accent2; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x0, Y(Math.min(mean, 105))); ctx.lineTo(x1, Y(Math.min(mean, 105))); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = "11px " + TQX.font();
+    ctx.fillText(cur ? "실시간 음높이 (최근 2.5초)" : "미리보기 — ▶ 피킹으로 소리 내기", x0 + 4, 10);
+  }, { aspect: 0.42, minHeight: 190, maxHeight: 280 });
+  MB.loop(cv.canvas, (dt) => {
+    if (!cur) return;
+    const t = MB.now() - cur.t0;
+    if (MB.now() > cur.end) { cur = null; cv.redraw(); return; }
+    if (t < 0) return;
+    if (t > del()) phase += 2 * Math.PI * rate() * dt;
+    const env = t < del() ? 0 : 1 - Math.exp(-(t - del()) / 0.08);
+    trace.push([t, cAt(style(), wid(), phase, env)]);
+    while (trace.length && trace[0][0] < t - SPAN) trace.shift();
+    cv.redraw();
+  });
+  document.getElementById("tq-vb-play").addEventListener("click", play);
+  document.getElementById("tq-vb-stop").addEventListener("click", () => { stop(); cv.redraw(); });
+  document.querySelectorAll("#sim-tq-vibrato [data-vb]").forEach((b) => b.addEventListener("click", () => {
+    const [st, r, W] = b.dataset.vb.split(","); style.set(st, false); rate.set(+r, false); wid.set(+W, false); readout(); play();
+  }));
+  readout();
+})();
+
+/* ===================================================================== 5. 하모닉스 */
+(function () {
+  const NODES = { 12: [2, 1], 7: [3, 1], 19: [3, 2], 5: [4, 1], 4: [5, 1], 9: [5, 2], 16: [5, 3], 3: [6, 1] };
+  const APPROX = { 4: 1, 9: 1, 16: 1, 3: 1 };
+  let str = 0, state = { kind: "none" }, tHit = 0;
+  const mode = MB.seg("tq-hm-mode", () => marks());
+  const artGap = MB.seg("tq-hm-art", () => marks());
+  const tone = MB.seg("tq-hm-tone");
+  const voices = [];
+  const fb = GT.fretboard("#tq-hm-fb", { frets: 19, labels: "none", play: false, onClick: click });
+  function marks() {
+    const m = mode();
+    if (m === "nat") fb.set(Object.entries(NODES).map(([f, [n]]) => ({ s: str, f: +f, label: String(n), cls: APPROX[f] ? "alt" : "mark" })));
+    else if (m === "art") { const gp = +artGap(); fb.set(Array.from({ length: 8 }, (_, f) => ({ s: str, f, cls: "ghost", label: f ? String(f) : "0" })).concat([{ s: str, f: gp, cls: "alt", label: "T" }])); }
+    else fb.clear();
+  }
+  function f0(s) { return MB.mtof(GT.STANDARD[s]); }
+  function ring(freq, vel = 0.75) {
+    const v = MB.play(null, { freq, inst: "guitar", dur: null, vel, gt: { tone: tone(), bright: 0.32, decay: 0.9992, dur: 5, pos: 0 } });
+    if (v) { v.release(MB.now() + 4, 0.3); voices.push(v); while (voices.length > 8) voices.shift(); }
+  }
+  function centsOff(freq) { const m = MB.ftom(freq), r = Math.round(m); return { r, c: (m - r) * 100 }; }
+  function show(freq, n, xlab) {
+    const { r, c } = centsOff(freq);
+    MB.stat("tq-hm-o-n", n ? String(n) : "—");
+    MB.stat("tq-hm-o-f", freq ? `${MB.noteName(r)} ${freq.toFixed(1)} Hz <small>${Math.abs(c) < 0.5 ? "평균율과 같음" : (c > 0 ? "+" : "") + c.toFixed(1) + "¢"}</small>` : "퍽(음 없음)");
+    MB.stat("tq-hm-o-x", xlab);
+  }
+  function click(s, f) {
+    MB.ctx(); const m = mode();
+    if (s !== str) { str = s; marks(); }
+    if (m === "fret") { fb.guitar.tone = tone(); fb.guitar.pluck(s, f); fb.flash(s, f); state = { kind: "fret", s, f, n: 1 }; tHit = MB.now(); show(MB.mtof(GT.STANDARD[s] + f), 1, `${f}프렛 누름 · 진동 길이 ${(648 * Math.pow(2, -f / 12)).toFixed(0)} mm`); return false; }
+    if (m === "art") {
+      const gp = +artGap(), n = { 12: 2, 7: 3, 5: 4 }[gp];
+      if (f + gp > 19) { MB.stat("tq-hm-o-x", "0–7프렛을 눌러 보세요"); return false; }
+      const freq = n * MB.mtof(GT.STANDARD[s] + f);
+      ring(freq); state = { kind: "art", s, f, n, gp }; tHit = MB.now();
+      fb.set([{ s, f, cls: "root", label: String(f) }, { s, f: f + gp, cls: "alt", label: "T" }]);
+      show(freq, n, `${f}프렛 누르고 ${f + gp}프렛 위 터치`); return false;
+    }
+    const node = NODES[f];
+    if (f === 0) { fb.guitar.tone = tone(); fb.guitar.pluck(s, 0); state = { kind: "open", s, n: 1 }; tHit = MB.now(); show(f0(s), 1, "개방현(짚지 않음)"); return false; }
+    if (!node) {
+      MB.play(GT.STANDARD[s] + f, { inst: "guitar", vel: 0.35, dur: 0.12, gt: { tone: "muted", decay: 0.9, dur: 0.3 } }); GT.chuck(null, { vel: 0.25 });
+      state = { kind: "dead", s, f }; tHit = MB.now();
+      const x = 648 * (1 - Math.pow(2, -f / 12));
+      show(0, 0, `${f}프렛 칸 ≈ ${(x / 648).toFixed(3)} L — 낮은 모드의 마디가 아님`); return false;
+    }
+    const [n, k] = node, freq = n * f0(s), xmm = (648 * k) / n, fr = -12 * Math.log2(1 - k / n);
+    ring(freq); state = { kind: "nat", s, n, k }; tHit = MB.now();
+    fb.mark([{ s, f, cls: "ok", label: String(n) }]); setTimeout(marks, 600);
+    show(freq, n, `${k}/${n} L = ${xmm.toFixed(1)} mm <small>(프렛 ${fr.toFixed(2)})</small>`);
+    return false;
+  }
+  const cv = MB.canvas("#tq-hm-cv", (ctx, w, h) => {
+    const P = MB.palette(), x0 = 24, x1 = w - 24, yc = h * 0.5, A = h * 0.3;
+    const t = MB.now() - tHit, env = tHit ? Math.exp(-t / 1.6) : 0;
+    ctx.fillStyle = P.dim; ctx.fillRect(x0 - 6, yc - 20, 6, 40); ctx.fillRect(x1, yc - 20, 6, 40);
+    ctx.font = "11px " + TQX.font(); ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText("너트", x0 - 6, h - 8); ctx.textAlign = "right"; ctx.fillText("새들", x1 + 6, h - 8);
+    ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x0, yc); ctx.lineTo(x1, yc); ctx.stroke();
+    let xa = x0, n = 1, touch = null;
+    const XP = (u) => x0 + u * (x1 - x0);
+    if (state.kind === "nat") { n = state.n; touch = state.k / state.n; }
+    if (state.kind === "fret" || state.kind === "art") { xa = XP(1 - Math.pow(2, -state.f / 12)); n = state.kind === "art" ? state.n : 1; if (state.kind === "art") touch = (1 - Math.pow(2, -state.f / 12)) + Math.pow(2, -state.f / 12) / state.n; }
+    if (state.kind === "open") n = 1;
+    const ph = Math.cos(2 * Math.PI * 1.1 * t);
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.4; ctx.beginPath();
+    for (let i = 0; i <= 300; i++) {
+      const x = x0 + ((x1 - x0) * i) / 300; let y = yc;
+      if (state.kind !== "none" && state.kind !== "dead" && x >= xa) y = yc - A * env * ph * Math.sin((n * Math.PI * (x - xa)) / (x1 - xa));
+      if (state.kind === "dead") y = yc - A * 0.5 * Math.exp(-t / 0.08) * Math.sin(Math.PI * (x - x0) / (x1 - x0)) * Math.cos(30 * t);
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    }
+    ctx.stroke();
+    if (state.kind !== "none" && state.kind !== "dead") for (let k = 1; k < n; k++) { const x = xa + ((x1 - xa) * k) / n; ctx.fillStyle = P.bg || P.elev; ctx.strokeStyle = P.text; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(x, yc, 4.5, 0, 7); ctx.fill(); ctx.stroke(); }
+    if (xa > x0) { ctx.fillStyle = P.accent2; ctx.beginPath(); ctx.arc(xa, yc, 6, 0, 7); ctx.fill(); }
+    if (touch != null) { const x = XP(touch); ctx.fillStyle = P.bad; ctx.beginPath(); ctx.moveTo(x, yc - A - 4); ctx.lineTo(x - 7, yc - A - 18); ctx.lineTo(x + 7, yc - A - 18); ctx.closePath(); ctx.fill(); }
+    ctx.textAlign = "left"; ctx.fillStyle = P.text; ctx.font = "600 12px " + TQX.font();
+    const lab = state.kind === "none" ? "지판의 숫자 점을 클릭하세요" : state.kind === "dead" ? "마디가 아닌 곳: 거의 모든 모드가 죽는다" : `남은 모드: n = ${n}${n > 1 ? `  (마디 ${n - 1}개)` : ""}`;
+    ctx.fillText(lab, x0, 16);
+  }, { aspect: 0.3, minHeight: 140, maxHeight: 200 });
+  MB.loop(cv.canvas, () => { if (tHit && MB.now() - tHit < 5) cv.redraw(); });
+  document.getElementById("tq-hm-chord").addEventListener("click", () => {
+    MB.ctx(); mode.set("nat", false); str = 3; marks();
+    [3, 4, 5].forEach((s, i) => setTimeout(() => { ring(2 * f0(s), 0.6); fb.mark([{ s, f: 12, cls: "ok", label: "2" }]); }, i * 60));
+    state = { kind: "nat", s: 3, n: 2, k: 1 }; tHit = MB.now();
+    show(2 * f0(5), 2, "3·2·1번 줄 12프렛");
+    setTimeout(() => { str = 0; marks(); }, 900);
+  });
+  document.getElementById("tq-hm-stop").addEventListener("click", () => { voices.forEach((v) => { try { v.release(MB.now(), 0.05); } catch (e) {} }); voices.length = 0; fb.guitar.stop(); tHit = 0; state = { kind: "none" }; cv.redraw(); });
+  marks();
+})();
+
+/* ===================================================================== 6. 팜 뮤트 */
+(function () {
+  const C = (s, f) => ({ s, f });
+  const P5 = (s, f) => [C(s, f), C(s + 1, f + 2)];
+  const RIFFS = {
+    chug: [].concat(
+      [0, 0.5, 1, 1.5, 2, 2.5].map((t) => ({ t, ns: P5(0, 0), pm: true })), [{ t: 3, ns: P5(0, 3) }, { t: 3.5, ns: P5(1, 0) }],
+      [4, 4.5, 5, 5.5, 6, 6.5].map((t) => ({ t, ns: P5(0, 0), pm: true })), [{ t: 7, ns: P5(1, 5) }, { t: 7.5, ns: P5(1, 3), d: 0.5 }]),
+    gallop: [].concat(
+      ...[0, 1, 2].map((b) => [{ t: b, ns: [C(0, 0)], pm: true, d: 0.5 }, { t: b + 0.5, ns: [C(0, 0)], pm: true, d: 0.25 }, { t: b + 0.75, ns: [C(0, 0)], pm: true, d: 0.25 }]),
+      [{ t: 3, ns: P5(0, 0), d: 1 }],
+      ...[4, 5, 6].map((b) => [{ t: b, ns: [C(0, 0)], pm: true, d: 0.5 }, { t: b + 0.5, ns: [C(0, 0)], pm: true, d: 0.25 }, { t: b + 0.75, ns: [C(0, 0)], pm: true, d: 0.25 }]),
+      [{ t: 7, ns: P5(0, 3), d: 0.5 }, { t: 7.5, ns: P5(0, 5), d: 0.5 }]),
+    dead: [
+      { t: 0, ns: [C(0, 0)], pm: true }, { t: 0.5, ns: [C(0, 0)], dead: true }, { t: 1, ns: [C(0, 0)], pm: true }, { t: 1.5, ns: [C(0, 3)] },
+      { t: 2, ns: [C(0, 0)], dead: true }, { t: 2.5, ns: [C(1, 0)], pm: true }, { t: 3, ns: [C(1, 2)] }, { t: 3.5, ns: [C(1, 0)], dead: true },
+      { t: 4, ns: [C(0, 0)], pm: true }, { t: 4.5, ns: [C(0, 0)], dead: true }, { t: 5, ns: [C(0, 0)], pm: true }, { t: 5.5, ns: [C(0, 5)] },
+      { t: 6, ns: [C(1, 0)], dead: true }, { t: 6.5, ns: [C(1, 2)], pm: true }, { t: 7, ns: [C(0, 3)], d: 1 }],
+  };
+  const riffSel = MB.seg("tq-pm-riff", () => { load(); if (sch && sch.running) sch.setEvents(events); });
+  const xR = MB.range("tq-pm-x", (v) => v + " mm", () => readout());
+  const off = MB.check("tq-pm-off", () => load());
+  const bpm = MB.range("tq-pm-bpm", (v) => v + " BPM");
+  const tab = GT.tab("#tq-pm-tab", [], { beatsPerBar: 4 });
+  const ring = Array(6).fill(null);
+  let events = [], sch = null;
+  const par = (x) => ({ decay: 1 - (0.0012 + 8.2e-5 * x * x), bright: 0.6 - 0.012 * x });
+  const tau = (decay, f = 82.41) => -1 / (f * Math.log(decay));
+  function load() {
+    const R = RIFFS[riffSel()];
+    const notes = [];
+    R.forEach((ev) => ev.ns.forEach((n) => notes.push({ t: ev.t, d: ev.d || 0.5, s: n.s, f: ev.dead ? null : n.f, tech: ev.dead ? "x" : ev.pm && !off() ? "pm" : undefined })));
+    tab.setNotes(notes);
+    const sorted = tab.notes;
+    events = R.map((ev) => Object.assign({}, ev, { i: sorted.findIndex((n) => Math.abs(n.t - ev.t) < 1e-6) }));
+  }
+  function playOne(s, f, when, pm, vel = 0.8) {
+    if (ring[s]) { try { ring[s].release(when, 0.02); } catch (e) {} ring[s] = null; }
+    const p = par(xR()), useMute = pm && !off();
+    const decay = useMute ? p.decay : 0.9986, dur = useMute ? MB.clamp(5 * tau(decay, MB.mtof(GT.STANDARD[s] + f)), 0.25, 4) : 3.5;
+    const v = MB.play(GT.STANDARD[s] + f, { inst: "guitar", dur: null, vel, when, gt: { tone: useMute ? "muted" : "electric", decay, bright: useMute ? p.bright : 0.62, dur } });
+    if (v) ring[s] = v;
+    return v;
+  }
+  function damp(when) { ring.forEach((v, s) => { if (v) { try { v.release(when, 0.02); } catch (e) {} ring[s] = null; } }); }
+  function fire(ev, when, spb) {
+    if (ev.dead) { damp(when); GT.chuck(when, { vel: 0.5 }); return; }
+    const dur = (ev.d || 0.5) * spb;
+    damp(when);
+    ev.ns.forEach((n) => { const v = playOne(n.s, n.f, when, ev.pm, ev.pm ? 0.78 : 0.9); if (v && !ev.pm) v.release(when + dur * 0.97, 0.04); });
+  }
+  const btn = MB.playButton("tq-pm-play", () => {
+    load();
+    sch = GT.scheduler(events, { bpm: () => bpm(), length: 8, loop: true,
+      onEvent: fire,
+      onUI(ev) { tab.highlight(ev.i); tab.at(ev.t); },
+      onStop() { tab.clear(); } });
+    sch.start();
+  }, () => { if (sch) sch.stop(); damp(MB.now()); }, ["▶ 리프", "■ 정지"]);
+  document.querySelectorAll("#sim-tq-mute [data-one]").forEach((b) => b.addEventListener("click", () => {
+    MB.ctx(); const k = b.dataset.one, now = MB.now() + 0.01;
+    if (k === "dead") { damp(now); GT.chuck(now, { vel: 0.55 }); return; }
+    const was = off(); if (k === "open") { damp(now); const v = MB.play(40, { inst: "guitar", dur: null, vel: 0.85, when: now, gt: { tone: "electric", decay: 0.9986, dur: 3.5 } }); if (v) { ring[0] = v; v.release(now + 2.5, 0.2); } }
+    else { damp(now); const v = playOne(0, 0, now, true, 0.85); }
+  }));
+  function readout() {
+    const p = par(xR()), t = tau(p.decay);
+    MB.stat("tq-pm-o-tau", `${t < 1 ? (t * 1000).toFixed(0) + " ms" : t.toFixed(2) + " s"} <small>개방 ${tau(0.9986).toFixed(1)} s</small>`);
+    MB.stat("tq-pm-o-t40", `${(4.6 * t < 1 ? (4.6 * t * 1000).toFixed(0) + " ms" : (4.6 * t).toFixed(2) + " s")}`);
+    MB.stat("tq-pm-o-br", `${Math.round((p.bright / 0.62) * 100)}%`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#tq-pm-cv", (ctx, w, h) => {
+    const P = MB.palette(), x0 = 44, x1 = w - 10, y0 = 26, y1 = h - 20, T = 1.5;
+    const X = (t) => x0 + (t / T) * (x1 - x0), Y = (db) => y0 + (-MB.clamp(db, -60, 0) / 60) * (y1 - y0);
+    ctx.font = "10px " + TQX.mono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -20, -40, -60].forEach((d) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x0, Y(d)); ctx.lineTo(x1, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d + " dB", x0 - 4, Y(d)); });
+    ctx.textAlign = "center"; [0, 0.5, 1, 1.5].forEach((t) => ctx.fillText(t + " s", X(t), h - 8));
+    const curve = (tauV, col, wdt) => { ctx.beginPath(); for (let i = 0; i <= 200; i++) { const t = (i / 200) * T, db = -8.686 * t / tauV; i ? ctx.lineTo(X(t), Y(db)) : ctx.moveTo(X(t), Y(db)); } ctx.strokeStyle = col; ctx.lineWidth = wdt; ctx.stroke(); };
+    curve(tau(0.9986), P.dim, 1.5);
+    curve(tau(par(xR()).decay), P.accent, 2.6);
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = "11px " + TQX.font(); ctx.fillText("6번 줄 E2 기본음 감쇠: 회색 = 개방, 강조 = 뮤트", x0, 10);
+  }, { aspect: 0.3, minHeight: 150, maxHeight: 210 });
+  load(); readout();
+})();
+
+/* ===================================================================== 7. 종합 프레이즈 */
+(function () {
+  const N = (t, s, f, o = {}) => Object.assign({ t, d: 0.5, s, f }, o);
+  const PHRASE = [
+    N(0, 4, 8), N(0.5, 5, 5), N(1, 5, 8, { tech: "h" }), N(1.5, 5, 5, { tech: "p" }), N(2, 4, 8, { tech: "b", bend: 2, d: 1 }), N(3, 4, 8, { tech: "r", bend: 2, d: 1 }),
+    N(4, 4, 5), N(4.5, 3, 7), N(5, 3, 5), N(5.5, 3, 7, { tech: "h" }), N(6, 4, 5, { tech: "~", d: 2 }),
+    N(8, 0, 5, { tech: "pm" }), N(8.5, 0, 5, { tech: "pm" }), N(9, 0, null, { tech: "x" }), N(9.5, 0, 8, { tech: "pm" }), N(10, 1, 5, { tech: "pm" }), N(10.5, 1, null, { tech: "x" }), N(11, 1, 5), N(11.5, 1, 7, { tech: "/" }),
+    N(12, 3, 12, { tech: "harm", d: 1.5 }), N(12, 4, 12, { tech: "harm", d: 1.5 }), N(12, 5, 12, { tech: "harm", d: 1.5 }), N(13.5, 2, 7, { tech: "harm" }), N(14, 2, 7, { tech: "~", d: 2 }),
+  ];
+  const g = GT.guitar({ tone: "electric" });
+  const fb = GT.fretboard("#tq-ph-fb", { frets: 12, labels: "none", guitar: g });
+  fb.showScale(9, MB.SCALES.minorPent.steps, { from: 4, to: 9, label: "none", cls: "ghost" });
+  g.on((ev) => { if (ev.type === "pluck") fb.flash(ev.s, ev.f, 320); });
+  const tab = GT.tab("#tq-ph-tab", PHRASE, { beatsPerBar: 4, chords: [{ t: 0, name: "Am" }, { t: 4, name: "Am" }, { t: 8, name: "Dm" }, { t: 12, name: "Am" }] });
+  const bpm = MB.range("tq-ph-bpm", (v) => v + " BPM");
+  const tone = MB.seg("tq-ph-tone", (v) => { g.tone = v; });
+  const loop = MB.check("tq-ph-loop");
+  let sch = null;
+  const btn = MB.playButton("tq-ph-play", () => {
+    sch = GT.playTab(PHRASE, { bpm: () => bpm(), guitar: g, tab, loop: loop(), length: 16,
+      onNote(i, n) { MB.stat("tq-ph-o-now", n.f == null ? "×" : `${6 - n.s}번 줄 ${n.f}프렛`); MB.stat("tq-ph-o-tech", n.tech ? TQX.TECH[n.tech] : "피킹"); },
+      onEnd() { btn.set(false); }, onStop() {} });
+    sch.start();
+  }, () => { if (sch) sch.stop(); g.stop(); tab.clear(); });
+})();
+</script>
+</body>
+</html>

@@ -3,96 +3,824 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<title>핑거스타일과 아르페지오 · GuitarBook</title>
-<meta name="description" content="엄지·검지·중지·약지의 줄 배정, 베이스와 고음을 교차하는 패턴을 그리드로 직접 만들어 재생한다.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>핑거스타일 · GuitarBook</title>
+<meta name="description" content="p·i·m·a 손가락 배정, 레스트·프리 스트로크와 손톱의 음색, 아르페지오 패턴 편집기, 트래비스 피킹의 교대 베이스, 선율과 반주를 나눈 편곡, 아르페지오 에튀드와 퍼커시브 주법을 가상 기타로 익힌다.">
 <link rel="canonical" href="https://music.euiyun.com/guitar/chapters/fingerstyle.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="GuitarBook">
-<meta property="og:title" content="핑거스타일과 아르페지오 · GuitarBook">
-<meta property="og:description" content="엄지·검지·중지·약지의 줄 배정, 베이스와 고음을 교차하는 패턴을 그리드로 직접 만들어 재생한다.">
+<meta property="og:title" content="핑거스타일 · GuitarBook">
+<meta property="og:description" content="p·i·m·a 손가락 배정, 레스트·프리 스트로크와 손톱의 음색, 아르페지오 패턴 편집기, 트래비스 피킹의 교대 베이스, 선율과 반주를 나눈 편곡, 아르페지오 에튀드와 퍼커시브 주법을 가상 기타로 익힌다.">
 <meta property="og:url" content="https://music.euiyun.com/guitar/chapters/fingerstyle.html">
 <meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <link rel="stylesheet" href="../css/style.css">
-<script defer src="../js/guitar.js"></script>
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .fs-stack { display: grid; gap: 10px; padding: 10px; }
+  .fs-row { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 620px) { .fs-row { grid-template-columns: 130px minmax(0, 1fr); } }
+  .fs-diag { max-width: 130px; margin: 0 auto; }
+  .fs-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fs-chips span { font: 700 13px var(--mono); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+  .fs-chips span.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .fs-fingers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .fs-fingers span { text-align: center; padding: 8px 0 6px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 20px var(--mono); color: var(--text-dim); transition: background .08s; }
+  .fs-fingers span small { display: block; font: 500 11px var(--font); color: var(--text-faint); }
+  .fs-fingers span.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .fs-fingers span.on small { color: var(--on-accent); }
+  .fs-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fs-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .fs-presets .btn.on { border-color: var(--accent); color: var(--accent); }
+  .fs-grid .cell.on::after { content: attr(data-k); position: absolute; inset: 0; display: grid; place-items: center; font: 700 11px var(--mono); color: var(--on-accent); }
+  .fs-fig-row { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 760px) { .fs-fig-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
 <link rel="stylesheet" href="../../shared/css/book-shell.css">
 <script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
 </head>
 <body data-chapter="fingerstyle">
-<header class="gb-topbar">
-<a class="gb-logo" href="../"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" style="fill:var(--accent)"/><g style="stroke:var(--on-accent)" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="6" x2="7" y2="22"/><line x1="10.2" y1="6" x2="10.2" y2="22"/><line x1="13.4" y1="6" x2="13.4" y2="22"/><line x1="16.6" y1="6" x2="16.6" y2="22"/><line x1="19.8" y1="6" x2="19.8" y2="22"/><line x1="23" y1="6" x2="23" y2="22"/></g></svg><span>GuitarBook</span> <small>기타 교과서</small></a>
-<span class="gb-spacer"></span>
-<button class="gb-btn theme" id="gb-theme" type="button">테마 · 자동</button>
-<button class="gb-btn gb-menu" id="gb-menu" type="button" aria-label="목차 열기">☰</button>
-<div class="gb-progress"></div>
-</header>
-<aside class="gb-drawer" aria-label="목차">
-<h4>목차</h4>
-<ul class="gb-chlist">
-<li><a href="../"><span class="num">··</span><span>GuitarBook 소개</span></a></li>
-<li><a href="tuning.html"><span class="num">01</span><span>기타의 구조와 튜닝</span></a></li>
-<li><a href="fretboard.html"><span class="num">02</span><span>지판 읽기와 음계</span></a></li>
-<li><a href="chords.html"><span class="num">03</span><span>코드 다이어그램</span></a></li>
-<li><a href="strumming.html"><span class="num">04</span><span>스트로크와 리듬</span></a></li>
-<li><a href="progressions.html"><span class="num">05</span><span>코드 진행 연주</span></a></li>
-<li><a href="capo.html"><span class="num">06</span><span>카포와 이조</span></a></li>
-<li><a href="fingerstyle.html" class="active"><span class="num">07</span><span>핑거스타일과 아르페지오</span></a></li>
-<li><a href="practice.html"><span class="num">08</span><span>종합 연습실</span></a></li>
-</ul>
-</aside>
-<div class="gb-backdrop" id="gb-backdrop"></div>
-<main class="chapter" id="main">
+<main class="chapter">
   <header class="chapter-hero">
-    <div class="eyebrow">Chapter 07</div>
-    <h1>핑거스타일과 아르페지오</h1>
-    <p class="lead">핑거스타일은 피크 없이 손가락으로 줄을 하나씩 뜯는 주법입니다. 엄지가 베이스를 맡고 나머지 손가락이 위쪽 음을 맡아, 한 대의 기타로 반주와 멜로디를 함께 냅니다.</p>
+    <div class="eyebrow">Chapter 12</div>
+    <h1>핑거스타일</h1>
+    <p class="lead">픽 하나는 한 번에 한 곳만 칩니다. 손가락 다섯 개는 저음과 고음, 반주와 선율을 동시에 맡을 수 있습니다. 기타 한 대가 베이스와 피아노와 가수를 겸하는 것, 그것이 핑거스타일입니다. 이 장에서는 손가락마다 줄을 배정하는 규칙, 뜯는 방향과 손톱이 음색을 바꾸는 물리, 아르페지오 패턴을 '격자'로 설계하는 법, 엄지를 독립시키는 트래비스 피킹, 공유 저작물 선율을 직접 편곡해 선율과 반주를 나누는 법, 그리고 몸통을 두드리는 퍼커시브 주법까지 다룹니다.</p>
     <ul class="objectives">
-      <li>p·i·m·a 손가락 기호와 담당 줄을 안다.</li>
-      <li>베이스와 고음을 교차하는 기본 패턴을 만든다.</li>
-      <li>아르페지오 그리드에서 칸을 채워 재생한다.</li>
-      <li>BPM을 단계적으로 올려 패턴을 안정시킨다.</li>
+      <li>p·i·m·a 표기와 기본 배정(엄지 = 4–6번 줄, i·m·a = 3·2·1번 줄)을 알고 패턴을 손가락 이름으로 읽고 쓴다.</li>
+      <li>레스트 스트로크와 프리 스트로크의 차이를 줄 진동의 두 편광(수직·수평)으로, 손톱과 살·뜯는 위치의 차이를 배음 스펙트럼으로 설명한다.</li>
+      <li>아르페지오 패턴을 스텝 격자로 설계해 코드 진행 위에서 듣고 바꿔 본다.</li>
+      <li>엄지의 교대 베이스와 손가락 선율을 층으로 나누어 듣고(트래비스 피킹), 두 층을 독립시키는 연습 순서를 안다.</li>
+      <li>공유 저작물 선율을 선율·베이스·안쪽 화음의 세 층으로 편곡하고, 선율을 앞으로 내는 균형을 조절한다.</li>
+      <li>아르페지오 에튀드와 퍼커시브 그루브를 연주하고, 플랜팅과 템포 사다리로 연습을 설계한다.</li>
     </ul>
   </header>
 
-  <section id="fingers">
-    <h2>손가락 배정</h2>
-    <p>핑거스타일은 피크 없이 손가락으로 줄을 하나씩 뜯는 주법입니다. 손가락마다 맡는 줄이 정해져 있어, 베이스 음과 멜로디가 동시에 흘러갑니다. 스페인어 기호로 적는 것이 관례입니다.</p>
-    <div class="tbl-wrap">
-      <table class="tbl">
-        <thead><tr><th>기호</th><th>손가락</th><th>주로 맡는 줄</th></tr></thead>
-        <tbody>
-          <tr><td>p</td><td>엄지</td><td>5번, 6번 줄 (베이스)</td></tr>
-          <tr><td>i</td><td>검지</td><td>3번 줄 (G)</td></tr>
-          <tr><td>m</td><td>중지</td><td>2번 줄 (B)</td></tr>
-          <tr><td>a</td><td>약지</td><td>1번 줄 (고음 E)</td></tr>
-        </tbody>
-      </table>
+  <!-- =============================================================== 1 -->
+  <section id="pima">
+    <h2>손가락의 이름: p·i·m·a</h2>
+    <p>클래식 기타의 전통을 따라 오른손 손가락은 스페인어 머리글자로 부릅니다. 엄지 <b>p</b>(pulgar), 검지 <b>i</b>(índice), 중지 <b>m</b>(medio), 약지 <b>a</b>(anular). 새끼손가락은 거의 쓰지 않지만 쓸 때는 <b>c</b>나 <b>e</b>로 적습니다. 왼손은 숫자(1 = 검지 … 4 = 새끼)로 적으므로, 악보에서 글자는 오른손, 숫자는 왼손이라고 기억하면 헷갈리지 않습니다.</p>
+    <p>가장 기본적인 배정은 '손가락마다 자기 줄'입니다. 엄지가 베이스 줄인 6·5·4번 줄을 맡고, i·m·a가 각각 3·2·1번 줄을 맡습니다. 이렇게 하면 손 전체를 움직이지 않고도 어떤 줄이든 칠 수 있고, 무엇보다 <b>손이 줄의 위치를 기억</b>하게 됩니다. 이 기본 자리에서 손가락이 줄을 '찾는' 대신 늘 거기 있게 하는 것이 핑거스타일 정확성의 출발점입니다. 코드가 바뀌면 엄지만 근음 줄로 옮겨 다니고(C는 5번 줄, G는 6번 줄, D는 4번 줄), i·m·a는 자리를 지키는 것이 원칙입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 250" role="img" aria-label="오른손 손가락과 줄의 기본 배정"><g id="fs-fig-pima"></g></svg>
+      <figcaption><b>그림 12-1.</b> 오른손 기본 배정. 엄지(p)는 6–4번 줄의 근음을 찾아 움직이고, i·m·a는 3·2·1번 줄에 고정한다. 엄지는 손가락들보다 넥 쪽에 두어, 엄지가 아래로 지나갈 때 검지와 부딪히지 않게(손가락 앞에서 'X'자를 만들지 않게) 한다.</figcaption>
+    </figure>
+    <p>배정이 정해지면 패턴을 손가락 이름의 문자열로 적을 수 있습니다. 예를 들어 <code>p-i-m-a</code>는 베이스에서 1번 줄까지 차례로 올라가는 아르페지오, <code>p-i-m-i</code>는 2번 줄까지 갔다가 돌아오는 패턴이고, 손가락 둘을 동시에 치는 것은 <code>p+a</code>처럼 묶어 적습니다(핀치<span class="en">(Pinch)</span>). 줄 이름 대신 손가락 이름으로 적어 두면, 코드가 바뀌어도 같은 패턴을 그대로 쓸 수 있다는 것이 장점입니다. 엄지가 근음 줄로만 옮겨 가면 되기 때문입니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="stroke">
+    <h2>레스트 스트로크와 프리 스트로크, 손톱과 살</h2>
+    <p>같은 줄을 같은 세기로 뜯어도 손가락이 <b>어느 방향으로</b> 줄을 미느냐에 따라 소리가 달라집니다. <b>레스트 스트로크</b><span class="en">(Rest stroke, apoyando)</span>는 손가락이 줄을 지나 바로 옆 줄에 기대어 멈추는 주법입니다. i·m·a는 줄을 뜯은 뒤 한 단계 굵은 줄(1번 줄을 쳤다면 2번 줄)에 닿아 멈추고, 엄지는 반대로 한 단계 가는 줄(6번 줄을 쳤다면 5번 줄)에 닿아 멈춥니다. <b>프리 스트로크</b><span class="en">(Free stroke, tirando)</span>는 옆 줄에 닿지 않고 손바닥 쪽으로 빠져나가는 주법으로, 아르페지오처럼 여러 줄을 울려 둬야 할 때 씁니다.</p>
+    <p>차이의 물리적 원인은 줄 진동의 <b>편광</b>입니다. 줄은 상판에 수직인 방향과 상판에 나란한 방향, 두 방향으로 독립적으로 떨 수 있습니다. 브리지는 수직 방향의 힘을 상판에 훨씬 잘 전달하므로, 수직 성분은 크게 울리지만 에너지를 빨리 잃고, 수평 성분은 작게 울리지만 오래 갑니다. 레스트 스트로크는 줄을 상판 쪽으로 눌러 밀었다 놓는 동작이라 수직 성분이 큽니다.</p>
+    <div class="formula">$$A_\perp = A\sin\theta,\quad A_\parallel = A\cos\theta, \qquad y(t) \approx A_\perp e^{-t/\tau_\perp} + g\,A_\parallel e^{-t/\tau_\parallel},\quad \tau_\perp < \tau_\parallel,\; g < 1$$
+      <div class="where">\(\theta\): 줄을 놓는 순간 변위 방향과 상판이 이루는 각, \(g\): 수평 성분이 소리로 바뀌는 효율(작다). 레스트 스트로크(\(\theta\) 큼)는 처음 소리가 크고 둥근 대신 빨리 줄고, 프리 스트로크(\(\theta\) 작음)는 처음은 작지만 상대적으로 오래 끈다. 기타 소리를 dB로 그려 보면 처음엔 가파르고 나중엔 완만한 '두 단계 감쇠'가 보이는 것이 이 때문이다.</div>
     </div>
-    <p>손가락 배정은 정답이 하나가 아닙니다. 위 표는 가장 흔한 출발점입니다. 중요한 것은 엄지가 베이스를, 나머지 손가락이 위쪽 음을 맡는다는 구조입니다.</p>
-  </section>
-
-  <section id="grid">
-    <h2>아르페지오 그리드</h2>
-    <p>그리드는 여섯 줄과 여덟 칸입니다. 맨 윗줄이 1번(고음) 줄, 맨 아랫줄이 6번(저음) 줄입니다. 칸을 눌러 줄을 켜고 끄면 그 칸에서 해당 줄이 코드의 모양대로 울립니다. 코드를 바꿔 같은 패턴이 어떻게 들리는지 확인해 보세요.</p>
-    <div class="wd" data-widget="pattern" data-chord="C" data-bpm="100"></div>
-    <p>예제 프리셋은 손가락 패턴의 뼈대입니다. <b>베이스 + 고음</b>은 엄지가 저음을 치고 다른 손가락이 위에서 응답하는 패턴입니다. <b>상행 아르페지오</b>는 음을 아래에서 위로 쌓습니다.</p>
-  </section>
-
-  <section id="alternating">
-    <h2>교차 패턴 직접 만들기</h2>
-    <p>가장 기초적인 핑거스타일 패턴은 베이스와 코드 음을 번갈아 치는 것입니다. 엄지가 낮은 줄을 치고, 손가락이 그 사이 높은 줄을 칩니다. 그리드에서 칸을 직접 채워 보세요.</p>
-    <div class="callout tip">
-      <p>직접 만든 패턴이 어색하면, 한 칸씩 천천히 재생하며 손가락이 움직일 순서를 먼저 말로 적어 보세요. 소리보다 동작 순서가 먼저 익어야 빠른 템포에서도 흔들리지 않습니다.</p>
+    <div class="fs-fig-row">
+      <figure class="diagram">
+        <svg viewBox="0 0 320 220" role="img" aria-label="레스트 스트로크와 프리 스트로크">
+          <line x1="20" y1="170" x2="300" y2="170" class="s-axis"/><text x="296" y="190" text-anchor="end" class="t-dim">상판</text>
+          <circle cx="110" cy="120" r="7" class="f-elev"/><circle cx="170" cy="120" r="7" class="f-elev"/>
+          <text x="110" y="146" text-anchor="middle" class="t-mono">2번</text><text x="170" y="146" text-anchor="middle" class="t-mono">1번</text>
+          <path d="M196 70 Q178 100 168 124 Q150 150 118 128" class="s-acc"/><path d="M118 128 l10 -1 l-5 8 z" class="f-acc"/>
+          <text x="150" y="30" text-anchor="middle" class="t-acc">레스트: 옆 줄에 기대 멈춤</text>
+          <text x="150" y="48" text-anchor="middle" class="t-dim">상판 쪽으로 미는 성분 큼 (θ 큼)</text>
+          <path d="M206 70 Q190 106 176 113 Q150 104 134 76" class="s-line" stroke-dasharray="4 3"/><path d="M134 76 l1 10 l7 -6 z" class="f-acc"/>
+          <text x="110" y="74" text-anchor="end" class="t-dim">프리: 2번 줄 위로</text>
+        </svg>
+        <figcaption><b>그림 12-2.</b> 1번 줄을 i로 뜯을 때. 레스트 스트로크(실선)는 줄을 상판 쪽으로 밀어 넣은 뒤 2번 줄에 멈추고, 프리 스트로크(점선)는 손바닥 쪽 위로 빠져나간다.</figcaption>
+      </figure>
+      <figure class="diagram">
+        <svg viewBox="0 0 320 220" role="img" aria-label="손톱과 살의 접촉">
+          <line x1="20" y1="110" x2="300" y2="110" class="s-line"/>
+          <path d="M20 110 L110 60 L300 110" class="s-acc"/>
+          <path d="M20 110 Q60 110 110 64 Q150 60 300 110" class="s-line" stroke-dasharray="5 4"/>
+          <text x="110" y="48" text-anchor="middle" class="t-acc">손톱: 뾰족한 꼭짓점</text>
+          <text x="180" y="150" text-anchor="middle" class="t-dim">살: 둥근 꼭짓점(점선) → 높은 배음이 약함</text>
+          <text x="160" y="184" text-anchor="middle" class="t-mono">a_n ∝ sin(nπβ)/n² × (접촉 모양 필터)</text>
+        </svg>
+        <figcaption><b>그림 12-3.</b> 뜯기 직전 줄의 모양. 단단하고 좁은 손톱은 날카로운 꼭짓점을 만들고 줄을 순간적으로 놓아 높은 배음이 풍부하다. 부드러운 살은 꼭짓점을 둥글게 하고 줄이 미끄러지며 천천히 빠져나가 높은 배음이 줄어든다.</figcaption>
+      </figure>
     </div>
-    <p>그리드 재생은 8분음표 단위입니다. BPM을 60까지 낮춰 여유 있게 시작하고, 모든 칸이 같은 간격으로 들리면 점점 올리세요.</p>
+    <p>음색을 바꾸는 또 하나의 손잡이는 <b>뜯는 위치</b>입니다. 악기의 물리에서 보았듯 새들에서 \(\beta L\) 떨어진 곳을 뜯으면 \(n\)번 배음의 크기는 \(\sin(n\pi\beta)/n^2\)에 비례하고, \(n\beta\)가 정수인 배음은 사라집니다. 브리지 가까이(\(\beta \approx 1/20\), <i>술 폰티첼로</i><span class="en">(sul ponticello)</span>)는 높은 배음이 살아 금속성으로 날카롭고, 사운드홀을 지나 지판 끝 위(\(\beta \approx 1/4\)–\(1/3\), <i>술 타스토</i><span class="en">(sul tasto)</span>)는 둥글고 부드럽습니다. 클래식 기타리스트는 곡의 한 부분을 반복할 때 이 위치를 바꿔 '다른 악기'처럼 들려주기도 합니다. 나일론 줄과 손톱의 조합이 클래식 기타 특유의 맑은 소리를 만들고, 스틸 줄 통기타에서는 손톱 없이 살로 쳐도 충분히 밝은 소리가 납니다(스틸 줄 자체가 높은 배음을 오래 유지하기 때문).</p>
+
+    <div class="sim" id="sim-fs-touch">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>터치 실험실: 방향·손톱·위치</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="fs-tc-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>스트로크</span><div class="seg" id="fs-tc-stroke"><button data-value="free" class="on">프리</button><button data-value="rest">레스트</button></div></div>
+          <div class="ctrl"><span>접촉</span><div class="seg" id="fs-tc-nail"><button data-value="flesh">살</button><button data-value="nail" class="on">손톱</button></div></div>
+          <div class="ctrl"><span>뜯는 위치</span><div class="seg" id="fs-tc-pos"><button data-value="0.05">폰티첼로</button><button data-value="0.12" class="on">보통</button><button data-value="0.28">타스토</button></div></div>
+          <div class="ctrl"><span>줄</span><div class="seg" id="fs-tc-str"><button data-value="5" class="on">1번</button><button data-value="3">3번</button><button data-value="1">5번</button></div></div>
+          <div class="ctrl"><span>줄 재질</span><div class="seg" id="fs-tc-tone"><button data-value="nylon" class="on">나일론</button><button data-value="steel">스틸</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="fs-tc-play">▶ 뜯기</button><button class="btn" id="fs-tc-ab">A/B: 프리 ↔ 레스트</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">수직 성분 sin θ</span><span class="v" id="fs-tc-o-v">—</span></div>
+        <div class="stat"><span class="k">처음 크기</span><span class="v" id="fs-tc-o-l">—</span></div>
+        <div class="stat"><span class="k">빠지는 배음</span><span class="v" id="fs-tc-o-miss">—</span></div>
+      </div>
+      <div class="sim-note">위: 두 편광의 감쇠(dB). 강조색 = 수직 성분, 보조색 = 수평 성분, 굵은 선 = 합. 아래: 처음 소리의 배음 크기(1–16번). 해볼 것: 'A/B'로 같은 조건의 프리·레스트를 연달아 듣고, 폰티첼로와 타스토를 비교하세요. 모델(근사): 레스트 θ = 55°, 프리 θ = 25°. 수직 성분은 감쇠가 빠른(τ⊥) 카플러스–스트롱 음, 수평 성분은 느린(τ∥) 음을 이득 0.5로 섞었습니다. 손톱/살은 초기 잡음의 밝기(0.78/0.28)로, 뜯는 위치는 빗살 필터(β)로 반영합니다. 실제 편광 결합은 이보다 복잡합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 터치</strong> ① 손가락 끝을 줄에 먼저 대고(준비) → 누르고 → 놓는 3단계를 천천히. 소리는 '놓는 순간' 납니다. ② 레스트 스트로크는 1번 줄을 i–m 교대로 4분음표 60에서 치며, 손가락이 2번 줄에 '착지'하는 소리가 나지 않게 부드럽게. ③ 손톱을 기른다면 손가락 끝 살보다 1–2 mm 길게, 끝을 둥글게 다듬고 고운 사포로 마무리합니다. 살과 손톱이 거의 동시에 닿도록 손톱의 왼쪽(엄지 쪽) 모서리로 줄을 미는 것이 클래식 기타의 일반적인 방법입니다. ④ 같은 음을 폰티첼로–보통–타스토 위치에서 네 번씩 쳐서 음색 차이를 귀로 구별해 보세요.</div>
   </section>
 
-<nav class="chapter-nav" aria-label="장 이동">
-<a href="capo.html"><small>← 06</small><span>카포와 이조</span></a>
-<a class="next" href="practice.html"><small>08 →</small><span>종합 연습실</span></a>
-</nav>
+  <!-- =============================================================== 3 -->
+  <section id="pattern">
+    <h2>아르페지오 패턴을 격자로 설계하기</h2>
+    <p>아르페지오<span class="en">(Arpeggio)</span>는 화음의 음을 동시에 치지 않고 한 음씩 차례로 펼치는 것입니다. 핑거스타일 반주의 대부분은 '어느 박에 어느 손가락'을 정한 반복 패턴이므로, 6장의 스트럼 패턴처럼 <b>시간 × 손가락 격자</b>로 그리면 한눈에 보입니다. 행은 손가락(a·m·i와 엄지의 두 역할 — 근음 p와 교대 베이스 p′), 열은 8분음표 칸입니다. 4/4박자면 8칸, 3/4박자면 6칸입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 230" role="img" aria-label="p-i-m-a-m-i 아르페지오의 시간-줄 그림"><g id="fs-fig-arp"></g></svg>
+      <figcaption><b>그림 12-4.</b> Am 코드 위의 3/4박자 <code>p-i-m-a-m-i</code> 패턴. 가로가 시간(8분음표), 세로가 줄. 엄지가 근음(5번 줄 A)을 친 뒤 손가락이 3·2·1번 줄을 올라갔다 내려온다. 음이 서로 겹쳐 울리는 것(흐린 막대)이 아르페지오의 풍성함을 만든다. 그러려면 왼손은 코드를 끝까지 잡고 있어야 한다.</figcaption>
+    </figure>
+    <p>패턴을 고를 때는 세 가지를 생각합니다. 첫째, <b>박자감</b>: 엄지가 강박(1박)을 잡아 주면 패턴이 무엇이든 박이 분명해집니다. 둘째, <b>방향</b>: 올라가는 <code>p-i-m-a</code>는 밝고 앞으로 나가는 느낌, 내려오는 <code>p-a-m-i</code>는 차분하게 가라앉는 느낌입니다. 셋째, <b>교대 베이스</b>: 마디 가운데에서 엄지가 근음 대신 다른 화음음(대개 5도)을 치면 베이스 선이 움직여 반주가 훨씬 입체적이 됩니다. 아래 편집기에서 칸을 눌러 패턴을 직접 바꿔 보세요.</p>
+
+    <div class="sim" id="sim-fs-pattern">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>아르페지오 패턴 편집기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="fs-stack">
+            <div class="steps-grid fs-grid" id="fs-pt-grid"></div>
+            <div class="fs-row">
+              <div class="fs-diag" id="fs-pt-diag"></div>
+              <div><div class="fs-chips" id="fs-pt-chips"></div><div id="fs-pt-fb" style="margin-top:8px"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span><div class="fs-presets" id="fs-pt-pre"></div></div>
+          <label class="ctrl"><span>코드 진행</span><select id="fs-pt-prog">
+            <option value="C,Am,F,G">C – Am – F – G</option>
+            <option value="Am,Dm,E,Am">Am – Dm – E – Am</option>
+            <option value="G,Em,C,D">G – Em – C – D</option>
+          </select></label>
+          <label class="ctrl"><span>템포 <output id="fs-pt-bpm-out"></output></span><input type="range" id="fs-pt-bpm" min="50" max="140" value="80"></label>
+          <div class="ctrl"><span>음색</span><div class="seg" id="fs-pt-tone"><button data-value="nylon" class="on">나일론</button><button data-value="steel">스틸</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="fs-pt-play">▶ 재생</button><button class="btn" id="fs-pt-clear">칸 모두 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">패턴</span><span class="v" id="fs-pt-o-pat">—</span></div>
+        <div class="stat"><span class="k">지금 코드</span><span class="v" id="fs-pt-o-ch">—</span></div>
+        <div class="stat"><span class="k">한 마디 음 수</span><span class="v" id="fs-pt-o-n">—</span></div>
+      </div>
+      <div class="sim-note">칸을 클릭해 켜고 끕니다(재생 중에도 즉시 반영). 행: a = 1번 줄, m = 2번 줄, i = 3번 줄, p′ = 교대 베이스(근음 옆 줄의 5도·3도), p = 근음. 같은 열의 두 칸은 핀치로 동시에 칩니다. 4/4 프리셋은 8칸, 3/4 프리셋은 6칸이고, 한 마디마다 코드가 바뀝니다. 왼쪽 다이어그램과 지판이 지금 코드와 뜯는 줄을 보여 줍니다. 모델: 카플러스–스트롱 기타 음, 엄지는 조금 세게(0.85), 손가락은 0.6, 같은 줄의 새 음이 앞 음을 멈춥니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 아르페지오</strong> ① 먼저 왼손 없이 개방현으로 패턴만 4마디(엄지 5번 줄). 손가락이 줄을 찾느라 손이 들썩이지 않는지 거울로 봅니다. ② 코드를 바꿀 때 엄지가 다음 근음 줄로 <b>먼저</b> 가 있도록, 마디 마지막 8분음표에서 엄지를 미리 옮깁니다. ③ 템포 60에서 C–Am–F–G 4마디를 끊김 없이 3회 → 70 → 80. F는 작은 F(xx3211)로 시작해도 됩니다. ④ 3/4박자 패턴(왈츠·p-i-m-a-m-i)은 첫 박 엄지를 약간 세게 쳐서 '쿵–짝–짝'이 들리게 합니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="travis">
+    <h2>엄지의 독립: 트래비스 피킹</h2>
+    <p>1940년대 미국 켄터키의 기타리스트 머를 트래비스<span class="en">(Merle Travis)</span>의 이름을 딴 <b>트래비스 피킹</b>은 엄지가 메트로놈처럼 4분음표마다 베이스를 교대로 치고(교대 베이스<span class="en">(Alternating bass)</span>), 그 위에서 손가락이 박과 박 사이(뒷박)에 선율과 화음음을 얹는 주법입니다. 한 사람이 베이스 연주자와 기타리스트를 겸하는 셈이라 컨트리, 포크, 래그타임 블루스에서 널리 쓰입니다. C 코드라면 엄지는 5번 줄 C → 4번 줄 E → 6번 줄 G(왼손 약지를 옮겨 짚음) → 4번 줄 E를 반복합니다.</p>
+    <div class="formula">$$\text{엄지: } t \in \{0, 1, 2, 3\}\ \text{(박)}, \qquad \text{손가락: } t \in \{0, 1.5, 2.5, 3.5\}, \qquad \text{합친 리듬 } \{0, 1, 1.5, 2, 2.5, 3, 3.5\}$$
+      <div class="where">손가락의 첫 음(0박)은 엄지와 동시에 치는 핀치이고, 나머지는 엄지가 쉬는 뒷박에 들어간다. 두 층을 합치면 8분음표 격자의 여덟 칸 중 일곱 칸이 채워지는데, 각 손이 맡은 리듬은 단순하다. 어려움은 리듬이 아니라 <b>독립</b>에 있다: 손가락이 선율 때문에 리듬을 바꿀 때도 엄지는 흔들리지 않아야 한다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 210" role="img" aria-label="트래비스 피킹의 두 층"><g id="fs-fig-travis"></g></svg>
+      <figcaption><b>그림 12-5.</b> 트래비스 피킹의 두 층(C 코드 한 마디). 아래는 엄지의 교대 베이스(5–4–6–4번 줄, 4분음표), 위는 손가락의 선율(1박 핀치 후 뒷박). 두 층이 서로의 빈자리를 채워 연속적인 8분음표 흐름처럼 들린다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-fs-travis">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>트래비스 피킹: 층을 나누어 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="fs-stack">
+            <div class="fs-row">
+              <div class="fs-diag" id="fs-tv-diag"></div>
+              <div id="fs-tv-tab"></div>
+            </div>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <label class="check"><input type="checkbox" id="fs-tv-bass" checked> 엄지(교대 베이스)</label>
+          <label class="check"><input type="checkbox" id="fs-tv-mel" checked> 손가락(선율·핀치)</label>
+          <label class="check"><input type="checkbox" id="fs-tv-pm"> 베이스 팜 뮤트</label>
+          <label class="ctrl"><span>템포 <output id="fs-tv-bpm-out"></output></span><input type="range" id="fs-tv-bpm" min="50" max="150" value="88"></label>
+          <div class="btn-row"><button class="btn primary" id="fs-tv-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드</span><span class="v" id="fs-tv-o-ch">—</span></div>
+        <div class="stat"><span class="k">엄지 줄 순서</span><span class="v" id="fs-tv-o-th">—</span></div>
+        <div class="stat"><span class="k">지금 층</span><span class="v" id="fs-tv-o-ly">—</span></div>
+      </div>
+      <div class="sim-note">C – Am – F – G 네 마디를 반복하는 창작 연습곡입니다. 재생 중에 체크박스로 층을 켜고 꺼서 엄지만, 손가락만 들어 보세요. 엄지만 들으면 단순한 '쿵–짝' 베이스, 손가락만 들으면 당김음 선율인데, 합치면 하나의 흐름이 됩니다. 실제 연주자는 엄지 쪽 손날로 베이스 줄을 살짝 뮤트해 베이스를 단단하게 만들기도 합니다('베이스 팜 뮤트'). F는 1프렛 바레(133211)로, 엄지가 6–4–5–4번 줄을 칩니다. 모델: 스틸 줄 카플러스–스트롱 음.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 엄지 독립</strong> ① 엄지만: C 코드를 잡고 5–4–6–4번 줄을 4분음표로, 템포 60에서 2분 동안 흔들림 없이. 말을 하거나 노래를 흥얼거려도 엄지가 계속 가면 '자동화'된 것입니다. ② 엄지 + 1박 핀치(p+m)만 추가. ③ 뒷박을 하나씩 추가: 2박 뒤 → 3박 뒤 → 4박 뒤. ④ 손가락 선율을 바꿔도 엄지가 그대로인지 확인하려면 위 시뮬레이터처럼 엄지 층만 메트로놈 삼아 녹음하고 그 위에서 손가락만 연습하는 것도 좋습니다. ⑤ 목표 템포 100. 처음 일주일은 70을 넘기지 마세요.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="arrange">
+    <h2>선율과 반주 나누기: 편곡의 기초</h2>
+    <p>노래 한 곡을 기타 한 대로 연주하려면 세 가지 층을 동시에 맡아야 합니다. 맨 위의 <b>선율</b>, 맨 아래의 <b>베이스</b>(화음의 뿌리), 그리고 그 사이를 채우는 <b>안쪽 화음</b>입니다. 손가락 배정이 이 층 구조와 잘 맞습니다. 선율은 주로 1–3번 줄에서 a·m·i가, 베이스는 4–6번 줄에서 엄지가, 안쪽 화음은 남는 손가락이 맡습니다. 편곡의 첫 단계는 선율을 고음 줄의 <b>열린 자리(1포지션)</b>에 놓을 수 있는 조를 고르는 것입니다. 1779년에 가사가 발표되고 1829년 'New Britain'이라는 선율과 짝지어진 공유 저작물 찬송가 「Amazing Grace」를 C장조로 옮기면, 선율 전체(G3–G4)가 3·2·1번 줄의 0–3프렛 안에 들어옵니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 250" role="img" aria-label="편곡의 세 층 음높이 분포"><g id="fs-fig-layers"></g></svg>
+      <figcaption><b>그림 12-6.</b> 이 장의 「Amazing Grace」 편곡(처음 8마디)을 시간–음높이로 그린 것. 선율(강조색)은 G3–G4, 안쪽 화음(보조색)은 D3–E3, 베이스(회색)는 G2–F3에 머문다. 층 사이에 틈이 있어야 선율이 묻히지 않는다. 같은 음역에 반주가 겹치면 선율이 들리지 않는다.</figcaption>
+    </figure>
+    <p>편곡 규칙은 단순합니다. 강박마다 엄지가 화음의 근음을 놓고(C는 5번 줄 3프렛, F는 4번 줄 3프렛, G는 6번 줄 3프렛), 선율이 길게 머무는 자리에 안쪽 화음을 끼워 넣어 3/4박자의 '쿵–짝–짝'을 만듭니다. 선율이 빠르게 움직이는 곳에서는 반주를 비워 손가락을 아낍니다. 마지막으로 가장 중요한 것이 <b>균형</b>입니다. 선율 음을 반주보다 조금 세게(대략 6 dB, 진폭 두 배) 치지 않으면 청자는 선율을 따라가지 못합니다. 아래 시뮬레이터에서 '선율 강조'를 0 dB로 내리면 같은 음들이 얼마나 평평하게 들리는지 확인할 수 있습니다.</p>
+
+    <div class="sim" id="sim-fs-arrange">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>「Amazing Grace」 3층 편곡</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="fs-stack"><div id="fs-ar-tab"></div></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>층</span>
+            <label class="check"><input type="checkbox" id="fs-ar-mel" checked> 선율 (a·m·i)</label>
+            <label class="check"><input type="checkbox" id="fs-ar-in" checked> 안쪽 화음 (i·m)</label>
+            <label class="check"><input type="checkbox" id="fs-ar-bass" checked> 베이스 (p)</label>
+          </div>
+          <label class="ctrl"><span>선율 강조 <output id="fs-ar-bal-out"></output></span><input type="range" id="fs-ar-bal" min="-6" max="12" value="6"></label>
+          <label class="ctrl"><span>템포 <output id="fs-ar-bpm-out"></output></span><input type="range" id="fs-ar-bpm" min="50" max="120" value="84"></label>
+          <div class="btn-row"><button class="btn primary" id="fs-ar-play">▶ 재생</button><button class="btn" id="fs-ar-solo">선율만 한 번</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마디</span><span class="v" id="fs-ar-o-bar">—</span></div>
+        <div class="stat"><span class="k">코드</span><span class="v" id="fs-ar-o-ch">—</span></div>
+        <div class="stat"><span class="k">선율 음</span><span class="v" id="fs-ar-o-mel">—</span></div>
+      </div>
+      <div class="sim-note">공유 저작물 선율(New Britain, 1829)을 이 책에서 C장조 3/4박자로 편곡했습니다. 첫 마디는 못갖춘마디(셋째 박 G3에서 시작). 층 체크박스로 각 층을 따로 들어 보고, '선율 강조'를 0 dB → +6 dB → +12 dB로 바꿔 균형을 비교하세요. 왼손: C·F·G는 1포지션 코드 모양 그대로, 선율 음은 그 모양 안이나 바로 옆 손가락으로 짚습니다. 모델: 나일론 카플러스–스트롱 음, 선율 강조는 선율 음 세기의 dB 차이(반주 기준).</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 편곡 연주</strong> ① 선율만 노래하듯 연주해 외웁니다(손가락 a·m·i 교대). ② 베이스만 강박에 맞춰 코드 바뀌는 자리를 익힙니다. ③ 선율 + 베이스(2층)를 합치고, 마지막에 안쪽 화음을 넣습니다. ④ 선율 음을 칠 때 손가락이 조금 더 깊이 줄을 밀어 레스트 스트로크로 치면 자연스럽게 선율이 앞으로 나옵니다(반주는 프리 스트로크). ⑤ 녹음해서 '처음 듣는 사람이 선율을 흥얼거릴 수 있는가'로 균형을 판단하세요.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="etude">
+    <h2>클래식 아르페지오 에튀드</h2>
+    <p>클래식 기타 교본의 상당 부분은 오른손 아르페지오 연습곡, 즉 <b>에튀드</b><span class="en">(Étude)</span>입니다. 왼손은 단순한 코드 모양을 차례로 잡고, 오른손은 정해진 패턴을 끝까지 유지하면서 음색과 음량을 고르게 다듬는 것이 목적입니다. 아래는 이 책을 위해 만든 16마디 A 단조 에튀드로, 앞 여덟 마디는 올라갔다 내려오는 <code>p-i-m-a-m-i</code>, 뒤 여덟 마디는 내려왔다 올라가는 <code>p-a-m-i-m-a</code>를 씁니다. 진행은 Am–Dm–G–C–Fmaj7(하행 5도권)을 지나 Dm–E로 긴장을 쌓은 뒤 Am으로 돌아옵니다.</p>
+    <p>에튀드를 연습할 때 귀 기울일 것은 세 가지입니다. 첫째, 네 손가락의 <b>음량이 같은가</b>. 대개 a(약지)가 약하고 p가 너무 셉니다. 둘째, <b>음이 겹쳐 울리는가</b>. 왼손이 코드를 일찍 놓거나 오른손 손가락이 다음 줄을 준비하면서 울리는 줄을 건드리면 아르페지오의 울림이 끊깁니다. 셋째, 코드가 바뀌는 순간 <b>박이 늘어지지 않는가</b>. 마디의 마지막 음(i)을 치는 순간 왼손은 이미 다음 코드로 출발해야 합니다.</p>
+
+    <div class="sim" id="sim-fs-etude">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>아르페지오 에튀드 (A 단조, 창작)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="fs-stack">
+            <div class="fs-row">
+              <div class="fs-diag" id="fs-et-diag"></div>
+              <div><div class="fs-fingers" id="fs-et-fing"><span data-f="p">p<small>엄지</small></span><span data-f="i">i<small>검지</small></span><span data-f="m">m<small>중지</small></span><span data-f="a">a<small>약지</small></span></div></div>
+            </div>
+            <div id="fs-et-tab"></div>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="fs-et-bpm-out"></output></span><input type="range" id="fs-et-bpm" min="40" max="132" value="72"></label>
+          <label class="ctrl"><span>a(약지) 세기 <output id="fs-et-a-out"></output></span><input type="range" id="fs-et-a" min="0.2" max="1" step="0.05" value="0.65"></label>
+          <div class="ctrl"><span>구간</span><div class="seg" id="fs-et-sec"><button data-value="all" class="on">전체</button><button data-value="A">A (1–8)</button><button data-value="B">B (9–16)</button></div></div>
+          <label class="check"><input type="checkbox" id="fs-et-loop"> 반복</label>
+          <div class="btn-row"><button class="btn primary" id="fs-et-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마디 / 코드</span><span class="v" id="fs-et-o-bar">—</span></div>
+        <div class="stat"><span class="k">손가락 → 줄</span><span class="v" id="fs-et-o-f">—</span></div>
+      </div>
+      <div class="sim-note">위의 p·i·m·a 칸이 지금 뜯는 손가락을 보여 줍니다. 'a 세기'를 0.3 정도로 내리면 약지가 약한 초보자의 소리가 됩니다. 1번 줄 음이 쑥 빠져 패턴이 절뚝거리는 것을 들어 보고, 다시 0.65로 올려 고른 소리와 비교하세요. 구간을 골라 A·B를 따로 반복할 수 있습니다. 모델: 나일론 카플러스–스트롱 음, p 0.8, i·m 0.6.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 에튀드와 플랜팅</strong> <b>플랜팅</b><span class="en">(Planting)</span>은 치기 전에 손가락을 칠 줄 위에 미리 '심어 두는' 연습입니다. <code>p-i-m-a</code>라면 네 손가락을 모두 줄에 올려놓고, 하나씩 뜯되 뜯은 손가락만 줄을 떠납니다. 다음 마디 시작 전에 다시 네 손가락을 동시에 심습니다. 이렇게 하면 손가락이 줄을 찾는 시간이 사라지고 정확도가 크게 오릅니다. ① 플랜팅하며 템포 50으로 A 구간 → ② 플랜팅 없이 같은 템포 → ③ 템포 사다리(다음 절)로 5%씩. a 손가락이 약하면 a만 레스트 스트로크로 치는 연습을 따로 하세요.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="percussive">
+    <h2>퍼커시브 핑거스타일</h2>
+    <p>현대 어쿠스틱 핑거스타일에서는 기타를 드럼처럼 씁니다. 엄지 옆면으로 저음 줄을 지판 쪽으로 때리는 <b>엄지 슬랩</b><span class="en">(Thumb slap)</span>은 줄이 프렛에 부딪히며 스네어 같은 '착' 소리를 내고, 손바닥 아래쪽(손목 쪽 볼록한 부분)으로 상판의 브리지 근처를 두드리는 <b>바디 탭</b>은 몸통 공명을 울려 킥 드럼 같은 '쿵' 소리를 냅니다. 이때 슬랩은 동시에 울리던 저음 줄을 멈추게 하므로, 베이스음이 짧게 끊기는 것까지 그루브의 일부가 됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 240" role="img" aria-label="퍼커시브 타격 위치"><g id="fs-fig-perc"></g></svg>
+      <figcaption><b>그림 12-7.</b> 퍼커시브 주법의 타격 위치(통기타 위에서 본 모습). 엄지 슬랩은 사운드홀과 지판 끝 사이의 저음 줄, 손바닥 바디 탭은 브리지 아래(손목 쪽), 손톱이나 손가락 끝 탭은 사운드홀 옆 상판에서 높은 '틱' 소리를 낸다. 소리의 높이는 상판의 어느 모드를 울리느냐에 따라 다르다.</figcaption>
+    </figure>
+    <p>퍼커시브 그루브도 결국 격자입니다. 드럼의 킥(1·3박)과 스네어(2·4박) 자리에 바디 탭과 엄지 슬랩을 놓고, 남은 자리에 베이스음과 화음을 끼워 넣습니다. 슬랩과 베이스가 같은 엄지를 쓰므로 두 역할이 겹치지 않게 배치하는 것이 설계의 핵심입니다.</p>
+
+    <div class="sim" id="sim-fs-percussive">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>퍼커시브 그루브 격자</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="fs-stack"><div class="steps-grid" id="fs-pc-grid"></div><div class="fs-chips" id="fs-pc-chips"></div></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프리셋</span><div class="fs-presets" id="fs-pc-pre"></div></div>
+          <label class="ctrl"><span>템포 <output id="fs-pc-bpm-out"></output></span><input type="range" id="fs-pc-bpm" min="60" max="130" value="92"></label>
+          <div class="btn-row"><button class="btn primary" id="fs-pc-play">▶ 재생</button><button class="btn" id="fs-pc-clear">지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드</span><span class="v" id="fs-pc-o-ch">—</span></div>
+        <div class="stat"><span class="k">엄지 충돌</span><span class="v" id="fs-pc-o-cf">—</span></div>
+      </div>
+      <div class="sim-note">한 마디 16칸(16분음표). 행: 슬랩 = 엄지 슬랩(타격 잡음 + 저음 줄 멈춤), 베이스 = 엄지로 근음, 화음 = i·m·a로 1–4번 줄을 위로 훑기, 탭 = 손바닥 바디 탭(킥). Em–C–G–D를 마디마다 바꿉니다. '엄지 충돌'은 같은 칸에 슬랩과 베이스가 함께 켜진 경우로, 실제로는 엄지 하나로 동시에 칠 수 없습니다. 모델: 슬랩은 GT.chuck 잡음, 탭은 낮게 조율한 합성 킥.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 퍼커시브</strong> ① 슬랩은 엄지를 '내리치고 바로 띄우는' 동작. 손목을 축으로 빠르게. 엄지가 줄에 붙어 있으면 '착'이 아니라 '턱'이 됩니다. ② 처음엔 소리 없이 박자에 맞춰 손 동작만: 탭(1박) – 슬랩(2박) – 탭(3박) – 슬랩(4박). ③ 기본 그루브를 템포 70에서 4마디, 그다음 화음 칸을 하나씩 더합니다. ④ 상판을 세게 칠 필요는 없습니다. 마이크나 픽업이 증폭해 주므로 손이 아프지 않을 만큼만. 얇은 상판의 비싼 기타라면 처음엔 아주 약하게 시작하세요.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="practice">
+    <h2>연습 설계: 독립·플랜팅·템포 사다리</h2>
+    <p>핑거스타일의 어려움은 손가락 하나하나가 아니라 <b>여러 손가락이 서로 다른 일을 동시에 하는 것</b>에 있습니다. 뇌는 처음에 손가락들을 한 덩어리로 움직이려 하기 때문에, 약지를 움직이면 중지가 따라 움직이고 엄지를 서두르면 손가락도 서두릅니다. 이것을 푸는 방법은 '느리게, 정확하게, 조금씩 빠르게'라는 오래된 원칙이고, 그 마지막 부분을 숫자로 만든 것이 템포 사다리입니다.</p>
+    <div class="formula">$$T_k = T_0\,(1+r)^k, \qquad k^\ast = \left\lceil \frac{\ln(T_{\text{목표}}/T_0)}{\ln(1+r)} \right\rceil$$
+      <div class="where">\(T_0\): 실수 없이 연주할 수 있는 템포, \(r\): 한 단계 올리는 비율(3–5%가 적당), \(k^\ast\): 목표 템포까지의 단계 수. 60에서 100 BPM까지 5%씩 올리면 \(\ln(100/60)/\ln 1.05 = 10.5\), 즉 11단계다. 한 단계를 '3번 연속 실수 없이'로 정하면 하루 2–3단계씩 올라 일주일이면 도달한다. 일정 BPM을 더하는 것(+5 BPM)보다 비율로 올리는 것이 느린 템포에서는 덜 지루하고 빠른 템포에서는 덜 무리하다.</div>
+    </div>
+    <p><b>독립 훈련</b>은 한 손가락만 바꾸고 나머지는 고정하는 연습입니다. 엄지로 6번 줄 개방을 4분음표로 계속 치면서 i만 3번 줄에서 8분음표 뒷박, 다음엔 m만, a만, 그다음 i–m 교대… 순서로 조합을 늘립니다. 각 조합에서 엄지의 크기와 박이 변하지 않는지가 기준입니다. <b>플랜팅</b>은 앞 절에서 본 것처럼 정확도를, <b>레스트 스트로크로 선율 치기</b>는 균형을, <b>엄지 자동화</b>(엄지만 치면서 말하기)는 독립을 기릅니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>주차</th><th>오른손 목표</th><th>곡·패턴</th><th>템포</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>기본 자리, 개방현 p-i-m-a·p-i-m-i, 플랜팅</td><td>패턴 편집기 프리셋</td><td>60 → 72</td></tr>
+        <tr><td>2</td><td>코드 위 아르페지오, 엄지 근음 이동</td><td>C–Am–F–G, 3/4 p-i-m-a-m-i</td><td>60 → 80</td></tr>
+        <tr><td>3</td><td>엄지 자동화, 교대 베이스</td><td>트래비스: 엄지만 → 핀치 → 뒷박</td><td>60 → 88</td></tr>
+        <tr><td>4</td><td>선율 균형(레스트 스트로크)</td><td>「Amazing Grace」 2층 → 3층</td><td>60 → 84</td></tr>
+        <tr><td>5–6</td><td>고른 음량, 약지 강화</td><td>A 단조 에튀드 A → B 구간</td><td>50 → 96</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><strong>연습법: 하루 20분 설계</strong> ① 5분 — 독립 훈련(엄지 4분음표 + 손가락 하나씩), 메트로놈 60. ② 10분 — 이번 주 곡을 템포 사다리로: 지금 단계 3회 연속 성공하면 5% 올리고, 두 번 실패하면 한 단계 내립니다. 오늘 마친 템포를 적어 두고 내일은 그보다 두 단계 아래에서 시작합니다. ③ 5분 — 아무 패턴이나 즐겁게, 녹음해서 듣기. 손이나 팔뚝이 뻐근하면 즉시 쉬세요. 힘을 빼는 것이 속도의 전제입니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>오른손은 p(엄지)·i·m·a, 왼손은 1–4. 기본 배정: 엄지 = 6–4번 줄(근음을 따라 이동), i·m·a = 3·2·1번 줄(고정). 패턴을 손가락 이름으로 적으면 코드가 바뀌어도 재사용된다.</li>
+      <li>레스트 스트로크는 줄을 상판 쪽으로 밀어 수직 편광이 커서 크고 둥글다(빨리 감쇠). 프리 스트로크는 옆 줄을 비워 두어 아르페지오에 쓴다.</li>
+      <li>손톱은 날카로운 꼭짓점과 빠른 놓임으로 높은 배음이 풍부하고, 살은 둥글고 어둡다. 뜯는 위치 \(\beta\)는 \(\sin(n\pi\beta)/n^2\)로 음색을 바꾼다: 폰티첼로는 밝게, 타스토는 둥글게.</li>
+      <li>아르페지오 패턴은 시간 × 손가락 격자로 설계한다. 엄지가 강박을, 교대 베이스가 베이스 선의 움직임을 만든다.</li>
+      <li>트래비스 피킹 = 엄지의 4분음표 교대 베이스 + 손가락의 뒷박 선율. 핵심은 리듬이 아니라 두 층의 독립이다.</li>
+      <li>편곡은 선율·안쪽 화음·베이스의 세 층으로 나누고 음역에 틈을 둔다. 선율은 반주보다 약 6 dB 크게.</li>
+      <li>퍼커시브 주법은 엄지 슬랩(스네어)과 바디 탭(킥)을 격자에 배치하고, 엄지 역할 충돌을 피한다. 연습은 플랜팅과 3–5% 템포 사다리로.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>악보에 <code>p-a-m-i</code>라고 적혀 있다. 기본 배정으로 C 코드(x32010)를 잡았을 때 두 번째로 치는 음은?</p><div class="opts">
+        <button class="opt">5번 줄 3프렛 C</button><button class="opt">3번 줄 개방 G</button><button class="opt" data-correct>1번 줄 개방 E</button><button class="opt">2번 줄 1프렛 C</button>
+      </div><div class="quiz-exp">p = 엄지(근음 5번 줄 C), a = 약지 = 1번 줄 → 개방 E. 그다음 m(2번 줄 C), i(3번 줄 G) 순으로 내려온다.</div></div>
+      <div class="quiz-q"><p>i로 1번 줄을 레스트 스트로크로 쳤다. 손가락은 어디에 멈추나?</p><div class="opts">
+        <button class="opt" data-correct>2번 줄</button><button class="opt">손바닥 쪽 허공</button><button class="opt">상판</button><button class="opt">6번 줄</button>
+      </div><div class="quiz-exp">i·m·a의 레스트 스트로크는 한 단계 굵은(낮은) 줄에 기대어 멈춘다. 엄지는 반대로 한 단계 가는 줄에 멈춘다.</div></div>
+      <div class="quiz-q"><p>레스트 스트로크가 프리 스트로크보다 처음 소리가 크게 나는 주된 물리적 이유는?</p><div class="opts">
+        <button class="opt">줄의 장력이 커져서</button><button class="opt" data-correct>상판에 수직인 진동 성분이 커서 브리지를 통해 상판을 더 세게 흔들기 때문</button><button class="opt">손톱이 더 많이 닿아서</button><button class="opt">옆 줄이 공명해서</button>
+      </div><div class="quiz-exp">브리지는 수직 방향 힘을 상판에 잘 전달한다. 레스트 스트로크는 줄을 상판 쪽으로 밀어 수직 편광(\(A\sin\theta\))이 크다. 대신 그 성분은 에너지를 빨리 잃는다.</div></div>
+      <div class="quiz-q"><p>새들에서 줄 길이의 1/4 지점을 뜯으면 빠지는 배음은?</p><div class="opts">
+        <button class="opt">짝수 배음 전부</button><button class="opt" data-correct>4, 8, 12, …번 배음</button><button class="opt">3, 6, 9, …번 배음</button><button class="opt">없다</button>
+      </div><div class="quiz-exp">\(\sin(n\pi/4) = 0\)인 \(n\)은 4의 배수. 뜯는 점이 그 모드들의 마디여서 들뜨지 않는다. 타스토 근처(1/4–1/3)의 둥근 소리는 이런 배음 구멍과 높은 배음의 약화가 함께 만든다.</div></div>
+      <div class="quiz-q"><p>트래비스 피킹(4/4박자)에서 엄지가 맡는 리듬은?</p><div class="opts">
+        <button class="opt">8분음표 뒷박</button><button class="opt" data-correct>4분음표마다, 줄을 교대하며</button><button class="opt">마디 첫 박에만</button><button class="opt">손가락과 같은 리듬</button>
+      </div><div class="quiz-exp">엄지는 메트로놈처럼 1·2·3·4박에 베이스를 교대로 치고(예: C에서 5–4–6–4번 줄), 손가락이 1박 핀치와 뒷박을 맡는다.</div></div>
+      <div class="quiz-q"><p>편곡에서 선율이 반주에 묻힌다. 가장 효과적인 해결책 두 가지의 조합은?</p><div class="opts">
+        <button class="opt">반주를 더 빠르게, 템포를 올림</button><button class="opt" data-correct>선율 음을 약 6 dB 세게(레스트 스트로크), 반주를 선율과 다른 음역에 둠</button><button class="opt">모든 음을 같은 세기로</button><button class="opt">베이스를 빼고 화음을 두껍게</button>
+      </div><div class="quiz-exp">세기 차이와 음역 분리가 귀가 선율을 따라가게 하는 두 단서다. 레스트 스트로크는 선율을 자연스럽게 크고 둥글게 만든다.</div></div>
+      <div class="quiz-q"><p>템포 70에서 105 BPM까지 5%씩 올리면 최소 몇 단계가 필요한가?</p><div class="opts">
+        <button class="opt">7단계</button><button class="opt" data-correct>9단계</button><button class="opt">12단계</button><button class="opt">35단계</button>
+      </div><div class="quiz-exp">\(\ln(105/70)/\ln 1.05 = 0.405/0.0488 = 8.3\) → 올림해서 9단계(70 × 1.05⁹ ≈ 108.6).</div></div>
+    </div>
+  </section>
 </main>
-<footer class="gb-foot">GuitarBook · 기타 교과서. 글은 CC BY 4.0, 코드는 MIT 라이선스입니다. <a href="../../">음악 서가로</a></footer>
+<script>
+/* ===================================================================== 공용 */
+const FSX = {
+  mono: () => (getComputedStyle(document.documentElement).getPropertyValue("--mono").trim() || "monospace"),
+  font: () => (getComputedStyle(document.documentElement).getPropertyValue("--font").trim() || "sans-serif"),
+  /** 코드: 근음(p), 교대 베이스(P), i·m·a 자리 [s, f] */
+  CH: {
+    C: { shape: "x32010", p: [1, 3], P: [2, 2], i: [3, 0], m: [4, 1], a: [5, 0] },
+    Am: { shape: "x02210", p: [1, 0], P: [2, 2], i: [3, 2], m: [4, 1], a: [5, 0] },
+    F: { shape: "xx3211", p: [2, 3], P: [1, 3], i: [3, 2], m: [4, 1], a: [5, 1], show: "x33211" },
+    G: { shape: "320003", p: [0, 3], P: [2, 0], i: [3, 0], m: [4, 0], a: [5, 3] },
+    Dm: { shape: "xx0231", p: [2, 0], P: [1, 0], i: [3, 2], m: [4, 3], a: [5, 1], show: "x00231" },
+    E: { shape: "022100", p: [0, 0], P: [2, 2], i: [3, 1], m: [4, 0], a: [5, 0] },
+    Em: { shape: "022000", p: [0, 0], P: [2, 2], i: [3, 0], m: [4, 0], a: [5, 0] },
+    D: { shape: "xx0232", p: [2, 0], P: [1, 0], i: [3, 2], m: [4, 3], a: [5, 2], show: "x00232" },
+  },
+  diag(el, name, shapeStr) {
+    const c = GT.chord(name), same = c && GT.shapeString(c.shape) === shapeStr;
+    GT.chordDiagram(el, shapeStr, { name: (c && c.name) || name, fingers: same ? c.fingers : null, labels: same ? "fingers" : "none" });
+  },
+};
+
+/* ---------------------------------------------------------------- 그림 12-1 */
+(function () {
+  const g = document.getElementById("fs-fig-pima");
+  const y = (s) => 40 + s * 30, names = ["1번 E", "2번 B", "3번 G", "4번 D", "5번 A", "6번 E"];
+  let s = "";
+  for (let k = 0; k < 6; k++) { s += `<line x1="70" x2="420" y1="${y(k)}" y2="${y(k)}" class="s-line" stroke-width="${1 + k * 0.45}"/><text x="62" y="${y(k) + 4}" text-anchor="end" class="t-mono">${names[k]}</text>`; }
+  const F = [["a", 0, "약지"], ["m", 1, "중지"], ["i", 2, "검지"]];
+  F.forEach(([f, k, n]) => { s += `<circle cx="300" cy="${y(k)}" r="13" class="f-acc"/><text x="300" y="${y(k) + 5}" text-anchor="middle" class="t" style="fill:var(--on-accent);font-weight:700">${f}</text><text x="440" y="${y(k) + 4}" class="t">${f} = ${n} → ${names[k]}</text>`; });
+  s += `<rect x="190" y="${y(3) - 14}" width="34" height="${y(5) - y(3) + 28}" rx="17" class="f-acc2-soft"/>`;
+  s += `<text x="207" y="${y(4) + 5}" text-anchor="middle" class="t" style="font-weight:700">p</text>`;
+  s += `<text x="440" y="${y(4) + 4}" class="t">p = 엄지 → 4·5·6번 줄(근음)</text>`;
+  s += `<path d="M207 ${y(5) + 22} v12" class="s-line"/><text x="207" y="${y(5) + 48}" text-anchor="middle" class="t-dim">엄지는 넥 쪽</text>`;
+  s += `<text x="300" y="${y(5) + 48}" text-anchor="middle" class="t-dim">손가락은 브리지 쪽</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 12-4 */
+(function () {
+  const g = document.getElementById("fs-fig-arp");
+  const seq = [["p", 1, 0], ["i", 3, 2], ["m", 4, 1], ["a", 5, 0], ["m", 4, 1], ["i", 3, 2]];
+  const x0 = 110, cw = 84, Y = (s) => 20 + (5 - s) * 32;
+  let s = "";
+  for (let k = 0; k < 6; k++) s += `<line x1="${x0 - 10}" x2="${x0 + cw * 6}" y1="${Y(k)}" y2="${Y(k)}" class="s-axis" opacity="0.5"/><text x="${x0 - 18}" y="${Y(k) + 4}" text-anchor="end" class="t-mono">${6 - k}번 줄</text>`;
+  for (let c = 0; c <= 6; c++) s += `<line x1="${x0 + c * cw}" x2="${x0 + c * cw}" y1="12" y2="${Y(0) + 10}" class="s-line" opacity="${c % 2 ? 0.15 : 0.35}"/>`;
+  const last = {};
+  seq.forEach(([f, st, fr], c) => {
+    // 울림 막대(다음에 같은 줄이 칠 때까지 또는 마디 끝까지)
+    let end = 6; for (let k = c + 1; k < 6; k++) if (seq[k][1] === st) { end = k; break; }
+    s += `<rect x="${x0 + c * cw + 12}" y="${Y(st) - 5}" width="${(end - c) * cw - 14}" height="10" rx="5" class="f-acc-soft" opacity="0.7"/>`;
+    s += `<circle cx="${x0 + c * cw + 12}" cy="${Y(st)}" r="12" class="f-acc"/><text x="${x0 + c * cw + 12}" y="${Y(st) + 4}" text-anchor="middle" class="t" style="fill:var(--on-accent);font-weight:700">${f}</text>`;
+  });
+  ["1", "&", "2", "&", "3", "&"].forEach((b, c) => { s += `<text x="${x0 + c * cw + 12}" y="${Y(0) + 34}" text-anchor="middle" class="t-mono">${b}</text>`; });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 12-5 */
+(function () {
+  const g = document.getElementById("fs-fig-travis");
+  const x0 = 90, cw = 66, X = (t) => x0 + t * 2 * cw;
+  let s = `<line x1="${x0 - 10}" x2="${X(4)}" y1="105" y2="105" class="s-axis"/>`;
+  for (let k = 0; k <= 8; k++) s += `<line x1="${X(k / 2)}" x2="${X(k / 2)}" y1="20" y2="190" class="s-line" opacity="${k % 2 ? 0.12 : 0.3}"/>`;
+  s += `<text x="${x0 - 18}" y="58" text-anchor="end" class="t">손가락</text><text x="${x0 - 18}" y="160" text-anchor="end" class="t">엄지</text>`;
+  [[0, "1번 0", "p+m"], [1.5, "2번 1", "i"], [2.5, "1번 0", "m"], [3.5, "2번 3", "i"]].forEach(([t, lab, f]) => { s += `<rect x="${X(t) - 26}" y="40" width="52" height="34" rx="8" class="f-acc-soft"/><text x="${X(t)}" y="55" text-anchor="middle" class="t-acc">${f}</text><text x="${X(t)}" y="69" text-anchor="middle" class="t-mono">${lab}</text>`; });
+  [[0, "5번 3"], [1, "4번 2"], [2, "6번 3"], [3, "4번 2"]].forEach(([t, lab]) => { s += `<rect x="${X(t) - 26}" y="140" width="52" height="34" rx="8" class="f-acc2-soft"/><text x="${X(t)}" y="155" text-anchor="middle" class="t" style="font-weight:700">p</text><text x="${X(t)}" y="169" text-anchor="middle" class="t-mono">${lab}</text>`; });
+  ["1", "&", "2", "&", "3", "&", "4", "&"].forEach((b, k) => { s += `<text x="${X(k / 2)}" y="${k % 2 ? 122 : 100}" text-anchor="middle" class="t-mono">${b}</text>`; });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 12-7 */
+(function () {
+  const g = document.getElementById("fs-fig-perc");
+  let s = `<path d="M170 22 C240 22 280 60 300 78 C320 60 350 48 410 48 C470 48 490 90 490 120 C490 150 470 192 410 192 C350 192 320 180 300 162 C280 180 240 218 170 218 C95 218 70 170 70 120 C70 70 95 22 170 22 Z" class="f-surface"/>`;
+  s += `<rect x="372" y="103" width="268" height="34" class="f-elev"/><circle cx="330" cy="120" r="30" class="f-elev"/>`;
+  s += `<rect x="122" y="104" width="22" height="32" rx="4" class="f-elev"/>`;
+  for (let k = 0; k < 6; k++) s += `<line x1="133" x2="640" y1="${108 + k * 5}" y2="${108 + k * 5}" class="s-line" stroke-width="0.8"/>`;
+  s += `<ellipse cx="400" cy="131" rx="20" ry="9" class="f-acc-soft"/><text x="420" y="172" text-anchor="middle" class="t-acc">엄지 슬랩</text><text x="440" y="188" text-anchor="middle" class="t-dim">저음 줄 → 프렛에 부딪힘(스네어)</text>`;
+  s += `<ellipse cx="120" cy="170" rx="26" ry="15" class="f-acc2-soft"/><text x="120" y="232" text-anchor="middle" class="t" dy="-4">손바닥 바디 탭 · 상판 저음 모드(킥)</text>`;
+  s += `<ellipse cx="270" cy="62" rx="15" ry="9" class="f-acc-soft"/><text x="270" y="40" text-anchor="middle" class="t">손끝 탭: 높은 '틱'</text>`;
+  s += `<text x="133" y="96" text-anchor="middle" class="t-mono">브리지</text><text x="330" y="164" text-anchor="middle" class="t-mono">사운드홀</text><text x="600" y="96" text-anchor="middle" class="t-mono">넥</text>`;
+  g.innerHTML = s;
+})();
+
+/* ===================================================================== 1. 터치 실험실 */
+(function () {
+  const stroke = MB.seg("fs-tc-stroke", () => readout());
+  const nail = MB.seg("fs-tc-nail", () => readout());
+  const pos = MB.seg("fs-tc-pos", () => readout());
+  const str = MB.seg("fs-tc-str", () => readout());
+  const tone = MB.seg("fs-tc-tone", () => readout());
+  const TH = { rest: 55, free: 25 };
+  const par = (st) => {
+    const th = (TH[st || stroke()] * Math.PI) / 180, nylon = tone() === "nylon";
+    return { av: Math.sin(th), ah: 0.5 * Math.cos(th), dv: nylon ? 0.9945 : 0.9962, dh: nylon ? 0.9982 : 0.999, bright: nail() === "nail" ? 0.78 : 0.28, beta: +pos() };
+  };
+  let voices = [];
+  function pluck(when, st) {
+    const p = par(st), midi = [40, 45, 50, 55, 59, 64][+str()];
+    const mk = (a, d) => MB.play(midi, { inst: "guitar", dur: null, when, vel: MB.clamp(a, 0.05, 1), gt: { tone: tone(), bright: p.bright, decay: d, pos: p.beta, dur: 4.5 } });
+    [mk(p.av, p.dv), mk(p.ah, p.dh)].forEach((v) => { if (v) { v.release(when + 4, 0.2); voices.push(v); } });
+    while (voices.length > 8) voices.shift();
+  }
+  function stopAll() { voices.forEach((v) => { try { v.release(MB.now(), 0.05); } catch (e) {} }); voices = []; }
+  function spectrum(p) {
+    const nc = nail() === "nail" ? 24 : 7, out = [];
+    for (let n = 1; n <= 16; n++) out.push(Math.abs(Math.sin(n * Math.PI * p.beta)) / n / Math.sqrt(1 + Math.pow(n / nc, 2)));
+    const mx = Math.max(...out); return out.map((v) => v / mx);
+  }
+  function readout() {
+    const p = par();
+    MB.stat("fs-tc-o-v", `${p.av.toFixed(2)} <small>θ = ${TH[stroke()]}°</small>`);
+    const lvl = 20 * Math.log10((p.av + p.ah) / (Math.sin((25 * Math.PI) / 180) + 0.5 * Math.cos((25 * Math.PI) / 180)));
+    MB.stat("fs-tc-o-l", `${lvl >= 0 ? "+" : ""}${lvl.toFixed(1)} dB <small>프리 대비</small>`);
+    const miss = []; for (let n = 1; n <= 24; n++) if (Math.abs(Math.sin(n * Math.PI * p.beta)) < 0.06) miss.push(n);
+    MB.stat("fs-tc-o-miss", miss.length ? miss.slice(0, 4).join(", ") + (miss.length > 4 ? " …" : "") : "<small>24번까지 없음</small>");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#fs-tc-cv", (ctx, w, h) => {
+    const P = MB.palette(), p = par(), f = MB.mtof([40, 45, 50, 55, 59, 64][+str()]);
+    // 위: 감쇠
+    const x0 = 46, x1 = w - 10, y0 = 18, y1 = h * 0.5, T = 3;
+    const X = (t) => x0 + (t / T) * (x1 - x0), Y = (db) => y0 + (-MB.clamp(db, -50, 0) / 50) * (y1 - y0);
+    ctx.font = "10px " + FSX.mono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -25, -50].forEach((d) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x0, Y(d)); ctx.lineTo(x1, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d + " dB", x0 - 4, Y(d)); });
+    const tau = (d) => -1 / (f * Math.log(d));
+    const ref = Math.sin((55 * Math.PI) / 180) + 0.5 * Math.cos((55 * Math.PI) / 180);
+    const line = (fn, col, wd) => { ctx.beginPath(); for (let i = 0; i <= 200; i++) { const t = (i / 200) * T, v = fn(t); const y = Y(20 * Math.log10(Math.max(1e-4, v / ref))); i ? ctx.lineTo(X(t), y) : ctx.moveTo(X(t), y); } ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.stroke(); };
+    const vv = (t) => p.av * Math.exp(-t / tau(p.dv)), hh = (t) => p.ah * Math.exp(-t / tau(p.dh));
+    line(vv, P.accent, 1.4); line(hh, P.accent2, 1.4); line((t) => vv(t) + hh(t), P.text, 2.4);
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = "11px " + FSX.font(); ctx.fillText("감쇠: 수직 / 수평 / 합 (0–3 s)", x0, 8);
+    // 아래: 배음
+    const sp = spectrum(p), bx = x0, bw = (x1 - x0) / 16, by0 = h * 0.6, by1 = h - 18;
+    sp.forEach((v, i) => { const hb = (by1 - by0) * v; ctx.fillStyle = v < 0.03 ? P.bad : i % 2 ? P.accent2 : P.accent; if (v < 0.03) { ctx.font = "bold 12px " + FSX.mono(); ctx.textAlign = "center"; ctx.fillText("×", bx + i * bw + bw / 2, by1 - 6); } else ctx.fillRect(bx + i * bw + bw * 0.2, by1 - hb, bw * 0.6, hb); });
+    ctx.fillStyle = P.dim; ctx.font = "10px " + FSX.mono(); ctx.textAlign = "center";
+    for (let i = 0; i < 16; i += (w < 420 ? 2 : 1)) ctx.fillText(String(i + 1), bx + i * bw + bw / 2, h - 7);
+    ctx.textAlign = "left"; ctx.font = "11px " + FSX.font(); ctx.fillText(`배음 크기 (β = ${p.beta})`, x0, by0 - 8);
+  }, { aspect: 0.62, minHeight: 260, maxHeight: 380 });
+  document.getElementById("fs-tc-play").addEventListener("click", () => { MB.ctx(); stopAll(); pluck(MB.now() + 0.01); });
+  document.getElementById("fs-tc-ab").addEventListener("click", () => {
+    MB.ctx(); stopAll(); const t = MB.now() + 0.01;
+    stroke.set("free", false); readout(); pluck(t, "free");
+    setTimeout(() => { stroke.set("rest", false); readout(); }, 1800); pluck(t + 1.8, "rest");
+  });
+  readout();
+})();
+
+/* ===================================================================== 2. 패턴 편집기 */
+(function () {
+  const ROWS = [["a", "a (1번)"], ["m", "m (2번)"], ["i", "i (3번)"], ["P", "p′ (교대)"], ["p", "p (근음)"]];
+  const PRE = {
+    pima: { name: "p-i-m-a", cols: ["p", "i", "m", "a", "P", "i", "m", "a"] },
+    pimi: { name: "p-i-m-i", cols: ["p", "i", "m", "i", "P", "i", "m", "i"] },
+    pami: { name: "p-a-m-i", cols: ["p", "a", "m", "i", "P", "a", "m", "i"] },
+    pinch: { name: "핀치+아르페지오", cols: ["pa", "i", "m", "i", "Pm", "i", "a", "i"] },
+    waltz: { name: "왈츠 3/4", cols: ["p", "", "ima", "", "Pima", ""] },
+    arp34: { name: "p-i-m-a-m-i (3/4)", cols: ["p", "i", "m", "a", "m", "i"] },
+  };
+  let cols = PRE.pima.cols.map((c) => new Set(c.split(""))), preKey = "pima", sch = null, prog = [];
+  const fb = GT.fretboard("#fs-pt-fb", { frets: 5, labels: "none", tone: "nylon" });
+  const g = fb.guitar;
+  g.on((ev) => { if (ev.type === "pluck") fb.flash(ev.s, ev.f, 260); });
+  const bpm = MB.range("fs-pt-bpm", (v) => v + " BPM");
+  MB.seg("fs-pt-tone", (v) => { g.tone = v; });
+  const progSel = document.getElementById("fs-pt-prog");
+  const grid = document.getElementById("fs-pt-grid");
+  document.getElementById("fs-pt-pre").innerHTML = Object.entries(PRE).map(([k, p]) => `<button class="btn${k === preKey ? " on" : ""}" data-k="${k}">${p.name}</button>`).join("");
+  document.getElementById("fs-pt-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    preKey = b.dataset.k; cols = PRE[preKey].cols.map((c) => new Set(c.split("")));
+    document.querySelectorAll("#fs-pt-pre .btn").forEach((x) => x.classList.toggle("on", x === b));
+    drawGrid(); rebuild();
+  });
+  function drawGrid() {
+    const n = cols.length;
+    grid.innerHTML = ROWS.map(([k, lab]) => `<div class="row"><div class="lab">${lab}</div><div class="cells" style="--n:${n}">${cols.map((set, c) => `<button class="cell${c % 2 === 0 ? " beat" : ""}${set.has(k) ? " on" : ""}${k === "p" || k === "P" ? " alt" : ""}" data-k="${k === "P" ? "p′" : k}" data-r="${k}" data-c="${c}" aria-label="${lab} ${c + 1}칸"></button>`).join("")}</div></div>`).join("");
+    readout();
+  }
+  grid.addEventListener("click", (e) => {
+    const b = e.target.closest(".cell"); if (!b) return;
+    const set = cols[+b.dataset.c], k = b.dataset.r;
+    set.has(k) ? set.delete(k) : set.add(k);
+    b.classList.toggle("on", set.has(k));
+    document.querySelectorAll("#fs-pt-pre .btn").forEach((x) => x.classList.remove("on"));
+    rebuild();
+  });
+  document.getElementById("fs-pt-clear").addEventListener("click", () => { cols.forEach((s) => s.clear()); drawGrid(); rebuild(); });
+  function readout() {
+    const txt = cols.map((s) => { const a = ["p", "P", "i", "m", "a"].filter((k) => s.has(k)).map((k) => (k === "P" ? "p′" : k)); return a.length ? a.join("+") : "·"; }).join(" ");
+    MB.stat("fs-pt-o-pat", `<small>${txt}</small>`);
+    MB.stat("fs-pt-o-n", `${cols.reduce((m, s) => m + s.size, 0)} <small>(${cols.length === 6 ? "3/4" : "4/4"})</small>`);
+  }
+  function events() {
+    const beats = cols.length * 0.5, out = [];
+    prog.forEach((ch, b) => cols.forEach((set, c) => out.push({ t: b * beats + c * 0.5, bar: b, col: c, keys: [...set], ch })));
+    return out;
+  }
+  function rebuild() { readout(); if (sch && sch.running) sch.setEvents(events()); }
+  function loadProg() {
+    prog = progSel.value.split(",");
+    document.getElementById("fs-pt-chips").innerHTML = prog.map((c, i) => `<span data-i="${i}">${GT.chord(c) ? GT.chord(c).name : c}</span>`).join("");
+    showChord(0);
+    if (sch && sch.running) sch.setEvents(events());
+  }
+  function showChord(i) {
+    const name = prog[i], c = FSX.CH[name], sh = c.show || c.shape;
+    FSX.diag("#fs-pt-diag", name, sh);
+    fb.showShape(sh, { root: MB.parseNote(name.replace("m", "") + "4") % 12 });
+    document.querySelectorAll("#fs-pt-chips span").forEach((s, k) => s.classList.toggle("on", k === i));
+    MB.stat("fs-pt-o-ch", GT.chord(name) ? GT.chord(name).name : name);
+  }
+  progSel.addEventListener("change", loadProg);
+  MB.playButton("fs-pt-play", () => {
+    sch = GT.scheduler(events(), { bpm: () => bpm(), loop: true, length: () => prog.length * cols.length * 0.5,
+      onEvent(ev, when) {
+        const c = FSX.CH[ev.ch];
+        ev.keys.forEach((k) => { const pos = c[k]; if (pos) g.pluck(pos[0], pos[1], { when, vel: k === "p" || k === "P" ? 0.85 : 0.6 }); });
+      },
+      onUI(ev) {
+        if (ev.col === 0) showChord(ev.bar);
+        grid.querySelectorAll(".cell.now").forEach((x) => x.classList.remove("now"));
+        grid.querySelectorAll(`.cell[data-c="${ev.col}"]`).forEach((x) => x.classList.add("now"));
+      },
+      onStop() { grid.querySelectorAll(".cell.now").forEach((x) => x.classList.remove("now")); } });
+    sch.start();
+  }, () => { if (sch) sch.stop(); g.stop(); });
+  drawGrid(); loadProg();
+})();
+
+/* ===================================================================== 3. 트래비스 */
+(function () {
+  const BARS = [
+    { ch: "C", shape: "332010", thumb: [[1, 3], [2, 2], [0, 3], [2, 2]], mel: [[0, 5, 0], [1.5, 4, 1], [2.5, 5, 0], [3.5, 4, 3]], order: "5–4–6–4" },
+    { ch: "Am", shape: "002210", thumb: [[1, 0], [2, 2], [0, 0], [2, 2]], mel: [[0, 4, 1], [1.5, 5, 0], [2.5, 4, 1], [3.5, 3, 2]], order: "5–4–6–4" },
+    { ch: "F", shape: "133211", thumb: [[0, 1], [2, 3], [1, 3], [2, 3]], mel: [[0, 4, 1], [1.5, 3, 2], [2.5, 4, 1], [3.5, 5, 1]], order: "6–4–5–4" },
+    { ch: "G", shape: "320003", thumb: [[0, 3], [2, 0], [1, 2], [2, 0]], mel: [[0, 5, 3], [1.5, 4, 0], [2.5, 4, 3], [3.5, 4, 0]], order: "6–4–5–4" },
+  ];
+  const notes = [];
+  BARS.forEach((b, k) => {
+    b.thumb.forEach(([s, f], q) => notes.push({ t: k * 4 + q, d: 1, s, f, layer: "bass", bar: k }));
+    b.mel.forEach(([t, s, f]) => notes.push({ t: k * 4 + t, d: t === 0 ? 1.5 : 0.5, s, f, layer: "mel", bar: k }));
+  });
+  notes.sort((a, b) => a.t - b.t || a.s - b.s);
+  const tab = GT.tab("#fs-tv-tab", notes, { beatsPerBar: 4, chords: BARS.map((b, k) => ({ t: k * 4, name: GT.chord(b.ch).name })) });
+  const sorted = tab.notes;
+  const evs = notes.map((n) => Object.assign({}, n, { i: sorted.indexOf(n) }));
+  const bass = MB.check("fs-tv-bass"), mel = MB.check("fs-tv-mel"), pm = MB.check("fs-tv-pm");
+  const bpm = MB.range("fs-tv-bpm", (v) => v + " BPM");
+  const g = GT.guitar({ tone: "steel" });
+  let sch = null, curBar = -1;
+  function showBar(k) {
+    const b = BARS[k]; curBar = k;
+    FSX.diag("#fs-tv-diag", b.ch, b.shape);
+    MB.stat("fs-tv-o-ch", GT.chord(b.ch).name); MB.stat("fs-tv-o-th", b.order);
+  }
+  MB.playButton("fs-tv-play", () => {
+    sch = GT.scheduler(evs, { bpm: () => bpm(), loop: true, length: 16,
+      onEvent(n, when) {
+        if (n.layer === "bass" && !bass()) return; if (n.layer === "mel" && !mel()) return;
+        g.pluck(n.s, n.f, { when, vel: n.layer === "bass" ? 0.78 : 0.62, tone: n.layer === "bass" && pm() ? "muted" : undefined });
+      },
+      onUI(n) {
+        if (n.layer === "bass" && !bass()) return; if (n.layer === "mel" && !mel()) return;
+        tab.highlight(n.i); tab.at(n.t); if (n.bar !== curBar) showBar(n.bar);
+        MB.stat("fs-tv-o-ly", n.layer === "bass" ? "엄지 p" : n.t % 4 === 0 ? "핀치 p+m" : "손가락 " + (n.s === 5 ? "m" : "i"));
+      },
+      onStop() { tab.clear(); } });
+    sch.start();
+  }, () => { if (sch) sch.stop(); g.stop(); });
+  showBar(0);
+})();
+
+/* ===================================================================== 4. Amazing Grace 편곡 (공유 저작물 선율, 이 책의 편곡) */
+const FS_AG = (function () {
+  const POS = { G3: [3, 0], A3: [3, 2], C4: [4, 1], D4: [4, 3], E4: [5, 0], G4: [5, 3] };
+  // [마디, 박, 길이, 음]
+  const MEL = [[0, 2, 1, "G3"],
+    [1, 0, 2, "C4"], [1, 2, 0.5, "E4"], [1, 2.5, 0.5, "C4"], [2, 0, 2, "E4"], [2, 2, 1, "D4"], [3, 0, 2, "C4"], [3, 2, 1, "A3"], [4, 0, 2, "G3"], [4, 2, 1, "G3"],
+    [5, 0, 2, "C4"], [5, 2, 0.5, "E4"], [5, 2.5, 0.5, "C4"], [6, 0, 2, "E4"], [6, 2, 1, "D4"], [7, 0, 3, "G4"], [8, 0, 2, "G4"], [8, 2, 1, "E4"],
+    [9, 0, 2, "G4"], [9, 2, 0.5, "E4"], [9, 2.5, 0.5, "C4"], [10, 0, 2, "E4"], [10, 2, 1, "D4"], [11, 0, 2, "C4"], [11, 2, 1, "A3"], [12, 0, 2, "G3"], [12, 2, 1, "G3"],
+    [13, 0, 2, "C4"], [13, 2, 0.5, "E4"], [13, 2.5, 0.5, "C4"], [14, 0, 2, "E4"], [14, 2, 1, "D4"], [15, 0, 3, "C4"]];
+  const CH = ["", "C", "C", "F", "C", "C", "C", "G", "G", "C", "C", "F", "C", "C", "G", "C"];
+  const ACC = { C: { bass: [1, 3], inner: [2, 2] }, F: { bass: [2, 3], inner: null }, G: { bass: [0, 3], inner: [2, 0] } };
+  const notes = [];
+  MEL.forEach(([b, t, d, n]) => notes.push({ t: b * 3 + t, d, s: POS[n][0], f: POS[n][1], layer: "mel", bar: b, name: n }));
+  CH.forEach((c, b) => {
+    if (!c) return; const a = ACC[c];
+    notes.push({ t: b * 3, d: 3, s: a.bass[0], f: a.bass[1], layer: "bass", bar: b });
+    if (a.inner && b !== 15) [1, 2].forEach((q) => notes.push({ t: b * 3 + q, d: 1, s: a.inner[0], f: a.inner[1], layer: "in", bar: b }));
+  });
+  notes.sort((a, b) => a.t - b.t || a.s - b.s);
+  return { notes, CH };
+})();
+(function () {
+  const AG = FS_AG;
+  const tab = GT.tab("#fs-ar-tab", AG.notes, { beatsPerBar: 3, chords: AG.CH.map((c, b) => (c ? { t: b * 3, name: c } : null)).filter(Boolean), beatWidth: 44 });
+  const sorted = tab.notes, evs = AG.notes.map((n) => Object.assign({}, n, { i: sorted.indexOf(n) }));
+  const on = { mel: MB.check("fs-ar-mel"), in: MB.check("fs-ar-in"), bass: MB.check("fs-ar-bass") };
+  const bal = MB.range("fs-ar-bal", (v) => (v > 0 ? "+" : "") + v + " dB");
+  const bpm = MB.range("fs-ar-bpm", (v) => v + " BPM");
+  const g = GT.guitar({ tone: "nylon" });
+  let sch = null;
+  function start(list, onlyMel) {
+    if (sch) sch.stop();
+    sch = GT.scheduler(list, { bpm: () => bpm(), loop: false, length: 48,
+      onEvent(n, when, spb) {
+        if (onlyMel ? n.layer !== "mel" : !on[n.layer]()) return;
+        const base = 0.42, vel = n.layer === "mel" ? MB.clamp(base * Math.pow(10, bal() / 20), 0.1, 1) : n.layer === "bass" ? base * 1.15 : base * 0.85;
+        g.pluck(n.s, n.f, { when, vel, dur: n.d * spb * 1.05 });
+      },
+      onUI(n) {
+        if (onlyMel ? n.layer !== "mel" : !on[n.layer]()) return;
+        tab.highlight(n.i); tab.at(n.t);
+        MB.stat("fs-ar-o-bar", n.bar === 0 ? "못갖춘마디" : `${n.bar} / 15`);
+        MB.stat("fs-ar-o-ch", AG.CH[n.bar] || "—");
+        if (n.layer === "mel") MB.stat("fs-ar-o-mel", `${n.name.replace(/(\d)/, "$1")} <small>${6 - n.s}번 줄 ${n.f}프렛</small>`);
+      },
+      onEnd() { tab.clear(); btn.set(false); }, onStop() { tab.clear(); } });
+    sch.start();
+  }
+  const btn = MB.playButton("fs-ar-play", () => start(evs, false), () => { if (sch) sch.stop(); g.stop(); });
+  document.getElementById("fs-ar-solo").addEventListener("click", () => { MB.ctx(); btn.set(true); start(evs, true); });
+})();
+
+/* ---------------------------------------------------------------- 그림 12-6 (편곡 데이터에서) */
+(function () {
+  const g = document.getElementById("fs-fig-layers");
+  const ns = FS_AG.notes.filter((n) => n.t < 27), x0 = 60, x1 = 625, T = 27, lo = 40, hi = 70;
+  const X = (t) => x0 + (t / T) * (x1 - x0), Y = (m) => 230 - ((m - lo) / (hi - lo)) * 210;
+  let s = "";
+  [43, 48, 55, 60, 67].forEach((m) => { s += `<line x1="${x0}" x2="${x1}" y1="${Y(m)}" y2="${Y(m)}" class="s-line" opacity="0.18"/><text x="${x0 - 6}" y="${Y(m) + 4}" text-anchor="end" class="t-mono">${MB.noteName(m)}</text>`; });
+  for (let b = 0; b <= 9; b++) s += `<line x1="${X(b * 3)}" x2="${X(b * 3)}" y1="14" y2="232" class="s-line" opacity="0.12"/>`;
+  const cls = { mel: "f-acc", in: "f-acc2-soft", bass: "f-surface" };
+  ns.forEach((n) => { const m = GT.STANDARD[n.s] + n.f; s += `<rect x="${X(n.t) + 1}" y="${Y(m) - 4}" width="${Math.max(4, X(n.t + n.d) - X(n.t) - 2)}" height="8" rx="3" class="${cls[n.layer]}"/>`; });
+  s += `<text x="${x1}" y="${Y(69)}" text-anchor="end" class="t-acc">선율</text><text x="${x1}" y="${Y(52.5)}" text-anchor="end" class="t">안쪽 화음</text><text x="${x1}" y="${Y(41)}" text-anchor="end" class="t-dim">베이스</text>`;
+  g.innerHTML = s;
+})();
+
+/* ===================================================================== 5. 에튀드 */
+(function () {
+  const R = {
+    Am: { shape: "x02210", p: [1, 0], i: [3, 2], m: [4, 1], a: [5, 0] },
+    Dm: { shape: "xx0231", p: [2, 0], i: [3, 2], m: [4, 3], a: [5, 1] },
+    G: { shape: "320003", p: [0, 3], i: [3, 0], m: [4, 0], a: [5, 3] },
+    C: { shape: "x32010", p: [1, 3], i: [3, 0], m: [4, 1], a: [5, 0] },
+    Fmaj7: { shape: "xx3210", p: [2, 3], i: [3, 2], m: [4, 1], a: [5, 0] },
+    E: { shape: "022100", p: [0, 0], i: [3, 1], m: [4, 0], a: [5, 0] },
+    E7: { shape: "022130", p: [0, 0], i: [3, 1], m: [4, 3], a: [5, 0], name: "E7" },
+    F: { shape: "xx3211", p: [2, 3], i: [3, 2], m: [4, 1], a: [5, 1] },
+  };
+  const PROG = ["Am", "Am", "Dm", "Dm", "G", "G", "C", "Fmaj7", "Dm", "Dm", "E", "E7", "Am", "F", "E", "Am"];
+  const PA = ["p", "i", "m", "a", "m", "i"], PB = ["p", "a", "m", "i", "m", "a"];
+  const all = [];
+  PROG.forEach((ch, b) => {
+    const c = R[ch];
+    if (b === 15) { all.push({ t: b * 3, d: 3, s: c.p[0], f: c.p[1], fg: "p", bar: b, ch }); all.push({ t: b * 3, d: 3, s: c.a[0], f: c.a[1], fg: "a", bar: b, ch }); return; }
+    (b < 8 ? PA : PB).forEach((fg, k) => all.push({ t: b * 3 + k * 0.5, d: k === 0 ? 3 : 0.5, s: c[fg][0], f: c[fg][1], fg, bar: b, ch }));
+  });
+  // TAB에서는 엄지 음을 점4분(1.5박)으로 보여 주고 재생은 길게 울린다
+  const view = (list) => list.map((n) => Object.assign({}, n, { d: n.fg === "p" && n.bar !== 15 ? 1.5 : n.d }));
+  const tab = GT.tab("#fs-et-tab", view(all), { beatsPerBar: 3, chords: PROG.map((c, b) => ({ t: b * 3, name: R[c].name || (GT.chord(c) ? GT.chord(c).name : c) })), beatWidth: 46 });
+  const bpm = MB.range("fs-et-bpm", (v) => v + " BPM");
+  const aVel = MB.range("fs-et-a", (v) => v.toFixed(2));
+  const sec = MB.seg("fs-et-sec", () => { if (btn.on) { stop(); btn.set(false); } loadSec(); });
+  const loop = MB.check("fs-et-loop");
+  const g = GT.guitar({ tone: "nylon" });
+  let sch = null, list = all, offset = 0;
+  function loadSec() {
+    const s = sec();
+    list = s === "A" ? all.filter((n) => n.bar < 8) : s === "B" ? all.filter((n) => n.bar >= 8) : all;
+    offset = s === "B" ? 24 : 0;
+    showBar(list[0].bar);
+  }
+  function showBar(b) {
+    const ch = PROG[b], c = R[ch];
+    FSX.diag("#fs-et-diag", ch, c.shape);
+    MB.stat("fs-et-o-bar", `${b + 1} / 16 · ${c.name || (GT.chord(ch) ? GT.chord(ch).name : ch)}`);
+  }
+  const fingEls = document.querySelectorAll("#fs-et-fing span");
+  function stop() { if (sch) sch.stop(); g.stop(); fingEls.forEach((e) => e.classList.remove("on")); tab.clear(); }
+  const sortedIdx = (n) => tab.notes.findIndex((m) => Math.abs(m.t - n.t) < 1e-6 && m.s === n.s);
+  const btn = MB.playButton("fs-et-play", () => {
+    const evs = list.map((n) => Object.assign({}, n, { t: n.t - offset, i: sortedIdx(n), tt: n.t }));
+    sch = GT.scheduler(evs, { bpm: () => bpm(), loop: loop(), length: Math.round((list.length && (list[list.length - 1].bar - list[0].bar + 1)) * 3),
+      onEvent(n, when, spb) { g.pluck(n.s, n.f, { when, vel: n.fg === "p" ? 0.8 : n.fg === "a" ? aVel() : 0.6 }); },
+      onUI(n) {
+        tab.highlight(n.i); tab.at(n.tt);
+        if ((n.tt % 3) === 0) showBar(n.bar);
+        fingEls.forEach((e) => e.classList.toggle("on", e.dataset.f === n.fg || (n.bar === 15 && (e.dataset.f === "p" || e.dataset.f === "a"))));
+        MB.stat("fs-et-o-f", `${n.fg} → ${6 - n.s}번 줄 ${n.f}프렛 <small>${MB.noteName(GT.STANDARD[n.s] + n.f)}</small>`);
+      },
+      onEnd() { stop(); btn.set(false); }, onStop() { fingEls.forEach((e) => e.classList.remove("on")); tab.clear(); } });
+    sch.start();
+  }, stop);
+  loadSec();
+})();
+
+/* ===================================================================== 6. 퍼커시브 */
+(function () {
+  const ROWS = [["slap", "슬랩"], ["bass", "베이스"], ["chord", "화음"], ["tap", "탭"]];
+  const PRE = {
+    basic: { name: "기본", slap: [4, 12], bass: [0, 8], chord: [2, 6, 10, 14], tap: [0, 8] },
+    pop: { name: "팝 그루브", slap: [4, 12], bass: [0, 6, 8], chord: [2, 7, 10, 14, 15], tap: [0, 8, 11] },
+    push: { name: "당김", slap: [4, 12], bass: [0, 3, 10], chord: [2, 6, 7, 11, 14], tap: [0, 3, 10] },
+  };
+  const CH = { Em: { shape: "022000", bass: [0, 0] }, C: { shape: "x32010", bass: [1, 3] }, G: { shape: "320003", bass: [0, 3] }, D: { shape: "xx0232", bass: [2, 0] } };
+  const PROG = ["Em", "C", "G", "D"];
+  let grid = {};
+  const load = (k) => { const p = PRE[k]; grid = {}; ROWS.forEach(([r]) => (grid[r] = new Set(p[r]))); };
+  load("basic");
+  const el = document.getElementById("fs-pc-grid");
+  const bpm = MB.range("fs-pc-bpm", (v) => v + " BPM");
+  const g = GT.guitar({ tone: "steel" });
+  document.getElementById("fs-pc-pre").innerHTML = Object.entries(PRE).map(([k, p], i) => `<button class="btn${i ? "" : " on"}" data-k="${k}">${p.name}</button>`).join("");
+  document.getElementById("fs-pc-pre").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; load(b.dataset.k); document.querySelectorAll("#fs-pc-pre .btn").forEach((x) => x.classList.toggle("on", x === b)); draw(); });
+  document.getElementById("fs-pc-chips").innerHTML = PROG.map((c, i) => `<span data-i="${i}">${c}</span>`).join("");
+  function draw() {
+    el.innerHTML = ROWS.map(([r, lab]) => `<div class="row"><div class="lab">${lab}</div><div class="cells" style="--n:16">${Array.from({ length: 16 }, (_, c) => `<button class="cell${c % 4 === 0 ? " beat" : ""}${grid[r].has(c) ? " on" : ""}${r === "slap" || r === "tap" ? " alt" : ""}" data-r="${r}" data-c="${c}" aria-label="${lab} ${c + 1}칸"></button>`).join("")}</div></div>`).join("");
+    const cf = [...grid.slap].filter((c) => grid.bass.has(c));
+    MB.stat("fs-pc-o-cf", cf.length ? `<span style="color:var(--bad)">${cf.map((c) => c + 1).join(", ")}칸</span>` : "없음 ✔");
+  }
+  el.addEventListener("click", (e) => { const b = e.target.closest(".cell"); if (!b) return; const s = grid[b.dataset.r], c = +b.dataset.c; s.has(c) ? s.delete(c) : s.add(c); document.querySelectorAll("#fs-pc-pre .btn").forEach((x) => x.classList.remove("on")); draw(); });
+  document.getElementById("fs-pc-clear").addEventListener("click", () => { ROWS.forEach(([r]) => grid[r].clear()); draw(); });
+  const evs = []; for (let b = 0; b < 4; b++) for (let c = 0; c < 16; c++) evs.push({ t: b * 4 + c * 0.25, bar: b, c });
+  let sch = null;
+  MB.playButton("fs-pc-play", () => {
+    sch = GT.scheduler(evs, { bpm: () => bpm(), loop: true, length: 16,
+      onEvent(ev, when) {
+        const ch = CH[PROG[ev.bar]];
+        if (grid.tap.has(ev.c)) MB.drum("kick", when, { vel: 0.55, tune: -3, decay: 0.7 });
+        if (grid.slap.has(ev.c)) { g.damp(when, [0, 1, 2]); GT.chuck(when, { vel: 0.85 }); }
+        else if (grid.bass.has(ev.c)) g.pluck(ch.bass[0], ch.bass[1], { when, vel: 0.85 });
+        if (grid.chord.has(ev.c)) g.strum(ch.shape, { dir: "U", when, vel: 0.5, strings: [2, 3, 4, 5], spread: 0.008 });
+      },
+      onUI(ev) {
+        el.querySelectorAll(".cell.now").forEach((x) => x.classList.remove("now"));
+        el.querySelectorAll(`.cell[data-c="${ev.c}"]`).forEach((x) => x.classList.add("now"));
+        if (ev.c === 0) { document.querySelectorAll("#fs-pc-chips span").forEach((s, k) => s.classList.toggle("on", k === ev.bar)); MB.stat("fs-pc-o-ch", PROG[ev.bar]); }
+      },
+      onStop() { el.querySelectorAll(".cell.now").forEach((x) => x.classList.remove("now")); } });
+    sch.start();
+  }, () => { if (sch) sch.stop(); g.stop(); });
+  draw(); MB.stat("fs-pc-o-ch", PROG.join(" – "));
+})();
+</script>
 </body>
 </html>

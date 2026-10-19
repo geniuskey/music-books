@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>기타라는 악기 · GuitarBook</title>
+<meta name="description" content="기타 각 부분의 이름과 역할, 줄 번호, 현의 물리와 메르센 법칙, 실제 줄 세트의 장력, 뜯는 위치와 음색, 몸통이 소리를 내는 원리, 스틸·나일론·일렉의 차이를 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/instrument.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="기타라는 악기 · GuitarBook">
+<meta property="og:description" content="기타 각 부분의 이름과 역할, 줄 번호, 현의 물리와 메르센 법칙, 실제 줄 세트의 장력, 뜯는 위치와 음색, 몸통이 소리를 내는 원리, 스틸·나일론·일렉의 차이를 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/instrument.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .ins-anat { padding: 10px 8px 4px; }
+  .ins-anat svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+  .ins-anat .part { cursor: pointer; transition: opacity .15s; }
+  .ins-anat.sel .part:not(.on) { opacity: 0.5; }
+  .ins-anat .part.on { filter: drop-shadow(0 0 3px var(--accent)); }
+  .ins-anat .part.on .pt { stroke: var(--accent); stroke-width: 2.5; }
+  .ins-anat .body { fill: var(--gt-wood); stroke: var(--gt-wood-2); stroke-width: 2; }
+  .ins-anat .ebody { fill: color-mix(in srgb, var(--accent-2) 55%, var(--bg-elev)); stroke: var(--accent-2); stroke-width: 2; }
+  .ins-anat .board { fill: color-mix(in srgb, var(--gt-wood-2) 45%, var(--text) 55%); }
+  .ins-anat .neckw { fill: var(--gt-wood-2); stroke: color-mix(in srgb, var(--gt-wood-2) 70%, var(--text)); stroke-width: 1; }
+  .ins-anat .head { fill: color-mix(in srgb, var(--gt-wood-2) 60%, var(--text) 40%); stroke: var(--border); stroke-width: 1; }
+  .ins-anat .hole { fill: color-mix(in srgb, var(--text) 80%, var(--bg)); }
+  .ins-anat .rosette { fill: none; stroke: var(--gt-nut); stroke-width: 3; }
+  .ins-anat .guard { fill: color-mix(in srgb, var(--text) 70%, var(--gt-wood)); opacity: 0.85; }
+  .ins-anat .bridge { fill: color-mix(in srgb, var(--text) 75%, var(--gt-wood)); }
+  .ins-anat .ivory { fill: var(--gt-nut); stroke: var(--text-faint); stroke-width: .8; }
+  .ins-anat .metal { fill: var(--text-faint); stroke: var(--text-dim); stroke-width: .8; }
+  .ins-anat .pick { fill: var(--text); stroke: var(--text-faint); stroke-width: 1; }
+  .ins-anat .fretl { stroke: var(--gt-fret); stroke-width: 1.6; }
+  .ins-anat .inl { fill: var(--gt-inlay); }
+  .ins-anat .strl { stroke: var(--gt-string); }
+  .ins-anat .truss { stroke: var(--warn); stroke-width: 2; stroke-dasharray: 5 4; fill: none; }
+  .ins-anat .hit { stroke: transparent; fill: none; }
+  .ins-anat .lbl { font: 600 13px var(--font); fill: var(--accent); text-anchor: middle; pointer-events: none; paint-order: stroke; stroke: var(--canvas-bg); stroke-width: 4px; }
+  #sim-ins-anatomy .ctrl, #sim-ins-types .ctrl { align-self: start; }
+  .ctrl > .seg { justify-self: start; }
+  .ins-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ins-chips button { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+  .ins-chips button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .ins-info { padding: 12px 18px; border-top: 1px solid var(--border); font-size: 15px; line-height: 1.7; min-height: 92px; }
+  .ins-info h4 { margin: 0 0 4px; font-size: 16px; }
+  .ins-strbtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .ins-strbtns button { font: inherit; font-size: 13px; padding: 6px 4px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.25; }
+  .ins-strbtns button small { display: block; color: var(--text-dim); font-family: var(--mono); font-size: 11px; }
+  .ins-strbtns button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .ins-strbtns button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .ins-strbtns button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .ins-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ins-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .ins-types-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: center; padding: 8px 10px; }
+  @media (min-width: 560px) { .ins-types-row { grid-template-columns: 130px minmax(0, 1fr); } }
+  .ins-types-row .gt-chord-svg { max-width: 120px; }
+  .sim-view .ins-sub { font-size: 12.5px; color: var(--text-dim); padding: 6px 10px 0; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="instrument">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 01</div>
+    <h1>기타라는 악기</h1>
+    <p class="lead">기타는 나무 상자에 강철이나 나일론 줄 여섯 개를 당겨 맨 단순한 물건처럼 보이지만, 그 안에는 장력과 질량의 균형, 손가락이 닿는 위치의 기하학, 작은 줄의 진동을 넓은 판의 소리로 바꾸는 임피던스 정합이 들어 있습니다. 이 장에서는 각 부분의 이름과 역할을 익히고, 줄 하나의 음높이가 어떻게 정해지는지 메르센 법칙으로 계산하고, 실제 줄 세트가 넥을 얼마나 세게 당기는지 확인한 뒤, 기타를 처음 잡는 자세까지 다룹니다.</p>
+    <ul class="objectives">
+      <li>헤드·줄감개·너트·넥·트러스로드·프렛·지판·몸통·사운드홀·브리지·새들·픽업의 이름과 기능을 말할 수 있다.</li>
+      <li>줄 번호(1번 줄 = 가장 가는 고음 E, 6번 줄 = 가장 굵은 저음 E)와 개방현 음 이름을 안다.</li>
+      <li>\(f = \frac{1}{2L}\sqrt{T/\mu}\)로 길이·장력·선밀도가 음높이를 정하는 방식을 설명하고, 실제 줄 세트의 장력을 계산한다.</li>
+      <li>뜯는 위치에 따라 \(n\beta\)가 정수인 배음이 빠지는 이유를 이해하고, 피킹 위치로 음색을 바꾼다.</li>
+      <li>상판·공기 공명·픽업이 각각 어떻게 소리를 내보내는지, 스틸·나일론·일렉 기타가 왜 다르게 들리는지 안다.</li>
+      <li>앉은 자세, 피크 쥐는 법, 왼손 손끝 위치 등 첫 연습의 기본기를 갖춘다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="anatomy">
+    <h2>기타의 해부도: 줄이 지나가는 길</h2>
+    <p>기타의 부분 이름은 줄 하나가 지나가는 길을 따라가면 자연스럽게 외워집니다. 줄은 <b>헤드</b><span class="en">(Headstock)</span>의 <b>줄감개</b><span class="en">(Tuning machine)</span>에 감겨 출발해, 홈이 파인 작은 막대인 <b>너트</b><span class="en">(Nut)</span>를 넘고, 손가락으로 누르는 <b>지판</b><span class="en">(Fretboard)</span> 위를 지나, 몸통 쪽 <b>브리지</b><span class="en">(Bridge)</span>에 박힌 <b>새들</b><span class="en">(Saddle)</span>을 넘어 고정됩니다. 줄이 실제로 진동하는 구간은 너트에서 새들까지이고, 이 길이를 <b>스케일 길이</b><span class="en">(Scale length)</span>라고 부릅니다. 일렉 기타에서 흔한 값은 648 mm(25.5″)와 628 mm(24.75″), 클래식 기타는 650 mm 안팎, 스틸 통기타는 645–650 mm가 많습니다.</p>
+    <p>지판에는 금속 막대인 <b>프렛</b><span class="en">(Fret)</span>이 박혀 있습니다. 줄을 프렛 바로 뒤에서 누르면 줄이 프렛 꼭대기에 닿아 진동 길이가 '프렛에서 새들까지'로 짧아지고, 한 칸마다 반음씩 올라갑니다. 프렛 간격이 몸통 쪽으로 갈수록 좁아지는 이유는 3장에서 \(d_n = L(1-2^{-n/12})\)로 다룹니다. 지판 옆과 위의 점(<b>포지션 마크</b>, 인레이)은 3·5·7·9·12프렛처럼 길을 잃지 않게 하는 이정표입니다.</p>
+    <p>보이지 않는 부품도 중요합니다. 넥 속에는 <b>트러스로드</b><span class="en">(Truss rod)</span>라는 강철 막대가 들어 있어, 줄 여섯 개가 합쳐서 수십 kgf로 넥을 앞으로 휘게 하는 힘에 맞섭니다. 통기타의 상판 안쪽에는 얇은 나무 띠인 <b>브레이싱</b><span class="en">(Bracing)</span>이 X자나 부채꼴로 붙어 상판이 장력에 찌그러지지 않으면서도 잘 울리도록 잡아 줍니다. 아래 그림은 통기타를 옆에서 자른 모습입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="통기타 단면: 줄의 경로">
+        <!-- neck -->
+        <path d="M40 92 L70 96 L330 100 L330 118 L70 118 L40 112 Z" class="f-surface"/>
+        <rect x="70" y="92" width="260" height="8" class="f-acc2-soft"/>
+        <line x1="78" y1="110" x2="325" y2="110" stroke="var(--warn)" stroke-width="2.4" stroke-dasharray="6 4"/>
+        <text x="200" y="134" text-anchor="middle" class="t-dim">트러스로드(넥 속 강철 막대)</text>
+        <!-- headstock -->
+        <path d="M20 70 L70 92 L70 100 L40 112 L14 86 Z" class="f-elev"/>
+        <circle cx="34" cy="80" r="5" class="f-acc"/>
+        <text x="16" y="56" class="t-dim">줄감개</text>
+        <!-- nut -->
+        <rect x="68" y="86" width="6" height="8" class="f-acc"/>
+        <text x="72" y="72" text-anchor="middle" class="t">너트</text>
+        <!-- frets -->
+        <g class="s-line"><line x1="110" y1="88" x2="110" y2="92"/><line x1="146" y1="88" x2="146" y2="92"/><line x1="180" y1="88" x2="180" y2="92"/><line x1="212" y1="88" x2="212" y2="92"/><line x1="242" y1="88" x2="242" y2="92"/><line x1="270" y1="88" x2="270" y2="92"/><line x1="296" y1="88" x2="296" y2="92"/></g>
+        <text x="200" y="80" text-anchor="middle" class="t-dim">프렛(지판 위 금속 막대)</text>
+        <!-- body -->
+        <path d="M320 100 L780 100 L780 200 L320 200 Z" class="f-surface"/>
+        <rect x="320" y="96" width="460" height="6" class="f-acc-soft"/>
+        <text x="772" y="148" text-anchor="end" class="t-dim">상판(가문비나무 등, 2.5–3 mm)</text>
+        <rect x="390" y="96" width="60" height="6" fill="var(--canvas-bg)"/>
+        <text x="420" y="122" text-anchor="middle" class="t-dim">사운드홀</text>
+        <!-- braces -->
+        <rect x="500" y="102" width="14" height="10" class="f-acc"/><rect x="650" y="102" width="14" height="10" class="f-acc"/>
+        <text x="582" y="128" text-anchor="middle" class="t-dim">브레이싱(상판 안쪽 나무 띠)</text>
+        <!-- bridge & saddle -->
+        <rect x="600" y="88" width="46" height="8" rx="2" class="f-elev"/>
+        <rect x="612" y="80" width="5" height="9" class="f-acc"/>
+        <circle cx="632" cy="92" r="3" class="f-acc"/>
+        <text x="614" y="66" text-anchor="middle" class="t">새들</text>
+        <text x="660" y="80" class="t-dim">브리지·핀</text>
+        <!-- string -->
+        <path d="M34 80 L71 86 L614 80 L632 92" fill="none" stroke="var(--text)" stroke-width="1.6"/>
+        <!-- scale length -->
+        <line x1="71" y1="40" x2="614" y2="40" class="s-acc"/>
+        <line x1="71" y1="34" x2="71" y2="46" class="s-acc"/><line x1="614" y1="34" x2="614" y2="46" class="s-acc"/>
+        <text x="342" y="32" text-anchor="middle" class="t-acc">스케일 길이 L (너트 → 새들) = 진동하는 길이</text>
+        <!-- inside -->
+        <text x="560" y="168" text-anchor="middle" class="t-dim">몸통 속 공기(공명 상자)</text>
+        <text x="560" y="186" text-anchor="middle" class="t-mono">뒤판·옆판</text>
+        <text x="200" y="230" text-anchor="middle" class="t-mono">넥: 단풍·마호가니 등</text>
+      </svg>
+      <figcaption><b>그림 1-1.</b> 통기타 단면(비율은 단순화). 줄은 줄감개 → 너트 → 지판 → 새들 → 브리지 핀으로 이어진다. 너트와 새들이 진동하는 구간의 양 끝을 정하고, 새들이 줄의 진동을 브리지와 상판으로 넘긴다. 넥 속 트러스로드는 줄 장력이 넥을 휘게 하는 힘에 맞선다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-anatomy">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>눌러 보는 기타 해부도</h3></div>
+      <div class="sim-body">
+        <div class="sim-view ins-anat" id="ins-an-view"></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기타 종류</span><div class="seg" id="ins-an-kind"><button data-value="acoustic" class="on">통기타(스틸)</button><button data-value="electric">일렉 기타</button></div></div>
+          <div class="ctrl"><span>부분 고르기</span><div class="ins-chips" id="ins-an-chips"></div></div>
+        </div>
+      </div>
+      <div class="ins-info" id="ins-an-info"><h4>부분을 눌러 보세요</h4><p>그림이나 아래 이름표를 누르면 설명이 나오고, 소리와 관계있는 부분(줄·줄감개·프렛·새들·픽업 등)은 그 역할을 소리로 들려줍니다.</p></div>
+      <div class="sim-note">그림의 프렛 위치와 몸통 이음 위치는 실제 비율(\(d_n = L(1-2^{-n/12})\), 통기타 14프렛 이음)로 그렸고 몸통 모양은 일반화한 형태입니다. 줄은 위가 1번 줄(가는 고음 E), 아래가 6번 줄로, 연주자가 내려다보는 방향과 지판 위젯·TAB과 같습니다. 소리는 카플러스–스트롱 현 모델 + 몸통 공진 필터 근사입니다.</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>연습법 · 내 기타 살펴보기 (5분)</strong>
+      <p>실제 기타를 무릎에 놓고 위 그림처럼 줄 하나를 줄감개부터 브리지까지 손가락으로 따라가 보세요. 줄감개를 돌리면 어느 줄이 팽팽해지는지, 너트 홈과 새들이 어디인지, 12프렛 점이 너트와 새들의 정확히 가운데쯤 있는지(자로 재 보면 스케일 길이의 절반) 확인합니다. 줄감개 방향은 헤드를 마주 보고 시계 반대 방향으로 돌릴 때 음이 올라가는 경우가 많지만 기타마다 다르니, 줄을 퉁기면서 아주 조금씩 돌려 방향을 먼저 확인하세요. 한 번에 반 바퀴 이상 돌리지 않는 것이 줄을 끊지 않는 요령입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="strings">
+    <h2>줄 번호와 이름: 6번 줄은 가장 굵은 줄</h2>
+    <p>기타 줄은 <b>가는 줄부터 1번</b>으로 셉니다. 기타를 잡았을 때 바닥 쪽에 있는 가장 가는 줄이 1번 줄(고음 E4), 얼굴 쪽에 있는 가장 굵은 줄이 6번 줄(저음 E2)입니다. 처음에는 '위에 있는 줄이 6번'이라는 점이 헷갈리는데, 번호는 위치가 아니라 <b>음높이 순서</b>(높은 음이 1번)라고 기억하면 됩니다. 표준 튜닝에서 6번 줄부터 1번 줄까지의 개방현은 E–A–D–G–B–E이고, 영어권에서는 "<i>Eddie Ate Dynamite, Good Bye Eddie</i>" 같은 문장으로 외웁니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>줄</th><th>개방현</th><th>주파수</th><th>일렉 10–46 세트</th><th>통기타 12–53 세트</th></tr></thead>
+      <tbody>
+        <tr><td>1번 줄</td><td>E4</td><td>329.63 Hz</td><td>.010″ 민줄</td><td>.012″ 민줄</td></tr>
+        <tr><td>2번 줄</td><td>B3</td><td>246.94 Hz</td><td>.013″ 민줄</td><td>.016″ 민줄</td></tr>
+        <tr><td>3번 줄</td><td>G3</td><td>196.00 Hz</td><td>.017″ 민줄</td><td>.024″ 감은 줄</td></tr>
+        <tr><td>4번 줄</td><td>D3</td><td>146.83 Hz</td><td>.026″ 감은 줄</td><td>.032″ 감은 줄</td></tr>
+        <tr><td>5번 줄</td><td>A2</td><td>110.00 Hz</td><td>.036″ 감은 줄</td><td>.042″ 감은 줄</td></tr>
+        <tr><td>6번 줄</td><td>E2</td><td>82.41 Hz</td><td>.046″ 감은 줄</td><td>.053″ 감은 줄</td></tr>
+      </tbody>
+    </table></div>
+    <p>줄 굵기는 인치의 천분의 일 단위로 부르고, 세트 이름은 1번 줄과 6번 줄 굵기를 이어 "10–46"처럼 씁니다. 굵기 .010″는 0.254 mm입니다. 6번 줄과 1번 줄은 이름이 같은 E지만 정확히 두 옥타브(주파수 4배) 차이입니다. 기타 악보는 실제 소리보다 한 옥타브 높게 적는 관례가 있어서, 오선보의 '가온 C' 자리에 적힌 음은 실제로는 한 옥타브 아래 C3로 울립니다. 이 책은 혼동을 피하려고 항상 <b>실제로 울리는 음높이</b>로 이름을 붙입니다(예: 5번 줄 개방현 = A2 = 110 Hz).</p>
+
+    <div class="sim" id="sim-ins-strings">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>여섯 줄 이름 익히기와 줄 번호 청음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="ins-st-fb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>줄 뜯기 (번호 · 개방현)</span><div class="ins-strbtns" id="ins-st-btns"></div></div>
+          <div class="btn-row"><button class="btn" id="ins-st-down">6 → 1 차례로</button><button class="btn" id="ins-st-up">1 → 6</button></div>
+          <div class="btn-row"><button class="btn primary" id="ins-st-quiz">? 몇 번 줄일까</button><button class="btn" id="ins-st-again">다시 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">줄</span><span class="v" id="ins-st-o-s">—</span></div>
+        <div class="stat"><span class="k">음 / 주파수</span><span class="v" id="ins-st-o-f">—</span></div>
+        <div class="stat"><span class="k">굵기(10–46)</span><span class="v" id="ins-st-o-g">—</span></div>
+        <div class="stat"><span class="k">청음 점수</span><span class="v" id="ins-st-o-q">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 지판의 아무 칸이나 눌러 보세요(0 = 개방현, 1–5프렛). 오른쪽 줄 버튼은 개방현을 뜯습니다. '몇 번 줄일까'를 누르면 무작위 개방현 하나가 울리고, 줄 버튼으로 답합니다 — 저음 E와 고음 E, 3번 줄 G와 2번 줄 B처럼 헷갈리는 쌍을 귀로 구분하는 연습입니다. 지판은 위가 1번 줄입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="physics">
+    <h2>현의 물리: 무엇이 음높이를 정하는가</h2>
+    <p>양 끝(너트와 새들)이 고정된 줄을 뜯으면 줄 위에서 파동이 양쪽으로 달려가 끝에서 반사되고, 오가는 파동이 겹쳐 제자리에서 출렁이는 <b>정상파</b><span class="en">(Standing wave)</span>가 됩니다. 양 끝에서 변위가 0이어야 하므로 허락되는 모양은 반 파장이 줄 길이에 정수 개 들어가는 것뿐이고, \(n\)번째 모양의 파장은 \(\lambda_n = 2L/n\)입니다. 줄 위 파동의 속도 \(v\)는 줄의 장력 \(T\)와 단위 길이당 질량 \(\mu\)(선밀도)로 정해집니다.</p>
+    <div class="formula">$$f_n = \frac{n\,v}{2L} = \frac{n}{2L}\sqrt{\frac{T}{\mu}}, \qquad n = 1, 2, 3, \dots$$
+      <div class="where">\(L\): 진동 길이(m), \(T\): 장력(N), \(\mu\): 선밀도(kg/m). \(n=1\)이 기본음(음높이), \(n \ge 2\)는 배음. 모든 모드가 \(f_1\)의 정수배라서 기타 소리는 또렷한 음높이를 가진다. 여기서 \(v\)는 공기 중 음속(343 m/s)과 무관한 '줄 위의 파동 속도'다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="현의 첫 네 모드"><g id="ins-fig-modes"></g></svg>
+      <figcaption><b>그림 1-2.</b> 양 끝이 고정된 줄의 모드 1–4. 실선과 점선은 반 주기 차이의 모양, 작은 원은 움직이지 않는 마디. 실제로 뜯은 줄은 이 모드들이 여러 세기로 겹친 상태로 진동하고, 각 모드의 세기가 음색을 정한다(5절).</figcaption>
+    </figure>
+    <p>숫자로 확인해 봅시다. 일렉 기타 1번 줄(.010″ 강철, 선밀도 \(\mu \approx 3.96\times10^{-4}\) kg/m)을 스케일 0.648 m에서 E4(329.63 Hz)로 맞추려면 줄 위 파동 속도가 \(v = 2Lf = 2 \times 0.648 \times 329.63 \approx 427\) m/s여야 하고, 필요한 장력은 \(T = \mu v^2 \approx 3.96\times10^{-4} \times 427^2 \approx 72\) N, 즉 약 7.4 kgf입니다. 가는 줄 하나가 쌀 한 포대의 무게로 당겨져 있는 셈입니다.</p>
+    <p>이 식에서 기타 연주의 기본 동작이 모두 나옵니다. 프렛을 누르면 \(L\)이 짧아져 음이 올라가고(12프렛 = 길이 절반 = 한 옥타브), 줄감개를 돌리면 \(T\)가 바뀌어 음이 오르내리고(튜닝), 줄을 옆으로 밀어 올리는 벤딩은 줄을 늘여 \(T\)를 키웁니다(11장). 굵은 줄일수록 \(\mu\)가 커서 같은 장력에서도 낮은 음이 납니다.</p>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="mersenne">
+    <h2>메르센 법칙: 길이·장력·질량</h2>
+    <p>프랑스의 수도사이자 수학자 마랭 메르센은 1636년 『보편적 화성<span class="en">(Harmonie universelle)</span>』에서 현의 진동수가 다음 세 법칙을 따른다는 실험 결과를 정리했습니다. 위 공식의 세 변수를 하나씩 떼어 본 것입니다.</p>
+    <ol>
+      <li><b>길이 법칙</b>: 장력과 줄이 같으면 진동수는 길이에 반비례한다, \(f \propto 1/L\). 길이를 절반으로 하면 한 옥타브 위.</li>
+      <li><b>장력 법칙</b>: 진동수는 장력의 제곱근에 비례한다, \(f \propto \sqrt{T}\). 한 옥타브 올리려면 장력이 4배 필요하다.</li>
+      <li><b>질량 법칙</b>: 진동수는 선밀도의 제곱근에 반비례한다, \(f \propto 1/\sqrt{\mu}\). 같은 재질이면 \(\mu = \rho\pi d^2/4\)이므로 지름에 반비례, \(f \propto 1/d\).</li>
+    </ol>
+    <div class="formula">$$\frac{\Delta f}{f} \approx -\frac{\Delta L}{L} + \frac{1}{2}\frac{\Delta T}{T} - \frac{1}{2}\frac{\Delta\mu}{\mu}$$
+      <div class="where">작은 변화에 대한 근사(로그 미분). 장력을 1% 바꾸면 음높이는 약 0.5%(≈ 8.6센트) 바뀐다. 튜닝 페그를 아주 조금만 돌려도 음이 꽤 움직이는 이유이고, 줄이 늘어나거나 온도·습도로 넥과 줄의 치수가 변하면 튜닝이 틀어지는 이유다.</div>
+    </div>
+    <p>질량 법칙은 기타 줄 설계의 핵심입니다. 6번 줄 E2는 1번 줄 E4보다 두 옥타브 낮으므로, 길이가 같고 장력도 비슷하게 유지하려면 \(\mu\)가 16배여야 하고 같은 강철 민줄이라면 지름이 4배(.040″)가 되어야 합니다. 그러면 줄이 너무 뻣뻣해져 배음이 정수배에서 벗어나고(비조화성) 누르기도 힘듭니다. 그래서 저음 줄은 가는 심선<span class="en">(Core)</span>에 구리 합금이나 니켈 도금 강철선을 촘촘히 감은 <b>감은 줄</b><span class="en">(Wound string)</span>로 만듭니다. 감은 선은 질량만 보태고 굽힘 강성은 거의 보태지 않으므로, 유연하면서도 무거운 줄이 됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 190" role="img" aria-label="민줄과 감은 줄 단면">
+        <circle cx="120" cy="95" r="22" class="f-acc"/>
+        <text x="120" y="150" text-anchor="middle" class="t">민줄 (Plain)</text>
+        <text x="120" y="168" text-anchor="middle" class="t-mono">강철 단선 · 1–2(3)번 줄</text>
+        <circle cx="330" cy="95" r="52" class="f-acc2-soft"/>
+        <circle cx="330" cy="95" r="22" class="f-acc"/>
+        <text x="330" y="168" text-anchor="middle" class="t">감은 줄 (Round wound)</text>
+        <text x="330" y="186" text-anchor="middle" class="t-mono">강철 심선 + 감은 선 · 3(4)–6번 줄</text>
+        <text x="395" y="60" class="t-dim">감은 선: 질량 ↑</text>
+        <text x="350" y="99" class="t-dim">심선: 장력 담당</text>
+        <g transform="translate(470 40)">
+          <rect x="0" y="40" width="300" height="30" rx="15" class="f-acc2-soft"/>
+          <g class="s-line" stroke-width="1.2"><path d="M10 40 l8 30 M24 40 l8 30 M38 40 l8 30 M52 40 l8 30 M66 40 l8 30 M80 40 l8 30 M94 40 l8 30 M108 40 l8 30 M122 40 l8 30 M136 40 l8 30 M150 40 l8 30 M164 40 l8 30 M178 40 l8 30 M192 40 l8 30 M206 40 l8 30 M220 40 l8 30 M234 40 l8 30 M248 40 l8 30 M262 40 l8 30 M276 40 l8 30"/></g>
+          <text x="150" y="28" text-anchor="middle" class="t-dim">옆에서 본 감은 줄</text>
+          <text x="150" y="100" text-anchor="middle" class="t-mono">μ = μ_core + μ_wrap,  강성 ≈ 심선만</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 1-3.</b> 민줄과 감은 줄. 감은 줄은 심선이 장력을 받고 감은 선은 질량만 더해, 같은 장력에서 낮은 음을 내면서도 유연하다. 일렉 세트는 보통 3번 줄까지 민줄, 통기타 세트는 3번 줄부터 감은 줄이다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-mersenne">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>메르센 법칙 실험대: 길이·장력·선밀도 → 음높이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ms"></canvas><div id="ins-ms-fb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>줄 프리셋</span><select id="ins-ms-pre">
+            <option value="e1">1번 줄 E4 · 강철 .010″</option>
+            <option value="g3">3번 줄 G3 · 강철 .017″</option>
+            <option value="e6">6번 줄 E2 · 감은 줄 .046″</option>
+            <option value="ny">클래식 1번 줄 E4 · 나일론</option>
+          </select></label>
+          <label class="ctrl"><span>진동 길이 L <output id="ins-ms-L-out"></output></span><input type="range" id="ins-ms-L" min="250" max="800" step="1" value="648"></label>
+          <label class="ctrl"><span>장력 T <output id="ins-ms-T-out"></output></span><input type="range" id="ins-ms-T" min="15" max="350" step="0.1" value="72.1"></label>
+          <label class="ctrl"><span>선밀도 μ <output id="ins-ms-mu-out"></output></span><input type="range" id="ins-ms-mu" min="0" max="1000" step="1" value="300"></label>
+          <div class="ins-presets"><button class="btn" id="ins-ms-half">L ÷ 2</button><button class="btn" id="ins-ms-t4">T × 4</button><button class="btn" id="ins-ms-m4">μ × 4</button></div>
+          <label class="check"><input type="checkbox" id="ins-ms-auto" checked> 손을 떼면 바로 듣기</label>
+          <div class="btn-row"><button class="btn primary" id="ins-ms-play">▶ 퉁기기</button><button class="btn" id="ins-ms-ref">목표 음과 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기본 주파수</span><span class="v" id="ins-ms-o-f">—</span></div>
+        <div class="stat"><span class="k">가까운 음</span><span class="v" id="ins-ms-o-n">—</span></div>
+        <div class="stat"><span class="k">파동 속도 v</span><span class="v" id="ins-ms-o-v">—</span></div>
+        <div class="stat"><span class="k">프리셋 대비</span><span class="v" id="ins-ms-o-r">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 'L ÷ 2'(12프렛을 누른 것과 같음)와 'T × 4'가 똑같이 한 옥타브를 올리고, 'μ × 4'는 한 옥타브를 내린다는 것을 귀로 확인하세요. 장력 슬라이더를 1 N씩 움직이면 몇 센트가 변하는지도 보세요. 아래 지판은 지금 음과 가장 가까운 음을 표준 튜닝 기타에서 낼 수 있는 자리입니다. 모델: 이상적인 유연한 현 \(f = \sqrt{T/\mu}/2L\)(굽힘 강성 무시). 프리셋 선밀도는 D'Addario 단위 무게표 값, 나일론은 EJ45 장력표에서 역산. 소리는 카플러스–스트롱 합성이며 30 Hz–2 kHz 밖은 재생하지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="tension">
+    <h2>줄 세트의 장력과 스케일 길이</h2>
+    <p>같은 공식을 장력에 대해 풀면 \(T = \mu(2Lf)^2\)입니다. 줄 회사들은 선밀도를 '단위 무게'<span class="en">(Unit weight, lb/in)</span>로 공개하므로, 스케일 길이와 목표 음만 알면 각 줄의 장력을 계산할 수 있습니다. 아래 표는 널리 쓰이는 세 세트(일렉 니켈 10–46, 통기타 포스퍼 브론즈 12–53, 클래식 노멀 텐션)의 대표값입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>세트</th><th>스케일</th><th>줄별 장력(kgf, 1→6번 줄)</th><th>합계</th></tr></thead>
+      <tbody>
+        <tr><td>일렉 10–46 (니켈 감은 줄)</td><td>648 mm</td><td>7.3 · 7.0 · 7.5 · 8.3 · 8.9 · 7.9</td><td>≈ 47 kgf</td></tr>
+        <tr><td>통기타 12–53 (포스퍼 브론즈)</td><td>648 mm</td><td>10.6 · 10.5 · 13.6 · 13.6 · 13.1 · 11.3</td><td>≈ 73 kgf</td></tr>
+        <tr><td>클래식 노멀 텐션 (나일론)</td><td>650 mm</td><td>7.4 · 5.5 · 5.4 · 7.1 · 7.2 · 6.4</td><td>≈ 39 kgf</td></tr>
+      </tbody>
+    </table></div>
+    <p>통기타 세트는 일렉 세트보다 약 1.5배, 클래식 세트의 거의 2배로 당겨져 있습니다. 통기타 줄이 굵은 이유는 상판을 세게 흔들어 큰 소리를 내기 위해서이고, 그만큼 손가락이 아프고 넥과 상판이 튼튼해야 합니다. <b>클래식 기타에 스틸 줄을 걸면 안 되는 이유</b>도 여기서 나옵니다. 클래식 기타의 얇은 상판과 (대개) 트러스로드 없는 넥은 40 kgf 남짓을 견디도록 만들어졌으므로, 70 kgf가 넘는 장력은 브리지를 들뜨게 하고 넥을 휘게 합니다.</p>
+    <p>스케일 길이도 장력을 바꿉니다. 장력은 \(L^2\)에 비례하므로 같은 10–46 세트를 648 mm 기타에서 628 mm 기타로 옮기면 장력이 \((628/648)^2 \approx 0.94\), 약 6% 줄어듭니다. 짧은 스케일 기타가 '줄이 부드럽다', '벤딩이 쉽다'고 느껴지는 이유이고, 반대로 긴 스케일은 줄이 팽팽해 저음이 단단하고 배음이 또렷하다고들 합니다. 튜닝을 반음 내리면 장력은 \(2^{-2/12} \approx 0.89\)배, 11% 줄어듭니다.</p>
+
+    <div class="sim" id="sim-ins-tension">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>줄 세트 장력 계산기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-tn"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>줄 세트</span><select id="ins-tn-set">
+            <option value="exl110">일렉 10–46 니켈 (D'Addario EXL110)</option>
+            <option value="ej16">통기타 12–53 포스퍼 브론즈 (EJ16)</option>
+            <option value="ej45">클래식 노멀 텐션 나일론 (EJ45)</option>
+          </select></label>
+          <div class="ctrl"><span>스케일 길이</span><div class="seg" id="ins-tn-scale"><button data-value="628.65">628 mm</button><button data-value="647.7" class="on">648 mm</button><button data-value="650">650 mm</button></div></div>
+          <label class="ctrl"><span>튜닝</span><select id="ins-tn-tun">
+            <option value="standard">표준 (E A D G B E)</option>
+            <option value="halfDown">반음 내림 (E♭)</option>
+            <option value="dropD">드롭 D</option>
+            <option value="openG">오픈 G</option>
+            <option value="dadgad">DADGAD</option>
+          </select></label>
+          <div class="btn-row"><button class="btn primary" id="ins-tn-strum">▶ 개방현 긁기</button><button class="btn" id="ins-tn-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">합계 장력</span><span class="v" id="ins-tn-o-sum">—</span></div>
+        <div class="stat"><span class="k">가장 센 줄</span><span class="v" id="ins-tn-o-max">—</span></div>
+        <div class="stat"><span class="k">표준·648 mm 대비</span><span class="v" id="ins-tn-o-rel">—</span></div>
+      </div>
+      <div class="sim-note">막대를 누르면 그 줄을 뜯습니다. 흐린 막대는 같은 세트를 표준 튜닝·648 mm(나일론은 650 mm)에 걸었을 때의 값입니다. 계산: \(T = \mu(2Lf)^2\). 선밀도는 D'Addario가 공개한 단위 무게(일렉 PL010 = 2.215×10⁻⁵ lb/in 등)와 세트 장력표(25.5″ 기준, 통기타 EJ16·클래식 EJ45는 장력표에서 역산)에서 얻었습니다. 실제 장력은 제조 공차와 줄감개 쪽 여분 길이에 따라 몇 % 다를 수 있습니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 줄 굵기 고르기</strong>
+      <p>처음 시작하는 사람이 통기타 12–53이 아프다면 11–52 '커스텀 라이트'로 시작해도 됩니다. 일렉은 9–42나 10–46이 표준입니다. 줄을 바꿀 때는 한꺼번에 다 풀지 말고 한 줄씩 교체해야 넥에 걸리는 힘이 갑자기 사라지지 않습니다. 굵기가 크게 달라지는 세트로 바꾸면(예: 9 → 11) 넥의 휨(릴리프)이 달라지므로 트러스로드 조정이 필요할 수 있는데, 익숙하지 않다면 악기점에 맡기세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="pluck">
+    <h2>뜯는 위치와 음색</h2>
+    <p>같은 줄, 같은 음이라도 어디를 뜯느냐에 따라 소리가 달라집니다. 브리지 바로 앞을 뜯으면 날카롭고 쨍한 소리, 12프렛 위를 뜯으면 둥글고 부드러운 소리가 납니다. 이유는 줄을 뜯는 순간의 모양에 있습니다. 브리지에서 \(\beta L\) 떨어진 점을 높이 \(h\)로 당겼다 놓으면 줄은 삼각형 모양에서 출발하고, 이 삼각형을 그림 1-2의 모드들로 분해(푸리에 사인 급수)한 계수가 각 배음의 세기가 됩니다.</p>
+    <div class="formula">$$a_n = \frac{2h}{\pi^2\beta(1-\beta)}\cdot\frac{\sin(n\pi\beta)}{n^2}, \qquad F_n \propto n\,a_n \propto \frac{\sin(n\pi\beta)}{n}$$
+      <div class="where">\(a_n\): \(n\)번 모드의 변위 진폭, \(F_n\): 브리지에 걸리는 힘(=몸통을 흔들어 소리가 되는 성분)의 \(n\)번 성분. \(\sin(n\pi\beta)=0\), 즉 <b>\(n\beta\)가 정수인 배음은 전혀 생기지 않는다</b>. 뜯은 점이 그 모드의 마디이기 때문이다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="1/5 지점에서 뜯을 때 사라지는 5번 모드"><g id="ins-fig-pluck"></g></svg>
+      <figcaption><b>그림 1-4.</b> 브리지에서 \(L/5\) 지점(\(\beta = 0.2\))을 뜯을 때. 위: 뜯는 순간의 삼각형. 아래: 5번 모드는 그 점이 마디(○)라서 들뜨지 않고, 4번·6번 모드는 그 점에서 크게 움직이므로 잘 들뜬다. 그래서 5, 10, 15 …번 배음이 빠진다.</figcaption>
+    </figure>
+    <p>\(\beta\)가 작을수록(브리지 가까이) \(\sin(n\pi\beta)\)가 높은 \(n\)까지 크게 유지되므로 높은 배음이 많아 밝은 소리가 됩니다. \(\beta = 1/2\)(12프렛 위)에서는 짝수 배음이 모두 사라져 속이 빈 듯한 둥근 소리가 납니다. 실제 기타에서 사운드홀 위를 뜯으면 \(\beta\)가 대략 0.2 안팎이고, 브리지에서 3–4 cm 앞을 뜯으면 0.05 안팎입니다. 프렛을 누르면 진동 길이가 짧아지므로 같은 손 위치라도 \(\beta\)가 커져 소리가 조금 부드러워진다는 점도 기억해 두세요. 일렉 기타에서는 손 위치뿐 아니라 <b>픽업의 위치</b>가 같은 원리로 음색을 정합니다(13장). 픽업 바로 위가 마디인 배음은 픽업이 잡지 못하기 때문입니다.</p>
+
+    <div class="sim" id="sim-ins-pluckpos">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>피킹 위치와 사라지는 배음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-pp"></canvas><div class="ins-sub">실제 출력 스펙트럼(재생 중 실시간)</div><canvas id="cv-ins-pp-live"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>브리지에서의 위치 β <output id="ins-pp-b-out"></output></span><input type="range" id="ins-pp-b" min="0.03" max="0.5" step="0.005" value="0.2"></label>
+          <div class="ins-presets"><button class="btn" data-b="0.055">브리지 앞</button><button class="btn" data-b="0.2">사운드홀 위</button><button class="btn" data-b="0.25">β = 1/4</button><button class="btn" data-b="0.5">12프렛 위</button></div>
+          <div class="ctrl"><span>줄</span><div class="seg" id="ins-pp-s"><button data-value="0" class="on">6번 E2</button><button data-value="3">3번 G3</button><button data-value="5">1번 E4</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-pp-play">▶ 뜯기</button><button class="btn" id="ins-pp-ab">A/B: 브리지 앞 ↔ 지금</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">브리지에서 거리</span><span class="v" id="ins-pp-o-d">—</span></div>
+        <div class="stat"><span class="k">빠지는 배음</span><span class="v" id="ins-pp-o-m">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="ins-pp-o-c">—</span></div>
+      </div>
+      <div class="sim-note">위 캔버스: 줄(왼쪽 = 브리지)과 뜯는 점, 그 아래 이론 스펙트럼 \(|\sin(n\pi\beta)|/n\) (dB, 빨간 × = 사라지는 배음). 아래 캔버스: 실제로 합성된 소리의 스펙트럼으로, 골짜기가 이론과 같은 자리에 생기는지 확인하세요. 모델: 카플러스–스트롱 현의 초기 상태에 빗살 필터 \(x[n]-x[n-\beta N]\)을 걸어 뜯는 위치를 흉내 내고(GT pluck의 pos), 몸통 필터를 통과시킵니다. 실제 줄은 피크 폭과 손가락 살 때문에 골짜기가 이보다 얕습니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 위치로 음색 바꾸기</strong>
+      <p>개방현 6번 줄을 같은 세기로 브리지 앞 3 cm, 사운드홀 위, 12프렛 위에서 각각 네 번씩 뜯어 보세요. 소리가 '쨍 → 보통 → 둥근' 순서로 바뀌는 것을 들었다면, 이번에는 C 코드를 다운 스트로크로 긁으면서 오른손을 천천히 브리지 쪽에서 넥 쪽으로 옮깁니다. 클래식 기타 연주자는 이것을 <i>sul ponticello</i>(브리지 가까이)와 <i>sul tasto</i>(지판 위)라고 부르며 악보에 적어 음색을 지시합니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="body">
+    <h2>몸통은 어떻게 소리를 내는가</h2>
+    <p>줄만 진동해서는 소리가 거의 들리지 않습니다. 지름 1 mm도 안 되는 줄이 앞으로 움직이면 공기는 줄 뒤쪽으로 바로 돌아 흘러 버려 압력 변화가 생기지 않기 때문입니다(음향 단락). 일렉 기타를 앰프 없이 쳐 보면 이것을 실감합니다. 통기타는 이 문제를 <b>상판</b><span class="en">(Soundboard, Top)</span>으로 풉니다. 줄의 진동은 새들과 브리지를 통해 상판을 밀고 당기는 힘 \(F(t)\)이 되고, 손바닥 두 개만 한 넓은 상판이 공기를 밀어 소리를 냅니다. 작은 면적·큰 힘의 줄과 넓은 면적의 공기 사이에 다리를 놓는 일, 즉 <b>임피던스 정합</b>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="에너지 흐름: 줄에서 공기까지">
+        <rect x="10" y="80" width="120" height="56" rx="10" class="f-acc-soft"/><text x="70" y="104" text-anchor="middle" class="t-acc">줄</text><text x="70" y="124" text-anchor="middle" class="t-mono">에너지 저장소</text>
+        <rect x="170" y="80" width="120" height="56" rx="10" class="f-elev"/><text x="230" y="104" text-anchor="middle" class="t">새들·브리지</text><text x="230" y="124" text-anchor="middle" class="t-mono">힘 F(t) 전달</text>
+        <rect x="330" y="30" width="150" height="56" rx="10" class="f-acc2-soft"/><text x="405" y="54" text-anchor="middle" class="t">상판 진동 모드</text><text x="405" y="74" text-anchor="middle" class="t-mono">≈ 150–250 Hz부터 여러 개</text>
+        <rect x="330" y="130" width="150" height="56" rx="10" class="f-acc2-soft"/><text x="405" y="154" text-anchor="middle" class="t">몸통 속 공기</text><text x="405" y="174" text-anchor="middle" class="t-mono">헬름홀츠 공명 ≈ 100 Hz</text>
+        <rect x="530" y="80" width="120" height="56" rx="10" class="f-elev"/><text x="590" y="104" text-anchor="middle" class="t">공기(방사)</text><text x="590" y="124" text-anchor="middle" class="t-mono">우리가 듣는 소리</text>
+        <rect x="680" y="80" width="110" height="56" rx="10" class="f-surface"/><text x="735" y="104" text-anchor="middle" class="t">손실</text><text x="735" y="124" text-anchor="middle" class="t-mono">나무 내부 마찰</text>
+        <g class="s-line"><path d="M130 108 H170"/><path d="M290 100 L330 64"/><path d="M290 116 L330 152"/><path d="M480 58 L530 98"/><path d="M480 158 L530 118"/><path d="M650 108 H680"/><path d="M405 86 V130" stroke-dasharray="4 3"/></g>
+        <text x="418" y="112" class="t-dim">사운드홀로 결합</text>
+        <text x="400" y="220" text-anchor="middle" class="t-dim">소리를 잘 내보낼수록 줄의 에너지가 빨리 빠져나가 서스테인은 짧아진다</text>
+      </svg>
+      <figcaption><b>그림 1-5.</b> 통기타의 에너지 흐름. 줄에 저장된 진동 에너지가 브리지를 통해 상판과 몸통 속 공기로 넘어가고, 일부는 소리로 방사되고 일부는 나무 속 마찰로 열이 된다. 솔리드 일렉 기타는 이 통로가 거의 막혀 있어 줄이 더 오래 울린다.</figcaption>
+    </figure>
+    <p>몸통 속 공기와 사운드홀은 병의 입구를 불 때 '부웅' 하고 울리는 것과 같은 <b>헬름홀츠 공명기</b>를 이룹니다. 사운드홀 넓이 \(A\), 몸통 부피 \(V\), 구멍의 유효 길이 \(L_{\text{eff}}\)(판 두께 + 끝 보정)로 공명 주파수를 어림할 수 있습니다.</p>
+    <div class="formula">$$f_H = \frac{c}{2\pi}\sqrt{\frac{A}{V\,L_{\text{eff}}}}$$
+      <div class="where">\(c \approx 343\) m/s. 지름 100 mm 사운드홀(\(A \approx 7.9\times10^{-3}\) m²), \(V \approx 17\) L, \(L_{\text{eff}} \approx 3\text{ mm} + 1.7r \approx 88\) mm를 넣으면 \(f_H \approx 125\) Hz. 실제 통기타의 공기 공명은 상판·뒤판이 함께 움직이며 결합해 이보다 낮은 90–110 Hz 근처에서 측정되는 경우가 많다. 이 공명이 6번·5번 줄의 저음을 받쳐 준다.</div>
+    </div>
+    <p>상판 안쪽의 브레이싱 패턴은 이 판이 어떤 모양과 주파수로 울릴지를 정합니다. 스틸 통기타는 큰 장력을 버티려고 X자 브레이싱을, 클래식 기타는 가볍고 유연한 부채꼴(팬) 브레이싱을 주로 씁니다. 같은 줄을 걸어도 몸통 크기와 나무, 브레이싱에 따라 저음이 풍부한 기타, 고음이 맑은 기타로 성격이 갈리는 이유입니다.</p>
+    <p><b>일렉 기타</b>는 전혀 다른 길을 갑니다. 몸통은 줄을 단단히 붙잡아 에너지를 덜 빼앗고, 소리는 줄 아래의 <b>픽업</b><span class="en">(Pickup)</span>이 만듭니다. 픽업은 영구 자석에 가는 구리선을 수천 번 감은 코일로, 자화된 강철 줄이 진동하면 코일을 지나는 자속이 변하고 패러데이 법칙 \(e = -N\,d\Phi/dt\)에 따라 전압이 유도됩니다. 그래서 일렉 기타에는 자성이 있는 강철·니켈 줄만 쓸 수 있고, 나일론 줄은 소리가 나지 않습니다. 실제로 공기를 미는 일은 앰프와 스피커가 맡으므로, 일렉 기타의 음색은 픽업 위치, 앰프, 이펙터가 크게 좌우합니다(13장).</p>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="types">
+    <h2>스틸·나일론·일렉: 세 기타의 차이</h2>
+    <p>세 기타는 생김새는 비슷해도 줄 재질, 장력, 넥 폭, 소리를 내는 방식이 모두 다릅니다. 무엇으로 시작할지는 하고 싶은 음악으로 정하면 됩니다. 노래 반주와 포크·팝은 스틸 통기타, 클래식·보사노바·핑거스타일 일부는 나일론, 록·블루스·펑크는 일렉이 자연스럽습니다. 기본 코드와 리듬, 지판 지식은 셋 모두에 그대로 통합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>스틸 통기타</th><th>클래식(나일론)</th><th>일렉 기타</th></tr></thead>
+      <tbody>
+        <tr><td>줄</td><td>강철 민줄 + 브론즈 감은 줄</td><td>나일론 단선 + 금속 감은 나일론 다발</td><td>강철 민줄 + 니켈(도금) 감은 줄</td></tr>
+        <tr><td>대표 세트·장력</td><td>12–53, ≈ 73 kgf</td><td>노멀 텐션, ≈ 39 kgf</td><td>10–46, ≈ 47 kgf</td></tr>
+        <tr><td>너트 폭</td><td>약 43–45 mm</td><td>약 52 mm</td><td>약 42–43 mm</td></tr>
+        <tr><td>스케일</td><td>약 628–650 mm</td><td>약 650 mm</td><td>628 / 648 mm가 흔함</td></tr>
+        <tr><td>소리를 내는 곳</td><td>상판·몸통 공명</td><td>상판·몸통 공명</td><td>픽업 → 앰프·스피커</td></tr>
+        <tr><td>음색</td><td>밝고 금속성, 배음 풍부</td><td>따뜻하고 둥근, 고음이 빨리 사라짐</td><td>픽업·앰프에 따라 다양, 서스테인 김</td></tr>
+        <tr><td>처음 느낌</td><td>손끝이 가장 아프다</td><td>줄이 부드럽지만 넥이 넓다</td><td>줄이 가볍고 줄 높이가 낮다</td></tr>
+      </tbody>
+    </table></div>
+    <p>음색 차이의 물리적 뿌리는 두 가지입니다. 첫째, <b>줄 재질의 내부 손실</b>. 나일론은 강철보다 내부 마찰이 커서 높은 배음이 빨리 사라지므로 소리가 둥글고 따뜻합니다. 둘째, <b>몸통과 픽업의 필터</b>. 통기타는 몸통 공명이 특정 대역을 키우고, 일렉은 픽업 코일의 인덕턴스와 케이블 정전용량이 만드는 공진(수 kHz)과 앰프가 소리를 빚습니다. 아래 시뮬레이터의 가상 기타는 이 차이를 '밝기·감쇠·뜯는 위치' 세 숫자와 몸통 필터로 근사합니다.</p>
+
+    <div class="sim" id="sim-ins-types">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스틸·나일론·일렉 비교 청취</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="ins-types-row"><div id="ins-ty-chord"></div><div id="ins-ty-fb"></div></div>
+          <canvas id="cv-ins-ty"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기타</span><div class="seg" id="ins-ty-tone"><button data-value="steel" class="on">스틸</button><button data-value="nylon">나일론</button><button data-value="electric">일렉</button><button data-value="raw">필터 없음</button></div></div>
+          <div class="ctrl"><span>코드</span><div class="seg" id="ins-ty-ch"><button data-value="G" class="on">G</button><button data-value="C">C</button><button data-value="Em">Em</button><button data-value="D">D</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-ty-strum">▶ 스트럼</button><button class="btn" id="ins-ty-arp">아르페지오</button></div>
+          <div class="btn-row"><button class="btn" id="ins-ty-abc">세 기타 차례로</button><button class="btn" id="ins-ty-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">밝기 / 감쇠</span><span class="v" id="ins-ty-o-b">—</span></div>
+        <div class="stat"><span class="k">기본 뜯는 위치 β</span><span class="v" id="ins-ty-o-p">—</span></div>
+        <div class="stat"><span class="k">몸통 필터</span><span class="v" id="ins-ty-o-f">—</span></div>
+      </div>
+      <div class="sim-note">캔버스는 지금 고른 음색에 쓰인 몸통·픽업 필터의 주파수 응답(dB, 로그 주파수)입니다. '필터 없음'은 같은 현 모델을 몸통 없이 들려주므로, 몸통 필터가 저음을 얼마나 받쳐 주는지 비교할 수 있습니다. '세 기타 차례로'는 같은 코드를 스틸 → 나일론 → 일렉 순으로 긁습니다. 모델: 카플러스–스트롱 현(밝기·감쇠·뜯는 위치) + 피킹·셸빙 바이쿼드 몇 개로 만든 몸통/픽업 근사. 실제 몸통은 수십 개의 공진을 가지며, 일렉의 실제 음색은 앰프가 크게 좌우합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="posture">
+    <h2>기타 잡기: 자세와 두 손의 기본</h2>
+    <p>좋은 자세는 '편하게 오래 칠 수 있는 자세'이고, 그 조건은 의외로 기하학적입니다. 왼손이 지판에 수직으로 다가갈 수 있을 것, 오른팔이 몸통 가장자리에 자연스럽게 걸칠 것, 그리고 기타가 손으로 붙잡지 않아도 제자리에 머물 것. 왼손으로 넥을 받치고 있다면 자세가 잘못된 것입니다. 왼손은 누르는 일만 해야 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 316" role="img" aria-label="앉은 자세와 피크 쥐는 법">
+        <!-- seated posture (front view) -->
+        <g transform="translate(10 6)">
+          <rect x="70" y="214" width="170" height="10" rx="3" class="f-surface"/>
+          <line x1="86" y1="224" x2="86" y2="286" class="s-line"/><line x1="224" y1="224" x2="224" y2="286" class="s-line"/>
+          <circle cx="150" cy="40" r="18" class="f-elev"/>
+          <path d="M118 78 Q150 66 182 78 L178 196 L122 196 Z" class="f-surface"/>
+          <path d="M122 196 L120 214 M178 196 L180 214" class="s-line" stroke-width="3"/>
+          <path d="M132 216 L128 286 M168 216 L172 286" class="s-line" stroke-width="5"/>
+          <g transform="rotate(-15 130 180)">
+            <ellipse cx="92" cy="180" rx="44" ry="40" class="f-acc-soft"/>
+            <ellipse cx="150" cy="180" rx="30" ry="31" class="f-acc-soft"/>
+            <circle cx="142" cy="180" r="10" class="f-elev"/>
+            <rect x="178" y="174" width="152" height="12" rx="2" fill="var(--accent)"/>
+            <rect x="330" y="170" width="34" height="20" rx="4" fill="var(--accent)"/>
+          </g>
+          <path d="M120 82 L86 138 L134 168" class="s-line" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M180 82 L228 128 L256 146" class="s-line" stroke-width="5" stroke-linejoin="round"/>
+          <text x="282" y="96" class="t-dim">헤드는 어깨 높이 근처</text>
+          <text x="250" y="178" class="t-dim">왼손: 넥을 쥐지 않고</text>
+          <text x="250" y="194" class="t-dim">누르는 일만</text>
+          <text x="0" y="250" class="t-dim">몸통 허리를</text>
+          <text x="0" y="266" class="t-dim">오른 허벅지에</text>
+          <text x="0" y="132" class="t-dim">오른팔은 몸통</text>
+          <text x="0" y="148" class="t-dim">가장자리에 걸침</text>
+          <text x="100" y="304" class="t">앉은 자세(정면에서 본 모습)</text>
+        </g>
+        <!-- pick grip -->
+        <g transform="translate(470 20)">
+          <path d="M30 150 Q110 120 180 150 Q215 170 200 205" fill="none" stroke="var(--surface-2)" stroke-width="30" stroke-linecap="round"/>
+          <path d="M30 150 Q110 120 180 150 Q215 170 200 205" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+          <path d="M150 196 L214 196 L182 252 Z" class="f-acc"/>
+          <path d="M60 70 Q140 90 186 150" fill="none" stroke="var(--surface)" stroke-width="34" stroke-linecap="round"/>
+          <path d="M60 70 Q140 90 186 150" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="40" y="50" class="t-dim">엄지: 첫 마디 바닥으로 누름</text>
+          <text x="10" y="200" class="t-dim">검지: 구부려 옆면으로 받침</text>
+          <line x1="182" y1="252" x2="150" y2="266" class="s-line" stroke-dasharray="3 3"/>
+          <text x="146" y="272" text-anchor="end" class="t-dim">피크 끝 2–3 mm만 나오게</text>
+          <text x="232" y="214" class="t-dim">피크</text>
+          <text x="60" y="296" class="t">피크 쥐는 법</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 1-6.</b> 왼쪽: 통기타·일렉의 기본 앉은 자세. 몸통 허리의 오목한 부분을 오른 허벅지에 얹고, 헤드가 수평보다 조금 위를 향하게 한다(클래식 기타는 발판을 써서 왼 허벅지에 얹는다). 오른쪽: 피크는 구부린 검지 옆면과 엄지 첫 마디 바닥 사이에 끼우고 끝을 조금만 내민다.</figcaption>
+    </figure>
+    <div class="callout tip">
+      <strong>연습법 · 자세 점검 (매 연습 시작 30초)</strong>
+      <p>등받이가 있는 의자에 깊숙이 앉지 말고 앞쪽에 앉아 등을 세웁니다. 기타를 허벅지에 얹고 오른팔 위팔 안쪽을 몸통의 가장 두꺼운 가장자리에 걸칩니다. 이제 두 손을 모두 떼어 보세요. 기타가 그대로 서 있으면 합격입니다. 앞으로 쓰러지면 오른팔로 살짝 눌러 고정하는 위치를 찾습니다. 지판을 들여다보려고 기타를 위로 젖히는 습관은 왼 손목을 꺾게 하므로, 기타 대신 고개만 살짝 숙여 보세요.</p>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 왼손: 프렛 바로 뒤, 손끝으로</strong>
+      <p>손톱을 짧게 깎고, 손가락 끝(지문 가운데보다 끝 쪽)을 세워 줄을 누릅니다. 누르는 위치는 두 프렛 사이 한가운데가 아니라 <b>앞쪽 프렛 바로 뒤</b>입니다. 줄이 프렛 꼭대기에 닿기만 하면 되므로 프렛에 가까울수록 적은 힘으로 깨끗한 소리가 납니다(프렛 바로 위를 누르면 소리가 먹힙니다). 엄지는 넥 뒤 가운데쯤에 가볍게 두고, 쥐어짜지 마세요. 연습: 1번 줄 1프렛을 눌러 뜯고, '찡' 소리가 날 때까지 힘을 조금씩 빼 보세요. 소리가 깨지기 직전의 최소 힘을 찾는 것이 목표입니다. 처음 2–3주는 손끝이 아픈 것이 정상이니 하루 15–20분씩 나눠 연습하고, 아프면 쉬세요.</p>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 오른손: 손목으로 흔들기</strong>
+      <p>피크는 줄에 거의 평행하게 대고, 줄을 '뜯어 올리지' 말고 '스쳐 지나가게' 칩니다. 처음에는 0.5–0.7 mm 정도의 얇은 피크가 스트로크하기 편하고, 단음 연주에는 0.8–1.0 mm 이상이 또렷합니다. 스트로크는 팔꿈치가 아니라 손목과 아래팔 회전으로, 문 손잡이를 돌리듯 흔듭니다. 연습: 메트로놈 60 BPM에 맞춰 6번 줄 개방현을 박마다 한 번씩 다운 피킹 1분, 다음 1분은 다운–업 번갈아 8분음표로. 소리 크기가 고르게 들릴 때까지 반복합니다.</p>
+    </div>
+    <p>통기타를 처음 산다면 줄 높이(<b>액션</b>)를 확인하세요. 12프렛 위에서 6번 줄과 프렛 꼭대기 사이가 약 2.5 mm 이하, 1번 줄이 약 2 mm 이하라면 초보자도 무리 없이 누를 수 있습니다. 이보다 높으면 손가락이 훨씬 아프고 음도 부정확해지므로(2장에서 보듯 누를 때 줄이 늘어나 음이 올라갑니다), 악기점에서 새들 높이를 조정 받는 것이 좋습니다.</p>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>줄은 줄감개 → 너트 → 지판(프렛) → 새들 → 브리지로 지나간다. 너트–새들 사이가 진동 길이(스케일, 648/628/650 mm 등)다.</li>
+      <li>줄 번호는 음높이 순: 1번 줄 = 가장 가는 고음 E4(329.63 Hz), 6번 줄 = 가장 굵은 저음 E2(82.41 Hz). 표준 튜닝 E–A–D–G–B–E.</li>
+      <li>\(f = \frac{1}{2L}\sqrt{T/\mu}\). 길이 절반 = 옥타브(12프렛), 장력 4배 = 옥타브, 선밀도 4배 = 옥타브 아래(메르센 법칙). 장력 1% ≈ 8.6센트.</li>
+      <li>장력 \(T = \mu(2Lf)^2\): 일렉 10–46 ≈ 47 kgf, 통기타 12–53 ≈ 73 kgf, 클래식 ≈ 39 kgf. 장력은 \(L^2\)에 비례하고, 저음 줄은 감은 줄로 질량만 늘린다.</li>
+      <li>브리지에서 \(\beta L\) 지점을 뜯으면 \(n\beta\)가 정수인 배음이 사라진다. 브리지 쪽일수록 밝고, 12프렛 위는 짝수 배음이 빠져 둥글다.</li>
+      <li>통기타는 상판(임피던스 정합)과 몸통 공기의 헬름홀츠 공명(≈ 100 Hz)으로 소리를 내고, 일렉은 자석+코일 픽업이 줄의 진동을 전압으로 바꾼다.</li>
+      <li>자세: 기타가 손 없이 서 있게, 왼손은 프렛 바로 뒤를 손끝으로, 오른손은 손목으로 흔든다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>기타를 잡았을 때 얼굴 쪽(위)에 있는 가장 굵은 줄의 이름은?</p><div class="opts">
+        <button class="opt">1번 줄, E4</button><button class="opt" data-correct>6번 줄, E2</button><button class="opt">6번 줄, E4</button><button class="opt">1번 줄, E2</button>
+      </div><div class="quiz-exp">줄 번호는 음높이 순으로, 가장 높은 줄이 1번이다. 가장 굵은 줄은 가장 낮은 E2(82.41 Hz)이고 6번 줄이다. 1번 줄 E4와는 두 옥타브 차이.</div></div>
+      <div class="quiz-q"><p>같은 10–46 세트를 스케일 648 mm 기타에서 628 mm 기타로 옮겨 같은 음으로 맞추면 장력은?</p><div class="opts">
+        <button class="opt">약 3% 줄어든다</button><button class="opt" data-correct>약 6% 줄어든다</button><button class="opt">약 6% 늘어난다</button><button class="opt">변하지 않는다</button>
+      </div><div class="quiz-exp">\(T = \mu(2Lf)^2\)이므로 \(T \propto L^2\). \((628/648)^2 \approx 0.939\), 약 6% 감소. 짧은 스케일 기타의 줄이 더 부드럽게 느껴지는 이유다.</div></div>
+      <div class="quiz-q"><p>브리지에서 줄 길이의 1/6 되는 지점을 뜯었다. 빠지는 배음은?</p><div class="opts">
+        <button class="opt">2, 4, 6, …</button><button class="opt">3, 6, 9, …</button><button class="opt" data-correct>6, 12, 18, …</button><button class="opt">빠지는 배음이 없다</button>
+      </div><div class="quiz-exp">\(\sin(n\pi/6) = 0\)은 \(n\)이 6의 배수일 때다. 뜯은 점이 6번, 12번 … 모드의 마디라 그 모드는 들뜨지 않는다.</div></div>
+      <div class="quiz-q"><p>저음 줄을 굵은 강철 민줄 대신 감은 줄로 만드는 가장 중요한 이유는?</p><div class="opts">
+        <button class="opt">녹이 덜 슬어서</button><button class="opt" data-correct>굽힘 강성은 크게 늘리지 않고 선밀도만 키워, 적당한 장력에서 낮은 음을 내기 위해</button><button class="opt">장력을 크게 높이기 위해</button><button class="opt">픽업이 감은 줄만 감지해서</button>
+      </div><div class="quiz-exp">두 옥타브 낮은 음을 같은 장력으로 내려면 선밀도가 16배여야 한다. 민줄로 하면 지름이 4배가 되어 너무 뻣뻣해진다(비조화성, 누르기 어려움). 감은 선은 질량만 보탠다.</div></div>
+      <div class="quiz-q"><p>클래식(나일론) 기타에 스틸 통기타 줄을 걸면 안 되는 이유로 가장 적절한 것은?</p><div class="opts">
+        <button class="opt">줄감개 구멍이 맞지 않아서</button><button class="opt">스틸 줄은 음이 너무 높아서</button><button class="opt" data-correct>장력이 거의 두 배라 상판·브리지·넥이 견디도록 설계되지 않아서</button><button class="opt">나일론 줄보다 소리가 작아서</button>
+      </div><div class="quiz-exp">클래식 노멀 텐션 세트는 약 39 kgf, 스틸 12–53은 약 73 kgf. 클래식 기타는 가벼운 팬 브레이싱과 (대개) 트러스로드 없는 넥으로 만들어져, 큰 장력에 브리지가 들뜨거나 넥이 휜다.</div></div>
+      <div class="quiz-q"><p>통기타의 사운드홀과 몸통 속 공기가 만드는 공명은 대략 어디에 있고 무슨 역할을 하는가?</p><div class="opts">
+        <button class="opt">약 1 kHz, 고음을 밝게</button><button class="opt" data-correct>약 100 Hz 근처, 낮은 줄의 저음을 보강</button><button class="opt">약 10 Hz, 진동을 흡수</button><button class="opt">약 5 kHz, 잡음을 줄임</button>
+      </div><div class="quiz-exp">사운드홀과 몸통은 헬름홀츠 공명기다. 단순 계산은 120 Hz대, 실제로는 상판과의 결합으로 90–110 Hz 근처에서 측정되는 경우가 많고, 6번 줄(82 Hz)·5번 줄(110 Hz) 영역의 저음을 받쳐 준다.</div></div>
+      <div class="quiz-q"><p>일렉 기타 픽업이 나일론 줄의 진동을 잡지 못하는 이유는?</p><div class="opts">
+        <button class="opt">나일론 줄은 진동 폭이 작아서</button><button class="opt" data-correct>픽업은 자화된 금속 줄이 코일 속 자속을 바꿔 전압을 유도하는 장치라서</button><button class="opt">나일론 줄은 주파수가 너무 낮아서</button><button class="opt">픽업은 공기 진동만 감지해서</button>
+      </div><div class="quiz-exp">자기 픽업은 \(e = -N\,d\Phi/dt\)(패러데이 법칙)로 동작한다. 자석에 의해 자화된 강철·니켈 줄이 움직여야 자속이 변한다. 나일론은 자성이 없어 자속을 바꾸지 못한다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ---------------------------------------------------------------- 공용 */
+const insHz = (f) => (f >= 1000 ? (f / 1000).toFixed(2) + " kHz" : f.toFixed(f < 100 ? 2 : 1) + " Hz");
+const insNote = (f) => { const m = MB.ftom(f), r = Math.round(m), c = Math.round((m - r) * 100); return `${MB.noteName(r)} ${c >= 0 ? "+" : "−"}${Math.abs(c)}¢`; };
+const INS_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const INS_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+/** 주파수를 직접 지정해 가상 기타 음색으로 한 음 */
+function insPlayFreq(f, o = {}) {
+  if (!MB.ctx()) return null;
+  return MB.play({ freq: f }, { inst: "guitar", dur: o.dur != null ? o.dur : null, vel: o.vel != null ? o.vel : 0.8, when: o.when,
+    gt: { tone: o.tone || "steel", pos: o.pos, bright: o.bright } });
+}
+/** 공용 기타 하나(장 전체) */
+const insGuitar = GT.guitar({ tone: "steel" });
+/* D'Addario 단위 무게(lb/in) → kg/m. 1 lb/in = 17.858 kg/m */
+const LBIN = 0.45359237 / 0.0254;
+const INS_SETS = {
+  exl110: { name: "일렉 10–46", tone: "electric", L0: 647.7, gauges: [".046w", ".036w", ".026w", ".017", ".013", ".010"],
+    uw: [0.00038216, 0.00023964, 0.00012671, 0.00006402, 0.00003744, 0.00002215] },
+  // EJ16: 장력표(25.5″) 23.30·23.20·30.03·29.93·28.93·24.95 lb에서 역산
+  ej16: { name: "통기타 12–53", tone: "steel", L0: 647.7, gauges: [".053w", ".042w", ".032w", ".024w", ".016", ".012"],
+    uw: [0.0005458, 0.0003552, 0.0002062, 0.0001161, 0.0000565, 0.0000319] },
+  // EJ45: 장력표(650 mm) 6.43·7.21·7.08·5.39·5.46·7.36 kgf에서 역산(kg/m)
+  ej45: { name: "클래식 노멀", tone: "nylon", L0: 650, gauges: [".043w", ".035w", ".029w", ".0403", ".0322", ".028"],
+    mu: [0.005494, 0.003458, 0.0019056, 0.0008142, 0.0005196, 0.0003931] },
+};
+const insMu = (set, s) => (set.mu ? set.mu[s] : set.uw[s] * LBIN);
+const insTension = (mu, Lmm, f) => mu * Math.pow(2 * (Lmm / 1000) * f, 2); // N
+
+/* ---------------------------------------------------------------- 그림 1-2: 현의 모드 */
+(function () {
+  const g = document.getElementById("ins-fig-modes");
+  let s = "";
+  for (let n = 1; n <= 4; n++) {
+    const y0 = 34 + (n - 1) * 62, x0 = 110, W = 600, A = 20;
+    let p1 = "", p2 = "";
+    for (let i = 0; i <= 200; i++) { const x = x0 + (i / 200) * W, v = Math.sin((n * Math.PI * i) / 200); p1 += (i ? "L" : "M") + x.toFixed(1) + " " + (y0 - A * v).toFixed(1); p2 += (i ? "L" : "M") + x.toFixed(1) + " " + (y0 + A * v).toFixed(1); }
+    s += `<path d="${p1}" class="s-acc"/><path d="${p2}" class="s-line" stroke-dasharray="4 4"/>`;
+    for (let k = 0; k <= n; k++) s += `<circle cx="${x0 + (k / n) * W}" cy="${y0}" r="${k === 0 || k === n ? 5 : 4}" class="${k === 0 || k === n ? "f-acc" : "f-elev"}"/>`;
+    s += `<text x="16" y="${y0 - 4}" class="t">n = ${n}</text><text x="16" y="${y0 + 14}" class="t-mono">f = ${n}·f₁</text>`;
+    s += `<text x="${x0 + W + 14}" y="${y0 - 2}" class="t-dim">${n === 1 ? "λ = 2L" : "λ = 2L/" + n}</text><text x="${x0 + W + 14}" y="${y0 + 14}" class="t-mono">E2: ${(82.41 * n).toFixed(1)} Hz</text>`;
+  }
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 그림 1-4: 1/5 지점 */
+(function () {
+  const g = document.getElementById("ins-fig-pluck");
+  const x0 = 80, W = 640, b = 0.2, px = x0 + b * W;
+  let s = `<text x="${x0}" y="20" class="t-dim">브리지</text><text x="${x0 + W}" y="20" text-anchor="end" class="t-dim">너트</text>`;
+  s += `<path d="M${x0} 60 L${px} 30 L${x0 + W} 60" class="s-acc"/><line x1="${x0}" y1="60" x2="${x0 + W}" y2="60" class="s-line" stroke-dasharray="3 4" opacity=".5"/>`;
+  s += `<path d="M${px} 26 l-6 -10 h12 z" class="f-acc"/><text x="${px + 10}" y="26" class="t-acc">뜯는 점 β = 1/5</text>`;
+  [[5, 140, "n = 5 : 뜯는 점이 마디 → 들뜨지 않음"], [4, 196, "n = 4 : 뜯는 점에서 크게 움직임 → 들뜸"]].forEach(([n, y, lab]) => {
+    let p = ""; for (let i = 0; i <= 240; i++) { const x = x0 + (i / 240) * W, v = Math.sin((n * Math.PI * i) / 240); p += (i ? "L" : "M") + x.toFixed(1) + " " + (y - 18 * v).toFixed(1); }
+    s += `<path d="${p}" class="${n === 5 ? "s-line" : "s-acc"}" ${n === 5 ? 'stroke-dasharray="5 4"' : ""}/>`;
+    s += `<text x="${x0}" y="${y - 26}" class="t-dim">${lab}</text>`;
+  });
+  s += `<line x1="${px}" y1="66" x2="${px}" y2="210" class="s-axis" stroke-dasharray="2 4"/><circle cx="${px}" cy="140" r="6" class="f-elev" stroke="var(--bad)" stroke-width="2"/>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 해부도 */
+(function () {
+  const view = document.getElementById("ins-an-view"), chips = document.getElementById("ins-an-chips"), info = document.getElementById("ins-an-info");
+  const NUT = 113, SAD = 700, L = SAD - NUT, CY = 170;
+  const fx = (n) => NUT + L * (1 - Math.pow(2, -n / 12));
+  const halfW = (x) => 20 + ((x - NUT) / (fx(20) - NUT)) * 8;
+  const sp = (x) => 6.6 + ((x - NUT) / L) * 2.9;
+  const sy = (s, x) => CY + (2.5 - s) * sp(x);
+  const P = {
+    head: { n: "헤드", en: "Headstock", d: "줄감개가 달린 넥의 끝. 뒤로 살짝 꺾여(각도 헤드) 너트에 줄을 눌러 붙이는 힘을 만든다. 이 힘이 약하면 개방현이 너트 홈에서 떨려 잡음이 난다." },
+    tuners: { n: "줄감개(튜닝 머신)", en: "Tuning machines", d: "웜 기어로 줄을 감는 장치. 손잡이를 한 바퀴 돌려도 기둥은 1/14–1/18 바퀴만 돌아(기어비 14:1–18:1) 장력을 섬세하게 바꿀 수 있고, 웜 기어는 스스로 풀리지 않는다. 소리: 6번 줄을 뜯고 줄감개를 돌리듯 음을 내렸다 올린다.", snd: "tuner" },
+    nut: { n: "너트", en: "Nut", d: "헤드 쪽 진동 길이의 끝점. 뼈, 플라스틱, 그래파이트 등으로 만들고 줄마다 홈이 있다. 홈이 너무 높으면 1프렛 음이 샤프해지고 누르기 힘들며, 너무 낮으면 개방현이 1프렛에 닿아 떤다. 소리: 개방현(너트가 끝점).", snd: "open" },
+    neck: { n: "넥", en: "Neck", d: "지판을 받치는 긴 나무(단풍나무·마호가니 등). 줄 장력에 맞서 곧게 버텨야 하므로 단단한 나무를 쓰고 속에 트러스로드를 넣는다. 뒷면 모양(C·D·V 프로파일)과 두께가 손에 쥐는 느낌을 정한다." },
+    truss: { n: "트러스로드", en: "Truss rod", d: "넥 속의 강철 막대. 너트를 조이면 넥을 뒤로 젖히는 힘이 생겨, 줄 장력이 넥을 앞으로 휘게 하는 힘을 상쇄한다. 보통 넥이 아주 약간 앞으로 휜 상태(릴리프, 7–8프렛에서 0.2–0.3 mm 안팎)로 맞춘다. 헤드 쪽 덮개(점선) 아래나 사운드홀 안에서 조정한다. 클래식 기타에는 대개 없다." },
+    board: { n: "지판", en: "Fretboard / Fingerboard", d: "넥 앞면에 붙인 판(로즈우드·에보니·메이플 등). 손가락으로 줄을 누르는 면이다. 가로로 살짝 둥근 곡률(래디어스)이 있어 바레 코드를 잡기 쉽게 한다(클래식은 대개 평평)." },
+    frets: { n: "프렛", en: "Frets", d: "지판에 박은 금속 막대(양백·스테인리스). 줄을 프렛 바로 뒤에서 누르면 프렛 꼭대기가 새 끝점이 되어 한 칸마다 반음씩 오른다. 간격은  d_n = L(1 − 2^(−n/12))로 몸통 쪽으로 갈수록 좁아진다. 소리: 1번 줄 0–5프렛 반음계.", snd: "frets" },
+    inlay: { n: "포지션 마크", en: "Inlays / Position markers", d: "3·5·7·9·15·17·19프렛의 점과 12프렛의 두 점. 지판 위치를 빠르게 찾는 이정표다. 12프렛은 줄의 정확히 가운데, 개방현보다 한 옥타브 위. 소리: 개방현과 12프렛.", snd: "octave" },
+    body: { n: "몸통·상판", en: "Body / Top", d: "통기타의 공명 상자. 상판(가문비·삼나무 등 2.5–3 mm)이 브리지를 통해 받은 힘으로 진동해 소리를 내고, 몸통 속 공기가 사운드홀과 함께 약 100 Hz 근처에서 공명해 저음을 받친다. 소리: 같은 코드를 몸통 필터 없이 → 있게.", snd: "bodyab" },
+    soundhole: { n: "사운드홀", en: "Soundhole", d: "상판의 둥근 구멍. 몸통 속 공기와 함께 헬름홀츠 공명기를 이루며, 공기 공명 주파수를 정한다. 구멍 주위 장식 띠는 로제트(rosette)로, 구멍 가장자리의 상판을 보강하기도 한다." },
+    guard: { n: "픽가드", en: "Pickguard", d: "피크가 상판을 긁지 않도록 붙인 얇은 판. 스트로크할 때 피크가 지나가는 쪽(1번 줄 쪽, 사운드홀 옆)에 붙는다." },
+    bridge: { n: "브리지", en: "Bridge", d: "상판에 접착한 나무 받침. 새들을 붙잡고, 줄 장력을 상판에 넘긴다. 줄의 진동이 상판을 흔드는 '입구'이므로 상판에 단단히 붙어 있어야 한다. 브리지 앞쪽이 들뜨면 장력 과다나 습도 문제의 신호다." },
+    saddle: { n: "새들", en: "Saddle", d: "브리지 위의 흰 막대(뼈·합성 소재). 몸통 쪽 진동 길이의 끝점이다. 비스듬히 놓이거나 줄마다 꼭짓점이 다른 이유는 줄을 누를 때 생기는 음정 오차를 보정하기 위해서다(2장). 새들 높이가 줄 높이(액션)를 정한다. 소리: 개방현을 뜯어 새들까지의 진동을 듣는다.", snd: "open" },
+    pins: { n: "브리지 핀", en: "Bridge pins", d: "줄 끝의 볼(ball end)을 브리지 구멍 속에 고정하는 핀. 줄은 새들을 넘어 꺾인 뒤 핀 구멍으로 들어가며, 이 꺾임 각도가 새들을 누르는 힘을 만든다." },
+    strings: { n: "줄", en: "Strings", d: "여섯 줄, 위(그림)가 1번 줄 E4, 아래가 6번 줄 E2. 저음 줄은 감은 줄이다. 진동하는 구간은 너트에서 새들까지. 소리: 개방현을 6번부터 1번까지 긁는다.", snd: "strum" },
+    pickups: { n: "픽업", en: "Pickups", d: "자석과 수천 번 감은 코일. 자화된 강철 줄이 진동하면 코일 속 자속이 변해 전압이 유도된다(e = −N dΦ/dt). 넥 쪽 픽업은 둥글고 브리지 쪽 픽업은 날카롭다 — 픽업 위치가 '뜯는 위치'와 같은 원리로 배음을 거른다. 소리: 넥 → 가운데 → 브리지 픽업 흉내.", snd: "pickups" },
+    selector: { n: "픽업 선택 스위치", en: "Pickup selector", d: "어느 픽업(또는 어느 조합)의 신호를 내보낼지 고르는 스위치. 두 픽업을 섞으면 위상 차로 특정 배음이 상쇄되어 또 다른 음색이 된다." },
+    knobs: { n: "볼륨·톤 노브", en: "Volume / Tone knobs", d: "볼륨은 가변 저항으로 신호 크기를, 톤은 가변 저항과 콘덴서로 만든 저역 통과 필터로 고음을 깎는다(13장의 RC 필터)." },
+    ebridge: { n: "브리지·새들(일렉)", en: "Bridge / Saddles", d: "줄마다 따로 움직이는 새들이 있어 높이(액션)와 길이(인토네이션 보정)를 개별 조정한다. 트레몰로 브리지는 레버로 장력을 바꿔 음을 흔든다. 소리: 개방현.", snd: "open" },
+    jack: { n: "출력 잭", en: "Output jack", d: "케이블을 꽂는 6.35 mm(1/4″) 잭. 픽업 신호가 케이블을 지나 앰프로 간다. 케이블의 정전용량도 고음을 조금 깎는 필터 역할을 한다." },
+  };
+  const ORDER = { acoustic: ["head", "tuners", "nut", "neck", "truss", "board", "frets", "inlay", "body", "soundhole", "guard", "bridge", "saddle", "pins", "strings"],
+    electric: ["head", "tuners", "nut", "neck", "truss", "board", "frets", "inlay", "body", "pickups", "selector", "knobs", "ebridge", "jack", "strings"] };
+  const LBL = { head: [60, 250], tuners: [62, 112], nut: [113, 128], neck: [270, 138], truss: [300, 214], board: [215, 214], frets: [380, 128], inlay: [340, 138], soundhole: [548, 236], guard: [600, 92], bridge: [705, 262], saddle: [700, 110], pins: [722, 80], body: [800, 300], strings: [150, 156], pickups: [610, 240], selector: [720, 70], knobs: [790, 120], ebridge: [712, 250], jack: [845, 290] };
+  let kind = "acoustic", cur = null;
+  function draw() {
+    const S = [];
+    const ac = kind === "acoustic";
+    const f14 = fx(14), f19 = fx(19), bodyStart = ac ? f14 : fx(16);
+    S.push(`<svg viewBox="0 0 900 340" role="img" aria-label="${ac ? "통기타" : "일렉 기타"} 해부도">`);
+    // body
+    if (ac) {
+      const b = bodyStart;
+      S.push(`<g class="part" data-p="body"><path class="pt body" d="M${b} 170 C${b} 110, ${b + 14} 48, ${b + 82} 46 C${b + 132} 44, ${b + 152} 66, ${b + 182} 66 C${b + 222} 66, ${b + 252} 8, ${b + 342} 8 C${b + 412} 8, 892 70, 892 170 C892 270, ${b + 412} 332, ${b + 342} 332 C${b + 252} 332, ${b + 222} 274, ${b + 182} 274 C${b + 152} 274, ${b + 132} 296, ${b + 82} 294 C${b + 14} 292, ${b} 230, ${b} 170 Z"/></g>`);
+      S.push(`<g class="part" data-p="guard"><path class="pt guard" d="M560 128 C548 104, 566 84, 600 82 C640 80, 668 96, 664 116 C660 132, 630 138, 600 134 C584 132, 570 136, 560 128 Z"/></g>`);
+      S.push(`<g class="part" data-p="soundhole"><circle class="rosette" cx="548" cy="170" r="47"/><circle class="pt hole" cx="548" cy="170" r="40"/></g>`);
+      S.push(`<g class="part" data-p="bridge"><rect class="pt bridge" x="690" y="104" width="28" height="132" rx="6"/></g>`);
+      S.push(`<g class="part" data-p="saddle"><rect class="pt ivory" x="697" y="${sy(5, SAD) - 8}" width="5" height="${sy(0, SAD) - sy(5, SAD) + 16}" rx="1.5"/></g>`);
+      S.push(`<g class="part" data-p="pins">${[0, 1, 2, 3, 4, 5].map((s) => `<circle class="pt ivory" cx="710" cy="${sy(s, SAD).toFixed(1)}" r="3"/>`).join("")}</g>`);
+    } else {
+      S.push(`<g class="part" data-p="body"><path class="pt ebody" d="M486 120 C462 112, 432 98, 426 72 C420 46, 446 30, 482 36 C530 44, 560 62, 600 60 C660 56, 700 26, 780 26 C850 26, 882 92, 882 170 C882 248, 850 314, 780 314 C700 314, 660 286, 600 284 C560 282, 524 300, 490 304 C458 308, 440 292, 448 270 C456 248, 474 232, 486 222 Z"/></g>`);
+      S.push(`<g class="part" data-p="pickups">${[[555, 0], [609, 0], [662, -6]].map(([x, r]) => `<g transform="rotate(${r} ${x} 170)"><rect class="pt pick" x="${x - 9}" y="140" width="18" height="60" rx="8"/>${[0, 1, 2, 3, 4, 5].map((s) => `<circle cx="${x}" cy="${sy(s, x).toFixed(1)}" r="2" fill="var(--text-faint)"/>`).join("")}</g>`).join("")}</g>`);
+      S.push(`<g class="part" data-p="ebridge"><rect class="pt metal" x="694" y="${sy(5, SAD) - 10}" width="34" height="${sy(0, SAD) - sy(5, SAD) + 20}" rx="3"/>${[0, 1, 2, 3, 4, 5].map((s) => `<rect x="${697 + (s % 3) * 1.5}" y="${(sy(s, SAD) - 3).toFixed(1)}" width="10" height="6" fill="var(--text-dim)"/>`).join("")}</g>`);
+      S.push(`<g class="part" data-p="selector"><rect class="pt metal" x="712" y="78" width="26" height="8" rx="3"/><rect x="722" y="70" width="5" height="12" rx="2" fill="var(--text)"/></g>`);
+      S.push(`<g class="part" data-p="knobs">${[[770, 98], [805, 110], [838, 128]].map(([x, y]) => `<circle class="pt metal" cx="${x}" cy="${y}" r="10"/>`).join("")}</g>`);
+      S.push(`<g class="part" data-p="jack"><circle class="pt metal" cx="846" cy="262" r="9"/><circle cx="846" cy="262" r="3.5" fill="var(--text)"/></g>`);
+    }
+    // neck strip
+    const xEnd = ac ? f19 : fx(21);
+    S.push(`<g class="part" data-p="neck"><path class="pt neckw" d="M${NUT} ${CY - halfW(NUT) - 3} L${bodyStart + 6} ${CY - halfW(bodyStart) - 3} L${bodyStart + 6} ${CY + halfW(bodyStart) + 3} L${NUT} ${CY + halfW(NUT) + 3} Z"/></g>`);
+    // head
+    S.push(`<g class="part" data-p="head"><path class="pt head" d="M${NUT - 2} 148 L96 136 L22 128 Q8 129 8 143 L8 197 Q8 211 22 212 L96 204 L${NUT - 2} 192 Z"/></g>`);
+    S.push(`<g class="part" data-p="truss"><path class="pt metal" d="M94 162 Q100 154 106 162 L106 178 Q100 186 94 178 Z"/><line class="truss" x1="104" y1="${CY}" x2="${bodyStart}" y2="${CY}"/><line class="hit" x1="104" y1="${CY}" x2="${bodyStart}" y2="${CY}" stroke-width="3"/></g>`);
+    // fretboard
+    S.push(`<g class="part" data-p="board"><path class="pt board" d="M${NUT} ${CY - halfW(NUT)} L${xEnd} ${CY - halfW(xEnd)} L${xEnd} ${CY + halfW(xEnd)} L${NUT} ${CY + halfW(NUT)} Z"/></g>`);
+    // inlays
+    const inl = []; [3, 5, 7, 9, 15, 17, 19].forEach((n) => { if (fx(n) <= xEnd) inl.push(`<circle class="pt inl" cx="${((fx(n - 1) + fx(n)) / 2).toFixed(1)}" cy="${CY}" r="3.6"/>`); });
+    const c12 = (fx(11) + fx(12)) / 2; inl.push(`<circle class="pt inl" cx="${c12.toFixed(1)}" cy="${CY - 9}" r="3.4"/><circle class="pt inl" cx="${c12.toFixed(1)}" cy="${CY + 9}" r="3.4"/>`);
+    S.push(`<g class="part" data-p="inlay">${inl.join("")}</g>`);
+    // frets
+    const fr = []; for (let n = 1; fx(n) <= xEnd + 0.5; n++) { const x = fx(n).toFixed(1), h = halfW(fx(n)); fr.push(`<line class="fretl" x1="${x}" y1="${CY - h}" x2="${x}" y2="${CY + h}"/><line class="hit" x1="${x}" y1="${CY - h}" x2="${x}" y2="${CY + h}" stroke-width="5"/>`); }
+    S.push(`<g class="part" data-p="frets">${fr.join("")}</g>`);
+    // nut
+    S.push(`<g class="part" data-p="nut"><rect class="pt ivory" x="${NUT - 4}" y="${CY - halfW(NUT) - 1}" width="6" height="${2 * halfW(NUT) + 2}" rx="1"/></g>`);
+    // tuners (3+3): 아래 줄 = 6·5·4번 줄, 위 줄 = 1·2·3번 줄. 너트에서 가까운 기둥이 바깥 줄
+    const postX = [88, 62, 36];
+    const tn = [];
+    for (let s = 0; s < 6; s++) {
+      const bottom = s < 3, k = bottom ? s : 5 - s, x = postX[k], y = bottom ? 196 : 144, by = bottom ? 226 : 114;
+      tn.push(`<line x1="${x}" y1="${y}" x2="${x}" y2="${by}" stroke="var(--text-dim)" stroke-width="2"/><ellipse class="pt metal" cx="${x}" cy="${by}" rx="8" ry="11"/><circle class="pt metal" cx="${x}" cy="${y}" r="4.5"/>`);
+    }
+    S.push(`<g class="part" data-p="tuners">${tn.join("")}</g>`);
+    // strings
+    const st = [];
+    const endX = ac ? 710 : 718;
+    for (let s = 0; s < 6; s++) {
+      const bottom = s < 3, k = bottom ? s : 5 - s, x = postX[k], y = bottom ? 196 : 144;
+      const w = (0.7 + (5 - s) * 0.28).toFixed(2);
+      const d = `M${x} ${y} L${NUT - 2} ${sy(s, NUT).toFixed(1)} L${SAD} ${sy(s, SAD).toFixed(1)} L${endX} ${sy(s, SAD).toFixed(1)}`;
+      st.push(`<path class="strl" d="${d}" stroke-width="${w}" fill="none"/><path class="hit" d="${d}" stroke-width="3"/>`);
+    }
+    S.push(`<g class="part" data-p="strings">${st.join("")}</g>`);
+    // 이름표
+    S.push(`<g id="ins-an-lbl"></g></svg>`);
+    view.innerHTML = S.join("");
+    chips.innerHTML = ORDER[kind].map((k) => `<button data-p="${k}">${P[k].n.replace(/\(.*\)/, "")}</button>`).join("");
+    if (cur && !ORDER[kind].includes(cur)) cur = null;
+    select(cur, false);
+  }
+  function sound(k) {
+    MB.ctx();
+    const g = insGuitar, t = MB.now();
+    const tone = kind === "electric" ? "electric" : "steel";
+    g.tone = tone;
+    switch (P[k].snd) {
+      case "strum": g.strum("000000", { dir: "D", spread: 0.05 }); break;
+      case "open": g.pluck(1, 0); break;
+      case "tuner": { const v = g.pluck(0, 0, { vel: 0.9 }); if (v) { v.bend(-150, t + 0.5, 0.9); v.bend(0, t + 1.7, 0.9); } break; }
+      case "frets": for (let f = 0; f <= 5; f++) g.pluck(5, f, { when: t + f * 0.28, dur: 0.3 }); break;
+      case "octave": g.pluck(1, 0, { dur: 0.9 }); g.pluck(1, 12, { when: t + 1.0 }); break;
+      case "bodyab": g.tone = "raw"; g.strum("320003", { dir: "D", spread: 0.02, dur: 1.6 }); setTimeout(() => { g.tone = "steel"; g.strum("320003", { dir: "D", spread: 0.02 }); }, 1900); break;
+      case "pickups": [0.27, 0.17, 0.07].forEach((p, i) => g.pluck(1, 5, { when: t + i * 0.9, pos: p, tone: "electric", dur: 0.85 })); break;
+    }
+  }
+  function select(k, play = true) {
+    cur = k;
+    view.classList.toggle("sel", !!k);
+    view.querySelectorAll(".part").forEach((e) => e.classList.toggle("on", e.dataset.p === k));
+    chips.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.p === k));
+    const lab = view.querySelector("#ins-an-lbl");
+    if (!k) { lab.innerHTML = ""; return; }
+    const p = P[k], [lx, ly] = LBL[k] || [450, 20];
+    lab.innerHTML = `<text class="lbl" x="${Math.min(860, Math.max(40, lx))}" y="${ly}">${p.n.replace(/\(.*\)/, "")}</text>`;
+    info.innerHTML = `<h4>${p.n} <span class="en">(${p.en})</span>${p.snd ? " <small>· 소리</small>" : ""}</h4><p>${p.d}</p>`;
+    if (play && p.snd) sound(k);
+  }
+  view.addEventListener("click", (e) => { const g = e.target.closest(".part"); if (g) select(g.dataset.p); });
+  chips.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) select(b.dataset.p); });
+  MB.seg("ins-an-kind", (v) => { kind = v; draw(); });
+  draw();
+})();
+
+/* ---------------------------------------------------------------- 2. 줄 이름 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const fb = GT.fretboard("#ins-st-fb", { frets: 5, labels: "notes", guitar: g, onClick: (s, f, midi) => { show(s, f, midi); } });
+  const SET = INS_SETS.exl110;
+  const btns = document.getElementById("ins-st-btns");
+  const names = ["E2", "A2", "D3", "G3", "B3", "E4"];
+  // 1번 줄부터 보이도록 위→아래 = 1..6
+  btns.innerHTML = [5, 4, 3, 2, 1, 0].map((s) => `<button data-s="${s}">${6 - s}번 줄<small>${names[s]}</small></button>`).join("");
+  fb.mark([0, 1, 2, 3, 4, 5].map((s) => ({ s, f: 0, cls: "open" })));
+  let quiz = null, score = 0, total = 0;
+  function show(s, f, midi) {
+    const fr = MB.mtof(midi);
+    MB.stat("ins-st-o-s", `${6 - s}번 줄${f ? ` · ${f}프렛` : " · 개방"}`);
+    MB.stat("ins-st-o-f", `${MB.noteName(midi)} · ${fr.toFixed(2)} Hz`);
+    const mm = parseFloat(SET.gauges[s].replace("w", "")) * 25.4;
+    MB.stat("ins-st-o-g", `${SET.gauges[s].replace("w", "″ 감은 줄")}${SET.gauges[s].includes("w") ? "" : "″"} <small>${mm.toFixed(2)} mm</small>`);
+  }
+  function pluck(s) { MB.ctx(); g.pluck(s, 0); fb.flash(s, 0, 500); show(s, 0, GT.STANDARD[s]); }
+  btns.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    const s = +b.dataset.s;
+    if (quiz != null) {
+      total++;
+      const ok = s === quiz;
+      if (ok) score++;
+      b.classList.add(ok ? "ok" : "bad");
+      btns.querySelector(`[data-s="${quiz}"]`).classList.add("ok");
+      MB.stat("ins-st-o-q", `${score} / ${total} ${ok ? "✓" : `✗ (정답 ${6 - quiz}번 줄)`}`);
+      pluck(quiz);
+      quiz = null;
+      setTimeout(() => btns.querySelectorAll("button").forEach((x) => x.classList.remove("ok", "bad")), 1200);
+      return;
+    }
+    pluck(s);
+  });
+  function seq(order) { MB.ctx(); const t = MB.now(); order.forEach((s, i) => { g.pluck(s, 0, { when: t + i * 0.42 }); setTimeout(() => { fb.flash(s, 0, 400); show(s, 0, GT.STANDARD[s]); }, i * 420); }); }
+  document.getElementById("ins-st-down").addEventListener("click", () => seq([0, 1, 2, 3, 4, 5]));
+  document.getElementById("ins-st-up").addEventListener("click", () => seq([5, 4, 3, 2, 1, 0]));
+  let last = null;
+  document.getElementById("ins-st-quiz").addEventListener("click", () => {
+    MB.ctx();
+    let s; do { s = Math.floor(Math.random() * 6); } while (s === last);
+    quiz = last = s;
+    g.pluck(s, 0);
+    MB.stat("ins-st-o-s", "? 줄 버튼으로 답하세요");
+    MB.stat("ins-st-o-f", "—"); MB.stat("ins-st-o-g", "—");
+  });
+  document.getElementById("ins-st-again").addEventListener("click", () => { if (last != null) { MB.ctx(); g.pluck(last, 0); } });
+})();
+
+/* ---------------------------------------------------------------- 3. 메르센 */
+(function () {
+  const PRE = {
+    e1: { L: 647.7, mu: INS_SETS.exl110.uw[5] * LBIN, f: 329.63, tone: "steel" },
+    g3: { L: 647.7, mu: INS_SETS.exl110.uw[3] * LBIN, f: 196.0, tone: "steel" },
+    e6: { L: 647.7, mu: INS_SETS.exl110.uw[0] * LBIN, f: 82.41, tone: "steel" },
+    ny: { L: 650, mu: INS_SETS.ej45.mu[5], f: 329.63, tone: "nylon" },
+  };
+  const MU_MIN = 0.15e-3, MU_MAX = 30e-3;
+  const muFromSlider = (v) => MU_MIN * Math.pow(MU_MAX / MU_MIN, v / 1000);
+  const sliderFromMu = (m) => Math.round((1000 * Math.log(m / MU_MIN)) / Math.log(MU_MAX / MU_MIN));
+  let base = null, anim = 0, voice = null;
+  const st = { L: 647.7, T: 72, mu: 4e-4 }; // 정확한 값(슬라이더 눈금 반올림과 별개)
+  const Lr = MB.range("ins-ms-L", (v) => v + " mm", (v) => { st.L = v; update(); });
+  const Tr = MB.range("ins-ms-T", (v) => v.toFixed(1) + " N · " + (v / 9.80665).toFixed(2) + " kgf", (v) => { st.T = v; update(); });
+  const Mr = MB.range("ins-ms-mu", (v) => (muFromSlider(v) * 1000).toFixed(3) + " g/m", (v) => { st.mu = muFromSlider(v); update(); });
+  const setL = (v) => { st.L = v; Lr.set(Math.round(v), false); }, setT = (v) => { st.T = v; Tr.set(v, false); }, setMu = (v) => { st.mu = v; Mr.set(sliderFromMu(v), false); };
+  const auto = MB.check("ins-ms-auto");
+  const pre = document.getElementById("ins-ms-pre");
+  const fb = GT.fretboard("#ins-ms-fb", { frets: 12, labels: "none", play: true });
+  const freq = () => (1 / (2 * st.L / 1000)) * Math.sqrt(st.T / st.mu);
+  function loadPreset() {
+    const p = PRE[pre.value];
+    const T = insTension(p.mu, p.L, p.f);
+    setL(p.L); setT(T); setMu(p.mu);
+    base = { f: freq() };
+    update();
+  }
+  pre.addEventListener("change", loadPreset);
+  function update() {
+    const f = freq();
+    MB.stat("ins-ms-o-f", insHz(f));
+    MB.stat("ins-ms-o-n", f > 20 && f < 5000 ? insNote(f) : "—");
+    MB.stat("ins-ms-o-v", (2 * (st.L / 1000) * f).toFixed(0) + " m/s");
+    const r = f / base.f, c = 1200 * Math.log2(r);
+    MB.stat("ins-ms-o-r", `×${r.toFixed(3)} <small>${c >= 0 ? "+" : "−"}${Math.abs(c).toFixed(0)}¢</small>`);
+    const m = Math.round(MB.ftom(f));
+    fb.clear();
+    if (f > 60 && f < 1400) fb.mark(GT.positionsOf(m, { maxFret: 12 }).map((p) => ({ s: p.s, f: p.f, cls: "mark", label: MB.pcName(m) })));
+    cv.redraw();
+  }
+  function play() {
+    const f = freq();
+    if (f < 30 || f > 2000) { MB.stat("ins-ms-o-n", "재생 범위 밖(30 Hz–2 kHz)"); return; }
+    if (voice) voice.release();
+    voice = insPlayFreq(f, { tone: PRE[pre.value].tone });
+    anim = 1;
+    const m = Math.round(MB.ftom(f));
+    GT.positionsOf(m, { maxFret: 12 }).forEach((p) => fb.flash(p.s, p.f, 600));
+  }
+  ["ins-ms-L", "ins-ms-T", "ins-ms-mu"].forEach((id) => document.getElementById(id).addEventListener("change", () => { if (auto()) play(); }));
+  document.getElementById("ins-ms-play").addEventListener("click", play);
+  document.getElementById("ins-ms-ref").addEventListener("click", () => {
+    play(); const t = MB.now();
+    MB.play({ freq: PRE[pre.value].f }, { inst: "sine", dur: 1.6, vel: 0.35, when: t + 0.02 });
+  });
+  const lim = (msg) => MB.stat("ins-ms-o-n", msg);
+  document.getElementById("ins-ms-half").addEventListener("click", () => { if (st.L / 2 < 250) return lim("L이 250 mm보다 짧아짐"); setL(st.L / 2); update(); play(); });
+  document.getElementById("ins-ms-t4").addEventListener("click", () => { if (st.T * 4 > 350) return lim("장력 범위(350 N) 초과 — 실제 줄은 끊어진다"); setT(st.T * 4); update(); play(); });
+  document.getElementById("ins-ms-m4").addEventListener("click", () => { if (st.mu * 4 > MU_MAX) return lim("선밀도 범위 초과"); setMu(st.mu * 4); update(); play(); });
+  let ph = 0;
+  const cv = MB.canvas("#cv-ins-ms", (ctx, w, h) => {
+    const P = MB.palette(), f = freq();
+    const x0 = 20, maxW = w - 40, len = (st.L / 800) * maxW, cy = h * 0.4;
+    ctx.fillStyle = P.dim; ctx.fillRect(x0 - 5, cy - 18, 5, 36); ctx.fillRect(x0 + len, cy - 18, 5, 36);
+    const A = 16 * anim * Math.cos(ph);
+    const thick = 1 + Math.min(5, Math.sqrt(st.mu * 1000) * 1.1);
+    ctx.strokeStyle = P.accent; ctx.lineWidth = thick; ctx.beginPath();
+    for (let i = 0; i <= 100; i++) { const x = x0 + (i / 100) * len, y = cy - A * Math.sin((Math.PI * i) / 100); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    ctx.font = "12px " + INS_FONT(); ctx.fillStyle = P.dim; ctx.textAlign = "center";
+    ctx.fillText(`L = ${Math.round(st.L)} mm`, x0 + len / 2, cy + 34);
+    // 화살표(장력)
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 2; const ax = Math.min(w - 8, x0 + len + 12), aw = 6 + st.T / 10;
+    if (ax + aw < w) { ctx.beginPath(); ctx.moveTo(ax, cy); ctx.lineTo(ax + aw, cy); ctx.lineTo(ax + aw - 5, cy - 4); ctx.moveTo(ax + aw, cy); ctx.lineTo(ax + aw - 5, cy + 4); ctx.stroke(); }
+    // 음높이 눈금(로그): 기타 음역 E2–E6
+    const bx = 30, bw = w - 60, by = h * 0.8, lo = MB.mtof(28), hi = MB.mtof(88);
+    const X = (fr) => bx + (Math.log(fr / lo) / Math.log(hi / lo)) * bw;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + bw, by); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.font = "10px " + INS_MONO();
+    [28, 40, 52, 64, 76, 88].forEach((m) => { const x = X(MB.mtof(m)); ctx.fillRect(x - 0.5, by - 4, 1, 8); ctx.fillText(MB.noteName(m), x, by + 16); });
+    ctx.fillStyle = P.faint; ctx.fillText("기타 개방현 6번 E2 … 1번 E4", (X(82.41) + X(329.63)) / 2, by - 12);
+    ctx.fillStyle = P.faint; ctx.globalAlpha = 0.3; ctx.fillRect(X(82.41), by - 3, X(329.63) - X(82.41), 6); ctx.globalAlpha = 1;
+    if (f > lo * 0.8 && f < hi * 1.2) { const x = MB.clamp(X(f), bx, bx + bw); ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(x, by, 6, 0, 7); ctx.fill(); }
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 250 });
+  MB.loop(cv.canvas, (dt) => { if (anim > 0.01) { ph += dt * 2 * Math.PI * Math.min(12, freq() / 25); anim *= Math.pow(0.35, dt); cv.redraw(); } });
+  loadPreset();
+})();
+
+/* ---------------------------------------------------------------- 4. 장력 계산기 */
+(function () {
+  const setSel = document.getElementById("ins-tn-set"), tunSel = document.getElementById("ins-tn-tun");
+  const scale = MB.seg("ins-tn-scale", () => redraw());
+  setSel.addEventListener("change", () => { scale.set(setSel.value === "ej45" ? "650" : "647.7", false); redraw(); });
+  tunSel.addEventListener("change", () => redraw());
+  const g = GT.guitar({ tone: "electric" });
+  let data = null, flash = [0, 0, 0, 0, 0, 0];
+  function compute() {
+    const set = INS_SETS[setSel.value], L = +scale(), notes = GT.TUNINGS[tunSel.value].notes;
+    const T = [], T0 = [];
+    for (let s = 0; s < 6; s++) { const mu = insMu(set, s); T.push(insTension(mu, L, MB.mtof(notes[s]))); T0.push(insTension(mu, set.L0, MB.mtof(GT.STANDARD[s]))); }
+    return { set, L, notes, T, T0 };
+  }
+  function redraw() {
+    data = compute();
+    const sum = data.T.reduce((a, b) => a + b, 0), sum0 = data.T0.reduce((a, b) => a + b, 0);
+    MB.stat("ins-tn-o-sum", `${(sum / 9.80665).toFixed(1)} kgf <small>${sum.toFixed(0)} N</small>`);
+    const mi = data.T.indexOf(Math.max(...data.T));
+    MB.stat("ins-tn-o-max", `${6 - mi}번 줄 ${(data.T[mi] / 9.80665).toFixed(1)} kgf`);
+    const r = (sum / sum0 - 1) * 100;
+    MB.stat("ins-tn-o-rel", `${r >= 0 ? "+" : "−"}${Math.abs(r).toFixed(1)}%`);
+    g.tuning = data.notes; g.tone = data.set.tone;
+    cv.redraw();
+  }
+  let boxes = [];
+  const cv = MB.canvas("#cv-ins-tn", (ctx, w, h) => {
+    if (!data) return;
+    const P = MB.palette(), max = 160; // N
+    const left = 40, right = 10, top = 14, bot = 40, bw = (w - left - right) / 6;
+    const Y = (n) => top + (h - top - bot) * (1 - n / max);
+    ctx.font = "10px " + INS_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let k = 0; k <= 16; k += 4) { const n = k * 9.80665; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(left, Y(n)); ctx.lineTo(w - right, Y(n)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(k + "kgf", left - 4, Y(n)); }
+    boxes = [];
+    for (let i = 0; i < 6; i++) {
+      const s = 5 - i; // 왼쪽부터 1번 줄
+      const x = left + i * bw, T = data.T[s], T0 = data.T0[s];
+      ctx.fillStyle = P.faint; ctx.globalAlpha = 0.35; ctx.fillRect(x + bw * 0.12, Y(T0), bw * 0.76, Y(0) - Y(T0)); ctx.globalAlpha = 1;
+      ctx.fillStyle = flash[s] > 0 ? P.warn : (data.set.gauges[s].includes("w") ? P.accent2 : P.accent);
+      ctx.fillRect(x + bw * 0.24, Y(T), bw * 0.52, Y(0) - Y(T));
+      boxes.push({ x0: x, x1: x + bw, s });
+      ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillStyle = P.text; ctx.font = "600 11px " + INS_MONO();
+      ctx.fillText((T / 9.80665).toFixed(1), x + bw / 2, Y(T) - 3);
+      ctx.textBaseline = "top"; ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT();
+      ctx.fillText(`${6 - s}번 ${MB.noteName(data.notes[s])}`, x + bw / 2, Y(0) + 4);
+      ctx.font = "10px " + INS_MONO(); ctx.fillStyle = P.faint; ctx.fillText(data.set.gauges[s], x + bw / 2, Y(0) + 19);
+    }
+  }, { aspect: 0.5, minHeight: 220, maxHeight: 320 });
+  cv.canvas.style.cursor = "pointer";
+  cv.canvas.addEventListener("click", (e) => {
+    const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left;
+    const b = boxes.find((q) => x >= q.x0 && x < q.x1); if (!b) return;
+    MB.ctx(); g.pluck(b.s, 0); flash[b.s] = 1; cv.redraw(); setTimeout(() => { flash[b.s] = 0; cv.redraw(); }, 350);
+  });
+  document.getElementById("ins-tn-strum").addEventListener("click", () => { MB.ctx(); g.strum("000000", { dir: "D", spread: 0.04 }); });
+  document.getElementById("ins-tn-stop").addEventListener("click", () => g.stop());
+  redraw();
+})();
+
+/* ---------------------------------------------------------------- 5. 피킹 위치 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const B = MB.range("ins-pp-b", (v) => v.toFixed(3) + (Math.abs(v - 0.5) < 1e-6 ? " (1/2)" : ""), () => update());
+  const S = MB.seg("ins-pp-s", () => update());
+  document.querySelectorAll("#sim-ins-pluckpos [data-b]").forEach((b) => b.addEventListener("click", () => { B.set(+b.dataset.b); play(); }));
+  const N = 24;
+  const spec = (b) => { const a = []; for (let n = 1; n <= N; n++) a.push(Math.abs(Math.sin(n * Math.PI * b)) / n); return a; };
+  function update() {
+    const b = B(), s = +S();
+    MB.stat("ins-pp-o-d", `${(b * 648).toFixed(0)} mm <small>(648 mm 기준)</small>`);
+    const miss = []; for (let n = 1; n <= N; n++) if (Math.abs(Math.sin(n * Math.PI * b)) < 0.04) miss.push(n);
+    MB.stat("ins-pp-o-m", miss.length ? miss.slice(0, 5).join(", ") + (miss.length > 5 ? " …" : "") : `없음 <small>(${N}번까지)</small>`);
+    const a = spec(b); let e = 0, ef = 0; a.forEach((v, i) => { e += v * v; ef += v * v * (i + 1); });
+    const f0 = MB.mtof(GT.STANDARD[s]);
+    MB.stat("ins-pp-o-c", `${(ef / e).toFixed(2)}·f₀ <small>${Math.round((ef / e) * f0)} Hz</small>`);
+    cv.redraw();
+  }
+  function play(b = B()) { MB.ctx(); g.pluck(+S(), 0, { pos: b, vel: 0.9 }); }
+  document.getElementById("ins-pp-play").addEventListener("click", () => play());
+  document.getElementById("ins-pp-ab").addEventListener("click", () => { play(0.055); setTimeout(() => play(), 1600); });
+  const cv = MB.canvas("#cv-ins-pp", (ctx, w, h) => {
+    const P = MB.palette(), b = B();
+    const sx = 26, sw = w - 52, sy = 34;
+    ctx.fillStyle = P.dim; ctx.fillRect(sx - 6, sy - 14, 6, 28); ctx.fillRect(sx + sw, sy - 14, 6, 28);
+    const px = sx + b * sw;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(px, sy - 14); ctx.lineTo(sx + sw, sy); ctx.stroke();
+    ctx.fillStyle = P.bad; ctx.beginPath(); ctx.moveTo(px, sy + 6); ctx.lineTo(px - 6, sy + 16); ctx.lineTo(px + 6, sy + 16); ctx.closePath(); ctx.fill();
+    ctx.font = "11px " + INS_FONT(); ctx.fillStyle = P.faint; ctx.textAlign = "left"; ctx.fillText("브리지(새들)", sx, sy + 28); ctx.textAlign = "right"; ctx.fillText("너트", sx + sw, sy + 28);
+    const a = spec(b), mx = Math.max(...a);
+    const box = { x: 40, y: 86, w: w - 52, h: h - 86 - 22 }, bw = box.w / N;
+    const Y = (d) => box.y + box.h - ((MB.clamp(d, -40, 0) + 40) / 40) * box.h;
+    ctx.font = "10px " + INS_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -10, -20, -30, -40].forEach((d) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(d)); ctx.lineTo(box.x + box.w, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d, box.x - 4, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let i = 0; i < N; i++) {
+      const v = a[i] / mx, x = box.x + i * bw;
+      if (v < 0.02) { ctx.fillStyle = P.bad; ctx.font = "bold 12px " + INS_MONO(); ctx.fillText("×", x + bw / 2, box.y + box.h - 14); }
+      else { const d = MB.db(v); ctx.fillStyle = P.accent; ctx.fillRect(x + bw * 0.18, Y(d), bw * 0.64, box.y + box.h - Y(d)); }
+      if (i < 9 || i % 2) { ctx.fillStyle = P.dim; ctx.font = "10px " + INS_MONO(); ctx.fillText(String(i + 1), x + bw / 2, box.y + box.h + 3); }
+    }
+    ctx.textAlign = "left"; ctx.textBaseline = "bottom"; ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT();
+    ctx.fillText("이론 스펙트럼 |sin(nπβ)|/n (dB, 배음 번호)", box.x, box.y - 4);
+  }, { aspect: 0.55, minHeight: 230, maxHeight: 340 });
+  MB.liveView("#cv-ins-pp-live", { mode: "spectrum", fmin: 60, fmax: 4000, dbMin: -100, dbMax: -20, aspect: 0.3, minHeight: 120, maxHeight: 180 });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 6. 기타 비교 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const fb = GT.fretboard("#ins-ty-fb", { frets: 5, labels: "none", guitar: g });
+  g.on((ev) => { if (ev.type !== "strum" && ev.s != null) fb.flash(ev.s, ev.f, 380); });
+  const tone = MB.seg("ins-ty-tone", () => { g.tone = tone(); show(); });
+  const chord = MB.seg("ins-ty-ch", () => show());
+  // guitar.js 몸통 버스와 같은 필터 설정(플롯용). Web Audio lowpass의 Q는 dB → 선형 Q로 환산
+  const lpQ = Math.pow(10, 0.7 / 20);
+  const FILTERS = {
+    steel: [["peaking", 105, 1.6, 5], ["peaking", 220, 1.4, 3], ["peaking", 2800, 1, 2], ["highshelf", 7000, 0.7071, -4]],
+    nylon: [["peaking", 110, 1.4, 4], ["peaking", 200, 1.3, 3], ["lowpass", 3600, lpQ, 0]],
+    electric: [["peaking", 160, 0.8, -2], ["peaking", 2600, 1.2, 3], ["lowpass", 6500, lpQ, 0]],
+    raw: [],
+  };
+  const DESC = { steel: "<small>105·220 Hz 공명 + 2.8 kHz 강조</small>", nylon: "<small>저음 공명 + 3.6 kHz 저역 통과</small>", electric: "<small>2.6 kHz 공진 + 6.5 kHz 저역 통과</small>", raw: "<small>없음(순수 현 모델)</small>" };
+  function show() {
+    const c = GT.chord(chord()), t = GT.TONES[tone()];
+    GT.chordDiagram("#ins-ty-chord", c.shape, { name: c.name, fingers: c.fingers });
+    fb.showShape(c.shape, { fingers: c.fingers, label: "fingers" });
+    MB.stat("ins-ty-o-b", `${t.bright.toFixed(2)} / ${t.decay}`);
+    MB.stat("ins-ty-o-p", t.pos ? t.pos.toFixed(2) : "0 (끔)");
+    MB.stat("ins-ty-o-f", DESC[tone()]);
+    cv.redraw();
+  }
+  const strum = (tn) => { MB.ctx(); if (tn) g.tone = tn; g.strum(GT.chord(chord()).shape, { dir: "D", spread: 0.022, vel: 0.8 }); };
+  document.getElementById("ins-ty-strum").addEventListener("click", () => strum());
+  document.getElementById("ins-ty-arp").addEventListener("click", () => {
+    MB.ctx(); const sh = GT.chord(chord()).shape, t = MB.now();
+    const order = sh.map((f, s) => (f >= 0 ? s : -1)).filter((s) => s >= 0);
+    const seq = order.concat(order.slice(1, -1).reverse());
+    seq.forEach((s, i) => g.pluck(s, sh[s], { when: t + i * 0.2 }));
+  });
+  let timers = [];
+  document.getElementById("ins-ty-abc").addEventListener("click", () => {
+    timers.forEach(clearTimeout); timers = [];
+    ["steel", "nylon", "electric"].forEach((tn, i) => timers.push(setTimeout(() => { tone.set(tn); strum(tn); }, i * 2200)));
+  });
+  document.getElementById("ins-ty-stop").addEventListener("click", () => { timers.forEach(clearTimeout); timers = []; g.stop(); });
+  const cv = MB.canvas("#cv-ins-ty", (ctx, w, h) => {
+    const P = MB.palette(), list = FILTERS[tone()].map(([ty, f, q, gdb]) => MB.biquad(ty, f, q, gdb, 48000));
+    const box = { x: 40, y: 18, w: w - 52, h: h - 44 };
+    const fmin = 40, fmax = 12000, X = (f) => box.x + (Math.log(f / fmin) / Math.log(fmax / fmin)) * box.w, Y = (d) => box.y + box.h * (1 - (MB.clamp(d, -18, 9) + 18) / 27);
+    ctx.font = "10px " + INS_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-18, -9, 0, 9].forEach((d) => { ctx.strokeStyle = d === 0 ? P.axis : P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(d)); ctx.lineTo(box.x + box.w, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d + "dB", box.x - 3, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [50, 100, 200, 500, 1000, 2000, 5000, 10000].forEach((f) => { const x = X(f); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x, box.y); ctx.lineTo(x, box.y + box.h); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, x, box.y + box.h + 4); });
+    // 개방현 기본음 표시
+    GT.STANDARD.forEach((m) => { const x = X(MB.mtof(m)); ctx.fillStyle = P.faint; ctx.fillRect(x - 0.5, box.y + box.h - 6, 1, 6); });
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i <= 300; i++) { const f = fmin * Math.pow(fmax / fmin, i / 300), d = list.length ? MB.freqResponse(list, f, 48000) : 0, x = X(f), y = Y(d); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.font = "11px " + INS_FONT();
+    ctx.fillText(`몸통/픽업 필터 응답 · ${GT.TONE_NAMES[tone()]}`, box.x + 4, 2);
+  }, { aspect: 0.38, minHeight: 160, maxHeight: 240 });
+  show();
+})();
+</script>
+</body>
+</html>

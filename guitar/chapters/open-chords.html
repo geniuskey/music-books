@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>첫 코드: 오픈 코드 · GuitarBook</title>
+<meta name="description" content="코드를 근음·3도·5도의 묶음으로 이해하고, 코드 다이어그램 읽기, 8개 기본 오픈 코드, 장·단조의 한 프렛 차이, 프렛을 누르는 물리와 버징, 코드 전환 훈련까지 가상 기타로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/open-chords.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="첫 코드: 오픈 코드 · GuitarBook">
+<meta property="og:description" content="코드를 근음·3도·5도의 묶음으로 이해하고, 코드 다이어그램 읽기, 8개 기본 오픈 코드, 장·단조의 한 프렛 차이, 프렛을 누르는 물리와 버징, 코드 전환 훈련까지 가상 기타로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/open-chords.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .oc-presets { display: flex; flex-wrap: wrap; gap: 5px; }
+  .oc-presets .btn { padding: 4px 10px; font-size: 13px; }
+  .oc-presets .btn.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .oc-ed-wrap { display: flex; justify-content: center; }
+  #oc-ed-diag { width: 100%; max-width: 250px; }
+  #oc-ed-diag .gt-chord-svg { max-width: 250px; }
+  .oc-strtable { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; margin-top: 10px; font: 11.5px var(--mono); text-align: center; }
+  .oc-strtable > div { background: var(--surface); border-radius: 6px; padding: 5px 0; color: var(--text-dim); min-width: 0; }
+  .oc-strtable b { display: block; color: var(--text); font-size: 13px; }
+  .oc-strtable .iv { color: var(--accent); font-weight: 700; }
+  .oc-strtable .muted { opacity: 0.5; }
+  .oc-info { margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface); font-size: 14.5px; color: var(--text-dim); line-height: 1.6; }
+  .oc-info b { color: var(--text); }
+  .oc-info .chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+  .oc-info .chips span { font: 600 12px var(--mono); padding: 2px 8px; border-radius: 999px; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text); }
+  .oc-info .chips span.r { border-color: var(--bad); color: var(--bad); }
+  .oc-info .chips span.t3 { border-color: var(--accent); color: var(--accent); }
+  .oc-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .oc-pair > div { text-align: center; padding: 8px 6px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-elev); }
+  .oc-pair > div.on { border-color: var(--accent); background: var(--accent-soft); }
+  .oc-pair .gt-chord-svg { max-width: 140px; }
+  .oc-pair small { display: block; font-size: 12px; color: var(--text-dim); }
+  .oc-fig-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; }
+  .oc-fig-row > div { text-align: center; }
+  .oc-fig-row small { display: block; font-size: 12px; color: var(--text-dim); }
+  .oc-strrows { display: grid; gap: 6px; }
+  .oc-strrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .oc-strrow > span { font: 600 12px var(--mono); color: var(--text-dim); min-width: 74px; }
+  .oc-strrow .seg button { padding: 4px 8px; font-size: 12px; }
+  #oc-bz-cv { display: block; width: 100%; }
+  .oc-bz-top { display: grid; gap: 12px; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); align-items: start; }
+  @media (max-width: 520px) { .oc-bz-top { grid-template-columns: 1fr; } .oc-bz-top > div:first-child { max-width: 160px; margin: 0 auto; } }
+  .oc-ch-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .oc-ch-row > div { text-align: center; padding: 6px; border-radius: var(--radius-sm); border: 2px solid var(--border); background: var(--bg-elev); transition: border-color .1s, background .1s; }
+  .oc-ch-row > div.now { border-color: var(--accent); background: var(--accent-soft); }
+  .oc-ch-row .gt-chord-svg { max-width: 130px; }
+  .oc-timer { display: flex; justify-content: space-around; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .oc-pairtips { margin-top: 10px; font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .oc-pairtips b { color: var(--text); }
+  .oc-pairtips ul { margin: 4px 0 0; padding-left: 1.2em; }
+  .oc-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .oc-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+  .oc-prog-slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px; }
+  .oc-prog-slots > div { text-align: center; padding: 6px 2px; border-radius: 8px; border: 2px solid var(--border); background: var(--bg-elev); }
+  .oc-prog-slots > div.now { border-color: var(--accent); background: var(--accent-soft); }
+  .oc-prog-slots .gt-chord-svg { max-width: 92px; }
+  .oc-prog-slots small { display: block; font: 11px var(--mono); color: var(--text-dim); }
+  .oc-beat { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; margin-top: 8px; }
+  .oc-beat span { text-align: center; font: 600 12px var(--mono); padding: 5px 0; border-radius: 5px; background: var(--surface); color: var(--text-faint); }
+  .oc-beat span.hit { color: var(--accent); }
+  .oc-beat span.now { outline: 2px solid var(--warn); }
+  #sim-oc-colors .gt-chords { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+  .oc-quizrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="open-chords">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>첫 코드: 오픈 코드</h1>
+    <p class="lead">지판 위의 음 하나하나를 찾을 수 있게 되었다면, 이제 음을 <b>묶어서</b> 동시에 울릴 차례입니다. 코드는 외워야 할 손 모양이 아니라 근음·3도·5도라는 세 음을 지판 위에 배치한 결과입니다. 이 장에서는 코드 다이어그램이라는 '지도'를 읽는 법을 배우고, 개방현을 섞어 잡는 8개의 기본 오픈 코드를 익히고, 장조와 단조가 손가락 하나 차이라는 사실을 귀로 확인한 뒤, 프렛을 왜 '바로 뒤'에서 눌러야 하는지 줄의 장력으로 계산해 봅니다. 마지막으로 코드와 코드 사이를 빠르게 오가는 전환 훈련과 첫 연습 진행으로 마무리합니다.</p>
+    <ul class="objectives">
+      <li>3화음을 근음(R)·3도·5도의 쌓임으로 설명하고, 기타 코드가 같은 음을 여러 옥타브에 겹쳐 울린다는 것을 안다.</li>
+      <li>코드 다이어그램의 ×·○·손가락 번호·바레·기준 프렛 표기를 읽고, "x32010" 같은 줄 문자열과 서로 바꿀 수 있다.</li>
+      <li>C·A·G·E·D·Am·Em·Dm 여덟 코드를 잡고, 각 코드에서 어느 줄을 왜 치지 않는지 말할 수 있다.</li>
+      <li>장3화음과 단3화음이 3도 하나(한 프렛)의 차이임을 E/Em, A/Am, D/Dm에서 확인한다.</li>
+      <li>프렛 바로 뒤를 눌러야 하는 이유를 줄 장력과 지렛대 모델로 설명하고, 버징·뮤트 문제를 진단한다.</li>
+      <li>고정 손가락·안내 손가락을 이용해 코드 전환을 설계하고, 메트로놈에 맞춰 1분 전환 훈련을 한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="what">
+    <h2>코드란 무엇인가: 근음·3도·5도</h2>
+    <p><span class="term">코드</span><span class="en">(Chord)</span>, 우리말로 화음은 높이가 다른 음 여러 개를 동시에 울린 것입니다. 그중 가장 기본이 되는 것이 세 음으로 된 <span class="term">3화음</span><span class="en">(Triad)</span>이고, 3화음은 기준이 되는 음인 <span class="term">근음</span><span class="en">(Root, R)</span> 위에 3도와 5도를 쌓아서 만듭니다. 'C 코드'라고 하면 C를 근음으로 하는 장3화음, 즉 C–E–G 세 음을 말합니다. 음이름이 C인 음이 몇 번 울리든, E와 G가 어느 옥타브에 있든 이 세 음의 집합이면 C 코드입니다. 화음의 이론 전체는 MusicBook의 <a href="../../fundamentals/chapters/chords.html">화음과 코드</a> 장에서 자세히 다루고, 여기서는 기타를 잡는 데 꼭 필요한 만큼만 정리합니다.</p>
+    <p>3도와 5도의 '거리'는 반음 수로 잽니다. 근음에서 반음 4개 위가 <b>장3도</b>, 반음 3개 위가 <b>단3도</b>, 반음 7개 위가 <b>완전5도</b>입니다. 장3화음은 R에서 장3도(4반음), 거기서 다시 단3도(3반음)를 쌓아 R–3–5가 되고, 단3화음은 순서를 바꿔 단3도(3반음) 위에 장3도(4반음)를 쌓아 R–♭3–5가 됩니다. 두 화음 모두 바깥 두 음(근음과 5도)은 완전5도로 같고, <b>가운데 음 하나만 반음 차이</b>입니다. 이 사실이 4절에서 손가락 하나로 장조와 단조를 바꾸는 근거가 됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 280" role="img" aria-label="반음 사다리 위의 C 장3화음과 C 단3화음">
+        <g font-family="var(--mono)" font-size="15" text-anchor="middle">
+          <text x="20" y="40" text-anchor="start" class="t-acc" style="font-size:15px">C 장3화음 (C · E · G)</text>
+          <g transform="translate(0,62)">
+            <rect x="40" y="0" width="50" height="40" rx="6" class="f-acc-soft"/><text x="65" y="26" class="t" style="font-size:15px">C</text>
+            <rect x="96" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="121" y="26" class="t-dim">C♯</text>
+            <rect x="152" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="177" y="26" class="t-dim">D</text>
+            <rect x="208" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="233" y="26" class="t-dim">D♯</text>
+            <rect x="264" y="0" width="50" height="40" rx="6" class="f-acc-soft"/><text x="289" y="26" class="t" style="font-size:15px">E</text>
+            <rect x="320" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="345" y="26" class="t-dim">F</text>
+            <rect x="376" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="401" y="26" class="t-dim">F♯</text>
+            <rect x="432" y="0" width="50" height="40" rx="6" class="f-acc-soft"/><text x="457" y="26" class="t" style="font-size:15px">G</text>
+            <rect x="488" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="513" y="26" class="t-dim">G♯</text>
+            <rect x="544" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="569" y="26" class="t-dim">A</text>
+            <rect x="600" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="625" y="26" class="t-dim">A♯</text>
+            <rect x="656" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="681" y="26" class="t-dim">B</text>
+            <rect x="712" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="737" y="26" class="t-dim">C</text>
+            <path d="M65 44 Q177 84 289 44" class="s-acc"/><text x="177" y="86" class="t-acc">장3도 · 4반음</text>
+            <path d="M289 44 Q373 84 457 44" class="s-line"/><text x="373" y="86" class="t-dim">단3도 · 3반음</text>
+          </g>
+          <text x="20" y="182" text-anchor="start" class="t-acc" style="font-size:15px">C 단3화음 (C · E♭ · G)</text>
+          <g transform="translate(0,196)">
+            <rect x="40" y="0" width="50" height="40" rx="6" class="f-acc-soft"/><text x="65" y="26" class="t" style="font-size:15px">C</text>
+            <rect x="96" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="121" y="26" class="t-dim">D♭</text>
+            <rect x="152" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="177" y="26" class="t-dim">D</text>
+            <rect x="208" y="0" width="50" height="40" rx="6" class="f-acc2-soft"/><text x="233" y="26" class="t" style="font-size:15px">E♭</text>
+            <rect x="264" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="289" y="26" class="t-dim">E</text>
+            <rect x="320" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="345" y="26" class="t-dim">F</text>
+            <rect x="376" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="401" y="26" class="t-dim">G♭</text>
+            <rect x="432" y="0" width="50" height="40" rx="6" class="f-acc-soft"/><text x="457" y="26" class="t" style="font-size:15px">G</text>
+            <rect x="488" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="513" y="26" class="t-dim">A♭</text>
+            <rect x="544" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="569" y="26" class="t-dim">A</text>
+            <rect x="600" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="625" y="26" class="t-dim">B♭</text>
+            <rect x="656" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="681" y="26" class="t-dim">B</text>
+            <rect x="712" y="0" width="50" height="40" rx="6" class="f-surface"/><text x="737" y="26" class="t-dim">C</text>
+            <path d="M65 44 Q149 80 233 44" class="s-line"/><text x="149" y="80" class="t-dim">단3도 · 3반음</text>
+            <path d="M233 44 Q345 80 457 44" class="s-acc"/><text x="345" y="80" class="t-acc">장3도 · 4반음</text>
+          </g>
+          <path d="M65 120 L65 150 M457 120 L457 150" stroke="var(--text-faint)" stroke-dasharray="3 3"/>
+          <text x="610" y="160" class="t-dim" style="font-size:13px">바깥 두 음 C–G = 완전5도(7반음)는 같다</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 5-1.</b> 반음 사다리 위의 C 장3화음과 C 단3화음. 둘 다 근음 C와 5도 G는 같고, 가운데 3도만 E(장3도, 4반음)와 E♭(단3도, 3반음)으로 반음 차이 난다. 기타 지판에서 반음은 한 프렛이므로 3도를 한 프렛 내리면 장조가 단조로 바뀐다.</figcaption>
+    </figure>
+    <p>왜 하필 이 세 음일까요? 장3화음의 세 음은 주파수 비가 거의 \(4:5:6\)이라는 아주 단순한 정수비를 이룹니다. 배음이 많이 겹치고 맥놀이가 적어서 '맑고 안정된' 소리로 들리는 것입니다. 단3화음은 \(10:12:15\)로 비가 조금 더 복잡하고, 그래서 같은 협화음이면서도 그늘진 색을 냅니다.</p>
+    <div class="formula">$$\text{장3화음}\;\; f_R : f_3 : f_5 \approx 4:5:6,\qquad \text{단3화음}\;\; f_R : f_{\flat 3} : f_5 \approx 10:12:15$$
+      <div class="where">12평균율에서 3도와 5도의 실제 비는 \(2^{4/12}\approx1.260\)(장3도, 순정 5/4 = 1.250보다 약 14센트 높음), \(2^{3/12}\approx1.189\)(단3도, 순정 6/5 = 1.200보다 약 16센트 낮음), \(2^{7/12}\approx1.498\)(완전5도, 순정 3/2와 2센트 차이)다. 기타는 프렛이 고정된 평균율 악기이므로 장3도가 순정보다 살짝 넓게 울린다.</div>
+    </div>
+    <p>피아노에서는 C–E–G 세 건반만 누르면 되지만 기타는 줄이 여섯 개이고 각 줄은 한 번에 한 음만 낼 수 있습니다. 그래서 기타 코드는 세 음을 여러 옥타브에 <b>겹쳐서</b>(중복, doubling) 대여섯 줄을 채웁니다. 예를 들어 오픈 C 코드 <code>x32010</code>은 낮은 쪽부터 C3–E3–G3–C4–E4를 울리므로 줄은 다섯 개지만 음이름은 C·E·G 세 개뿐입니다. 이렇게 같은 화음을 어떤 순서·어떤 옥타브로 배치했는지를 <span class="term">보이싱</span><span class="en">(Voicing)</span>이라 하고, 가장 낮은 음을 <span class="term">베이스</span><span class="en">(Bass)</span>라 합니다. 베이스가 근음이 아니면 'C/E'(C 코드, 베이스 E)처럼 슬래시로 적습니다. 이 장의 코드들에서 어떤 줄을 '치지 않는' 이유는 거의 언제나 이 베이스 때문입니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="diagram">
+    <h2>코드 다이어그램 읽기</h2>
+    <p><span class="term">코드 다이어그램</span><span class="en">(Chord Diagram, Chord Box)</span>은 기타 넥을 세워 놓고 정면에서 바라본 그림입니다. 세로선 여섯 개가 줄이고 <b>왼쪽 끝이 6번 줄(가장 굵은 저음 E)</b>, 오른쪽 끝이 1번 줄(가장 가는 고음 E)입니다. 가로선은 프렛이고 맨 위의 굵은 선이 <span class="term">너트</span><span class="en">(Nut)</span>입니다. 3장에서 본 가로 지판이나 4장의 TAB은 1번 줄이 위에 오지만, 다이어그램은 넥을 세워 놓은 그림이라 방향이 90° 돌아가 있다는 점을 처음에 꼭 짚어 두세요.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 820 410" role="img" aria-label="코드 다이어그램의 각 부분">
+        <g font-family="var(--font)">
+          <!-- left: C -->
+          <text x="230" y="24" text-anchor="middle" class="t" style="font-size:18px;font-weight:700">C</text>
+          <g stroke="var(--text-faint)" stroke-width="1.6">
+            <line x1="120" y1="142" x2="340" y2="142"/><line x1="120" y1="194" x2="340" y2="194"/><line x1="120" y1="246" x2="340" y2="246"/><line x1="120" y1="298" x2="340" y2="298"/>
+          </g>
+          <line x1="118" y1="90" x2="342" y2="90" stroke="var(--text)" stroke-width="7"/>
+          <g stroke="var(--text-dim)" stroke-width="1.6">
+            <line x1="120" y1="90" x2="120" y2="298"/><line x1="164" y1="90" x2="164" y2="298"/><line x1="208" y1="90" x2="208" y2="298"/><line x1="252" y1="90" x2="252" y2="298"/><line x1="296" y1="90" x2="296" y2="298"/><line x1="340" y1="90" x2="340" y2="298"/>
+          </g>
+          <text x="120" y="76" text-anchor="middle" class="t-dim" style="font-size:20px">×</text>
+          <circle cx="252" cy="70" r="8" fill="none" stroke="var(--text)" stroke-width="2"/>
+          <circle cx="340" cy="70" r="8" fill="none" stroke="var(--text)" stroke-width="2"/>
+          <circle cx="164" cy="220" r="15" fill="var(--text)"/><text x="164" y="226" text-anchor="middle" style="font:700 16px var(--mono);fill:var(--bg-elev)">3</text>
+          <circle cx="208" cy="168" r="15" fill="var(--text)"/><text x="208" y="174" text-anchor="middle" style="font:700 16px var(--mono);fill:var(--bg-elev)">2</text>
+          <circle cx="296" cy="116" r="15" fill="var(--text)"/><text x="296" y="122" text-anchor="middle" style="font:700 16px var(--mono);fill:var(--bg-elev)">1</text>
+          <g class="t-mono" text-anchor="end" style="font-size:13px"><text x="104" y="121">1프렛</text><text x="104" y="173">2프렛</text><text x="104" y="225">3프렛</text><text x="104" y="277">4프렛</text></g>
+          <g class="t-mono" text-anchor="middle" style="font-size:14px"><text x="120" y="322">6</text><text x="164" y="322">5</text><text x="208" y="322">4</text><text x="252" y="322">3</text><text x="296" y="322">2</text><text x="340" y="322">1</text></g>
+          <g class="t-dim" text-anchor="middle" style="font-size:13px"><text x="120" y="342">E</text><text x="164" y="342">A</text><text x="208" y="342">D</text><text x="252" y="342">G</text><text x="296" y="342">B</text><text x="340" y="342">E</text></g>
+          <text x="230" y="368" text-anchor="middle" class="t-dim" style="font-size:13px">↑ 줄 번호 · 개방현 음</text>
+          <text x="230" y="394" text-anchor="middle" class="t-mono" style="font-size:14px">줄 문자열: x 3 2 0 1 0</text>
+          <!-- annotations -->
+          <path d="M112 62 L70 40" class="s-line"/><text x="66" y="36" text-anchor="end" class="t" style="font-size:13px">× 치지 않는 줄</text>
+          <path d="M350 64 L392 44" class="s-line"/><text x="396" y="42" class="t" style="font-size:13px">○ 개방현(누르지 않고 울림)</text>
+          <path d="M346 92 L392 100" class="s-line"/><text x="396" y="104" class="t" style="font-size:13px">너트(굵은 선)</text>
+          <path d="M312 116 L392 150" class="s-line"/><text x="396" y="154" class="t" style="font-size:13px">숫자 = 누르는 손가락</text>
+          <text x="396" y="174" class="t-dim" style="font-size:12px">1 검지 · 2 중지 · 3 약지 · 4 새끼</text>
+          <path d="M180 220 C 240 260, 330 250, 392 214" class="s-line"/><text x="396" y="212" class="t" style="font-size:13px">점은 프렛 칸 안 = 그 칸을 누름</text>
+          <!-- right: D barre at 5fr -->
+          <text x="640" y="250" text-anchor="middle" class="t" style="font-size:16px;font-weight:700">D (5fr)</text>
+          <g stroke="var(--text-faint)" stroke-width="1.4">
+            <line x1="560" y1="262" x2="720" y2="262"/><line x1="560" y1="294" x2="720" y2="294"/><line x1="560" y1="326" x2="720" y2="326"/><line x1="560" y1="358" x2="720" y2="358"/><line x1="560" y1="390" x2="720" y2="390"/>
+          </g>
+          <g stroke="var(--text-dim)" stroke-width="1.4">
+            <line x1="560" y1="262" x2="560" y2="390"/><line x1="592" y1="262" x2="592" y2="390"/><line x1="624" y1="262" x2="624" y2="390"/><line x1="656" y1="262" x2="656" y2="390"/><line x1="688" y1="262" x2="688" y2="390"/><line x1="720" y1="262" x2="720" y2="390"/>
+          </g>
+          <text x="548" y="283" text-anchor="end" class="t-mono" style="font-size:13px">5fr</text>
+          <text x="560" y="257" text-anchor="middle" class="t-dim" style="font-size:15px">×</text>
+          <rect x="580" y="268" width="152" height="20" rx="10" fill="var(--text)"/><text x="600" y="283" text-anchor="middle" style="font:700 13px var(--mono);fill:var(--bg-elev)">1</text>
+          <circle cx="624" cy="342" r="11" fill="var(--text)"/><text x="624" y="347" text-anchor="middle" style="font:700 13px var(--mono);fill:var(--bg-elev)">2</text>
+          <circle cx="656" cy="342" r="11" fill="var(--text)"/><text x="656" y="347" text-anchor="middle" style="font:700 13px var(--mono);fill:var(--bg-elev)">3</text>
+          <circle cx="688" cy="342" r="11" fill="var(--text)"/><text x="688" y="347" text-anchor="middle" style="font:700 13px var(--mono);fill:var(--bg-elev)">4</text>
+          <path d="M736 278 L770 238" class="s-line"/><text x="800" y="224" text-anchor="end" class="t" style="font-size:13px">바레: 검지 하나로</text><text x="800" y="240" text-anchor="end" class="t" style="font-size:13px" dy="-1">여러 줄을 함께</text>
+          <path d="M540 290 L500 320" class="s-line"/><text x="496" y="336" text-anchor="end" class="t" style="font-size:13px">맨 윗칸 = 5프렛</text><text x="496" y="354" text-anchor="end" class="t-dim" style="font-size:12px">(너트가 아님)</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 5-2.</b> 코드 다이어그램의 각 부분. 왼쪽: 오픈 C 코드. 위쪽의 ×는 치지 않는 줄, ○는 누르지 않고 울리는 개방현, 칸 안의 숫자는 누르는 손가락이다. 같은 내용을 저음 줄부터 적으면 <code>x32010</code>이다. 오른쪽: 너트에서 먼 곳의 코드는 맨 윗칸 옆에 기준 프렛(5fr)을 적고, 긴 막대는 한 손가락으로 여러 줄을 누르는 바레를 뜻한다(8장).</figcaption>
+    </figure>
+    <p>다이어그램의 기호는 몇 개뿐입니다. 줄 위쪽의 <b>×</b>는 그 줄을 치지 않거나 손가락으로 막아 소리가 나지 않게 하라는 뜻이고(<span class="term">뮤트</span><span class="en">(Mute)</span>), <b>○</b>는 왼손으로 누르지 않고 개방현 그대로 울리라는 뜻입니다. 칸 안의 점은 그 프렛 칸을 누르라는 뜻이고, 점 안의 숫자는 어느 손가락으로 누를지 알려 줍니다. 왼손 손가락 번호는 <b>검지 1, 중지 2, 약지 3, 새끼 4</b>이고 엄지는 넥 뒤에 두므로 보통 번호가 없습니다(가끔 T로 적습니다). 여러 줄을 가로지르는 긴 막대는 한 손가락으로 여러 줄을 동시에 누르는 <span class="term">바레</span><span class="en">(Barre)</span>이고, 코드가 너트에서 멀리 떨어져 있으면 맨 윗칸 옆에 '5fr'처럼 그 칸이 몇 번 프렛인지 적습니다. 이때는 맨 위 선이 굵은 너트로 그려지지 않습니다.</p>
+    <p>같은 정보를 글자로 적는 방법도 있습니다. 6번 줄부터 1번 줄까지 프렛 번호를 차례로 적고 치지 않는 줄은 x, 개방현은 0으로 쓰는 <b>줄 문자열</b>입니다. C는 <code>x32010</code>, G는 <code>320003</code>입니다. 10프렛 이상이 섞이면 <code>x,10,12,12,12,10</code>처럼 쉼표로 구분합니다. 이 문자열은 4장의 TAB에서 한 박에 세로로 쌓인 숫자들을 옆으로 눕혀 적은 것과 같아서(TAB은 1번 줄이 위에 있으니 위아래만 뒤집으면 됩니다), 다이어그램·줄 문자열·TAB을 자유롭게 오가는 연습을 해 두면 어떤 악보를 만나도 당황하지 않습니다.</p>
+    <p>마지막으로, 다이어그램은 '어디를 누르느냐'만 알려 줄 뿐 '무슨 코드냐'를 정의하지 않는다는 점이 중요합니다. 코드의 이름은 울리는 음들의 집합에서 나옵니다. 아래 편집기에서 칸을 눌러 모양을 직접 만들면, 울리는 음을 모아 근음과 품질을 추정하고 이름을 붙여 줍니다. 손가락 하나를 옮길 때마다 이름이 어떻게 바뀌는지 보면, '모양'이 아니라 '음'으로 코드를 생각하는 습관이 생깁니다.</p>
+
+    <div class="sim" id="sim-oc-editor">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>코드 다이어그램 편집기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="oc-ed-wrap"><div id="oc-ed-diag"></div></div>
+          <div class="oc-strtable" id="oc-ed-strings"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>불러오기</span><div class="oc-presets" id="oc-ed-pre"></div></div>
+          <div class="ctrl"><span>모양 통째로 옮기기(누른 음만)</span><div class="btn-row"><button class="btn" id="oc-ed-dn">◀ 1프렛 아래</button><button class="btn" id="oc-ed-up">1프렛 위 ▶</button></div></div>
+          <div class="ctrl"><span>줄 아래 표시</span><div class="seg" id="oc-ed-lab"><button data-value="intervals" class="on">도수</button><button data-value="notes">음이름</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="oc-ed-strum">▼ 긁기</button><button class="btn" id="oc-ed-arp">한 줄씩</button><button class="btn" id="oc-ed-clear">모두 개방</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">줄 문자열</span><span class="v" id="oc-ed-o-shape">—</span></div>
+        <div class="stat"><span class="k">코드 이름(추정)</span><span class="v" id="oc-ed-o-name">—</span></div>
+        <div class="stat"><span class="k">다른 해석</span><span class="v" id="oc-ed-o-alt">—</span></div>
+        <div class="stat"><span class="k">구성음</span><span class="v" id="oc-ed-o-pcs">—</span></div>
+      </div>
+      <div class="sim-note">사용법: 다이어그램의 <b>칸을 누르면</b> 그 줄의 그 프렛을 누르고(같은 칸을 다시 누르면 손가락을 뗌), <b>너트 위 영역</b>을 누르면 그 줄이 개방현(○) ↔ 뮤트(×)로 바뀝니다. 바꿀 때마다 그 줄을 한 번 뜯어 들려주고, <b>긁기</b>는 저음에서 고음으로 한 번에 긁습니다. 이름은 울리는 음의 피치 클래스 집합에 화음 사전을 맞춰 점수가 가장 높은 것을 고르며, 가장 낮은 음이 근음이 아니면 슬래시 코드로 표시합니다. '모양 옮기기'는 누른 음만 옮기고 개방현은 그대로 두므로, C 모양을 위로 옮기면 C가 D가 되지 않고 이상한 화음이 되는 것을 확인할 수 있습니다(개방현이 없는 바레 코드가 필요한 이유, 8장). 기타 소리는 카플러스–스트롱 현 모델 + 몸통 공진 필터 근사입니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 기타로</strong> 다이어그램을 보고 코드를 잡을 때는 ① 가장 굵은 줄 쪽 손가락(대개 3번)부터 놓고 ② 나머지를 놓은 다음 ③ 피크로 6번 줄부터 1번 줄까지 <b>한 줄씩</b> 천천히 뜯어 모든 음이 깨끗한지 확인합니다. ×인 줄은 뜯지 않고 지나갑니다. 처음 일주일은 '잡고 → 한 줄씩 확인 → 떼고 털기'를 코드마다 다섯 번씩 반복하는 것만으로도 손가락이 위치를 기억하기 시작합니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="eight">
+    <h2>8개의 기본 오픈 코드</h2>
+    <p><span class="term">오픈 코드</span><span class="en">(Open Chord)</span>는 너트 근처 1–3프렛에서 잡고 개방현을 하나 이상 섞어 울리는 코드입니다. 개방현은 누르지 않으니 손가락이 덜 필요하고, 누른 줄보다 오래 울리고 배음이 풍부해서 통기타 특유의 넓은 울림을 만듭니다. 표준 튜닝 E–A–D–G–B–E의 개방현 음이 C·G·D·A·E 코드의 구성음과 많이 겹치기 때문에, 이 다섯 장3화음과 Am·Em·Dm 세 단3화음은 손가락 두세 개로 잡을 수 있습니다. 이 여덟 개만으로도 수많은 노래를 반주할 수 있어서 기타 입문의 첫 관문으로 꼽힙니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>코드</th><th>줄 문자열</th><th>구성음</th><th>울리는 음(저음→고음)</th><th>치지 않는 줄</th></tr></thead>
+      <tbody>
+        <tr><td><b>C</b></td><td><code>x32010</code></td><td>C · E · G</td><td>C3 E3 G3 C4 E4</td><td>6번</td></tr>
+        <tr><td><b>A</b></td><td><code>x02220</code></td><td>A · C♯ · E</td><td>A2 E3 A3 C♯4 E4</td><td>6번</td></tr>
+        <tr><td><b>G</b></td><td><code>320003</code></td><td>G · B · D</td><td>G2 B2 D3 G3 B3 G4</td><td>없음</td></tr>
+        <tr><td><b>E</b></td><td><code>022100</code></td><td>E · G♯ · B</td><td>E2 B2 E3 G♯3 B3 E4</td><td>없음</td></tr>
+        <tr><td><b>D</b></td><td><code>xx0232</code></td><td>D · F♯ · A</td><td>D3 A3 D4 F♯4</td><td>6·5번</td></tr>
+        <tr><td><b>Am</b></td><td><code>x02210</code></td><td>A · C · E</td><td>A2 E3 A3 C4 E4</td><td>6번</td></tr>
+        <tr><td><b>Em</b></td><td><code>022000</code></td><td>E · G · B</td><td>E2 B2 E3 G3 B3 E4</td><td>없음</td></tr>
+        <tr><td><b>Dm</b></td><td><code>xx0231</code></td><td>D · F · A</td><td>D3 A3 D4 F4</td><td>6·5번</td></tr>
+      </tbody>
+    </table></div>
+    <p>표에서 몇 가지 규칙이 보입니다. 첫째, 모든 코드의 <b>가장 낮은 음은 근음</b>입니다. C는 5번 줄 3프렛의 C3에서, D와 Dm은 4번 줄 개방 D3에서 시작합니다. 치지 않는 줄은 바로 이 규칙을 지키기 위한 것입니다. C에서 6번 줄 개방 E를 울리면 E는 C 화음의 3도라 틀린 음은 아니지만 베이스가 E가 되어 C/E(1전위)로 바뀌고, 소리의 무게중심이 흐려집니다. D에서 6번 줄 E는 아예 D 화음에 없는 음(9도)이라 반드시 피해야 합니다. 둘째, 근음이 6번 줄에 있는 G·E·Em만 여섯 줄을 모두 칩니다. 셋째, 구성음은 세 개인데 울리는 줄은 넷에서 여섯이므로 근음이나 5도가 여러 번 겹칩니다. E 코드는 근음 E가 E2·E3·E4 세 옥타브에서 울려서 여덟 코드 가운데 가장 웅장하게 들립니다.</p>
+    <p>모양끼리의 관계도 알아 두면 외우기가 쉽습니다. Am은 E 모양(손가락 세 개의 배치)을 그대로 한 줄씩 가는 줄 쪽으로 옮긴 것이고, Em은 E에서 1번 손가락만 뗀 것입니다. A·D·E·G·C 다섯 장3화음 모양은 8장의 CAGED 체계에서 지판 전체로 옮겨 쓰는 다섯 '원형'이 되므로, 여기서 정확히 익혀 두면 나중에 그대로 돌아옵니다.</p>
+
+    <div class="sim" id="sim-oc-cards">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>8개 오픈 코드 카드</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="gt-chords" id="oc-cards-grid"></div>
+          <div id="oc-cards-fb" style="margin-top:12px"></div>
+          <div class="oc-info" id="oc-cards-info"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>지판 표시</span><div class="seg" id="oc-cards-lab"><button data-value="fingers" class="on">손가락</button><button data-value="intervals">도수</button><button data-value="notes">음이름</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="oc-cards-strum">▼ 다운 긁기</button><button class="btn" id="oc-cards-up">▲ 업 긁기</button><button class="btn" id="oc-cards-arp">한 줄씩 확인</button></div>
+        </div>
+      </div>
+      <div class="sim-note">카드를 누르면 그 코드를 긁고 지판에 손가락 위치를 보여 줍니다. 빨간 점이 근음, 테두리만 있는 점이 개방현, ×가 치지 않는 줄입니다. <b>한 줄씩 확인</b>은 실제 기타에서 하는 점검처럼 저음 줄부터 0.3초 간격으로 한 줄씩 뜯습니다. 지판과 다이어그램은 방향이 다릅니다: 지판은 1번 줄이 위, 다이어그램은 6번 줄이 왼쪽입니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 기타로</strong> 하루에 두 코드씩 새로 익히세요. 추천 순서는 <b>Em → Am → E → C → G → D → A → Dm</b>입니다(손가락 수와 펼침이 쉬운 것부터). 코드를 잡을 때 손가락은 관절을 둥글게 세워 <b>손끝</b>으로 누르고, 손톱은 짧게 깎습니다. 엄지는 넥 뒤 가운데쯤, 대략 2번 손가락 맞은편에 둡니다. 엄지를 넥 위로 감아쥐면 손가락이 눕기 쉬워 이웃 줄을 건드립니다. 처음에는 손끝이 아프고 1–2주 지나면 굳은살이 생기며 나아집니다. 하루 15–20분을 여러 번 나누어 연습하는 편이 한 번에 오래 하는 것보다 손에 덜 무리가 갑니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="majmin">
+    <h2>장조와 단조: 3도 한 프렛의 차이</h2>
+    <p>1절에서 장3화음과 단3화음은 가운데 음, 즉 3도만 반음 다르다고 했습니다. 기타에서 반음은 한 프렛이므로, 오픈 코드 가운데 3도가 '누른 음'인 코드는 그 손가락을 한 칸 뒤로 옮기거나 떼기만 하면 단조가 됩니다. 여덟 코드 안에 그런 짝이 세 쌍 있습니다.</p>
+    <figure class="diagram">
+      <div class="oc-fig-row" id="oc-fig-majmin"></div>
+      <figcaption><b>그림 5-3.</b> 장조–단조 세 쌍. 강조된 줄이 3도를 내는 줄이다. E→Em은 3번 줄 1프렛(G♯)에서 손가락을 떼어 개방 G로, A→Am은 2번 줄 2프렛(C♯)을 1프렛(C)으로, D→Dm은 1번 줄 2프렛(F♯)을 1프렛(F)으로 한 칸 내린다. 근음과 5도를 내는 줄은 그대로다.</figcaption>
+    </figure>
+    <p>세 쌍 모두 바뀌는 줄은 하나이고 나머지 다섯 줄(또는 세 줄)은 손대지 않습니다. 이것이 장조와 단조를 '밝다/어둡다'로 구분하는 감각이 실제로는 <b>음 하나의 반음 이동</b>에서 나온다는 증거입니다. 수치로 보면 E 코드의 3도 G♯3는 207.65 Hz, Em의 G3는 196.00 Hz로, 근음 E에서 각각 400센트와 300센트 위에 있습니다. A의 C♯4(277.18 Hz)와 Am의 C4(261.63 Hz), D의 F♯4(369.99 Hz)와 Dm의 F4(349.23 Hz)도 같은 관계입니다.</p>
+    <div class="formula">$$\frac{f_{3}}{f_{\flat 3}} = 2^{1/12} \approx 1.0595 \quad\Longrightarrow\quad \text{3도를 한 프렛 내리면 주파수가 약 } 5.6\% \text{ 낮아진다}$$
+      <div class="where">예: 207.65 Hz ÷ 196.00 Hz = 1.0594. 반대로 C·G 코드는 3도가 개방현(C의 3번 줄은 5도, 1번 줄 개방 E가 3도) 등 여러 줄에 흩어져 있어 '한 손가락만 옮기는' 방식으로 Cm·Gm을 만들 수 없다. Cm·Gm은 8장의 바레 코드로 잡는다.</div>
+    </div>
+    <p>왜 C와 G는 같은 방법이 안 될까요? C 코드에서 3도 E는 4번 줄 2프렛(E3)과 1번 줄 개방(E4) 두 곳에 있습니다. 4번 줄은 한 칸 내려 E♭로 만들 수 있지만 1번 줄 개방 E는 더 내릴 프렛이 없습니다(개방현 아래에는 칸이 없으니까요). G 코드도 3도 B가 5번 줄 2프렛과 2번 줄 개방에 있어서 같은 문제가 생깁니다. 개방현이 3도를 맡고 있으면 단조로 바꿀 수 없다는 것, 이것이 오픈 코드의 한계이자 바레 코드를 배우는 이유입니다.</p>
+
+    <div class="sim" id="sim-oc-majmin">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장조 ↔ 단조 A/B 비교와 블라인드 테스트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="oc-pair" id="oc-mm-pair"></div>
+          <div id="oc-mm-fb" style="margin-top:10px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>짝</span><div class="seg" id="oc-mm-set"><button data-value="E" class="on">E / Em</button><button data-value="A">A / Am</button><button data-value="D">D / Dm</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="oc-mm-maj">장조 긁기</button><button class="btn primary" id="oc-mm-min">단조 긁기</button></div>
+          <div class="btn-row"><button class="btn" id="oc-mm-alt">▶ 번갈아 반복</button><button class="btn" id="oc-mm-third">3도만 비교</button></div>
+          <div class="ctrl"><span>블라인드 테스트: 들려주는 코드는?</span>
+            <div class="btn-row"><button class="btn" id="oc-mm-q">? 무작위 재생</button><button class="btn" id="oc-mm-a-maj">장조</button><button class="btn" id="oc-mm-a-min">단조</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">장3도 음</span><span class="v" id="oc-mm-o-3">—</span></div>
+        <div class="stat"><span class="k">단3도 음</span><span class="v" id="oc-mm-o-b3">—</span></div>
+        <div class="stat"><span class="k">블라인드 점수</span><span class="v" id="oc-mm-o-score">0 / 0</span></div>
+      </div>
+      <div class="sim-msg" id="oc-mm-msg">장조와 단조를 번갈아 들어 본 뒤, 무작위 재생으로 귀를 시험해 보세요.</div>
+      <div class="sim-note">위의 두 다이어그램에서 강조된 줄이 3도를 내는 줄입니다. 지판에는 마지막으로 친 코드의 도수를 표시하고, 다른 쪽 3도 자리를 회색 테두리 점으로 함께 보여 줍니다. <b>번갈아 반복</b>은 2박(약 1.3초)마다 장조와 단조를 교대로 긁는 루프이며 같은 버튼으로 멈춥니다. <b>3도만 비교</b>는 근음과 3도만 차례로 뜯어 4반음과 3반음의 차이를 따로 들려줍니다. 블라인드 테스트는 세 짝 가운데 무작위로 하나를 골라 들려주므로 같은 높이의 코드를 비교하는 요령이 통하지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="press">
+    <h2>손가락 배치의 물리: 왜 프렛 바로 뒤인가</h2>
+    <p>기타 교본은 하나같이 "프렛 <b>바로 뒤</b>(너트 쪽)를 누르라"고 말합니다. 칸 한가운데를 눌러도 되지 않을까요? 이유는 줄이 소리를 내는 길이를 정하는 것이 손가락이 아니라 <b>프렛</b>이라는 데 있습니다. 손가락은 줄을 눌러 프렛의 금속 머리(크라운)에 단단히 붙여 두는 역할만 합니다. 줄이 프렛에 붙어 있는 힘이 약하면, 진동하는 줄이 프렛에서 떨어졌다 붙었다 하며 '지지직' 떠는 소리, 즉 <span class="term">버징</span><span class="en">(Fret Buzz)</span>이 납니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 430" role="img" aria-label="프렛을 누르는 손가락과 줄의 옆모습">
+        <g font-family="var(--font)">
+          <line x1="30" y1="226" x2="770" y2="226" stroke="var(--text-faint)" stroke-width="3"/>
+          <text x="40" y="250" class="t-dim" style="font-size:12px">지판</text>
+          <rect x="153" y="200" width="14" height="26" rx="6" fill="var(--text-dim)"/>
+          <rect x="553" y="200" width="14" height="26" rx="6" fill="var(--text-dim)"/>
+          <text x="160" y="190" text-anchor="middle" class="t-mono" style="font-size:12px">프렛 n−1</text>
+          <text x="560" y="190" text-anchor="middle" class="t-mono" style="font-size:12px">프렛 n</text>
+          <line x1="30" y1="168" x2="770" y2="168" stroke="var(--text-faint)" stroke-dasharray="5 5"/>
+          <text x="770" y="160" text-anchor="end" class="t-dim" style="font-size:12px">누르기 전 줄</text>
+          <polyline points="30,180 160,199 488,214 560,199 770,176" fill="none" stroke="var(--accent)" stroke-width="3"/>
+          <ellipse cx="488" cy="193" rx="34" ry="19" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="488" y="198" text-anchor="middle" class="t" style="font-size:12px">손끝</text>
+          <path d="M488 104 L488 166" stroke="var(--text)" stroke-width="2.5"/><path d="M481 156 L488 170 L495 156" fill="var(--text)"/>
+          <text x="498" y="120" class="t" style="font-size:15px;font-weight:700">F</text><text x="514" y="120" class="t-dim" style="font-size:12px">손가락 힘</text>
+          <path d="M600 128 L566 192" stroke="var(--bad)" stroke-width="2"/><path d="M559 184 L564 197 L574 188" fill="var(--bad)"/>
+          <text x="604" y="126" class="t" style="font-size:15px;font-weight:700;fill:var(--bad)">N</text><text x="620" y="126" class="t-dim" style="font-size:12px">줄이 프렛을 누르는 힘</text>
+          <path d="M488 270 L560 270" class="s-line"/><path d="M488 263 L488 277 M560 263 L560 277" class="s-line"/><text x="524" y="290" text-anchor="middle" class="t" style="font-size:14px">a</text>
+          <path d="M160 270 L488 270" class="s-line"/><path d="M160 263 L160 277" class="s-line"/><text x="324" y="290" text-anchor="middle" class="t" style="font-size:14px">b</text>
+          <path d="M160 304 L560 304" class="s-axis"/><path d="M160 297 L160 311 M560 297 L560 311" class="s-axis"/><text x="360" y="324" text-anchor="middle" class="t-dim" style="font-size:13px">w = 프렛 칸 너비 (1프렛 ≈ 36 mm)</text>
+          <text x="660" y="214" class="t-dim" style="font-size:12px">← 이쪽이 울리는 길이</text>
+          <text x="20" y="20" class="t-dim" style="font-size:12px">세로 방향은 약 20배 과장</text>
+          <!-- three cases -->
+          <g transform="translate(20,350)">
+            <rect width="240" height="70" rx="10" class="f-surface"/>
+            <line x1="20" y1="48" x2="220" y2="48" stroke="var(--text-faint)" stroke-width="2"/><rect x="186" y="36" width="8" height="12" rx="3" fill="var(--text-dim)"/>
+            <ellipse cx="60" cy="38" rx="18" ry="10" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+            <text x="120" y="22" text-anchor="middle" class="t" style="font-size:13px">너무 뒤 → 힘이 더 필요, 버징</text>
+          </g>
+          <g transform="translate(280,350)">
+            <rect width="240" height="70" rx="10" class="f-acc-soft"/>
+            <line x1="20" y1="48" x2="220" y2="48" stroke="var(--text-faint)" stroke-width="2"/><rect x="186" y="36" width="8" height="12" rx="3" fill="var(--text-dim)"/>
+            <ellipse cx="166" cy="38" rx="18" ry="10" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+            <text x="120" y="22" text-anchor="middle" class="t" style="font-size:13px;font-weight:700">바로 뒤 → 최소 힘, 깨끗함</text>
+          </g>
+          <g transform="translate(540,350)">
+            <rect width="240" height="70" rx="10" class="f-surface"/>
+            <line x1="20" y1="48" x2="220" y2="48" stroke="var(--text-faint)" stroke-width="2"/><rect x="186" y="36" width="8" height="12" rx="3" fill="var(--text-dim)"/>
+            <ellipse cx="192" cy="34" rx="18" ry="10" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+            <text x="120" y="22" text-anchor="middle" class="t" style="font-size:13px">프렛 위 → 살이 줄을 막아 소리 죽음</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 5-4.</b> 프렛을 누르는 손가락의 옆모습(세로 과장). 손가락은 두 지지점(앞의 프렛 n과 뒤의 프렛 n−1 또는 너트) 사이에서 줄을 눌러 꺾는다. 줄의 장력 \(T\)가 꺾인 각도만큼 아래로 작용해 앞 프렛을 누르는 힘 \(N\)을 만든다. 손끝이 앞 프렛에 가까울수록(a가 작을수록) 같은 손가락 힘 F 가운데 더 많은 몫이 프렛으로 간다.</figcaption>
+    </figure>
+    <p>그림처럼 손가락이 줄을 깊이 \(y\)만큼 눌러 꺾으면, 장력 \(T\)인 줄은 양쪽 지지점을 향해 기울어집니다. 기울기가 작으니 \(\sin\theta\approx\tan\theta\)로 근사하면 앞쪽 줄이 프렛을 누르는 힘은 \(N\approx T\,y/a\), 뒤쪽 줄이 받치는 힘은 \(T\,y/b\)이고, 손가락은 두 힘의 합을 내야 합니다. 장력이 걸린 줄을 한 점에서 눌렀을 때의 정역학, 즉 지렛대 계산과 같은 구조입니다.</p>
+    <div class="formula">$$F = T\,y\left(\frac1a + \frac1b\right),\qquad N = T\,\frac{y}{a}\qquad\Longrightarrow\qquad \frac{F}{N} = 1 + \frac{a}{b} = \frac{w}{w-a}$$
+      <div class="where">\(T\): 줄의 장력(어쿠스틱 012 세트의 한 줄은 약 100 N), \(y\): 누른 깊이, \(a\): 손끝에서 앞 프렛까지, \(b = w-a\): 손끝에서 뒤 지지점까지, \(w\): 프렛 칸 너비(스케일 648 mm에서 1프렛 36.4 mm, 3프렛 32.4 mm). 줄이 버징 없이 붙어 있으려면 \(N\)이 어떤 값 \(N^\ast\) 이상이어야 한다. 그때 필요한 손가락 힘은 \(F = N^\ast\,w/(w-a)\)로, \(a\to0\)일 때 최소(\(F\to N^\ast\))이고 칸 한가운데(\(a=w/2\))에서 두 배, 뒤 프렛 근처(\(a\to w\))에서는 끝없이 커진다.</div>
+    </div>
+    <p>숫자로 확인해 봅시다. 버징을 막는 데 필요한 힘을 \(N^\ast = 1.5\) N이라고 가정하면(이 장의 모델 값), 1프렛(\(w = 36.4\) mm)에서 손끝을 프렛 3 mm 뒤에 두면 \(F = 1.5\times36.4/33.4 \approx 1.6\) N이면 충분합니다. 칸 한가운데(18 mm)에서는 3.0 N, 뒤 프렛 근처(30 mm)에서는 \(1.5\times36.4/6.4\approx 8.5\) N이 필요합니다. 같은 깨끗한 소리를 내는 데 다섯 배의 힘이 드는 셈이고, 손가락 네 개가 동시에 이만큼씩 힘을 써야 하니 초보자의 손이 금방 지치는 이유가 여기 있습니다. 반대로 손끝이 프렛 <b>바로 위</b>에 올라가면(\(a\approx0\)) 손가락 살이 프렛 너머의 울리는 부분에 닿아 진동을 막아 버려 소리가 '툭' 하고 죽습니다. 그래서 정답은 프렛 위도 아니고 칸 가운데도 아닌 '바로 뒤'입니다.</p>
+    <p>힘을 너무 세게 주는 것도 문제입니다. 줄을 깊이 누르면 줄이 조금 늘어나 장력이 커지고 음이 높아집니다. 늘어난 길이는 \(\Delta L\approx \tfrac{y^2}{2}\left(\tfrac1a+\tfrac1b\right)\), 장력 증가는 \(\Delta T = EA\,\Delta L/L\)(\(EA\)는 줄의 강성)이고, 주파수는 \(\sqrt{T}\)에 비례하므로 센트로는 \(1200\log_2\sqrt{1+\Delta T/T}\)만큼 높아집니다. 012 플레인 줄(\(EA\approx 1.46\times10^4\) N)을 칸 가운데에서 12 N으로 꽉 누르면 약 13센트 높아지는데, 코드 안에서 이 정도면 다른 줄과 맥놀이가 들릴 만큼입니다. 깨끗한 코드는 '세게'가 아니라 '바른 자리에서 필요한 만큼' 누를 때 나옵니다.</p>
+    <p>코드를 잡았는데 한두 줄이 안 울리는 문제는 버징 말고도 하나 더 있습니다. 어떤 줄을 누르는 손가락의 살이 옆 줄에 닿아 그 줄의 진동을 막는 <b>이웃 줄 뮤트</b>입니다. 특히 C 코드의 1번 손가락이 1번 줄 개방 E를, D 코드의 손가락들이 서로를 건드리는 경우가 흔합니다. 반대로 ×로 표시된 줄을 실수로 쳐서 베이스가 바뀌는 문제도 있습니다. 아래 시뮬레이터에서 문제를 줄마다 일부러 만들어 들어 보면, 실제 기타에서 무엇이 잘못되었는지 귀로 진단할 수 있게 됩니다.</p>
+
+    <div class="sim" id="sim-oc-buzz">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>버징·뮤트 진단기와 프렛 누르기 모델</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="oc-bz-top">
+            <div id="oc-bz-diag"></div>
+            <div>
+              <div class="ctrl" style="margin-bottom:8px"><span>코드</span> <div class="seg" id="oc-bz-chord"><button data-value="C" class="on">C</button><button data-value="G">G</button><button data-value="D">D</button><button data-value="Am">Am</button></div></div>
+              <div class="oc-strrows" id="oc-bz-rows"></div>
+            </div>
+          </div>
+          <div class="btn-row" style="margin-top:10px"><button class="btn primary" id="oc-bz-strum">▼ 긁기</button><button class="btn" id="oc-bz-arp">한 줄씩</button><button class="btn" id="oc-bz-fix">모두 정상으로</button><button class="btn" id="oc-bz-rand">무작위 문제 → 맞혀 보기</button></div>
+          <div class="sim-msg" id="oc-bz-msg" style="margin-top:8px">줄마다 문제를 골라 넣고 긁어 보세요.</div>
+          <hr style="border:0;border-top:1px solid var(--border);margin:14px 0">
+          <canvas id="oc-bz-cv"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>프렛 번호 n <output id="oc-bz-n-out"></output></span><input type="range" id="oc-bz-n" min="1" max="7" value="1" step="1"></label>
+          <label class="ctrl"><span>손끝–앞 프렛 거리 a <output id="oc-bz-a-out"></output></span><input type="range" id="oc-bz-a" min="0" max="0.95" value="0.1" step="0.01"></label>
+          <label class="ctrl"><span>손가락 힘 F <output id="oc-bz-f-out"></output></span><input type="range" id="oc-bz-f" min="0.5" max="12" value="2.5" step="0.1"></label>
+          <div class="btn-row"><button class="btn primary" id="oc-bz-pluck">이 조건으로 2번 줄 뜯기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">프렛을 누르는 힘 N</span><span class="v" id="oc-bz-o-n">—</span></div>
+        <div class="stat"><span class="k">필요한 최소 F</span><span class="v" id="oc-bz-o-fmin">—</span></div>
+        <div class="stat"><span class="k">누른 깊이 y</span><span class="v" id="oc-bz-o-y">—</span></div>
+        <div class="stat"><span class="k">음높이 상승</span><span class="v" id="oc-bz-o-c">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="oc-bz-o-st">—</span></div>
+      </div>
+      <div class="sim-note">위쪽(코드 진단): 누르는 줄은 <b>정상/버징/죽음</b>, 개방현은 <b>정상/닿음</b>(이웃 손가락에 막힘), 치지 않는 줄은 <b>막음/울림</b>(실수로 침)을 고릅니다. 문제가 있는 줄은 다이어그램에서 강조되고, 울림을 고르면 바뀐 베이스로 코드 이름을 다시 추정합니다. 무작위 문제 모드는 한 줄에 문제를 숨겨 두니 한 줄씩 들어 찾아보세요. 아래(모델): \(T = 100\) N, \(N^\ast = 1.5\) N, 프렛 높이 1.1 mm(그 이상은 줄이 지판에 닿아 더 깊어지지 않음), \(EA = 1.46\times10^4\) N, 스케일 648 mm를 가정한 단순 정역학 모델입니다. a가 1.5 mm 미만이면 손끝이 프렛 위에 있다고 보고 '죽음'으로 판정합니다. 실제 버징 임계값은 줄 높이, 넥 휨, 프렛 높이 차이, 피킹 세기에 따라 달라지므로 수치는 경향만 보세요. 버징 소리는 원래 음 + 매 주기 프렛을 때리는 고역 펄스열(톱니파 + 고역 통과 필터)로 근사했습니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 기타로: 줄이 안 울릴 때 점검 순서</strong> ① 코드를 잡고 한 줄씩 뜯어 문제 줄을 찾는다. ② '지지직'이면 버징: 그 줄 손가락을 프렛 쪽으로 붙이고 힘을 조금 더. ③ '툭'이면 죽음: 손가락이 프렛 위에 올라갔거나 손끝이 아닌 지문 쪽으로 누르고 있다. ④ 개방현이 안 울리면 이웃 손가락이 눕혀져 닿은 것: 손가락 첫 관절을 더 세우고, 손목을 살짝 앞으로 내밀어 손바닥과 넥 사이에 공간을 만든다. ⑤ 잘 울리면 힘을 천천히 빼 보며 소리가 유지되는 최소 힘을 찾는다. 이 최소 힘 감각이 오래 쳐도 지치지 않는 손을 만든다.</div>
+    <div class="callout warn"><strong>아플 때는 쉬기</strong> 손끝이 따끔한 것은 정상이지만, 손목·팔꿈치가 저리거나 아프면 즉시 멈추세요. 엄지로 넥을 세게 쥐는 습관이 대부분의 원인입니다. 엄지는 손가락 힘의 반작용만 받쳐 주면 충분합니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="colors">
+    <h2>색을 더하는 코드: 7th·sus·add</h2>
+    <p>여덟 개의 3화음을 잡을 수 있게 되면, 손가락 하나를 더하거나 떼거나 옮겨서 화음에 '색'을 입힐 수 있습니다. 3화음에 음을 하나 더 쌓으면 4화음이 되는데, 기타 반주에서 가장 자주 만나는 것이 <span class="term">7th 코드</span>입니다. 근음에서 단7도(10반음) 위의 음을 더한 <b>도미넌트 7th</b>(A7, D7, E7, G7, C7)는 다음 코드로 넘어가고 싶은 긴장을 만들어 블루스와 코드 진행의 '연결 고리'로 쓰입니다. 장7도(11반음)를 더한 <b>메이저 7th</b>(Cmaj7, Amaj7 …)는 부드럽고 몽환적이며, 단3화음에 단7도를 더한 <b>마이너 7th</b>(Am7, Em7, Dm7)는 단조의 무게를 덜어 줍니다.</p>
+    <p>3도를 아예 빼고 다른 음으로 바꾸는 코드도 있습니다. <span class="term">sus4</span>는 3도 대신 4도(5반음), <span class="term">sus2</span>는 3도 대신 2도(2반음)를 씁니다('sus'는 매달린다는 뜻의 suspended). 3도가 없으니 장조도 단조도 아닌 열린 소리가 나고, sus4는 특히 원래 코드로 돌아가는 해결(Dsus4 → D)을 기대하게 만듭니다. <span class="term">add9</span>는 3화음을 그대로 두고 9도(근음의 한 옥타브 위 2도)를 더한 것이고, 3도를 빼고 근음과 5도만 남긴 <span class="term">파워 코드</span>(E5, A5 …)는 디스토션 기타의 기본입니다(13장). 오픈 코드에서는 이 모든 것이 손가락 하나 차이인 경우가 많습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>표기</th><th>구성(근음으로부터 반음)</th><th>도수</th><th>예(오픈)</th><th>느낌</th></tr></thead>
+      <tbody>
+        <tr><td>7 (도미넌트 7th)</td><td>0 · 4 · 7 · 10</td><td>R 3 5 ♭7</td><td>A7 <code>x02020</code>, E7 <code>020100</code></td><td>긴장, 다음 코드로 가려 함, 블루스</td></tr>
+        <tr><td>maj7</td><td>0 · 4 · 7 · 11</td><td>R 3 5 7</td><td>Cmaj7 <code>x32000</code></td><td>부드럽고 몽환적</td></tr>
+        <tr><td>m7</td><td>0 · 3 · 7 · 10</td><td>R ♭3 5 ♭7</td><td>Am7 <code>x02010</code>, Em7 <code>020000</code></td><td>차분한 단조</td></tr>
+        <tr><td>sus4</td><td>0 · 5 · 7</td><td>R 4 5</td><td>Dsus4 <code>xx0233</code></td><td>매달림, 해결을 기다림</td></tr>
+        <tr><td>sus2</td><td>0 · 2 · 7</td><td>R 2 5</td><td>Asus2 <code>x02200</code></td><td>열리고 맑음</td></tr>
+        <tr><td>add9</td><td>0 · 4 · 7 · 14</td><td>R 3 5 9</td><td>Cadd9 <code>x32030</code></td><td>반짝임, 팝 반주</td></tr>
+        <tr><td>5 (파워 코드)</td><td>0 · 7</td><td>R 5</td><td>E5 <code>022xxx</code></td><td>장단 없음, 단단함</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-oc-colors">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>색채 코드 비교기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="gt-chords" id="oc-col-grid"></div>
+          <div class="oc-info" id="oc-col-info"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기본 코드</span><div class="seg" id="oc-col-base"><button data-value="A" class="on">A</button><button data-value="D">D</button><button data-value="E">E</button><button data-value="G">G</button><button data-value="C">C</button><button data-value="Am">Am</button><button data-value="Em">Em</button><button data-value="Dm">Dm</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="oc-col-ab">기본 → 선택 코드 이어 듣기</button><button class="btn" id="oc-col-res">sus 해결 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-note">카드를 누르면 그 코드를 긁습니다. 강조된 줄이 기본 코드와 다른 줄, 줄 아래 글자가 도수입니다. <b>이어 듣기</b>는 기본 코드 → 선택한 코드 → 기본 코드를 차례로 들려주어 더해진 음 하나의 효과를 비교하게 합니다. <b>sus 해결 듣기</b>는 기본 코드의 sus4(없으면 sus2)에서 원래 코드로 돌아가는 움직임을 들려줍니다(sus 모양이 사전에 있는 A·D·E에서만).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="change">
+    <h2>코드 전환: 고정 손가락과 안내 손가락</h2>
+    <p>코드를 하나씩 잡을 수 있는 것과 노래에 맞춰 코드를 <b>바꿀</b> 수 있는 것은 전혀 다른 기술입니다. 노래는 기다려 주지 않기 때문에, 다음 박이 오기 전에 손가락 세 개를 동시에 새 자리로 옮겨야 합니다. 이 시간을 줄이는 핵심은 '덜 움직이는 것'입니다. 두 코드를 나란히 놓고 손가락마다 비교하면 세 가지 경우가 나옵니다.</p>
+    <ul>
+      <li><b>고정 손가락</b><span class="en">(Anchor finger)</span>: 두 코드에서 같은 손가락이 같은 줄·같은 프렛에 있다. 전환할 때 <b>절대 떼지 않는다</b>. C ↔ Am에서는 1·2번이 고정이고 3번만 움직인다.</li>
+      <li><b>안내 손가락</b><span class="en">(Guide finger)</span>: 같은 손가락이 같은 줄 위에서 프렛만 바뀐다. 줄에서 떼지 말고 힘만 빼서 <b>줄을 따라 미끄러뜨린다</b>. A ↔ D에서 3번 손가락이 2번 줄을 따라 2프렛 ↔ 3프렛으로 움직인다.</li>
+      <li><b>모양 이동</b>: 손가락 사이의 배치(모양)는 그대로이고 손 전체가 한 줄씩 옮겨 간다. E ↔ Am이 대표적이다. 손을 '모양째로' 들어 옮기는 감각을 기른다.</li>
+    </ul>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 330" role="img" aria-label="C에서 Am으로의 전환에서 고정 손가락과 움직이는 손가락">
+        <g font-family="var(--font)">
+          <text x="250" y="28" text-anchor="middle" class="t" style="font-size:17px;font-weight:700">C → Am</text>
+          <g stroke="var(--text-faint)" stroke-width="1.5"><line x1="140" y1="110" x2="360" y2="110"/><line x1="140" y1="160" x2="360" y2="160"/><line x1="140" y1="210" x2="360" y2="210"/><line x1="140" y1="260" x2="360" y2="260"/></g>
+          <line x1="138" y1="60" x2="362" y2="60" stroke="var(--text)" stroke-width="7"/>
+          <g stroke="var(--text-dim)" stroke-width="1.5"><line x1="140" y1="60" x2="140" y2="260"/><line x1="184" y1="60" x2="184" y2="260"/><line x1="228" y1="60" x2="228" y2="260"/><line x1="272" y1="60" x2="272" y2="260"/><line x1="316" y1="60" x2="316" y2="260"/><line x1="360" y1="60" x2="360" y2="260"/></g>
+          <circle cx="228" cy="135" r="16" fill="var(--ok)"/><text x="228" y="141" text-anchor="middle" style="font:700 15px var(--mono);fill:#fff">2</text>
+          <circle cx="316" cy="85" r="16" fill="var(--ok)"/><text x="316" y="91" text-anchor="middle" style="font:700 15px var(--mono);fill:#fff">1</text>
+          <circle cx="184" cy="185" r="16" fill="var(--accent)"/><text x="184" y="191" text-anchor="middle" style="font:700 15px var(--mono);fill:var(--on-accent)">3</text>
+          <circle cx="272" cy="135" r="16" fill="none" stroke="var(--accent-2)" stroke-width="3" stroke-dasharray="5 3"/><text x="272" y="141" text-anchor="middle" style="font:700 15px var(--mono);fill:var(--accent-2)">3</text>
+          <path d="M198 175 Q236 150 258 142" fill="none" stroke="var(--accent-2)" stroke-width="2.5"/><path d="M250 136 L262 140 L253 149" fill="var(--accent-2)"/>
+          <g class="t-mono" text-anchor="middle" style="font-size:13px"><text x="140" y="284">6</text><text x="184" y="284">5</text><text x="228" y="284">4</text><text x="272" y="284">3</text><text x="316" y="284">2</text><text x="360" y="284">1</text></g>
+          <text x="140" y="48" text-anchor="middle" class="t-dim" style="font-size:16px">×</text>
+          <g transform="translate(430,70)">
+            <circle cx="12" cy="0" r="11" fill="var(--ok)"/><text x="32" y="5" class="t" style="font-size:14px">고정: 1번(2번 줄 1프렛), 2번(4번 줄 2프렛)</text>
+            <circle cx="12" cy="40" r="11" fill="var(--accent)"/><text x="32" y="45" class="t" style="font-size:14px">C에서만: 3번이 5번 줄 3프렛</text>
+            <circle cx="12" cy="80" r="11" fill="none" stroke="var(--accent-2)" stroke-width="3" stroke-dasharray="4 3"/><text x="32" y="85" class="t" style="font-size:14px">Am에서만: 3번이 3번 줄 2프렛</text>
+            <text x="0" y="130" class="t-dim" style="font-size:13px">움직이는 손가락은 하나뿐 →</text>
+            <text x="0" y="150" class="t-dim" style="font-size:13px">가장 쉬운 전환 가운데 하나</text>
+            <text x="0" y="190" class="t-dim" style="font-size:13px">5번 줄 개방 A는 두 코드 모두 울린다</text>
+            <text x="0" y="210" class="t-dim" style="font-size:13px">(C에서는 3번 손가락이 C3를 누름)</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 5-5.</b> C → Am 전환. 초록 점(1·2번)은 두 코드에서 같은 자리라 떼지 않고, 3번 손가락만 5번 줄 3프렛에서 3번 줄 2프렛으로 옮긴다. 전환을 연습할 때는 먼저 이런 '움직이지 않는 손가락'부터 찾는다.</figcaption>
+    </figure>
+    <p>공통 손가락이 하나도 없는 전환(G ↔ D, C ↔ G 등)도 있습니다. 이때는 손가락을 하나씩 옮기지 말고 손 모양을 공중에서 미리 만든 뒤 <b>한 번에 내려놓습니다</b>. 그리고 모든 손가락이 동시에 닿지 못하겠다면 <b>베이스 줄 손가락을 먼저</b> 놓으세요. 스트로크의 첫 소리는 저음 줄에서 나기 때문에, 베이스만 제때 준비되어도 박이 무너지지 않습니다. 운지를 바꿔 공통 손가락을 만드는 방법도 있습니다. G를 2·1·3번 대신 <b>3·2·4번</b>으로 잡으면(6번 줄 3프렛 = 3번, 5번 줄 2프렛 = 2번, 1번 줄 3프렛 = 4번) G → C에서 3·2번 쌍이 대각선 모양 그대로 한 줄씩 옮겨 가고, G ↔ Em에서는 2번 손가락이 고정됩니다.</p>
+    <p>전환 속도는 측정할 수 있습니다. 정해진 시간 동안 두 코드를 몇 번 오갈 수 있는지를 세는 '1분 전환 훈련'이 대표적입니다. 60초 동안 코드 A와 B를 번갈아 잡고, 잡을 때마다 한 번 긁고, 바꾼 횟수를 셉니다. 매일 같은 쌍을 기록하면 숫자가 늘어나는 것이 눈에 보입니다. 1분에 30번이면 2초에 한 번(60 BPM에서 2박마다), 60번이면 매 박 바꿀 수 있다는 뜻이니, 60 BPM에서 한 마디(4박)마다 바뀌는 느린 노래를 치려면 최소 15번, 여유 있게 30번 정도가 목표입니다.</p>
+
+    <div class="sim" id="sim-oc-change">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>1분 코드 전환 트레이너</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="oc-ch-row"><div id="oc-ch-a"></div><div id="oc-ch-b"></div></div>
+          <div class="oc-timer">
+            <div class="gt-big" id="oc-ch-time">60.0<small>남은 시간(초)</small></div>
+            <div class="gt-big" id="oc-ch-count">0<small>내가 센 전환</small></div>
+          </div>
+          <div id="oc-ch-fb" style="margin-top:8px"></div>
+          <div class="oc-legend"><span><i style="background:var(--ok)"></i>두 코드 공통(고정)</span><span><i style="background:var(--accent)"></i>첫 코드만</span><span><i style="background:var(--accent-2)"></i>둘째 코드만</span></div>
+          <div class="oc-pairtips" id="oc-ch-tips"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>첫 코드</span><select id="oc-ch-sa"></select></label>
+          <label class="ctrl"><span>둘째 코드</span><select id="oc-ch-sb"></select></label>
+          <label class="ctrl"><span>템포 <output id="oc-ch-bpm-out"></output></span><input type="range" id="oc-ch-bpm" min="40" max="120" value="60" step="2"></label>
+          <div class="ctrl"><span>바꾸는 간격</span><div class="seg" id="oc-ch-every"><button data-value="4" class="on">4박</button><button data-value="2">2박</button><button data-value="1">1박</button></div></div>
+          <label class="check"><input type="checkbox" id="oc-ch-auto" checked> 가상 기타가 바꾸는 박에 같이 긁기</label>
+          <label class="check"><input type="checkbox" id="oc-ch-timer" checked> 60초 타이머</label>
+          <div class="btn-row"><button class="btn primary" id="oc-ch-play">▶ 시작</button><button class="btn" id="oc-ch-tap">전환 ✓ (Space)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">이 설정의 1분 전환 수</span><span class="v" id="oc-ch-o-target">—</span></div>
+        <div class="stat"><span class="k">메트로놈 전환</span><span class="v" id="oc-ch-o-sched">0</span></div>
+        <div class="stat"><span class="k">이 쌍의 최고 기록</span><span class="v" id="oc-ch-o-best">—</span></div>
+      </div>
+      <div class="sim-note">사용법: 두 코드와 템포를 고르고 <b>시작</b>을 누르면 림샷 메트로놈이 박을 치고, 바꾸는 박(강세)마다 위의 다이어그램이 다음 코드로 넘어갑니다. 실제 기타로 따라 바꾸면서 바꿀 때마다 <kbd>Space</kbd>나 <b>전환 ✓</b>를 누르면 '내가 센 전환'이 올라가고, 60초가 지나면 자동으로 멈추고 기록을 남깁니다(이 브라우저에만 저장). 지판의 점은 두 코드의 손가락 위치를 겹쳐 그린 것으로, 초록 점이 떼지 말아야 할 고정 손가락입니다. 분석은 이 책 사전의 표준 운지(G는 2·1·3번)를 기준으로 하며, 아래 조언에 다른 운지가 유리한 경우를 적었습니다.</div>
+    </div>
+    <div class="callout tip"><strong>1분 전환 훈련 루틴</strong> ① 하루에 쌍 두세 개만 고른다(예: C↔Am, G↔Em, A↔D, E↔Am). ② 먼저 템포 없이 고정·안내 손가락을 확인하며 천천히 10번 오간다. ③ 60초 타이머로 횟수를 재고 기록한다. 소리가 지저분해도 일단 센다. ④ 다음 날 같은 쌍을 다시 잰다. 횟수가 30을 넘으면 메트로놈 60 BPM, 4박 간격으로 바꿔 박에 맞추는 연습으로 넘어가고, 그다음 2박 간격으로 줄인다. 전환은 '박 직전'이 아니라 <b>마지막 박을 치자마자</b> 시작해야 다음 마디 1박에 맞출 수 있다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="first-prog">
+    <h2>첫 진행 연습: G–Em–C–D</h2>
+    <p>이제 코드를 이어 붙여 음악을 만들어 봅시다. 첫 연습 진행으로 <b>G–Em–C–D</b>를 고릅니다. 사장조(G major)에서 G는 1도(I), Em은 6도(vi), C는 4도(IV), D는 5도(V) 화음이라 로마 숫자로 I–vi–IV–V이고, 수십 년 동안 수많은 대중가요에 쓰인 가장 흔한 진행 가운데 하나입니다. 코드 진행 자체는 저작물이 아니므로 마음껏 연습하고 응용해도 됩니다. 각 화음이 왜 그런 '기능'을 갖는지는 7장 <a href="progressions.html">코드 진행과 카포</a>에서 다룹니다.</p>
+    <p>이 진행은 전환 연습으로도 좋습니다. G → Em은 (G를 3·2·4번으로 잡으면) 2번 손가락이 고정, Em → C는 2번 손가락이 5번 줄에서 4번 줄로 한 칸 옮기며 3번이 5번 줄 3프렛으로, C → D는 공통 손가락이 없는 전환, D → G는 손 전체를 옮기는 전환입니다. 쉬운 전환과 어려운 전환이 골고루 들어 있어서, 어디에서 박이 늦어지는지 바로 드러납니다.</p>
+    <p>오른손은 6장에서 본격적으로 배우지만, 우선 가장 단순한 <b>4분음표 다운 스트로크</b>(한 마디에 '하나–둘–셋–넷' 네 번 내려 긋기)로 시작합니다. 익숙해지면 '다운–다운–업'을 섞습니다. 그리고 초보자에게 아주 유용한 요령이 하나 있습니다. 마디의 마지막 반 박(4박의 뒷박)에서 왼손을 이미 다음 코드로 옮기기 시작하고, 그 순간 오른손은 개방현을 가볍게 업 스트로크로 긁는 것입니다. 개방현 소리가 잠깐 섞이지만 박이 끊기지 않고 흐르는 것이 훨씬 중요하고, 실제 연주자들도 흔히 씁니다.</p>
+
+    <div class="sim" id="sim-oc-prog">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>첫 진행 반주기: G–Em–C–D</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="oc-prog-slots" id="oc-pg-slots"></div>
+          <div id="oc-pg-fb"></div>
+          <div class="oc-beat" id="oc-pg-beat"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>진행</span><select id="oc-pg-prog">
+            <option value="G Em C D" selected>G – Em – C – D (I–vi–IV–V, G장조)</option>
+            <option value="C Am Dm G">C – Am – Dm – G (I–vi–ii–V, C장조)</option>
+            <option value="Em C G D">Em – C – G – D (vi–IV–I–V, G장조)</option>
+            <option value="A D E A">A – D – E – A (I–IV–V–I, A장조)</option>
+            <option value="Am E Am E">Am – E – Am – E (i–V, A단조)</option>
+          </select></label>
+          <div class="ctrl"><span>오른손</span><div class="seg" id="oc-pg-pat"><button data-value="quarter" class="on">4분 다운</button><button data-value="ddu">다운 다운-업</button><button data-value="folk">포크</button></div></div>
+          <label class="ctrl"><span>템포 <output id="oc-pg-bpm-out"></output></span><input type="range" id="oc-pg-bpm" min="50" max="120" value="70" step="2"></label>
+          <label class="check"><input type="checkbox" id="oc-pg-open"> 마지막 반 박은 개방현(전환 시간 벌기)</label>
+          <label class="check"><input type="checkbox" id="oc-pg-click" checked> 메트로놈 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="oc-pg-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-note">한 코드당 한 마디(4박)씩 반복합니다. 지판에는 지금 코드의 손가락(채운 점)과 <b>다음 코드</b>의 위치(회색 테두리 점)를 함께 보여 주므로, 마디 끝에 왼손이 어디로 갈지 미리 볼 수 있습니다. 아래 여덟 칸은 '1 & 2 & 3 & 4 &' 박 위치이고 색 글자가 오른손이 줄을 치는 칸입니다. '개방현' 옵션을 켜면 4박 뒷박(&)을 1–4번 개방현 업 스트로크로 바꿉니다. 실제 기타로 소리에 맞춰 따라 치세요.</div>
+    </div>
+
+    <h3>문제 해결표</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>증상</th><th>흔한 원인</th><th>고치는 법</th></tr></thead>
+      <tbody>
+        <tr><td>특정 줄에서 '지지직'</td><td>손끝이 프렛에서 멀다, 힘 부족</td><td>손끝을 프렛 바로 뒤로. 그래도 나면 줄 높이·넥 상태 점검(악기 문제일 수 있음)</td></tr>
+        <tr><td>개방현이 '툭' 하고 죽음</td><td>옆 손가락이 누워 닿음</td><td>첫 관절을 세워 손끝으로, 손목을 앞으로 내밀어 손바닥을 넥에서 띄움</td></tr>
+        <tr><td>C·D에서 저음이 웅웅거림</td><td>×인 줄(6번, D는 5번도)을 같이 침</td><td>피크를 근음 줄에서 출발. C는 3번 손가락 끝으로 6번 줄을 살짝 막는다</td></tr>
+        <tr><td>코드는 깨끗한데 박이 늦음</td><td>손가락을 하나씩 옮김</td><td>고정 손가락 찾기, 모양을 공중에서 만들어 한 번에, 베이스 손가락 먼저</td></tr>
+        <tr><td>소리가 미묘하게 어긋남</td><td>너무 세게 눌러 음이 높아짐, 튜닝</td><td>최소 힘 찾기, 연습 전 튜닝(2장)</td></tr>
+        <tr><td>손목·엄지가 아픔</td><td>엄지로 넥을 꽉 쥠</td><td>엄지는 받치기만, 휴식을 자주. 기타 넥을 조금 더 세워 들기</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><strong>첫 진행 연습 계획</strong> 1일차: 메트로놈 60 BPM, 4분 다운, 코드당 두 마디(8박). 2–3일차: 코드당 한 마디. 4–5일차: 70 BPM, '다운 다운-업'. 이후 5 BPM씩 올린다. 모든 단계에서 기준은 하나입니다: <b>박이 끊기지 않을 것</b>. 코드가 덜 잡혔어도 오른손은 박에 맞춰 계속 움직이세요. 오른손을 멈추고 왼손을 기다리는 습관이 생기면 나중에 고치기가 훨씬 어렵습니다(6장의 진자 원리).</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>3화음은 근음 위에 3도와 5도를 쌓은 것이다. 장3화음은 R–3–5(4+3반음, 주파수비 약 4:5:6), 단3화음은 R–♭3–5(3+4반음, 약 10:12:15)다. 기타 코드는 세 음을 여러 옥타브에 겹쳐 4–6줄을 채운다.</li>
+      <li>코드 다이어그램은 넥을 세운 정면도로, 왼쪽이 6번 줄, 맨 위 굵은 선이 너트다. ×는 치지 않는 줄, ○는 개방현, 숫자는 손가락(검지 1 – 새끼 4), 막대는 바레, '5fr'는 맨 윗칸의 프렛 번호다. 줄 문자열 <code>x32010</code>은 6번 줄부터 적는다.</li>
+      <li>기본 오픈 코드 C·A·G·E·D·Am·Em·Dm는 모두 근음이 가장 낮은 음이 되도록 잡고, 그것을 깨는 줄(C·A·Am의 6번, D·Dm의 6·5번)은 치지 않는다.</li>
+      <li>E/Em, A/Am, D/Dm은 3도를 내는 손가락 하나만 한 프렛 옮기거나 떼면 바뀐다(주파수비 \(2^{1/12}\)). C·G는 3도가 개방현에 있어 같은 방법으로 단조를 만들 수 없다.</li>
+      <li>손가락 힘 \(F\)와 프렛을 누르는 힘 \(N\)의 비는 \(w/(w-a)\)이므로 프렛 바로 뒤가 가장 적은 힘으로 깨끗한 소리를 낸다. 프렛 위는 소리를 죽이고, 너무 센 힘은 음을 높인다.</li>
+      <li>7th·maj7·m7은 음을 더하고, sus4·sus2는 3도를 바꾸고, add9는 9도를 더하며, 파워 코드는 3도를 뺀다. 오픈 코드에서는 대개 손가락 하나 차이다.</li>
+      <li>코드 전환은 고정 손가락(떼지 않기), 안내 손가락(미끄러뜨리기), 모양 이동으로 움직임을 줄이고, 공통 손가락이 없으면 모양을 공중에서 만들어 베이스부터 내려놓는다. 1분 전환 횟수로 진도를 잰다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>오픈 C 코드 <code>x32010</code>에서 6번 줄을 치지 않는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">6번 줄 개방 E가 C 화음에 없는 음이라서</button><button class="opt" data-correct>개방 E가 가장 낮은 음이 되어 베이스가 근음이 아닌 C/E가 되므로</button><button class="opt">6번 줄은 손가락으로 누를 수 없어서</button><button class="opt">6번 줄은 튜닝이 불안정해서</button>
+      </div><div class="quiz-exp">E는 C 화음의 3도라 '틀린 음'은 아니다. 하지만 6번 줄 개방 E2가 가장 낮은 음이 되어 C/E(1전위)가 되고 베이스가 흐려진다. 반면 D 코드의 6번 줄 E는 D 화음에 없는 음이라 더욱 피해야 한다.</div></div>
+      <div class="quiz-q"><p>줄 문자열 <code>x02210</code>이 나타내는 코드는?</p><div class="opts">
+        <button class="opt">A</button><button class="opt" data-correct>Am</button><button class="opt">Dm</button><button class="opt">E</button>
+      </div><div class="quiz-exp">5번 줄 개방 A2, 4번 줄 2프렛 E3, 3번 줄 2프렛 A3, 2번 줄 1프렛 C4, 1번 줄 개방 E4 → A·C·E = A 단3화음. A(<code>x02220</code>)와는 2번 줄만 다르다(C♯ ↔ C).</div></div>
+      <div class="quiz-q"><p>E 코드를 Em으로 바꾸려면?</p><div class="opts">
+        <button class="opt">5번 줄 2프렛의 손가락을 뗀다</button><button class="opt" data-correct>3번 줄 1프렛의 손가락을 뗀다</button><button class="opt">1번 줄 1프렛을 누른다</button><button class="opt">4번 줄을 3프렛으로 옮긴다</button>
+      </div><div class="quiz-exp">E 코드의 3도 G♯3는 3번 줄 1프렛이다. 손가락을 떼면 개방 G3가 되어 단3도(R에서 3반음)가 된다. 5번 줄 2프렛(B2)은 5도, 4번 줄 2프렛(E3)은 근음이다.</div></div>
+      <div class="quiz-q"><p>1프렛(칸 너비 36 mm)에서 같은 깨끗한 소리를 얻는 데 필요한 손가락 힘이 가장 작은 위치는? (이 장의 모델 \(F = N^\ast w/(w-a)\))</p><div class="opts">
+        <button class="opt">프렛 바로 위(a = 0)</button><button class="opt" data-correct>프렛 바로 뒤(a ≈ 2–5 mm)</button><button class="opt">칸 한가운데(a = 18 mm)</button><button class="opt">뒤 프렛(너트) 근처(a ≈ 33 mm)</button>
+      </div><div class="quiz-exp">\(F/N^\ast = w/(w-a)\)는 a가 작을수록 1에 가까워진다. 하지만 a = 0이면 손가락 살이 울리는 쪽 줄을 막아 소리가 죽으므로, 실제 최적은 프렛 바로 뒤다. 칸 한가운데는 두 배, 너트 근처는 열 배 가까운 힘이 필요하다.</div></div>
+      <div class="quiz-q"><p>C ↔ Am 전환에서 떼지 않아도 되는 손가락은?</p><div class="opts">
+        <button class="opt">3번만</button><button class="opt">1·3번</button><button class="opt" data-correct>1·2번</button><button class="opt">없다</button>
+      </div><div class="quiz-exp">C(<code>x32010</code>)와 Am(<code>x02210</code>) 모두 1번 손가락이 2번 줄 1프렛, 2번 손가락이 4번 줄 2프렛에 있다. 3번 손가락만 5번 줄 3프렛 ↔ 3번 줄 2프렛을 오간다.</div></div>
+      <div class="quiz-q"><p>Dsus4(<code>xx0233</code>)는 D(<code>xx0232</code>)에서 무엇이 바뀐 코드인가?</p><div class="opts">
+        <button class="opt">근음이 G로 바뀌었다</button><button class="opt" data-correct>3도 F♯ 대신 4도 G를 쓴다</button><button class="opt">단7도 C가 더해졌다</button><button class="opt">5도 A가 빠졌다</button>
+      </div><div class="quiz-exp">1번 줄 2프렛(F♯4, 장3도)이 3프렛(G4, 완전4도)으로 바뀌었다. 3도가 없어 장단이 사라지고, 다시 F♯로 내려오며 D로 '해결'되려는 성질이 생긴다.</div></div>
+      <div class="quiz-q"><p>G장조에서 G–Em–C–D 진행을 로마 숫자로 쓰면?</p><div class="opts">
+        <button class="opt">I–ii–IV–V</button><button class="opt" data-correct>I–vi–IV–V</button><button class="opt">I–iii–IV–V</button><button class="opt">I–vi–ii–V</button>
+      </div><div class="quiz-exp">G장조 음계 G A B C D E F♯에서 G = 1도(I), E = 6도(단3화음이므로 소문자 vi), C = 4도(IV), D = 5도(V)다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 */
+const Solo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const OC_EIGHT = ["C", "A", "G", "E", "D", "Am", "Em", "Dm"];
+/** 코드 이름 → 근음 pc */
+const ocRoot = (name) => MB.parseNote(name.match(/^[A-G][#b]?/)[0] + "4") % 12;
+const ocSN = (s) => 6 - s;
+const ocF = (x, d = 1) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+/** 소리 나는 줄을 지판 위에서 반짝이게 */
+function ocFlash(fb) { fb.guitar.on((ev) => { if (ev.s != null && ev.f != null) fb.flash(ev.s, ev.f, 260); }); }
+/** 한 줄씩(저음→고음) 뜯기 */
+function ocArp(g, shape, gap = 0.3) {
+  const t0 = MB.now() + 0.03; let k = 0;
+  GT.parseShape(shape).forEach((f, s) => { if (f >= 0) { g.pluck(s, f, { when: t0 + k * gap, vel: 0.8 }); k++; } });
+}
+const OC_INFO = {
+  C: { mute: "6번 줄 개방 E는 3도라 울려도 화음은 C지만, E가 가장 낮은 음이 되어 C/E로 베이스가 흐려진다. 5번 줄부터 치거나 3번 손가락 끝으로 6번 줄을 살짝 막는다.", tip: "1번 손가락이 1번 줄 개방 E에 닿기 쉽다. 첫 관절을 세워 손끝으로 누른다. 3번 손가락이 가장 멀리 펼쳐지니 그것부터 놓는다." },
+  A: { mute: "6번 줄 E는 5도라 울리면 A/E가 된다. 피크를 5번 줄에서 출발한다.", tip: "손가락 세 개가 2프렛 한 칸에 나란히 몰려 비좁다. 1·2·3번을 비스듬히 엇갈려 놓거나(1번이 뒤, 3번이 프렛 쪽), 1번 손가락 하나로 세 줄을 누르는 방법도 있다." },
+  G: { mute: "여섯 줄 모두 울린다. 3도 B가 5번 줄 2프렛과 2번 줄 개방에 있다.", tip: "2·1·3번 운지가 기본이지만 3·2·4번으로 잡으면 C·Em으로 갈 때 편하다. 5번 줄 2프렛 손가락이 6번 줄에 닿지 않게 손끝을 세운다." },
+  E: { mute: "여섯 줄 모두 울린다. 근음 E가 E2·E3·E4 세 옥타브에서 울려 가장 웅장하다.", tip: "2·3번 손가락이 같은 2프렛에 위아래로 붙는다. 1번 손가락(3번 줄 1프렛)은 2번 줄 개방 B를 막지 않도록 세운다." },
+  D: { mute: "6번 줄 E는 D 화음에 없는 음(9도)이라 반드시 피한다. 5번 줄 A는 5도라 D/A가 되므로 보통 4번 줄부터 친다.", tip: "손가락이 삼각형을 이룬다. 3번(2번 줄 3프렛)을 축으로 놓고, 2번 손가락이 1번 줄을 누를 때 2번 줄을 건드리지 않게 한다." },
+  Am: { mute: "6번 줄 E는 5도라 울리면 Am/E가 된다. 5번 줄 개방 A부터 친다.", tip: "E 코드 모양을 그대로 한 줄씩 가는 줄 쪽으로 옮긴 모양이다. C와 1·2번 손가락을 공유한다." },
+  Em: { mute: "여섯 줄 모두 울린다.", tip: "손가락 두 개면 되는 가장 쉬운 코드. 2·3번 대신 1·2번으로 잡아도 되지만, 2·3번으로 잡아 두면 E·G로 가는 전환이 쉬워진다." },
+  Dm: { mute: "D와 마찬가지로 6번 줄(E, 화음 밖)과 5번 줄(A, 5도)은 치지 않는다.", tip: "1번 손가락이 1번 줄 1프렛(F, 단3도)을 누른다. 손가락이 좁게 모이니 손목을 살짝 앞으로 내밀어 공간을 만든다." },
+};
+
+/* ================================================================ 그림 5-3: 장/단 세 쌍 */
+(function () {
+  const pairs = [["E", "Em", 3], ["A", "Am", 4], ["D", "Dm", 5]];
+  const el = document.getElementById("oc-fig-majmin");
+  el.innerHTML = pairs.map(([M, m, s]) => [M, m].map((n) => {
+    const c = GT.chord(n);
+    return `<div>${GT.chordDiagram(null, c.shape, { name: c.name, labels: "intervals", root: ocRoot(n), highlight: [s] })}<small>${ocSN(s)}번 줄: ${n === M ? "장3도" : "단3도"}</small></div>`;
+  }).join("")).join("");
+})();
+
+/* ================================================================ 1. 다이어그램 편집기 */
+(function () {
+  const diag = document.getElementById("oc-ed-diag");
+  const g = GT.guitar({ tone: "steel" });
+  let shape = GT.parseShape("x32010"), base = 1, hl = [];
+  const lab = MB.seg("oc-ed-lab", () => render());
+  const PRE = [["C", "x32010"], ["Am", "x02210"], ["G", "320003"], ["D", "xx0232"], ["E", "022100"], ["Cmaj7", "x32000"], ["Dsus4", "xx0233"], ["빈 줄", "000000"]];
+  const pre = document.getElementById("oc-ed-pre");
+  pre.innerHTML = PRE.map(([n, s]) => `<button class="btn" data-s="${s}">${n}</button>`).join("");
+  pre.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    shape = GT.parseShape(b.dataset.s); fitBase(true); render(); strum();
+  });
+  function fitBase(reset) {
+    const fr = shape.filter((f) => f > 0);
+    if (!fr.length) { base = 1; return; }
+    const lo = Math.min(...fr), hi = Math.max(...fr);
+    if (reset || lo < base || hi > base + 4) base = hi <= 5 ? 1 : lo;
+  }
+  function info() {
+    const ids = GT.identify(shape);
+    const best = ids[0] || null;
+    return { ids, best, root: best ? best.root : null };
+  }
+  function render() {
+    const { ids, best, root } = info();
+    const mode = lab() === "intervals" && root != null ? "intervals" : "notes";
+    GT.chordDiagram(diag, shape, { base, rows: 5, interactive: true, labels: mode, root: root != null ? root : undefined, highlight: hl, onPick: pick });
+    MB.stat("oc-ed-o-shape", GT.shapeString(shape));
+    if (best) {
+      const q = MB.CHORDS[best.quality];
+      const miss = best.missing.length ? ` <small>(${best.missing.map((p) => GT.intervalLabel(p - best.root)).join(",")} 생략)</small>` : "";
+      MB.stat("oc-ed-o-name", `<b>${best.sym}</b> <small>${q.name}</small>${miss}`);
+      MB.stat("oc-ed-o-alt", ids.slice(1).filter((x) => !x.missing.length && x.sym !== best.sym).slice(0, 2).map((x) => x.sym).join(", ") || "—");
+    } else {
+      MB.stat("oc-ed-o-name", GT.shapeNotes(shape).length < 2 ? "음이 부족" : "사전에 없는 조합");
+      MB.stat("oc-ed-o-alt", "—");
+    }
+    const pcs = [...new Set(GT.shapeNotes(shape).map((m) => m % 12))];
+    MB.stat("oc-ed-o-pcs", pcs.map((p) => MB.pcName(p) + (root != null ? `<small>(${GT.intervalLabel(p - root)})</small>` : "")).join(" ") || "—");
+    document.getElementById("oc-ed-strings").innerHTML = shape.map((f, s) => {
+      if (f < 0) return `<div class="muted">${ocSN(s)}번<b>×</b>—</div>`;
+      const m = GT.midiAt(s, f);
+      return `<div>${ocSN(s)}번<b>${MB.noteName(m)}</b><span class="iv">${root != null ? GT.intervalLabel(m - root) : "·"}</span></div>`;
+    }).join("");
+  }
+  function pick(s, f) {
+    MB.ctx();
+    if (f === 0) shape[s] = shape[s] === 0 ? -1 : 0;
+    else shape[s] = shape[s] === f ? 0 : f;
+    fitBase(false); render();
+    if (shape[s] >= 0) g.pluck(s, shape[s], { vel: 0.8 });
+  }
+  function strum() { g.strum(shape, { dir: "D", vel: 0.8, spread: 0.02 }); }
+  g.on((ev) => {
+    if (ev.s == null) return;
+    hl = [ev.s]; render();
+    setTimeout(() => { if (hl.length === 1 && hl[0] === ev.s) { hl = []; render(); } }, 180);
+  });
+  function shift(d) {
+    const fr = shape.filter((f) => f > 0);
+    if (!fr.length) return;
+    if (Math.min(...fr) + d < 1 || Math.max(...fr) + d > 15) return;
+    shape = shape.map((f) => (f > 0 ? f + d : f));
+    base = Math.max(1, base + d);
+    fitBase(false); render(); strum();
+  }
+  document.getElementById("oc-ed-up").addEventListener("click", () => shift(1));
+  document.getElementById("oc-ed-dn").addEventListener("click", () => shift(-1));
+  document.getElementById("oc-ed-strum").addEventListener("click", strum);
+  document.getElementById("oc-ed-arp").addEventListener("click", () => ocArp(g, shape, 0.28));
+  document.getElementById("oc-ed-clear").addEventListener("click", () => { shape = [0, 0, 0, 0, 0, 0]; base = 1; render(); });
+  render();
+})();
+
+/* ================================================================ 2. 8개 코드 카드 */
+(function () {
+  const grid = document.getElementById("oc-cards-grid");
+  const fb = GT.fretboard("#oc-cards-fb", { frets: 5, labels: "none" });
+  const g = fb.guitar; ocFlash(fb);
+  let cur = "C";
+  const lab = MB.seg("oc-cards-lab", () => show(cur, false));
+  const desc = { C: "C 장3화음", A: "A 장3화음", G: "G 장3화음", E: "E 장3화음", D: "D 장3화음", Am: "A 단3화음", Em: "E 단3화음", Dm: "D 단3화음" };
+  grid.innerHTML = OC_EIGHT.map((n) => { const c = GT.chord(n); return `<button data-n="${n}">${GT.chordDiagram(null, c.shape, { name: c.name, fingers: c.fingers })}<small>${desc[n]}</small></button>`; }).join("");
+  grid.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; show(b.dataset.n, true); });
+  function show(n, play) {
+    cur = n; const c = GT.chord(n), r = ocRoot(n);
+    grid.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.n === n));
+    fb.showShape(c.shape, { fingers: c.fingers, root: r, label: lab() });
+    const minor = n.endsWith("m");
+    const tones = [0, minor ? 3 : 4, 7].map((iv) => `<span class="${iv === 0 ? "r" : iv < 7 ? "t3" : ""}">${MB.pcName(r + iv)} · ${GT.intervalLabel(iv)}</span>`).join("");
+    const voicing = c.shape.map((f, s) => (f < 0 ? null : `${ocSN(s)}번 ${MB.noteName(GT.midiAt(s, f))}(${GT.intervalLabel(GT.midiAt(s, f) - r)})`)).filter(Boolean).join(" · ");
+    document.getElementById("oc-cards-info").innerHTML =
+      `<b>${c.name}</b> <code>${GT.shapeString(c.shape)}</code><div class="chips">${tones}</div>` +
+      `<div>울리는 음: ${voicing}</div><div style="margin-top:6px"><b>치지 않는 줄</b> · ${OC_INFO[n].mute}</div><div style="margin-top:4px"><b>운지 요령</b> · ${OC_INFO[n].tip}</div>`;
+    if (play) g.strum(c.shape, { dir: "D", vel: 0.8, spread: 0.016 });
+  }
+  document.getElementById("oc-cards-strum").addEventListener("click", () => g.strum(GT.chord(cur).shape, { dir: "D", vel: 0.8, spread: 0.016 }));
+  document.getElementById("oc-cards-up").addEventListener("click", () => g.strum(GT.chord(cur).shape, { dir: "U", vel: 0.75, spread: 0.012 }));
+  document.getElementById("oc-cards-arp").addEventListener("click", () => ocArp(g, GT.chord(cur).shape, 0.3));
+  show("C", false);
+})();
+
+/* ================================================================ 3. 장조 ↔ 단조 */
+(function () {
+  const SETS = { E: { M: "E", m: "Em", s: 3 }, A: { M: "A", m: "Am", s: 4 }, D: { M: "D", m: "Dm", s: 5 } };
+  const pair = document.getElementById("oc-mm-pair");
+  const fb = GT.fretboard("#oc-mm-fb", { frets: 4, labels: "none" });
+  const g = fb.guitar; ocFlash(fb);
+  let set = "E", last = "M", quiz = null, right = 0, total = 0;
+  const msg = (t, cls) => { const el = document.getElementById("oc-mm-msg"); el.innerHTML = t; el.className = "sim-msg" + (cls ? " " + cls : ""); };
+  function render() {
+    const S = SETS[set];
+    pair.innerHTML = ["M", "m"].map((k) => {
+      const n = S[k], c = GT.chord(n);
+      return `<div class="${k === last ? "on" : ""}">${GT.chordDiagram(null, c.shape, { name: c.name, fingers: c.fingers, highlight: [S.s] })}<small>${k === "M" ? "장3화음" : "단3화음"} · ${GT.shapeString(c.shape)}</small></div>`;
+    }).join("");
+    const cM = GT.chord(S.M), cm = GT.chord(S.m), r = ocRoot(S.M);
+    const cur = last === "M" ? cM : cm, other = last === "M" ? cm : cM;
+    fb.showShape(cur.shape, { root: r, label: "intervals" });
+    if (other.shape[S.s] > 0 || other.shape[S.s] === 0) fb.mark([{ s: S.s, f: other.shape[S.s], cls: "ghost", label: last === "M" ? "♭3" : "3" }]);
+    const m3 = GT.midiAt(S.s, cM.shape[S.s]), mb3 = GT.midiAt(S.s, cm.shape[S.s]);
+    MB.stat("oc-mm-o-3", `${MB.noteName(m3)} · ${ocF(MB.mtof(m3), 2)} Hz`);
+    MB.stat("oc-mm-o-b3", `${MB.noteName(mb3)} · ${ocF(MB.mtof(mb3), 2)} Hz`);
+  }
+  function play(k, when) { last = k; render(); g.strum(GT.chord(SETS[set][k]).shape, { dir: "D", vel: 0.8, spread: 0.016, when }); }
+  MB.seg("oc-mm-set", (v) => { set = v; render(); });
+  document.getElementById("oc-mm-maj").addEventListener("click", () => play("M"));
+  document.getElementById("oc-mm-min").addEventListener("click", () => play("m"));
+  document.getElementById("oc-mm-third").addEventListener("click", () => {
+    const S = SETS[set], t0 = MB.now() + 0.05, r = ocRoot(S.M);
+    // 근음은 3도 줄보다 낮은 줄의 근음(개방 or 누른 음)에서 고른다
+    const cM = GT.chord(S.M), cm = GT.chord(S.m);
+    const rs = cM.shape.findIndex((f, s) => f >= 0 && MB.mod(GT.midiAt(s, f) - r, 12) === 0);
+    g.pluck(rs, cM.shape[rs], { when: t0, vel: 0.8 }); g.pluck(S.s, cM.shape[S.s], { when: t0 + 0.5, vel: 0.8 });
+    g.pluck(rs, cm.shape[rs], { when: t0 + 1.4, vel: 0.8 }); g.pluck(S.s, cm.shape[S.s], { when: t0 + 1.9, vel: 0.8 });
+    msg(`근음 → 장3도(4반음), 그다음 근음 → 단3도(3반음). ${ocSN(S.s)}번 줄만 한 프렛 바뀝니다.`);
+  });
+  // 번갈아 반복
+  let k = 0;
+  const sch = GT.scheduler([{ t: 0 }, { t: 2 }], {
+    bpm: 92, loop: true, length: 4,
+    onEvent(ev, when) { const kk = ev.t === 0 ? "M" : "m"; g.strum(GT.chord(SETS[set][kk]).shape, { dir: "D", vel: 0.78, spread: 0.016, when }); },
+    onUI(ev) { last = ev.t === 0 ? "M" : "m"; render(); },
+  });
+  const halt = () => { sch.stop(); pb.set(false); };
+  const pb = MB.playButton("oc-mm-alt", () => { Solo.take(halt); sch.start(); }, () => { sch.stop(); g.damp(MB.now()); Solo.drop(halt); }, ["▶ 번갈아 반복", "■ 정지"]);
+  // 블라인드
+  document.getElementById("oc-mm-q").addEventListener("click", () => {
+    const again = !!quiz;
+    if (!quiz) { const sets = Object.keys(SETS); quiz = { set: sets[Math.floor(Math.random() * 3)], k: Math.random() < 0.5 ? "M" : "m" }; }
+    g.strum(GT.chord(SETS[quiz.set][quiz.k]).shape, { dir: "D", vel: 0.8, spread: 0.016 });
+    msg(again ? "같은 문제를 다시 들려 드렸습니다. 장조일까요, 단조일까요?" : "들은 코드는 장조일까요, 단조일까요? (답을 고르기 전에 이 버튼을 다시 누르면 같은 코드를 한 번 더 들려줍니다)");
+  });
+  function answer(k) {
+    if (!quiz) { msg("먼저 '무작위 재생'을 누르세요."); return; }
+    total++; const ok = k === quiz.k; if (ok) right++;
+    const n = SETS[quiz.set][quiz.k];
+    MB.stat("oc-mm-o-score", `${right} / ${total}`);
+    msg(ok ? `정답! <b>${GT.chord(n).name}</b>였습니다.` : `아쉽네요. 정답은 <b>${GT.chord(n).name}</b>(${quiz.k === "M" ? "장조" : "단조"})입니다.`, ok ? "ok" : "bad");
+    set = quiz.set; last = quiz.k; quiz = null; render();
+  }
+  document.getElementById("oc-mm-a-maj").addEventListener("click", () => answer("M"));
+  document.getElementById("oc-mm-a-min").addEventListener("click", () => answer("m"));
+  render();
+})();
+
+/* ================================================================ 4. 버징·뮤트 진단 + 프렛 모델 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const diag = document.getElementById("oc-bz-diag");
+  const rows = document.getElementById("oc-bz-rows");
+  let chord = "C", st = [], hl = [], hidden = null;
+  const msg = (t, cls) => { const el = document.getElementById("oc-bz-msg"); el.innerHTML = t; el.className = "sim-msg" + (cls ? " " + cls : ""); };
+  const OPTS = { fret: [["ok", "정상"], ["buzz", "버징"], ["dead", "죽음"]], open: [["ok", "정상"], ["dead", "닿음"]], mute: [["ok", "막음"], ["ring", "울림"]] };
+  const kind = (f) => (f > 0 ? "fret" : f === 0 ? "open" : "mute");
+  function effShape() { const c = GT.chord(chord); return c.shape.map((f, s) => (f < 0 && st[s] === "ring" ? 0 : f)); }
+  function drawDiag() {
+    const c = GT.chord(chord);
+    const bad = st.map((v, s) => (v !== "ok" ? s : -1)).filter((s) => s >= 0);
+    GT.chordDiagram(diag, effShape(), { name: c.name, fingers: c.fingers.map((f, s) => (c.shape[s] < 0 && st[s] === "ring" ? 0 : f)), highlight: hl.length ? hl : (hidden ? [] : bad) });
+  }
+  function build() {
+    const c = GT.chord(chord);
+    st = [0, 1, 2, 3, 4, 5].map(() => "ok");
+    rows.innerHTML = [5, 4, 3, 2, 1, 0].map((s) => {
+      const k = kind(c.shape[s]);
+      return `<div class="oc-strrow"><span>${ocSN(s)}번 줄 ${k === "mute" ? "×" : k === "open" ? "○" : c.shape[s] + "프렛"}</span><div class="seg" id="oc-bz-s${s}">${OPTS[k].map(([v, l], i) => `<button data-value="${v}" class="${i ? "" : "on"}">${l}</button>`).join("")}</div></div>`;
+    }).join("");
+    [0, 1, 2, 3, 4, 5].forEach((s) => MB.seg("oc-bz-s" + s, (v) => { if (hidden) { check(s, v); return; } st[s] = v; drawDiag(); describe(); }));
+    drawDiag(); describe();
+  }
+  function segUI(s, v) { document.getElementById("oc-bz-s" + s).querySelectorAll("button").forEach((x) => { const on = x.dataset.value === v; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); }); }
+  const PNAME = { buzz: "버징", ring: "실수로 울림", dead: "죽음/닿음" };
+  function check(k, v) {
+    const h = hidden; hidden = null;
+    if (k === h.s && v === h.v) msg(`정답! ${ocSN(h.s)}번 줄이 ${PNAME[h.v]}이었습니다.`, "ok");
+    else { msg(`정답은 ${ocSN(h.s)}번 줄 ${PNAME[h.v]}입니다. 강조된 줄을 다시 들어 보세요.`, "bad"); if (k !== h.s) segUI(k, st[k]); }
+    segUI(h.s, h.v); drawDiag();
+  }
+  function describe() {
+    if (hidden) return;
+    const c = GT.chord(chord), probs = [];
+    st.forEach((v, s) => {
+      if (v === "buzz") probs.push(`${ocSN(s)}번 줄 버징`);
+      if (v === "dead") probs.push(`${ocSN(s)}번 줄 ${c.shape[s] === 0 ? "개방현이 이웃 손가락에 닿음" : "소리 죽음"}`);
+      if (v === "ring") probs.push(`${ocSN(s)}번 줄을 실수로 침`);
+    });
+    const id = GT.identify(effShape())[0];
+    msg(probs.length ? `${probs.join(", ")} → 들리는 화음: <b>${id ? id.sym : "?"}</b>` : `모든 줄 정상: <b>${c.name}</b>`, probs.length ? "bad" : "ok");
+  }
+  /** 버징 층: 매 주기 프렛을 때리는 고역 펄스열 근사 */
+  function buzzLayer(midi, when, vel) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const o = ctx.createOscillator(); o.type = "sawtooth"; o.frequency.value = MB.mtof(midi);
+    const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2200;
+    const pk = ctx.createBiquadFilter(); pk.type = "peaking"; pk.frequency.value = 4200; pk.Q.value = 1.2; pk.gain.value = 8;
+    const gn = ctx.createGain();
+    gn.gain.setValueAtTime(0.0001, when); gn.gain.linearRampToValueAtTime(0.16 * vel, when + 0.004); gn.gain.setTargetAtTime(0, when + 0.01, 0.12);
+    o.connect(hp); hp.connect(pk); pk.connect(gn); gn.connect(MB.out);
+    o.start(when); o.stop(when + 0.9);
+  }
+  function playString(s, f, state, when, vel = 0.8) {
+    if (state === "dead") { g.pluck(s, Math.max(0, f), { when, vel: 0.35, tone: "muted", dur: 0.06 }); return; }
+    if (state === "buzz") { g.pluck(s, f, { when, vel: vel * 0.8, decay: 0.992 }); buzzLayer(GT.midiAt(s, f), when, vel); return; }
+    g.pluck(s, f, { when, vel });
+  }
+  function strum(gap) {
+    const c = GT.chord(chord), t0 = MB.now() + 0.03; let k = 0;
+    c.shape.forEach((f, s) => {
+      if (f < 0 && st[s] !== "ring") return;
+      playString(s, f < 0 ? 0 : f, f < 0 ? "ok" : st[s], t0 + k * gap, gap > 0.1 ? 0.8 : 0.75); k++;
+    });
+  }
+  g.on((ev) => { if (ev.s == null) return; hl = [ev.s]; drawDiag(); setTimeout(() => { if (hl[0] === ev.s) { hl = []; drawDiag(); } }, 200); });
+  MB.seg("oc-bz-chord", (v) => { chord = v; hidden = null; build(); });
+  document.getElementById("oc-bz-strum").addEventListener("click", () => strum(0.018));
+  document.getElementById("oc-bz-arp").addEventListener("click", () => strum(0.4));
+  document.getElementById("oc-bz-fix").addEventListener("click", () => { hidden = null; build(); });
+  document.getElementById("oc-bz-rand").addEventListener("click", () => {
+    build();
+    const c = GT.chord(chord);
+    const cands = [];
+    c.shape.forEach((f, s) => { if (f > 0) { cands.push([s, "buzz"]); cands.push([s, "dead"]); } else if (f === 0) cands.push([s, "dead"]); else cands.push([s, "ring"]); });
+    const [s, v] = cands[Math.floor(Math.random() * cands.length)];
+    st[s] = v; hidden = { s, v };
+    drawDiag(); strum(0.018);
+    msg("어느 줄에 어떤 문제가 숨어 있을까요? <b>한 줄씩</b>으로 들어 보고, 그 줄의 버튼을 문제 종류로 바꾸면 정답을 확인합니다(다른 줄을 바꾸면 해답이 공개됩니다).");
+  });
+
+  // ---- 프렛 누르기 모델 ----
+  const T = 100, NSTAR = 1.5, HF = 1.1, EA = 14600, L = 648;
+  const nR = MB.range("oc-bz-n", (v) => v + "프렛", () => { upd(); cv.redraw(); });
+  const w = () => GT.fretPos(nR()) - GT.fretPos(nR() - 1);
+  const aR = MB.range("oc-bz-a", (v) => ocF(v * w(), 1) + " mm", () => { upd(); cv.redraw(); });
+  const fR = MB.range("oc-bz-f", (v) => ocF(v, 1) + " N", () => { upd(); cv.redraw(); });
+  function model() {
+    const W = w(), a = Math.max(0.2, aR() * W), b = W - a, F = fR();
+    let y = (F * a * b) / (T * W);
+    const bottomed = y > HF; if (bottomed) y = HF;
+    const N = (T * y) / a;
+    const fmin = (NSTAR * W) / b;
+    const dL = (y * y / 2) * (1 / a + 1 / b), dT = (EA * dL) / L;
+    const cents = 1200 * Math.log2(Math.sqrt(1 + dT / T));
+    let state = "ok";
+    if (a < 1.5) state = "dead"; else if (N < NSTAR) state = "buzz";
+    return { W, a, b, F, y, N, fmin, cents, state, bottomed };
+  }
+  function upd() {
+    aR.set(aR(), false); // 출력(mm) 갱신
+    const m = model();
+    MB.stat("oc-bz-o-n", ocF(m.N, 2) + " N");
+    MB.stat("oc-bz-o-fmin", m.a < 1.5 ? "—" : ocF(m.fmin, 2) + " N");
+    MB.stat("oc-bz-o-y", ocF(m.y, 3) + " mm" + (m.bottomed ? " (지판에 닿음)" : ""));
+    MB.stat("oc-bz-o-c", "+" + ocF(m.cents, 1) + " ¢");
+    MB.stat("oc-bz-o-st", m.state === "ok" ? '<span style="color:var(--ok)">깨끗함</span>' : m.state === "buzz" ? '<span style="color:var(--warn)">버징</span>' : '<span style="color:var(--bad)">소리 죽음</span>');
+  }
+  const cv = MB.canvas("#oc-bz-cv", (ctx, W, H) => {
+    const P = MB.palette(), m = model();
+    const x0 = 24, x1 = W - 24, yb = H * 0.72, ex = 22; // 세로 과장 배율(px/mm)
+    const fx0 = x0 + (x1 - x0) * 0.12, fx1 = x0 + (x1 - x0) * 0.78; // 뒤 지지점, 앞 프렛
+    const px = (mm) => fx1 - (mm / m.W) * (fx1 - fx0);
+    // 지판·프렛
+    ctx.strokeStyle = P.faint; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0, yb); ctx.lineTo(x1, yb); ctx.stroke();
+    ctx.fillStyle = P.dim;
+    [fx0, fx1].forEach((x) => { ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x - 6, yb - HF * ex, 12, HF * ex, 5) : ctx.rect(x - 6, yb - HF * ex, 12, HF * ex); ctx.fill(); });
+    const crown = yb - HF * ex;
+    const fingerX = px(m.a), fingerY = crown + m.y * ex;
+    // 줄
+    ctx.strokeStyle = m.state === "ok" ? P.accent : m.state === "buzz" ? P.warn : P.bad; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(x0, crown - 8); ctx.lineTo(fx0, crown); ctx.lineTo(fingerX, fingerY); ctx.lineTo(fx1, crown); ctx.lineTo(x1, crown - 10); ctx.stroke();
+    // 버징 표시
+    if (m.state === "buzz") { ctx.strokeStyle = P.warn; ctx.lineWidth = 1.2; for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.moveTo(fx1 + 8 + k * 7, crown - 16); ctx.lineTo(fx1 + 12 + k * 7, crown - 4); ctx.stroke(); } }
+    // 손끝
+    ctx.fillStyle = P.accent2; ctx.globalAlpha = 0.25; ctx.beginPath(); ctx.ellipse(fingerX, fingerY - 14, 26, 14, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 1.5; ctx.stroke();
+    // 힘 화살표
+    const arrow = (x, y0, len, col, label) => {
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(x, y0 - len); ctx.lineTo(x, y0); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x - 5, y0 - 8); ctx.lineTo(x, y0); ctx.lineTo(x + 5, y0 - 8); ctx.fill();
+      ctx.font = "600 12px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.fillText(label, x, y0 - len - 5);
+    };
+    arrow(fingerX, fingerY - 30, Math.min(70, 8 + m.F * 5), P.text, "F " + ocF(m.F, 1) + "N");
+    arrow(fx1, crown - 14, Math.min(70, 8 + m.N * 5), P.bad, "N " + ocF(m.N, 1) + "N");
+    // 치수
+    ctx.strokeStyle = P.dim; ctx.fillStyle = P.dim; ctx.lineWidth = 1; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    const yd = yb + 20; ctx.beginPath(); ctx.moveTo(fingerX, yd); ctx.lineTo(fx1, yd); ctx.moveTo(fingerX, yd - 5); ctx.lineTo(fingerX, yd + 5); ctx.moveTo(fx1, yd - 5); ctx.lineTo(fx1, yd + 5); ctx.stroke();
+    ctx.textAlign = "center"; ctx.fillText("a = " + ocF(m.a, 1) + " mm", (fingerX + fx1) / 2, yd + 16);
+    ctx.textAlign = "left"; ctx.fillText(nR() > 1 ? `프렛 ${nR() - 1}` : "너트", fx0 - 14, yb + 50 > H - 4 ? H - 4 : yb + 50);
+    ctx.textAlign = "right"; ctx.fillText(`프렛 ${nR()}  (칸 너비 ${ocF(m.W, 1)} mm)`, fx1 + 20, yb + 50 > H - 4 ? H - 4 : yb + 50);
+    ctx.textAlign = "left"; ctx.fillStyle = P.faint; ctx.fillText("세로 과장 · 옆모습", x0, 16);
+  }, { aspect: 0.36, minHeight: 190, maxHeight: 260 });
+  upd();
+  document.getElementById("oc-bz-pluck").addEventListener("click", () => {
+    const m = model(), when = MB.now() + 0.02, s = 4, f = nR();
+    const v = g.pluck(s, f, m.state === "dead" ? { when, vel: 0.35, tone: "muted", dur: 0.06 } : m.state === "buzz" ? { when, vel: 0.65, decay: 0.992 } : { when, vel: 0.8 });
+    if (m.state === "buzz") buzzLayer(GT.midiAt(s, f), when, Math.min(1, 1.6 - m.N / NSTAR));
+    if (v && m.state !== "dead" && m.cents > 0.5) v.bend(m.cents, when, 0.004);
+  });
+  build();
+})();
+
+/* ================================================================ 5. 색채 코드 */
+(function () {
+  const VARS = {
+    A: ["A", "A7", "Amaj7", "Am", "Am7", "Asus2", "Asus4", "A5"],
+    D: ["D", "D7", "Dmaj7", "Dm", "Dm7", "Dsus2", "Dsus4"],
+    E: ["E", "E7", "Em", "Em7", "Esus4", "E5"],
+    G: ["G", "G7", "Gmaj7", "G5"],
+    C: ["C", "C7", "Cmaj7", "Cadd9"],
+    Am: ["Am", "Am7", "A", "Asus2", "Asus4"],
+    Em: ["Em", "Em7", "E", "Esus4"],
+    Dm: ["Dm", "Dm7", "D", "Dsus2", "Dsus4"],
+  };
+  const QDESC = {
+    "": ["장3화음", "R 3 5", "기준이 되는 밝은 소리."],
+    m: ["단3화음", "R ♭3 5", "3도가 반음 내려간 그늘진 소리."],
+    "7": ["도미넌트 7th", "R 3 5 ♭7", "단7도(근음에서 10반음)를 더했다. 다음 코드(대개 4도 위)로 가려는 긴장."],
+    maj7: ["메이저 7th", "R 3 5 7", "장7도(11반음)를 더했다. 근음과 반음 부딪힘이 부드럽게 퍼지는 몽환적인 색."],
+    m7: ["마이너 7th", "R ♭3 5 ♭7", "단3화음에 단7도를 더했다. 단조의 무게가 덜하고 차분하다."],
+    sus2: ["서스펜디드 2", "R 2 5", "3도 대신 2도. 장단이 없는 맑고 열린 소리."],
+    sus4: ["서스펜디드 4", "R 4 5", "3도 대신 4도. 3도로 내려와 '해결'되기를 기다리는 소리."],
+    add9: ["애드 9", "R 3 5 9", "3화음을 그대로 두고 9도(2도의 한 옥타브 위)를 더했다."],
+    "5": ["파워 코드", "R 5", "3도를 뺐다. 장단 없이 단단하고, 디스토션에서도 탁해지지 않는다."],
+  };
+  const qOf = (n) => n.replace(/^[A-G][#b]?/, "");
+  const grid = document.getElementById("oc-col-grid");
+  const g = GT.default();
+  let base = "A", sel = "A";
+  function diff(a, b) { const A = GT.chord(a).shape, B = GT.chord(b).shape; return [0, 1, 2, 3, 4, 5].filter((s) => A[s] !== B[s]); }
+  function render() {
+    grid.innerHTML = VARS[base].map((n) => {
+      const c = GT.chord(n);
+      return `<button data-n="${n}" class="${n === sel ? "on" : ""}">${GT.chordDiagram(null, c.shape, { name: c.name, labels: "intervals", root: ocRoot(n), highlight: n === base ? [] : diff(base, n) })}<small>${QDESC[qOf(n)][0]}</small></button>`;
+    }).join("");
+    const c = GT.chord(sel), q = QDESC[qOf(sel)], d = diff(base, sel);
+    const r = ocRoot(sel);
+    const added = [...new Set(GT.shapeNotes(c.shape).map((m) => MB.mod(m - r, 12)))].sort((a, b) => a - b).map((iv) => GT.intervalLabel(iv)).join(" ");
+    document.getElementById("oc-col-info").innerHTML = `<b>${c.name}</b> <code>${GT.shapeString(c.shape)}</code> · ${q[0]} (${q[1]})<br>${q[2]}<br>울리는 도수: ${added}` +
+      (sel !== base ? `<br><b>${GT.chord(base).name}에서 바뀐 줄</b>: ${d.map((s) => `${ocSN(s)}번 줄 ${GT.chord(base).shape[s] < 0 ? "×" : GT.chord(base).shape[s]} → ${c.shape[s] < 0 ? "×" : c.shape[s]}`).join(", ") || "없음"}` : "");
+  }
+  grid.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; sel = b.dataset.n; render(); g.strum(GT.chord(sel).shape, { dir: "D", vel: 0.8, spread: 0.016 }); });
+  MB.seg("oc-col-base", (v) => { base = v; sel = v; render(); });
+  document.getElementById("oc-col-ab").addEventListener("click", () => {
+    const t0 = MB.now() + 0.03;
+    [base, sel, base].forEach((n, i) => g.strum(GT.chord(n).shape, { dir: "D", vel: 0.78, spread: 0.016, when: t0 + i * 1.3 }));
+  });
+  document.getElementById("oc-col-res").addEventListener("click", () => {
+    const root = base.replace("m", "");
+    const sus = GT.CHORDS[root + "sus4"] ? root + "sus4" : GT.CHORDS[root + "sus2"] ? root + "sus2" : null;
+    if (!sus) { document.getElementById("oc-col-info").innerHTML += "<br><i>이 코드는 사전에 sus 모양이 없습니다. A·D·E를 골라 보세요.</i>"; return; }
+    const t0 = MB.now() + 0.03, target = base;
+    [target, sus, target].forEach((n, i) => g.strum(GT.chord(n).shape, { dir: "D", vel: 0.78, spread: 0.016, when: t0 + i * 1.1 }));
+    sel = sus; render();
+  });
+  render();
+})();
+
+/* ================================================================ 6. 코드 전환 트레이너 */
+(function () {
+  const sa = document.getElementById("oc-ch-sa"), sb = document.getElementById("oc-ch-sb");
+  sa.innerHTML = sb.innerHTML = OC_EIGHT.map((n) => `<option value="${n}">${n}</option>`).join("");
+  sa.value = "C"; sb.value = "Am";
+  const fb = GT.fretboard("#oc-ch-fb", { frets: 4, labels: "none", play: false });
+  const g = fb.guitar;
+  const bpm = MB.range("oc-ch-bpm", (v) => v + " BPM", () => target());
+  const every = MB.seg("oc-ch-every", () => { target(); restart(); });
+  const auto = MB.check("oc-ch-auto");
+  const useTimer = MB.check("oc-ch-timer");
+  let A = "C", B = "Am", cur = 0, count = 0, sched = 0, t0 = 0, raf = 0, seen = false;
+  const TIPS = {
+    "Am|C": "1·2번은 그대로 두고 3번만 5번 줄 3프렛 ↔ 3번 줄 2프렛을 오갑니다. 가장 쉬운 전환 가운데 하나입니다.",
+    "A|D": "3번 손가락이 2번 줄을 따라 2프렛 ↔ 3프렛으로 미끄러지는 안내 손가락입니다. 줄에서 떼지 말고 힘만 빼서 옮기세요.",
+    "E|Em": "2·3번은 고정, 1번만 들었다 놓습니다.",
+    "Am|E": "세 손가락의 모양은 같고 손 전체가 한 줄씩 옮겨 갑니다. 모양을 유지한 채 손목째 이동하세요.",
+    "C|G": "공통 손가락이 없습니다. G를 3·2·4번(6번 줄 3, 5번 줄 2, 1번 줄 4번 손가락)으로 잡으면 3·2번 쌍이 대각선 모양 그대로 한 줄씩 옮겨 가 C가 됩니다.",
+    "Em|G": "표준 운지로는 공통 손가락이 없지만, G를 3·2·4번으로 잡으면 2번 손가락(5번 줄 2프렛)이 고정됩니다.",
+    "D|G": "공통 손가락이 없습니다. 손 모양을 공중에서 만들고, 베이스(G의 6번 줄 3프렛)를 먼저 내려놓으세요.",
+    "C|D": "공통 손가락이 없습니다. 1번 손가락이 2번 줄 1프렛 → 3번 줄 2프렛으로 대각선 이동하며 길을 엽니다.",
+    "Am|Dm": "2·1번 손가락이 각각 한 줄씩 가는 줄 쪽으로 옮겨 가고, 3번은 2번 줄 3프렛으로 갑니다. 모양이 거의 같습니다.",
+    "D|Dm": "3번 손가락(2번 줄 3프렛)이 축입니다. 나머지 두 손가락이 자리를 맞바꿉니다.",
+    "C|Em": "2번 손가락이 5번 줄 2프렛 → 4번 줄 2프렛으로 한 줄 옮기고, 3번은 5번 줄 3프렛, 1번은 2번 줄 1프렛에 새로 놓습니다.",
+    "Am|G": "공통 손가락이 없습니다. G의 베이스(6번 줄)를 먼저 놓으세요. G를 3·2·4번으로 잡으면 2번 손가락이 4번 줄 → 5번 줄로 한 줄만 옮깁니다.",
+    "A|E": "A의 1번(4번 줄 2프렛)과 E의 3번(4번 줄 2프렛)이 같은 자리입니다. E를 1·2·3번 대신 2·3·1번 그대로 두되, 손 모양 전체를 한 줄 위로 올린다고 생각하세요.",
+    "Dm|G": "공통 손가락이 없습니다. 손을 크게 옮겨야 하니 G의 6번 줄 베이스를 먼저 준비하세요.",
+  };
+  function fingerMap(n) { const c = GT.chord(n), m = {}; c.shape.forEach((f, s) => { const k = c.fingers[s]; if (f > 0 && k > 0) m[k] = { s, f }; }); return m; }
+  function analyse() {
+    const a = fingerMap(A), b = fingerMap(B), out = { anchor: [], guide: [], move: [], lift: [], put: [], samePos: [] };
+    for (let k = 1; k <= 4; k++) {
+      if (a[k] && b[k]) {
+        if (a[k].s === b[k].s && a[k].f === b[k].f) out.anchor.push(k);
+        else if (a[k].s === b[k].s) out.guide.push(`${k}번(${ocSN(a[k].s)}번 줄 ${a[k].f}→${b[k].f}프렛)`);
+        else out.move.push(`${k}번(${ocSN(a[k].s)}번 줄 ${a[k].f}프렛 → ${ocSN(b[k].s)}번 줄 ${b[k].f}프렛)`);
+      } else if (a[k]) out.lift.push(`${k}번`);
+      else if (b[k]) out.put.push(`${k}번(${ocSN(b[k].s)}번 줄 ${b[k].f}프렛)`);
+    }
+    Object.entries(a).forEach(([ka, pa]) => Object.entries(b).forEach(([kb, pb]) => { if (ka !== kb && pa.s === pb.s && pa.f === pb.f) out.samePos.push(`${ocSN(pa.s)}번 줄 ${pa.f}프렛(${A}는 ${ka}번, ${B}는 ${kb}번)`); }));
+    const ka = Object.keys(a), kb = Object.keys(b);
+    if (ka.length && ka.length === kb.length && ka.every((k) => b[k] && b[k].f === a[k].f)) {
+      const ds = ka.map((k) => b[k].s - a[k].s);
+      if (ds.every((d) => d === ds[0] && d !== 0)) out.shift = ds[0];
+    }
+    return out;
+  }
+  function renderPair() {
+    A = sa.value; B = sb.value;
+    const ca = GT.chord(A), cb = GT.chord(B);
+    document.getElementById("oc-ch-a").innerHTML = GT.chordDiagram(null, ca.shape, { name: ca.name, fingers: ca.fingers });
+    document.getElementById("oc-ch-b").innerHTML = GT.chordDiagram(null, cb.shape, { name: cb.name, fingers: cb.fingers });
+    // 지판 겹쳐 그리기
+    const marks = new Map();
+    ca.shape.forEach((f, s) => { if (f > 0) marks.set(s + "," + f, { s, f, cls: "mark", label: String(ca.fingers[s]) }); });
+    cb.shape.forEach((f, s) => {
+      if (f <= 0) return; const k = s + "," + f;
+      if (marks.has(k)) { const m = marks.get(k); m.cls = "ok"; if (m.label !== String(cb.fingers[s])) m.label = m.label + "/" + cb.fingers[s]; }
+      else marks.set(k, { s, f, cls: "alt", label: String(cb.fingers[s]) });
+    });
+    fb.set([...marks.values()]);
+    const an = analyse(), key = [A, B].sort().join("|");
+    const L = [];
+    if (A === B) L.push("두 코드가 같습니다. 다른 코드를 고르세요.");
+    else {
+      L.push(`<b>고정 손가락</b>: ${an.anchor.length ? an.anchor.map((k) => k + "번").join(", ") + " — 떼지 마세요." : "없음"}`);
+      if (an.guide.length) L.push(`<b>안내 손가락</b>: ${an.guide.join(", ")} — 줄을 따라 미끄러뜨리세요.`);
+      if (an.shift) L.push(`<b>모양 이동</b>: 손가락 배치가 같고 손 전체가 ${Math.abs(an.shift)}줄 ${an.shift > 0 ? "가는 줄" : "굵은 줄"} 쪽으로 옮겨 갑니다.`);
+      else if (an.move.length) L.push(`<b>옮기는 손가락</b>: ${an.move.join(", ")}`);
+      if (an.lift.length) L.push(`<b>떼는 손가락</b>: ${an.lift.join(", ")}`);
+      if (an.put.length) L.push(`<b>새로 놓는 손가락</b>: ${an.put.join(", ")}`);
+      if (an.samePos.length) L.push(`<b>자리 공유</b>: ${an.samePos.join(", ")} — 운지를 바꾸면 고정할 수 있습니다.`);
+      if (TIPS[key]) L.push(`<b>조언</b>: ${TIPS[key]}`);
+    }
+    document.getElementById("oc-ch-tips").innerHTML = `<ul>${L.map((x) => `<li>${x}</li>`).join("")}</ul>`;
+    showCur(); best(); target();
+  }
+  function showCur() {
+    document.getElementById("oc-ch-a").classList.toggle("now", cur === 0);
+    document.getElementById("oc-ch-b").classList.toggle("now", cur === 1);
+  }
+  const bestKey = () => "oc-change-best-" + [A, B].sort().join("-");
+  function best(v) {
+    let b = null;
+    try { b = localStorage.getItem(bestKey()); } catch (e) {}
+    if (v != null && (b == null || v > +b)) { b = v; try { localStorage.setItem(bestKey(), String(v)); } catch (e) {} }
+    MB.stat("oc-ch-o-best", b != null ? b + "회" : "—");
+  }
+  function target() { MB.stat("oc-ch-o-target", Math.round(bpm() / +every()) + "회"); }
+  function evs() { const k = +every(), L = []; for (let t = 0; t < 2 * k; t++) L.push({ t }); return L; }
+  const sch = GT.scheduler(evs(), {
+    bpm: () => bpm(), loop: true, length: () => 2 * +every(),
+    onEvent(ev, when) {
+      const k = +every(), idx = Math.floor(ev.t / k) % 2, change = ev.t % k === 0;
+      MB.drum("rim", when, { vel: change ? 0.95 : 0.45 });
+      if (change && auto()) g.strum(GT.chord(idx ? B : A).shape, { dir: "D", vel: 0.72, spread: 0.016, when });
+    },
+    onUI(ev) {
+      const k = +every(), idx = Math.floor(ev.t / k) % 2;
+      if (ev.t % k === 0) { if (seen) { sched++; MB.stat("oc-ch-o-sched", sched + "회"); } seen = true; cur = idx; showCur(); }
+    },
+  });
+  function tick() {
+    raf = 0; if (!sch.running) return;
+    if (useTimer()) {
+      const left = Math.max(0, 60 - (performance.now() - t0) / 1000);
+      document.getElementById("oc-ch-time").firstChild.nodeValue = left.toFixed(1);
+      if (left <= 0) { finish(); return; }
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function finish() {
+    halt();
+    best(count);
+    document.getElementById("oc-ch-time").firstChild.nodeValue = "끝";
+  }
+  const halt = () => { sch.stop(); pb.set(false); if (raf) cancelAnimationFrame(raf); raf = 0; Solo.drop(halt); };
+  const pb = MB.playButton("oc-ch-play", () => {
+    Solo.take(halt); count = 0; sched = 0; seen = false; cur = 0; showCur();
+    document.getElementById("oc-ch-count").firstChild.nodeValue = "0";
+    document.getElementById("oc-ch-time").firstChild.nodeValue = useTimer() ? "60.0" : "—";
+    MB.stat("oc-ch-o-sched", "0회");
+    sch.setEvents(evs()); sch.start(); t0 = performance.now() + 80; raf = requestAnimationFrame(tick);
+  }, () => { halt(); g.damp(MB.now()); }, ["▶ 시작", "■ 정지"]);
+  function restart() { if (sch.running) { sch.stop(); sch.setEvents(evs()); sch.start(); } else sch.setEvents(evs()); }
+  function tap() {
+    if (!sch.running) return;
+    count++; document.getElementById("oc-ch-count").firstChild.nodeValue = String(count);
+  }
+  document.getElementById("oc-ch-tap").addEventListener("click", tap);
+  document.addEventListener("keydown", (e) => {
+    if (e.code !== "Space" || !sch.running) return;
+    const tag = (e.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "select" || tag === "textarea") return;
+    e.preventDefault(); tap();
+  });
+  sa.addEventListener("change", () => { renderPair(); restart(); });
+  sb.addEventListener("change", () => { renderPair(); restart(); });
+  renderPair();
+})();
+
+/* ================================================================ 7. 첫 진행 반주기 */
+(function () {
+  const PATS = { quarter: "D-D-D-D-", ddu: "D-D-DUD-", folk: "D-DU-UDU" };
+  const slotsEl = document.getElementById("oc-pg-slots"), beatEl = document.getElementById("oc-pg-beat");
+  const fb = GT.fretboard("#oc-pg-fb", { frets: 4, labels: "none" });
+  const g = fb.guitar; ocFlash(fb);
+  const bpm = MB.range("oc-pg-bpm", (v) => v + " BPM");
+  const pat = MB.seg("oc-pg-pat", () => { rebuild(); drawBeat(-1); });
+  const open = MB.check("oc-pg-open", () => { rebuild(); drawBeat(-1); });
+  const click = MB.check("oc-pg-click");
+  const progSel = document.getElementById("oc-pg-prog");
+  let prog = progSel.value.split(" "), curBar = -1;
+  function slotsOf() {
+    const s = PATS[pat()].split("");
+    if (open()) s[7] = "O";
+    return s;
+  }
+  function drawSlots() {
+    slotsEl.innerHTML = prog.map((n, i) => { const c = GT.chord(n); return `<div class="${i === curBar ? "now" : ""}">${GT.chordDiagram(null, c.shape, { name: c.name, fingers: c.fingers })}<small>${i + 1}마디</small></div>`; }).join("");
+  }
+  function drawBeat(now) {
+    const s = slotsOf(), lab = ["1", "&", "2", "&", "3", "&", "4", "&"];
+    beatEl.innerHTML = s.map((c, i) => `<span class="${c !== "-" ? "hit" : ""} ${i === now ? "now" : ""}">${lab[i]}<br>${c === "D" ? "↓" : c === "U" ? "↑" : c === "O" ? "↑○" : "·"}</span>`).join("");
+  }
+  function showChord(i) {
+    curBar = i; drawSlots();
+    const c = GT.chord(prog[i]), nx = GT.chord(prog[(i + 1) % prog.length]);
+    fb.showShape(c.shape, { fingers: c.fingers, root: ocRoot(prog[i]), label: "fingers" });
+    const ghost = [];
+    nx.shape.forEach((f, s) => { if (f > 0 && !(c.shape[s] === f)) ghost.push({ s, f, cls: "ghost", label: String(nx.fingers[s]) }); });
+    fb.mark(ghost);
+  }
+  function rebuild() {
+    const s = slotsOf(), L = [];
+    for (let bar = 0; bar < 4; bar++) s.forEach((c, i) => { L.push({ t: bar * 4 + i * 0.5, slot: i, c, bar }); });
+    sch.setEvents(L);
+  }
+  const sch = GT.scheduler([], {
+    bpm: () => bpm(), loop: true, length: 16,
+    onEvent(ev, when) {
+      if (click() && ev.slot % 2 === 0) MB.drum("rim", when, { vel: ev.slot === 0 ? 0.6 : 0.3 });
+      if (ev.c === "-") return;
+      const c = GT.chord(prog[ev.bar]);
+      if (ev.c === "O") g.strum([-1, -1, 0, 0, 0, 0], { dir: "U", when, vel: 0.45, strings: [2, 3, 4, 5] });
+      else if (ev.c === "U") g.strum(c.shape, { dir: "U", when, vel: 0.55, strings: [2, 3, 4, 5] });
+      else g.strum(c.shape, { dir: "D", when, vel: ev.slot === 0 ? 0.85 : 0.68 });
+    },
+    onUI(ev) { if (ev.slot === 0 || ev.bar !== curBar) showChord(ev.bar); drawBeat(ev.slot); },
+  });
+  const halt = () => { sch.stop(); pb.set(false); drawBeat(-1); Solo.drop(halt); };
+  const pb = MB.playButton("oc-pg-play", () => { Solo.take(halt); rebuild(); sch.start(); }, () => { halt(); g.damp(MB.now()); });
+  progSel.addEventListener("change", () => { prog = progSel.value.split(" "); curBar = -1; showChord(0); if (sch.running) { sch.stop(); rebuild(); sch.start(); } });
+  rebuild(); showChord(0); drawBeat(-1);
+})();
+</script>
+</body>
+</html>

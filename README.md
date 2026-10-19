@@ -7,11 +7,11 @@
 | 책 | 경로 | 상태 |
 |---|---|---|
 | MusicBook · 음악 기초 | `/fundamentals/` | 공개, 18개 장 |
-| GuitarBook · 기타 | `/guitar/` | 공개, 8개 장 |
+| GuitarBook · 기타 | `/guitar/` | 공개, 15개 장 |
 | PianoBook · 피아노 | `/piano/` 예정 | 준비 예정 |
 | DrumBook · 드럼 | `/drums/` 예정 | 준비 예정 |
 
-준비 예정 책은 홈에 안내만 표시하며 아직 읽기 링크나 본문을 만들지 않았습니다. GuitarBook은 `guitar/`에 직접 집필한 책으로, 지판·코드·스트로크 도구를 포함합니다.
+준비 예정 책은 홈에 안내만 표시하며 아직 읽기 링크나 본문을 만들지 않았습니다. GuitarBook은 `guitar/`에 직접 집필한 책으로, MusicBook(`fundamentals/`)의 엔진(`MB`)과 장 구성 규칙을 그대로 쓰고 기타 전용 엔진 `guitar/js/guitar.js`(`GT`: 가상 기타·지판·코드 다이어그램·TAB)를 더했습니다. 집필 규칙은 [guitar/CONTRIBUTING.md](guitar/CONTRIBUTING.md)를 참고하세요.
 
 ## 실행과 배포
 

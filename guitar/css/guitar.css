@@ -1,0 +1,126 @@
+/* ==========================================================================
+   GuitarBook 기타 위젯 스타일 — 지판(.gt-fb), 코드 다이어그램(.gt-chord), TAB(.gt-tab)
+   ========================================================================== */
+:root {
+  --gt-wood: #c9a27a;
+  --gt-wood-2: #b88b5e;
+  --gt-fret: #8f8a84;
+  --gt-nut: #f4efe6;
+  --gt-string: #5b5148;
+  --gt-inlay: rgba(255, 252, 245, 0.85);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gt-wood: #3b2a1e;
+    --gt-wood-2: #4a3424;
+    --gt-fret: #8d877f;
+    --gt-nut: #d9d2c5;
+    --gt-string: #c9bfb2;
+    --gt-inlay: rgba(240, 232, 220, 0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --gt-wood: #3b2a1e;
+  --gt-wood-2: #4a3424;
+  --gt-fret: #8d877f;
+  --gt-nut: #d9d2c5;
+  --gt-string: #c9bfb2;
+  --gt-inlay: rgba(240, 232, 220, 0.35);
+}
+
+/* ---------------------------------------------------------------- fretboard */
+.gt-fb { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; padding: 4px 0; max-width: 100%; }
+.gt-fb svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+.gt-fb .wood { fill: var(--gt-wood); }
+.gt-fb .inlay { fill: var(--gt-inlay); }
+.gt-fb .fret { stroke: var(--gt-fret); stroke-width: 2.4; }
+.gt-fb .nut { stroke: var(--gt-nut); stroke-width: 6; }
+.gt-fb .capo { fill: var(--text); opacity: 0.85; }
+.gt-fb .str { stroke: var(--gt-string); stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
+.gt-fb .str.vib { animation: gt-vib 0.6s ease-out; }
+@keyframes gt-vib { 0% { transform: scaleY(1); stroke: var(--accent); } 15% { transform: translateY(1.2px); } 30% { transform: translateY(-1px); } 45% { transform: translateY(0.7px); } 60% { transform: translateY(-0.4px); } 100% { transform: none; } }
+.gt-fb .sname { font: 600 11px var(--mono); fill: var(--text-dim); text-anchor: middle; }
+.gt-fb .fnum { font: 10px var(--mono); fill: var(--text-faint); text-anchor: middle; }
+.gt-fb .hits rect { fill: transparent; cursor: pointer; }
+.gt-fb .hits rect:hover { fill: color-mix(in srgb, var(--accent) 16%, transparent); }
+.gt-fb .dot { pointer-events: none; }
+.gt-fb .dot circle { fill: var(--accent); stroke: var(--bg-elev); stroke-width: 1.5; }
+.gt-fb .dot text { font: 600 9.5px var(--mono); fill: var(--on-accent); text-anchor: middle; }
+.gt-fb .dot.alt circle { fill: var(--accent-2); }
+.gt-fb .dot.root circle { fill: var(--bad); }
+.gt-fb .dot.root text { fill: #fff; }
+.gt-fb .dot.open circle { fill: var(--bg-elev); stroke: var(--accent); stroke-width: 2; }
+.gt-fb .dot.open text { fill: var(--accent); }
+.gt-fb .dot.ghost circle { fill: var(--bg-elev); stroke: var(--text-dim); stroke-width: 1.5; opacity: 0.9; }
+.gt-fb .dot.ghost text { fill: var(--text-dim); }
+.gt-fb .dot.dim circle { fill: var(--text-faint); }
+.gt-fb .dot.dim text { fill: var(--bg-elev); }
+.gt-fb .dot.faint circle { fill: transparent; stroke: none; }
+.gt-fb .dot.faint text { fill: var(--text-dim); font-weight: 400; }
+.gt-fb .dot.ok circle { fill: var(--ok); }
+.gt-fb .dot.bad circle { fill: var(--bad); }
+.gt-fb .dot.ok text, .gt-fb .dot.bad text { fill: #fff; }
+.gt-fb .dot.x circle { fill: transparent; stroke: none; }
+.gt-fb .dot.x text { fill: var(--text-dim); font-size: 13px; }
+.gt-fb .dot.on circle { fill: var(--warn); stroke: var(--bg-elev); animation: gt-pop 0.38s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+.gt-fb .dot.on text { fill: #1c1a17; }
+@keyframes gt-pop { 0% { transform: scale(0.6); } 40% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 0.9; } }
+.sim-view .gt-fb { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 8px 6px 2px; }
+
+/* ---------------------------------------------------------------- chord diagram */
+.gt-chord { display: inline-block; }
+.gt-chord-svg { display: block; width: 100%; max-width: 150px; height: auto; margin: 0 auto; }
+.gt-chord-svg .cname { font: 700 15px var(--font); fill: var(--text); text-anchor: middle; }
+.gt-chord-svg .fret { stroke: var(--text-faint); stroke-width: 1.2; }
+.gt-chord-svg .nut { stroke: var(--text); stroke-width: 4.5; }
+.gt-chord-svg .str { stroke: var(--text-dim); stroke-width: 1.2; }
+.gt-chord-svg .str.hl { stroke: var(--accent); stroke-width: 2.4; }
+.gt-chord-svg .base { font: 9px var(--mono); fill: var(--text-dim); text-anchor: end; }
+.gt-chord-svg .dot { fill: var(--text); }
+.gt-chord-svg .dot.root { fill: var(--bad); }
+.gt-chord-svg .barre { fill: var(--text); }
+.gt-chord-svg .fing { font: 700 9.5px var(--mono); fill: var(--bg-elev); text-anchor: middle; }
+.gt-chord-svg .open { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.gt-chord-svg .open.root { stroke: var(--bad); stroke-width: 2; }
+.gt-chord-svg .mx { font: 13px var(--font); fill: var(--text-dim); text-anchor: middle; }
+.gt-chord-svg .nl { font: 600 9.5px var(--mono); fill: var(--text-dim); text-anchor: middle; }
+.gt-chord-svg .hit { fill: transparent; cursor: pointer; }
+.gt-chord-svg .hit:hover { fill: color-mix(in srgb, var(--accent) 18%, transparent); }
+/* 코드 카드 격자 */
+.gt-chords { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.gt-chords > button, .gt-chords > .card { all: unset; box-sizing: border-box; cursor: pointer; padding: 6px 4px 4px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-elev); text-align: center; transition: border-color .15s, background .15s; }
+.gt-chords > button:hover { border-color: var(--accent); }
+.gt-chords > button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.gt-chords > button.on { border-color: var(--accent); background: var(--accent-soft); }
+.gt-chords > button small { display: block; font-size: 11.5px; color: var(--text-dim); line-height: 1.3; }
+
+/* ---------------------------------------------------------------- tab */
+.gt-tab { width: 100%; overflow: hidden; }
+.gt-tab svg { display: block; width: 100%; height: auto; }
+.gt-tab .tl { stroke: var(--text-faint); stroke-width: 1; }
+.gt-tab .bar { stroke: var(--text-dim); stroke-width: 1.2; }
+.gt-tab .bar.end { stroke-width: 3; }
+.gt-tab .clef { font: 700 11px var(--mono); fill: var(--text-dim); }
+.gt-tab .tn rect { fill: var(--canvas-bg, var(--bg-elev)); }
+.gt-tab .tn text { font: 600 12px var(--mono); fill: var(--text); text-anchor: middle; }
+.gt-tab .tn.now rect { fill: var(--accent); }
+.gt-tab .tn.now text { fill: var(--on-accent); }
+.gt-tab .tech { fill: none; stroke: var(--text-dim); stroke-width: 1.2; }
+.gt-tab .techl { font: 9.5px var(--mono); fill: var(--text-dim); }
+.gt-tab .chname { font: 700 12.5px var(--font); fill: var(--accent); }
+.gt-tab .stem, .gt-tab .flag { stroke: var(--text-dim); stroke-width: 1.3; fill: none; }
+.gt-tab .beam { stroke: var(--text-dim); stroke-width: 3; }
+.gt-tab .dotted { fill: var(--text-dim); }
+.gt-tab .head { fill: none; stroke: var(--text-dim); stroke-width: 1.3; }
+.gt-tab .playhead { fill: var(--accent); opacity: 0.55; }
+
+/* ---------------------------------------------------------------- misc */
+.gt-strum { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 4px; }
+.gt-strum button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 8px 0 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 15px var(--mono); color: var(--text); line-height: 1.1; }
+.gt-strum button small { display: block; font: 10px var(--mono); color: var(--text-faint); margin-top: 3px; }
+.gt-strum button.beat { background: var(--surface); }
+.gt-strum button.d, .gt-strum button.u { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.gt-strum button.x { color: var(--accent-2); }
+.gt-strum button.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+.gt-big { font: 700 clamp(30px, 7vw, 46px) var(--mono); letter-spacing: -0.02em; text-align: center; line-height: 1.15; }
+.gt-big small { display: block; font: 500 13px var(--font); color: var(--text-dim); letter-spacing: 0; }

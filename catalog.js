@@ -30,25 +30,27 @@ window.MUSIC_BOOKS = [
     "id": "guitarbook",
     "title": "GuitarBook",
     "subtitle": "기타 교과서",
-    "headline": "줄 하나에서 코드와 스트로크까지",
-    "description": "튜닝과 지판, 코드 다이어그램, 스트로크와 코드 진행, 카포, 핑거스타일을 브라우저에서 직접 튕기고 연주하며 배우는 기타 교과서.",
+    "headline": "줄 하나에서 나만의 연주까지",
+    "description": "현의 물리와 튜닝, 지판과 TAB, 오픈·바레 코드와 CAGED, 스트로크와 코드 진행, 스케일과 리드 테크닉, 핑거스타일, 일렉 톤까지 — 브라우저의 가상 기타로 직접 튕기고 긁으며 배우는 기타 교과서.",
     "stage": "instruments",
     "status": "published",
     "color": "#9a6237",
     "colorDark": "#d9a066",
     "topics": [
-      "기타",
-      "코드",
+      "지판·TAB",
+      "코드·CAGED",
       "스트로크",
-      "핑거스타일"
+      "스케일·솔로",
+      "핑거스타일",
+      "일렉 톤"
     ],
     "motif": "guitar",
     "code": "GTR",
     "legacyUrl": null,
     "slug": "guitar",
     "url": "guitar/",
-    "chapters": 8,
-    "simulators": 0
+    "chapters": 15,
+    "simulators": 92
   },
   {
     "id": "pianobook",

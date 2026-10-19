@@ -1,7 +1,7 @@
 {
   "id": "guitarbook",
   "title": "GuitarBook",
-  "description": "줄 하나에서 코드와 스트로크까지. 튜닝과 지판, 코드 다이어그램, 스트로크와 코드 진행, 카포, 핑거스타일을 브라우저에서 직접 튕기고 연주하며 배우는 기타 교과서.",
+  "description": "줄 하나에서 나만의 연주까지. 현의 물리와 튜닝, 지판과 TAB, 오픈·바레 코드와 CAGED, 스트로크와 코드 진행, 스케일과 리드 테크닉, 핑거스타일, 일렉 톤을 브라우저의 가상 기타로 직접 연주하며 배우는 기타 교과서.",
   "url": "https://music.euiyun.com/guitar/",
   "repo": "https://github.com/geniuskey/music-books",
   "field": "music",

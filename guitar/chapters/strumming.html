@@ -3,95 +3,1147 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<title>스트로크와 리듬 · GuitarBook</title>
-<meta name="description" content="다운과 업 스트로크, 8분음표 셈 1&amp;2&amp;3&amp;4&amp;, 자주 쓰는 스트로크 패턴을 메트로놈에 맞춰 연습한다.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>리듬과 스트로크 · GuitarBook</title>
+<meta name="description" content="박과 분할, 오른손 진자 운동 원리, 다운·업 스트로크의 소리 차이, 8비트·16비트 패턴, 악센트·팜 뮤트·칙, 스윙 비율을 가상 기타로 듣고, 스트럼 패턴 편집기와 타이밍 게임으로 연습한다.">
 <link rel="canonical" href="https://music.euiyun.com/guitar/chapters/strumming.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="GuitarBook">
-<meta property="og:title" content="스트로크와 리듬 · GuitarBook">
-<meta property="og:description" content="다운과 업 스트로크, 8분음표 셈 1&amp;2&amp;3&amp;4&amp;, 자주 쓰는 스트로크 패턴을 메트로놈에 맞춰 연습한다.">
+<meta property="og:title" content="리듬과 스트로크 · GuitarBook">
+<meta property="og:description" content="박과 분할, 오른손 진자 운동 원리, 다운·업 스트로크의 소리 차이, 8비트·16비트 패턴, 악센트·팜 뮤트·칙, 스윙 비율을 가상 기타로 듣고, 스트럼 패턴 편집기와 타이밍 게임으로 연습한다.">
 <meta property="og:url" content="https://music.euiyun.com/guitar/chapters/strumming.html">
 <meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <link rel="stylesheet" href="../css/style.css">
-<script defer src="../js/guitar.js"></script>
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .str-cv { display: block; width: 100%; }
+  .str-chord { font: 700 22px var(--font); color: var(--accent); text-align: center; margin: 6px 0; }
+  .str-chord small { display: block; font: 500 12px var(--mono); color: var(--text-dim); }
+  .gt-strum.ro button { cursor: default; }
+  .gt-strum button.pv { box-shadow: inset 0 -3px 0 var(--warn); }
+  .gt-strum button.acc { font-weight: 800; }
+  .str-accrow { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 4px; margin-top: 4px; }
+  .str-accrow button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; font: 700 12px var(--mono); padding: 3px 0; border-radius: 5px; border: 1px dashed var(--border); color: var(--text-faint); }
+  .str-accrow button.on { border-style: solid; border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  @media (max-width: 560px) {
+    .gt-strum.n16, .str-accrow.n16 { --n: 8 !important; }
+  }
+  .str-taps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+  .str-taps button { font: 700 22px var(--mono); padding: 18px 0; border-radius: 12px; border: 2px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; touch-action: manipulation; }
+  .str-taps button small { display: block; font: 500 12px var(--font); color: var(--text-dim); }
+  .str-taps button.hit { border-color: var(--accent); background: var(--accent-soft); }
+  .str-big { display: flex; gap: 10px; justify-content: space-around; flex-wrap: wrap; }
+  .str-desc { font-size: 14px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+  .str-desc b { color: var(--text); }
+  .str-live { margin-top: 10px; }
+  .str-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .str-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
 <link rel="stylesheet" href="../../shared/css/book-shell.css">
 <script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
 </head>
 <body data-chapter="strumming">
-<header class="gb-topbar">
-<a class="gb-logo" href="../"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" style="fill:var(--accent)"/><g style="stroke:var(--on-accent)" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="6" x2="7" y2="22"/><line x1="10.2" y1="6" x2="10.2" y2="22"/><line x1="13.4" y1="6" x2="13.4" y2="22"/><line x1="16.6" y1="6" x2="16.6" y2="22"/><line x1="19.8" y1="6" x2="19.8" y2="22"/><line x1="23" y1="6" x2="23" y2="22"/></g></svg><span>GuitarBook</span> <small>기타 교과서</small></a>
-<span class="gb-spacer"></span>
-<button class="gb-btn theme" id="gb-theme" type="button">테마 · 자동</button>
-<button class="gb-btn gb-menu" id="gb-menu" type="button" aria-label="목차 열기">☰</button>
-<div class="gb-progress"></div>
-</header>
-<aside class="gb-drawer" aria-label="목차">
-<h4>목차</h4>
-<ul class="gb-chlist">
-<li><a href="../"><span class="num">··</span><span>GuitarBook 소개</span></a></li>
-<li><a href="tuning.html"><span class="num">01</span><span>기타의 구조와 튜닝</span></a></li>
-<li><a href="fretboard.html"><span class="num">02</span><span>지판 읽기와 음계</span></a></li>
-<li><a href="chords.html"><span class="num">03</span><span>코드 다이어그램</span></a></li>
-<li><a href="strumming.html" class="active"><span class="num">04</span><span>스트로크와 리듬</span></a></li>
-<li><a href="progressions.html"><span class="num">05</span><span>코드 진행 연주</span></a></li>
-<li><a href="capo.html"><span class="num">06</span><span>카포와 이조</span></a></li>
-<li><a href="fingerstyle.html"><span class="num">07</span><span>핑거스타일과 아르페지오</span></a></li>
-<li><a href="practice.html"><span class="num">08</span><span>종합 연습실</span></a></li>
-</ul>
-</aside>
-<div class="gb-backdrop" id="gb-backdrop"></div>
-<main class="chapter" id="main">
+<main class="chapter">
   <header class="chapter-hero">
-    <div class="eyebrow">Chapter 04</div>
-    <h1>스트로크와 리듬</h1>
-    <p class="lead">스트로크는 기타 반주의 리듬을 만드는 손입니다. 같은 코드라도 스트로크 패턴이 바뀌면 곡의 느낌이 달라집니다.</p>
+    <div class="eyebrow">Chapter 06</div>
+    <h1>리듬과 스트로크</h1>
+    <p class="lead">왼손이 무슨 소리를 낼지 정한다면, 오른손은 그 소리를 <b>언제</b> 낼지 정합니다. 코드를 아무리 깨끗하게 잡아도 박이 흔들리면 노래 반주가 되지 않고, 반대로 코드 두세 개만으로도 리듬이 좋으면 음악이 됩니다. 이 장에서는 박과 분할을 밀리초로 바꾸고, 오른손을 박에 맞춰 쉬지 않고 흔드는 '진자 원리'를 운동 방정식으로 이해한 뒤, 다운과 업 스트로크가 왜 다르게 들리는지, 악센트·팜 뮤트·칙이 리듬에 어떤 질감을 더하는지, 스윙이 뒷박을 얼마나 미루는지를 귀로 확인합니다. 마지막으로 직접 만든 패턴을 편집기에서 연주하고, 타이밍 게임으로 손의 정확도를 잽니다.</p>
     <ul class="objectives">
-      <li>다운(D)과 업(U) 기호의 의미를 안다.</li>
-      <li>8분음표 여덟 칸과 1&amp;2&amp;3&amp;4&amp; 셈을 맞춘다.</li>
-      <li>기본 8비트·셔플·발라드·레게 패턴을 메트로놈에 맞춰 연주한다.</li>
-      <li>손목 중심의 스트로크로 속도를 일정하게 유지한다.</li>
+      <li>BPM을 박·8분·16분 간격(ms)으로 바꾸고, '1 & 2 &'와 '1 e & a'로 분할을 셀 수 있다.</li>
+      <li>오른손이 박에서 내려가고 뒷박에서 올라가며 멈추지 않는 진자 원리를 설명하고, 줄을 치는 것과 헛치는 것을 구별한다.</li>
+      <li>다운과 업 스트로크의 줄 순서·세기 차이와 손 속도에서 스트럼 길이를 계산한다.</li>
+      <li>대표 스트럼 패턴을 읽고, 편집기로 나만의 8·16칸 패턴을 만들어 코드 진행 위에서 연주한다.</li>
+      <li>악센트·팜 뮤트·칙(뮤트 스트로크)의 소리와 쓰임새를 안다.</li>
+      <li>스윙 비율을 뒷박 위치로 환산하고, 스트레이트와 스윙을 듣고 구별한다.</li>
+      <li>메트로놈에 맞춘 타이밍 게임으로 타이밍 오차와 방향 정확도를 측정하고 연습 계획을 세운다.</li>
     </ul>
   </header>
 
-  <section id="direction">
-    <h2>다운과 업</h2>
-    <p>스트로크는 오른손으로 줄 전체를 한 번에 긋는 동작입니다. 저음 6번 줄에서 고음 1번 줄 쪽으로 내려 긋는 것을 <b>다운(D)</b>, 반대로 올려 긋는 것을 <b>업(U)</b>이라고 적습니다. 다운은 힘 있게, 업은 가볍게 치는 것이 기본입니다.</p>
-    <p>악보에서 두 기호는 리듬의 칸을 결정합니다. 아래 패턴 연습기는 8분음표 여덟 칸을 쓰며, 칸 아래의 <b>1 &amp; 2 &amp; 3 &amp; 4 &amp;</b> 셈이 그 칸의 박자입니다.</p>
-  </section>
-
-  <section id="pattern">
-    <h2>패턴 연습기</h2>
-    <p>한 마디를 여덟 칸으로 나눠 D, U, 쉼(−)을 채웁니다. 칸을 누르면 세 가지가 차례로 바뀝니다. 재생 중에는 현재 칸에 테두리가 표시되고, 짝수 칸마다 메트로놈이 울립니다. 소리가 없는 칸(−)에서도 손은 움직이는 것이 좋습니다.</p>
-    <div class="wd" data-widget="strum" data-chords="Am,C,G,Em,F" data-pattern="D-DU-UDU"></div>
-    <p>같은 패턴이라도 BPM을 바꿔 보면 손목의 속도가 얼마나 정확해야 하는지 드러납니다. 60에서 시작해 익숙해질 때마다 조금씩 올리세요.</p>
-  </section>
-
-  <section id="grooves">
-    <h2>자주 쓰는 패턴</h2>
-    <p>프리셋은 대중음악에서 자주 나오는 리듬입니다. 노래를 틀어 놓고 같은 패턴을 흉내 내 보면 가장 빨리 익습니다.</p>
-    <div class="tbl-wrap">
-      <table class="tbl">
-        <thead><tr><th>이름</th><th>패턴</th><th>어디에 쓰나</th></tr></thead>
-        <tbody>
-          <tr><td>기본 8비트</td><td><code>D-DU-UDU</code></td><td>팝과 포크의 기본 반주</td></tr>
-          <tr><td>셔플</td><td><code>D-DU-DU-</code></td><td>블루스와 로큰롤의 흔들림</td></tr>
-          <tr><td>발라드</td><td><code>D-D-D-D-</code></td><td>느린 곡에서 박만 짚기</td></tr>
-          <tr><td>레게</td><td><code>-U-U-U-U</code></td><td>업 스트로크 중심의 엇박</td></tr>
-        </tbody>
-      </table>
+  <!-- =============================================================== 1 -->
+  <section id="pulse">
+    <h2>펄스·템포·분할: 리듬의 격자</h2>
+    <p>음악에는 발로 까딱이게 되는 규칙적인 반복이 있습니다. 이것이 <span class="term">박</span><span class="en">(Beat)</span>이고, 박이 1분에 몇 번 오는지가 <span class="term">템포</span><span class="en">(Tempo, BPM)</span>입니다. 대중음악 대부분은 박 네 개를 한 묶음(마디)으로 세는 4/4박자이고, 첫 박이 가장 강하며 셋째 박이 그다음입니다. 박의 이론은 MusicBook의 <a href="../../fundamentals/chapters/rhythm.html">리듬과 박자</a> 장에서 자세히 다루었으니, 여기서는 기타를 치는 오른손에 필요한 부분을 정리합니다.</p>
+    <p>스트로크는 박 하나를 둘이나 넷으로 나눈 <span class="term">분할</span><span class="en">(Subdivision)</span> 위에서 이루어집니다. 박을 둘로 나누면 8분음표 격자가 되고 "하나–앤–둘–앤", 영어로 <b>"1 & 2 & 3 & 4 &"</b>라고 셉니다. 넷으로 나누면 16분음표 격자이고 <b>"1 e & a 2 e & a …"</b>(원 이 앤 어)라고 셉니다. 박 위의 칸을 <b>앞박</b>(다운비트), '&' 칸을 <b>뒷박</b>(업비트)이라 부릅니다. 스트럼 패턴은 결국 이 격자의 각 칸에서 '칠지 말지, 어느 방향으로 칠지'를 정한 목록입니다.</p>
+    <div class="formula">$$T_{\text{beat}}\,[\text{ms}] = \frac{60\,000}{\text{BPM}},\qquad T_{8} = \frac{T_{\text{beat}}}{2},\qquad T_{16} = \frac{T_{\text{beat}}}{4}$$
+      <div class="where">90 BPM이면 박 666.7 ms, 8분 333.3 ms, 16분 166.7 ms. 120 BPM이면 500 / 250 / 125 ms. 사람이 손으로 정확히 반복할 수 있는 가장 빠른 동작은 대략 초당 6–8회(125–170 ms 간격) 근처라서, 120 BPM의 16분음표 스트로크는 이미 상당히 빠른 축에 든다.</div>
     </div>
-    <div class="callout tip">
-      <p><b>손목을 쓰세요.</b> 팔 전체를 움직이면 칸마다 속도가 흔들립니다. 손목을 상하로 가볍게 흔들어 여덟 칸을 일정하게 유지하는 것이 핵심입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="4/4 박자 한 마디의 4분, 8분, 16분 격자와 세는 법">
+        <g font-family="var(--mono)">
+          <text x="20" y="22" class="t-dim" style="font-size:13px">한 마디 (4/4, 90 BPM = 2.667 s)</text>
+          <line x1="110" y1="40" x2="110" y2="270" class="s-axis"/><line x1="780" y1="40" x2="780" y2="270" class="s-axis"/>
+          <!-- quarter -->
+          <text x="20" y="80" class="t" style="font-size:14px">4분</text>
+          <g class="t-acc" text-anchor="middle" style="font-size:15px"><text x="110" y="70">1</text><text x="277.5" y="70">2</text><text x="445" y="70">3</text><text x="612.5" y="70">4</text></g>
+          <g fill="var(--accent)"><circle cx="110" cy="86" r="7"/><circle cx="277.5" cy="86" r="7"/><circle cx="445" cy="86" r="7"/><circle cx="612.5" cy="86" r="7"/></g>
+          <text x="694" y="91" text-anchor="middle" class="t-mono" style="font-size:12px">667 ms 간격</text>
+          <!-- eighth -->
+          <text x="20" y="160" class="t" style="font-size:14px">8분</text>
+          <g text-anchor="middle" style="font-size:14px">
+            <text x="110" y="150" class="t-acc">1</text><text x="193.75" y="150" class="t-dim">&amp;</text><text x="277.5" y="150" class="t-acc">2</text><text x="361.25" y="150" class="t-dim">&amp;</text>
+            <text x="445" y="150" class="t-acc">3</text><text x="528.75" y="150" class="t-dim">&amp;</text><text x="612.5" y="150" class="t-acc">4</text><text x="696.25" y="150" class="t-dim">&amp;</text>
+          </g>
+          <g><circle cx="110" cy="166" r="6" fill="var(--accent)"/><circle cx="193.75" cy="166" r="5" fill="var(--accent-2)"/><circle cx="277.5" cy="166" r="6" fill="var(--accent)"/><circle cx="361.25" cy="166" r="5" fill="var(--accent-2)"/><circle cx="445" cy="166" r="6" fill="var(--accent)"/><circle cx="528.75" cy="166" r="5" fill="var(--accent-2)"/><circle cx="612.5" cy="166" r="6" fill="var(--accent)"/><circle cx="696.25" cy="166" r="5" fill="var(--accent-2)"/></g>
+          <text x="400" y="190" text-anchor="middle" class="t-mono" style="font-size:12px">333 ms 간격 · 앞박(보라) / 뒷박 &amp;(청록)</text>
+          <!-- sixteenth -->
+          <text x="20" y="240" class="t" style="font-size:14px">16분</text>
+          <g text-anchor="middle" style="font-size:12px" id="str-fig1-16"></g>
+          <text x="400" y="290" text-anchor="middle" class="t-mono" style="font-size:12px">167 ms 간격 · 1 e &amp; a 2 e &amp; a …</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-1.</b> 4/4박자 한 마디를 4분·8분·16분음표로 나눈 격자(90 BPM). 위로 갈수록 성긴 층위이고, 아래 층위의 칸은 위 층위의 칸을 모두 포함한다. 스트럼 패턴은 8분(8칸) 또는 16분(16칸) 격자 위에 적는다.</figcaption>
+    </figure>
+    <p>격자를 세는 습관은 생각보다 중요합니다. 패턴을 '다운–다운업–업다운업' 같은 동작의 나열로만 외우면 템포가 바뀌거나 코드가 바뀔 때 쉽게 무너집니다. 반면 "1, 2&, &4&"처럼 격자의 어느 칸을 치는지로 기억하면 어떤 템포에서도 같은 위치에 소리가 떨어집니다. 처음에는 입으로 소리 내어 세면서 치세요. 세는 소리가 메트로놈 역할을 해 줍니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="pendulum">
+    <h2>진자 원리: 손은 멈추지 않는다</h2>
+    <p>스트로크에서 가장 중요한 원리는 하나입니다. <b>오른손은 박에 맞춰 쉬지 않고 위아래로 흔들리고, 앞박에서는 내려가고 뒷박에서는 올라간다.</b> 치지 않는 칸에서도 손은 똑같이 움직이되 줄에 닿지 않게 살짝 띄워 지나갈 뿐입니다(헛스윙, <span class="term">고스트 스트로크</span><span class="en">(Ghost stroke)</span>). 그래서 손의 방향만 보면 지금이 앞박인지 뒷박인지 알 수 있고, 손이 시계 역할을 하므로 쉬는 칸이 있어도 박이 흔들리지 않습니다. 시계추가 진폭과 상관없이 같은 주기로 흔들리듯, 손도 '칠지 말지'와 상관없이 같은 주기로 흔들립니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="진자 운동하는 손의 높이와 줄을 치는 순간">
+        <g font-family="var(--font)">
+          <rect x="60" y="118" width="720" height="34" class="f-surface"/>
+          <g stroke="var(--text-faint)"><line x1="60" y1="122" x2="780" y2="122"/><line x1="60" y1="128" x2="780" y2="128"/><line x1="60" y1="134" x2="780" y2="134"/><line x1="60" y1="140" x2="780" y2="140"/><line x1="60" y1="146" x2="780" y2="146"/><line x1="60" y1="150" x2="780" y2="150"/></g>
+          <text x="54" y="140" text-anchor="end" class="t-dim" style="font-size:12px">줄</text>
+          <path id="str-fig2-path" d="" fill="none" stroke="var(--accent)" stroke-width="3"/>
+          <g id="str-fig2-marks"></g>
+          <text x="54" y="40" text-anchor="end" class="t-dim" style="font-size:12px">위</text>
+          <text x="54" y="240" text-anchor="end" class="t-dim" style="font-size:12px">아래</text>
+          <text x="420" y="264" text-anchor="middle" class="t-mono" style="font-size:12px">시간 → (두 박) · 패턴 D - D U - U D U 의 앞부분</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-2.</b> 진자 운동하는 손의 높이 \(y(t)\). 손은 앞박(1, 2, …)에서 아래로, 뒷박(&)에서 위로 줄을 가로지른다. 채운 점은 줄을 치는 스트로크(D/U), 빈 점은 줄 위를 띄워 지나가는 헛스윙이다. 치든 안 치든 곡선 모양은 같다.</figcaption>
+    </figure>
+    <p>이 운동을 간단한 식으로 쓸 수 있습니다. 8분음표 패턴에서 손은 한 박에 한 번 왕복하므로 주기가 \(T_{\text{beat}}\)인 진동입니다. 앞박(\(t=0\))에 아래쪽으로 줄을 지나도록 위상을 맞추면</p>
+    <div class="formula">$$y(t) = -A\sin\!\left(\frac{2\pi t}{T}\right),\qquad v_{\max} = \frac{2\pi A}{T},\qquad \Delta t_{\text{strum}} \approx \frac{(n-1)\,d}{v_{\max}}$$
+      <div class="where">\(A\): 손 진폭(줄에서 위아래로 가는 거리, 보통 5–10 cm), \(T\): 왕복 주기(8분 패턴은 한 박, 16분 패턴은 반 박), \(d\): 줄 간격(브리지 쪽 약 10.5 mm), \(n\): 긁는 줄 수. 90 BPM 8분 패턴에서 \(A=8\) cm이면 \(T = 0.667\) s, \(v_{\max}\approx 0.75\) m/s이고, 여섯 줄을 지나는 데 \(5\times10.5/750\approx 70\) ms가 걸린다. 16분 패턴은 주기가 절반이므로 같은 진폭이면 속도가 두 배가 되어 스트럼이 35 ms로 짧아지고 팔이 금방 지친다. 그래서 16분 패턴은 진폭을 줄이고 손목 위주로 친다.</div>
+    </div>
+    <p>손이 줄을 지나는 순간이 사인 곡선의 영점, 즉 <b>속도가 가장 빠른 순간</b>이라는 점이 핵심입니다. 손은 박과 박 사이의 맨 위·맨 아래에서 잠깐 느려지며 방향을 바꾸고, 줄을 지날 때는 가장 빠르게 일정한 속도로 통과합니다. 손을 '칠 때만 움직이면' 매번 정지 상태에서 출발해야 하므로 속도와 타이밍이 들쭉날쭉해지지만, 계속 흔들고 있으면 줄을 지나는 순간이 저절로 박 위에 떨어집니다. 이것이 메트로놈 없이도 리듬이 안정되는 이유입니다.</p>
+
+    <div class="sim" id="sim-str-pendulum">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트로크 진자</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="str-pd-cv" class="str-cv"></canvas>
+          <div class="gt-strum ro" id="str-pd-grid" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>패턴</span><select id="str-pd-pat"></select></label>
+          <label class="ctrl"><span>템포 <output id="str-pd-bpm-out"></output></span><input type="range" id="str-pd-bpm" min="50" max="140" value="80" step="2"></label>
+          <div class="ctrl"><span>코드</span><div class="seg" id="str-pd-chord"><button data-value="G" class="on">G</button><button data-value="C">C</button><button data-value="Em">Em</button><button data-value="D">D</button></div></div>
+          <label class="check"><input type="checkbox" id="str-pd-click" checked> 메트로놈 클릭(박)</label>
+          <label class="check"><input type="checkbox" id="str-pd-ghost"> 헛스윙도 작은 소리로 들려주기</label>
+          <div class="btn-row"><button class="btn primary" id="str-pd-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">왕복 주기</span><span class="v" id="str-pd-o-T">—</span></div>
+        <div class="stat"><span class="k">손 최대 속도(A = 8 cm)</span><span class="v" id="str-pd-o-v">—</span></div>
+        <div class="stat"><span class="k">칸 간격</span><span class="v" id="str-pd-o-slot">—</span></div>
+        <div class="stat"><span class="k">친 칸 / 전체</span><span class="v" id="str-pd-o-hits">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 곡선은 지난 두 박 동안의 손 높이이고, 오른쪽 끝의 화살표가 지금의 손입니다. 가운데 띠가 줄입니다. 채운 점(D/U)은 줄을 친 순간, 빈 점은 헛스윙, 청록 점(X)은 뮤트 칙입니다. 손은 소리와 같은 오디오 시계로 움직이며, 화면 표시는 출력 지연(보통 10–40 ms)만큼 소리보다 살짝 앞설 수 있습니다. 16칸 패턴(펑크·16비트 발라드)은 손이 반 박마다 왕복하므로 곡선이 두 배 촘촘해집니다. 모델: 칸 사이를 반 주기 사인으로 잇는 손 궤적, 가상 기타는 카플러스–스트롱 현 모델입니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 기타로: 진자 익히기</strong> ① 코드를 잡지 말고 왼손으로 줄을 가볍게 덮어 소리를 죽인 채(뮤트), 메트로놈 70 BPM에 맞춰 '다운–업'을 8분음표로 계속 칩니다. ② 입으로 "1 & 2 & 3 & 4 &"를 세며, 다운이 숫자에, 업이 '&'에 떨어지는지 확인합니다. ③ 이제 '&'에서만 손을 줄 위로 띄워 헛스윙합니다(4분 다운). 손 동작은 ①과 똑같아야 합니다. ④ 다시 몇몇 '&'에서만 줄을 쳐 봅니다. 동작은 바꾸지 않고 '닿느냐 마느냐'만 바꾸는 것이 목표입니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="directions">
+    <h2>다운과 업: 같은 코드, 다른 소리</h2>
+    <p>다운 스트로크는 손이 6번 줄(저음)에서 1번 줄(고음) 쪽으로, 업 스트로크는 반대로 지나갑니다. 줄은 순서대로 울리기 시작하므로 다운은 저음이 먼저, 업은 고음이 먼저 소리 납니다. 여기에 두 가지 차이가 더해집니다. 첫째, 다운은 팔 무게가 실려 저음 줄을 세게 치고, 업은 손이 위로 빠지며 고음 줄 몇 개만 가볍게 스칩니다. 그래서 업 스트로크는 보통 1–4번 줄만 치고 더 밝고 가볍게 들립니다. 둘째, 피크가 줄을 걸고 넘어가는 각도가 반대라서 같은 세기여도 음색이 조금 다릅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="다운과 업 스트로크에서 줄이 울리는 순서와 세기">
+        <g font-family="var(--font)">
+          <text x="200" y="24" text-anchor="middle" class="t" style="font-size:15px;font-weight:700">다운 ↓ (6번 → 1번)</text>
+          <text x="600" y="24" text-anchor="middle" class="t" style="font-size:15px;font-weight:700">업 ↑ (1번 → 4번 근처)</text>
+          <g id="str-fig3"></g>
+          <text x="200" y="250" text-anchor="middle" class="t-mono" style="font-size:12px">시간 → 0 … 60 ms</text>
+          <text x="600" y="250" text-anchor="middle" class="t-mono" style="font-size:12px">시간 → 0 … 60 ms</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-3.</b> 스트럼의 '지문'. 가로축은 첫 줄이 울린 뒤의 시간, 세로는 줄(위가 1번 줄), 점의 크기는 세기다. 다운은 저음 줄부터 세게, 업은 고음 줄부터 가볍게 몇 줄만 울린다. 줄 사이 간격(약 10 ms)이 모여 스트럼 전체 길이(수십 ms)가 된다.</figcaption>
+    </figure>
+    <p>스트럼 길이는 귀에 들리는 차이를 만듭니다. 사람의 귀는 20–30 ms 안에 들어온 소리를 하나의 '사건'으로 묶지만 그보다 길게 퍼지면 '촤르륵' 펼쳐진 소리로 듣습니다. 느린 발라드에서 손을 천천히 지나가게 하면 하프처럼 펼쳐지고, 빠른 록에서 손을 빨리 지나가게 하면 한 덩어리의 '착' 소리가 납니다. 앞 절의 식대로 손 속도는 템포와 진폭이 정하므로, 결국 <b>진폭이 음색을 조절하는 손잡이</b>입니다.</p>
+
+    <div class="sim" id="sim-str-dirs">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>다운 vs 업 스트로크 비교기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="str-dr-cv" class="str-cv"></canvas>
+          <canvas id="str-dr-live" class="str-cv str-live"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="str-dr-d">↓ 다운(6줄)</button><button class="btn primary" id="str-dr-u">↑ 업(1–4번)</button></div>
+          <div class="btn-row"><button class="btn" id="str-dr-ufull">↑ 업(6줄)</button><button class="btn" id="str-dr-bass">↓ 저음 3줄만</button><button class="btn" id="str-dr-ab">다운·업 번갈아 4번</button></div>
+          <label class="ctrl"><span>손 속도 <output id="str-dr-v-out"></output></span><input type="range" id="str-dr-v" min="0.15" max="2" value="0.75" step="0.05"></label>
+          <label class="ctrl"><span>세기 <output id="str-dr-vel-out"></output></span><input type="range" id="str-dr-vel" min="0.3" max="1" value="0.8" step="0.05"></label>
+          <div class="ctrl"><span>코드</span><div class="seg" id="str-dr-chord"><button data-value="G" class="on">G</button><button data-value="E">E</button><button data-value="C">C</button><button data-value="Am">Am</button></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">줄 사이 간격</span><span class="v" id="str-dr-o-gap">—</span></div>
+        <div class="stat"><span class="k">스트럼 길이</span><span class="v" id="str-dr-o-len">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="str-dr-o-cent">—</span></div>
+      </div>
+      <div class="sim-note">위: 마지막 스트럼의 줄별 시작 시각과 세기(점 크기). 아래: 마스터 출력의 실시간 스펙트럼. <b>스펙트럼 무게중심</b>은 스트럼 시작 약 0.1초 뒤의 스펙트럼에서 크기 가중 평균 주파수(80 Hz–8 kHz)를 잰 것으로, 클수록 밝은 소리입니다. 업 스트로크가 더 높게 나오는지 비교해 보세요. 모델: 줄 간격 10.5 mm ÷ 손 속도로 줄 사이 시간을 정하고, 다운은 저음 줄에서 고음 줄로 갈수록 세기가 4%씩, 업은 고음 줄에서 저음 줄로 갈수록 7%씩 줄어든다고 가정했습니다(가상 기타 GT.strum과 같은 기울기). 실제 피크의 각도·재질에 따른 음색 차이는 반영하지 않았습니다.</div>
     </div>
   </section>
 
-<nav class="chapter-nav" aria-label="장 이동">
-<a href="chords.html"><small>← 03</small><span>코드 다이어그램</span></a>
-<a class="next" href="progressions.html"><small>05 →</small><span>코드 진행 연주</span></a>
-</nav>
+  <!-- =============================================================== 4 -->
+  <section id="patterns">
+    <h2>대표 스트럼 패턴 읽기</h2>
+    <p>스트럼 패턴은 격자의 칸마다 기호 하나를 적어서 나타냅니다. 이 책은 <b>D</b>(다운), <b>U</b>(업), <b>X</b>(뮤트 칙), <b>-</b>(헛스윙)의 네 기호를 씁니다. 8칸이면 8분음표 격자, 16칸이면 16분음표 격자입니다. 진자 원리 덕분에 D는 언제나 짝수 칸(앞박), U는 홀수 칸(뒷박)에 놓이므로, 기호를 보면 손 방향이 따로 적혀 있지 않아도 압니다. 아래 표는 자주 쓰는 패턴과 세는 법입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이름</th><th>칸</th><th>세는 법(치는 칸)</th><th>쓰임</th></tr></thead>
+      <tbody>
+        <tr><td>4분 다운</td><td><code>D-D-D-D-</code></td><td>1 2 3 4</td><td>첫 연습, 느린 곡, 코드 바꾸기 연습</td></tr>
+        <tr><td>8비트 다운업</td><td><code>DUDUDUDU</code></td><td>1&amp;2&amp;3&amp;4&amp;</td><td>빠른 록·펑크(일정한 추진력)</td></tr>
+        <tr><td>포크</td><td><code>D-DU-UDU</code></td><td>1 2&amp; &amp;4&amp;</td><td>통기타 반주의 대표 패턴(3박의 앞박을 비워 당김음)</td></tr>
+        <tr><td>팝</td><td><code>D-D-DUDU</code></td><td>1 2 3 3&amp; 4 4&amp;</td><td>팝·록 반주, 후반에 몰아치는 느낌</td></tr>
+        <tr><td>오프비트</td><td><code>-U-U-U-U</code></td><td>&amp; &amp; &amp; &amp;</td><td>레게·스카(뒷박만 짧게)</td></tr>
+        <tr><td>칙 스트로크</td><td><code>D-X-D-X-</code></td><td>1 (2) 3 (4)</td><td>2·4박을 칙으로: 드럼의 스네어 역할</td></tr>
+        <tr><td>16비트 펑크</td><td><code>D-XUD-XU-UXUD-XU</code></td><td>16칸</td><td>펑크·R&amp;B 컷팅</td></tr>
+        <tr><td>16비트 발라드</td><td><code>D--UD-UDU-UDD-UD</code></td><td>16칸</td><td>발라드·어쿠스틱 팝</td></tr>
+      </tbody>
+    </table></div>
+    <p>표를 칸 번호와 함께 읽는 연습을 해 봅시다. 포크 패턴 <code>D-DU-UDU</code>는 칸 0(1) D, 칸 1(&amp;) 헛스윙, 칸 2(2) D, 칸 3(2&amp;) U, 칸 4(3) 헛스윙, 칸 5(3&amp;) U, 칸 6(4) D, 칸 7(4&amp;) U이므로 1, 2, 2&amp;, 3&amp;, 4, 4&amp;를 칩니다. 핵심은 3박의 앞박을 비우는 것입니다. 손은 3박에서 내려가지만 줄을 치지 않고, 바로 이어지는 3&amp;의 업이 강조되어 앞으로 쏠리는 당김음 느낌이 생깁니다. 비워 둔 칸이 리듬의 성격을 정한다는 것, 이것이 패턴 설계의 첫 번째 원리입니다. 팝 패턴 <code>D-D-DUDU</code>도 같은 방법으로 읽어 보세요. 앞의 두 박은 다운만, 뒤의 두 박은 다운–업을 모두 쳐서 마디 후반으로 갈수록 밀도가 올라갑니다. 어느 패턴이든 다운은 짝수 칸, 업은 홀수 칸에만 놓인다는 점을 확인하세요. 이것이 진자 규칙이고, 5절의 편집기는 이 규칙을 어긴 칸에 밑줄을 그어 줍니다.</p>
+
+    <div class="sim" id="sim-str-presets">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트럼 패턴 프리셋 플레이어</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="str-chord" id="str-ps-chord">G<small>1마디</small></div>
+          <div class="gt-strum ro" id="str-ps-grid"></div>
+          <div class="str-desc" id="str-ps-desc"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>패턴</span><div class="seg" id="str-ps-pat"></div></div>
+          <label class="ctrl"><span>코드 진행</span><select id="str-ps-prog"></select></label>
+          <label class="ctrl"><span>템포 <output id="str-ps-bpm-out"></output></span><input type="range" id="str-ps-bpm" min="50" max="140" value="84" step="2"></label>
+          <label class="check"><input type="checkbox" id="str-ps-click"> 메트로놈 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="str-ps-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-note">패턴을 고르면 재생 중에도 다음 칸부터 바로 바뀝니다. 위 칸의 노란 테두리가 지금 칸이고, 작은 글자가 세는 법입니다. 한 코드당 한 마디씩 진행을 반복합니다. 악센트는 GT.strumEvents의 규칙대로 1·3박 다운에 자동으로 줍니다. 실제 기타로 따라 칠 때는 먼저 소리를 들으며 입으로 세고, 그다음 왼손 뮤트로 오른손만 따라 하고, 마지막으로 코드를 잡고 합칩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="editor">
+    <h2>스트럼 패턴 편집기: 나만의 리듬 만들기</h2>
+    <p>이제 패턴을 직접 만들어 봅시다. 편집기의 각 칸을 누를 때마다 기호가 <b>- → D → U → X → -</b> 순서로 바뀌고, 그 칸의 소리를 바로 들려줍니다. 아래 줄의 <b>&gt;</b> 단추는 그 칸에 악센트를 줍니다. 진자 원리를 어긴 칸(앞박의 U, 뒷박의 D)은 노란 밑줄로 표시합니다. 원리를 어긴 패턴이 '틀린' 것은 아니지만(일부러 연속 다운을 쓰는 스타일도 있습니다), 손 동작이 불규칙해져 템포를 올리기 어렵다는 경고로 받아들이세요.</p>
+    <p>패턴을 설계할 때 쓸 만한 원리 몇 가지를 정리하면 이렇습니다. ① <b>1박은 거의 언제나 친다.</b> 마디의 시작을 알려 주어 듣는 사람이 박을 잃지 않게 합니다. ② <b>비운 칸이 성격을 만든다.</b> 앞박을 비우면 당김음, 뒷박만 남기면 오프비트가 됩니다. ③ <b>2·4박을 강조하면 백비트</b>가 되어 드럼 없이도 몸이 움직입니다(칙이나 악센트). ④ <b>코드가 바뀌는 칸 바로 앞</b>(4&)은 비우거나 개방현 업으로 두어 왼손이 움직일 시간을 줍니다. 스윙 슬라이더는 7절에서 설명합니다. 지금은 50%(스트레이트)에 두세요.</p>
+
+    <div class="sim" id="sim-str-editor">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트럼 패턴 편집기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="str-chord" id="str-ed-chord">G<small>1마디</small></div>
+          <div id="str-ed-grid"></div>
+          <div class="sim-msg" id="str-ed-msg" style="margin-top:10px">칸을 눌러 패턴을 만드세요.</div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>격자</span><div class="seg" id="str-ed-n"><button data-value="8" class="on">8칸(8분)</button><button data-value="16">16칸(16분)</button></div></div>
+          <label class="ctrl"><span>프리셋 불러오기</span><select id="str-ed-pre"></select></label>
+          <label class="ctrl"><span>코드 진행</span><select id="str-ed-prog"></select></label>
+          <label class="ctrl"><span>템포 <output id="str-ed-bpm-out"></output></span><input type="range" id="str-ed-bpm" min="50" max="160" value="88" step="2"></label>
+          <label class="ctrl"><span>스윙 <output id="str-ed-sw-out"></output></span><input type="range" id="str-ed-sw" min="50" max="75" value="50" step="1"></label>
+          <label class="check"><input type="checkbox" id="str-ed-pm"> 팜 뮤트(전체)</label>
+          <label class="check"><input type="checkbox" id="str-ed-click"> 메트로놈 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="str-ed-play">▶ 재생</button><button class="btn" id="str-ed-clear">지우기</button><button class="btn" id="str-ed-fill">진자대로 채우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">패턴 문자열</span><span class="v" id="str-ed-o-str">—</span></div>
+        <div class="stat"><span class="k">마디당 타격</span><span class="v" id="str-ed-o-hits">—</span></div>
+        <div class="stat"><span class="k">진자 규칙 위반</span><span class="v" id="str-ed-o-pv">—</span></div>
+        <div class="stat"><span class="k">칸 간격</span><span class="v" id="str-ed-o-ms">—</span></div>
+      </div>
+      <div class="sim-note">조작: 칸을 누르면 - → D → U → X 순서로 바뀝니다. <b>&gt;</b>는 악센트(세기 약 +3.5 dB). '진자대로 채우기'는 빈 칸을 남기고 D/U 방향만 진자 규칙에 맞게 고칩니다. 코드는 한 마디마다 진행을 따라 바뀌고, 16칸은 좁은 화면에서 두 줄로 나뉘어 보입니다. 업 스트로크는 1–4번 줄만, X는 왼손으로 줄을 덮고 긁는 타격음(잡음 + 짧은 저음)으로 합성합니다. 팜 뮤트는 감쇠가 빠르고 고음이 깎인 음색으로 바꿉니다. 패턴 문자열은 다른 시뮬레이터의 프리셋 표기와 같습니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 기타로: 패턴을 몸에 넣는 순서</strong> ① 편집기에서 패턴을 만들고 60–70 BPM으로 들으며 칸 이름을 소리 내어 셉니다. ② 왼손 뮤트 상태로 오른손만 따라 칩니다(소리 대신 '칙' 소리). 헛스윙 칸에서 손이 멈추지 않는지 확인하세요. ③ 코드 하나(G나 Em)를 잡고 같은 패턴을 2분 동안 끊김 없이. ④ 코드 두 개를 한 마디씩 번갈아. ⑤ 그다음 템포를 5 BPM씩 올립니다. 한 단계에서 세 번 연속 실수 없이 치면 다음 단계로 넘어가세요.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="texture">
+    <h2>악센트·팜 뮤트·칙: 리듬의 질감</h2>
+    <p>같은 패턴이라도 어떤 칸을 세게 치고, 소리를 얼마나 길게 남기느냐에 따라 전혀 다른 음악이 됩니다. 세 가지 기법이 이 '질감'을 조절합니다.</p>
+    <p><span class="term">악센트</span><span class="en">(Accent)</span>는 특정 칸을 다른 칸보다 세게 치는 것입니다. 손을 조금 더 높이에서 출발시키거나, 줄을 지날 때 손목 스냅을 더하면 됩니다. 악센트를 2·4박에 두면 드럼의 스네어처럼 백비트가 생기고, 패턴의 뒷박에 두면 당김음이 강조됩니다. 세기를 0.6에서 0.9로 올리면 진폭이 1.5배, 즉 \(20\log_{10}1.5 \approx 3.5\) dB 커집니다. 크게 느껴지지 않을 수 있지만, 리듬 안에서는 이 정도 차이로도 강약 구조가 또렷이 들립니다.</p>
+    <p><span class="term">팜 뮤트</span><span class="en">(Palm mute, P.M.)</span>는 오른손 손날(새끼손가락 쪽 손바닥 가장자리)을 브리지의 새들 바로 앞 줄 위에 살짝 얹고 치는 기법입니다. 손이 줄의 진동 에너지를 빨아들이는 감쇠기 역할을 하므로, 소리가 짧고 둔해지며 고음이 먼저 사라집니다. 손날을 새들 쪽으로 옮기면 음높이가 살아 있는 '둥둥' 소리, 지판 쪽으로 옮기면 음높이가 거의 없는 '퍽퍽' 소리가 납니다. 진폭이 지수적으로 줄어든다고 보면 감쇠 시간 상수 \(\tau\)가 핵심입니다.</p>
+    <div class="formula">$$a(t) = a_0\,e^{-t/\tau},\qquad T_{60} = \tau\ln(1000)\approx 6.9\,\tau$$
+      <div class="where">\(T_{60}\): 소리가 60 dB 줄어드는 데 걸리는 시간. 스틸 기타 개방현은 저음 줄에서 \(T_{60}\)이 수 초 이상이지만, 팜 뮤트를 하면 0.2–0.5 s 정도로 짧아진다(손의 압력과 위치에 따라 크게 달라진다). 고음 성분은 손바닥의 감쇠를 더 크게 받아 더 빨리 사라지므로 음색이 어두워진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="팜 뮤트 손 위치의 옆모습">
+        <g font-family="var(--font)">
+          <rect x="560" y="140" width="200" height="40" rx="6" class="f-surface"/>
+          <text x="660" y="200" text-anchor="middle" class="t-dim" style="font-size:12px">브리지</text>
+          <path d="M600 140 L606 118 L618 118 L624 140 Z" fill="var(--text-dim)"/>
+          <text x="612" y="110" text-anchor="middle" class="t-mono" style="font-size:12px">새들</text>
+          <line x1="20" y1="118" x2="612" y2="118" stroke="var(--accent)" stroke-width="2.5"/>
+          <text x="40" y="108" class="t-dim" style="font-size:12px">줄 → 지판 쪽</text>
+          <path d="M470 40 C 520 40, 580 70, 590 112 L 520 116 C 500 90, 480 70, 450 66 Z" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="470" y="34" text-anchor="middle" class="t" style="font-size:13px">오른손 손날</text>
+          <path d="M520 148 L590 148" class="s-line"/><path d="M520 142 L520 154 M590 142 L590 154" class="s-line"/>
+          <text x="555" y="168" text-anchor="middle" class="t-mono" style="font-size:12px">약 0–2 cm</text>
+          <g transform="translate(40,150)">
+            <text x="0" y="0" class="t" style="font-size:13px">새들에 가깝게 → 음높이가 살아 있는 '둥'</text>
+            <text x="0" y="22" class="t" style="font-size:13px">지판 쪽으로 → 음높이 없는 '퍽' (칙에 가까움)</text>
+            <text x="0" y="44" class="t-dim" style="font-size:12px">누르는 힘이 아니라 '얹는' 무게로 감쇠를 조절</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-4.</b> 팜 뮤트의 손 위치. 손날을 새들 바로 앞(지판 쪽으로 0–2 cm)의 줄 위에 가볍게 얹는다. 새들에서 멀어질수록 감쇠가 커져 음높이가 사라진다.</figcaption>
+    </figure>
+    <p><span class="term">칙</span><span class="en">(Chuck, 뮤트 스트로크)</span>은 줄의 진동을 완전히 막은 상태에서 긁어 음높이 없는 타격음만 내는 것입니다. 왼손 손가락의 힘을 빼서 줄을 프렛에서 띄우되 손가락은 줄에 닿아 있게 하거나(왼손 칙), 오른손이 다운 스트로크와 동시에 손바닥 아래쪽으로 줄을 덮칩니다(오른손 칙). 2·4박의 다운을 칙으로 바꾸면 기타 혼자서 킥과 스네어가 번갈아 나오는 드럼 비트처럼 들립니다. 칙 직전에 울리던 코드가 뚝 끊기는 것까지가 효과의 일부라서, '소리를 내는' 기술인 동시에 '소리를 멈추는' 기술이기도 합니다.</p>
+
+    <div class="sim" id="sim-str-texture">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>질감 실험실: 악센트·팜 뮤트·칙</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="str-chord" id="str-tx-chord">G</div>
+          <div class="gt-strum ro" id="str-tx-grid"></div>
+          <canvas id="str-tx-live" class="str-cv str-live"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악센트</span><div class="seg" id="str-tx-acc"><button data-value="none" class="on">없음</button><button data-value="13">1·3박</button><button data-value="24">2·4박</button><button data-value="off">뒷박</button></div></div>
+          <label class="check"><input type="checkbox" id="str-tx-pm"> 팜 뮤트</label>
+          <label class="check"><input type="checkbox" id="str-tx-chuck"> 2·4박 다운을 칙으로</label>
+          <div class="ctrl"><span>코드</span><div class="seg" id="str-tx-set"><button data-value="open" class="on">오픈 G–C–D–G</button><button data-value="power">파워 E5–G5–A5–G5</button></div></div>
+          <label class="ctrl"><span>템포 <output id="str-tx-bpm-out"></output></span><input type="range" id="str-tx-bpm" min="60" max="150" value="96" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="str-tx-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-note">기본 패턴은 8비트 다운업 <code>DUDUDUDU</code>입니다. 옵션을 하나씩 켜고 끄며 같은 패턴의 질감이 어떻게 바뀌는지 들어 보세요. 아래 그래프는 마스터 출력의 실시간 파형으로, 팜 뮤트를 켜면 각 스트로크의 꼬리가 짧아지는 것이 보입니다. 파워 코드 + 팜 뮤트 + 일정한 다운업은 록 기타 리듬의 기본 질감입니다. 모델: 팜 뮤트는 가상 기타의 '팜 뮤트' 음색(감쇠 계수 0.95, 저역 통과 2.2 kHz, 길이 약 0.4 s), 칙은 대역 통과 잡음 + 짧은 저음 타격입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="swing">
+    <h2>스윙과 셔플: 뒷박을 미루기</h2>
+    <p>지금까지의 패턴은 박을 정확히 반으로 나누는 <b>스트레이트</b> 리듬이었습니다. 블루스·재즈·셔플에서는 8분음표 두 개를 '길게–짧게' 연주합니다. 뒷박(&)이 반 박보다 늦게, 다음 박 쪽으로 밀려 오는 것입니다. 이것을 <span class="term">스윙</span><span class="en">(Swing)</span>이라 하고, 앞 음과 뒤 음의 길이 비를 <b>스윙 비율</b> \(r\)이라 합니다. 스윙의 측정과 지각은 MusicBook <a href="../../fundamentals/chapters/rhythm.html#swing">리듬과 박자 · 스윙</a>에서 자세히 다루었습니다.</p>
+    <div class="formula">$$\phi_{\text{off}} = \frac{r}{1+r},\qquad \Delta t = \left(\frac{r}{1+r}-\frac12\right)T_{\text{beat}}$$
+      <div class="where">\(\phi_{\text{off}}\): 박 안에서 뒷박이 놓이는 위치(0–1). \(r=1\)이면 50%(스트레이트), \(r=2\)면 66.7%(셋잇단 위치, 전형적인 셔플), \(r=3\)이면 75%(점8분 + 16분). 100 BPM에서 박은 600 ms이므로 2:1 스윙의 뒷박은 300 ms가 아니라 400 ms에 놓이고, 스트레이트보다 100 ms 늦다. 편집기의 '스윙 %'는 \(\phi_{\text{off}}\)를 그대로 표시한 것이다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="스윙 비율에 따른 뒷박의 위치">
+        <g font-family="var(--font)" id="str-fig5"></g>
+      </svg>
+      <figcaption><b>그림 6-5.</b> 한 박 안에서 뒷박(업 스트로크)의 위치. 스트레이트는 정확히 가운데(50%), 셔플은 셋잇단의 셋째 칸(66.7%), 점리듬은 75%다. 손의 진자도 이에 맞춰 내려가는 반 주기는 길게, 올라가는 반 주기는 짧게 비대칭이 된다.</figcaption>
+    </figure>
+    <p>스트로크에서 스윙을 내는 방법은 진자를 비대칭으로 흔드는 것입니다. 손은 여전히 앞박에 내려가고 뒷박에 올라가지만, 내려가서 아래에 머무는 시간이 길고 올라오는 동작이 짧고 빠릅니다. '따–안 따–안'보다 '따––아 따––아'처럼 셋잇단으로 세면("1 – a 2 – a", 또는 "하나–둘–셋"의 첫째와 셋째) 손이 자연스럽게 셔플 위치를 찾습니다. 스윙 비율은 템포가 빠를수록 1에 가까워지는 경향이 있어서, 빠른 셔플은 거의 스트레이트처럼, 느린 블루스는 3:1에 가깝게 연주되기도 합니다.</p>
+
+    <div class="sim" id="sim-str-swing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트레이트 vs 스윙</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="str-sw-cv" class="str-cv"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>스윙 비율 r <output id="str-sw-r-out"></output></span><input type="range" id="str-sw-r" min="1" max="3" value="2" step="0.05"></label>
+          <div class="ctrl"><span>재생 방식</span><div class="seg" id="str-sw-mode"><button data-value="ab" class="on">2마디씩 번갈아</button><button data-value="swing">스윙만</button><button data-value="straight">스트레이트만</button></div></div>
+          <div class="ctrl"><span>리듬</span><div class="seg" id="str-sw-pat"><button data-value="DUDUDUDU" class="on">다운업</button><button data-value="DUXUDUXU">셔플 + 칙</button></div></div>
+          <label class="ctrl"><span>템포 <output id="str-sw-bpm-out"></output></span><input type="range" id="str-sw-bpm" min="60" max="160" value="100" step="2"></label>
+          <label class="check"><input type="checkbox" id="str-sw-hat" checked> 하이햇(8분)</label>
+          <div class="btn-row"><button class="btn primary" id="str-sw-play">▶ 재생</button><button class="btn" id="str-sw-1">1:1</button><button class="btn" id="str-sw-2">2:1</button><button class="btn" id="str-sw-3">3:1</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="str-sw-o-now">—</span></div>
+        <div class="stat"><span class="k">뒷박 위치</span><span class="v" id="str-sw-o-pos">—</span></div>
+        <div class="stat"><span class="k">스트레이트 대비 지연</span><span class="v" id="str-sw-o-dt">—</span></div>
+      </div>
+      <div class="sim-note">위 레인은 스트레이트, 아래 레인은 현재 스윙 비율의 한 마디 온셋 위치입니다(점선은 셋잇단 위치). 재생 중인 레인이 강조되고 세로 막대가 지금 위치를 따라갑니다. 진행은 E7–A7 블루스 느낌(코드당 한 마디)입니다. 해볼 것: 2마디씩 번갈아 듣기로 r을 1에서 천천히 올리며, 어느 값에서 '셔플'로 범주가 바뀌어 들리는지 찾아보세요(대개 1.3–1.5 근처). 타이밍은 MB.Clock의 스윙 파라미터(짝수 칸이 차지하는 비율 = r/(1+r))를 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="timing">
+    <h2>타이밍 연습: 메트로놈과 함께</h2>
+    <p>리듬 실력은 측정할 수 있습니다. 메트로놈 클릭에 맞춰 칠 때 실제 타격 시각이 목표 시각에서 얼마나 벗어나는지(타이밍 오차), 그리고 방향을 맞게 쳤는지를 재면 됩니다. 연구에 따르면 사람은 메트로놈에 맞춰 두드릴 때 클릭보다 평균 수십 ms <b>먼저</b> 치는 경향이 있고(음의 비동기, negative mean asynchrony), 숙련된 연주자일수록 오차의 흩어짐(표준편차)이 작습니다. 아마추어는 대략 20–40 ms, 숙련자는 10 ms 안팎까지 줄어듭니다. 아래 게임은 키보드 <kbd>J</kbd>(다운)와 <kbd>K</kbd>(업), 또는 화면의 큰 단추로 목표 패턴을 따라 치게 하고 이 두 가지를 잽니다.</p>
+    <div class="formula">$$e_i = t_i^{\text{press}} - \left(t_i^{\text{target}} + \ell\right),\qquad \bar e = \frac1N\sum e_i,\qquad \sigma_e = \sqrt{\frac1N\sum (e_i-\bar e)^2}$$
+      <div class="where">\(e_i\): i번째 목표의 타이밍 오차(양수 = 늦음), \(\ell\): 오디오 출력 지연 보정(브라우저가 알려 주는 outputLatency + 사용자가 정한 값). \(\bar e\)는 습관적으로 앞서거나 늦는 정도(편향), \(\sigma_e\)는 매번 얼마나 들쭉날쭉한지(정밀도)다. 연습의 목표는 둘 다 줄이는 것이지만, 특히 \(\sigma_e\)가 '박이 안정적이다'라는 느낌과 직결된다.</div>
+    </div>
+
+    <div class="sim" id="sim-str-tap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트로크 타이밍 게임</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="str-big"><div class="gt-big" id="str-tp-count">—<small>카운트</small></div><div class="gt-big" id="str-tp-last">—<small>방금 친 오차</small></div></div>
+          <div class="gt-strum ro" id="str-tp-grid" style="margin-top:8px"></div>
+          <div class="str-taps"><button id="str-tp-d">↓ D<small>키 J</small></button><button id="str-tp-u">↑ U<small>키 K</small></button></div>
+          <canvas id="str-tp-cv" class="str-cv" style="margin-top:10px"></canvas>
+          <div class="str-legend"><span><i style="background:var(--ok)"></i>±30 ms 안 · 방향 맞음</span><span><i style="background:var(--warn)"></i>±30–80 ms</span><span><i style="background:var(--bad)"></i>방향 틀림/놓침</span></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>목표 패턴</span><select id="str-tp-pat">
+            <option value="D-D-D-D-">4분 다운 (D-D-D-D-)</option>
+            <option value="DUDUDUDU">8비트 다운업 (DUDUDUDU)</option>
+            <option value="D-DU-UDU" selected>포크 (D-DU-UDU)</option>
+            <option value="D-D-DUD-">팝 (D-D-DUD-)</option>
+            <option value="-U-U-U-U">오프비트 (-U-U-U-U)</option>
+          </select></label>
+          <label class="ctrl"><span>템포 <output id="str-tp-bpm-out"></output></span><input type="range" id="str-tp-bpm" min="50" max="120" value="70" step="2"></label>
+          <label class="ctrl"><span>지연 보정 추가 <output id="str-tp-lat-out"></output></span><input type="range" id="str-tp-lat" min="-60" max="120" value="0" step="5"></label>
+          <label class="check"><input type="checkbox" id="str-tp-guide" checked> 목표 칸에서 안내 소리(작은 클릭)</label>
+          <div class="btn-row"><button class="btn primary" id="str-tp-play">▶ 시작(1마디 예비 + 4마디)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 목표</span><span class="v" id="str-tp-o-hit">—</span></div>
+        <div class="stat"><span class="k">방향 정확도</span><span class="v" id="str-tp-o-dir">—</span></div>
+        <div class="stat"><span class="k">평균 오차(편향)</span><span class="v" id="str-tp-o-mean">—</span></div>
+        <div class="stat"><span class="k">오차 표준편차</span><span class="v" id="str-tp-o-sd">—</span></div>
+        <div class="stat"><span class="k">헛친 타격</span><span class="v" id="str-tp-o-extra">—</span></div>
+        <div class="stat"><span class="k">점수</span><span class="v" id="str-tp-o-score">—</span></div>
+      </div>
+      <div class="sim-note">사용법: 시작을 누르면 한 마디 동안 높은 클릭 네 번(예비 박)이 나오고, 이어서 네 마디 동안 메트로놈과 함께 목표 패턴이 진행됩니다. 목표 칸에 맞춰 <kbd>J</kbd>(다운)·<kbd>K</kbd>(업)를 누르거나 화면 단추를 두드리면 그 방향으로 G 코드를 칩니다. 각 목표에서 ±150 ms 안의 가장 가까운 타격을 짝지어 오차를 재고, 짝이 없는 타격은 '헛친 타격'으로 셉니다. 아래 그래프는 마디별 목표(세로 눈금)와 내 타격(점, 위 = 다운, 아래 = 업)의 위치입니다. 키 입력과 오디오 출력에는 기기마다 수십 ms의 지연이 있어서 평균 오차가 늘 한쪽으로 치우치면 '지연 보정 추가'로 맞추세요(예: 늘 +40 ms 늦게 나오면 +40). 방향 판정만큼은 지연과 상관없이 정확합니다.</div>
+    </div>
+
+    <h3>피크 잡는 법과 각도</h3>
+    <p>스트로크의 소리는 피크를 어떻게 쥐느냐에서 시작합니다. 엄지 첫마디의 안쪽 볼과 검지 옆면(첫째·둘째 마디 사이) 사이에 피크를 끼우고, 끝이 2–3 mm만 나오게 합니다. 검지는 둥글게 말아 엄지와 거의 직각을 이루게 합니다. 너무 많이 나오면 줄에 걸려 피크가 돌아가고, 너무 적게 나오면 줄을 놓칩니다. 쥐는 힘은 '누가 잡아당기면 빠질 정도'가 적당합니다. 스트로크에서는 피크가 줄을 지날 때 살짝 휘어지며 미끄러져야 소리가 부드럽기 때문입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="피크를 쥐는 법과 줄에 대한 각도">
+        <g font-family="var(--font)">
+          <!-- grip -->
+          <path d="M120 60 C 180 40, 250 60, 270 110 C 280 140, 250 160, 210 150 L 140 130 C 100 120, 90 80, 120 60 Z" fill="var(--accent-2-soft)" stroke="var(--accent-2)" stroke-width="2"/>
+          <text x="150" y="40" class="t" style="font-size:13px">검지 옆면(둥글게 말기)</text>
+          <path d="M200 120 L 240 175 L 165 160 Z" fill="var(--accent)" opacity="0.85"/>
+          <path d="M130 150 C 170 140, 230 130, 260 120 C 270 140, 240 160, 200 165 L 140 170 C 120 168, 115 155, 130 150 Z" fill="var(--surface)" stroke="var(--text-dim)" stroke-width="2" opacity="0.95"/>
+          <text x="110" y="200" class="t" style="font-size:13px">엄지 볼이 피크를 덮는다</text>
+          <path d="M238 172 L 262 196" class="s-line"/><text x="266" y="210" class="t-dim" style="font-size:12px">끝 2–3 mm만</text>
+          <!-- angle -->
+          <g transform="translate(470,40)">
+            <g stroke="var(--text-faint)" stroke-width="1.6"><line x1="0" y1="40" x2="280" y2="40"/><line x1="0" y1="62" x2="280" y2="62"/><line x1="0" y1="84" x2="280" y2="84"/><line x1="0" y1="106" x2="280" y2="106"/><line x1="0" y1="128" x2="280" y2="128"/><line x1="0" y1="150" x2="280" y2="150"/></g>
+            <text x="-6" y="44" text-anchor="end" class="t-mono" style="font-size:11px">1</text><text x="-6" y="154" text-anchor="end" class="t-mono" style="font-size:11px">6</text>
+            <g transform="translate(140,95) rotate(-15)"><path d="M-16 -60 L16 -60 L4 0 L-4 0 Z" fill="var(--accent)" opacity="0.85"/></g>
+            <path d="M140 20 L 140 175" stroke="var(--text-dim)" stroke-dasharray="4 4"/>
+            <path d="M140 45 A 50 50 0 0 1 156 47" fill="none" stroke="var(--bad)" stroke-width="2"/>
+            <text x="164" y="30" class="t" style="font-size:13px;fill:var(--bad)">10–20°</text>
+            <text x="140" y="200" text-anchor="middle" class="t" style="font-size:13px">줄에 대해 살짝 비스듬히</text>
+            <text x="140" y="218" text-anchor="middle" class="t-dim" style="font-size:12px">줄을 '베듯이' 지나가 걸림이 적다</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-6.</b> 피크 쥐는 법(왼쪽, 개략도)과 줄에 대한 각도(오른쪽). 피크를 줄과 직각으로 세우면 줄마다 걸려 '딱딱' 끊기고, 진행 방향으로 10–20° 기울이면 칼로 베듯 미끄러져 고르게 울린다. 스트로크용으로는 얇거나 중간 두께(0.5–0.7 mm)의 피크가 다루기 쉽다.</figcaption>
+    </figure>
+    <p>움직임의 중심은 팔꿈치가 아니라 <b>손목과 아래팔의 회전</b>입니다. 문손잡이를 돌리듯 아래팔을 살짝 비틀고 손목은 털 듯이 흔들면, 작은 근육으로 큰 진폭을 만들 수 있어 오래 쳐도 지치지 않습니다. 팔꿈치 전체로 위아래로 크게 휘두르면 진폭은 크지만 2절의 식대로 빠른 템포에서 필요한 속도를 감당하기 어렵습니다. 또 오른팔 아래팔은 기타 몸통의 위쪽 모서리에 가볍게 걸쳐 두고, 그 지점을 회전축으로 삼으면 손이 줄 위의 같은 위치(사운드홀과 넥 끝 사이)를 일정하게 지나갑니다.</p>
+    <div class="callout tip"><strong>실제 기타로: 매일 10분 리듬 루틴</strong> ① <b>2분 · 뮤트 진자</b>: 왼손으로 줄을 덮고 메트로놈 60–80 BPM에 8분 다운업. 손목만 흔들고 어깨 힘 빼기. ② <b>3분 · 패턴 하나</b>: 오늘의 패턴을 코드 하나로. 입으로 세면서. ③ <b>3분 · 코드 전환과 함께</b>: 5장의 첫 진행 G–Em–C–D에 패턴 얹기. 박을 놓쳐도 오른손은 멈추지 않기. ④ <b>2분 · 측정</b>: 위의 타이밍 게임으로 점수를 기록. 평균 오차와 표준편차가 줄어드는지 일주일 단위로 봅니다. 템포는 '실수 없이 세 번 연속'이면 5 BPM 올리고, 두 번 연속 무너지면 10 BPM 내리는 템포 사다리로 관리하세요(14장).</div>
+    <div class="callout warn"><strong>힘 빼기</strong> 스트로크 소리가 지나치게 '깡깡'거리거나 손목이 뻐근하면 피크를 너무 세게 쥐었거나 진폭이 너무 큰 것입니다. 피크를 쥔 손가락 힘을 절반으로 줄이고, 손이 줄을 '때리지' 말고 '지나가게' 하세요.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>박 간격은 \(60000/\text{BPM}\) ms이고, 8분은 그 절반, 16분은 4분의 1이다. 8분 격자는 "1 & 2 &", 16분 격자는 "1 e & a"로 센다.</li>
+      <li>진자 원리: 오른손은 앞박에 내려가고 뒷박에 올라가며 멈추지 않는다. 치지 않는 칸은 헛스윙이다. 손 높이는 \(y=-A\sin(2\pi t/T)\), 줄을 지나는 순간이 가장 빠르다(\(v_{\max}=2\pi A/T\)).</li>
+      <li>다운은 저음 줄부터 세게, 업은 고음 줄부터 가볍게 1–4번 줄을 친다. 스트럼 길이는 대략 (줄 수 − 1) × 줄 간격 ÷ 손 속도로 수십 ms이고, 진폭으로 조절한다.</li>
+      <li>패턴은 8·16칸 격자에 D·U·X·-를 적은 것이다. D는 짝수 칸, U는 홀수 칸에 놓이며, 비운 칸(특히 앞박)이 당김음과 패턴의 성격을 만든다.</li>
+      <li>악센트는 강약 구조(2·4박 = 백비트)를, 팜 뮤트는 짧은 감쇠(\(T_{60}\) 수백 ms)와 어두운 음색을, 칙은 음높이 없는 타격과 소리 끊기를 더한다.</li>
+      <li>스윙 비율 r의 뒷박 위치는 r/(1+r)이다. 2:1(66.7%)이 셔플이고, 손의 진자를 비대칭으로 흔들어 만든다.</li>
+      <li>타이밍 실력은 평균 오차(편향)와 표준편차(정밀도)로 잰다. 메트로놈, 느린 템포, 손목 회전 중심의 가벼운 그립, 템포 사다리가 연습의 기본이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>80 BPM에서 16분음표 한 칸의 길이는?</p><div class="opts">
+        <button class="opt">125 ms</button><button class="opt" data-correct>187.5 ms</button><button class="opt">375 ms</button><button class="opt">750 ms</button>
+      </div><div class="quiz-exp">박 = 60000/80 = 750 ms, 16분음표는 그 4분의 1인 187.5 ms다. 375 ms는 8분음표.</div></div>
+      <div class="quiz-q"><p>진자 원리에 따르면 8칸 패턴의 칸 5(3박의 '&')에서 오른손은?</p><div class="opts">
+        <button class="opt">항상 다운 스트로크를 한다</button><button class="opt" data-correct>위로 움직인다(치면 업, 안 치면 헛스윙)</button><button class="opt">멈추고 다음 박을 기다린다</button><button class="opt">칙을 친다</button>
+      </div><div class="quiz-exp">홀수 칸은 뒷박이므로 손은 위로 올라간다. 칠지 말지만 바뀔 뿐 손은 멈추지 않는다.</div></div>
+      <div class="quiz-q"><p>손 속도 0.5 m/s, 줄 간격 10.5 mm로 여섯 줄을 모두 긁을 때 첫 줄과 마지막 줄 사이 시간은 약?</p><div class="opts">
+        <button class="opt">21 ms</button><button class="opt">63 ms</button><button class="opt" data-correct>105 ms</button><button class="opt">126 ms</button>
+      </div><div class="quiz-exp">줄 사이 시간 = 10.5 mm ÷ 500 mm/s = 21 ms. 간격은 5개이므로 5 × 21 = 105 ms. 귀가 '펼쳐진' 소리로 듣는 길이다.</div></div>
+      <div class="quiz-q"><p>포크 패턴 <code>D-DU-UDU</code>에서 비어 있는 앞박은?</p><div class="opts">
+        <button class="opt">1박</button><button class="opt">2박</button><button class="opt" data-correct>3박</button><button class="opt">4박</button>
+      </div><div class="quiz-exp">칸 0(1) D, 1(&) -, 2(2) D, 3(&) U, 4(3) -, 5(&) U, 6(4) D, 7(&) U. 3박 앞박(칸 4)이 헛스윙이라 이어지는 3&의 업이 당김음으로 들린다.</div></div>
+      <div class="quiz-q"><p>120 BPM에서 스윙 비율 3:1로 연주하면 뒷박은 박 시작에서 몇 ms 뒤에 오는가?</p><div class="opts">
+        <button class="opt">250 ms</button><button class="opt">333 ms</button><button class="opt" data-correct>375 ms</button><button class="opt">400 ms</button>
+      </div><div class="quiz-exp">박 = 500 ms, 뒷박 위치 = 3/(1+3) = 75%이므로 375 ms. 2:1이면 333 ms, 스트레이트면 250 ms다.</div></div>
+      <div class="quiz-q"><p>팜 뮤트에 대한 설명으로 옳은 것은?</p><div class="opts">
+        <button class="opt">왼손으로 줄을 프렛에서 띄워 음높이를 없앤다</button><button class="opt" data-correct>오른손 손날을 새들 바로 앞 줄 위에 얹어 감쇠를 키운다</button><button class="opt">줄을 세게 쳐서 고음을 강조한다</button><button class="opt">업 스트로크만 사용하는 기법이다</button>
+      </div><div class="quiz-exp">팜 뮤트는 오른손 손날이 감쇠기 역할을 해 \(T_{60}\)을 줄이고 고음을 먼저 깎는다. 왼손으로 줄을 띄우는 것은 칙(왼손 뮤트)이다.</div></div>
+      <div class="quiz-q"><p>타이밍 게임에서 평균 오차 −35 ms, 표준편차 8 ms가 나왔다. 해석으로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">박이 매우 불안정하다</button><button class="opt" data-correct>매우 일정하지만 습관적으로(또는 장치 지연 때문에) 조금 일찍 친다</button><button class="opt">방향을 자주 틀린다</button><button class="opt">늦게 치는 경향이 있다</button>
+      </div><div class="quiz-exp">표준편차 8 ms는 정밀도가 높다는 뜻이고, 평균 −35 ms는 일정하게 앞선다는 편향이다. 사람의 음의 비동기와 장치 지연이 섞인 값이므로 보정 슬라이더로 확인할 수 있다.</div></div>
+    </div>
+  </section>
 </main>
-<footer class="gb-foot">GuitarBook · 기타 교과서. 글은 CC BY 4.0, 코드는 MIT 라이선스입니다. <a href="../../">음악 서가로</a></footer>
+
+<script>
+/* ================================================================ 공통 */
+const Solo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const strF = (x, d = 1) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const STR_PROGS = {
+  "G C D G": "G – C – D – G",
+  "G Em C D": "G – Em – C – D",
+  "C Am Dm G": "C – Am – Dm – G",
+  "Am G C E": "Am – G – C – E",
+  "A D E A": "A – D – E – A",
+  "Em C G D": "Em – C – G – D",
+};
+function progOptions(sel, def) { sel.innerHTML = Object.entries(STR_PROGS).map(([k, v]) => `<option value="${k}" ${k === def ? "selected" : ""}>${v}</option>`).join(""); }
+const COUNT8 = ["1", "&", "2", "&", "3", "&", "4", "&"];
+const COUNT16 = ["1", "e", "&", "a", "2", "e", "&", "a", "3", "e", "&", "a", "4", "e", "&", "a"];
+const countLabels = (n) => (n === 16 ? COUNT16 : n === 8 ? COUNT8 : Array.from({ length: n }, (_, i) => String(i + 1)));
+const SYM = { D: "↓", U: "↑", X: "×", "-": "·" };
+/** 스트럼 칸 격자 그리기(읽기 전용 또는 편집) */
+function drawStrumGrid(el, slots, now = -1, o = {}) {
+  const n = slots.length, lab = countLabels(n);
+  el.style.setProperty("--n", n);
+  el.classList.toggle("n16", n === 16);
+  el.innerHTML = slots.map((c, i) => {
+    const beat = i % (n / 4) === 0;
+    const cls = [beat ? "beat" : "", c === "D" ? "d" : c === "U" ? "u" : c === "X" ? "x" : "", i === now ? "now" : "", o.pv && o.pv[i] ? "pv" : "", o.acc && o.acc[i] ? "acc" : ""].join(" ");
+    return `<button data-i="${i}" class="${cls}" ${o.ro ? 'tabindex="-1"' : ""}>${c === "-" ? "·" : c}${o.acc && o.acc[i] ? "<sup>&gt;</sup>" : ""}<small>${lab[i]}</small></button>`;
+  }).join("");
+}
+function setNow(el, i) { el.querySelectorAll("button.now").forEach((b) => b.classList.remove("now")); const b = el.querySelector(`button[data-i="${i}"]`); if (b) b.classList.add("now"); }
+/** 슬롯 하나를 가상 기타로 */
+function playSlot(g, chordName, c, when, o = {}) {
+  const sh = GT.chord(chordName).shape;
+  const acc = o.accent ? 1.3 : 1;
+  if (c === "D") g.strum(sh, { dir: "D", when, vel: Math.min(1, (o.vel || 0.66) * acc), mute: o.mute });
+  else if (c === "U") g.strum(sh, { dir: "U", when, vel: Math.min(1, (o.velU || 0.52) * acc), mute: o.mute, strings: [2, 3, 4, 5] });
+  else if (c === "X") g.chuck({ when, vel: Math.min(1, 0.7 * acc) });
+}
+/** MB.Clock + 타임라인 기록 */
+function slotClock(o) {
+  const tl = [];
+  const clk = MB.Clock({
+    bpm: o.bpm, div: o.div, swing: o.swing || (() => 0.5), length: o.length,
+    onStep(step, time, dur) { tl.push({ step, time, dur }); if (tl.length > 400) tl.splice(0, tl.length - 400); o.onSlot && o.onSlot(step, time, dur); },
+    onUI(step, time) { o.onUI && o.onUI(step, time); },
+    onStop() { tl.length = 0; o.onStop && o.onStop(); },
+  });
+  return { clk, tl, at(t) { for (let i = tl.length - 1; i >= 0; i--) if (tl[i].time <= t) return tl[i]; return null; } };
+}
+function looper(btnId, sc, labels, onStart, onStop) {
+  const halt = () => { if (sc.clk.running) sc.clk.stop(); pb.set(false); onStop && onStop(); Solo.drop(halt); };
+  const pb = MB.playButton(btnId, () => { Solo.take(halt); onStart && onStart(); sc.clk.start(); }, () => { halt(); }, labels || undefined);
+  return { halt, pb };
+}
+const FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+
+/* ================================================================ 그림 6-1, 6-2, 6-3, 6-5 (정적 그림을 스크립트로 채움) */
+(function () {
+  // 6-1: 16분 격자
+  const g16 = document.getElementById("str-fig1-16");
+  let h = "";
+  for (let i = 0; i < 16; i++) {
+    const x = 110 + i * 41.875, beat = i % 4 === 0;
+    h += `<text x="${x}" y="230" class="${beat ? "t-acc" : "t-dim"}">${COUNT16[i]}</text><circle cx="${x}" cy="248" r="${beat ? 5.5 : 3.8}" fill="${beat ? "var(--accent)" : i % 2 ? "var(--text-faint)" : "var(--accent-2)"}"/>`;
+  }
+  g16.innerHTML = h;
+  // 6-2: 진자 곡선 (두 박, 8칸 패턴 앞 4칸: D - D U)
+  const slots = "D-DU", x0 = 70, x1 = 780, y0 = 136, A = 90;
+  const N = 400, pts = [];
+  const span = 4.6; // 칸 단위 길이
+  for (let k = 0; k <= N; k++) {
+    const u = -0.3 + (k / N) * span; // 칸 단위 시간
+    const i = Math.floor(u), ph = u - i;
+    const even = MB.mod(i, 2) === 0;
+    const y = even ? -Math.sin(Math.PI * ph) : Math.sin(Math.PI * ph);
+    pts.push(`${(x0 + ((u + 0.3) / span) * (x1 - x0)).toFixed(1)},${(y0 - A * y).toFixed(1)}`);
+  }
+  document.getElementById("str-fig2-path").setAttribute("d", "M" + pts.join(" L"));
+  let m = "";
+  for (let i = 0; i < 4; i++) {
+    const x = x0 + ((i + 0.3) / span) * (x1 - x0), c = slots[i], hit = c !== "-";
+    const dir = i % 2 === 0 ? "D" : "U";
+    m += `<circle cx="${x}" cy="${y0}" r="9" fill="${hit ? "var(--accent)" : "var(--bg-elev)"}" stroke="var(--accent)" stroke-width="2"/>`;
+    m += `<text x="${x}" y="${i % 2 ? y0 - 104 : y0 + 118}" text-anchor="middle" class="t" style="font-size:14px;font-weight:700">${hit ? dir : "(" + dir + ")"}</text>`;
+    m += `<text x="${x}" y="${i % 2 ? y0 - 88 : y0 + 100}" text-anchor="middle" class="t-mono" style="font-size:12px">${COUNT8[i]}${hit ? "" : " 헛스윙"}</text>`;
+  }
+  document.getElementById("str-fig2-marks").innerHTML = m;
+  // 6-3: 스트럼 지문
+  const f3 = document.getElementById("str-fig3");
+  const panel = (ox, dir) => {
+    let s = "";
+    for (let st = 0; st < 6; st++) { const y = 50 + st * 30; s += `<line x1="${ox}" y1="${y}" x2="${ox + 300}" y2="${y}" stroke="var(--text-faint)"/><text x="${ox - 8}" y="${y + 4}" text-anchor="end" class="t-mono" style="font-size:11px">${st + 1}</text>`; }
+    const order = dir === "D" ? [5, 4, 3, 2, 1, 0] : [0, 1, 2, 3];
+    order.forEach((st, k) => {
+      const s0 = 5 - st; // 줄 인덱스(0 = 6번 줄)
+      const vel = dir === "D" ? 1 - 0.04 * s0 : 1 - 0.07 * (5 - s0);
+      const v = dir === "D" ? vel : vel * 0.72;
+      const x = ox + 20 + k * 50, y = 50 + st * 30;
+      s += `<circle cx="${x}" cy="${y}" r="${(4 + 9 * v).toFixed(1)}" fill="var(--accent)" opacity="${(0.35 + 0.6 * v).toFixed(2)}"/>`;
+    });
+    s += `<path d="M${ox + 10} ${dir === "D" ? 215 : 30} L${ox + 290} ${dir === "D" ? 215 : 30}" class="s-acc"/>`;
+    return s;
+  };
+  f3.innerHTML = panel(50, "D") + panel(450, "U");
+  // 6-5: 스윙 위치
+  const f5 = document.getElementById("str-fig5");
+  const rows = [["스트레이트 1:1", 0.5], ["셔플 2:1", 2 / 3], ["점리듬 3:1", 0.75]];
+  let s5 = "";
+  const bx0 = 200, bw = 540;
+  rows.forEach(([lab, p], i) => {
+    const y = 40 + i * 62;
+    s5 += `<text x="20" y="${y + 20}" class="t" style="font-size:14px">${lab}</text>`;
+    s5 += `<rect x="${bx0}" y="${y}" width="${bw}" height="34" rx="6" class="f-surface"/>`;
+    s5 += `<line x1="${bx0 + bw / 2}" y1="${y - 4}" x2="${bx0 + bw / 2}" y2="${y + 38}" stroke="var(--text-faint)"/>`;
+    s5 += `<line x1="${bx0 + bw * 2 / 3}" y1="${y - 4}" x2="${bx0 + bw * 2 / 3}" y2="${y + 38}" stroke="var(--text-faint)" stroke-dasharray="4 3"/>`;
+    s5 += `<rect x="${bx0 + 2}" y="${y + 4}" width="${bw * p - 6}" height="26" rx="5" class="f-acc-soft"/><text x="${bx0 + 14}" y="${y + 22}" class="t" style="font-size:13px">↓ ${Math.round(p * 100)}%</text>`;
+    s5 += `<rect x="${bx0 + bw * p + 2}" y="${y + 4}" width="${bw * (1 - p) - 6}" height="26" rx="5" class="f-acc2-soft"/><text x="${bx0 + bw * p + 10}" y="${y + 22}" class="t" style="font-size:13px">↑</text>`;
+  });
+  s5 += `<text x="${bx0 + bw / 2}" y="${222}" text-anchor="middle" class="t-mono" style="font-size:11px">50%</text><text x="${bx0 + bw * 2 / 3}" y="${222}" text-anchor="middle" class="t-mono" style="font-size:11px">66.7% (셋잇단)</text>`;
+  f5.innerHTML = s5;
+})();
+
+/* ================================================================ 1. 진자 */
+(function () {
+  const PATS = ["quarter", "eighth", "folk", "reggae", "chuck", "funk16", "ballad16"];
+  const sel = document.getElementById("str-pd-pat");
+  sel.innerHTML = PATS.map((k) => `<option value="${k}" ${k === "folk" ? "selected" : ""}>${GT.STRUM_PATTERNS[k].name} · ${GT.STRUM_PATTERNS[k].slots}</option>`).join("");
+  const grid = document.getElementById("str-pd-grid");
+  const g = GT.guitar({ tone: "steel" });
+  const bpm = MB.range("str-pd-bpm", (v) => v + " BPM", () => stats());
+  const chord = MB.seg("str-pd-chord");
+  const click = MB.check("str-pd-click"), ghostSnd = MB.check("str-pd-ghost");
+  let slots = GT.STRUM_PATTERNS.folk.slots.split(""), lastHit = { t: -9, s: -1 };
+  const n = () => slots.length;
+  function stats() {
+    const T = (60 / bpm()) * (n() === 16 ? 0.5 : 1);
+    MB.stat("str-pd-o-T", strF(T * 1000, 0) + " ms");
+    MB.stat("str-pd-o-v", strF((2 * Math.PI * 0.08) / T, 2) + " m/s");
+    MB.stat("str-pd-o-slot", strF((60000 / bpm()) / (n() / 4), 0) + " ms");
+    MB.stat("str-pd-o-hits", slots.filter((c) => c !== "-").length + " / " + n());
+  }
+  sel.addEventListener("change", () => { slots = GT.STRUM_PATTERNS[sel.value].slots.split(""); drawStrumGrid(grid, slots, -1, { ro: true }); stats(); if (sc.clk.running) { sc.clk.stop(); sc.clk.start(); } });
+  const sc = slotClock({
+    bpm: () => bpm(), div: () => n() / 4, length: () => n(),
+    onSlot(step, time) {
+      const i = step % n(), c = slots[i];
+      if (click() && i % (n() / 4) === 0) MB.drum("rim", time, { vel: i === 0 ? 0.55 : 0.28 });
+      if (c === "-") { if (ghostSnd()) GT.chuck(time, { vel: 0.07 }); return; }
+      playSlot(g, chord(), c, time, { accent: i === 0 });
+    },
+    onUI(step, time) { const i = step % n(); setNow(grid, i); if (slots[i] !== "-") lastHit = { t: time, s: i }; },
+  });
+  looper("str-pd-play", sc, null, null, () => setNow(grid, -1));
+  const cv = MB.canvas("#str-pd-cv", (ctx, W, H) => {
+    const P = MB.palette();
+    const running = sc.clk.running && sc.tl.length;
+    const now = running ? MB.now() : 0;
+    const handW = Math.min(110, W * 0.24), xr = W - handW - 10;
+    const y0 = H / 2, A = H * 0.36;
+    // 줄 띠
+    ctx.fillStyle = P.surface; ctx.fillRect(12, y0 - 13, W - 24, 26);
+    ctx.strokeStyle = P.faint; ctx.lineWidth = 1;
+    for (let s = 0; s < 6; s++) { const y = y0 - 11 + s * 4.4; ctx.beginPath(); ctx.moveTo(12, y); ctx.lineTo(W - 12, y); ctx.stroke(); }
+    const spb = 60 / bpm(), span = 2 * spb;
+    const yAt = (t) => {
+      const s = sc.at(t); if (!s) return 1;
+      const ph = MB.clamp((t - s.time) / s.dur, 0, 1);
+      return s.step % 2 === 0 ? -Math.sin(Math.PI * ph) : Math.sin(Math.PI * ph);
+    };
+    const X = (t) => 12 + ((t - (now - span)) / span) * (xr - 12);
+    ctx.font = "11px " + MONO(); ctx.textAlign = "center";
+    if (!running) {
+      ctx.fillStyle = P.dim; ctx.font = "13px " + FONT();
+      ctx.fillText("▶ 재생을 누르면 손의 궤적이 그려집니다", (12 + xr) / 2, 22);
+    } else {
+      // 궤적
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath();
+      const t0 = Math.max(now - span, sc.tl[0].time);
+      for (let k = 0; k <= 160; k++) { const t = t0 + (k / 160) * (now - t0); const x = X(t), y = y0 - A * yAt(t); k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke();
+      // 칸 표시
+      sc.tl.forEach((s) => {
+        if (s.time < now - span || s.time > now) return;
+        const i = s.step % n(), c = slots[i], x = X(s.time);
+        const dir = s.step % 2 === 0 ? "D" : "U";
+        ctx.beginPath(); ctx.arc(x, y0, 6.5, 0, Math.PI * 2);
+        if (c === "-") { ctx.fillStyle = P.elev; ctx.fill(); ctx.strokeStyle = P.accent; ctx.lineWidth = 1.5; ctx.stroke(); }
+        else { ctx.fillStyle = c === "X" ? P.accent2 : P.accent; ctx.fill(); }
+        ctx.fillStyle = c === "-" ? P.faint : P.text; ctx.font = "600 11px " + MONO();
+        ctx.fillText(c === "-" ? "(" + dir + ")" : c, x, dir === "D" ? y0 + A + 2 > H - 4 ? H - 4 : y0 + 26 : y0 - 18);
+        if (i % (n() / 4) === 0) { ctx.fillStyle = P.dim; ctx.fillText(countLabels(n())[i], x, 12); }
+      });
+    }
+    // 손(오른쪽)
+    const yh = running ? yAt(now) : 1;
+    const vy = running ? yAt(now + 0.004) - yh : 0;
+    const hx = xr + handW / 2, hy = y0 - A * yh;
+    ctx.strokeStyle = P.border; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(xr, 6); ctx.lineTo(xr, H - 6); ctx.stroke(); ctx.setLineDash([]);
+    const fresh = running && now - lastHit.t < 0.12;
+    ctx.fillStyle = fresh ? P.warn : P.accent;
+    ctx.beginPath(); ctx.moveTo(hx - 14, hy - 10); ctx.lineTo(hx + 14, hy - 10); ctx.lineTo(hx, hy + 12); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = P.text; ctx.font = "700 20px " + MONO();
+    ctx.fillText(running ? (vy < 0 ? "↓" : "↑") : "·", hx + 30 > W - 8 ? hx : hx + 28, hy + 7);
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 280 });
+  MB.loop(document.getElementById("str-pd-cv"), () => { if (sc.clk.running) cv.redraw(); });
+  drawStrumGrid(grid, slots, -1, { ro: true }); stats();
+})();
+
+/* ================================================================ 2. 다운 vs 업 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const vR = MB.range("str-dr-v", (v) => strF(v, 2) + " m/s", () => stat());
+  const velR = MB.range("str-dr-vel", (v) => strF(v, 2));
+  const chord = MB.seg("str-dr-chord");
+  let last = null; // {events:[{s,dt,vel}], dir}
+  const D_STR = 10.5; // mm
+  function stat() {
+    const gap = D_STR / (vR() * 1000) * 1000;
+    MB.stat("str-dr-o-gap", strF(gap, 1) + " ms");
+  }
+  function strum(dir, strings, when) {
+    const sh = GT.chord(chord()).shape, spread = D_STR / (vR() * 1000);
+    let order = [0, 1, 2, 3, 4, 5]; if (dir === "U") order.reverse();
+    if (strings) order = order.filter((s) => strings.includes(s));
+    const t0 = when != null ? when : MB.now() + 0.03, evs = []; let k = 0;
+    order.forEach((s) => {
+      const f = sh[s]; if (f < 0) return;
+      const tilt = dir === "U" ? 1 - 0.07 * (5 - s) : 1 - 0.04 * s;
+      const vel = velR() * tilt * (dir === "U" ? 0.85 : 1);
+      g.pluck(s, f, { when: t0 + k * spread, vel });
+      evs.push({ s, dt: k * spread, vel }); k++;
+    });
+    last = { evs, dir };
+    MB.stat("str-dr-o-len", evs.length > 1 ? strF(evs[evs.length - 1].dt * 1000, 0) + " ms (" + evs.length + "줄)" : "—");
+    cv.redraw();
+    const delay = Math.max(0, (t0 - MB.now()) * 1000) + 110;
+    setTimeout(centroid, delay);
+  }
+  let fd = null;
+  function centroid() {
+    const an = MB.analyser; if (!an) return;
+    if (!fd || fd.length !== an.frequencyBinCount) fd = new Float32Array(an.frequencyBinCount);
+    an.getFloatFrequencyData(fd);
+    const binHz = an.context.sampleRate / an.fftSize;
+    let num = 0, den = 0;
+    for (let i = Math.ceil(80 / binHz); i < Math.min(fd.length, 8000 / binHz); i++) { const m = Math.pow(10, fd[i] / 20); num += m * i * binHz; den += m; }
+    if (den > 0) MB.stat("str-dr-o-cent", strF(num / den, 0) + " Hz");
+  }
+  const cv = MB.canvas("#str-dr-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 46, R = W - 14, T = 14, B = H - 24;
+    const maxT = 0.12;
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.font = "11px " + MONO(); ctx.textAlign = "right";
+    for (let st = 0; st < 6; st++) { const y = T + (st / 5) * (B - T); ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(R, y); ctx.stroke(); ctx.fillText(st + 1 + "번", L - 6, y + 4); }
+    ctx.textAlign = "center";
+    for (let ms = 0; ms <= 120; ms += 20) { const x = L + (ms / 1000 / maxT) * (R - L); ctx.fillText(ms + "", x, H - 6); ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, B); ctx.stroke(); }
+    ctx.textAlign = "left"; ctx.fillText("ms", R - 18, H - 6);
+    if (!last) { ctx.fillStyle = P.dim; ctx.font = "13px " + FONT(); ctx.textAlign = "center"; ctx.fillText("버튼을 눌러 스트럼을 기록하세요", (L + R) / 2, (T + B) / 2); return; }
+    last.evs.forEach((e) => {
+      const st = 5 - e.s, x = L + Math.min(1, e.dt / maxT) * (R - L), y = T + (st / 5) * (B - T);
+      ctx.globalAlpha = 0.35 + 0.6 * e.vel; ctx.fillStyle = P.accent;
+      ctx.beginPath(); ctx.arc(x, y, 3 + 9 * e.vel, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+    });
+    ctx.fillStyle = P.text; ctx.font = "700 14px " + FONT(); ctx.textAlign = "right";
+    ctx.fillText(last.dir === "D" ? "다운 ↓" : "업 ↑", R, T + 12);
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 250 });
+  MB.liveView("#str-dr-live", { mode: "spectrum", fmin: 60, fmax: 8000, aspect: 0.32, idleText: "스트럼을 치면 스펙트럼이 나타납니다" });
+  document.getElementById("str-dr-d").addEventListener("click", () => strum("D"));
+  document.getElementById("str-dr-u").addEventListener("click", () => strum("U", [2, 3, 4, 5]));
+  document.getElementById("str-dr-ufull").addEventListener("click", () => strum("U"));
+  document.getElementById("str-dr-bass").addEventListener("click", () => strum("D", [0, 1, 2, 3].filter((s) => GT.chord(chord()).shape[s] >= 0).slice(0, 3)));
+  document.getElementById("str-dr-ab").addEventListener("click", () => {
+    const t0 = MB.now() + 0.05, sp = 0.36;
+    for (let k = 0; k < 4; k++) setTimeout(() => strum(k % 2 ? "U" : "D", k % 2 ? [2, 3, 4, 5] : null, t0 + k * sp), Math.max(0, k * sp * 1000 - 40));
+  });
+  stat();
+})();
+
+/* ================================================================ 3. 프리셋 플레이어 */
+(function () {
+  const DESC = {
+    quarter: "박마다 다운 한 번. 코드 바꾸기 연습과 느린 곡의 기본. 뒷박에서도 손은 위로 헛스윙한다.",
+    eighth: "모든 칸을 친다. 일정한 추진력이 필요할 때(빠른 록). 업은 가볍게, 다운은 무겁게 쳐서 강약을 만든다.",
+    folk: "3박 앞박을 비워 3&의 업이 앞으로 쏠리는 당김음. 통기타 반주에서 가장 흔한 패턴.",
+    pop: "앞 두 박은 다운만, 뒤 두 박은 다운–업. 마디 후반으로 갈수록 밀도가 올라가 다음 마디로 밀어 주는 팝·록 반주의 기본형.",
+    reggae: "뒷박만 짧게 친다. 업 스트로크를 짧게 끊으면(왼손 힘 빼기) 레게·스카의 '칙칙' 느낌.",
+    chuck: "2·4박의 다운을 칙으로. 기타 혼자 킥–스네어 비트를 낸다.",
+    funk16: "16칸. 손은 16분으로 쉬지 않고 흔들고, 칙과 짧은 업으로 그루브를 만든다. 진폭은 작게.",
+    ballad16: "16칸. 다운과 업이 고르게 섞인 부드러운 16비트. 느린 템포(60–80 BPM)에서 연습한다.",
+  };
+  const KEYS = Object.keys(GT.STRUM_PATTERNS);
+  const segEl = document.getElementById("str-ps-pat");
+  segEl.innerHTML = KEYS.map((k, i) => `<button data-value="${k}" class="${k === "folk" ? "on" : ""}">${GT.STRUM_PATTERNS[k].name.replace(/\(.*\)/, "")}</button>`).join("");
+  const grid = document.getElementById("str-ps-grid");
+  const progSel = document.getElementById("str-ps-prog"); progOptions(progSel, "G Em C D");
+  const g = GT.guitar({ tone: "steel" });
+  const bpm = MB.range("str-ps-bpm", (v) => v + " BPM");
+  const click = MB.check("str-ps-click");
+  let key = "folk", slots = GT.STRUM_PATTERNS.folk.slots.split(""), evMap = {};
+  const n = () => slots.length;
+  function setPat(k) {
+    key = k; slots = GT.STRUM_PATTERNS[k].slots.split("");
+    evMap = {}; GT.strumEvents(GT.STRUM_PATTERNS[k].slots, 4).forEach((e) => (evMap[e.slot] = e));
+    drawStrumGrid(grid, slots, -1, { ro: true, acc: slots.map((c, i) => evMap[i] && evMap[i].accent) });
+    document.getElementById("str-ps-desc").innerHTML = `<b>${GT.STRUM_PATTERNS[k].name}</b> <code>${GT.STRUM_PATTERNS[k].slots}</code> — ${DESC[k] || ""}`;
+  }
+  const prog = () => progSel.value.split(" ");
+  MB.seg("str-ps-pat", (v) => setPat(v));
+  const sc = slotClock({
+    bpm: () => bpm(), div: () => n() / 4, length: () => n() * 4,
+    onSlot(step, time) {
+      const i = step % n(), bar = Math.floor(step / n()) % 4, c = slots[i];
+      if (click() && i % (n() / 4) === 0) MB.drum("rim", time, { vel: i === 0 ? 0.55 : 0.28 });
+      playSlot(g, prog()[bar], c, time, { accent: evMap[i] && evMap[i].accent });
+    },
+    onUI(step) {
+      const i = step % n(), bar = Math.floor(step / n()) % 4;
+      setNow(grid, i);
+      if (i === 0 || !document.getElementById("str-ps-chord").dataset.bar) { const el = document.getElementById("str-ps-chord"); el.dataset.bar = bar; el.innerHTML = `${GT.chord(prog()[bar]).name}<small>${bar + 1}마디 / 4</small>`; }
+    },
+  });
+  looper("str-ps-play", sc, null, null, () => setNow(grid, -1));
+  progSel.addEventListener("change", () => { document.getElementById("str-ps-chord").innerHTML = `${GT.chord(prog()[0]).name}<small>1마디 / 4</small>`; });
+  setPat("folk");
+  document.getElementById("str-ps-chord").innerHTML = `${GT.chord(prog()[0]).name}<small>1마디 / 4</small>`;
+})();
+
+/* ================================================================ 4. 스트럼 패턴 편집기 */
+(function () {
+  const grid = document.getElementById("str-ed-grid");
+  const narrow = window.matchMedia("(max-width: 560px)");
+  const preSel = document.getElementById("str-ed-pre");
+  preSel.innerHTML = `<option value="">— 고르기 —</option>` + Object.entries(GT.STRUM_PATTERNS).map(([k, p]) => `<option value="${k}">${p.name} · ${p.slots}</option>`).join("");
+  const progSel = document.getElementById("str-ed-prog"); progOptions(progSel, "G Em C D");
+  const g = GT.guitar({ tone: "steel" });
+  const bpm = MB.range("str-ed-bpm", (v) => v + " BPM", () => stats());
+  const sw = MB.range("str-ed-sw", (v) => v + "%" + (v === 50 ? " (스트레이트)" : Math.abs(v - 66.7) < 1 ? " (셋잇단)" : ""));
+  const pm = MB.check("str-ed-pm"), click = MB.check("str-ed-click");
+  let slots = "D-DU-UDU".split(""), acc = slots.map((_, i) => i === 0 || i === 4), now = -1;
+  const n = () => slots.length;
+  const prog = () => progSel.value.split(" ");
+  const pvOf = () => slots.map((c, i) => (c === "D" && i % 2 === 1) || (c === "U" && i % 2 === 0));
+  const msg = (t, cls) => { const el = document.getElementById("str-ed-msg"); el.innerHTML = t; el.className = "sim-msg" + (cls ? " " + cls : ""); };
+  function render() {
+    const pv = pvOf(), lab = countLabels(n()), per = n() === 16 && narrow.matches ? 8 : n();
+    let h = "";
+    for (let r0 = 0; r0 < n(); r0 += per) {
+      const idx = Array.from({ length: per }, (_, k) => r0 + k);
+      h += `<div class="gt-strum" style="--n:${per};margin-top:${r0 ? 10 : 0}px">` + idx.map((i) => {
+        const c = slots[i], cls = [i % (n() / 4) === 0 ? "beat" : "", c === "D" ? "d" : c === "U" ? "u" : c === "X" ? "x" : "", i === now ? "now" : "", pv[i] ? "pv" : "", acc[i] ? "acc" : ""].join(" ");
+        return `<button data-i="${i}" class="${cls}">${c === "-" ? "·" : c}${acc[i] ? "<sup>&gt;</sup>" : ""}<small>${lab[i]}</small></button>`;
+      }).join("") + `</div><div class="str-accrow" style="--n:${per}">` + idx.map((i) => `<button data-a="${i}" class="${acc[i] ? "on" : ""}" aria-label="${i + 1}번 칸 악센트">&gt;</button>`).join("") + `</div>`;
+    }
+    grid.innerHTML = h;
+    stats();
+  }
+  function stats() {
+    const pv = pvOf().filter(Boolean).length;
+    MB.stat("str-ed-o-str", `<code>${slots.join("")}</code>`);
+    MB.stat("str-ed-o-hits", slots.filter((c) => c !== "-").length + "번");
+    MB.stat("str-ed-o-pv", pv ? `<span style="color:var(--warn)">${pv}칸</span>` : '<span style="color:var(--ok)">없음</span>');
+    MB.stat("str-ed-o-ms", strF(60000 / bpm() / (n() / 4), 0) + " ms");
+  }
+  grid.addEventListener("click", (e) => {
+    const ab = e.target.closest("button[data-a]");
+    if (ab) { const i = +ab.dataset.a; acc[i] = !acc[i]; render(); return; }
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    const i = +b.dataset.i, order = ["-", "D", "U", "X"];
+    slots[i] = order[(order.indexOf(slots[i]) + 1) % 4];
+    MB.ctx();
+    if (slots[i] !== "-") playSlot(g, prog()[0], slots[i], MB.now() + 0.01, { accent: acc[i], mute: pm() });
+    const bad = (slots[i] === "D" && i % 2) || (slots[i] === "U" && i % 2 === 0);
+    msg(bad ? `${i + 1}번 칸(${countLabels(n())[i]})은 ${i % 2 ? "뒷박이라 손이 올라가는" : "앞박이라 손이 내려가는"} 자리입니다. 진자 규칙대로라면 ${i % 2 ? "U" : "D"}가 자연스럽습니다.` : `${i + 1}번 칸(${countLabels(n())[i]}) → ${slots[i] === "-" ? "헛스윙" : slots[i]}`, bad ? "bad" : "");
+    render();
+  });
+  narrow.addEventListener && narrow.addEventListener("change", () => render());
+  MB.seg("str-ed-n", (v) => {
+    const m = +v; if (m === n()) return;
+    if (m === 16) {
+      // 8칸의 칸 i → 16칸의 칸 2i. 16칸 진자에서는 짝수 칸이 모두 다운이므로 U를 D로 바꾼다
+      slots = slots.flatMap((c) => [c === "U" ? "D" : c, "-"]); acc = acc.flatMap((a) => [a, false]);
+    } else { slots = slots.filter((_, i) => i % 2 === 0).map((c, i) => (c === "D" && i % 2 ? "U" : c)); acc = acc.filter((_, i) => i % 2 === 0); }
+    now = -1; render(); restart();
+    msg(m === 16 ? "16칸 격자입니다. 8칸의 각 칸이 16칸의 짝수 칸(1 & 2 & …)으로 옮겨졌고 그 사이(e, a)가 새로 생겼습니다. 16칸에서는 손이 반 박마다 왕복하므로 '&'도 다운이 되어 U를 D로 바꾸었습니다." : "8칸 격자로 돌아왔습니다(16칸의 e·a 칸은 버리고, 뒷박의 D는 U로 바꿈).");
+  });
+  preSel.addEventListener("change", () => {
+    const k = preSel.value; if (!k) return;
+    slots = GT.STRUM_PATTERNS[k].slots.split("");
+    const ev = {}; GT.strumEvents(GT.STRUM_PATTERNS[k].slots, 4).forEach((e) => (ev[e.slot] = e));
+    acc = slots.map((_, i) => !!(ev[i] && ev[i].accent));
+    const nb = document.querySelectorAll("#str-ed-n button"); nb.forEach((b) => { const on = +b.dataset.value === slots.length; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    now = -1; render(); restart(); preSel.value = "";
+    msg(`프리셋 '${GT.STRUM_PATTERNS[k].name}'을 불러왔습니다.`);
+  });
+  document.getElementById("str-ed-clear").addEventListener("click", () => { slots = slots.map(() => "-"); acc = acc.map(() => false); render(); msg("모든 칸을 지웠습니다. 1박부터 다시 채워 보세요."); });
+  document.getElementById("str-ed-fill").addEventListener("click", () => {
+    let fixed = 0;
+    slots = slots.map((c, i) => { if (c === "D" || c === "U") { const want = i % 2 ? "U" : "D"; if (c !== want) fixed++; return want; } return c; });
+    render(); msg(fixed ? `${fixed}칸의 방향을 진자 규칙에 맞게 고쳤습니다.` : "이미 진자 규칙대로입니다.", "ok");
+  });
+  const sc = slotClock({
+    bpm: () => bpm(), div: () => n() / 4, length: () => n() * 4, swing: () => sw() / 100,
+    onSlot(step, time) {
+      const i = step % n(), bar = Math.floor(step / n()) % 4;
+      if (click() && i % (n() / 4) === 0) MB.drum("rim", time, { vel: i === 0 ? 0.55 : 0.28 });
+      playSlot(g, prog()[bar], slots[i], time, { accent: acc[i], mute: pm() });
+    },
+    onUI(step) {
+      const i = step % n(), bar = Math.floor(step / n()) % 4;
+      now = i; setNow(grid, i);
+      if (i === 0) document.getElementById("str-ed-chord").innerHTML = `${GT.chord(prog()[bar]).name}<small>${bar + 1}마디 / 4</small>`;
+    },
+  });
+  const lp = looper("str-ed-play", sc, null, () => { document.getElementById("str-ed-chord").innerHTML = `${GT.chord(prog()[0]).name}<small>1마디 / 4</small>`; }, () => { now = -1; setNow(grid, -1); });
+  function restart() { if (sc.clk.running) { sc.clk.stop(); sc.clk.start(); } }
+  progSel.addEventListener("change", () => { document.getElementById("str-ed-chord").innerHTML = `${GT.chord(prog()[0]).name}<small>1마디 / 4</small>`; });
+  render();
+})();
+
+/* ================================================================ 5. 질감 실험실 */
+(function () {
+  const SETS = { open: ["G", "C", "D", "G"], power: ["E5", "G5", "A5", "G5"] };
+  const base = "DUDUDUDU".split("");
+  const grid = document.getElementById("str-tx-grid");
+  const g = GT.guitar({ tone: "steel" });
+  const bpm = MB.range("str-tx-bpm", (v) => v + " BPM");
+  const accMode = MB.seg("str-tx-acc", () => draw());
+  const pm = MB.check("str-tx-pm"), ch = MB.check("str-tx-chuck", () => draw());
+  const set = MB.seg("str-tx-set");
+  const slotsNow = () => base.map((c, i) => (ch() && (i === 2 || i === 6) ? "X" : c));
+  const accOf = () => base.map((_, i) => { const m = accMode(); return m === "13" ? i === 0 || i === 4 : m === "24" ? i === 2 || i === 6 : m === "off" ? i % 2 === 1 : false; });
+  function draw(now = -1) { drawStrumGrid(grid, slotsNow(), now, { ro: true, acc: accOf() }); }
+  const sc = slotClock({
+    bpm: () => bpm(), div: 2, length: 32,
+    onSlot(step, time) {
+      const i = step % 8, bar = Math.floor(step / 8) % 4, c = slotsNow()[i];
+      const acc = accOf()[i], any = accMode() !== "none";
+      playSlot(g, SETS[set()][bar], c, time, { accent: acc, mute: pm(), vel: any ? 0.56 : 0.66, velU: any ? 0.42 : 0.52 });
+    },
+    onUI(step) {
+      const i = step % 8, bar = Math.floor(step / 8) % 4;
+      setNow(grid, i);
+      if (i === 0) document.getElementById("str-tx-chord").textContent = GT.chord(SETS[set()][bar]).name;
+    },
+  });
+  looper("str-tx-play", sc, null, null, () => setNow(grid, -1));
+  MB.liveView("#str-tx-live", { mode: "wave", span: 1.2, aspect: 0.3, yScale: 1.2, idleText: "재생하면 파형이 나타납니다" });
+  draw();
+})();
+
+/* ================================================================ 6. 스윙 */
+(function () {
+  const g = GT.guitar({ tone: "steel" });
+  const PROG = ["E7", "E7", "A7", "A7"];
+  const rR = MB.range("str-sw-r", (v) => strF(v, 2) + " : 1", () => { stats(); cv.redraw(); });
+  const bpm = MB.range("str-sw-bpm", (v) => v + " BPM", () => stats());
+  const mode = MB.seg("str-sw-mode", () => cv.redraw());
+  const pat = MB.seg("str-sw-pat", () => cv.redraw());
+  const hat = MB.check("str-sw-hat");
+  let curSwing = true, curStep = -1;
+  const isSwingBar = (bar) => (mode() === "swing" ? true : mode() === "straight" ? false : Math.floor(bar / 2) % 2 === 1);
+  function stats() {
+    const r = rR(), p = r / (1 + r), T = 60000 / bpm();
+    MB.stat("str-sw-o-pos", strF(p * 100, 1) + "%");
+    MB.stat("str-sw-o-dt", "+" + strF((p - 0.5) * T, 0) + " ms");
+  }
+  // 바(4마디 = 32칸) 단위로 스윙을 바꾸기 위해 swing 함수가 현재 스텝을 본다
+  let schedStep = 0;
+  const sc = slotClock({
+    bpm: () => bpm(), div: 2, length: 32,
+    swing: () => (isSwingBar(Math.floor(schedStep / 8)) ? rR() / (1 + rR()) : 0.5),
+    onSlot(step, time) {
+      schedStep = (step + 1) % 32;
+      const i = step % 8, bar = Math.floor(step / 8);
+      const c = pat()[i];
+      if (hat()) MB.drum("hat", time, { vel: i % 2 ? 0.25 : 0.4 });
+      if (i % 2 === 0) MB.drum(i === 2 || i === 6 ? "snare" : "kick", time, { vel: 0.35 });
+      playSlot(g, PROG[bar % 4], c, time, { accent: i === 0 });
+    },
+    onUI(step) {
+      curStep = step; const bar = Math.floor(step / 8);
+      curSwing = isSwingBar(bar);
+      MB.stat("str-sw-o-now", curSwing ? `<span style="color:var(--accent)">스윙 ${strF(rR(), 2)}:1</span>` : "스트레이트");
+      cv.redraw();
+    },
+  });
+  looper("str-sw-play", sc, null, () => { schedStep = 0; }, () => { curStep = -1; cv.redraw(); });
+  [["str-sw-1", 1], ["str-sw-2", 2], ["str-sw-3", 3]].forEach(([id, v]) => document.getElementById(id).addEventListener("click", () => rR.set(v)));
+  const cv = MB.canvas("#str-sw-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 92, R = W - 14;
+    const lanes = [["스트레이트", 0.5, 30], ["스윙", rR() / (1 + rR()), H / 2 + 22]];
+    const X = (beatPos) => L + (beatPos / 4) * (R - L);
+    ctx.font = "11px " + MONO(); ctx.textAlign = "center"; ctx.fillStyle = P.dim;
+    for (let b = 0; b <= 4; b++) { ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(X(b), 18); ctx.lineTo(X(b), H - 8); ctx.stroke(); if (b < 4) ctx.fillText(String(b + 1), X(b) + 8, 12); }
+    ctx.setLineDash([3, 3]); ctx.strokeStyle = P.faint;
+    for (let b = 0; b < 4; b++) { ctx.beginPath(); ctx.moveTo(X(b + 2 / 3), 18); ctx.lineTo(X(b + 2 / 3), H - 8); ctx.stroke(); }
+    ctx.setLineDash([]);
+    const active = curStep >= 0 ? (curSwing ? 1 : 0) : -1;
+    lanes.forEach(([lab, p, y], li) => {
+      ctx.fillStyle = li === active ? P.accent : P.dim; ctx.font = (li === active ? "700 " : "") + "13px " + FONT(); ctx.textAlign = "left";
+      ctx.fillText(lab, 8, y + 18);
+      ctx.fillStyle = P.surface; ctx.fillRect(L, y, R - L, 30);
+      for (let b = 0; b < 4; b++) {
+        [0, p].forEach((off, k) => {
+          const c = pat()[b * 2 + k], x = X(b + off);
+          ctx.fillStyle = c === "X" ? P.accent2 : k ? P.accent2 : P.accent;
+          ctx.globalAlpha = li === active || active < 0 ? 1 : 0.45;
+          ctx.fillRect(x - 3, y + 3, 6, 24); ctx.globalAlpha = 1;
+          ctx.fillStyle = P.text; ctx.font = "600 11px " + MONO(); ctx.textAlign = "center";
+          ctx.fillText(c === "X" ? "×" : k ? "↑" : "↓", x + (k ? 9 : 9), y + 44 > H - 2 ? H - 2 : y + 44);
+        });
+      }
+    });
+    if (curStep >= 0) {
+      const i = curStep % 8, b = Math.floor(i / 2), k = i % 2, p = curSwing ? rR() / (1 + rR()) : 0.5;
+      const x = X(b + (k ? p : 0)), y = lanes[active][2];
+      ctx.strokeStyle = P.warn; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x, y - 6); ctx.lineTo(x, y + 36); ctx.stroke(); ctx.lineWidth = 1;
+    }
+  }, { aspect: 0.36, minHeight: 170, maxHeight: 240 });
+  stats();
+})();
+
+/* ================================================================ 7. 타이밍 게임 */
+(function () {
+  const grid = document.getElementById("str-tp-grid");
+  const g = GT.guitar({ tone: "steel" });
+  const patSel = document.getElementById("str-tp-pat");
+  const bpm = MB.range("str-tp-bpm", (v) => v + " BPM");
+  const latR = MB.range("str-tp-lat", (v) => (v > 0 ? "+" : "") + v + " ms");
+  const guide = MB.check("str-tp-guide");
+  const BARS = 4, WIN = 0.15;
+  let slots = patSel.value.split(""), targets = [], presses = [], running = false, result = null, curStep = -1, ended = false;
+  const latency = () => { const c = MB.ctx(); return ((c && (c.outputLatency || c.baseLatency)) || 0) + latR() / 1000; };
+  function drawGrid(now = -1) { drawStrumGrid(grid, slots, now, { ro: true }); }
+  patSel.addEventListener("change", () => { slots = patSel.value.split(""); drawGrid(); });
+  const sc = slotClock({
+    bpm: () => bpm(), div: 2, length: 8 * (BARS + 1),
+    onSlot(step, time) {
+      const bar = Math.floor(step / 8), i = step % 8;
+      if (ended) return;
+      if (step === 8 * (BARS + 1) - 1) ended = true;
+      if (bar === 0) { if (i % 2 === 0) MB.drum("rim", time, { vel: 0.9, tune: 5 }); return; }
+      if (i % 2 === 0) MB.drum("rim", time, { vel: i === 0 ? 0.6 : 0.32 });
+      const c = slots[i];
+      if (c !== "-") { targets.push({ time, dir: c === "U" ? "U" : "D", bar: bar - 1, i }); if (guide()) MB.drum("hat", time, { vel: 0.18 }); }
+      if (step === 8 * (BARS + 1) - 1) setTimeout(finish, Math.max(0, (time - MB.now()) * 1000) + (60 / bpm()) * 500 + WIN * 1000);
+    },
+    onUI(step) {
+      if (ended && step < 8) return;
+      curStep = step; const bar = Math.floor(step / 8), i = step % 8;
+      setNow(grid, bar === 0 ? -1 : i);
+      document.getElementById("str-tp-count").firstChild.nodeValue = bar === 0 ? (i % 2 === 0 ? String(4 - i / 2) : "·") : `${bar}-${COUNT8[i]}`;
+      cv.redraw();
+    },
+  });
+  const halt = () => { if (sc.clk.running) sc.clk.stop(); running = false; pb.set(false); setNow(grid, -1); Solo.drop(halt); };
+  const pb = MB.playButton("str-tp-play", () => {
+    Solo.take(halt); targets = []; presses = []; result = null; running = true; curStep = -1; ended = false;
+    ["hit", "dir", "mean", "sd", "extra", "score"].forEach((k) => MB.stat("str-tp-o-" + k, "—"));
+    document.getElementById("str-tp-last").firstChild.nodeValue = "—";
+    sc.clk.start();
+  }, () => halt(), ["▶ 시작(1마디 예비 + 4마디)", "■ 중지"]);
+  function press(dir) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const t = ctx.currentTime;
+    g.strum(GT.chord("G").shape, dir === "U" ? { dir: "U", vel: 0.55, strings: [2, 3, 4, 5] } : { dir: "D", vel: 0.75 });
+    const btn = document.getElementById(dir === "U" ? "str-tp-u" : "str-tp-d");
+    btn.classList.add("hit"); setTimeout(() => btn.classList.remove("hit"), 110);
+    if (!running) return;
+    const p = { time: t, dir }; presses.push(p);
+    // 즉시 피드백: 가장 가까운 목표
+    const lat = latency(); let best = null;
+    targets.forEach((tg) => { const e = t - (tg.time + lat); if (Math.abs(e) <= WIN && (!best || Math.abs(e) < Math.abs(best.e))) best = { e, tg }; });
+    document.getElementById("str-tp-last").firstChild.nodeValue = best ? `${best.e >= 0 ? "+" : ""}${strF(best.e * 1000, 0)} ms${best.tg.dir !== dir ? " ✗" : ""}` : "놓침";
+    cv.redraw();
+  }
+  function finish() {
+    if (!running && !sc.clk.running) return;
+    halt();
+    const lat = latency(), used = new Set(), errs = []; let dirOk = 0, hit = 0;
+    targets.forEach((tg) => {
+      let bi = -1, be = 0;
+      presses.forEach((p, k) => { if (used.has(k)) return; const e = p.time - (tg.time + lat); if (Math.abs(e) <= WIN && (bi < 0 || Math.abs(e) < Math.abs(be))) { bi = k; be = e; } });
+      if (bi >= 0) { used.add(bi); tg.match = { e: be, dir: presses[bi].dir }; hit++; errs.push(be); if (presses[bi].dir === tg.dir) dirOk++; }
+      else tg.match = null;
+    });
+    presses.forEach((p, k) => (p.extra = !used.has(k)));
+    const N = errs.length, mean = N ? errs.reduce((a, b) => a + b, 0) / N : NaN;
+    const sd = N > 1 ? Math.sqrt(errs.reduce((a, b) => a + (b - mean) * (b - mean), 0) / N) : NaN;
+    const extra = presses.filter((p) => p.extra).length;
+    const T = targets.length || 1;
+    // 점수: 맞힘 40 + 방향 30 + 정밀도 30(σ 10 ms → 30, 60 ms → 0) − 헛친 타격
+    const score = Math.max(0, Math.round(40 * hit / T + 30 * dirOk / T + (N > 1 ? 30 * MB.clamp((60 - sd * 1000) / 50, 0, 1) * hit / T : 0) - 3 * extra));
+    result = { mean, sd };
+    MB.stat("str-tp-o-hit", `${hit} / ${targets.length}`);
+    MB.stat("str-tp-o-dir", N ? strF((100 * dirOk) / N, 0) + "%" : "—");
+    MB.stat("str-tp-o-mean", isFinite(mean) ? `${mean >= 0 ? "+" : ""}${strF(mean * 1000, 0)} ms ${mean < -0.01 ? "(일찍)" : mean > 0.01 ? "(늦게)" : ""}` : "—");
+    MB.stat("str-tp-o-sd", isFinite(sd) ? strF(sd * 1000, 0) + " ms" : "—");
+    MB.stat("str-tp-o-extra", extra + "번");
+    MB.stat("str-tp-o-score", `<b>${score}</b> / 100`);
+    document.getElementById("str-tp-count").firstChild.nodeValue = "끝";
+    cv.redraw();
+  }
+  document.getElementById("str-tp-d").addEventListener("pointerdown", (e) => { e.preventDefault(); press("D"); });
+  document.getElementById("str-tp-u").addEventListener("pointerdown", (e) => { e.preventDefault(); press("U"); });
+  document.addEventListener("keydown", (e) => {
+    if (e.repeat) return;
+    const tag = (e.target.tagName || "").toLowerCase(); if (tag === "input" || tag === "select" || tag === "textarea") return;
+    const sec = document.getElementById("sim-str-tap").getBoundingClientRect();
+    const visible = sec.bottom > 0 && sec.top < innerHeight;
+    if (!visible && !running) return;
+    if (e.code === "KeyJ") { e.preventDefault(); press("D"); }
+    else if (e.code === "KeyK") { e.preventDefault(); press("U"); }
+  });
+  const cv = MB.canvas("#str-tp-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 34, R = W - 10, rowH = (H - 10) / BARS;
+    const spb = 60 / bpm();
+    ctx.font = "11px " + MONO(); ctx.textAlign = "right";
+    const t0 = targets.length ? targets[0].time - (targets[0].i * spb) / 2 - targets[0].bar * 4 * spb : null;
+    const lat = running || result ? latency() : 0;
+    for (let b = 0; b < BARS; b++) {
+      const y = 5 + b * rowH, ym = y + rowH / 2;
+      ctx.fillStyle = P.surface; ctx.fillRect(L, y + 2, R - L, rowH - 4);
+      ctx.fillStyle = P.dim; ctx.fillText(b + 1 + "마디", L - 4, ym + 4);
+      ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(L, ym); ctx.lineTo(R, ym); ctx.stroke();
+      for (let i = 0; i < 8; i++) {
+        const x = L + ((i + 0.5) / 8) * (R - L);
+        ctx.strokeStyle = slots[i] !== "-" ? P.dim : P.grid; ctx.lineWidth = slots[i] !== "-" ? 2 : 1;
+        ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x, y + rowH - 4); ctx.stroke(); ctx.lineWidth = 1;
+      }
+    }
+    if (t0 == null) {
+      ctx.fillStyle = P.dim; ctx.font = "13px " + FONT(); ctx.textAlign = "center";
+      ctx.fillText("시작을 누르고 J(다운)·K(업)로 따라 치세요", (L + R) / 2, H / 2 + 4); return;
+    }
+    const slotW = (R - L) / 8, slotDur = spb / 2;
+    presses.forEach((p) => {
+      const rel = (p.time - lat - t0) / slotDur; // 칸 단위
+      const b = Math.floor((rel + 0.5) / 8); if (b < 0 || b >= BARS) return;
+      const x = L + (rel - b * 8 + 0.5) * slotW, ym = 5 + b * rowH + rowH / 2;
+      let col = P.dim;
+      const tg = targets.find((t) => t.match && Math.abs(t.match.e - (p.time - (t.time + lat))) < 1e-6);
+      if (result) col = !tg ? P.bad : tg.match.dir !== tg.dir ? P.bad : Math.abs(tg.match.e) <= 0.03 ? P.ok : Math.abs(tg.match.e) <= 0.08 ? P.warn : P.bad;
+      ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, ym + (p.dir === "D" ? -rowH * 0.2 : rowH * 0.2), 5, 0, Math.PI * 2); ctx.fill();
+    });
+    if (result) targets.forEach((tg) => {
+      if (tg.match) return;
+      const x = L + (tg.i + 0.5) * slotW, ym = 5 + tg.bar * rowH + rowH / 2;
+      ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - 5, ym - 5); ctx.lineTo(x + 5, ym + 5); ctx.moveTo(x + 5, ym - 5); ctx.lineTo(x - 5, ym + 5); ctx.stroke(); ctx.lineWidth = 1;
+    });
+    if (running && curStep >= 8) {
+      const b = Math.floor(curStep / 8) - 1, i = curStep % 8;
+      const x = L + (i + 0.5) * slotW, y = 5 + b * rowH;
+      ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.strokeRect(x - slotW / 2 + 1, y + 2, slotW - 2, rowH - 4); ctx.lineWidth = 1;
+    }
+  }, { aspect: 0.38, minHeight: 170, maxHeight: 260 });
+  drawGrid();
+})();
+</script>
 </body>
 </html>

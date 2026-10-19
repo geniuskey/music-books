@@ -3,73 +3,234 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="./../favicon.svg" type="image/svg+xml">
-<title>GuitarBook · 기타 교과서 · GuitarBook</title>
-<meta name="description" content="기타의 구조와 튜닝부터 지판, 코드 다이어그램, 스트로크, 코드 진행, 카포, 핑거스타일까지. 브라우저에서 줄을 튕기고 지판과 리듬을 직접 연습하는 인터랙티브 기타 교과서.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>GuitarBook · 기타 교과서</title>
+<meta name="description" content="듣고 튕기며 배우는 인터랙티브 기타 교과서. 현의 물리와 튜닝, 지판과 TAB, 오픈·바레 코드와 CAGED, 스트로크와 코드 진행, 스케일과 리드 테크닉, 핑거스타일, 일렉 톤까지 브라우저의 가상 기타로 직접 연주하며 배운다.">
 <link rel="canonical" href="https://music.euiyun.com/guitar/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GuitarBook">
-<meta property="og:title" content="GuitarBook · 기타 교과서 · GuitarBook">
-<meta property="og:description" content="기타의 구조와 튜닝부터 지판, 코드 다이어그램, 스트로크, 코드 진행, 카포, 핑거스타일까지. 브라우저에서 줄을 튕기고 지판과 리듬을 직접 연습하는 인터랙티브 기타 교과서.">
+<meta property="og:title" content="GuitarBook · 기타 교과서">
+<meta property="og:description" content="듣고 튕기며 배우는 인터랙티브 기타 교과서. 지판·코드·스트로크·스케일·톤을 브라우저의 가상 기타로 연주하며 배운다.">
 <meta property="og:url" content="https://music.euiyun.com/guitar/">
 <meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="./css/style.css">
-<script defer src="./js/guitar.js"></script>
-<link rel="stylesheet" href="./../shared/css/book-shell.css">
-<script defer src="./../shared/js/book-shell.js" data-book="guitar"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/guitar.css">
+<script src="js/common.js"></script>
+<script src="js/guitar.js"></script>
+<style>
+  .paths { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .path { padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); }
+  .path h3 { margin: 0 0 6px; font-size: 17px; }
+  .path p { margin: 0 0 10px; color: var(--text-dim); font-size: 14.5px; }
+  .path .steps { display: flex; flex-wrap: wrap; gap: 6px; }
+  .path .steps a { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .path .steps a:hover { text-decoration: none; filter: brightness(1.1); }
+  .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .hero-badges span { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-elev); }
+  .hero-inst { border-radius: 20px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); overflow: hidden; min-width: 0; }
+  .hero-inst .gt-fb { padding: 12px 10px 4px; background: var(--canvas-bg); }
+  .hero-inst .pads { padding: 12px 14px 4px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero-inst .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 14px 14px; font-size: 13px; color: var(--text-dim); }
+  .hero-inst .foot b { color: var(--text); }
+  .hero-inst .seg button { font-size: 12.5px; }
+  .feat { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .feat a { display: block; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .feat a:hover { border-color: var(--accent); text-decoration: none; }
+  .feat a b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat a span { color: var(--text-dim); font-size: 14px; }
+  .feat a small { display: block; font-family: var(--mono); color: var(--accent); font-size: 11.5px; margin-bottom: 6px; letter-spacing: .06em; }
+  .myth { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .myth div { padding: 16px 18px; border-radius: var(--radius); background: var(--bg-elev); border: 1px solid var(--border); font-size: 14.5px; color: var(--text-dim); }
+  .myth div b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 6px; }
+  .myth div b::before { content: "오해 · "; color: var(--bad); }
+  .myth div a { font-size: 13px; }
+  .chain { overflow-x: auto; }
+  .chain svg { min-width: 760px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../shared/css/book-shell.css">
+<script defer src="../shared/js/book-shell.js" data-book="guitar"></script>
 </head>
-<body>
-<header class="gb-topbar">
-<a class="gb-logo" href="./"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" style="fill:var(--accent)"/><g style="stroke:var(--on-accent)" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="6" x2="7" y2="22"/><line x1="10.2" y1="6" x2="10.2" y2="22"/><line x1="13.4" y1="6" x2="13.4" y2="22"/><line x1="16.6" y1="6" x2="16.6" y2="22"/><line x1="19.8" y1="6" x2="19.8" y2="22"/><line x1="23" y1="6" x2="23" y2="22"/></g></svg><span>GuitarBook</span> <small>기타 교과서</small></a>
-<span class="gb-spacer"></span>
-<button class="gb-btn theme" id="gb-theme" type="button">테마 · 자동</button>
-<button class="gb-btn gb-menu" id="gb-menu" type="button" aria-label="목차 열기">☰</button>
-<div class="gb-progress"></div>
-</header>
-<aside class="gb-drawer" aria-label="목차">
-<h4>목차</h4>
-<ul class="gb-chlist">
-<li><a href="./"><span class="num">··</span><span>GuitarBook 소개</span></a></li>
-<li><a href="chapters/tuning.html"><span class="num">01</span><span>기타의 구조와 튜닝</span></a></li>
-<li><a href="chapters/fretboard.html"><span class="num">02</span><span>지판 읽기와 음계</span></a></li>
-<li><a href="chapters/chords.html"><span class="num">03</span><span>코드 다이어그램</span></a></li>
-<li><a href="chapters/strumming.html"><span class="num">04</span><span>스트로크와 리듬</span></a></li>
-<li><a href="chapters/progressions.html"><span class="num">05</span><span>코드 진행 연주</span></a></li>
-<li><a href="chapters/capo.html"><span class="num">06</span><span>카포와 이조</span></a></li>
-<li><a href="chapters/fingerstyle.html"><span class="num">07</span><span>핑거스타일과 아르페지오</span></a></li>
-<li><a href="chapters/practice.html"><span class="num">08</span><span>종합 연습실</span></a></li>
-</ul>
-</aside>
-<div class="gb-backdrop" id="gb-backdrop"></div>
-<main class="chapter" id="main">
-  <header class="chapter-hero">
-    <div class="eyebrow">GuitarBook · 기타 교과서</div>
-    <h1>줄 하나에서 코드와 스트로크까지</h1>
-    <p class="lead">기타의 구조와 튜닝부터 지판, 코드 다이어그램, 스트로크, 코드 진행, 카포, 핑거스타일까지. 브라우저에서 줄을 튕기고 지판과 리듬을 직접 연습하는 인터랙티브 기타 교과서.</p>
-  </header>
+<body data-root="">
 
-  <section>
-    <h2>목차</h2>
-    <div class="ch-grid">
-  <a class="ch-card" href="chapters/tuning.html"><span class="num">Chapter 01</span><strong>기타의 구조와 튜닝</strong><span>기타는 줄 여섯 개를 손으로 눌러 진동하는 길이를 바꾸는 악기입니다. 이 장에서는 부위의 이름, 표준 튜닝 E-A-D-G-B-…</span></a>
-  <a class="ch-card" href="chapters/fretboard.html"><span class="num">Chapter 02</span><strong>지판 읽기와 음계</strong><span>지판은 음의 지도입니다. 같은 음이 여러 줄과 여러 프렛에 반복되며, 그 규칙을 알면 음계를 한 줄 안에서도 찾을 수 있습니다…</span></a>
-  <a class="ch-card" href="chapters/chords.html"><span class="num">Chapter 03</span><strong>코드 다이어그램</strong><span>코드는 여러 음을 동시에 울린 것이고, 기타는 그 모양을 다이어그램으로 적습니다. 이 장에서는 다이어그램을 읽고, 손에 익은…</span></a>
-  <a class="ch-card" href="chapters/strumming.html"><span class="num">Chapter 04</span><strong>스트로크와 리듬</strong><span>스트로크는 기타 반주의 리듬을 만드는 손입니다. 같은 코드라도 스트로크 패턴이 바뀌면 곡의 느낌이 달라집니다.…</span></a>
-  <a class="ch-card" href="chapters/progressions.html"><span class="num">Chapter 05</span><strong>코드 진행 연주</strong><span>노래 한 곡은 몇 개의 코드가 반복되는 진행으로 이뤄집니다. 이 장에서는 진행을 로마 숫자로 읽고, 재생기에서 직접 연주하며…</span></a>
-  <a class="ch-card" href="chapters/capo.html"><span class="num">Chapter 06</span><strong>카포와 이조</strong><span>카포는 넥 위에 끼워 모든 줄을 같은 프렛에 묶는 도구입니다. 익숙한 모양을 그대로 쓰면서 조만 바꿀 수 있어, 노래 키를 맞…</span></a>
-  <a class="ch-card" href="chapters/fingerstyle.html"><span class="num">Chapter 07</span><strong>핑거스타일과 아르페지오</strong><span>핑거스타일은 피크 없이 손가락으로 줄을 하나씩 뜯는 주법입니다. 엄지가 베이스를 맡고 나머지 손가락이 위쪽 음을 맡아, 한 대…</span></a>
-  <a class="ch-card" href="chapters/practice.html"><span class="num">Chapter 08</span><strong>종합 연습실</strong><span>지금까지 배운 도구를 한 흐름으로 묶었습니다. 매일 같은 순서로 연습하면 지판과 코드를 귀로 떠올리는 속도가 함께 늘어납니다.…</span></a>
+<section class="home-hero">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">Interactive Guitar Textbook</div>
+      <h1>줄 하나에서<br><span class="grad">나만의 연주까지</span></h1>
+      <p>왜 프렛 간격은 점점 좁아질까? 왜 B줄만 장3도로 조율할까? 같은 C 코드를 지판 위 다섯 군데에서 잡을 수 있는 이유는? GuitarBook은 기타를 <b>현의 물리·지판의 격자·손의 동작·리듬의 시계열</b>로 풀어 봅니다. 모든 장에 <b>직접 튕기고 긁어 소리를 내는</b> 가상 기타가 있고, 튜너는 여러분의 진짜 기타 소리도 듣습니다.</p>
+      <div class="cta">
+        <a class="primary" href="chapters/instrument.html">1장부터 시작하기 →</a>
+        <a class="ghost" href="chapters/open-chords.html">첫 코드 잡기</a>
+        <a class="ghost" href="chapters/jam.html">잼 스테이션</a>
+      </div>
+      <div class="hero-badges">
+        <span>15개 챕터</span><span>가상 기타 · 지판 · TAB 플레이어</span><span>마이크 튜너</span><span>입문~중급</span>
+      </div>
     </div>
-  </section>
+    <div class="hero-inst" id="hero">
+      <div id="hero-fb"></div>
+      <div class="pads" id="hero-pads"></div>
+      <div class="foot">
+        <div class="seg" id="hero-mode"><button data-value="once" class="on">한 번 긁기</button><button data-value="folk">포크 리듬</button><button data-value="arp">아르페지오</button></div>
+        <span id="hero-msg">코드를 누르거나 지판을 튕겨 보세요</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>지금 바로 해 볼 것</h2>
-    <p>지판을 열어 음계 하나를 골라 보세요. 아무 칸이나 누르면 그 음이 울리고, 음 이름이 아래에 표시됩니다.</p>
-    <div class="wd" data-widget="fretboard" data-frets="12" data-root="9" data-scale="마이너 펜타토닉"></div>
-    <div class="callout tip"><p>이 책의 도구는 브라우저만 있으면 됩니다. 소리는 기타 줄을 튕기는 방식(Karplus-Strong)으로 실시간 합성하며, 마이크 튜너는 권한을 허용할 때만 동작합니다.</p></div>
-  </section>
-</main>
-<footer class="gb-foot">GuitarBook · 기타 교과서. 글은 CC BY 4.0, 코드는 MIT 라이선스입니다. <a href="../">음악 서가로</a></footer>
+<section class="home-section">
+  <h2>기타를 이루는 층</h2>
+  <p class="sub">기타 연주는 층층이 쌓인 기술입니다. <b>진동하는 줄</b>을 <b>튜닝</b>으로 맞추고, <b>지판</b>이라는 격자 위에서 음을 찾고, 음을 묶어 <b>코드</b>를 잡고, 오른손의 <b>리듬</b>으로 시간에 펼친 뒤, <b>스케일과 테크닉</b>으로 선율을 노래하고, 마지막으로 <b>톤</b>을 다듬습니다. 목차가 바로 이 층입니다.</p>
+  <figure class="diagram chain">
+    <svg viewBox="0 0 1100 230" role="img" aria-label="기타를 이루는 층">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g transform="translate(15,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M14 60 Q60 22 106 60 Q60 98 14 60" fill="none" stroke="var(--accent)" stroke-width="2.5"/><line x1="14" y1="60" x2="106" y2="60" class="s-line"/>
+        <text x="60" y="146" text-anchor="middle" class="t">현의 진동</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.01·02</text></g>
+      <path d="M140 90 H170" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(178,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)"><line x1="12" y1="34" x2="108" y2="34"/><line x1="12" y1="50" x2="108" y2="50"/><line x1="12" y1="66" x2="108" y2="66"/><line x1="12" y1="82" x2="108" y2="82"/></g>
+        <g stroke="var(--text-faint)" stroke-width="2"><line x1="24" y1="28" x2="24" y2="88"/><line x1="50" y1="28" x2="50" y2="88"/><line x1="73" y1="28" x2="73" y2="88"/><line x1="93" y1="28" x2="93" y2="88"/></g>
+        <circle cx="62" cy="50" r="6" fill="var(--accent)"/><circle cx="37" cy="66" r="6" fill="var(--accent-2)"/>
+        <text x="60" y="146" text-anchor="middle" class="t">지판 · TAB</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.03·04</text></g>
+      <path d="M303 90 H333" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(341,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)"><line x1="35" y1="26" x2="35" y2="96"/><line x1="45" y1="26" x2="45" y2="96"/><line x1="55" y1="26" x2="55" y2="96"/><line x1="65" y1="26" x2="65" y2="96"/><line x1="75" y1="26" x2="75" y2="96"/><line x1="85" y1="26" x2="85" y2="96"/></g>
+        <line x1="35" y1="26" x2="85" y2="26" stroke="var(--text)" stroke-width="4"/>
+        <g stroke="var(--text-faint)"><line x1="35" y1="44" x2="85" y2="44"/><line x1="35" y1="62" x2="85" y2="62"/><line x1="35" y1="80" x2="85" y2="80"/></g>
+        <circle cx="45" cy="71" r="5" fill="var(--text)"/><circle cx="55" cy="53" r="5" fill="var(--text)"/><circle cx="75" cy="35" r="5" fill="var(--text)"/>
+        <text x="60" y="146" text-anchor="middle" class="t">코드</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.05·08·09</text></g>
+      <path d="M466 90 H496" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(504,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g font-family="var(--mono)" font-weight="700" font-size="17" fill="var(--accent)"><text x="22" y="66">↓</text><text x="44" y="66">↓</text><text x="62" y="66">↑</text><text x="84" y="66">↓↑</text></g>
+        <g fill="var(--text-faint)"><circle cx="27" cy="82" r="2.5"/><circle cx="49" cy="82" r="2.5"/><circle cx="71" cy="82" r="2.5"/><circle cx="93" cy="82" r="2.5"/></g>
+        <text x="60" y="146" text-anchor="middle" class="t">리듬 · 진행</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.06·07</text></g>
+      <path d="M629 90 H659" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(667,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M14 84 L34 64 L52 72 L72 40 L90 52 L106 30" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M72 40 q6 -14 14 -16" fill="none" stroke="var(--accent-2)" stroke-width="2"/>
+        <text x="60" y="146" text-anchor="middle" class="t">스케일 · 테크닉</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.10·11·12</text></g>
+      <path d="M792 90 H822" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(830,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <circle cx="38" cy="58" r="16" fill="none" stroke="var(--text-dim)" stroke-width="2"/><line x1="38" y1="58" x2="46" y2="46" stroke="var(--accent)" stroke-width="2.5"/>
+        <circle cx="82" cy="58" r="16" fill="none" stroke="var(--text-dim)" stroke-width="2"/><line x1="82" y1="58" x2="72" y2="48" stroke="var(--accent)" stroke-width="2.5"/>
+        <text x="60" y="146" text-anchor="middle" class="t">톤</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.13</text></g>
+      <path d="M955 90 H985" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(990,30)"><rect width="100" height="120" rx="12" class="f-acc2-soft"/>
+        <text x="50" y="52" text-anchor="middle" class="t-mono">연습</text><text x="50" y="72" text-anchor="middle" class="t-mono">잼</text><text x="50" y="92" text-anchor="middle" class="t-mono">퀴즈</text>
+        <text x="50" y="146" text-anchor="middle" class="t">연주</text><text x="50" y="164" text-anchor="middle" class="t-mono">Ch.14·15</text></g>
+      <text x="550" y="222" text-anchor="middle" class="t-dim">줄이 떨고 → 지판에서 음을 찾고 → 음을 묶어 코드를 잡고 → 오른손이 시간을 나누고 → 선율이 노래하고 → 톤이 색을 입힌다</text>
+    </svg>
+    <figcaption><b>그림 0-1.</b> 기타를 이루는 층. 각 블록이 해당 챕터와 연결됩니다.</figcaption>
+  </figure>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>대표 실험</h2>
+  <p class="sub">책 곳곳에 직접 소리를 내는 시뮬레이터가 있습니다. 먼저 이것들부터 만져 보세요.</p>
+  <div class="feat">
+    <a href="chapters/tuning.html#sim-tun-mic"><small>CH.02 · 튜닝</small><b>마이크 튜너</b><span>진짜 기타를 마이크에 대고 튕기면 음 이름과 센트 오차를 보여 줍니다.</span></a>
+    <a href="chapters/fretboard.html#sim-fb-quiz"><small>CH.03 · 지판</small><b>지판 음 찾기 게임</b><span>제한 시간 안에 지판 위 음을 찾아 누르며 지판을 외웁니다.</span></a>
+    <a href="chapters/strumming.html#sim-str-editor"><small>CH.06 · 스트로크</small><b>스트럼 패턴 편집기</b><span>다운·업·칙을 찍어 나만의 리듬을 만들고 코드 위에서 들어 봅니다.</span></a>
+    <a href="chapters/barre-caged.html#sim-cg-map"><small>CH.08 · CAGED</small><b>CAGED 지도</b><span>한 코드를 다섯 모양으로 잇는 지판의 지도를 그립니다.</span></a>
+    <a href="chapters/scales.html#sim-sc-jam"><small>CH.10 · 솔로</small><b>펜타토닉 잼</b><span>블루스 반주 위에서 펜타토닉 박스를 눌러 즉흥 연주합니다.</span></a>
+    <a href="chapters/jam.html#sim-jam-station"><small>CH.14 · 종합</small><b>잼 스테이션</b><span>코드 진행·스트럼·드럼·베이스를 엮어 반주를 만들고 그 위에서 연주합니다.</span></a>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>이런 오해, 한 번쯤 해 보셨죠?</h2>
+  <p class="sub">이 책을 다 읽고 나면 아래 문장들이 왜 틀렸는지 설명할 수 있게 됩니다.</p>
+  <div class="myth">
+    <div><b>프렛은 같은 간격으로 박혀 있다</b>반음마다 줄 길이를 2의 12제곱근 비로 줄여야 하므로, 간격은 등비수열로 좁아집니다. <a href="chapters/fretboard.html">3장 →</a></div>
+    <div><b>튜닝은 줄마다 4도씩이다</b>G–B 줄 사이만 장3도입니다. 덕분에 코드 모양은 편해지지만 지판 모양이 그곳에서 한 칸 어긋납니다. <a href="chapters/tuning.html">2장 →</a></div>
+    <div><b>코드는 모양을 외우는 것이다</b>모양은 근음·3도·5도의 배치일 뿐입니다. 원리를 알면 다섯 모양(CAGED)으로 지판 어디서든 같은 코드를 만듭니다. <a href="chapters/barre-caged.html">8장 →</a></div>
+    <div><b>스트로크는 칠 때만 손을 움직인다</b>오른손은 쉬지 않고 박에 맞춰 흔들리고, 줄을 치느냐 헛치느냐만 바뀝니다. 그래야 리듬이 흔들리지 않습니다. <a href="chapters/strumming.html">6장 →</a></div>
+    <div><b>카포는 초보용 꼼수다</b>카포는 너트를 옮기는 장치입니다. 개방현의 울림을 유지한 채 조를 바꾸는, 프로도 매일 쓰는 도구입니다. <a href="chapters/progressions.html">7장 →</a></div>
+    <div><b>좋은 톤은 비싼 장비에서 나온다</b>톤의 큰 몫은 픽업 위치·피킹 위치·손의 세기가 만드는 배음 구조입니다. 장비는 그 다음입니다. <a href="chapters/tone.html">13장 →</a></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>챕터</h2>
+  <p class="sub">앞에서부터 차례로 읽어도 좋고, 궁금한 장만 골라 읽어도 됩니다. 모든 장에 소리 나는 시뮬레이터와 확인 퀴즈가 있습니다. 상단 스피커 버튼으로 언제든 소리를 끌 수 있습니다.</p>
+  <div class="ch-grid" id="ch-grid"></div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>추천 학습 경로</h2>
+  <p class="sub">목적에 맞게 골라 읽으세요.</p>
+  <div class="paths">
+    <div class="path"><h3>🎸 처음 기타를 잡았어요</h3><p>튜닝하고, 첫 코드를 잡고, 스트로크로 노래 반주하기까지.</p><div class="steps"><a href="chapters/instrument.html">01</a><a href="chapters/tuning.html">02</a><a href="chapters/open-chords.html">05</a><a href="chapters/strumming.html">06</a><a href="chapters/progressions.html">07</a></div></div>
+    <div class="path"><h3>🎶 반주를 넓히고 싶어요</h3><p>바레 코드와 CAGED, 다양한 보이싱, 핑거스타일 반주.</p><div class="steps"><a href="chapters/barre-caged.html">08</a><a href="chapters/voicings.html">09</a><a href="chapters/fingerstyle.html">12</a><a href="chapters/jam.html">14</a></div></div>
+    <div class="path"><h3>🔥 솔로를 치고 싶어요</h3><p>지판과 TAB, 펜타토닉과 스케일, 벤딩·비브라토, 톤.</p><div class="steps"><a href="chapters/fretboard.html">03</a><a href="chapters/tab.html">04</a><a href="chapters/scales.html">10</a><a href="chapters/techniques.html">11</a><a href="chapters/tone.html">13</a></div></div>
+    <div class="path"><h3>📐 기타의 과학이 궁금해요</h3><p>현의 물리, 프렛 배치의 수학, 픽업과 필터, 디스토션.</p><div class="steps"><a href="chapters/instrument.html">01</a><a href="chapters/tuning.html">02</a><a href="chapters/fretboard.html">03</a><a href="chapters/tone.html">13</a></div></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>함께 읽으면 좋은 책</h2>
+  <p class="sub">음 이름, 음정, 화음, 리듬이 처음이라면 음악 기초 교과서를 옆에 펴 두세요. 이 책의 소리 엔진도 MusicBook과 같습니다.</p>
+  <div class="paths">
+    <div class="path"><h3>MusicBook — 음악 기초</h3><p>배음과 음색, 음계와 화음, 코드 진행, 리듬. 기타 이론의 바탕.</p><div class="steps"><a href="../fundamentals/">음악 기초 →</a><a href="../fundamentals/chapters/instruments.html">현의 물리</a><a href="../fundamentals/chapters/progressions.html">코드 진행</a></div></div>
+    <div class="path"><h3>음악 서가</h3><p>피아노·드럼 교과서도 준비하고 있습니다.</p><div class="steps"><a href="../">음악 서가 →</a></div></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  document.getElementById("ch-grid").innerHTML = MB.CHAPTERS.map((c) =>
+    `<a class="ch-card" href="chapters/${c.slug}.html"><span class="num">CHAPTER ${c.num}</span><h3>${c.title}</h3><p>${c.desc}</p><div class="tags">${c.tags.map((t) => t === "sim" ? '<span class="t-sim">시뮬레이터</span>' : `<span>${t}</span>`).join("")}</div></a>`).join("");
+
+  // 히어로: 지판 + 코드 패드(G–D–Em–C)
+  const PROG = [{ n: "G", rn: "I", fn: "t" }, { n: "D", rn: "V", fn: "d" }, { n: "Em", rn: "vi", fn: "t" }, { n: "C", rn: "IV", fn: "s" }];
+  const fb = GT.fretboard("#hero-fb", { frets: 12, labels: "none", tone: "steel" });
+  const g = fb.guitar;
+  g.on((ev) => { if (ev.type === "pluck" || ev.type === "strum") { if (ev.s != null) fb.flash(ev.s, ev.f, 300); } });
+  const pads = document.getElementById("hero-pads");
+  pads.innerHTML = PROG.map((p, i) => `<button class="pad ${p.fn}" data-i="${i}"><b>${p.n}</b><small>${p.rn}</small></button>`).join("");
+  let cur = 0, mode = "once";
+  function show(i) {
+    cur = i; const c = GT.chord(PROG[i].n);
+    const root = MB.parseNote(PROG[i].n.replace("m", "") + "4") % 12;
+    fb.showShape(c.shape, { fingers: c.fingers, root, label: "notes" });
+    pads.querySelectorAll(".pad").forEach((p, k) => p.classList.toggle("on", k === i));
+    document.getElementById("hero-msg").innerHTML = `<b>${c.name}</b> · ${GT.shapeString(c.shape)} · ${GT.shapeNotes(c.shape).map((m) => MB.pcName(m)).join(" ")}`;
+  }
+  // 리듬 모드: 한 마디(4박)씩 코드를 바꾸며 반복
+  const FOLK = GT.strumEvents(GT.STRUM_PATTERNS.folk.slots, 4);
+  const ARP = [0, 1, 2, 3, 4, 3, 2, 1].map((k, i) => ({ t: i * 0.5, k }));
+  let bar = 0;
+  const sch = GT.scheduler([], {
+    bpm: () => (mode === "arp" ? 84 : 96), loop: true, length: 4,
+    onEvent(ev, when, spb, barNo) {
+      const i = barNo % 4; const c = GT.chord(PROG[i].n);
+      if (ev.t === 0) bar = i;
+      if (mode === "folk") g.strum(c.shape, { dir: ev.dir, when, vel: ev.accent ? 0.85 : 0.62, strings: ev.dir === "U" ? [2, 3, 4, 5] : undefined });
+      else {
+        const sounding = c.shape.map((f, s) => (f >= 0 ? s : -1)).filter((s) => s >= 0);
+        const bass = sounding[0];
+        const upper = sounding.slice(-4);
+        const s = ev.k === 0 ? bass : upper[(ev.k - 1) % upper.length];
+        g.pluck(s, c.shape[s], { when, vel: ev.k === 0 ? 0.85 : 0.6 });
+      }
+    },
+    onUI(ev) { if (ev.t === 0) show(bar); },
+  });
+  pads.addEventListener("click", (e) => {
+    const b = e.target.closest(".pad"); if (!b) return;
+    const i = +b.dataset.i; show(i);
+    if (mode === "once") g.strum(GT.chord(PROG[i].n).shape, { dir: "D", vel: 0.8, spread: 0.018 });
+  });
+  MB.seg("hero-mode", (v) => {
+    mode = v; sch.stop();
+    if (v !== "once") { sch.setEvents(v === "folk" ? FOLK : ARP); sch.start(); }
+    else g.damp(MB.now() + 0.05);
+  });
+  show(0);
+})();
+</script>
 </body>
 </html>

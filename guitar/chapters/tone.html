@@ -1,0 +1,1325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>일렉 기타와 톤 · GuitarBook</title>
+<meta name="description" content="자기 픽업의 원리(패러데이 법칙), 픽업 위치가 만드는 빗살 필터, 싱글 코일과 험버커, RLC 공진과 톤 노브·케이블, 디스토션과 상호변조, 앰프·캐비닛 EQ와 이펙터 순서를 소리로 실험한다.">
+<link rel="canonical" href="https://music.euiyun.com/guitar/chapters/tone.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GuitarBook">
+<meta property="og:title" content="일렉 기타와 톤 · GuitarBook">
+<meta property="og:description" content="자기 픽업의 원리(패러데이 법칙), 픽업 위치가 만드는 빗살 필터, 싱글 코일과 험버커, RLC 공진과 톤 노브·케이블, 디스토션과 상호변조, 앰프·캐비닛 EQ와 이펙터 순서를 소리로 실험한다.">
+<meta property="og:url" content="https://music.euiyun.com/guitar/chapters/tone.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/guitar.css">
+<script src="../js/common.js"></script>
+<script src="../js/guitar.js"></script>
+<style>
+  .tn-s2 { stroke: var(--accent-2); fill: none; stroke-width: 2; }
+  .tn-sw { stroke: var(--warn); fill: none; stroke-width: 2; }
+  .tn-sb { stroke: var(--bad); fill: none; stroke-width: 2; }
+  .tn-sf { stroke: var(--text-faint); fill: none; stroke-width: 1.2; }
+  .tn-fill-w { fill: color-mix(in srgb, var(--warn) 18%, transparent); stroke: var(--warn); }
+  .tn-fill-b { fill: color-mix(in srgb, var(--bad) 14%, transparent); stroke: var(--bad); }
+  .tn-fill-ok { fill: color-mix(in srgb, var(--ok) 14%, transparent); stroke: var(--ok); }
+  .tn-dot-acc { fill: var(--accent); }
+  .tn-dot-2 { fill: var(--accent-2); }
+  svg .tn-small { fill: var(--text-dim); font-family: var(--font); font-size: 11px; }
+  .tn-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tn-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .tn-two { display: grid; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 640px) { .tn-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .tn-cap { font-size: 12px; color: var(--text-dim); padding: 4px 12px 0; }
+  .tn-pedals { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; padding: 14px 18px; background: var(--canvas-bg); }
+  .tn-pedal { border: 1px solid var(--border); border-radius: 12px; padding: 10px 10px 8px; background: var(--surface); display: grid; gap: 6px; min-width: 0; position: relative; }
+  .tn-pedal.on { border-color: var(--accent); background: var(--accent-soft); }
+  .tn-pedal h5 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+  .tn-pedal h5 small { font-weight: 400; color: var(--text-dim); font-size: 11px; }
+  .tn-pedal .led { width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint); flex: none; }
+  .tn-pedal.on .led { background: var(--bad); box-shadow: 0 0 6px var(--bad); }
+  .tn-pedal .row { display: flex; gap: 4px; justify-content: space-between; }
+  .tn-pedal .row button { font: inherit; font-size: 12px; padding: 3px 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .tn-pedal .row button.tg { flex: 1; }
+  .tn-pedal.on .row button.tg { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .tn-pedal label { font-size: 11.5px; color: var(--text-dim); display: grid; gap: 2px; }
+  .tn-pedal .num { position: absolute; top: 6px; right: 8px; font: 600 11px var(--mono); color: var(--text-faint); }
+  .tn-flow { font-family: var(--mono); font-size: 12.5px; color: var(--text-dim); padding: 0 18px 12px; background: var(--canvas-bg); overflow-wrap: anywhere; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="guitar"></script>
+</head>
+<body data-chapter="tone">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 13</div>
+    <h1>일렉 기타와 톤</h1>
+    <p class="lead">통기타는 나무 몸통이 소리를 키우지만, 일렉 기타의 몸통은 거의 울리지 않습니다. 소리는 줄 바로 밑의 작은 자석과 코일이 만들고, 그 신호는 케이블과 페달과 앰프와 스피커를 거치며 모양이 바뀝니다. 그래서 "톤"이라는 막연한 말은 사실 물리 법칙과 회로의 연쇄입니다. 패러데이 법칙이 줄의 <b>속도</b>를 전압으로 바꾸고, 픽업의 위치가 배음을 골라 내는 <b>빗살 필터</b>가 되고, 코일과 케이블이 <b>RLC 공진 회로</b>를 이루고, 디스토션은 일부러 만든 <b>비선형성</b>이며, 이펙터의 순서는 "비선형 시스템은 교환 법칙이 성립하지 않는다"는 수학 문장입니다. 이 장에서는 그 연쇄를 하나씩 소리로 확인합니다.</p>
+    <ul class="objectives">
+      <li>자기 픽업이 줄의 변위가 아니라 속도에 반응하는 이유를 패러데이 법칙으로 설명하고, 왜 강철 줄만 소리가 나는지 말한다.</li>
+      <li>픽업 위치 \(x\)에서 \(n\)번째 배음의 무게가 \(\sin(n\pi x/L)\)임을 유도하고, 넥·미들·브리지 픽업의 음색 차이를 스펙트럼으로 예측한다.</li>
+      <li>험버커가 험을 상쇄하는 원리(역방향 감기·역극성)와, 험버커가 어둡게 들리는 두 가지 이유를 구분한다.</li>
+      <li>픽업 + 볼륨·톤 포트 + 케이블을 RLC 회로로 모델링해 공진 주파수 \(f_0 = 1/(2\pi\sqrt{LC})\)를 계산하고, 톤 노브와 케이블 길이의 효과를 듣는다.</li>
+      <li>소프트·하드·비대칭 클리핑이 만드는 배음(홀수/짝수)과 상호변조를 설명하고, 하이게인에서 파워 코드가 깨끗한 이유를 계산으로 보인다.</li>
+      <li>앰프·캐비닛 EQ의 역할과 이펙터 순서(컴프 → 드라이브 → 모듈레이션 → 딜레이 → 리버브)의 근거를 선형/비선형 시스템의 관점에서 이해한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="pickup">
+    <h2>픽업: 줄의 움직임을 전압으로</h2>
+    <p>일렉 기타 픽업의 구조는 놀랄 만큼 단순합니다. 줄마다 하나씩 놓인 영구자석 <span class="term">폴피스</span><span class="en">(Pole piece)</span> 여섯 개를 머리카락보다 가는 에나멜 구리선(보통 지름 약 0.06 mm의 42 AWG)이 수천 번, 흔히 7,000–8,000번쯤 감싸고 있을 뿐입니다. 자석은 그 위를 지나는 강철 줄을 <b>자화</b>시킵니다. 자화된 줄은 자석 회로의 일부가 되어, 줄이 폴피스에 가까워지면 코일을 지나는 자기 선속(자속)이 늘고 멀어지면 줄어듭니다. 줄이 진동하는 한 자속은 계속 바뀌고, 바뀌는 자속은 코일에 전압을 유도합니다. 이것이 1831년 패러데이가 발견한 전자기 유도이고, 발전기와 변압기와 다이내믹 마이크가 같은 원리로 움직입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 270" role="img" aria-label="자기 픽업의 단면과 신호 사슬">
+        <!-- string -->
+        <line x1="40" y1="62" x2="400" y2="62" class="s-line" stroke-width="2.4"/>
+        <path d="M40 62 Q220 30 400 62" class="tn-s2" stroke-dasharray="5 4"/>
+        <path d="M40 62 Q220 94 400 62" class="tn-s2" stroke-dasharray="5 4"/>
+        <text x="44" y="48" class="t-dim">강철 줄 (자화됨)</text>
+        <line x1="236" y1="40" x2="236" y2="84" class="s-acc"/>
+        <path d="M230 46 L236 38 L242 46 M230 78 L236 86 L242 78" class="s-acc"/>
+        <text x="248" y="44" class="t-acc">y(t)</text>
+        <!-- field lines -->
+        <path d="M205 120 C160 70, 160 20, 220 30" class="tn-sf" stroke-dasharray="3 3"/>
+        <path d="M235 120 C275 70, 285 20, 228 30" class="tn-sf" stroke-dasharray="3 3"/>
+        <path d="M200 205 C120 210, 110 120, 205 120" class="tn-sf" stroke-dasharray="3 3"/>
+        <path d="M240 205 C320 210, 330 120, 235 120" class="tn-sf" stroke-dasharray="3 3"/>
+        <!-- magnet + coil -->
+        <rect x="205" y="110" width="30" height="48" class="f-acc-soft"/>
+        <rect x="205" y="158" width="30" height="48" class="f-surface"/>
+        <text x="220" y="139" class="t" text-anchor="middle">N</text>
+        <text x="220" y="187" class="t" text-anchor="middle">S</text>
+        <rect x="170" y="118" width="100" height="80" rx="6" fill="none" class="s-line"/>
+        <g class="tn-sf">
+          <line x1="174" y1="126" x2="203" y2="126"/><line x1="174" y1="136" x2="203" y2="136"/><line x1="174" y1="146" x2="203" y2="146"/><line x1="174" y1="156" x2="203" y2="156"/><line x1="174" y1="166" x2="203" y2="166"/><line x1="174" y1="176" x2="203" y2="176"/><line x1="174" y1="186" x2="203" y2="186"/>
+          <line x1="237" y1="126" x2="266" y2="126"/><line x1="237" y1="136" x2="266" y2="136"/><line x1="237" y1="146" x2="266" y2="146"/><line x1="237" y1="156" x2="266" y2="156"/><line x1="237" y1="166" x2="266" y2="166"/><line x1="237" y1="176" x2="266" y2="176"/><line x1="237" y1="186" x2="266" y2="186"/>
+        </g>
+        <text x="96" y="230" class="t-dim">코일: 42 AWG 약 7,000–8,000회</text>
+        <text x="290" y="140" class="t-dim">폴피스</text>
+        <text x="290" y="156" class="t-dim">(영구자석)</text>
+        <path d="M270 190 C300 200, 320 220, 360 222" class="s-line"/>
+        <path d="M270 182 C300 186, 330 200, 360 204" class="s-line"/>
+        <text x="366" y="218" class="t-acc">V(t)</text>
+        <!-- chain -->
+        <g transform="translate(450,30)">
+          <rect x="0" y="0" width="300" height="38" rx="8" class="f-elev"/>
+          <text x="150" y="24" class="t" text-anchor="middle">① 줄의 변위 y(t), 속도 ẏ(t)</text>
+          <path d="M150 40 L150 58" class="s-line"/><path d="M144 52 L150 60 L156 52" class="s-line"/>
+          <rect x="0" y="62" width="300" height="38" rx="8" class="f-elev"/>
+          <text x="150" y="86" class="t" text-anchor="middle">② 코일을 지나는 자속 Φ(y)</text>
+          <path d="M150 102 L150 120" class="s-line"/><path d="M144 114 L150 122 L156 114" class="s-line"/>
+          <rect x="0" y="124" width="300" height="38" rx="8" class="f-acc-soft"/>
+          <text x="150" y="148" class="t" text-anchor="middle">③ 기전력 −N·dΦ/dt = −N·Φ′(y)·ẏ</text>
+          <path d="M150 164 L150 182" class="s-line"/><path d="M144 176 L150 184 L156 176" class="s-line"/>
+          <rect x="0" y="186" width="300" height="38" rx="8" class="f-elev"/>
+          <text x="150" y="210" class="t" text-anchor="middle">④ 코일·케이블 RLC → 앰프 입력</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-1.</b> 자기 픽업의 단면(왼쪽)과 신호 사슬(오른쪽). 폴피스의 자기장이 강철 줄을 자화하고, 줄이 위아래로 진동하면 코일을 지나는 자속이 바뀌어 기전력이 생긴다. 출력은 자속의 <b>시간 변화율</b>이므로 줄이 폴피스 위를 지나는 <b>속도</b>에 비례한다. 줄의 상하 운동(기타 앞판에 수직)이 가장 잘 잡히고, 좌우 운동은 훨씬 약하게 잡힌다.</figcaption>
+    </figure>
+    <p>코일의 감은 수를 \(N\), 코일 한 바퀴를 지나는 자속을 \(\Phi\)라 하면 유도 기전력은 다음과 같습니다. 자속은 줄과 폴피스 사이 거리, 즉 그 지점에서 줄의 변위 \(y\)의 함수이므로 연쇄 법칙으로 두 인자로 나눌 수 있습니다.</p>
+    <div class="formula">$$\mathcal{E}(t) = -N\,\frac{d\Phi}{dt} = -N\,\frac{\partial \Phi}{\partial y}\,\frac{dy}{dt} \;\approx\; -N\,\Phi'(y_0)\; v(t)$$
+      <div class="where">\(y_0\): 줄이 쉬고 있을 때의 높이, \(v = dy/dt\): 픽업 바로 위에서 줄의 속도. 진폭이 작으면 \(\Phi'(y_0)\)을 상수로 볼 수 있어 출력은 <b>속도에 비례</b>한다. 진폭이 크거나 줄이 폴피스에 너무 가까우면 \(\Phi'\)이 변해 출력 자체가 약간 비선형이 된다(픽업이 만드는 미세한 왜곡).</div>
+    </div>
+    <p>이 식에서 세 가지 결론이 바로 나옵니다. 첫째, 출력은 변위가 아니라 속도를 따릅니다. \(n\)번째 배음의 속도 진폭은 변위 진폭에 각진동수 \(\omega_n = n\omega_1\)을 곱한 값이므로, 픽업은 줄의 변위 스펙트럼보다 배음을 \(n\)배(옥타브당 +6 dB) 더 강조해서 듣습니다. 같은 줄을 마이크로 녹음한 소리보다 픽업 소리가 '쨍'한 이유 중 하나입니다. 둘째, <b>강자성체 줄만</b> 소리가 납니다. 니켈 도금 강철, 순수 니켈, 스테인리스 줄은 잘 잡히지만 나일론 줄은 전혀 잡히지 않고, 통기타용 인청동(파스퍼 브론즈) 줄은 감은 선이 자성이 없어 강철 심만 약하게 잡힙니다. 셋째, 자석은 줄을 <b>끌어당깁니다</b>. 픽업을 줄에 너무 붙이면 자력이 줄의 진동을 방해해 서스테인이 줄고, 특히 저음 줄의 높은 프렛에서 음정이 흔들리며 맥놀이 같은 소리가 납니다(흔히 '울프 톤'이라 부릅니다).</p>
+    <div class="callout tip"><strong>연습법 · 픽업 높이 맞추기</strong> 마지막 프렛을 누른 상태에서 줄과 폴피스 사이를 자로 재 보세요. 출발점으로 2–3 mm쯤에서 시작하고, 저음 쪽을 고음 쪽보다 조금 더 멀게 둡니다(저음 줄은 진폭이 커서 더 세게 잡히므로). 그다음 6번 줄과 1번 줄을 번갈아 같은 세기로 쳐서 음량 균형을 귀로 맞추고, 픽업을 바꿔 가며 세 픽업의 음량이 비슷한지 확인합니다. 저음 줄 15프렛 이상에서 음이 '울렁'거리면 픽업을 0.5 mm씩 내리세요.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="position">
+    <h2>픽업 위치: 줄 위의 빗살 필터</h2>
+    <p>1장에서 보았듯 진동하는 줄은 여러 <span class="term">정상파 모드</span><span class="en">(Normal mode)</span>의 합입니다. 양 끝(너트와 새들)이 고정된 길이 \(L\)의 줄에서 \(n\)번째 모드의 모양은 \(\sin(n\pi x/L)\)이고, \(n\)번째 배음의 주파수 \(n f_1\)로 진동합니다. 여기서 \(x\)는 줄의 한쪽 끝에서 잰 거리인데, 일렉 기타에서는 브리지 새들에서 재는 것이 편리합니다. 모드 \(n\)에는 진폭이 늘 0인 <b>마디</b><span class="en">(Node)</span>가 \(n-1\)개 있습니다. 픽업이 어떤 모드의 마디 위에 있으면, 그 모드는 아무리 세게 진동해도 픽업 위의 줄은 움직이지 않으므로 그 배음은 출력에서 사라집니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="줄의 모드 모양과 픽업 위치">
+        <g id="tn-fig-modes"></g>
+      </svg>
+      <figcaption><b>그림 13-2.</b> 줄의 1–5번 모드 모양과 스트랫형 기타의 세 픽업 위치(브리지 새들에서 약 41·98·162 mm, 스케일 648 mm 기준). 넥 픽업은 줄 길이의 약 1/4 지점, 즉 24프렛이 있을 자리에 놓여 4번 모드의 마디(빨간 점)와 거의 겹친다. 그래서 4·8·12번 배음이 약해진다. 브리지 픽업은 줄 끝에 가까워 모든 모드의 진폭이 작지만, 낮은 모드일수록 더 작아서 상대적으로 고음이 강조된다.</figcaption>
+    </figure>
+    <p>뜯는 위치도 같은 방식으로 배음을 고릅니다. 브리지에서 \(\beta L\) 떨어진 곳을 높이 \(h\)만큼 당겼다 놓으면 처음 모양은 삼각형이고, 이것을 사인 급수로 풀면 \(n\)번째 모드의 변위 진폭은 다음과 같습니다. 여기에 속도 인자 \(n\)과 픽업 위치의 모드 무게를 곱하면 픽업 출력의 배음 진폭이 나옵니다.</p>
+    <div class="formula">$$a_n = \frac{2h}{n^2\pi^2\beta(1-\beta)}\,\sin(n\pi\beta), \qquad V_n \;\propto\; \underbrace{n\,a_n}_{\text{속도}}\cdot\underbrace{\sin\!\left(\frac{n\pi x_p}{L}\right)}_{\text{픽업 위치}} \;\propto\; \frac{\sin(n\pi\beta)\,\sin(n\pi x_p/L)}{n}$$
+      <div class="where">\(\beta\): 뜯는 위치(브리지에서 잰 거리 / \(L\)), \(x_p\): 픽업 중심의 위치. 두 사인 인자는 각각 주파수 축에서 일정한 간격으로 골(0)을 만드는 <b>빗살 필터</b>다. 픽업 위치 인자의 첫 골은 \(n = L/x_p\)번째 배음에 있다. 흥미롭게도 식은 \(\beta\)와 \(x_p/L\)에 대해 대칭이다. 뜯는 자리와 픽업 자리를 맞바꿔도 스펙트럼은 같다.</div>
+    </div>
+    <p>숫자로 확인해 봅시다. 스케일 648 mm(25.5인치) 기타에서 넥 픽업이 브리지에서 162 mm에 있으면 \(x_p/L = 0.25\)이고, \(\sin(n\pi/4)\)는 \(n = 4, 8, 12, \dots\)에서 0이 됩니다. 미들 픽업(98 mm, 0.151)은 첫 골이 \(n \approx 6.6\)이라 정수 배음과 정확히 겹치지 않지만 7번과 13번 배음이 크게 줄고 20번 근처가 거의 사라집니다. 브리지 픽업(41 mm, 0.063)은 첫 골이 16번 배음 근처로 멀리 밀려나는 대신, \(\sin(n\pi x_p/L) \approx n\pi x_p/L\)이 작은 \(n\)에서 작으므로 기본음과 낮은 배음이 약하고 높은 배음이 상대적으로 강합니다. 브리지 픽업이 날카롭고 출력이 작아서 흔히 코일을 더 많이 감아 출력을 보충하는 이유입니다.</p>
+
+    <div class="sim" id="sim-tn-position">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>픽업 위치와 뜯는 위치: 빗살 필터 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tn-pos-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>픽업 위치 (브리지에서) <output id="tn-pos-pu-out"></output></span><input type="range" id="tn-pos-pu" min="20" max="324" value="162"></label>
+          <div class="tn-presets" id="tn-pos-pupre"><button class="btn" data-v="41">브리지</button><button class="btn" data-v="98">미들</button><button class="btn" data-v="162">넥</button><button class="btn" data-v="216">L/3</button><button class="btn" data-v="324">12프렛</button></div>
+          <label class="ctrl"><span>뜯는 위치 (브리지에서) <output id="tn-pos-pl-out"></output></span><input type="range" id="tn-pos-pl" min="20" max="324" value="120"></label>
+          <label class="ctrl"><span>음</span><select id="tn-pos-note"><option value="40">6번 줄 개방 E2</option><option value="45" selected>5번 줄 개방 A2</option><option value="50">4번 줄 개방 D3</option><option value="55">3번 줄 개방 G3</option><option value="59">2번 줄 개방 B3</option><option value="64">1번 줄 개방 E4</option></select></label>
+          <label class="check"><input type="checkbox" id="tn-pos-elec"> 코일 공진(싱글 코일 RLC) 포함</label>
+          <div class="btn-row"><button class="btn primary" id="tn-pos-play">▶ 뜯기</button><button class="btn" id="tn-pos-ab">▶ 넥 → 미들 → 브리지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">픽업 위치 x/L</span><span class="v" id="tn-pos-r1">—</span></div>
+        <div class="stat"><span class="k">첫 골(사라지는 배음)</span><span class="v" id="tn-pos-r2">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="tn-pos-r3">—</span></div>
+      </div>
+      <div class="sim-note">위 그림: 왼쪽이 너트, 오른쪽이 브리지입니다. 네모가 픽업, 삼각형이 뜯는 자리, 점선은 선택한 배음의 모드 모양입니다(막대를 누르면 그 배음의 모양을 그립니다). 아래 막대: 속이 빈 막대 = 줄 자체의 속도 스펙트럼(뜯는 위치만 반영), 채운 막대 = 픽업 출력(dB, 최대값 기준). 빨간 ×는 −30 dB보다 약해진 배음입니다. 해볼 것: ① 넥 픽업에서 4·8번 배음이 사라지는 것 확인 ② 브리지로 옮기며 소리가 얇고 날카로워지는 것 듣기 ③ 뜯는 위치와 픽업 위치를 같은 값으로 두면 같은 배음이 두 번 걸러져 골이 깊어진다. 모델: 이상적인 줄의 모드 64개를 감쇠 사인파로 더한 가산 합성(높은 모드일수록 빨리 감쇠, 약한 비조화성 B = 5·10⁻⁵), 배음 무게는 위 식 그대로, 픽업 폭 약 8 mm의 평균 효과 포함. 소리는 최대 음량을 맞춰 들려주므로 실제 기타에서 넥 픽업이 더 큰 음량 차이는 빠져 있습니다.</div>
+    </div>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>픽업(스트랫형, 648 mm)</th><th class="num">브리지에서</th><th class="num">x/L</th><th>약해지는 배음</th><th>들리는 인상</th></tr></thead>
+      <tbody>
+        <tr><td>넥</td><td class="num">≈ 162 mm</td><td class="num">0.25</td><td>4, 8, 12, …</td><td>둥글고 굵음, 플루트 같은 배음</td></tr>
+        <tr><td>미들</td><td class="num">≈ 98 mm</td><td class="num">0.15</td><td>7, 13, 20 근처</td><td>중간, 약간 비어 있는 '스쿱'</td></tr>
+        <tr><td>브리지(1번 줄 쪽)</td><td class="num">≈ 41 mm</td><td class="num">0.063</td><td>16 근처(대신 저역이 약함)</td><td>얇고 날카로움, 출력 작음</td></tr>
+        <tr><td>12프렛 위(가상)</td><td class="num">324 mm</td><td class="num">0.5</td><td>모든 짝수 배음</td><td>속이 빈, 클라리넷 같은 소리</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout deep"><strong>픽업의 '창'과 기울어진 브리지 픽업</strong> 실제 픽업은 한 점이 아니라 폭이 있는 영역(자기장이 줄을 감지하는 '창', 대략 수 mm–2 cm)을 봅니다. 폭 \(w\)에 걸쳐 \(\sin(n\pi x/L)\)을 평균하면 \(\mathrm{sinc}(n w/2L)\) 꼴의 인자가 더 곱해져 아주 높은 배음이 조금 더 깎입니다. 또 스트랫의 브리지 픽업은 비스듬히 놓여 1번 줄 쪽이 약 41 mm, 6번 줄 쪽이 약 52 mm입니다. 저음 줄의 \(x_p/L\)을 키워 저음 줄이 지나치게 얇아지지 않게 한 설계입니다.</div>
+    <div class="callout tip"><strong>연습법 · 픽업 선택과 오른손 위치</strong> 클린 톤에서 같은 코드를 넥·미들·브리지 순서로 4번씩 치며 차이를 귀에 익히세요. 그다음 픽업은 고정하고 오른손을 브리지 쪽에서 넥 쪽으로 옮기며 칩니다. 뜯는 위치의 빗살 필터 때문에 픽업을 바꾸지 않고도 밝기가 꽤 변합니다. 리듬 파트는 브리지 쪽(또렷함), 부드러운 선율은 넥 위(둥근 소리)에서 쳐 보는 것이 출발점입니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="humbucker">
+    <h2>싱글 코일과 험버커</h2>
+    <p>코일은 줄의 자기장만 듣지 않습니다. 변압기, 형광등의 안정기, 모니터, 조광기 같은 전기 기기는 전원 주파수(한국은 60 Hz, 유럽은 50 Hz)로 바뀌는 자기장을 주변에 뿌리고, 코일은 그것도 똑같이 전압으로 바꿉니다. 그래서 싱글 코일 픽업에는 60 Hz와 그 배음(120, 180, 240 Hz …)으로 된 '웅–' 하는 <span class="term">험</span><span class="en">(Hum)</span>이 섞입니다. 기타를 든 채 몸을 돌리면 험이 커졌다 작아지는 것을 들을 수 있는데, 코일이 방향을 가진 안테나이기 때문입니다.</p>
+    <p>1955년 깁슨의 기술자 세스 러버<span class="en">(Seth Lover)</span>는 코일 두 개로 이 문제를 풀었습니다(특허는 1959년 등록, 그 사이 픽업에 붙은 'Patent Applied For' 스티커 때문에 지금도 'PAF'라 부릅니다). 핵심은 두 코일을 <b>반대 방향으로 감고</b><span class="en">(Reverse Wound)</span> 자석 극성도 <b>반대로</b><span class="en">(Reverse Polarity)</span> 하는 것입니다. 바깥에서 오는 험 자기장은 두 코일을 같은 방향으로 지나므로, 감은 방향이 반대인 두 코일에서 부호가 반대인 전압이 생겨 직렬로 이으면 지워집니다. 반면 줄의 신호는 자석 극성이 반대라 자속 변화의 부호가 한 번 뒤집히고, 감은 방향 때문에 한 번 더 뒤집혀 결국 같은 부호로 더해집니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="험버커의 험 상쇄 원리">
+        <g transform="translate(40,20)">
+          <rect x="0" y="40" width="130" height="120" rx="14" class="f-acc-soft"/>
+          <rect x="150" y="40" width="130" height="120" rx="14" class="f-acc2-soft"/>
+          <text x="65" y="30" class="t" text-anchor="middle">코일 A</text>
+          <text x="215" y="30" class="t" text-anchor="middle">코일 B</text>
+          <text x="65" y="86" class="t-acc" text-anchor="middle">N 위</text>
+          <text x="215" y="86" class="t" text-anchor="middle" style="fill:var(--accent-2);font-weight:700">S 위</text>
+          <path d="M40 112 A25 18 0 1 1 90 112" class="s-acc"/><path d="M84 104 L91 113 L80 116" class="s-acc"/>
+          <path d="M240 112 A25 18 0 1 0 190 112" class="tn-s2"/><path d="M196 104 L189 113 L200 116" class="tn-s2"/>
+          <text x="65" y="148" class="t-dim" text-anchor="middle">시계 방향 감기</text>
+          <text x="215" y="148" class="t-dim" text-anchor="middle">반시계 방향 감기</text>
+          <path d="M-20 196 L300 196" class="tn-sw" stroke-dasharray="6 4"/>
+          <path d="M292 190 L302 196 L292 202" class="tn-sw"/>
+          <text x="140" y="220" class="t-dim" text-anchor="middle">외부 험 자기장(전원 60 Hz): 두 코일을 같은 방향으로 지남</text>
+        </g>
+        <g transform="translate(400,30)">
+          <rect x="0" y="0" width="360" height="190" rx="12" class="f-elev"/>
+          <text x="18" y="32" class="t">줄 신호</text>
+          <text x="110" y="32" class="t-mono">A: +s</text><text x="180" y="32" class="t-mono">B: (−)(−)s = +s</text>
+          <text x="18" y="58" class="t-acc">→ 직렬 합 = 2s (두 배)</text>
+          <text x="18" y="100" class="t">험</text>
+          <text x="110" y="100" class="t-mono">A: +h</text><text x="180" y="100" class="t-mono">B: −h</text>
+          <text x="18" y="126" class="t" style="fill:var(--ok);font-weight:700">→ 직렬 합 ≈ 0 (상쇄)</text>
+          <text x="18" y="164" class="t-dim">자석 극성 반전이 줄 신호의 부호를, 감기 반전이</text>
+          <text x="18" y="180" class="t-dim">다시 그 부호를 뒤집는다. 험은 감기 반전만 겪는다.</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-3.</b> 험버커(역방향 감기 · 역극성, RWRP)의 원리. 두 코일이 같은 외부 자기장을 받으면 감은 방향이 반대라 험 전압의 부호가 반대가 되어 지워진다. 줄의 진동은 극성이 반대인 자석 위에서 일어나므로 자속 변화의 부호가 이미 반대이고, 감기 반전과 합쳐져 같은 부호로 더해진다. 실제로는 두 코일의 감은 수와 위치가 완벽히 같지 않아 험이 수십 dB 줄어드는 정도다.</figcaption>
+    </figure>
+    <p>험버커는 두 가지 이유로 싱글 코일보다 어둡고 굵게 들립니다. 첫째는 <b>기하</b>입니다. 두 코일의 중심이 약 18 mm 떨어져 있으므로 험버커는 줄의 두 지점을 평균해서 듣습니다. 두 빗살 필터의 평균은 삼각함수 합 공식으로 다음과 같이 쓸 수 있습니다.</p>
+    <div class="formula">$$\frac{1}{2}\left[\sin\frac{n\pi(x_p - d/2)}{L} + \sin\frac{n\pi(x_p + d/2)}{L}\right] = \sin\frac{n\pi x_p}{L}\cdot\cos\frac{n\pi d}{2L}$$
+      <div class="where">\(d\): 두 코일 중심 사이 거리(약 18 mm). 뒤의 코사인 인자가 저역 통과 필터처럼 작용해 높은 배음을 깎는다. 첫 골은 \(n = L/d \approx 36\)번째 배음으로, 저음 줄에서는 수 kHz에 해당한다. 기하 효과만으로는 차이가 크지 않다.</div>
+    </div>
+    <p>둘째이자 더 큰 이유는 <b>전기</b>입니다. 코일 두 개를 직렬로 이었으니 인덕턴스가 대략 두 배(싱글 코일 2–3 H, 험버커 4–5 H)가 되고, 다음 절에서 볼 공진 주파수가 \(1/\sqrt{L}\)에 비례해 낮아집니다. 같은 케이블에서 싱글 코일의 공진이 4 kHz 근처라면 험버커는 3 kHz 근처입니다. 출력 전압이 크고, 공진이 낮고, 험이 없다는 세 성질이 험버커를 하이게인 록의 표준으로 만들었습니다.</p>
+
+    <div class="sim" id="sim-tn-humbucker">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>싱글 코일 · 험버커 · 코일 분할 · 역위상</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tn-hb-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>픽업 종류</span><div class="seg" id="tn-hb-type"><button data-value="single" class="on">싱글 코일</button><button data-value="hb">험버커</button><button data-value="split">코일 분할</button><button data-value="oop">역위상 배선</button></div></div>
+          <div class="ctrl"><span>위치</span><div class="seg" id="tn-hb-pos"><button data-value="155" class="on">넥</button><button data-value="45">브리지</button></div></div>
+          <label class="ctrl"><span>주변 험의 세기 <output id="tn-hb-hum-out"></output></span><input type="range" id="tn-hb-hum" min="0" max="100" value="50"></label>
+          <div class="btn-row"><button class="btn primary" id="tn-hb-play">▶ 코드 치기</button><button class="btn" id="tn-hb-note">▶ 단음</button></div>
+          <div class="btn-row"><button class="btn" id="tn-hb-humbtn">▶ 험 켜기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">험 레벨(싱글 코일 대비)</span><span class="v" id="tn-hb-r1">—</span></div>
+        <div class="stat"><span class="k">인덕턴스 · 공진</span><span class="v" id="tn-hb-r2">—</span></div>
+        <div class="stat"><span class="k">기본음 출력(싱글 대비)</span><span class="v" id="tn-hb-r3">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 가로축은 주파수(로그), 세로축은 줄 진동에 대한 픽업의 감도(dB). 실선 = 지금 선택한 픽업, 점선 = 같은 자리의 싱글 코일. 기하(코일 두 개의 평균)와 전기(RLC 공진)를 함께 계산합니다. 옅은 세로 눈금은 5번 줄 A2(110 Hz)의 배음 자리입니다. '험 켜기'를 누르면 60 Hz 계열의 험이 계속 울리고(정지하려면 다시 누르세요), 픽업 종류를 바꾸면 험의 크기가 바뀝니다. 해볼 것: ① 싱글 코일에서 험을 켜고 험버커로 바꾸기 ② '역위상 배선'(두 코일 중 하나의 배선을 거꾸로)에서 기본음이 사라지고 콧소리처럼 얇아지는 것, 험은 오히려 커지는 것 듣기. 모델: 4절의 RLC 회로(싱글 2.5 H·6 kΩ, 험버커 직렬 4.5 H·8 kΩ, 분할 2.3 H·4 kΩ, 케이블 3 m)와 위의 두 지점 평균 식, 두 코일 사이 상호 인덕턴스는 무시, 감은 수는 싱글 8,000회·험버커 코일당 5,000회(출력 비 1 : 1.25) 가정, 험버커의 험 잔류는 −30 dB로 가정. 소리는 각 배음 무게로 만든 가산 합성 현입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 험 찾기와 스위치 활용</strong> 싱글 코일 기타로 앰프 앞에 서서 천천히 한 바퀴 돌아 보세요. 험이 가장 작은 방향이 있습니다. 녹음할 때는 모니터와 조광기에서 떨어지고 그 방향을 보고 앉으면 됩니다. 스트랫의 5단 스위치 2·4번(두 픽업 병렬)은 미들 픽업이 역방향 감기·역극성이라 험이 지워지고, 두 위치의 빗살 필터가 섞여 특유의 '꽥' 하는<span class="en">(Quack)</span> 소리가 납니다. 코일 분할 스위치가 있는 험버커라면 클린 아르페지오에서 분할, 드라이브 리프에서 험버커로 바꿔 보세요.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="circuit">
+    <h2>픽업은 RLC 회로다: 톤 노브와 케이블</h2>
+    <p>수천 번 감은 코일은 큰 <b>인덕턴스</b> \(L\)과 무시 못 할 <b>저항</b> \(R\)(가는 구리선 수 km)을 가집니다. 감긴 선끼리는 아주 가까이 붙어 있어 작은 커패시터 수천 개가 이어진 것처럼 <b>자기 정전용량</b> \(C_p\)(약 100 pF)도 생깁니다. 여기에 기타 케이블이 더해집니다. 케이블은 두 도체(심선과 차폐) 사이에 절연체를 끼운 긴 커패시터라서 보통 1 m당 약 100 pF(제품에 따라 50–200 pF)를 가집니다. 3 m 케이블이면 300 pF, 6 m면 600 pF입니다. 마지막으로 볼륨·톤 포트(250 kΩ 또는 500 kΩ)와 앰프 입력 임피던스(보통 1 MΩ)가 부하 저항으로 걸립니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 280" role="img" aria-label="픽업, 포트, 케이블의 등가 회로">
+        <g class="s-line">
+          <!-- ground rail -->
+          <line x1="60" y1="230" x2="760" y2="230"/>
+          <!-- source -->
+          <circle cx="60" cy="150" r="22"/>
+          <line x1="60" y1="128" x2="60" y2="70"/><line x1="60" y1="172" x2="60" y2="230"/>
+          <!-- R -->
+          <line x1="60" y1="70" x2="110" y2="70"/>
+          <path d="M110 70 l6 -8 l10 16 l10 -16 l10 16 l10 -16 l6 8"/>
+          <line x1="162" y1="70" x2="190" y2="70"/>
+          <!-- L -->
+          <path d="M190 70 a8 8 0 0 1 16 0 a8 8 0 0 1 16 0 a8 8 0 0 1 16 0 a8 8 0 0 1 16 0"/>
+          <line x1="254" y1="70" x2="300" y2="70"/>
+          <!-- node A to right -->
+          <line x1="300" y1="70" x2="480" y2="70"/>
+          <!-- Cp -->
+          <line x1="300" y1="70" x2="300" y2="140"/><line x1="285" y1="140" x2="315" y2="140"/><line x1="285" y1="150" x2="315" y2="150"/><line x1="300" y1="150" x2="300" y2="230"/>
+          <!-- tone: Rt + Ct -->
+          <line x1="390" y1="70" x2="390" y2="100"/>
+          <path d="M390 100 l-8 5 l16 8 l-16 8 l16 8 l-16 8 l8 5"/>
+          <line x1="390" y1="142" x2="390" y2="170"/><line x1="375" y1="170" x2="405" y2="170"/><line x1="375" y1="180" x2="405" y2="180"/><line x1="390" y1="180" x2="390" y2="230"/>
+          <!-- volume pot -->
+          <line x1="480" y1="70" x2="480" y2="100"/>
+          <path d="M480 100 l-8 5 l16 8 l-16 8 l16 8 l-16 8 l16 8 l-16 8 l8 5"/>
+          <line x1="480" y1="158" x2="480" y2="230"/>
+          <!-- wiper -->
+          <line x1="515" y1="128" x2="492" y2="128"/>
+          <line x1="515" y1="128" x2="580" y2="128"/>
+          <!-- cable -->
+          <line x1="580" y1="128" x2="580" y2="170"/><line x1="565" y1="170" x2="595" y2="170"/><line x1="565" y1="180" x2="595" y2="180"/><line x1="580" y1="180" x2="580" y2="230"/>
+          <line x1="580" y1="128" x2="690" y2="128"/>
+          <!-- amp Rin -->
+          <line x1="690" y1="128" x2="690" y2="150"/>
+          <path d="M690 150 l-8 5 l16 8 l-16 8 l16 8 l-16 8 l8 5"/>
+          <line x1="690" y1="192" x2="690" y2="230"/>
+        </g>
+        <line x1="560" y1="70" x2="560" y2="70" class="s-line"/>
+        <path d="M498 124 L490 128 L498 132" class="s-acc"/>
+        <rect x="34" y="38" width="244" height="136" rx="10" fill="none" class="tn-s2" stroke-dasharray="6 4"/>
+        <text x="50" y="30" class="t" style="fill:var(--accent-2);font-weight:700">픽업(코일)</text>
+        <text x="60" y="155" class="t-mono" text-anchor="middle">Vs</text>
+        <text x="136" y="96" class="t-mono" text-anchor="middle">R ≈ 6–8 kΩ</text>
+        <text x="222" y="50" class="t-mono" text-anchor="middle">L ≈ 2.5–4.5 H</text>
+        <text x="322" y="132" class="t-mono">Cp</text>
+        <text x="322" y="148" class="t-mono">≈100pF</text>
+        <text x="404" y="122" class="t-mono">Rt</text>
+        <text x="410" y="190" class="t-mono">Ct</text>
+        <text x="384" y="258" class="t-dim" text-anchor="middle">톤 포트 + 톤 커패시터</text>
+        <text x="476" y="258" class="t-dim" text-anchor="start">볼륨 포트</text>
+        <text x="598" y="200" class="t-mono">Cc ≈ 100 pF/m</text>
+        <text x="600" y="258" class="t-dim">케이블</text>
+        <text x="706" y="176" class="t-mono">1 MΩ</text>
+        <text x="690" y="258" class="t-dim" text-anchor="middle">앰프 입력</text>
+        <text x="300" y="62" class="t-mono" text-anchor="middle">A</text>
+        <text x="540" y="120" class="t-mono">B</text>
+      </svg>
+      <figcaption><b>그림 13-4.</b> 기타 출력단의 등가 회로. 줄이 만든 기전력 \(V_s\)는 코일의 저항 \(R\)과 인덕턴스 \(L\)을 지나 출력 마디 A에 이르고, 그곳에는 코일 자기 정전용량 \(C_p\), 톤 회로(\(R_t + C_t\)), 볼륨 포트가 병렬로 걸린다. 볼륨 포트의 와이퍼(B)에서 케이블 정전용량 \(C_c\)와 앰프 입력 저항이 부하가 된다. \(L\)과 전체 정전용량이 2차 저역 통과 필터를 이루고, 차단 주파수 근처에 공진 봉우리가 생긴다.</figcaption>
+    </figure>
+    <p>톤 노브를 10에 두고 볼륨을 최대로 하면, 이 회로는 거의 \(R\)–\(L\)–\(C\) 직렬 공진 회로에 부하 저항이 병렬로 걸린 2차 저역 통과 필터입니다. 공진 주파수 아래에서는 신호가 그대로 지나가고, 공진 근처에서는 \(L\)과 \(C\)가 에너지를 주고받아 봉우리가 생기며, 그 위로는 옥타브당 12 dB씩 떨어집니다. 이 봉우리가 일렉 기타 '톤'의 상당 부분입니다.</p>
+    <div class="formula">$$H(j\omega) = \frac{Z_{\text{load}}}{R + j\omega L + Z_{\text{load}}}, \qquad f_0 = \frac{1}{2\pi\sqrt{L\,C_{\text{tot}}}}, \qquad Q \approx \left(\frac{R}{\sqrt{L/C_{\text{tot}}}} + \frac{\sqrt{L/C_{\text{tot}}}}{R_{\text{load}}}\right)^{-1}$$
+      <div class="where">\(C_{\text{tot}} = C_p + C_c\)(톤 회로가 끊긴 경우), \(R_{\text{load}}\): 포트와 앰프 입력의 병렬 저항. 싱글 코일 \(L = 2.5\) H, \(C_{\text{tot}} = 120 + 300 = 420\) pF이면 \(f_0 \approx 4.9\) kHz. 케이블이 6 m(600 pF)가 되면 \(C_{\text{tot}} = 720\) pF, \(f_0 \approx 3.8\) kHz. 험버커 \(L = 4.5\) H에 같은 720 pF이면 \(f_0 \approx 2.8\) kHz. \(\sqrt{L/C}\)는 약 60–80 kΩ이고 \(R_{\text{load}} = 250\,\text{k}\Omega \parallel 1\,\text{M}\Omega = 200\) kΩ이면 \(Q \approx 2\)–3, 봉우리 높이는 약 +6–10 dB다.</div>
+    </div>
+    <p>톤 노브는 가변 저항 \(R_t\)와 커패시터 \(C_t\)(험버커는 흔히 22 nF, 싱글 코일은 22–47 nF)를 직렬로 이어 출력과 접지 사이에 건 것입니다. 노브가 10이면 \(R_t\)가 250–500 kΩ이라 커패시터가 거의 보이지 않습니다. 노브를 내리면 \(R_t\)가 줄어 \(C_t\)가 점점 회로에 '보이고', 고음이 접지로 빠집니다. 노브를 0까지 내리면 \(C_t\)가 그대로 병렬로 붙어 \(C_{\text{tot}}\)이 수십 배가 되므로 공진이 수백 Hz로 내려갑니다. 4.5 H와 22 nF이면 \(1/(2\pi\sqrt{4.5 \times 22\times10^{-9}}) \approx 500\) Hz. 톤을 끝까지 줄인 험버커의 '먹먹하고 콧소리 섞인' 리드 톤은 이 500 Hz 근처의 봉우리입니다. 단순한 고음 깎기가 아니라 <b>공진점의 이동</b>입니다.</p>
+    <p>볼륨 노브도 톤을 바꿉니다. 볼륨을 줄이면 포트의 위쪽 절반(수십–수백 kΩ)이 픽업과 케이블 사이에 직렬로 끼어들고, 이 저항과 케이블 정전용량이 RC 저역 통과 필터가 되어 고음이 먹힙니다. 그래서 볼륨 포트 양 끝에 작은 커패시터(수백 pF–1 nF 정도)를 걸어 고음만 우회시키는 <span class="term">트레블 블리드</span><span class="en">(Treble bleed)</span> 개조가 흔합니다. 반대로 페달보드 앞에 <span class="term">버퍼</span>(출력 임피던스가 낮은 증폭기, 이득 1)를 두면 그 뒤의 케이블 정전용량은 픽업이 아니라 버퍼가 감당하므로, 긴 케이블에서도 고음이 살아납니다.</p>
+
+    <div class="sim" id="sim-tn-rlc">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>픽업 RLC 회로: 톤 노브 · 볼륨 · 케이블 길이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tn-rlc-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>픽업</span><div class="seg" id="tn-rlc-pu"><button data-value="single" class="on">싱글</button><button data-value="hb">험버커</button><button data-value="hot">고출력 험버커</button></div></div>
+          <label class="ctrl"><span>톤 노브 <output id="tn-rlc-tone-out"></output></span><input type="range" id="tn-rlc-tone" min="0" max="10" step="0.5" value="10"></label>
+          <label class="ctrl"><span>볼륨 노브 <output id="tn-rlc-vol-out"></output></span><input type="range" id="tn-rlc-vol" min="1" max="10" step="0.5" value="10"></label>
+          <label class="ctrl"><span>케이블 길이 <output id="tn-rlc-cab-out"></output></span><input type="range" id="tn-rlc-cab" min="0" max="12" step="0.5" value="3"></label>
+          <label class="ctrl"><span>톤 커패시터</span><select id="tn-rlc-cap"><option value="auto" selected>픽업 기본값</option><option value="10e-9">10 nF</option><option value="22e-9">22 nF</option><option value="47e-9">47 nF</option><option value="100e-9">100 nF</option></select></label>
+          <label class="check"><input type="checkbox" id="tn-rlc-buf"> 기타 바로 뒤에 버퍼</label>
+          <label class="check"><input type="checkbox" id="tn-rlc-byp"> 필터 끄기(비교)</label>
+          <div class="btn-row"><button class="btn primary" id="tn-rlc-play">▶ 코드</button><button class="btn" id="tn-rlc-note">▶ 고음 단음</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">전체 정전용량</span><span class="v" id="tn-rlc-r1">—</span></div>
+        <div class="stat"><span class="k">근사 f₀ = 1/2π√LC</span><span class="v" id="tn-rlc-r2">—</span></div>
+        <div class="stat"><span class="k">계산한 봉우리</span><span class="v" id="tn-rlc-r3">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 픽업 기전력에서 앰프 입력까지의 주파수 응답 |H(f)|(dB). 실선 = 지금 설정, 점선 = 기준(톤 10 · 볼륨 10 · 케이블 0 m). 세로 점선은 단순 공식 f₀, 점은 실제 계산한 봉우리입니다. 해볼 것: ① 케이블을 0 → 12 m로 늘리며 봉우리가 내려가는 것 듣기 ② 톤을 10 → 0으로 내리면 봉우리가 500 Hz 근처까지 미끄러지는 것 ③ 볼륨을 5로 줄였을 때 고음이 먹히고, 버퍼를 켜면(케이블을 버퍼가 구동) 어떻게 되는지. 모델: 그림 13-4의 회로를 복소 임피던스로 그대로 풀었습니다(싱글 2.5 H·6 kΩ·120 pF·250 kΩ 포트·47 nF, 험버커 4.5 H·8 kΩ·100 pF·500 kΩ·22 nF, 고출력 8 H·14 kΩ·150 pF·500 kΩ·22 nF, 케이블 100 pF/m, 앰프 1 MΩ, 포트는 오디오 테이퍼, 버퍼 입력 1 MΩ·짧은 선 30 pF). 코일 철심의 와전류 손실은 빠져 있어 실제 봉우리는 이보다 조금 낮고 넓습니다. 소리는 계산한 |H(f)|로 만든 2048탭 FIR(선형 위상)을 가상 기타(순수 KS 음색)에 컨볼루션합니다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>부품</th><th class="num">대표 값</th><th>톤에 미치는 영향</th></tr></thead>
+      <tbody>
+        <tr><td>싱글 코일 인덕턴스 · 저항</td><td class="num">2–3 H · 5.5–6.5 kΩ</td><td>공진이 높다(4–6 kHz) → 밝고 투명함</td></tr>
+        <tr><td>험버커(PAF식, 직렬)</td><td class="num">4–5 H · 7.5–9 kΩ</td><td>공진 2.5–3.5 kHz, 출력 큼</td></tr>
+        <tr><td>고출력 험버커</td><td class="num">7–9 H · 13–16 kΩ</td><td>공진 2 kHz 근처, 중음이 두껍고 어두움</td></tr>
+        <tr><td>볼륨·톤 포트</td><td class="num">250 kΩ / 500 kΩ</td><td>부하 저항 ↑ → Q ↑(봉우리가 뾰족, 밝음). 싱글은 250k, 험버커는 500k가 관례</td></tr>
+        <tr><td>톤 커패시터</td><td class="num">22–47 nF</td><td>노브를 내렸을 때 공진이 얼마나 내려가는지 결정</td></tr>
+        <tr><td>케이블</td><td class="num">≈ 100 pF/m</td><td>길수록 공진 ↓, 고음 손실</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><strong>연습법 · 노브를 연주 도구로</strong> 많은 초보자가 볼륨과 톤을 늘 10에 둡니다. 드라이브를 건 앰프에 연결하고 볼륨을 10 → 7로 내려 보세요. 앰프에 들어가는 신호가 줄어 일그러짐이 줄고 소리가 정리됩니다(고음도 조금 줄어듭니다). 벌스는 7, 코러스는 10으로 연주하는 것이 오래된 방법입니다. 톤 노브는 7–8쯤에서 거친 고음이 부드러워지는 지점을 찾아 두세요. 케이블은 필요 이상으로 길게 쓰지 말고, 6 m 이상이 필요하면 버퍼가 있는 페달(또는 버퍼 페달)을 맨 앞에 둡니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="distortion">
+    <h2>디스토션: 일부러 찌그러뜨리기</h2>
+    <p>앰프나 페달이 감당할 수 있는 전압에는 한계가 있습니다. 입력이 커서 출력이 그 한계에 닿으면 파형의 꼭대기가 잘립니다. 하이파이에서는 피해야 할 결함이지만, 1950–60년대 기타리스트들은 일부러 앰프를 한계까지 몰아 그 거친 소리를 음악의 재료로 만들었습니다. 수학적으로 디스토션은 <span class="term">기억 없는 비선형 함수</span><span class="en">(Memoryless nonlinearity)</span> \(y = f(x)\), 즉 <b>웨이브셰이퍼</b>입니다. 지금의 입력 값만으로 지금의 출력이 정해지고, 그 대응 관계(전달 곡선)가 직선이 아닌 것입니다.</p>
+    <p>왜 새 배음이 생기는지는 전달 곡선을 테일러 급수로 펼쳐 보면 알 수 있습니다. 입력이 사인파 \(x = A\cos\omega t\)라면 제곱 항과 세제곱 항은 삼각함수 항등식에 의해 2배·3배 주파수를 만듭니다.</p>
+    <div class="formula">$$f(x) = a_1 x + a_2 x^2 + a_3 x^3 + \cdots,\qquad \cos^2\omega t = \tfrac{1}{2} + \tfrac{1}{2}\cos 2\omega t,\qquad \cos^3\omega t = \tfrac{3}{4}\cos\omega t + \tfrac{1}{4}\cos 3\omega t$$
+      <div class="where">짝수 차수 항(\(x^2, x^4\) …)은 짝수 배음과 직류 성분을, 홀수 차수 항(\(x^3, x^5\) …)은 홀수 배음을 만든다. 곡선이 원점에 대해 대칭(\(f(-x) = -f(x)\), 기함수)이면 홀수 차수 항만 있으므로 <b>홀수 배음만</b> 생긴다. 예: \(\tanh x = x - x^3/3 + 2x^5/15 - \cdots\).</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="소프트·하드·비대칭 클리핑의 전달 곡선과 출력 파형">
+        <g id="tn-fig-clip"></g>
+      </svg>
+      <figcaption><b>그림 13-5.</b> 세 가지 클리핑. 위: 전달 곡선 \(y = f(x)\)(점선 = 직선, 일그러짐 없음). 아래: 사인파(흐린 선)를 넣었을 때의 출력. <b>소프트 클리핑</b>(\(\tanh\))은 꼭대기를 둥글게 눌러 낮은 홀수 배음이 주로 생긴다. <b>하드 클리핑</b>은 꼭대기를 칼같이 잘라 사각파에 가까워지고 높은 홀수 배음이 많다. <b>비대칭 클리핑</b>은 양과 음의 반주기가 다르게 눌려 짝수 배음(특히 2배음)과 직류 성분이 생긴다.</figcaption>
+    </figure>
+    <p>실제 회로에 대응시켜 보면 이렇습니다. 다이오드 두 개를 반대 방향으로 붙인 클리퍼(많은 오버드라이브 페달)는 대칭에 가까운 소프트 클리핑이라 홀수 배음이 주를 이룹니다. 진공관 한 개로 된 프리앰프 단은 양쪽 반주기의 동작이 달라 비대칭이므로 2배음이 섞이는데, 2배음은 한 옥타브 위라서 귀에 '따뜻하고 두껍게' 들립니다. 반면 진공관 두 개를 마주 세운 푸시풀 출력단은 짝수 배음이 서로 지워져 대칭에 가깝습니다. 트랜지스터를 한계까지 몰아붙이는 퍼즈는 하드 클리핑에 가깝습니다.</p>
+    <p>디스토션에는 배음 말고도 중요한 부작용이 있습니다. 출력이 일정한 한계에 묶이므로 줄의 소리가 감쇠해도 출력은 한동안 거의 같은 크기를 유지합니다. 이것이 <b>서스테인</b>입니다. 줄의 진폭이 1/10로 줄어도 게인이 충분히 크면 출력은 여전히 한계에 붙어 있습니다. 대신 잡음과 손가락이 줄을 스치는 소리까지 똑같이 커지므로, 하이게인 연주자에게는 뮤트 기술이 필수가 됩니다.</p>
+
+    <div class="sim" id="sim-tn-drive">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>드라이브 페달: 전달 곡선 · 배음 · 실시간 스펙트럼</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tn-two"><div><canvas id="tn-dr-curve"></canvas></div><div><canvas id="tn-dr-harm"></canvas></div></div>
+          <canvas id="tn-dr-live"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>클리핑</span><div class="seg" id="tn-dr-type"><button data-value="soft" class="on">소프트</button><button data-value="hard">하드</button><button data-value="asym">비대칭</button></div></div>
+          <label class="ctrl"><span>게인(드라이브) <output id="tn-dr-gain-out"></output></span><input type="range" id="tn-dr-gain" min="0" max="40" value="20"></label>
+          <label class="ctrl"><span>클리핑 전 저역 컷 <output id="tn-dr-tight-out"></output></span><input type="range" id="tn-dr-tight" min="0" max="100" value="30"></label>
+          <label class="ctrl"><span>톤(클리핑 후 고역) <output id="tn-dr-tone-out"></output></span><input type="range" id="tn-dr-tone" min="0" max="100" value="55"></label>
+          <label class="check"><input type="checkbox" id="tn-dr-byp"> 바이패스(클린)</label>
+          <div class="btn-row"><button class="btn" id="tn-dr-n1">단음</button><button class="btn" id="tn-dr-n2">파워 코드</button><button class="btn" id="tn-dr-n3">장3도</button><button class="btn" id="tn-dr-n4">E 코드</button></div>
+          <div class="btn-row"><button class="btn primary" id="tn-dr-riff">▶ 리프 반복</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">THD(사인 입력)</span><span class="v" id="tn-dr-r1">—</span></div>
+        <div class="stat"><span class="k">짝수 / 홀수 배음 에너지</span><span class="v" id="tn-dr-r2">—</span></div>
+        <div class="stat"><span class="k">음량 보정</span><span class="v" id="tn-dr-r3">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 위: 전달 곡선(가로 = 입력, 세로 = 출력, 흐린 선 = 직선). 오른쪽 위: 진폭 0.35의 사인파를 이 곡선에 넣었을 때 생기는 배음(dB, 기본음 기준; 주색 = 홀수, 청록 = 짝수). 아래: 지금 나오는 소리의 실시간 스펙트럼. 단음·코드 버튼은 한 번 치고, '리프 반복'은 정지 버튼을 누를 때까지 반복합니다. 해볼 것: ① 비대칭으로 바꾸면 청록(짝수) 막대가 생기는 것 ② 게인을 0 → 40 dB로 올리며 소리가 길게 버티는(서스테인) 것 ③ '파워 코드'와 '장3도'를 같은 게인에서 번갈아 듣기(다음 절). 모델: 가상 기타(일렉 클린 음색) → 1차 고역 통과(저역 컷) → WaveShaperNode(곡선 \(f(Dx)\), 4배 오버샘플링) → 직류 차단 → 톤 저역 통과 → 캐비닛 근사(80 Hz 고역 통과, 5 kHz 2단 저역 통과) → 음량 보정. 음량 보정은 같은 사인 입력의 RMS가 비슷해지도록 출력 이득을 자동으로 맞춘 값입니다(크면 좋게 들리는 착각을 막기 위해).</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 게인은 생각보다 적게</strong> 혼자 연습할 때 좋게 들리는 게인은 밴드 안에서는 대개 너무 많습니다. 게인을 끝까지 올린 다음, 파워 코드를 8분음표로 치면서 음 사이가 뭉개지지 않을 때까지 천천히 내리세요. 그 지점이 출발점입니다. 하이게인에서는 ① 오른손 손날로 쓰지 않는 저음 줄을, ② 왼손 손가락 배로 쓰지 않는 고음 줄을 늘 덮어 두는 연습을 하세요. 클린에서는 안 들리던 잡음이 게인에서는 전부 들립니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="imd">
+    <h2>상호변조: 파워 코드가 살아남는 이유</h2>
+    <p>음이 하나일 때 비선형성은 그 음의 배음만 만듭니다. 음이 둘 이상이면 이야기가 달라집니다. 두 주파수 \(f_1, f_2\)가 함께 들어가면 제곱 항이 두 신호의 <b>곱</b>을 만들고, 곱은 합과 차의 주파수를 낳습니다. 세제곱 항은 \(2f_1 - f_2\), \(2f_2 - f_1\) 같은 성분을 만듭니다. 이처럼 원래 없던 주파수가 \(m f_1 \pm n f_2\) 자리에 생기는 현상을 <span class="term">상호변조 왜곡</span><span class="en">(Intermodulation distortion, IMD)</span>이라 합니다.</p>
+    <div class="formula">$$(\cos\omega_1 t + \cos\omega_2 t)^2 \ni 2\cos\omega_1 t\cos\omega_2 t = \cos(\omega_2-\omega_1)t + \cos(\omega_2+\omega_1)t, \qquad f_{\text{IMD}} = |m f_1 \pm n f_2|$$
+      <div class="where">\(m, n\): 0 이상의 정수, \(m + n\)이 상호변조의 차수다. 2차: \(f_2 - f_1\), \(f_1 + f_2\). 3차: \(2f_1 - f_2\), \(2f_2 - f_1\). 대칭 클리핑에서는 홀수 차수(3차, 5차 …)가 주로 생긴다.</div>
+    </div>
+    <p>두 음의 주파수비가 작은 정수비 \(p:q\)이면 모든 \(m f_1 \pm n f_2\)는 \(f_1/p\)의 정수배가 됩니다. 즉 새로 생긴 성분들이 모두 <b>하나의 낮은 기본음의 배음 자리</b>에 떨어져, 소리가 지저분해지기보다 '더 굵은 하나의 음'처럼 들립니다. 완전5도(3:2) 파워 코드에서 차음 \(f_2 - f_1\)은 근음의 한 옥타브 아래에 떨어집니다. 평균율의 5도(\(2^{7/12} = 1.4983\))는 3:2와 거의 같아 그 어긋남이 아주 작습니다. 반면 평균율 장3도(\(2^{4/12} = 1.2599\))는 순정 장3도 5:4 = 1.25에서 꽤 벗어나 있어, 상호변조 성분들이 서로 조금씩 어긋난 자리에 흩어지며 빠른 맥놀이를 만듭니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>두 음 (평균율)</th><th class="num">f₁ · f₂ (Hz)</th><th class="num">f₂ − f₁</th><th class="num">2f₁ − f₂</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td>E3 + B3 (완전5도, 파워 코드)</td><td class="num">164.8 · 246.9</td><td class="num">82.1</td><td class="num">82.7</td><td>두 성분이 E2(82.4 Hz) 근처에 모여 0.55 Hz로 아주 느리게 일렁임 → 한 옥타브 아래 근음처럼 들림</td></tr>
+        <tr><td>E3 + G♯3 (장3도)</td><td class="num">164.8 · 207.7</td><td class="num">42.8</td><td class="num">122.0</td><td>2(f₂ − f₁) = 85.7과 3f₁ − 2f₂ = 79.1이 6.6 Hz로 맥놀이 → 거칠고 탁함</td></tr>
+        <tr><td>E3 + G♯3 (순정 5:4라면)</td><td class="num">164.8 · 206.0</td><td class="num">41.2</td><td class="num">123.6</td><td>모든 성분이 41.2 Hz의 정수배 → 맥놀이 없음(기타 프렛으로는 불가능)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-tn-imd">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 음 상호변조 실험실</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tn-imd-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음정</span><div class="seg" id="tn-imd-iv"><button data-value="12">옥타브</button><button data-value="7" class="on">완전5도</button><button data-value="5">완전4도</button><button data-value="4">장3도</button><button data-value="3">단3도</button><button data-value="2">장2도</button></div></div>
+          <div class="ctrl"><span>조율</span><div class="seg" id="tn-imd-tun"><button data-value="et" class="on">평균율</button><button data-value="just">순정</button></div></div>
+          <label class="ctrl"><span>드라이브 <output id="tn-imd-drive-out"></output></span><input type="range" id="tn-imd-drive" min="0" max="36" value="18"></label>
+          <label class="ctrl"><span>아래 음</span><select id="tn-imd-root"><option value="40">E2 (82.4 Hz)</option><option value="45">A2 (110 Hz)</option><option value="52" selected>E3 (164.8 Hz)</option></select></label>
+          <div class="btn-row"><button class="btn primary" id="tn-imd-play">▶ 2초 듣기</button><button class="btn" id="tn-imd-clean">▶ 클린으로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">f₁ · f₂</span><span class="v" id="tn-imd-r1">—</span></div>
+        <div class="stat"><span class="k">차음 f₂ − f₁</span><span class="v" id="tn-imd-r2">—</span></div>
+        <div class="stat"><span class="k">가장 가까운 성분 쌍의 맥놀이</span><span class="v" id="tn-imd-r3">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 두 사인파를 소프트 클리퍼(tanh)에 넣은 출력의 스펙트럼(0–1.2 kHz, dB). 주색 = 원래 두 음과 그 배음 자리, 주황 = 상호변조로 새로 생긴 자리(차음 위치는 표시). 오른쪽 수치는 −50 dB보다 강한 성분들 가운데 1–15 Hz 간격으로 붙은 쌍의 간격, 즉 들리는 맥놀이의 빠르기입니다. 해볼 것: ① 완전5도와 장3도를 같은 드라이브에서 비교 ② 장3도를 '순정'으로 바꾸면 맥놀이가 사라지는 것 ③ 드라이브 0에서는 어떤 음정이든 깨끗한 것. 모델: 사인파 두 개(각 진폭 0.3)의 합 → \(\tanh(Dx)\) → 음량 보정, 22.05 kHz에서 1.5초 계산해 한 창 FFT(Hann, 32768점). 실제 기타는 배음이 많아 상호변조가 훨씬 복잡하지만 원리는 같습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 게인에 맞는 보이싱</strong> 드라이브를 걸었다면 6·5번 줄에서는 근음–5도(–옥타브)의 파워 코드를, 3도가 필요하면 높은 줄(3·2·1번)의 작은 모양으로 치세요. 게인을 올린 상태에서 개방 E 코드(022100)와 E5(022xxx)를 번갈아 치며 차이를 들어 보면 왜 록 기타가 파워 코드를 쓰는지 바로 이해됩니다. 반대로 클린 톤이나 약한 크런치에서는 3도와 7도가 들어간 풍성한 코드가 잘 살아납니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="amp">
+    <h2>앰프와 캐비닛: 악기의 절반</h2>
+    <p>기타 앰프는 소리를 '그대로' 키우는 하이파이 앰프가 아니라 음색을 만드는 악기의 일부입니다. 신호는 ① <b>프리앰프</b>(게인 단 여러 개, 드라이브 채널에서는 여기서 일그러짐) → ② <b>톤 스택</b>(베이스·미들·트레블) → ③ <b>파워 앰프</b>(출력관과 출력 트랜스) → ④ <b>스피커와 캐비닛</b>을 지납니다. 펜더·마셜 계열의 고전적인 수동 톤 스택은 노브가 서로 영향을 주고, 노브를 모두 가운데에 두어도 중음 근처가 움푹 들어간 응답을 가집니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="앰프 신호 흐름">
+        <g transform="translate(10,40)">
+          <rect x="0" y="20" width="90" height="56" rx="10" class="f-elev"/><text x="45" y="53" class="t" text-anchor="middle">기타·페달</text>
+          <path d="M92 48 L118 48" class="s-line"/><path d="M112 43 L120 48 L112 53" class="s-line"/>
+          <rect x="122" y="20" width="120" height="56" rx="10" class="f-acc-soft"/><text x="182" y="45" class="t" text-anchor="middle">프리앰프</text><text x="182" y="63" class="tn-small" text-anchor="middle">게인 · 일그러짐</text>
+          <path d="M244 48 L270 48" class="s-line"/><path d="M264 43 L272 48 L264 53" class="s-line"/>
+          <rect x="274" y="20" width="120" height="56" rx="10" class="f-elev"/><text x="334" y="45" class="t" text-anchor="middle">톤 스택</text><text x="334" y="63" class="tn-small" text-anchor="middle">Bass · Mid · Treble</text>
+          <path d="M396 48 L460 48" class="s-line"/><path d="M454 43 L462 48 L454 53" class="s-line"/>
+          <rect x="464" y="20" width="120" height="56" rx="10" class="f-elev"/><text x="524" y="45" class="t" text-anchor="middle">파워 앰프</text><text x="524" y="63" class="tn-small" text-anchor="middle">출력관 · 트랜스</text>
+          <path d="M586 48 L612 48" class="s-line"/><path d="M606 43 L614 48 L606 53" class="s-line"/>
+          <rect x="616" y="10" width="150" height="76" rx="10" class="f-acc2-soft"/><text x="691" y="40" class="t" text-anchor="middle">스피커 · 캐비닛</text><text x="691" y="58" class="tn-small" text-anchor="middle">≈80–100 Hz 공진</text><text x="691" y="73" class="tn-small" text-anchor="middle">≈5 kHz 위 급감</text>
+          <path d="M410 48 C410 110, 440 110, 440 48" class="tn-sw" stroke-dasharray="5 4"/>
+          <text x="425" y="128" class="tn-small" text-anchor="middle">이펙트 루프</text>
+          <text x="425" y="143" class="tn-small" text-anchor="middle">(모듈레이션·딜레이·리버브)</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-6.</b> 기타 앰프의 신호 흐름. 일그러짐은 주로 프리앰프에서(볼륨을 아주 크게 올리면 파워 앰프에서도) 생긴다. 이펙트 루프는 프리앰프와 파워 앰프 사이에 페달을 끼워 넣는 단자로, 앰프 드라이브를 쓸 때 딜레이·리버브를 일그러짐 <b>뒤</b>에 두기 위해 쓴다. 기타 스피커는 넓은 대역을 재생하도록 설계되지 않았고, 그 좁은 대역이 디스토션의 거친 고음을 걸러 낸다.</figcaption>
+    </figure>
+    <p>가장 과소평가되는 부품은 스피커입니다. 10–12인치 기타 스피커는 대략 80–100 Hz 근처에 기계적 공진이 있고, 2–4 kHz 근처에 콘이 부분 진동하며 생기는 봉우리들이 있으며, 약 5 kHz 위로는 급격히 떨어집니다. 하이파이 기준으로는 형편없는 응답이지만, 이 급격한 고역 감쇠가 디스토션이 만든 수 kHz 이상의 '지글거림'을 잘라 내 듣기 좋은 소리로 만듭니다. 드라이브 페달을 오디오 인터페이스에 직접 꽂아 헤드폰으로 들으면 벌레 소리처럼 거슬리는 이유가 이것이고, 앰프 시뮬레이터가 반드시 <b>캐비닛 임펄스 응답(IR)</b>을 컨볼루션하는 이유도 이것입니다. 뒤가 열린 캐비닛은 앞뒤 소리가 일부 상쇄되어 저음이 가볍고, 닫힌 캐비닛은 저음이 단단합니다.</p>
+
+    <div class="sim" id="sim-tn-amp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>앰프 EQ와 캐비닛</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tn-amp-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>앰프 채널</span><div class="seg" id="tn-amp-ch"><button data-value="clean">클린</button><button data-value="crunch" class="on">크런치</button><button data-value="lead">리드</button></div></div>
+          <label class="ctrl"><span>Bass <output id="tn-amp-b-out"></output></span><input type="range" id="tn-amp-b" min="0" max="10" step="0.5" value="5"></label>
+          <label class="ctrl"><span>Mid <output id="tn-amp-m-out"></output></span><input type="range" id="tn-amp-m" min="0" max="10" step="0.5" value="5"></label>
+          <label class="ctrl"><span>Treble <output id="tn-amp-t-out"></output></span><input type="range" id="tn-amp-t" min="0" max="10" step="0.5" value="5"></label>
+          <label class="ctrl"><span>캐비닛</span><select id="tn-amp-cab"><option value="none">없음(직결, DI)</option><option value="open">1×12 오픈 백</option><option value="closed" selected>4×12 클로즈드 백</option></select></label>
+          <div class="btn-row"><button class="btn primary" id="tn-amp-play">▶ 리프 반복</button><button class="btn" id="tn-amp-chord">코드 한 번</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">EQ + 캐비닛의 −3 dB 대역</span><span class="v" id="tn-amp-r1">—</span></div>
+        <div class="stat"><span class="k">1 kHz 대비 8 kHz</span><span class="v" id="tn-amp-r2">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 일그러짐 뒤에 걸리는 톤 스택(점선)과 톤 스택 + 캐비닛 전체(실선)의 주파수 응답. 해볼 것: ① 리드 채널에서 캐비닛을 '없음'으로 바꿔 지글거리는 고음 듣기 ② Mid를 0으로(이른바 '미드 스쿱') 했다가 7로 올리기: 혼자 들을 때는 스쿱이 화려하지만, 밴드 안에서는 기타가 사라지는 대역이 바로 그 중음입니다 ③ 오픈 백과 클로즈드 백의 저음 비교. 모델: 가상 기타 → 채널별 tanh 웨이브셰이퍼 → 톤 스택 근사(저역 셸프 100 Hz, 피킹 650 Hz, 고역 셸프 3 kHz, 각 ±12 dB, 모두 가운데에서 피킹 −3 dB의 기본 스쿱) → 캐비닛 근사(고역 통과 + 저역 공진 피크 + 2–3 kHz 피크 + 2단 저역 통과)의 바이쿼드 필터. 실제 톤 스택은 노브가 서로 얽힌 수동 RC 회로이고, 실제 캐비닛 IR에는 훨씬 많은 봉우리와 골이 있습니다. 그래프는 오디오와 같은 필터 노드의 응답입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · EQ 맞추는 순서</strong> ① 모든 노브를 가운데(5 또는 12시)에 둔다 ② 게인을 먼저 정한다(EQ는 게인에 따라 다르게 들린다) ③ 소리가 흐리면 트레블보다 <b>미들</b>을 먼저 올려 본다 ④ 저음은 혼자일 때보다 조금 덜 넣는다(베이스 기타와 킥 드럼의 자리). 녹음했다면 반드시 다른 악기와 함께 들어 보고 판단하세요.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="pedals">
+    <h2>이펙터 체인과 순서</h2>
+    <p>페달은 하는 일에 따라 다섯 무리로 나눌 수 있습니다. <b>다이내믹</b>(컴프레서: 큰 소리를 줄이고 작은 소리를 키워 음량을 고르게), <b>필터</b>(와우, 오토 와우: 움직이는 대역 통과 필터), <b>게인</b>(오버드라이브·디스토션·퍼즈: 비선형 웨이브셰이퍼), <b>모듈레이션</b>(코러스·플랜저·페이저: 시간에 따라 흔들리는 짧은 지연이나 위상), <b>시간</b>(딜레이: 긴 지연과 되먹임, 리버브: 수천 개의 반사). 흔히 권하는 순서는 튜너 → 컴프레서 → 와우 → 드라이브 → 모듈레이션 → 딜레이 → 리버브입니다. 이 순서는 취향이 아니라 시스템 이론으로 설명됩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 190" role="img" aria-label="일반적인 이펙터 순서">
+        <g transform="translate(6,30)">
+          <rect x="0" y="0" width="82" height="50" rx="9" class="f-elev"/><text x="41" y="30" class="t" text-anchor="middle">튜너</text>
+          <rect x="98" y="0" width="94" height="50" rx="9" class="tn-fill-ok"/><text x="145" y="30" class="t" text-anchor="middle">컴프</text>
+          <rect x="208" y="0" width="82" height="50" rx="9" class="f-elev"/><text x="249" y="30" class="t" text-anchor="middle">와우</text>
+          <rect x="306" y="0" width="100" height="50" rx="9" class="tn-fill-b"/><text x="356" y="30" class="t" text-anchor="middle">드라이브</text>
+          <rect x="422" y="0" width="110" height="50" rx="9" class="f-acc2-soft"/><text x="477" y="30" class="t" text-anchor="middle">모듈레이션</text>
+          <rect x="548" y="0" width="94" height="50" rx="9" class="f-acc-soft"/><text x="595" y="30" class="t" text-anchor="middle">딜레이</text>
+          <rect x="658" y="0" width="94" height="50" rx="9" class="f-acc-soft"/><text x="705" y="30" class="t" text-anchor="middle">리버브</text>
+          <g class="s-line"><path d="M84 25 L96 25"/><path d="M194 25 L206 25"/><path d="M292 25 L304 25"/><path d="M408 25 L420 25"/><path d="M534 25 L546 25"/><path d="M644 25 L656 25"/></g>
+          <text x="145" y="74" class="tn-small" text-anchor="middle">비선형(동적)</text>
+          <text x="356" y="74" class="tn-small" text-anchor="middle">비선형(정적)</text>
+          <text x="477" y="74" class="tn-small" text-anchor="middle">선형 · 시변</text>
+          <text x="650" y="74" class="tn-small" text-anchor="middle">선형 · 시불변(LTI)</text>
+          <path d="M98 92 L406 92" class="tn-sb"/><text x="252" y="112" class="tn-small" text-anchor="middle">순서를 바꾸면 소리가 달라짐</text>
+          <path d="M548 92 L752 92" class="s-acc"/><text x="650" y="112" class="tn-small" text-anchor="middle">이상적으로는 서로 바꿔도 같음</text>
+          <text x="400" y="140" class="t-dim" text-anchor="middle">원칙: 비선형 처리(컴프·드라이브)는 앞에, 공간을 만드는 선형 처리(딜레이·리버브)는 맨 뒤에</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-7.</b> 일반적인 페달 순서와 그 근거. 딜레이와 리버브는 (되먹임까지 포함해도) 선형 시불변 시스템이라 둘끼리는 순서를 바꿔도 이론상 같은 결과다. 그러나 컴프레서와 드라이브는 비선형이라 앞뒤에 무엇이 있느냐에 따라 결과가 완전히 달라진다.</figcaption>
+    </figure>
+    <p>선형 시불변(LTI) 시스템은 임펄스 응답 \(h\)와의 컨볼루션이고, 컨볼루션은 교환 법칙이 성립합니다. 따라서 이상적인 딜레이와 리버브는 어느 쪽을 먼저 두든 같은 소리를 냅니다. 비선형 시스템은 그렇지 않습니다.</p>
+    <div class="formula">$$\text{LTI:}\; (x * h_1) * h_2 = (x * h_2) * h_1, \qquad \text{비선형:}\; f\big(x * h\big) \neq f(x) * h$$
+      <div class="where">\(f\): 디스토션 같은 비선형 함수, \(h\): 리버브·딜레이의 임펄스 응답. 리버브 → 드라이브(왼쪽 항)는 리버브의 수많은 반사가 서로 섞인 채 클리퍼에 들어가 상호변조를 일으키므로 뭉개진 '굉음'이 된다. 드라이브 → 리버브(오른쪽 항)는 일그러진 소리를 깨끗한 공간에 놓는다.</div>
+    </div>
+    <p>컴프레서를 드라이브 앞에 두는 이유는 클리퍼에 들어가는 음량을 고르게 해 피킹 세기에 따른 일그러짐 차이를 줄이고 서스테인을 늘리기 위해서입니다. 드라이브 자체가 이미 강한 압축기이므로 드라이브 뒤의 컴프레서는 거의 할 일이 없고 잡음만 키웁니다. 모듈레이션을 드라이브 뒤에 두면 일그러진 소리 전체가 흔들리고, 앞에 두면 흔들림이 클리퍼에서 뭉개집니다. 다만 이것은 출발점일 뿐 규칙이 아닙니다. 퍼즈를 와우 앞에 두거나, 딜레이를 드라이브 앞에 두어 반복음이 함께 일그러지게 하는 연주자도 있습니다. 순서를 바꿔 듣고 고르는 것이 가장 좋은 방법입니다.</p>
+
+    <div class="sim" id="sim-tn-chain">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>페달보드: 켜고 끄고 순서 바꾸기</h3></div>
+      <div class="tn-pedals" id="tn-ch-board"></div>
+      <div class="tn-flow" id="tn-ch-flow">기타 → … → 앰프</div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>순서 프리셋</span><div class="seg" id="tn-ch-pre"><button data-value="std" class="on">정석</button><button data-value="revfirst">리버브를 맨 앞</button><button data-value="dlyfirst">딜레이 → 드라이브</button><button data-value="complast">컴프를 맨 뒤</button></div></div>
+        <div class="ctrl"><span>연주</span><div class="seg" id="tn-ch-src"><button data-value="riff" class="on">파워 코드 리프</button><button data-value="arp">클린 아르페지오</button><button data-value="lead">단음 선율</button></div></div>
+        <label class="ctrl"><span>템포 <output id="tn-ch-bpm-out"></output></span><input type="range" id="tn-ch-bpm" min="70" max="140" value="100"></label>
+        <div class="btn-row"><button class="btn primary" id="tn-ch-play">▶ 재생</button></div>
+      </div>
+      <div class="sim-note">카드의 버튼으로 페달을 켜고 끄고(빨간 LED = 켜짐), ◀ ▶로 순서를 바꿉니다. 재생 중에도 바로 반영됩니다. 해볼 것: ① 드라이브·리버브만 켜고 '정석'과 '리버브를 맨 앞'을 비교 ② 딜레이를 드라이브 앞에 두고 단음 선율을 연주(반복음이 새 음과 섞여 함께 일그러짐) ③ 클린 아르페지오에서 코러스를 켜고 끄기 ④ 컴프를 켜고 끄며 피킹 세기 차이(리프의 약한 음)가 고르게 되는 것. 모델: 컴프레서 = DynamicsCompressorNode(비율 4:1, 어택 4 ms, 릴리스 250 ms) + 메이크업 이득, 드라이브 = tanh 웨이브셰이퍼(4배 오버샘플링) + 톤·캐비닛 저역 통과, 코러스 = 0.9 Hz LFO로 흔드는 18 ms 지연(±3 ms)을 원음과 섞음, 딜레이 = 템포에 맞춘 점8분 지연 + 2.8 kHz 저역 통과 되먹임(0.42), 리버브 = 지수 감쇠 잡음으로 만든 2.4초 임펄스 응답의 컨볼루션. 정지하면 잔향까지 바로 줄입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 페달보드 꾸리기</strong> 처음에는 튜너 하나와 오버드라이브 하나, 그리고 앰프의 리버브만으로 충분합니다. 새 페달을 들일 때마다 위의 원칙대로 꽂은 뒤 한 곳씩 옮겨 들어 보세요. 빈티지 게르마늄 퍼즈처럼 기타 픽업과 직접 상호작용하도록 설계된 페달은 버퍼보다 앞(체인의 맨 앞)에 두어야 제소리가 납니다. 앰프의 드라이브 채널을 주로 쓴다면 딜레이와 리버브는 앰프의 이펙트 루프에 넣으세요.</div>
+  </section>
+
+  <!-- =============================================================== summary -->
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>자기 픽업의 출력은 패러데이 법칙 \(\mathcal{E} = -N\,d\Phi/dt\)에 따라 줄의 <b>속도</b>에 비례한다. 강자성체(강철·니켈) 줄만 잡히며, 픽업이 너무 가까우면 자석이 줄을 끌어 서스테인과 음정이 나빠진다.</li>
+      <li>픽업 위치 \(x_p\)에서 \(n\)번째 배음의 무게는 \(\sin(n\pi x_p/L)\)이다. 넥 픽업(≈ L/4)은 4·8번 배음을 지우고, 브리지 픽업은 낮은 배음이 약해 날카롭다. 뜯는 위치도 같은 빗살 필터이며 두 위치는 식에서 대칭이다.</li>
+      <li>험버커는 역방향 감기·역극성 두 코일로 험을 지우고 줄 신호는 더한다. 어둡게 들리는 주된 이유는 두 지점 평균(기하)보다 두 배의 인덕턴스로 낮아진 공진(전기)이다.</li>
+      <li>픽업 + 포트 + 케이블은 2차 저역 통과 RLC 회로다. \(f_0 = 1/(2\pi\sqrt{LC})\)는 싱글 코일에서 약 4–6 kHz, 험버커에서 약 2.5–3.5 kHz이고, 케이블(≈100 pF/m)이 길수록 내려간다. 톤 노브를 내리면 공진이 수백 Hz까지 이동하고, 볼륨을 내리면 직렬 저항과 케이블이 고음을 깎는다.</li>
+      <li>디스토션은 기억 없는 비선형 함수다. 대칭 곡선은 홀수 배음만, 비대칭 곡선은 짝수 배음도 만든다. 소프트 클리핑은 낮은 배음 위주, 하드 클리핑은 높은 배음이 많다. 출력이 한계에 묶여 서스테인이 길어진다.</li>
+      <li>여러 음이 함께 클리퍼에 들어가면 \(|m f_1 \pm n f_2|\)의 상호변조가 생긴다. 5도(≈3:2)는 성분들이 한 기본음의 배음 자리에 모여 깨끗하고, 평균율 3도는 성분들이 흩어져 맥놀이로 탁해진다. 하이게인에 파워 코드를 쓰는 이유다.</li>
+      <li>기타 스피커는 약 5 kHz 위로 급히 떨어지며 디스토션의 거친 고음을 걸러 낸다. 직결 녹음에는 캐비닛 시뮬레이션(IR)이 필요하다. 톤 스택은 중음을 함께 다룬다.</li>
+      <li>LTI 효과(딜레이·리버브)는 서로 교환 가능하지만 비선형 효과(컴프·드라이브)는 아니다. 그래서 컴프 → 드라이브 → 모듈레이션 → 딜레이 → 리버브가 출발점이고, 최종 판단은 귀로 한다.</li>
+    </ol>
+  </section>
+
+  <!-- =============================================================== quiz -->
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>클래식 기타의 나일론 줄을 일렉 기타에 걸고 앰프에 연결했다. 무슨 일이 일어나는가?</p><div class="opts">
+        <button class="opt">소리는 나지만 음량이 작다</button><button class="opt" data-correct>거의 아무 소리도 나지 않는다</button><button class="opt">저음만 들린다</button><button class="opt">험버커에서만 소리가 난다</button>
+      </div><div class="quiz-exp">자기 픽업은 자화된 강자성체 줄의 움직임이 코일의 자속을 바꿀 때만 전압을 만든다. 나일론은 자성이 없으므로 자속을 바꾸지 못한다. 픽업 종류와 상관없다(험버커도 같은 원리다).</div></div>
+      <div class="quiz-q"><p>스케일 648 mm 기타에서 브리지로부터 216 mm(= L/3) 떨어진 곳에 픽업이 있다면 출력에서 사라지는 배음은?</p><div class="opts">
+        <button class="opt">2, 4, 6, …번 배음</button><button class="opt" data-correct>3, 6, 9, …번 배음</button><button class="opt">4, 8, 12, …번 배음</button><button class="opt">사라지는 배음은 없다</button>
+      </div><div class="quiz-exp">무게 \(\sin(n\pi x_p/L) = \sin(n\pi/3)\)는 \(n\)이 3의 배수일 때 0이다. 픽업이 그 모드들의 마디 위에 있기 때문이다. 일반적으로 첫 골은 \(n = L/x_p\)번째 배음에 있다.</div></div>
+      <div class="quiz-q"><p>험버커의 두 코일이 험은 지우고 줄 신호는 더하는 이유로 옳은 것은?</p><div class="opts">
+        <button class="opt">두 코일이 서로 다른 주파수 대역을 담당하기 때문</button><button class="opt">두 코일을 병렬로 이어 임피던스가 낮아지기 때문</button><button class="opt" data-correct>감은 방향이 반대라 외부 험은 부호가 반대로 생기고, 자석 극성도 반대라 줄 신호는 부호가 두 번 뒤집혀 같아지기 때문</button><button class="opt">한 코일이 다른 코일의 자기장을 차폐하기 때문</button>
+      </div><div class="quiz-exp">외부 자기장은 두 코일을 같은 방향으로 지나므로 감기 반전만 겪어 상쇄된다. 줄의 움직임은 극성이 반대인 자석 위에서 일어나 자속 변화의 부호가 이미 반대이고, 감기 반전이 다시 뒤집어 두 신호가 더해진다(RWRP).</div></div>
+      <div class="quiz-q"><p>인덕턴스 2.5 H인 싱글 코일 픽업에 코일 정전용량 100 pF와 케이블 정전용량 900 pF가 걸려 있다. 공진 주파수에 가장 가까운 값은?</p><div class="opts">
+        <button class="opt">약 1.2 kHz</button><button class="opt" data-correct>약 3.2 kHz</button><button class="opt">약 10 kHz</button><button class="opt">약 32 kHz</button>
+      </div><div class="quiz-exp">\(C = 1000\) pF \(= 10^{-9}\) F. \(f_0 = 1/(2\pi\sqrt{2.5\times10^{-9}}) = 1/(2\pi \times 5\times10^{-5}) \approx 3.18\) kHz. 9 m 정도의 케이블이면 싱글 코일도 이 정도까지 공진이 내려가 험버커처럼 어두워진다.</div></div>
+      <div class="quiz-q"><p>전달 곡선이 \(f(-x) = -f(x)\)를 만족하는 클리퍼에 사인파를 넣었다. 출력 스펙트럼의 특징은?</p><div class="opts">
+        <button class="opt">짝수 배음만 생긴다</button><button class="opt" data-correct>홀수 배음만 생긴다</button><button class="opt">모든 배음이 같은 크기로 생긴다</button><button class="opt">새 배음은 생기지 않고 음량만 준다</button>
+      </div><div class="quiz-exp">기함수 곡선의 테일러 급수에는 홀수 차수 항만 있고, \(\cos^{2k+1}\omega t\)는 홀수 배수 주파수만 만든다. 짝수 배음이 생기려면 곡선이 비대칭(예: 바이어스가 걸린 진공관 단)이어야 한다.</div></div>
+      <div class="quiz-q"><p>강한 디스토션에서 개방 E 코드(E–B–E–G♯–B–E)가 E5 파워 코드보다 탁하게 들리는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">줄이 많아서 음량이 너무 커지기 때문</button><button class="opt">G♯이 E 장조에 없는 음이기 때문</button><button class="opt" data-correct>평균율 장3도가 만드는 상호변조 성분들이 서로 어긋난 자리에 흩어져 맥놀이를 만들기 때문</button><button class="opt">개방현이 프렛 음보다 덜 일그러지기 때문</button>
+      </div><div class="quiz-exp">5도(≈3:2)의 상호변조 성분은 모두 근음 한 옥타브 아래의 배음 자리 근처에 모여 하나의 굵은 음처럼 들린다. 평균율 장3도(1.2599, 순정 1.25와 차이)에서는 \(2(f_2-f_1)\)과 \(3f_1-2f_2\) 같은 성분들이 수 Hz 간격으로 어긋나 거친 맥놀이가 생긴다.</div></div>
+      <div class="quiz-q"><p>"리버브 → 드라이브" 순서가 "드라이브 → 리버브"와 다른 소리를 내는 근본 이유는?</p><div class="opts">
+        <button class="opt">리버브 페달의 출력이 너무 커서</button><button class="opt" data-correct>드라이브가 비선형이라 컨볼루션(리버브)과 교환 법칙이 성립하지 않기 때문</button><button class="opt">리버브는 시간을 늦추고 드라이브는 시간을 당기기 때문</button><button class="opt">두 순서는 원리상 같은 소리이며 차이는 착각이다</button>
+      </div><div class="quiz-exp">\(f(x*h) \ne f(x)*h\). 리버브의 반사들이 섞인 신호가 클리퍼에 들어가면 서로 상호변조해 뭉개진다. 딜레이와 리버브처럼 둘 다 LTI라면 순서를 바꿔도 이론상 같다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ===================================================================== 공통 모델 (이 장 전용)
+   - 픽업 회로: 그림 13-4의 회로를 복소 임피던스로 푼 전달 함수 H(f)
+   - 이상적인 줄의 모드 가산 합성(픽업 위치 무게 sin(nπx/L))
+   - 웨이브셰이퍼 곡선, 배음 분석, 음량 보정, 기본 리프
+   ===================================================================== */
+const TN = (function () {
+  const L = 648;
+  const cadd = (a, b) => [a[0] + b[0], a[1] + b[1]];
+  const cmul = (a, b) => [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]];
+  const cinv = (a) => { const d = a[0] * a[0] + a[1] * a[1] || 1e-30; return [a[0] / d, -a[1] / d]; };
+  const PU = {
+    single: { name: "싱글 코일", L: 2.5, R: 6000, Cp: 120e-12, pot: 250e3, cap: 47e-9, turns: 1 },
+    hb: { name: "험버커", L: 4.5, R: 8000, Cp: 100e-12, pot: 500e3, cap: 22e-9, turns: 1.25 },
+    hot: { name: "고출력 험버커", L: 8, R: 14000, Cp: 150e-12, pot: 500e3, cap: 22e-9, turns: 1.6 },
+    split: { name: "코일 분할", L: 2.3, R: 4000, Cp: 60e-12, pot: 500e3, cap: 22e-9, turns: 0.625 },
+  };
+  /** 오디오(로그) 테이퍼 포트: 노브 0–10 → 저항 비율(5에서 약 9%) */
+  const taper = (k) => (k <= 0 ? 0 : k >= 10 ? 1 : (Math.pow(10, (2 * k) / 10) - 1) / 99);
+  /** 기전력 → 앰프 입력 복소 전달 함수. p: {L,R,Cp,pot,cap,tone,vol,Cc,Ramp} */
+  function H(f, p) {
+    const w = 2 * Math.PI * f;
+    const Zs = [p.R, w * p.L];
+    const Rt = p.pot * taper(p.tone == null ? 10 : p.tone);
+    const Yt = cinv([Rt, -1 / (w * p.cap)]);
+    const YA = cadd([0, w * p.Cp], Yt);
+    const a = taper(p.vol == null ? 10 : p.vol);
+    const Rtop = Math.max(1, (1 - a) * p.pot), Rbot = Math.max(1, a * p.pot);
+    const YB = [1 / (p.Ramp || 1e6) + 1 / Rbot, w * (p.Cc || 0)];
+    const gT = 1 / Rtop;
+    const k = cmul([gT, 0], cinv(cadd([gT, 0], YB)));
+    const Ysum = cadd(YA, cmul([1 - k[0], -k[1]], [gT, 0]));
+    const VA = cinv(cadd([1, 0], cmul(Zs, Ysum)));
+    return cmul(VA, k);
+  }
+  const Hmag = (f, p) => { const h = H(f, p); return Math.hypot(h[0], h[1]); };
+  /** 크기 응답 함수 → 선형 위상 FIR(주파수 표본화 + Hann 창) */
+  function firFromMag(magFn, sr, N = 2048) {
+    const re = new Float64Array(N), im = new Float64Array(N);
+    for (let k = 0; k <= N / 2; k++) { const m = magFn(Math.max(1, (k * sr) / N)); re[k] = m; if (k > 0 && k < N / 2) re[N - k] = m; }
+    MB.fft(re, im, true);
+    const h = new Float32Array(N);
+    for (let n = 0; n < N; n++) h[n] = re[(n + N / 2) % N] * (0.5 - 0.5 * Math.cos((2 * Math.PI * n) / (N - 1)));
+    return h;
+  }
+  /** 픽업 폭 w(mm)에 걸친 평균 효과 */
+  const aperture = (n, w = 8) => { const x = (n * Math.PI * w) / (2 * L); return x < 1e-9 ? 1 : Math.sin(x) / x; };
+  /** 이상적인 줄: 모드 amps[n-1](부호 포함)의 감쇠 사인 합. 출력은 줄 '속도' 모양(sin 위상에서 시작) */
+  function renderString(f0, amps, o = {}) {
+    const sr = o.sr, dur = o.dur || 2.2, tau1 = o.tau1 || 2.4, B = o.B != null ? o.B : 5e-5;
+    const n = Math.floor(sr * dur), y = o.into || new Float32Array(n), off = o.offset || 0;
+    for (let i = 0; i < amps.length; i++) {
+      const A = amps[i]; if (!A) continue;
+      const k = i + 1, f = k * f0 * Math.sqrt(1 + B * k * k); if (f > sr * 0.45) break;
+      const tau = tau1 / (1 + 0.012 * k * k), r = Math.exp(-1 / (tau * sr)), w = (2 * Math.PI * f) / sr;
+      const c2 = 2 * r * Math.cos(w), r2 = r * r;
+      let s2 = 0, s1 = A * r * Math.sin(w);
+      if (off + 1 < y.length) y[off + 1] += s1;
+      const nmax = Math.min(y.length - off, Math.ceil(tau * sr * 7));
+      for (let t = 2; t < nmax; t++) { const s = c2 * s1 - r2 * s2; y[off + t] += s; s2 = s1; s1 = s; }
+    }
+    if (!o.into) finish(y, sr, o.norm);
+    return y;
+  }
+  function finish(y, sr, norm) {
+    const att = Math.floor(sr * 0.002), fade = Math.floor(sr * 0.3), n = y.length;
+    for (let t = 0; t < att; t++) y[t] *= t / att;
+    for (let t = 0; t < fade; t++) y[n - 1 - t] *= t / fade;
+    if (norm) { let pk = 0; for (let t = 0; t < n; t++) pk = Math.max(pk, Math.abs(y[t])); if (pk > 0) for (let t = 0; t < n; t++) y[t] *= norm / pk; }
+    return y;
+  }
+  let lastBufs = [];
+  function stopBufs() { lastBufs.forEach((b) => { try { b.release(); } catch (e) {} }); lastBufs = []; }
+  function playSamples(y, o = {}) {
+    const ctx = MB.ctx(); if (!ctx) return null;
+    if (!o.keep) stopBufs();
+    const v = MB.playBuffer(y, ctx.sampleRate, { gain: o.gain != null ? o.gain : 0.5, when: o.when });
+    lastBufs.push(v); return v;
+  }
+  /** 웨이브셰이퍼 곡선 f(Dx): soft = tanh, hard = 자르기, asym = 바이어스 걸린 tanh */
+  const AB = 0.45, ATB = Math.tanh(AB);
+  const shapeFn = (type, u) => (type === "hard" ? Math.max(-1, Math.min(1, u)) : type === "asym" ? (Math.tanh(u + AB) - ATB) / (1 + ATB) : Math.tanh(u));
+  function curve(type, D, n = 4096) {
+    const c = new Float32Array(n);
+    for (let i = 0; i < n; i++) c[i] = shapeFn(type, D * ((i / (n - 1)) * 2 - 1));
+    return c;
+  }
+  /** 진폭 A 사인을 곡선에 넣었을 때의 배음 진폭(1..K)과 직류 */
+  function harmonics(type, D, A = 0.35, K = 16, N = 1024) {
+    const y = new Float64Array(N);
+    for (let i = 0; i < N; i++) y[i] = shapeFn(type, D * A * Math.sin((2 * Math.PI * i) / N));
+    const amps = [];
+    for (let k = 1; k <= K; k++) { let re = 0, im = 0; for (let i = 0; i < N; i++) { const ph = (2 * Math.PI * k * i) / N; re += y[i] * Math.cos(ph); im += y[i] * Math.sin(ph); } amps.push((2 * Math.hypot(re, im)) / N); }
+    return amps;
+  }
+  /** 같은 사인 입력(진폭 0.3)의 출력 RMS가 target이 되도록 하는 이득 */
+  function compGain(type, D, target = 0.2) {
+    const N = 512; let s = 0, m = 0;
+    for (let i = 0; i < N; i++) { const v = shapeFn(type, D * 0.3 * Math.sin((2 * Math.PI * i) / N)); s += v * v; m += v; }
+    m /= N; const rms = Math.sqrt(Math.max(1e-9, s / N - m * m));
+    return Math.min(1.2, target / rms);
+  }
+  const dbQ = (q) => 20 * Math.log10(q); // Web Audio lowpass/highpass Q는 dB
+  /** 2마디 파워 코드 리프(E 단조, 직접 만든 예) */
+  const E5 = [0, 2, 2, -1, -1, -1], G5 = [3, 5, 5, -1, -1, -1], A5 = [5, 7, 7, -1, -1, -1];
+  const D5 = [-1, 5, 7, 7, -1, -1], C5 = [-1, 3, 5, 5, -1, -1], B5 = [-1, 2, 4, 4, -1, -1];
+  const RIFF = [
+    { t: 0, sh: E5, pm: 1 }, { t: 0.5, sh: E5, pm: 1 }, { t: 1, sh: G5, acc: 1, d: 0.5 }, { t: 1.5, sh: E5, pm: 1 },
+    { t: 2, sh: A5, acc: 1, d: 0.5 }, { t: 2.5, sh: E5, pm: 1 }, { t: 3, sh: G5, d: 1 },
+    { t: 4, sh: E5, pm: 1 }, { t: 4.5, sh: E5, pm: 1 }, { t: 5, sh: D5, acc: 1, d: 0.5 }, { t: 5.5, sh: E5, pm: 1 },
+    { t: 6, sh: C5, acc: 1, d: 0.5 }, { t: 6.5, sh: C5, d: 0.5 }, { t: 7, sh: B5, d: 1 },
+  ];
+  function riffEvent(g, ev, when, spb) {
+    g.strum(ev.sh, { when, dir: "D", vel: ev.pm ? 0.6 : ev.acc ? 0.9 : 0.8, mute: !!ev.pm, spread: 0.007, dur: ev.pm ? spb * 0.45 : (ev.d || 0.5) * spb * 0.95 });
+  }
+  /** 캔버스 공통 */
+  const fmtHz = (f) => (f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 0 : 1) + "k" : Math.round(f) + "");
+  return { L, PU, H, Hmag, taper, firFromMag, aperture, renderString, finish, playSamples, stopBufs, shapeFn, curve, harmonics, compGain, dbQ, RIFF, riffEvent, fmtHz };
+})();
+
+/* ===================================================================== 그림 13-2: 모드 모양 */
+(function () {
+  const g = document.getElementById("tn-fig-modes"); if (!g) return;
+  const L = TN.L, xN = 70, xB = 740, X = (d) => xB - (d / L) * (xB - xN);
+  const pus = [{ d: 41, n: "브리지" }, { d: 98, n: "미들" }, { d: 162, n: "넥" }];
+  const P = [];
+  pus.forEach((p) => { P.push(`<rect x="${X(p.d) - 7}" y="22" width="14" height="236" rx="4" class="f-acc2-soft" opacity="0.55"/>`); P.push(`<text x="${X(p.d)}" y="276" class="t-dim" text-anchor="middle">${p.n}</text><text x="${X(p.d)}" y="292" class="t-mono" text-anchor="middle">${p.d} mm</text>`); });
+  for (let n = 1; n <= 5; n++) {
+    const yc = 20 + n * 46 - 20, A = 15;
+    P.push(`<line x1="${xN}" y1="${yc}" x2="${xB}" y2="${yc}" class="tn-sf"/>`);
+    let d1 = "", d2 = "";
+    for (let i = 0; i <= 160; i++) { const d = (i / 160) * L, x = X(d), y = A * Math.sin((n * Math.PI * d) / L); d1 += (i ? "L" : "M") + x.toFixed(1) + " " + (yc - y).toFixed(1); d2 += (i ? "L" : "M") + x.toFixed(1) + " " + (yc + y).toFixed(1); }
+    P.push(`<path d="${d1}" class="s-acc"/><path d="${d2}" class="s-acc" stroke-dasharray="4 4" opacity="0.5"/>`);
+    P.push(`<text x="${xN - 12}" y="${yc + 4}" class="t" text-anchor="end">n=${n}</text>`);
+    pus.forEach((p) => { const s = Math.sin((n * Math.PI * p.d) / L); if (Math.abs(s) < 0.12) P.push(`<circle cx="${X(p.d)}" cy="${yc}" r="5.5" fill="var(--bad)"/>`); });
+  }
+  P.push(`<line x1="${xN}" y1="18" x2="${xN}" y2="252" stroke="var(--text)" stroke-width="5"/><line x1="${xB}" y1="18" x2="${xB}" y2="252" stroke="var(--text-dim)" stroke-width="5"/>`);
+  P.push(`<text x="${xN}" y="12" class="t-dim" text-anchor="middle">너트</text><text x="${xB}" y="12" class="t-dim" text-anchor="middle">브리지 새들</text>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 13-5: 클리핑 곡선 */
+(function () {
+  const g = document.getElementById("tn-fig-clip"); if (!g) return;
+  const panels = [{ t: "soft", n: "소프트 (tanh)", D: 3 }, { t: "hard", n: "하드 (자르기)", D: 2 }, { t: "asym", n: "비대칭 (바이어스)", D: 3 }];
+  const P = [];
+  panels.forEach((p, i) => {
+    const x0 = 18 + i * 264;
+    P.push(`<text x="${x0 + 120}" y="16" class="t" text-anchor="middle">${p.n}</text>`);
+    // 전달 곡선 상자
+    const bx = x0 + 65, by = 26, bw = 110, bh = 100, cxp = bx + bw / 2, cyp = by + bh / 2;
+    P.push(`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" class="f-surface" opacity="0.6"/>`);
+    P.push(`<line x1="${bx}" y1="${cyp}" x2="${bx + bw}" y2="${cyp}" class="s-axis"/><line x1="${cxp}" y1="${by}" x2="${cxp}" y2="${by + bh}" class="s-axis"/>`);
+    P.push(`<line x1="${bx + bw / 2 - bh / 2 * 0.5}" y1="${by + bh}" x2="${bx + bw / 2 + bh / 2 * 0.5}" y2="${by}" class="tn-sf" stroke-dasharray="3 3"/>`);
+    let d = "";
+    for (let k = 0; k <= 80; k++) { const x = (k / 80) * 2 - 1, y = TN.shapeFn(p.t, p.D * x * 0.6); d += (k ? "L" : "M") + (cxp + x * bw / 2).toFixed(1) + " " + (cyp - y * bh / 2 * 0.9).toFixed(1); }
+    P.push(`<path d="${d}" class="s-acc"/>`);
+    P.push(`<text x="${bx + bw + 4}" y="${cyp + 4}" class="tn-small">x</text><text x="${cxp + 4}" y="${by + 10}" class="tn-small">y</text>`);
+    // 파형
+    const wx = x0 + 8, wy = 196, ww = 224, wh = 46;
+    P.push(`<line x1="${wx}" y1="${wy}" x2="${wx + ww}" y2="${wy}" class="tn-sf"/>`);
+    let din = "", dout = "";
+    for (let k = 0; k <= 120; k++) { const ph = (k / 120) * 4 * Math.PI, s = Math.sin(ph), x = wx + (k / 120) * ww; din += (k ? "L" : "M") + x.toFixed(1) + " " + (wy - s * wh * 0.55).toFixed(1); dout += (k ? "L" : "M") + x.toFixed(1) + " " + (wy - TN.shapeFn(p.t, p.D * s * 0.6) * wh * 0.55).toFixed(1); }
+    P.push(`<path d="${din}" class="tn-sf"/><path d="${dout}" class="s-acc"/>`);
+    P.push(`<text x="${x0 + 120}" y="${wy + 52}" class="tn-small" text-anchor="middle">${p.t === "asym" ? "짝수 + 홀수 배음, 직류" : p.t === "hard" ? "홀수 배음(높은 차수 많음)" : "홀수 배음(낮은 차수 위주)"}</text>`);
+  });
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== sim-tn-position */
+(function () {
+  const L = TN.L, NMODE = 64, NSHOW = 24;
+  let hl = 4, W = null;
+  const noteSel = document.getElementById("tn-pos-note"), elec = document.getElementById("tn-pos-elec");
+  const getPU = MB.range("tn-pos-pu", (v) => v + " mm", () => update());
+  const getPL = MB.range("tn-pos-pl", (v) => v + " mm", () => update());
+  const f0 = () => MB.mtof(+noteSel.value);
+  function weights(pu, pl, fr) {
+    const p = pu / L, b = pl / L, raw = [], out = [];
+    for (let n = 1; n <= NMODE; n++) {
+      const s = Math.sin(n * Math.PI * b) / n;
+      let w = s * Math.sin(n * Math.PI * p) * TN.aperture(n);
+      if (elec.checked) w *= TN.Hmag(n * fr, Object.assign({}, TN.PU.single, { Cc: 300e-12 }));
+      raw.push(s); out.push(w);
+    }
+    return { raw, out };
+  }
+  const cv = MB.canvas("#tn-pos-cv", (ctx, w, h) => {
+    const P = MB.palette(); if (!W) return;
+    const pu = getPU(), pl = getPL();
+    // 줄 그림
+    const xN = 34, xB = w - 22, X = (d) => xB - (d / L) * (xB - xN), ys = 46;
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(xN, ys); ctx.lineTo(xB, ys); ctx.stroke();
+    ctx.fillStyle = P.text; ctx.fillRect(xN - 4, ys - 18, 4, 36); ctx.fillStyle = P.dim; ctx.fillRect(xB, ys - 18, 4, 36);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "center"; ctx.fillStyle = P.dim;
+    ctx.fillText("너트", xN, ys + 32); ctx.fillText("브리지", xB, ys + 32);
+    // 모드 모양
+    ctx.strokeStyle = P.accent2; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.5; ctx.beginPath();
+    for (let i = 0; i <= 200; i++) { const d = (i / 200) * L, y = ys - 18 * Math.sin((hl * Math.PI * d) / L); i ? ctx.lineTo(X(d), y) : ctx.moveTo(X(d), y); }
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.accent2; ctx.textAlign = "left"; ctx.fillText(hl + "번 배음 모양", xN + 6, 14);
+    // 픽업
+    const pw = Math.max(8, (17 / L) * (xB - xN));
+    ctx.fillStyle = P.accent + "55"; ctx.strokeStyle = P.accent; ctx.lineWidth = 1.5;
+    ctx.fillRect(X(pu) - pw / 2, ys + 6, pw, 12); ctx.strokeRect(X(pu) - pw / 2, ys + 6, pw, 12);
+    ctx.fillStyle = P.accent; ctx.textAlign = "center"; ctx.fillText("픽업", X(pu), ys + 32);
+    // 뜯는 자리
+    ctx.fillStyle = P.warn; ctx.beginPath(); ctx.moveTo(X(pl), ys - 6); ctx.lineTo(X(pl) - 6, ys - 16); ctx.lineTo(X(pl) + 6, ys - 16); ctx.closePath(); ctx.fill();
+    // 막대
+    const box = { x: 40, y: 92, w: w - 52, h: h - 92 - 24 };
+    const mo = Math.max(...W.out.slice(0, NSHOW).map(Math.abs)) || 1, mr = Math.max(...W.raw.slice(0, NSHOW).map(Math.abs)) || 1;
+    const dbY = (db) => box.y + (Math.min(0, Math.max(-40, db)) / -40) * box.h;
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.fillStyle = P.faint; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.font = "10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    for (let db = 0; db >= -40; db -= 10) { const y = dbY(db); ctx.beginPath(); ctx.moveTo(box.x, y); ctx.lineTo(box.x + box.w, y); ctx.stroke(); ctx.fillText(db + "", box.x - 4, y); }
+    const bw = box.w / NSHOW; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let i = 0; i < NSHOW; i++) {
+      const x = box.x + i * bw, dbo = 20 * Math.log10(Math.abs(W.out[i]) / mo + 1e-9), dbr = 20 * Math.log10(Math.abs(W.raw[i]) / mr + 1e-9);
+      const yb = box.y + box.h;
+      ctx.strokeStyle = P.dim; ctx.lineWidth = 1; ctx.strokeRect(x + bw * 0.12, dbY(dbr), bw * 0.76, yb - dbY(dbr));
+      ctx.fillStyle = i + 1 === hl ? P.accent2 : P.accent; ctx.globalAlpha = 0.85; ctx.fillRect(x + bw * 0.22, dbY(dbo), bw * 0.56, yb - dbY(dbo)); ctx.globalAlpha = 1;
+      if (dbo < -30) { ctx.fillStyle = P.bad; ctx.font = "bold 12px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.fillText("×", x + bw / 2, yb - 16); ctx.font = "10px " + getComputedStyle(document.body).getPropertyValue("--mono"); }
+      if (bw > 14 || i % 2 === 0) { ctx.fillStyle = P.dim; ctx.fillText(String(i + 1), x + bw / 2, yb + 4); }
+    }
+    cv.box = box; cv.bw = bw;
+  }, { aspect: (w) => (w < 500 ? 0.78 : 0.55), maxHeight: 380, minHeight: 260 });
+  cv.canvas.addEventListener("click", (e) => {
+    if (!cv.box) return; const r = cv.canvas.getBoundingClientRect(), x = e.clientX - r.left;
+    const i = Math.floor((x - cv.box.x) / cv.bw); if (i >= 0 && i < NSHOW) { hl = i + 1; cv.redraw(); }
+  });
+  function update() {
+    W = weights(getPU(), getPL(), f0());
+    const p = getPU() / L;
+    MB.stat("tn-pos-r1", p.toFixed(3) + ` <small>L/x = ${(1 / p).toFixed(1)}</small>`);
+    const nulls = []; for (let n = 1; n <= 40; n++) if (Math.abs(Math.sin(n * Math.PI * p)) < 0.15) nulls.push(n);
+    MB.stat("tn-pos-r2", nulls.length ? nulls.slice(0, 3).join(", ") + (nulls.length > 3 ? " …" : "") + "번" : `≈ ${(1 / p).toFixed(1)}번 근처`);
+    let num = 0, den = 0; W.out.forEach((w, i) => { const e = w * w; num += e * (i + 1) * f0(); den += e; });
+    MB.stat("tn-pos-r3", den ? Math.round(num / den) + " <small>Hz</small>" : "—");
+    // 첫 골에 가까운 배음을 기본 강조
+    cv.redraw();
+  }
+  noteSel.addEventListener("change", update); elec.addEventListener("change", update);
+  document.getElementById("tn-pos-pupre").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; getPU.set(+b.dataset.v); const p = +b.dataset.v / L; hl = Math.max(1, Math.min(NSHOW, Math.round(1 / p))); update(); });
+  function render(pu, pl) { const ctx = MB.ctx(); const w = weights(pu, pl, f0()); return TN.renderString(f0(), w.out, { sr: ctx.sampleRate, dur: 2.2, norm: 0.8 }); }
+  document.getElementById("tn-pos-play").addEventListener("click", () => { const ctx = MB.ctx(); if (!ctx) return; TN.playSamples(render(getPU(), getPL()), { gain: 0.45 }); });
+  document.getElementById("tn-pos-ab").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return; TN.stopBufs();
+    const t0 = ctx.currentTime + 0.05;
+    [162, 98, 41].forEach((pu, i) => {
+      TN.playSamples(render(pu, getPL()), { gain: 0.45, when: t0 + i * 1.5, keep: true });
+      setTimeout(() => { getPU.set(pu, false); update(); }, i * 1500 + 50);
+    });
+  });
+  update();
+})();
+
+/* ===================================================================== sim-tn-humbucker */
+(function () {
+  const L = TN.L, dlt = 9 / L, beta = 120 / L, f0 = 110;
+  const HUMF = { single: 1, hb: 0.03, split: 1, oop: 2 };
+  const ELEC = { single: TN.PU.single, hb: TN.PU.hb, split: TN.PU.split, oop: TN.PU.hb };
+  let humV = null;
+  const getType = MB.seg("tn-hb-type", () => update());
+  const getPos = MB.seg("tn-hb-pos", () => update());
+  const getHum = MB.range("tn-hb-hum", (v) => v + "%", () => update());
+  function geo(type, nf, p) {
+    const a = Math.sin(nf * Math.PI * (p - dlt)), b = Math.sin(nf * Math.PI * (p + dlt));
+    if (type === "single") return Math.sin(nf * Math.PI * p);
+    if (type === "split") return b;
+    if (type === "oop") return (b - a) / 2;
+    return (a + b) / 2;
+  }
+  function sens(type, f, p) {
+    const e = Object.assign({}, ELEC[type], { Cc: 300e-12 });
+    return geo(type, f / f0, p) * ELEC[type].turns * TN.Hmag(f, e);
+  }
+  const cv = MB.canvas("#tn-hb-cv", (ctx, w, h) => {
+    const P = MB.palette(), type = getType(), p = +getPos() / L;
+    const cur = [], ref = [];
+    for (let i = 0; i <= 400; i++) { const f = 40 * Math.pow(12000 / 40, i / 400); cur.push([f, 20 * Math.log10(Math.abs(sens(type, f, p)) + 1e-6)]); ref.push([f, 20 * Math.log10(Math.abs(sens("single", f, p)) + 1e-6)]); }
+    const vlines = []; for (let n = 1; n <= 30; n++) vlines.push({ x: n * f0, color: P.grid, dash: [1, 0], width: 1 });
+    MB.chart(ctx, null, { x: [40, 12000], y: [-40, 20], logX: true, xLabel: "주파수 (Hz) · 세로 눈금 = A2의 배음 자리", yLabel: "감도 (dB)", xFmt: TN.fmtHz, xTicks: [50, 100, 200, 500, 1000, 2000, 5000, 10000],
+      vlines, series: [{ data: ref, color: P.dim, width: 1.5, dash: [5, 4] }, { data: cur, color: P.accent, width: 2.2 }] });
+  }, { aspect: (w) => (w < 500 ? 0.75 : 0.5), maxHeight: 340, minHeight: 240 });
+  // geo()는 '배음 번호'를 받으므로 음마다 n을 그대로 넣는다
+  function weightsN(type, fr) {
+    const p = +getPos() / L, e = Object.assign({}, ELEC[type], { Cc: 300e-12 }), out = [];
+    for (let n = 1; n <= 64; n++) out.push((Math.sin(n * Math.PI * beta) / n) * geo(type, n, p) * ELEC[type].turns * TN.Hmag(n * fr, e));
+    return out;
+  }
+  function humGain() { return HUMF[getType()] * (getHum() / 100) * 0.11; }
+  function update() {
+    const type = getType(), p = +getPos() / L;
+    const hf = HUMF[type] * (getHum() / 100);
+    MB.stat("tn-hb-r1", getHum() === 0 ? "—" : type === "single" || type === "split" ? "0 dB" : (type === "hb" ? "−30" : "+6") + " <small>dB</small>");
+    const e = ELEC[type], C = e.Cp + 300e-12;
+    MB.stat("tn-hb-r2", e.L + " H · " + (1 / (2 * Math.PI * Math.sqrt(e.L * C)) / 1000).toFixed(1) + " <small>kHz</small>");
+    const rel = Math.abs(sens(type, f0, p)) / Math.abs(sens("single", f0, p));
+    MB.stat("tn-hb-r3", (20 * Math.log10(rel + 1e-9)).toFixed(1) + " <small>dB</small>");
+    if (humV) humV.set({ gain: humGain() });
+    cv.redraw();
+    void hf;
+  }
+  function render(midis) {
+    const ctx = MB.ctx(), sr = ctx.sampleRate, dur = 2.4, y = new Float32Array(Math.floor(sr * dur));
+    let tot = 0;
+    midis.forEach((m, i) => {
+      const fr = MB.mtof(m), w = weightsN(getType(), fr), ref = weightsN("single", fr);
+      tot += ref.reduce((a, v) => a + Math.abs(v), 0);
+      TN.renderString(fr, w, { sr, into: y, offset: Math.floor(i * 0.014 * sr) });
+    });
+    TN.finish(y, sr);
+    const k = 0.75 / (tot || 1); for (let i = 0; i < y.length; i++) y[i] *= k;
+    return y;
+  }
+  document.getElementById("tn-hb-play").addEventListener("click", () => { if (!MB.ctx()) return; TN.playSamples(render([40, 47, 52, 56, 59, 64]), { gain: 0.6 }); });
+  document.getElementById("tn-hb-note").addEventListener("click", () => { if (!MB.ctx()) return; TN.playSamples(render([45]), { gain: 0.6 }); });
+  const humBtn = document.getElementById("tn-hb-humbtn");
+  humBtn.addEventListener("click", () => {
+    if (humV) { humV.stop(); humV = null; humBtn.textContent = "▶ 험 켜기"; return; }
+    if (!MB.ctx()) return;
+    const amps = [1, 0.45, 0.8, 0.22, 0.5, 0.12, 0.32, 0.08, 0.2, 0.05, 0.12, 0.04], s = amps.reduce((a, b) => a + b, 0);
+    humV = MB.drone({ freq: 60, amps: amps.map((a) => a / s), gain: humGain() });
+    humBtn.textContent = "■ 험 끄기";
+  });
+  update();
+})();
+
+/* ===================================================================== sim-tn-rlc */
+(function () {
+  const g = GT.guitar({ tone: "raw" });
+  let built = false, inBus = null, outG = null, conv = null;
+  const getPu = MB.seg("tn-rlc-pu", () => update());
+  const getTone = MB.range("tn-rlc-tone", (v) => v.toFixed(1), () => update());
+  const getVol = MB.range("tn-rlc-vol", (v) => v.toFixed(1), () => update());
+  const getCab = MB.range("tn-rlc-cab", (v) => v.toFixed(1) + " m", () => update());
+  const capSel = document.getElementById("tn-rlc-cap"), buf = document.getElementById("tn-rlc-buf"), byp = document.getElementById("tn-rlc-byp");
+  function params(ref) {
+    const p = Object.assign({}, TN.PU[getPu()]);
+    if (capSel.value !== "auto") p.cap = +capSel.value;
+    if (ref) { p.tone = 10; p.vol = 10; p.Cc = 0; return p; }
+    p.tone = getTone(); p.vol = getVol(); p.Cc = buf.checked ? 30e-12 : getCab() * 100e-12;
+    return p;
+  }
+  let peak = null;
+  const cv = MB.canvas("#tn-rlc-cv", (ctx, w, h) => {
+    const P = MB.palette(), p = params(false), pr = params(true);
+    const cur = [], ref = [];
+    let best = { f: 0, db: -99 };
+    for (let i = 0; i <= 300; i++) {
+      const f = 50 * Math.pow(400, i / 300), d = 20 * Math.log10(TN.Hmag(f, p)), dr = 20 * Math.log10(TN.Hmag(f, pr));
+      cur.push([f, d]); ref.push([f, dr]); if (d > best.db) best = { f, db: d };
+    }
+    const C = p.Cp + p.Cc + (p.tone <= 0 ? p.cap : 0), f0 = 1 / (2 * Math.PI * Math.sqrt(p.L * C));
+    peak = { best, f0, C };
+    const lf = 20 * Math.log10(TN.Hmag(100, p));
+    const pts = best.db > lf + 0.5 ? [{ x: best.f, y: best.db, color: P.accent, r: 4.5 }] : [];
+    MB.chart(ctx, null, { x: [50, 20000], y: [-36, 15], logX: true, xLabel: "주파수 (Hz)", yLabel: "|H| (dB)", xFmt: TN.fmtHz, xTicks: [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
+      hlines: [{ y: 0, color: P.faint, dash: [2, 3] }], vlines: [{ x: f0, color: P.warn, label: "f₀" }],
+      series: [{ data: ref, color: P.dim, width: 1.4, dash: [5, 4] }, { data: cur, color: P.accent, width: 2.4, fill: P.accent + "18" }], points: pts });
+  }, { aspect: (w) => (w < 500 ? 0.72 : 0.5), maxHeight: 340, minHeight: 240 });
+  function stats() {
+    if (!peak) return;
+    const p = params(false), lf = 20 * Math.log10(TN.Hmag(100, p));
+    MB.stat("tn-rlc-r1", peak.C >= 1e-9 ? (peak.C * 1e9).toFixed(1) + " <small>nF</small>" : Math.round(peak.C * 1e12) + " <small>pF</small>");
+    MB.stat("tn-rlc-r2", TN.fmtHz(peak.f0) + " <small>Hz</small>");
+    if (peak.best.db > lf + 0.5) MB.stat("tn-rlc-r3", TN.fmtHz(peak.best.f) + " <small>Hz, " + MB.signed(peak.best.db, 1) + " dB</small>");
+    else {
+      let f3 = 0; for (let i = 0; i <= 400; i++) { const f = 100 * Math.pow(200, i / 400); if (20 * Math.log10(TN.Hmag(f, p)) < lf - 3) { f3 = f; break; } }
+      MB.stat("tn-rlc-r3", "없음 <small>−3 dB ≈ " + (f3 ? TN.fmtHz(f3) : "—") + " Hz</small>");
+    }
+  }
+  function build() {
+    const ctx = MB.ctx(); if (!ctx) return false;
+    if (built) return true;
+    inBus = ctx.createGain(); outG = ctx.createGain(); outG.gain.value = 1.1; outG.connect(MB.out);
+    g.dest = inBus; built = true; refreshFir(); return true;
+  }
+  function refreshFir() {
+    if (!built) return;
+    const ctx = MB.ctx(), p = params(false);
+    const h = TN.firFromMag(byp.checked ? () => 1 : (f) => TN.Hmag(f, p), ctx.sampleRate, 2048);
+    const b = ctx.createBuffer(1, h.length, ctx.sampleRate); b.getChannelData(0).set(h);
+    const c = ctx.createConvolver(); c.normalize = false; c.buffer = b;
+    inBus.connect(c); c.connect(outG);
+    if (conv) { try { inBus.disconnect(conv); conv.disconnect(); } catch (e) {} }
+    conv = c;
+  }
+  const refreshT = (() => { let t = 0; return () => { clearTimeout(t); t = setTimeout(refreshFir, 60); }; })();
+  function update() { cv.redraw(); stats(); refreshT(); }
+  [capSel, buf, byp].forEach((el) => el.addEventListener("change", update));
+  document.getElementById("tn-rlc-play").addEventListener("click", () => {
+    if (!build()) return; const t = MB.now() + 0.03;
+    [0, 2, 2, 1, 0, 0].forEach((f, s) => g.pluck(s, f, { when: t + s * 0.013, vel: 0.78, bright: 0.92 }));
+  });
+  document.getElementById("tn-rlc-note").addEventListener("click", () => { if (!build()) return; g.pluck(5, 12, { vel: 0.85, bright: 0.95 }); });
+  update();
+})();
+
+/* ===================================================================== sim-tn-drive */
+(function () {
+  const g = GT.guitar({ tone: "electric" });
+  let N = null, sch = null;
+  const getType = MB.seg("tn-dr-type", () => update());
+  const getGain = MB.range("tn-dr-gain", (v) => v + " dB", () => update());
+  const tightHz = (v) => 20 * Math.pow(40, v / 100); // 20–800 Hz
+  const toneHz = (v) => 1200 * Math.pow(7.5, v / 100); // 1.2–9 kHz
+  const getTight = MB.range("tn-dr-tight", (v) => Math.round(tightHz(v)) + " Hz", () => update());
+  const getTone = MB.range("tn-dr-tone", (v) => TN.fmtHz(toneHz(v)) + " Hz", () => update());
+  const byp = document.getElementById("tn-dr-byp");
+  const D = () => Math.pow(10, getGain() / 20);
+  const cvC = MB.canvas("#tn-dr-curve", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 28, y: 12, w: w - 40, h: h - 34 }, cx = box.x + box.w / 2, cy = box.y + box.h / 2;
+    ctx.fillStyle = P.accent + "14"; ctx.fillRect(cx - box.w / 2 * 0.35, box.y, box.w * 0.35, box.h);
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(box.x, cy); ctx.lineTo(box.x + box.w, cy); ctx.moveTo(cx, box.y); ctx.lineTo(cx, box.y + box.h); ctx.stroke();
+    ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(cx - box.h / 2, box.y + box.h); ctx.lineTo(cx + box.h / 2, box.y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = byp.checked ? P.dim : P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i <= 200; i++) { const x = (i / 200) * 2 - 1, y = byp.checked ? x : TN.shapeFn(getType(), D() * x); const px = cx + x * box.w / 2, py = cy - Math.max(-1.05, Math.min(1.05, y)) * box.h / 2; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "center";
+    ctx.fillText("입력 x (음영 = 보통 기타 신호 ±0.35)", cx, h - 6);
+    ctx.save(); ctx.translate(12, cy); ctx.rotate(-Math.PI / 2); ctx.fillText("출력 y", 0, 0); ctx.restore();
+  }, { aspect: 0.82, maxHeight: 280, minHeight: 200 });
+  let H = [];
+  const cvH = MB.canvas("#tn-dr-harm", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 34, y: 12, w: w - 42, h: h - 34 };
+    const ref = H[0] || 1, n = H.length;
+    const Y = (db) => box.y + (Math.min(0, Math.max(-70, db)) / -70) * box.h;
+    ctx.font = "10px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let db = 0; db >= -70; db -= 20) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(db)); ctx.lineTo(box.x + box.w, Y(db)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.fillText(db + "", box.x - 4, Y(db)); }
+    const bw = box.w / Math.max(1, n); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    H.forEach((a, i) => { const db = 20 * Math.log10(a / ref + 1e-9); ctx.fillStyle = (i + 1) % 2 ? P.accent : P.accent2; ctx.fillRect(box.x + i * bw + bw * 0.18, Y(db), bw * 0.64, box.y + box.h - Y(db)); if (i % 2 === 0 || bw > 16) { ctx.fillStyle = P.dim; ctx.fillText(String(i + 1), box.x + i * bw + bw / 2, box.y + box.h + 3); } });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillText("배음 (dB, 기본음 기준)", box.x + box.w, box.y);
+  }, { aspect: 0.82, maxHeight: 280, minHeight: 200 });
+  MB.liveView("#tn-dr-live", { mode: "spectrum", fmin: 40, fmax: 10000, aspect: 0.34, maxHeight: 200, minHeight: 140, idleText: "버튼을 눌러 소리를 내면 실시간 스펙트럼이 나타납니다" });
+  function build() {
+    const ctx = MB.ctx(); if (!ctx) return false; if (N) return true;
+    N = {};
+    N.inG = ctx.createGain();
+    N.hp = ctx.createBiquadFilter(); N.hp.type = "highpass"; N.hp.Q.value = TN.dbQ(0.7071);
+    N.sh = ctx.createWaveShaper(); N.sh.oversample = "4x";
+    N.dc = ctx.createBiquadFilter(); N.dc.type = "highpass"; N.dc.frequency.value = 25;
+    N.tone = ctx.createBiquadFilter(); N.tone.type = "lowpass"; N.tone.Q.value = TN.dbQ(0.7071);
+    N.cabHP = ctx.createBiquadFilter(); N.cabHP.type = "highpass"; N.cabHP.frequency.value = 80; N.cabHP.Q.value = TN.dbQ(0.7071);
+    N.cab1 = ctx.createBiquadFilter(); N.cab1.type = "lowpass"; N.cab1.frequency.value = 5000; N.cab1.Q.value = TN.dbQ(0.54);
+    N.cab2 = ctx.createBiquadFilter(); N.cab2.type = "lowpass"; N.cab2.frequency.value = 5000; N.cab2.Q.value = TN.dbQ(1.31);
+    N.drv = ctx.createGain(); N.cln = ctx.createGain(); N.out = ctx.createGain(); N.out.gain.value = 0.9;
+    N.inG.connect(N.hp); N.hp.connect(N.sh); N.sh.connect(N.dc); N.dc.connect(N.tone); N.tone.connect(N.cabHP); N.cabHP.connect(N.cab1); N.cab1.connect(N.cab2); N.cab2.connect(N.drv); N.drv.connect(N.out);
+    N.inG.connect(N.cln); N.cln.connect(N.out); N.out.connect(MB.out);
+    g.dest = N.inG; apply(); return true;
+  }
+  function apply() {
+    if (!N) return; const t = MB.now();
+    N.sh.curve = TN.curve(getType(), D());
+    N.hp.frequency.setTargetAtTime(tightHz(getTight()), t, 0.02);
+    N.tone.frequency.setTargetAtTime(toneHz(getTone()), t, 0.02);
+    const cg = TN.compGain(getType(), D(), 0.17);
+    N.drv.gain.setTargetAtTime(byp.checked ? 0 : cg, t, 0.02);
+    N.cln.gain.setTargetAtTime(byp.checked ? 0.85 : 0, t, 0.02);
+  }
+  function update() {
+    H = TN.harmonics(getType(), D());
+    const f1 = H[0] || 1; let odd = 0, even = 0; H.slice(1).forEach((a, i) => { if ((i + 2) % 2) odd += a * a; else even += a * a; });
+    MB.stat("tn-dr-r1", byp.checked ? "0 %" : (100 * Math.sqrt(odd + even) / f1).toFixed(1) + " <small>%</small>");
+    MB.stat("tn-dr-r2", byp.checked ? "—" : (even < 1e-10 ? "0" : (10 * Math.log10(even / odd)).toFixed(1) + " <small>dB</small>"));
+    MB.stat("tn-dr-r3", (20 * Math.log10(TN.compGain(getType(), D(), 0.17))).toFixed(1) + " <small>dB</small>");
+    cvC.redraw(); cvH.redraw(); apply();
+  }
+  byp.addEventListener("change", update);
+  const hit = (fn) => () => { if (!build()) return; fn(MB.now() + 0.03); };
+  document.getElementById("tn-dr-n1").addEventListener("click", hit((t) => g.pluck(1, 7, { when: t, vel: 0.85 })));
+  document.getElementById("tn-dr-n2").addEventListener("click", hit((t) => g.strum([0, 2, 2, -1, -1, -1], { when: t, vel: 0.85, spread: 0.008 })));
+  document.getElementById("tn-dr-n3").addEventListener("click", hit((t) => g.strum([-1, -1, 2, 1, -1, -1], { when: t, vel: 0.85, spread: 0.008 })));
+  document.getElementById("tn-dr-n4").addEventListener("click", hit((t) => g.strum("022100", { when: t, vel: 0.85, spread: 0.01 })));
+  const riffBtn = document.getElementById("tn-dr-riff");
+  sch = GT.scheduler(TN.RIFF, { bpm: 100, loop: true, length: 8, onEvent(ev, when, spb) { TN.riffEvent(g, ev, when, spb); }, onStop() { riffBtn.textContent = "▶ 리프 반복"; g.damp(MB.now()); } });
+  riffBtn.addEventListener("click", () => { if (sch.running) { sch.stop(); return; } if (!build()) return; sch.start(); riffBtn.textContent = "■ 정지"; });
+  update();
+})();
+
+/* ===================================================================== sim-tn-imd */
+(function () {
+  const getIv = MB.seg("tn-imd-iv", () => update());
+  const getTun = MB.seg("tn-imd-tun", () => update());
+  const getDrive = MB.range("tn-imd-drive", (v) => v + " dB", () => update());
+  const rootSel = document.getElementById("tn-imd-root");
+  const JUST = { 12: 2, 7: 1.5, 5: 4 / 3, 4: 1.25, 3: 1.2, 2: 1.125 };
+  const SR = 22050, NF = 32768;
+  let spec = null, comps = [];
+  const freqs = () => { const f1 = MB.mtof(+rootSel.value), iv = +getIv(); return [f1, getTun() === "just" ? f1 * JUST[iv] : f1 * Math.pow(2, iv / 12)]; };
+  const Dval = () => Math.pow(10, getDrive() / 20);
+  function synth(sr, n, f1, f2, D, clean) {
+    const y = new Float32Array(n), w1 = (2 * Math.PI * f1) / sr, w2 = (2 * Math.PI * f2) / sr;
+    const k = clean ? 1 : TN.compGain("soft", D, 0.2) / 0.86;
+    for (let i = 0; i < n; i++) { const x = 0.3 * Math.sin(w1 * i) + 0.3 * Math.sin(w2 * i); y[i] = clean ? x * 0.7 : Math.tanh(D * x) * k; }
+    return y;
+  }
+  const cv = MB.canvas("#tn-imd-cv", (ctx, w, h) => {
+    const P = MB.palette(); if (!spec) return;
+    const box = { x: 40, y: 22, w: w - 52, h: h - 22 - 30 }, fmax = 1200, binHz = SR / NF;
+    const X = (f) => box.x + (f / fmax) * box.w, Y = (d) => box.y + (Math.min(0, Math.max(-80, d)) / -80) * box.h;
+    ctx.font = "10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let d = 0; d >= -80; d -= 20) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(d)); ctx.lineTo(box.x + box.w, Y(d)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.fillText(d + "", box.x - 4, Y(d)); }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let f = 0; f <= fmax; f += 200) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(f), box.y); ctx.lineTo(X(f), box.y + box.h); ctx.stroke(); ctx.fillStyle = P.faint; ctx.fillText(f + "", X(f), box.y + box.h + 3); }
+    let mx = -200; for (let k = 1; k < fmax / binHz; k++) mx = Math.max(mx, spec[k]);
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2; ctx.beginPath(); let lastX = -1, acc = -999, st = false;
+    for (let k = 1; k < fmax / binHz; k++) { const x = X(k * binHz); acc = Math.max(acc, spec[k] - mx); if (x - lastX < 0.7) continue; const y = Y(acc); st ? ctx.lineTo(x, y) : ctx.moveTo(x, y); st = true; lastX = x; acc = -999; }
+    ctx.stroke();
+    comps.forEach((c) => { if (c.f > fmax || c.db < -70) return; ctx.fillStyle = c.orig ? P.accent : P.warn; const x = X(c.f), y = Y(c.db) - 4; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 4, y - 7); ctx.lineTo(x + 4, y - 7); ctx.closePath(); ctx.fill(); });
+    const [f1, f2] = freqs(); const fd = f2 - f1;
+    ctx.fillStyle = P.warn; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+    const dd = comps.find((c) => Math.abs(c.f - fd) < 0.01); if (dd && dd.db > -70) ctx.fillText("f₂−f₁", X(fd) + 5, Y(dd.db) - 10);
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "top"; ctx.fillText("주파수 (Hz) · dB(최대 기준)", box.x + box.w, 4);
+  }, { aspect: (w) => (w < 500 ? 0.7 : 0.45), maxHeight: 320, minHeight: 230 });
+  function update() {
+    const [f1, f2] = freqs(), D = Dval();
+    const y = synth(SR, NF, f1, f2, D, getDrive() === 0);
+    spec = MB.spectrum(y, "hann", NF);
+    const binHz = SR / NF;
+    let mx = -200; for (let k = 1; k < spec.length; k++) mx = Math.max(mx, spec[k]);
+    const at = (f) => { const k = Math.round(f / binHz); let m = -200; for (let j = k - 2; j <= k + 2; j++) if (spec[j] != null) m = Math.max(m, spec[j]); return m - mx; };
+    const list = [];
+    for (let m = 0; m <= 5; m++) for (let n = -5; n <= 5; n++) {
+      if (m === 0 && n <= 0) continue; const f = Math.abs(m * f1 + n * f2); if (f < 15 || f > 1500) continue;
+      const orig = (m === 0 || n === 0);
+      if (list.some((c) => Math.abs(c.f - f) < 0.005)) { if (orig) list.find((c) => Math.abs(c.f - f) < 0.005).orig = true; continue; }
+      list.push({ f, orig, db: at(f) });
+    }
+    list.sort((a, b) => a.f - b.f);
+    comps = list;
+    const strong = list.filter((c) => c.db > -50);
+    let best = null;
+    for (let i = 0; i < strong.length; i++) for (let j = i + 1; j < strong.length; j++) { const d = strong[j].f - strong[i].f; if (d > 0.05 && d < 15 && (!best || d < best.d)) best = { d, a: strong[i].f, b: strong[j].f }; }
+    MB.stat("tn-imd-r1", f1.toFixed(1) + " · " + f2.toFixed(1));
+    MB.stat("tn-imd-r2", (f2 - f1).toFixed(2) + " <small>Hz</small>");
+    MB.stat("tn-imd-r3", getDrive() === 0 ? "— <small>(클린)</small>" : best ? best.d.toFixed(2) + ` <small>Hz (${best.a.toFixed(1)} · ${best.b.toFixed(1)})</small>` : "없음 <small>(정수배로 겹침)</small>");
+    cv.redraw();
+  }
+  rootSel.addEventListener("change", update);
+  function play(clean) {
+    const ctx = MB.ctx(); if (!ctx) return; const sr = ctx.sampleRate, n = Math.floor(sr * 2);
+    const [f1, f2] = freqs(); const y = synth(sr, n, f1, f2, Dval(), clean || getDrive() === 0);
+    TN.finish(y, sr); for (let i = 0; i < Math.floor(sr * 0.02); i++) y[i] *= i / (sr * 0.02);
+    TN.playSamples(y, { gain: 0.4 });
+  }
+  document.getElementById("tn-imd-play").addEventListener("click", () => play(false));
+  document.getElementById("tn-imd-clean").addEventListener("click", () => play(true));
+  update();
+})();
+
+/* ===================================================================== sim-tn-amp */
+(function () {
+  const g = GT.guitar({ tone: "electric" });
+  const CH = { clean: 1.3, crunch: 7, lead: 32 };
+  const getCh = MB.seg("tn-amp-ch", () => update());
+  const getB = MB.range("tn-amp-b", (v) => v.toFixed(1), () => update());
+  const getM = MB.range("tn-amp-m", (v) => v.toFixed(1), () => update());
+  const getT = MB.range("tn-amp-t", (v) => v.toFixed(1), () => update());
+  const cabSel = document.getElementById("tn-amp-cab");
+  /** 필터 목록 [type, f, Q(선형; peaking·bandpass) 또는 lowpass/highpass의 선형 Q, gain] */
+  function cfg() {
+    const b = (getB() - 5) * 2.4, m = (getM() - 5) * 2.4 - 3, t = (getT() - 5) * 2.4;
+    const tone = [["lowshelf", 100, 0.7071, b], ["peaking", 650, 0.7, m], ["highshelf", 3000, 0.7071, t]];
+    const c = cabSel.value;
+    const cab = c === "none" ? [["highpass", 20, 0.7071, 0], ["peaking", 110, 1, 0], ["peaking", 2500, 1, 0], ["lowpass", 20000, 0.54, 0], ["lowpass", 20000, 1.31, 0]]
+      : c === "open" ? [["highpass", 90, 0.7071, 0], ["peaking", 115, 1.2, 3], ["peaking", 2500, 1.5, 3], ["lowpass", 5500, 0.54, 0], ["lowpass", 5500, 1.31, 0]]
+      : [["highpass", 70, 0.7071, 0], ["peaking", 100, 1.4, 5], ["peaking", 2000, 1.2, 4], ["lowpass", 4500, 0.54, 0], ["lowpass", 4500, 1.31, 0]];
+    return tone.concat(cab);
+  }
+  function setNodes(nodes, list, t) {
+    list.forEach(([type, f, q, gain], i) => {
+      const n = nodes[i]; n.type = type;
+      const qv = type === "lowpass" || type === "highpass" ? TN.dbQ(q) : q;
+      if (t != null) { n.frequency.setTargetAtTime(f, t, 0.02); n.gain.setTargetAtTime(gain, t, 0.02); n.Q.setTargetAtTime(qv, t, 0.02); }
+      else { n.frequency.value = f; n.gain.value = gain; n.Q.value = qv; }
+    });
+  }
+  // 그래프용: 오프라인 컨텍스트의 같은 필터 노드(소리를 내지 않음)
+  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+  const octx = OAC ? new OAC(1, 256, 48000) : null;
+  const onodes = octx ? [...Array(8)].map(() => octx.createBiquadFilter()) : [];
+  const NF = 240, freqs = new Float32Array(NF); for (let i = 0; i < NF; i++) freqs[i] = 30 * Math.pow(16000 / 30, i / (NF - 1));
+  let resTone = null, resAll = null;
+  function computeResp() {
+    if (!octx) return;
+    setNodes(onodes, cfg());
+    const mag = new Float32Array(NF), ph = new Float32Array(NF);
+    const tone = new Float64Array(NF).fill(0), all = new Float64Array(NF).fill(0);
+    onodes.forEach((n, i) => { n.getFrequencyResponse(freqs, mag, ph); for (let k = 0; k < NF; k++) { const d = 20 * Math.log10(mag[k] + 1e-12); all[k] += d; if (i < 3) tone[k] += d; } });
+    resTone = tone; resAll = all;
+  }
+  const cv = MB.canvas("#tn-amp-cv", (ctx) => {
+    const P = MB.palette(); if (!resAll) return;
+    const s1 = [], s2 = []; for (let k = 0; k < NF; k++) { s1.push([freqs[k], resTone[k]]); s2.push([freqs[k], resAll[k]]); }
+    MB.chart(ctx, null, { x: [30, 16000], y: [-36, 18], logX: true, xLabel: "주파수 (Hz)", yLabel: "dB", xFmt: TN.fmtHz, xTicks: [50, 100, 200, 500, 1000, 2000, 5000, 10000],
+      hlines: [{ y: 0, color: P.faint, dash: [2, 3] }], series: [{ data: s1, color: P.dim, width: 1.5, dash: [5, 4] }, { data: s2, color: P.accent, width: 2.4, fill: P.accent + "18" }] });
+  }, { aspect: (w) => (w < 500 ? 0.72 : 0.5), maxHeight: 330, minHeight: 230 });
+  let N = null, sch = null;
+  function build() {
+    const ctx = MB.ctx(); if (!ctx) return false; if (N) return true;
+    N = { inG: ctx.createGain(), sh: ctx.createWaveShaper(), dc: ctx.createBiquadFilter(), f: [...Array(8)].map(() => ctx.createBiquadFilter()), out: ctx.createGain() };
+    N.sh.oversample = "4x"; N.dc.type = "highpass"; N.dc.frequency.value = 25;
+    N.inG.connect(N.sh); N.sh.connect(N.dc); let last = N.dc; N.f.forEach((n) => { last.connect(n); last = n; }); last.connect(N.out); N.out.connect(MB.out);
+    g.dest = N.inG; apply(true); return true;
+  }
+  function apply(now) {
+    if (!N) return; const D = CH[getCh()];
+    N.sh.curve = TN.curve("soft", D);
+    setNodes(N.f, cfg(), now ? null : MB.now());
+    N.out.gain.value = TN.compGain("soft", D, 0.16) * (cabSel.value === "none" ? 0.7 : 1);
+  }
+  function update() {
+    computeResp(); cv.redraw(); apply(false);
+    if (!resAll) return;
+    const at = (f) => { let k = 0; while (k < NF - 1 && freqs[k] < f) k++; return resAll[k]; };
+    const ref = at(1000); let lo = freqs[0], hi = freqs[NF - 1];
+    for (let k = 0; k < NF; k++) if (freqs[k] < 1000 && resAll[k] < ref - 3) lo = freqs[k];
+    for (let k = NF - 1; k >= 0; k--) if (freqs[k] > 1000 && resAll[k] < ref - 3) hi = freqs[k];
+    MB.stat("tn-amp-r1", TN.fmtHz(lo) + "–" + TN.fmtHz(hi) + " <small>Hz</small>");
+    MB.stat("tn-amp-r2", MB.signed(at(8000) - ref, 1) + " <small>dB</small>");
+  }
+  cabSel.addEventListener("change", update);
+  const btn = document.getElementById("tn-amp-play");
+  sch = GT.scheduler(TN.RIFF, { bpm: 100, loop: true, length: 8, onEvent(ev, when, spb) { TN.riffEvent(g, ev, when, spb); }, onStop() { btn.textContent = "▶ 리프 반복"; g.damp(MB.now()); } });
+  btn.addEventListener("click", () => { if (sch.running) { sch.stop(); return; } if (!build()) return; sch.start(); btn.textContent = "■ 정지"; });
+  document.getElementById("tn-amp-chord").addEventListener("click", () => { if (!build()) return; g.strum("x02220", { vel: 0.85, spread: 0.01 }); });
+  update();
+})();
+
+/* ===================================================================== sim-tn-chain */
+(function () {
+  const g = GT.guitar({ tone: "electric" });
+  const DEF = {
+    comp: { name: "컴프", cat: "다이내믹", knob: "문턱", min: -45, max: -10, v: -28, fmt: (v) => v + " dB" },
+    drive: { name: "드라이브", cat: "게인", knob: "게인", min: 6, max: 36, v: 24, fmt: (v) => v + " dB" },
+    chorus: { name: "코러스", cat: "모듈레이션", knob: "깊이", min: 0, max: 100, v: 60, fmt: (v) => v + "%" },
+    delay: { name: "딜레이", cat: "시간", knob: "믹스", min: 0, max: 60, v: 35, fmt: (v) => v + "%" },
+    reverb: { name: "리버브", cat: "시간", knob: "믹스", min: 0, max: 70, v: 32, fmt: (v) => v + "%" },
+  };
+  const PRESETS = { std: ["comp", "drive", "chorus", "delay", "reverb"], revfirst: ["reverb", "comp", "drive", "chorus", "delay"], dlyfirst: ["comp", "delay", "drive", "chorus", "reverb"], complast: ["drive", "chorus", "delay", "reverb", "comp"] };
+  let order = PRESETS.std.slice();
+  const on = { comp: true, drive: true, chorus: false, delay: true, reverb: true };
+  const val = {}; Object.keys(DEF).forEach((k) => (val[k] = DEF[k].v));
+  const board = document.getElementById("tn-ch-board"), flow = document.getElementById("tn-ch-flow");
+  const getBpm = MB.range("tn-ch-bpm", (v) => v + " BPM", () => setParams());
+  let ctx = null, P = null, chainIn = null, master = null;
+  function renderBoard() {
+    board.innerHTML = order.map((k, i) => { const d = DEF[k]; return `<div class="tn-pedal${on[k] ? " on" : ""}" data-k="${k}"><span class="num">${i + 1}</span><h5><i class="led"></i>${d.name}<small>${d.cat}</small></h5>
+      <label>${d.knob} <output>${d.fmt(val[k])}</output><input type="range" min="${d.min}" max="${d.max}" value="${val[k]}" data-k="${k}"></label>
+      <div class="row"><button data-mv="-1" aria-label="앞으로">◀</button><button class="tg" data-tg="1">${on[k] ? "켜짐" : "꺼짐"}</button><button data-mv="1" aria-label="뒤로">▶</button></div></div>`; }).join("");
+    board.querySelectorAll("input[type=range]").forEach((r) => { const pct = ((r.value - r.min) / (r.max - r.min)) * 100; r.style.setProperty("--fill", pct + "%"); });
+    flow.innerHTML = "기타 → " + order.map((k) => (on[k] ? `<b style="color:var(--accent)">${DEF[k].name}</b>` : `<span style="opacity:.5">(${DEF[k].name})</span>`)).join(" → ") + " → 앰프";
+  }
+  board.addEventListener("click", (e) => {
+    const card = e.target.closest(".tn-pedal"); if (!card) return; const k = card.dataset.k;
+    const mv = e.target.closest("[data-mv]"), tg = e.target.closest("[data-tg]");
+    if (tg) { on[k] = !on[k]; }
+    else if (mv) { const i = order.indexOf(k), j = i + +mv.dataset.mv; if (j < 0 || j >= order.length) return; [order[i], order[j]] = [order[j], order[i]]; preSeg.set("", false); }
+    else return;
+    renderBoard(); wire(); setParams();
+  });
+  board.addEventListener("input", (e) => {
+    const r = e.target.closest("input[type=range]"); if (!r) return; const k = r.dataset.k; val[k] = +r.value;
+    r.parentElement.querySelector("output").textContent = DEF[k].fmt(val[k]);
+    r.style.setProperty("--fill", ((r.value - r.min) / (r.max - r.min)) * 100 + "%");
+    setParams();
+  });
+  const preSeg = MB.seg("tn-ch-pre", (v) => { if (!PRESETS[v]) return; order = PRESETS[v].slice(); renderBoard(); wire(); });
+  function wrap(fxIn, fxOut) {
+    const inp = ctx.createGain(), out = ctx.createGain(), dry = ctx.createGain(), wet = ctx.createGain();
+    inp.connect(dry); dry.connect(out); inp.connect(fxIn); fxOut.connect(wet); wet.connect(out);
+    return { inp, out, dry, wet };
+  }
+  function makeIR(sec = 2.4) {
+    const sr = ctx.sampleRate, n = Math.floor(sr * sec), b = ctx.createBuffer(2, n, sr), tau = sec / Math.log(1000), rnd = MB.rng(11);
+    for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); let lp = 0; for (let i = 0; i < n; i++) { const t = i / sr, k = 0.25 + 0.6 * Math.min(1, t / sec); lp = lp + (1 - k) * ((rnd() * 2 - 1) - lp); d[i] = lp * Math.exp(-t / tau) * (t < 0.012 ? t / 0.012 : 1); } }
+    return b;
+  }
+  function build() {
+    ctx = MB.ctx(); if (!ctx) return false; if (P) return true;
+    P = {};
+    chainIn = ctx.createGain(); master = ctx.createGain(); master.gain.value = 0; master.connect(MB.out);
+    // 컴프
+    { const c = ctx.createDynamicsCompressor(); c.ratio.value = 4; c.knee.value = 6; c.attack.value = 0.004; c.release.value = 0.25; const mk = ctx.createGain(); c.connect(mk); P.comp = Object.assign(wrap(c, mk), { c, mk }); }
+    // 드라이브
+    { const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 110; const sh = ctx.createWaveShaper(); sh.oversample = "4x";
+      const dc = ctx.createBiquadFilter(); dc.type = "highpass"; dc.frequency.value = 25; const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 3800; lp.Q.value = TN.dbQ(0.7071);
+      const lp2 = ctx.createBiquadFilter(); lp2.type = "lowpass"; lp2.frequency.value = 5500; lp2.Q.value = TN.dbQ(0.7071); const lv = ctx.createGain();
+      hp.connect(sh); sh.connect(dc); dc.connect(lp); lp.connect(lp2); lp2.connect(lv); P.drive = Object.assign(wrap(hp, lv), { sh, lv }); }
+    // 코러스
+    { const sp = ctx.createGain(), sum = ctx.createGain(), dr = ctx.createGain(), dl = ctx.createDelay(0.06), wg = ctx.createGain(), lfo = ctx.createOscillator(), dep = ctx.createGain();
+      dr.gain.value = 0.75; wg.gain.value = 0.7; dl.delayTime.value = 0.018; lfo.frequency.value = 0.9; lfo.connect(dep); dep.connect(dl.delayTime); lfo.start();
+      sp.connect(dr); dr.connect(sum); sp.connect(dl); dl.connect(wg); wg.connect(sum); P.chorus = Object.assign(wrap(sp, sum), { dep }); }
+    // 딜레이
+    { const sp = ctx.createGain(), sum = ctx.createGain(), dl = ctx.createDelay(2), fl = ctx.createBiquadFilter(), fb = ctx.createGain(), mix = ctx.createGain();
+      fl.type = "lowpass"; fl.frequency.value = 2800; fb.gain.value = 0.42;
+      sp.connect(sum); sp.connect(dl); dl.connect(fl); fl.connect(fb); fb.connect(dl); fl.connect(mix); mix.connect(sum); P.delay = Object.assign(wrap(sp, sum), { dl, mix, fb }); }
+    // 리버브
+    { const sp = ctx.createGain(), sum = ctx.createGain(), cv = ctx.createConvolver(), mix = ctx.createGain(); cv.buffer = makeIR(2.4);
+      sp.connect(sum); sp.connect(cv); cv.connect(mix); mix.connect(sum); P.reverb = Object.assign(wrap(sp, sum), { mix }); }
+    g.dest = chainIn; wire(); setParams(); return true;
+  }
+  function wire() {
+    if (!P) return;
+    try { chainIn.disconnect(); } catch (e) {}
+    Object.keys(P).forEach((k) => { try { P[k].out.disconnect(); } catch (e) {} });
+    let prev = chainIn; order.forEach((k) => { prev.connect(P[k].inp); prev = P[k].out; }); prev.connect(master);
+  }
+  function setParams() {
+    if (!P) return; const t = ctx.currentTime;
+    Object.keys(P).forEach((k) => { P[k].dry.gain.setTargetAtTime(on[k] ? 0 : 1, t, 0.015); P[k].wet.gain.setTargetAtTime(on[k] ? 1 : 0, t, 0.015); });
+    const th = val.comp; P.comp.c.threshold.setTargetAtTime(th, t, 0.02); P.comp.mk.gain.setTargetAtTime(MB.undb(Math.min(14, -th * 0.75 * 0.55)), t, 0.02);
+    const D = Math.pow(10, val.drive / 20); P.drive.sh.curve = TN.curve("soft", D); P.drive.lv.gain.setTargetAtTime(TN.compGain("soft", D, 0.2), t, 0.02);
+    P.chorus.dep.gain.setTargetAtTime(0.003 * val.chorus / 100, t, 0.02);
+    P.delay.dl.delayTime.setTargetAtTime(0.75 * 60 / getBpm(), t, 0.05); P.delay.mix.gain.setTargetAtTime(val.delay / 100 * 1.4, t, 0.02);
+    P.reverb.mix.gain.setTargetAtTime(val.reverb / 100 * 2.2, t, 0.02);
+  }
+  // 연주 소스(직접 만든 예)
+  const ARP = []; [["022000", [0, 2, 3, 4, 5, 4, 3, 2]], ["x32000", [1, 2, 3, 4, 5, 4, 3, 2]]].forEach(([sh, ord], b) => { const s = GT.parseShape(sh); ord.forEach((st, i) => ARP.push({ t: b * 4 + i * 0.5, s: st, f: s[st], d: 1.5, v: i === 0 ? 0.8 : 0.6 })); });
+  const LEAD = [[0, 4, 15, 0.5], [0.5, 4, 12, 0.5], [1, 3, 14, 1], [2, 3, 12, 0.5], [2.5, 3, 14, 0.5], [3, 4, 12, 1], [4, 5, 12, 1.5], [5.5, 4, 15, 0.5], [6, 4, 12, 1], [7, 3, 14, 1]].map(([t, s, f, d]) => ({ t, s, f, d, v: 0.82 }));
+  const SRC = { riff: TN.RIFF, arp: ARP, lead: LEAD };
+  const getSrc = MB.seg("tn-ch-src", (v) => {
+    if (v === "arp") { on.drive = false; on.chorus = true; } else { on.drive = true; on.chorus = false; }
+    renderBoard(); setParams(); sch.setEvents(SRC[v]);
+  });
+  const btn = document.getElementById("tn-ch-play");
+  const sch = GT.scheduler(SRC.riff, {
+    bpm: () => getBpm(), loop: true, length: 8,
+    onEvent(ev, when, spb) {
+      if (ev.sh) TN.riffEvent(g, ev, when, spb);
+      else g.pluck(ev.s, ev.f, { when, vel: ev.v, dur: ev.d * spb * 0.95 });
+    },
+    onStop() { btn.textContent = "▶ 재생"; g.damp(MB.now()); if (master) master.gain.setTargetAtTime(0, ctx.currentTime, 0.04); },
+  });
+  btn.addEventListener("click", () => {
+    if (sch.running) { sch.stop(); return; }
+    if (!build()) return;
+    sch.setEvents(SRC[getSrc()]);
+    master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(0.75, ctx.currentTime, 0.02);
+    sch.start(); btn.textContent = "■ 정지";
+  });
+  renderBoard();
+})();
+
+</script>
+</body>
+</html>
