@@ -9,9 +9,9 @@
 | MusicBook · 음악 기초 | `/fundamentals/` | 공개, 18개 장 |
 | GuitarBook · 기타 | `/guitar/` | 공개, 15개 장 |
 | PianoBook · 피아노 | `/piano/` | 공개, 15개 장 |
-| DrumBook · 드럼 | `/drums/` 예정 | 준비 예정 |
+| DrumBook · 드럼 | `/drums/` | 공개, 15개 장 |
 
-준비 예정 책은 홈에 안내만 표시하며 아직 읽기 링크나 본문을 만들지 않았습니다. GuitarBook(`guitar/`)과 PianoBook(`piano/`)은 이 저장소에서 직접 집필한 책으로, MusicBook(`fundamentals/`)의 엔진(`MB`)과 장 구성 규칙을 그대로 쓰고 악기 전용 엔진을 더했습니다. 기타는 `guitar/js/guitar.js`(`GT`: 가상 기타·지판·코드 다이어그램·TAB), 피아노는 `piano/js/piano.js`(`PN`: 물리 모델 근사 피아노 음원·댐퍼/소스테누토/소프트 페달·건반·큰보표 악보·운지·보이싱·반주 패턴·MIDI 입력)입니다. 집필 규칙은 [guitar/CONTRIBUTING.md](guitar/CONTRIBUTING.md)와 [piano/CONTRIBUTING.md](piano/CONTRIBUTING.md)를 참고하세요.
+GuitarBook(`guitar/`)·PianoBook(`piano/`)·DrumBook(`drums/`)은 이 저장소에서 직접 집필한 책으로, MusicBook(`fundamentals/`)의 엔진(`MB`)과 장 구성 규칙을 그대로 쓰고 악기 전용 엔진을 더했습니다. 기타는 `guitar/js/guitar.js`(`GT`: 가상 기타·지판·코드 다이어그램·TAB), 피아노는 `piano/js/piano.js`(`PN`: 물리 모델 근사 피아노 음원·댐퍼/소스테누토/소프트 페달·건반·큰보표 악보·운지·보이싱·반주 패턴·MIDI 입력), 드럼은 `drums/js/drums.js`(`DR`: 베셀 모드 막·스네어 와이어·금속 부분음 심벌로 합성한 가상 킷, 하이햇 열림과 초크, 플램·드래그·버즈, 드럼 악보·스텝 그리드·킷 그림, 그루브·루디먼트 사전, 스윙·휴머나이즈 스케줄러, 탭 타이밍 채점, MIDI 패드)입니다. 집필 규칙은 [guitar/CONTRIBUTING.md](guitar/CONTRIBUTING.md), [piano/CONTRIBUTING.md](piano/CONTRIBUTING.md), [drums/CONTRIBUTING.md](drums/CONTRIBUTING.md)를 참고하세요.
 
 ## 실행과 배포
 
@@ -45,9 +45,9 @@ npm run build
 
 ## 새 책 추가
 
-책마다 `{slug}/index.html`, `{slug}/chapters/`, `{slug}/book.json`을 두고 `book.json`의 `books` 목록에 등록합니다. 외부 저장소에서 가져오는 책은 `migration/books.json`에 원본과 slug, 표지 정보를 추가합니다. `tools/sync-catalog.py`는 이 목록에서 공개 책을 생성하며, 로컬에서 새로 집필하는 책(`guitar/`, `piano/`)은 생성기의 `LOCAL_BOOKS`에 메타데이터를 추가합니다.
+책마다 `{slug}/index.html`, `{slug}/chapters/`, `{slug}/book.json`을 두고 `book.json`의 `books` 목록에 등록합니다. 외부 저장소에서 가져오는 책은 `migration/books.json`에 원본과 slug, 표지 정보를 추가합니다. `tools/sync-catalog.py`는 이 목록에서 공개 책을 생성하며, 로컬에서 새로 집필하는 책(`guitar/`, `piano/`, `drums/`)은 생성기의 `LOCAL_BOOKS`에 메타데이터를 추가합니다.
 
-`roadmap.json`은 아직 공개되지 않은 책(현재 드럼) 목록입니다. 책을 공개할 때 해당 예정 항목을 제거하고 `npm run catalog`와 `npm run sitemap`을 실행합니다. 생성된 `catalog.js`는 직접 편집하지 않습니다.
+`roadmap.json`은 아직 공개되지 않은 책 목록입니다(현재 비어 있음). 책을 공개할 때 해당 예정 항목을 제거하고 `npm run catalog`와 `npm run sitemap`을 실행합니다. 생성된 `catalog.js`는 직접 편집하지 않습니다.
 
 ## 라이선스
 

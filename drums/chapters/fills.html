@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>필인과 곡의 구조 · DrumBook</title>
+<meta name="description" content="필의 역할과 길이, 마디 끝에서 거꾸로 세는 시작 위치, 탐 이동과 스티킹, 필 어휘, 크래시로 착지하기, 4·8마디 프레이즈와 하이퍼미터, 송 폼과 필 생성 알고리즘을 가상 드럼으로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/fills.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="필인과 곡의 구조 · DrumBook">
+<meta property="og:description" content="필의 역할과 길이, 마디 끝에서 거꾸로 세는 시작 위치, 탐 이동과 스티킹, 필 어휘, 크래시로 착지하기, 4·8마디 프레이즈와 하이퍼미터, 송 폼과 필 생성 알고리즘을 가상 드럼으로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/fills.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .fl-bars { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 4px; margin: 8px 0; }
+  .fl-bars span { font: 700 12px/30px var(--mono); text-align: center; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); min-width: 0; }
+  .fl-bars span.fill { border-color: var(--accent-2); background: var(--accent-2-soft); color: var(--accent-2); }
+  .fl-bars span.now { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .fl-bars.hide span { color: transparent; }
+  .fl-bars.hide span.now { background: var(--bg-elev); border-color: var(--border); }
+  .fl-slots { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 3px; margin-top: 8px; }
+  .fl-slots button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; font: 700 12px/30px var(--mono); border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); min-width: 0; overflow: hidden; touch-action: manipulation; }
+  .fl-slots button:hover { border-color: var(--accent); }
+  .fl-slots button.p-snare { background: var(--surface); }
+  .fl-slots button.p-tom1 { background: var(--accent-soft); }
+  .fl-slots button.p-tom2 { background: color-mix(in srgb, var(--accent) 22%, var(--bg-elev)); }
+  .fl-slots button.p-floor { background: var(--accent-2-soft); }
+  .fl-slots button.x { border: 2px solid var(--bad); }
+  .fl-stk { font: 600 12px var(--mono); color: var(--text-dim); margin-top: 6px; word-break: break-all; }
+  .fl-stk b.x { color: var(--bad); }
+  .fl-taps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fl-taps .dr-tap { margin-top: 8px; padding: 16px 0; font-size: 16px; }
+  .fl-rows { display: grid; gap: 6px; padding: 8px; }
+  .fl-row { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr) minmax(0, 1.3fr) minmax(0, .9fr) 30px; gap: 4px; align-items: center; padding: 3px; border-radius: 6px; }
+  .fl-row.now { background: var(--accent-soft); }
+  .fl-row select { width: 100%; min-width: 0; font: inherit; font-size: 13px; padding: 5px 4px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .fl-row button { all: unset; cursor: pointer; text-align: center; color: var(--text-dim); font: 700 16px var(--font); }
+  .fl-row button:hover { color: var(--bad); }
+  .fl-strip { display: flex; gap: 2px; margin: 8px; height: 30px; }
+  .fl-strip span { flex: var(--b) 1 0; min-width: 0; overflow: hidden; white-space: nowrap; font: 600 10.5px/30px var(--font); text-align: center; border-radius: 4px; background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); }
+  .fl-strip span.e2 { background: var(--accent-soft); } .fl-strip span.e3 { background: color-mix(in srgb, var(--accent) 30%, var(--bg-elev)); }
+  .fl-strip span.now { outline: 2px solid var(--warn); outline-offset: -1px; color: var(--text); }
+  .fl-desc { font-size: 13.5px; color: var(--text-dim); padding: 6px 4px 0; }
+  @media (max-width: 480px) { .fl-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 26px; border-bottom: 1px solid var(--border); } .fl-row select:nth-of-type(3) { grid-column: 1; grid-row: 2; } .fl-row select:nth-of-type(4) { grid-column: 2; grid-row: 2; } .fl-row button { grid-column: 3; grid-row: 1 / span 2; } }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="fills">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 08</div>
+    <h1>필인과 곡의 구조</h1>
+    <p class="lead">그루브가 곡의 '문장'이라면 <b>필인</b>은 문장 끝의 쉼표와 마침표입니다. 같은 그루브가 여덟 마디 이어지다가 마지막 박에서 탐이 '두구두구' 굴러 내려가고, 다음 마디 첫 박에 크래시가 터지면 듣는 사람은 말하지 않아도 "이제 후렴이다"를 압니다. 필은 화려한 독주가 아니라 <b>구간이 바뀐다는 신호</b>이고, 그래서 무엇을 치느냐보다 <b>언제 시작해서 어디에 착지하느냐</b>가 훨씬 중요합니다. 이 장에서는 필을 마디 끝에서 거꾸로 세어 배치하고, 탐 사이를 팔이 엇갈리지 않게 도는 스티킹을 찾고, 여러 필 어휘를 그루브 속에서 들어 봅니다. 그다음 시야를 넓혀 4·8·16마디 프레이즈의 <b>하이퍼미터</b>와 인트로–벌스–코러스로 이어지는 송 폼 안에서 드럼의 에너지를 설계하고, 마지막으로 길이·밀도·탐 경로를 조합해 필을 자동으로 만들어 내는 작은 알고리즘을 짭니다.</p>
+    <ul class="objectives">
+      <li>필의 두 가지 역할(구간 전환 신호, 숨 고르기)을 알고, 1박·2박·1마디 필을 마디 끝에서 거꾸로 세어 시작한다.</li>
+      <li>스네어 → 하이 탐 → 미드 탐 → 플로어 탐의 시계 방향 이동을 팔이 엇갈리지 않는 스티킹으로 친다.</li>
+      <li>16분 싱글, 셋잇단, 플램, RLK, 리니어, 공간이 있는 필, 액센트·버즈 필의 소리와 쓰임을 구별한다.</li>
+      <li>필 다음 마디의 1박에 킥과 크래시를 함께 정확히 착지시킨다.</li>
+      <li>4·8마디 프레이즈의 하이퍼미터를 세고, 필을 프레이즈 끝에 둔다. 소리 없이 마디를 세는 연습을 한다.</li>
+      <li>송 폼의 각 구간에 맞는 드럼 에너지(하이햇·라이드·하프타임·셈여림)를 고르고, 필 조합의 수를 계산해 생성 알고리즘으로 만든다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="role">
+    <h2>필은 무엇을 하는가</h2>
+    <p><span class="term">필인</span><span class="en">(Fill-in, Fill)</span>은 그루브를 잠깐 멈추고 그 자리를 다른 리듬으로 '채우는' 짧은 구간입니다. 필이 하는 일은 크게 두 가지입니다.</p>
+    <ul>
+      <li><b>구간 전환의 신호</b>. 벌스에서 코러스로, 코러스에서 브리지로 넘어가기 직전에 필을 치면 밴드와 청중 모두에게 "다음 마디부터 새 구간"을 알립니다. 무대에서 다른 연주자들은 악보보다 드러머의 필을 듣고 들어옵니다. 필은 곧 <b>큐</b><span class="en">(Cue)</span>입니다.</li>
+      <li><b>숨 고르기</b>. 같은 그루브가 네 마디, 여덟 마디 이어질 때 작은 필(1박짜리, 또는 스네어 두어 음)을 넣으면 반복에 마침표를 찍어 다음 반복을 새롭게 들리게 합니다. 이런 필은 구간을 바꾸지 않고 프레이즈만 구분합니다.</li>
+    </ul>
+    <p>그래서 필의 크기는 <b>그 경계가 얼마나 큰가</b>에 비례해야 합니다. 4마디마다 1마디짜리 탐 필을 치면 모든 경계가 '후렴 직전'처럼 들려 정작 진짜 후렴이 묻힙니다. 반대로 코러스 직전의 큰 경계에서 아무것도 하지 않으면 곡의 에너지가 맥없이 꺾입니다. 경험 많은 드러머의 필이 '적절하다'고 느껴지는 것은 기교 때문이 아니라 경계의 위계를 정확히 따르기 때문입니다. 이 위계는 아래 <a href="#phrase">프레이즈와 하이퍼미터</a>에서 수로 정리합니다.</p>
+    <div class="callout note"><strong>필의 제1원칙: 템포를 지킨다</strong> 필에서 가장 흔한 실수는 템포가 빨라지는 것(서두르기)입니다. 그루브보다 음이 촘촘해지면 손이 흥분해 앞으로 쏠리고, 그 결과 다음 마디의 1박이 일찍 와서 밴드 전체가 흔들립니다. 필을 연습할 때는 <b>반드시 메트로놈</b>과 함께, 그리고 필 다음의 그루브 한 마디까지 이어서 연습하세요. 필은 필 다음 마디의 1박에서 끝납니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="length">
+    <h2>필의 길이와 시작 위치</h2>
+    <p>필의 길이는 보통 <b>1박, 2박, 1마디</b>(4박)입니다. 드물게 반 박(마지막 '&amp;'에서 스네어 두 음)이나 2마디 필도 씁니다. 길이가 정해지면 시작 위치는 자동으로 정해집니다. 필은 다음 마디 1박에 '착지'해야 하므로 <b>끝에서 거꾸로</b> 셉니다. 1박 필은 4박에서, 2박 필은 3박에서, 1마디 필은 그 마디의 1박에서 시작합니다. 그리고 시작하기 전까지는 그루브를 그대로 칩니다. 그루브에서 필이 시작하는 칸만큼을 '빼고' 그 자리를 채우는 것입니다.</p>
+    <div class="formula">$$t_{\text{start}} = 4m - L\ \ \text{박},\qquad n = L\cdot d,\qquad T_{\text{fill}} = L\cdot\frac{60}{\text{BPM}}\ \text{s}$$
+      <div class="where">\(m\): 필이 들어가는 마디 번호(1부터, 4/4), \(L\): 필 길이(박), \(d\): 한 박의 칸 수(16분 4, 셋잇단 3), \(n\): 필의 칸 수. 4마디째의 2박 필은 \(t_{\text{start}} = 16 - 2 = 14\)박(= 4마디 3박)에서 시작해 16분 8칸을 채운다. 100 BPM이면 1.2초. 같은 \(L\)이라도 \(d\)를 바꾸면(16분 ↔ 셋잇단) 칸 수와 느낌이 달라진다.</div>
+    </div>
+    <figure class="diagram">
+<!--FIG:flen-->
+<svg viewBox="0 0 800 220" role="img" aria-label="4마디의 끝에 놓인 1박, 2박, 1마디 필의 시작 위치">
+<g font-family="var(--font)">
+<text x="108" y="56" text-anchor="end" class="t" style="font-weight:700">1박 필</text>
+<rect x="120" y="34" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="156.5" y1="40" x2="156.5" y2="62" stroke="var(--border)"/>
+<line x1="193" y1="40" x2="193" y2="62" stroke="var(--border)"/>
+<line x1="229.5" y1="40" x2="229.5" y2="62" stroke="var(--border)"/>
+<text x="126" y="28" class="t-mono">1마디</text>
+<rect x="270" y="34" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="306.5" y1="40" x2="306.5" y2="62" stroke="var(--border)"/>
+<line x1="343" y1="40" x2="343" y2="62" stroke="var(--border)"/>
+<line x1="379.5" y1="40" x2="379.5" y2="62" stroke="var(--border)"/>
+<text x="276" y="28" class="t-mono">2마디</text>
+<rect x="420" y="34" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="456.5" y1="40" x2="456.5" y2="62" stroke="var(--border)"/>
+<line x1="493" y1="40" x2="493" y2="62" stroke="var(--border)"/>
+<line x1="529.5" y1="40" x2="529.5" y2="62" stroke="var(--border)"/>
+<text x="426" y="28" class="t-mono">3마디</text>
+<rect x="570" y="34" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="606.5" y1="40" x2="606.5" y2="62" stroke="var(--border)"/>
+<line x1="643" y1="40" x2="643" y2="62" stroke="var(--border)"/>
+<line x1="679.5" y1="40" x2="679.5" y2="62" stroke="var(--border)"/>
+<text x="576" y="28" class="t-mono">4마디</text>
+<rect x="679.5" y="34" width="36.5" height="34" rx="5" class="f-acc2-soft"/>
+<text x="683.5" y="56" class="t-mono" style="fill:var(--text)">4박부터</text>
+<path d="M720 38 l10 10 l-10 10" fill="none" stroke="var(--dr-metal-2)" stroke-width="2.4"/><text x="736" y="56" class="t-mono" style="fill:var(--text)">크래시 + 킥</text>
+<text x="108" y="110" text-anchor="end" class="t" style="font-weight:700">2박 필</text>
+<rect x="120" y="88" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="156.5" y1="94" x2="156.5" y2="116" stroke="var(--border)"/>
+<line x1="193" y1="94" x2="193" y2="116" stroke="var(--border)"/>
+<line x1="229.5" y1="94" x2="229.5" y2="116" stroke="var(--border)"/>
+<rect x="270" y="88" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="306.5" y1="94" x2="306.5" y2="116" stroke="var(--border)"/>
+<line x1="343" y1="94" x2="343" y2="116" stroke="var(--border)"/>
+<line x1="379.5" y1="94" x2="379.5" y2="116" stroke="var(--border)"/>
+<rect x="420" y="88" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="456.5" y1="94" x2="456.5" y2="116" stroke="var(--border)"/>
+<line x1="493" y1="94" x2="493" y2="116" stroke="var(--border)"/>
+<line x1="529.5" y1="94" x2="529.5" y2="116" stroke="var(--border)"/>
+<rect x="570" y="88" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="606.5" y1="94" x2="606.5" y2="116" stroke="var(--border)"/>
+<line x1="643" y1="94" x2="643" y2="116" stroke="var(--border)"/>
+<line x1="679.5" y1="94" x2="679.5" y2="116" stroke="var(--border)"/>
+<rect x="643" y="88" width="73" height="34" rx="5" class="f-acc2-soft"/>
+<text x="647" y="110" class="t-mono" style="fill:var(--text)">3박부터</text>
+<path d="M720 92 l10 10 l-10 10" fill="none" stroke="var(--dr-metal-2)" stroke-width="2.4"/><text x="736" y="110" class="t-mono" style="fill:var(--text)">크래시 + 킥</text>
+<text x="108" y="164" text-anchor="end" class="t" style="font-weight:700">1마디 필</text>
+<rect x="120" y="142" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="156.5" y1="148" x2="156.5" y2="170" stroke="var(--border)"/>
+<line x1="193" y1="148" x2="193" y2="170" stroke="var(--border)"/>
+<line x1="229.5" y1="148" x2="229.5" y2="170" stroke="var(--border)"/>
+<rect x="270" y="142" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="306.5" y1="148" x2="306.5" y2="170" stroke="var(--border)"/>
+<line x1="343" y1="148" x2="343" y2="170" stroke="var(--border)"/>
+<line x1="379.5" y1="148" x2="379.5" y2="170" stroke="var(--border)"/>
+<rect x="420" y="142" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="456.5" y1="148" x2="456.5" y2="170" stroke="var(--border)"/>
+<line x1="493" y1="148" x2="493" y2="170" stroke="var(--border)"/>
+<line x1="529.5" y1="148" x2="529.5" y2="170" stroke="var(--border)"/>
+<rect x="570" y="142" width="146" height="34" rx="5" class="f-surface"/>
+<line x1="606.5" y1="148" x2="606.5" y2="170" stroke="var(--border)"/>
+<line x1="643" y1="148" x2="643" y2="170" stroke="var(--border)"/>
+<line x1="679.5" y1="148" x2="679.5" y2="170" stroke="var(--border)"/>
+<rect x="570" y="142" width="146" height="34" rx="5" class="f-acc2-soft"/>
+<text x="574" y="164" class="t-mono" style="fill:var(--text)">1박부터</text>
+<path d="M720 146 l10 10 l-10 10" fill="none" stroke="var(--dr-metal-2)" stroke-width="2.4"/><text x="736" y="164" class="t-mono" style="fill:var(--text)">크래시 + 킥</text>
+<text x="400" y="208" text-anchor="middle" class="t-dim">필은 '끝에 맞춰' 거꾸로 센다. 길이가 L박이면 4 − L + 1박에서 시작해 다음 마디 1박에 착지한다.</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 8-1.</b> 4마디 끝에 놓인 세 가지 길이의 필(보라). 필은 길이가 달라도 언제나 다음 마디 1박(크래시 + 킥)에서 끝난다. 그래서 '시작'이 아니라 '끝'을 기준으로 세며, 필 앞의 그루브는 그 칸만큼 줄어든다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-fl-length">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>필의 길이와 위치: 4마디 안에서 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="dr-big" id="fl-ln-big">1 · 1<small>마디 · 박</small></div>
+          <div class="fl-bars" id="fl-ln-bars" style="--n:4"></div>
+          <div id="fl-ln-staff"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>필 길이</span><div class="seg" id="fl-ln-len"><button data-value="0">없음</button><button data-value="1">1박</button><button data-value="2" class="on">2박</button><button data-value="4">1마디</button></div></div>
+          <div class="ctrl"><span>필 재료</span><div class="seg" id="fl-ln-kind"><button data-value="toms" class="on">탐 내려가기</button><button data-value="snare">스네어만</button><button data-value="trip">셋잇단</button></div></div>
+          <label class="ctrl"><span>템포 <output id="fl-ln-bpm-out"></output></span><input type="range" id="fl-ln-bpm" min="60" max="150" value="100" step="2"></label>
+          <label class="check"><input type="checkbox" id="fl-ln-click"> 메트로놈(4분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="fl-ln-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">필 시작</span><span class="v" id="fl-ln-o-start">—</span></div>
+        <div class="stat"><span class="k">필의 칸 수</span><span class="v" id="fl-ln-o-n">—</span></div>
+        <div class="stat"><span class="k">필 길이</span><span class="v" id="fl-ln-o-t">—</span></div>
+        <div class="stat"><span class="k">4마디 길이</span><span class="v" id="fl-ln-o-bar">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 재생을 켠 채 필 길이를 '없음 → 1박 → 2박 → 1마디'로 바꿔 보세요. 네 마디의 '끝'이 얼마나 강하게 표시되는지가 달라집니다. 1마디 필은 4마디 중 한 마디를 통째로 쓰므로 그루브가 3마디만 남습니다. 위의 큰 숫자는 지금 마디와 박이고, 반복이 다시 시작될 때마다 1마디 1박에 크래시와 킥이 떨어집니다. 그루브는 8비트 록(<a href="beat.html">6장</a>)이고, 필은 오른손이 먼저 움직이는 R L 교대입니다. 바꾸면 다음 반복부터 처음 마디에서 다시 시작합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: '3 + 1' 드릴</strong> ① 메트로놈 80 BPM, 그루브 3마디 + 4마디째 4박에 스네어 16분 네 개(R L R L) + 다음 마디 1박 크래시·킥. 이것을 열 번 연속. ② 같은 방법으로 2박 필(3박에서 시작), 1마디 필. ③ 필 직전의 그루브가 짧아지는 마디에서 하이햇이 빨리 끊기거나 늦게 끊기지 않는지 확인합니다. 녹음해서 들으면 바로 보입니다. ④ 템포 목표: 1박·2박 필 120 BPM, 1마디 16분 필 100 BPM. 패드 하나로도 할 수 있습니다. 탐 대신 패드의 위치(가운데·가장자리)나 무릎·허벅지를 바꿔 치며 이동만 흉내 내세요.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="toms">
+    <h2>탐 이동과 스티킹</h2>
+    <p>가장 고전적인 필은 높은 소리에서 낮은 소리로 내려가는 <b>탐 하강</b>입니다. 스네어 → 하이 탐 → 미드 탐 → 플로어 탐. 위에서 보면 킷을 <b>시계 방향</b>으로 도는 길입니다(그림 8-2). 음높이가 내려가며 긴장이 풀리고, 가장 낮은 플로어 탐에서 다음 마디 1박의 크래시로 '떨어지는' 느낌이 자연스럽게 생깁니다.</p>
+    <p>이 길을 R L R L로 칠 때 핵심 규칙은 <b>오른손이 길을 연다</b>는 것입니다. 북을 옮길 때마다 오른손이 먼저 다음 북으로 가고 왼손이 따라오면, 왼손은 언제나 오른손의 왼쪽에 머뭅니다. 반대로 왼손이 오른쪽 북(예: 플로어 탐)에 남아 있는 채 오른손이 왼쪽 북으로 가면 두 팔이 X자로 엇갈려 다음 동작이 막히고, 스틱끼리 부딪힙니다. 반시계 방향(플로어 → 스네어)으로 올라가려면 왼손이 먼저 움직이도록 <b>스티킹을 바꾸거나</b>(L R L R 시작, 또는 중간에 더블 RR·LL을 넣어 손 순서를 뒤집기) 한 박마다 한 북만 쓰게 단순화합니다.</p>
+    <figure class="diagram">
+<!--FIG:path-->
+<svg viewBox="0 0 800 310" role="img" aria-label="위에서 본 킷에서 스네어, 하이 탐, 미드 탐, 플로어 탐으로 도는 시계 방향 경로와 팔 엇갈림">
+<g font-family="var(--font)">
+<rect x="198" y="170" width="74" height="54" rx="10" fill="var(--dr-shell)" opacity=".55"/><text x="235" y="202" text-anchor="middle" class="t" style="font-size:11px">킥</text>
+<circle cx="60" cy="190" r="32" fill="var(--dr-metal)" stroke="var(--dr-metal-2)" stroke-width="2"/><text x="60" y="194" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:var(--dr-shell-2)">하이햇</text>
+<circle cx="150" cy="210" r="36" fill="var(--dr-head)" stroke="var(--dr-shell-2)" stroke-width="2"/><text x="150" y="214" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:var(--dr-shell-2)">스네어</text>
+<circle cx="180" cy="105" r="28" fill="var(--dr-head)" stroke="var(--dr-shell-2)" stroke-width="2"/><text x="180" y="109" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:var(--dr-shell-2)">하이 탐</text>
+<circle cx="262" cy="100" r="31" fill="var(--dr-head)" stroke="var(--dr-shell-2)" stroke-width="2"/><text x="262" y="104" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:var(--dr-shell-2)">미드 탐</text>
+<circle cx="330" cy="215" r="44" fill="var(--dr-head)" stroke="var(--dr-shell-2)" stroke-width="2"/><text x="330" y="219" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:var(--dr-shell-2)">플로어</text>
+<defs><marker id="fl-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker></defs>
+<path d="M150 190 Q165 119.5 180 85" class="s-acc" marker-end="url(#fl-ar)"/><circle cx="165" cy="127.5" r="9" class="f-acc"/><text x="165" y="131.5" text-anchor="middle" style="fill:var(--on-accent);font-size:11px;font-weight:700">1</text>
+<path d="M180 85 Q221 64.5 262 80" class="s-acc" marker-end="url(#fl-ar)"/><circle cx="221" cy="72.5" r="9" class="f-acc"/><text x="221" y="76.5" text-anchor="middle" style="fill:var(--on-accent);font-size:11px;font-weight:700">2</text>
+<path d="M262 80 Q296 119.5 330 195" class="s-acc" marker-end="url(#fl-ar)"/><circle cx="296" cy="127.5" r="9" class="f-acc"/><text x="296" y="131.5" text-anchor="middle" style="fill:var(--on-accent);font-size:11px;font-weight:700">3</text>
+<text x="200" y="296" text-anchor="middle" class="t-dim">시계 방향 = 오른손이 길을 열고 왼손이 뒤따른다</text>
+<rect x="430" y="40" width="350" height="72" rx="8" class="f-elev" stroke="var(--ok)"/>
+<text x="446" y="62" class="t" style="font-weight:700">✓ 시계 방향, R L R L</text><text x="446" y="82" class="t-mono" style="fill:var(--text)">S S | T1 T1 | T2 T2 | FT FT</text><text x="446" y="100" class="t-dim">R이 먼저 옮기고 L이 뒤따름</text>
+<rect x="430" y="124" width="350" height="72" rx="8" class="f-elev" stroke="var(--bad)"/>
+<text x="446" y="146" class="t" style="font-weight:700">✗ 반시계 방향, R L R L</text><text x="446" y="166" class="t-mono" style="fill:var(--text)">FT FT | T2 T2 | T1 T1 | S S</text><text x="446" y="184" class="t-dim">L이 오른쪽 북에 남은 채 R이 왼쪽으로</text>
+<rect x="430" y="208" width="350" height="72" rx="8" class="f-elev" stroke="var(--ok)"/>
+<text x="446" y="230" class="t" style="font-weight:700">✓ 반시계, 스티킹 바꿈</text><text x="446" y="250" class="t-mono" style="fill:var(--text)">R L L R | R L L R …</text><text x="446" y="268" class="t-dim">더블로 손 순서를 뒤집어 엇갈림 해소</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 8-2.</b> 왼쪽: 위에서 본 킷과 시계 방향 탐 경로(①→③). 오른쪽: 같은 북 순서라도 방향과 스티킹에 따라 팔이 엇갈리는지가 달라진다. 이 책의 시뮬레이터는 '왼손이 오른손보다 일정 거리 이상 오른쪽 북을 치는 순간'을 엇갈림으로 판정한다.</figcaption>
+    </figure>
+    <p>엇갈림을 계산으로 판정해 보겠습니다. 킷을 위에서 본 가로 위치를 \(x\)(왼쪽이 작음)로 두면, 각 타격에서 그 손이 친 북의 위치와 다른 손이 마지막으로 머문 북의 위치를 비교하면 됩니다.</p>
+    <div class="formula">$$\text{엇갈림}\iff x_L - x_R > \delta,\qquad x:\ \text{스네어} < \text{하이 탐} < \text{미드 탐} < \text{플로어}$$
+      <div class="where">\(x_L\), \(x_R\): 그 순간 왼손·오른손이 있는 북의 가로 위치, \(\delta\): 허용 여유(이 책의 킷 그림 기준 약 50, 스네어–하이 탐 간격 40보다 크고 미드 탐–스네어 간격 114보다 작은 값). 하이 탐은 스네어 바로 위에 있어 왼손이 쳐도 괜찮지만, 왼손이 미드 탐·플로어 탐으로 가 있는데 오른손이 스네어·하이 탐을 치면 엇갈린다. 실제 킷 배치는 사람마다 달라서 이 값도 바뀐다.</div>
+    </div>
+
+    <div class="sim" id="sim-fl-path">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>탐 경로 설계기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="fl-slots" id="fl-pt-slots"></div>
+          <div class="fl-stk" id="fl-pt-stk"></div>
+          <div id="fl-pt-staff" style="margin-top:6px"></div>
+          <div id="fl-pt-kit" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>한 칸의 길이</span><div class="seg" id="fl-pt-size"><button data-value="4" class="on">1박(4타)</button><button data-value="2">8분(2타)</button><button data-value="1">16분(1타)</button></div></div>
+          <div class="ctrl"><span>경로 프리셋</span><div class="seg" id="fl-pt-pre"><button data-value="cw" class="on">시계 방향</button><button data-value="ccw">반시계</button><button data-value="back">왕복</button><button data-value="jump">건너뛰기</button></div></div>
+          <div class="ctrl"><span>스티킹</span><div class="seg" id="fl-pt-stick"><button data-value="RL" class="on">R L 교대</button><button data-value="LR">L R 교대</button><button data-value="auto">자동(엇갈림 피하기)</button></div></div>
+          <label class="ctrl"><span>템포 <output id="fl-pt-bpm-out"></output></span><input type="range" id="fl-pt-bpm" min="60" max="140" value="90" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="fl-pt-play">▶ 그루브 + 필 반복</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">팔 엇갈림</span><span class="v" id="fl-pt-o-x">—</span></div>
+        <div class="stat"><span class="k">북 이동</span><span class="v" id="fl-pt-o-mv">—</span></div>
+        <div class="stat"><span class="k">시계 방향 이동</span><span class="v" id="fl-pt-o-cw">—</span></div>
+        <div class="stat"><span class="k">더블(같은 손 연타)</span><span class="v" id="fl-pt-o-dbl">—</span></div>
+      </div>
+      <div class="sim-msg" id="fl-pt-msg"></div>
+      <div class="sim-note">해볼 것: 위의 칸을 눌러 북을 바꿉니다(스네어 → 하이 탐 → 미드 탐 → 플로어 → 스네어 …). '반시계'를 고르고 R L 교대로 두면 박이 바뀔 때마다 엇갈림(빨간 테두리, 악보의 빨간 음표)이 생깁니다. 스티킹을 '자동'으로 바꾸면 엇갈릴 자리에서만 같은 손을 한 번 더 써서(더블) 손 순서를 뒤집습니다. 필은 두 번째 마디 전체이고, 첫 마디는 8비트 그루브, 반복의 처음에는 크래시가 떨어집니다. 킷 그림은 치는 북이 번쩍이며, 눌러서 직접 쳐 볼 수도 있습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 탐 이동은 '어깨'가 아니라 '팔꿈치'로</strong> ① 스네어와 플로어 탐 사이를 R L R L로 한 박씩 오갑니다(스네어 4타 → 플로어 4타). 70 BPM. 몸통은 고정하고 팔꿈치가 문 경첩처럼 열리고 닫히게 합니다. ② 하이 탐·미드 탐을 더해 시계 방향 16분 필을 80 BPM에서 열 번. 스틱 끝이 각 북의 <b>가운데</b>(가장 큰 소리)에 떨어지는지 확인합니다. 북을 옮길 때 소리가 작아지면 가장자리를 친 것입니다. ③ 반시계 방향은 L R L R로 시작해 같은 방법으로. ④ 목표: 16분 탐 하강 1마디를 110 BPM에서 크래시 착지까지. 탐이 없다면 의자·책·쿠션 네 개를 반원으로 놓고 같은 경로를 연습해도 팔의 길은 익힐 수 있습니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="vocab">
+    <h2>필 어휘</h2>
+    <p>필은 몇 가지 '단어'의 조합입니다. 단어마다 리듬 격자(16분·셋잇단), 손발 배분, 셈여림이 다르고, 그래서 곡의 성격에 맞는 단어가 따로 있습니다. 아래 표는 이 장의 시뮬레이터에 들어 있는 기본 어휘입니다. 모두 <a href="rudiments.html">5장 루디먼트</a>를 킷 위에 펼친 것입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>어휘</th><th>격자·스티킹</th><th>소리·쓰임</th></tr></thead>
+      <tbody>
+        <tr><td>16분 싱글 다운</td><td>16분, R L R L, 박마다 한 북</td><td>가장 기본. 록·팝의 코러스 직전</td></tr>
+        <tr><td>셋잇단 필</td><td>셋잇단, R L R / L R L</td><td>둥글게 굴러가는 느낌. 셔플·발라드·하드 록</td></tr>
+        <tr><td>플램 필</td><td>8분, lR rL (꾸밈음 + 본음)</td><td>음 하나가 두꺼워져 무겁고 넓다. 느린 템포</td></tr>
+        <tr><td>RLK</td><td>셋잇단, 손 둘 + 킥 하나</td><td>손과 발이 한 줄로 이어져 빠르고 묵직하다. 록·메탈</td></tr>
+        <tr><td>리니어 필</td><td>16분, R L R K, 겹치는 음 없음</td><td>건조하고 또렷하다. 펑크·퓨전</td></tr>
+        <tr><td>공간이 있는 필</td><td>쉼표를 섞은 16분, 액센트 위주</td><td>말을 줄여 긴장을 만든다. 소울·팝 발라드</td></tr>
+        <tr><td>스네어 액센트 3·3·2</td><td>16분 R L, 3 + 3 + 2 칸마다 액센트</td><td>박을 가로지르는 액센트가 박자감을 흔든다</td></tr>
+        <tr><td>버즈 크레셴도</td><td>16분 버즈 롤, 점점 세게</td><td>'쏴아' 하고 부풀어 크래시로. 큰 구간 전환</td></tr>
+        <tr><td>2박 탐 하강 · 1박 픽업</td><td>16분, 짧은 길이</td><td>작은 경계(숨 고르기)용</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-fl-lib">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>필 어휘 사전: 그루브 속에서 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="dr-chips" id="fl-lb-chips" style="padding:8px"></div>
+          <div class="fl-desc" id="fl-lb-desc"></div>
+          <div id="fl-lb-staff" style="margin-top:6px"></div>
+          <div id="fl-lb-kit" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>앞 그루브</span><div class="seg" id="fl-lb-gr"><button data-value="rock8" class="on">8비트 록</button><button data-value="rock16">16비트 록</button><button data-value="halftime">하프타임</button></div></div>
+          <label class="ctrl"><span>템포 <output id="fl-lb-bpm-out"></output></span><input type="range" id="fl-lb-bpm" min="60" max="150" value="96" step="2"></label>
+          <label class="check"><input type="checkbox" id="fl-lb-click"> 메트로놈(4분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="fl-lb-play">▶ 그루브 + 필 반복</button><button class="btn" id="fl-lb-solo">▶ 필만 한 번</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">필</span><span class="v" id="fl-lb-o-name" style="font-size:14px">—</span></div>
+        <div class="stat"><span class="k">길이</span><span class="v" id="fl-lb-o-len">—</span></div>
+        <div class="stat"><span class="k">음 수(손 / 발)</span><span class="v" id="fl-lb-o-n">—</span></div>
+        <div class="stat"><span class="k">초당 타격</span><span class="v" id="fl-lb-o-rate">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 같은 템포에서 '16분 싱글 다운'과 '셋잇단 필'을 번갈아 들어 보세요. 길이는 같은데 셋잇단 쪽이 덜 빽빽하고 더 둥급니다(1박에 3타 대 4타). 'RLK'는 손이 두 번 쉬는 동안 킥이 들어가 같은 속도의 손으로 더 빠르게 들립니다. '공간이 있는 필'은 음이 가장 적지만 크래시가 가장 크게 느껴집니다. 그루브를 하프타임으로 바꾸면 같은 필도 덜 급하게 들립니다. 플램은 25 ms 앞선 꾸밈음, 버즈는 초당 약 26번 튀는 다중 바운스로 흉내 냈습니다. 악보 아래 R·L은 스티킹, K는 킥입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 한 주에 단어 하나</strong> 어휘를 한꺼번에 외우지 말고, 한 주에 하나씩 '3마디 그루브 + 1마디 필' 형식으로 익히세요. 첫날은 필만 60 BPM, 둘째 날은 그루브와 이어서, 셋째 날부터 템포를 하루 4–6 BPM씩 올립니다. 목표는 곡에서 실제로 쓰는 템포(대개 90–130 BPM)에서 크래시 착지까지 열 번 연속입니다. RLK와 리니어 필은 발이 들어가므로 손과 킥의 음량이 비슷하게 들리도록 킥을 조금 세게 밟습니다. 버즈 필은 연습 패드에서 스틱을 헤드에 '눌러' 튕기는 감각을 먼저 익힌 뒤 킷으로 옮깁니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="landing">
+    <h2>크래시로 착지하기</h2>
+    <p>필의 끝은 필의 마지막 음이 아니라 <b>다음 마디의 1박</b>입니다. 여기서 오른손은 크래시를, 오른발은 킥을 <b>동시에</b> 칩니다. 크래시는 고음의 넓은 소리로 '새 구간'을 알리고, 킥은 저음의 무게로 그 순간을 박에 못 박습니다. 크래시만 치면 소리가 가볍게 뜨고, 킥만 밟으면 경계가 흐려집니다. 둘이 어긋나면, 예를 들어 손이 20 ms 먼저 가면 '처–쿵' 하고 갈라진 플램처럼 들립니다.</p>
+    <p>착지 직후의 손에도 할 일이 있습니다. 크래시를 친 오른손은 곧바로 하이햇이나 라이드로 돌아가 그루브를 이어야 하고, 왼손은 2박 백비트를 준비합니다. 필의 마지막 음이 플로어 탐(오른쪽 아래)이라면 오른손이 크래시(왼쪽 위)까지 먼 거리를 가야 하므로, 필의 마지막 한 칸을 비우거나(공간) 마지막 음을 왼손으로 치게 스티킹을 짜면 착지가 쉬워집니다. 크래시가 왼쪽에 있는 세팅이라면 왼손으로 크래시를 치는 것도 좋은 방법입니다.</p>
+    <div class="formula">$$\Delta_{\text{hf}} = t_{\text{crash}} - t_{\text{kick}},\qquad e = \tfrac12\left(t_{\text{crash}} + t_{\text{kick}}\right) - t_{\text{1박}}$$
+      <div class="where">\(\Delta_{\text{hf}}\): 손–발 간격(양수면 손이 늦다), \(e\): 착지 전체의 박 오차. 사람 귀는 두 타격의 간격이 대략 10–20 ms 아래면 하나로 듣고, 그보다 벌어지면 플램처럼 갈라 듣는다. 필에서 서둘렀다면 \(e\)가 음수(일찍 착지)가 된다.</div>
+    </div>
+
+    <div class="sim" id="sim-fl-land">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>크래시 착지 정확도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="dr-big" id="fl-ld-big">—<small>▶ 시작을 누르고, 필 다음의 1박에 크래시와 킥을 함께 치세요</small></div>
+          <div id="fl-ld-staff"></div>
+          <div class="fl-taps"><button class="dr-tap" id="fl-ld-cr" type="button">크래시<small>U</small></button><button class="dr-tap" id="fl-ld-bd" type="button">킥<small>Space</small></button></div>
+          <button class="dr-tap" id="fl-ld-both" type="button" style="padding:10px 0;font-size:14px">크래시 + 킥 함께<small>터치 한 번(화면용)</small></button>
+          <canvas id="fl-ld-cv" class="dr-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>필</span><div class="seg" id="fl-ld-fill"><button data-value="pickup">1박 픽업</button><button data-value="half" class="on">2박 탐</button><button data-value="single16">1마디 16분</button></div></div>
+          <div class="ctrl"><span>착지 횟수</span><div class="seg" id="fl-ld-n"><button data-value="4">4</button><button data-value="8" class="on">8</button></div></div>
+          <label class="ctrl"><span>템포 <output id="fl-ld-bpm-out"></output></span><input type="range" id="fl-ld-bpm" min="60" max="140" value="90" step="2"></label>
+          <label class="check"><input type="checkbox" id="fl-ld-demo"> 예시 듣기(착지도 가상 킷이 친다)</label>
+          <div class="btn-row"><button class="btn primary" id="fl-ld-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">크래시 평균 오차</span><span class="v" id="fl-ld-o-cr">—</span></div>
+        <div class="stat"><span class="k">킥 평균 오차</span><span class="v" id="fl-ld-o-bd">—</span></div>
+        <div class="stat"><span class="k">손–발 간격 \(\Delta_{\text{hf}}\)</span><span class="v" id="fl-ld-o-hf">—</span></div>
+        <div class="stat"><span class="k">깔끔한 착지(±40 ms)</span><span class="v" id="fl-ld-o-ok">—</span></div>
+      </div>
+      <div class="sim-note">진행: 그루브 1마디 + 필 1마디가 반복되고, 필 다음의 1박(반복의 첫 박)에서는 크래시와 킥이 비어 있습니다. 그 자리를 <kbd>U</kbd>(크래시)와 <kbd>Space</kbd>(킥)로 함께 채우세요. 처음 반복의 1박은 예비 마디라 채점하지 않습니다. 각 1박에서 ±150 ms 안의 가장 가까운 탭을 짝지어 오차를 재고, 아래 그래프의 줄 하나가 한 번의 착지(가운데 선 = 정확한 1박, 왼쪽 = 이르게)입니다. 측정에는 키보드·화면 입력 지연(보통 5–20 ms)이 섞이고, 블루투스 스피커를 쓰면 소리가 늦게 들려 늦게 치게 되니 유선 이어폰을 권합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 착지만 따로</strong> ① 메트로놈 70 BPM, 4박에 스네어 하나, 다음 1박에 크래시 + 킥. 이것만 스무 번. 손과 발이 '한 소리'로 들릴 때까지. ② 오른손을 크래시에서 곧장 하이햇으로 돌려 2박까지 그루브를 잇습니다. 크래시 뒤에 하이햇 한 음이 빠지는 실수가 흔합니다. ③ 필을 1박 → 2박 → 1마디로 늘립니다. ④ 크래시의 울림은 곡에 따라 손으로 잡아 끊기도 합니다(초크). 위 시뮬레이터에서 손–발 간격이 ±15 ms 안에, 평균 오차가 ±25 ms 안에 들면 실제 밴드에서도 깔끔하게 들립니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="phrase">
+    <h2>프레이즈와 하이퍼미터</h2>
+    <p>박이 모여 마디가 되듯, 마디도 모여 더 큰 단위가 됩니다. 대중음악의 대부분은 마디를 <b>4·8·16마디</b>로 묶은 <span class="term">프레이즈</span><span class="en">(Phrase)</span>로 짜여 있고, 그 안에서 마디들은 박처럼 강약을 가집니다. 이를 <span class="term">하이퍼미터</span><span class="en">(Hypermeter)</span>라고 합니다. 4/4 마디 안의 강약(강–약–중강–약)이 그대로 한 단계 위로 올라가, 8마디 프레이즈에서는 1마디가 가장 강하고, 5마디가 그다음, 3·7마디가 그다음, 짝수 마디가 가장 약합니다(그림 8-3). 이 위계는 2의 거듭제곱 구조라 이진수로 쓸 수 있습니다.</p>
+    <div class="formula">$$w(b) = \nu_2(b - 1)\ \ (b \ge 2),\qquad w(1) = \log_2 N,\qquad T_{\text{phrase}} = N\cdot 4\cdot\frac{60}{\text{BPM}}\ \text{s}$$
+      <div class="where">\(b\): 프레이즈 안의 마디 번호, \(N\): 프레이즈 길이(마디), \(\nu_2(k)\): \(k\)를 2로 나눌 수 있는 횟수. 8마디면 \(w = (3, 0, 1, 0, 2, 0, 1, 0)\). 무게가 큰 마디의 '앞'일수록 큰 필이 어울린다. 8마디의 끝(다음 1마디 앞)은 1마디 필, 4마디의 끝(5마디 앞)은 1–2박 필, 2마디마다는 아주 작은 장식만. 120 BPM의 8마디 프레이즈는 16초다.</div>
+    </div>
+    <figure class="diagram">
+<!--FIG:hyper-->
+<svg viewBox="0 0 800 236" role="img" aria-label="8마디 프레이즈의 하이퍼미터와 필, 크래시의 자리">
+<g font-family="var(--font)">
+<rect x="40" y="40" width="20" height="56" rx="3" class="f-acc" opacity="0.99"/>
+<rect x="40" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="81" y="131" text-anchor="middle" class="t" style="font-weight:700">1</text>
+<text x="90" y="40" class="t-dim" style="font-size:11.5px">크래시</text><path d="M70 30 l8 -8 l8 8" fill="none" stroke="var(--dr-metal-2)" stroke-width="2"/>
+<rect x="128" y="82" width="20" height="14" rx="3" class="f-acc" opacity="0.51"/>
+<rect x="128" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="169" y="131" text-anchor="middle" class="t" style="font-weight:700">2</text>
+<rect x="216" y="68" width="20" height="28" rx="3" class="f-acc" opacity="0.6699999999999999"/>
+<rect x="216" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="257" y="131" text-anchor="middle" class="t" style="font-weight:700">3</text>
+<rect x="304" y="82" width="20" height="14" rx="3" class="f-acc" opacity="0.51"/>
+<rect x="304" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="345" y="131" text-anchor="middle" class="t" style="font-weight:700">4</text>
+<rect x="392" y="54" width="20" height="42" rx="3" class="f-acc" opacity="0.83"/>
+<rect x="392" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="433" y="131" text-anchor="middle" class="t" style="font-weight:700">5</text>
+<rect x="480" y="82" width="20" height="14" rx="3" class="f-acc" opacity="0.51"/>
+<rect x="480" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="521" y="131" text-anchor="middle" class="t" style="font-weight:700">6</text>
+<rect x="568" y="68" width="20" height="28" rx="3" class="f-acc" opacity="0.6699999999999999"/>
+<rect x="568" y="104" width="82" height="44" rx="6" class="f-surface"/>
+<text x="609" y="131" text-anchor="middle" class="t" style="font-weight:700">7</text>
+<rect x="656" y="82" width="20" height="14" rx="3" class="f-acc" opacity="0.51"/>
+<rect x="656" y="104" width="82" height="44" rx="6" class="f-acc2-soft"/>
+<text x="697" y="131" text-anchor="middle" class="t" style="font-weight:700">8</text>
+<text x="697" y="166" text-anchor="middle" class="t-acc" style="font-size:12px;fill:var(--accent-2)">필</text>
+<path d="M726 150 C 790 200, 60 220, 50 154" fill="none" stroke="var(--accent-2)" stroke-width="1.6" stroke-dasharray="5 4"/>
+<path d="M45 160 L50 150 L57 159" fill="none" stroke="var(--accent-2)" stroke-width="1.6"/>
+<text x="400" y="214" text-anchor="middle" class="t-dim">필이 '여기서 한 덩어리가 끝난다'고 알리면 다음 프레이즈의 1마디가 크래시와 함께 시작한다</text>
+<path d="M40 176 L40 182 L384 182 L384 176 M392 176 L392 182 L736 182 L736 176" fill="none" class="s-line"/>
+<text x="212" y="198" text-anchor="middle" class="t-mono">앞 4마디(질문)</text><text x="564" y="198" text-anchor="middle" class="t-mono">뒤 4마디(대답)</text>
+<text x="20" y="22" class="t-dim">막대 = 그 마디의 무게(하이퍼미터): 1 &gt; 5 &gt; 3·7 &gt; 짝수 마디</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 8-3.</b> 8마디 프레이즈의 하이퍼미터. 막대 높이가 마디의 무게다. 앞 4마디가 '질문', 뒤 4마디가 '대답'처럼 짝을 이루고, 8마디째의 필(보라)이 프레이즈를 닫으면 다음 프레이즈의 1마디가 크래시와 함께 시작한다.</figcaption>
+    </figure>
+    <p>드러머는 곡 전체에서 <b>지금 몇 마디째인지</b>를 늘 알고 있어야 합니다. 방법은 박을 세듯 마디를 세는 것입니다. "<b>하나</b>–2–3–4, <b>둘</b>–2–3–4, <b>셋</b>–2–3–4 …"처럼 각 마디의 1박에 마디 번호를 넣어 속으로 셉니다. 익숙해지면 숫자를 세지 않아도 4마디·8마디의 '모양'이 몸에 남아, 프레이즈의 끝이 다가오는 것을 느끼게 됩니다. 아래 시뮬레이터의 테스트 모드는 마디 번호를 숨기고, 필을 듣고 다음 1박을 내가 치게 합니다.</p>
+
+    <div class="sim" id="sim-fl-phrase">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마디 세기: 프레이즈 카운터</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="dr-big" id="fl-ph-big">1<small>마디 · ▶ 재생을 누르세요</small></div>
+          <div class="dr-lamps" id="fl-ph-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+          <div class="fl-bars" id="fl-ph-bars"></div>
+          <button class="dr-tap" id="fl-ph-tap" type="button">1박!<small>필이 끝난 다음 1박에 누르세요 · U 또는 Space</small></button>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>프레이즈</span><div class="seg" id="fl-ph-len"><button data-value="4">4마디</button><button data-value="8" class="on">8마디</button></div></div>
+          <div class="ctrl"><span>필 길이</span><div class="seg" id="fl-ph-fill"><button data-value="1">1박</button><button data-value="2" class="on">2박</button><button data-value="4">1마디</button></div></div>
+          <label class="check"><input type="checkbox" id="fl-ph-test"> 테스트 모드(마디 번호·착지 소리 숨기기)</label>
+          <label class="ctrl"><span>템포 <output id="fl-ph-bpm-out"></output></span><input type="range" id="fl-ph-bpm" min="70" max="150" value="110" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="fl-ph-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">프레이즈 길이</span><span class="v" id="fl-ph-o-t">—</span></div>
+        <div class="stat"><span class="k">맞힌 1박</span><span class="v" id="fl-ph-o-hit">—</span></div>
+        <div class="stat"><span class="k">평균 오차</span><span class="v" id="fl-ph-o-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림</span><span class="v" id="fl-ph-o-sd">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 먼저 테스트 모드를 끄고 큰 숫자를 따라 "하나–2–3–4, 둘–2–3–4…"를 소리 내어 세며 두세 프레이즈를 들으세요. 그다음 테스트 모드를 켜면 마디 번호와 다음 1박의 크래시·킥이 사라집니다. 필을 듣고 그다음 1박에 탭을 누르세요. ±200 ms 안의 탭만 1박으로 인정하고, 필이 끝나지 않은 다른 자리의 탭은 채점에서 뺍니다. 필을 4마디마다(작은 필)와 8마디마다(큰 필) 바꿔 가며 프레이즈의 '끝'을 몸으로 느끼는 것이 목표입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 소리 없이 세는 마디</strong> ① 아는 노래를 틀고(가사는 몰라도 됩니다) 첫 크래시부터 마디를 세어, 구간이 바뀌는 지점이 4·8·16마디 경계와 일치하는지 확인합니다. 대부분 맞아떨어지는 것을 보면 놀랄 것입니다. ② 메트로놈 100 BPM에 그루브를 치면서 일곱 마디를 세고 여덟째 마디에 필, 이것을 다섯 프레이즈 연속. ③ 세는 소리를 점점 작게, 마지막에는 속으로만. ④ 숫자가 헷갈리면 왼발 하이햇 '칙'을 각 마디 1박에만 넣어 몸에 표시를 하는 방법도 있습니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="form">
+    <h2>송 폼과 드럼의 에너지</h2>
+    <p>프레이즈가 모여 곡의 <span class="term">구간</span><span class="en">(Section)</span>이 되고, 구간의 순서가 <span class="term">송 폼</span><span class="en">(Song form)</span>입니다. 대중음악에서 흔한 구간은 다음과 같습니다. 이름은 장르마다 조금 다르지만 드럼의 역할은 비슷합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>구간</th><th>길이(흔한 값)</th><th>드럼이 하는 일</th></tr></thead>
+      <tbody>
+        <tr><td>인트로 <span class="en">(Intro)</span></td><td>4–8마디</td><td>템포와 분위기를 연다. 탐·킥만, 또는 하이햇만으로 가볍게</td></tr>
+        <tr><td>벌스 <span class="en">(Verse)</span></td><td>8–16마디</td><td>노래(가사)를 위해 비워 둔다. 닫힌 하이햇 8분, 크로스 스틱, 낮은 셈여림</td></tr>
+        <tr><td>프리코러스 <span class="en">(Pre-chorus)</span></td><td>4–8마디</td><td>긴장을 쌓는다. 16분 하이햇, 하이햇 반쯤 열기, 킥 밀도 올리기</td></tr>
+        <tr><td>코러스 <span class="en">(Chorus)</span></td><td>8–16마디</td><td>가장 큰 에너지. 라이드나 열린 하이햇, 크래시, 백비트 림샷</td></tr>
+        <tr><td>브리지 <span class="en">(Bridge)</span></td><td>4–8마디</td><td>분위기를 바꾼다. 하프타임, 탐 그루브, 또는 드럼을 빼기</td></tr>
+        <tr><td>아웃트로 <span class="en">(Outro)</span></td><td>4–8마디</td><td>끝을 맺는다. 점점 여리게(페이드), 또는 마지막 크래시와 함께 끝</td></tr>
+      </tbody>
+    </table></div>
+    <p>드럼이 구간의 에너지를 바꾸는 손잡이는 의외로 몇 개뿐입니다. ① <b>타임키핑 악기</b>: 닫힌 하이햇 → 반열린 하이햇 → 라이드 → 크래시 순으로 소리가 넓고 커집니다. ② <b>밀도</b>: 4분 → 8분 → 16분. ③ <b>백비트의 위치</b>: 2·4박(보통) → 3박만(<span class="term">하프타임</span><span class="en">(Half-time)</span>, 템포가 절반처럼 느껴짐) → 모든 박(포 온 더 플로어, 더블타임 느낌). ④ <b>셈여림</b>: 크로스 스틱 → 스네어 → 림샷. 이 손잡이들을 구간마다 하나씩 돌리면 같은 그루브 재료로도 곡 전체의 곡선을 만들 수 있습니다(그림 8-4).</p>
+    <figure class="diagram">
+<!--FIG:form-->
+<svg viewBox="0 0 800 270" role="img" aria-label="송 폼의 구간과 구간별 드럼 에너지 곡선">
+<g font-family="var(--font)">
+<rect x="30" y="170" width="44.3" height="30" rx="4" class="f-surface"/>
+<text x="53.1" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">인트로</text><text x="53.1" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">4마디</text>
+<text x="53.1" y="164" text-anchor="middle" class="t-dim" style="font-size:10.5px">탐·킥</text>
+<path d="M68.3 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="76.3" y="140" width="90.5" height="60" rx="4" class="f-surface"/>
+<text x="122.5" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">벌스</text><text x="122.5" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="122.5" y="134" text-anchor="middle" class="t-dim" style="font-size:10.5px">HH 8분</text>
+<path d="M160.8 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="168.8" y="122" width="44.3" height="78" rx="4" class="f-surface"/>
+<text x="191.9" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">프리</text><text x="191.9" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">4마디</text>
+<text x="191.9" y="116" text-anchor="middle" class="t-dim" style="font-size:10.5px">HH 16분</text>
+<path d="M207 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="215" y="80" width="90.5" height="120" rx="4" class="f-acc-soft"/>
+<text x="261.3" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">코러스</text><text x="261.3" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="261.3" y="74" text-anchor="middle" class="t-dim" style="font-size:10.5px">라이드·크래시</text>
+<path d="M299.5 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="307.5" y="140" width="90.5" height="60" rx="4" class="f-surface"/>
+<text x="353.8" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">벌스</text><text x="353.8" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="353.8" y="134" text-anchor="middle" class="t-dim" style="font-size:10.5px">HH 8분</text>
+<path d="M392 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="400" y="122" width="44.3" height="78" rx="4" class="f-surface"/>
+<text x="423.1" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">프리</text><text x="423.1" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">4마디</text>
+<text x="423.1" y="116" text-anchor="middle" class="t-dim" style="font-size:10.5px">HH 16분</text>
+<path d="M438.3 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="446.3" y="80" width="90.5" height="120" rx="4" class="f-acc-soft"/>
+<text x="492.5" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">코러스</text><text x="492.5" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="492.5" y="74" text-anchor="middle" class="t-dim" style="font-size:10.5px">라이드·크래시</text>
+<path d="M530.8 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="538.8" y="110" width="90.5" height="90" rx="4" class="f-acc2-soft"/>
+<text x="585" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">브리지</text><text x="585" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="585" y="104" text-anchor="middle" class="t-dim" style="font-size:10.5px">하프타임</text>
+<path d="M623.3 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="631.3" y="68" width="90.5" height="132" rx="4" class="f-acc-soft"/>
+<text x="677.5" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">코러스</text><text x="677.5" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">8마디</text>
+<text x="677.5" y="62" text-anchor="middle" class="t-dim" style="font-size:10.5px">크래시 8분</text>
+<path d="M715.8 244 l5 -8 l5 8 z" fill="var(--accent-2)"/>
+<rect x="723.8" y="155" width="44.3" height="45" rx="4" class="f-surface"/>
+<text x="746.9" y="218" text-anchor="middle" class="t" style="font-size:11.5px;font-weight:700">아웃트로</text><text x="746.9" y="234" text-anchor="middle" class="t-mono" style="font-size:10px">4마디</text>
+<text x="746.9" y="149" text-anchor="middle" class="t-dim" style="font-size:10.5px">탐·마무리</text>
+<line x1="30" y1="200" x2="770" y2="200" class="s-axis"/>
+<text x="30" y="22" class="t-dim">높이 = 드럼 에너지(셈여림·밀도·심벌 선택), ▲ = 구간 끝의 필</text>
+<text x="400" y="262" text-anchor="middle" class="t-mono">총 64마디 · 120 BPM이면 2.1분</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 8-4.</b> 흔한 송 폼과 드럼 에너지의 곡선(직접 만든 예). 벌스는 낮게, 프리코러스에서 쌓고, 코러스에서 가장 높이, 브리지에서 하프타임으로 분위기를 바꾼 뒤 마지막 코러스를 가장 크게 친다. 구간 끝의 ▲가 필이다. 경계가 클수록(코러스 직전) 필도 크다.</figcaption>
+    </figure>
+    <div class="callout note"><strong>큐와 마디 세기</strong> 밴드 리허설에서 "코러스 두 번 돌고 브리지"라고 하면 드러머는 그 말을 <b>마디 수</b>로 바꿔 둡니다(코러스 8마디 × 2 = 16마디). 곡을 외울 때도 "벌스 8, 프리 4, 코러스 8"처럼 숫자 목록으로 외우면 실수가 크게 줄어듭니다. 무대에서는 드러머가 큰 필이나 크래시, 또는 스틱을 높이 드는 동작으로 다른 연주자에게 큐를 주고, 반대로 보컬이나 리더의 손짓을 받아 필을 시작하기도 합니다. 곡의 끝에서 모두가 함께 멈추는 '컷'은 대개 드러머가 마지막 필로 이끕니다.</div>
+
+    <div class="sim" id="sim-fl-form">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>송 폼 빌더</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="fl-strip" id="fl-fm-strip"></div>
+          <div class="dr-big" id="fl-fm-big" style="font-size:24px">—<small>구간 · 마디</small></div>
+          <div class="fl-rows" id="fl-fm-rows"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>폼 프리셋</span><div class="seg" id="fl-fm-pre"><button data-value="pop" class="on">팝(풀 폼)</button><button data-value="short">짧은 폼</button><button data-value="ballad">발라드</button></div></div>
+          <label class="ctrl"><span>템포 <output id="fl-fm-bpm-out"></output></span><input type="range" id="fl-fm-bpm" min="70" max="160" value="116" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="fl-fm-play">▶ 처음부터 재생</button><button class="btn" id="fl-fm-add">+ 구간 추가</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">총 마디</span><span class="v" id="fl-fm-o-bars">—</span></div>
+        <div class="stat"><span class="k">곡 길이</span><span class="v" id="fl-fm-o-time">—</span></div>
+        <div class="stat"><span class="k">구간 수</span><span class="v" id="fl-fm-o-n">—</span></div>
+        <div class="stat"><span class="k">지금</span><span class="v" id="fl-fm-o-now" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">구간마다 (이름, 마디 수, 그루브, 에너지 1–3)를 고릅니다. 에너지는 셈여림(0.75·0.9·1배)과 구간 끝 필의 크기(1박 픽업 · 2박 탐 · 1마디 16분)를 정하고, 모든 구간의 첫 박에는 크래시와 킥이 떨어집니다. 마지막 구간 뒤에는 마무리 크래시 한 번으로 끝납니다. 해볼 것: 프리셋 '팝'을 처음부터 들으며 구간이 바뀌는 순간을 눈을 감고 맞혀 보세요. 그다음 모든 구간의 에너지를 2로 같게 만들고 다시 들어 보면, 곡이 얼마나 평평해지는지 알 수 있습니다. 바꾼 내용은 다음 재생부터 반영됩니다. 그루브는 모두 이 책의 그루브 사전(<code>DR.GROOVES</code>)에서 가져왔습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 폼 지도를 들고 치기</strong> 좋아하는 곡 하나의 폼을 위 빌더처럼 '구간–마디 수' 목록으로 적어 보세요(예: 인트로 4, 벌스 8, 프리 4, 코러스 8 …). 그 목록을 보면서 메트로놈에 맞춰 곡 전체를 그루브와 필만으로 칩니다. 구간마다 하이햇·라이드를 바꾸고, 경계마다 알맞은 크기의 필을 넣습니다. 처음에는 원곡보다 15–20% 느리게. 한 곡을 처음부터 끝까지 마디를 놓치지 않고 칠 수 있게 되는 것이 이 장의 최종 목표입니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="generator">
+    <h2>필 생성 알고리즘</h2>
+    <p>필 어휘를 몇 개 익히고 나면 '새 필은 어디서 오는가'가 궁금해집니다. 답은 조합입니다. 16분 1박 필의 네 칸 각각에 스네어·탐 셋·킥·쉼 중 하나를 고르면, 그 경우의 수는 다음과 같습니다.</p>
+    <div class="formula">$$N_{\text{all}} = (k+2)^{n},\qquad N_{\text{시계}} = \binom{n + k - 1}{k - 1},\qquad n = L\cdot d$$
+      <div class="where">\(k\): 손으로 칠 북의 수, \(+2\)는 킥과 쉼, \(n\): 칸 수. 북 넷(\(k=4\))의 1박 16분 필은 \(6^4 = 1296\)가지, 1마디(\(n=16\))면 \(6^{16}\approx 2.8\times10^{12}\)가지다. 하지만 대부분은 손이 꼬이거나 음악적으로 의미가 없다. 손으로만, 쉼 없이, '되돌아가지 않는 시계 방향'으로 제한하면 북이 바뀌는 지점만 고르면 되므로 중복조합 \(\binom{n+k-1}{k-1}\)이 된다. 1마디 16분이면 \(\binom{19}{3} = 969\)가지로 줄어든다. 좋은 필 생성기는 이렇게 큰 공간을 <b>제약</b>으로 줄인 뒤 그 안에서 무작위로 고른다.</div>
+    </div>
+    <p>이 장의 생성기는 다음 순서로 필을 만듭니다. ① 길이 \(L\)과 격자로 칸 수 \(n\)을 정한다. ② 칸마다 밀도 \(\rho\)의 확률로 음을 둔다(첫 칸은 언제나 음). ③ 음마다 킥 확률 \(p_K\)로 킥을, 아니면 손 음을 고른다. ④ 손 음의 북은 '시계 방향' 제약이 켜져 있으면 \(k-1\)개의 무작위 경계로 칸을 나눠 순서대로 북을 배정하고, 꺼져 있으면 칸마다 무작위로 고른다. ⑤ 스티킹은 칸 위치로 정한다(짝수 칸 R, 홀수 칸 L. 박의 첫 칸은 늘 오른손). 더블 확률 \(p_D\)로 바로 앞 손을 한 번 더 쓴다. ⑥ 박의 첫 칸에 액센트를 준다. ⑦ 앞 절의 엇갈림 판정으로 결과를 검사한다. 모든 무작위는 <b>씨앗</b><span class="en">(Seed)</span>을 가진 의사난수 생성기(xorshift)로 뽑으므로, 같은 씨앗과 같은 설정이면 언제나 같은 필이 나옵니다. 마음에 드는 필은 씨앗 번호만 적어 두면 됩니다.</p>
+
+    <div class="sim" id="sim-fl-gen">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>무작위 필 생성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="fl-gn-staff"></div>
+          <div class="fl-stk" id="fl-gn-stk"></div>
+          <div id="fl-gn-kit" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>길이</span><div class="seg" id="fl-gn-len"><button data-value="1">1박</button><button data-value="2" class="on">2박</button><button data-value="4">1마디</button></div></div>
+          <div class="ctrl"><span>격자</span><div class="seg" id="fl-gn-div"><button data-value="4" class="on">16분</button><button data-value="3">셋잇단</button></div></div>
+          <label class="ctrl"><span>밀도 \(\rho\) <output id="fl-gn-dens-out"></output></span><input type="range" id="fl-gn-dens" min="0.3" max="1" value="0.85" step="0.05"></label>
+          <label class="ctrl"><span>북 수 \(k\) <output id="fl-gn-k-out"></output></span><input type="range" id="fl-gn-k" min="1" max="4" value="4" step="1"></label>
+          <label class="ctrl"><span>킥 확률 \(p_K\) <output id="fl-gn-kick-out"></output></span><input type="range" id="fl-gn-kick" min="0" max="0.5" value="0.1" step="0.05"></label>
+          <label class="ctrl"><span>더블 확률 \(p_D\) <output id="fl-gn-dbl-out"></output></span><input type="range" id="fl-gn-dbl" min="0" max="0.6" value="0" step="0.05"></label>
+          <label class="check"><input type="checkbox" id="fl-gn-cw" checked> 시계 방향 경로로 제한</label>
+          <label class="ctrl"><span>씨앗</span><input type="number" id="fl-gn-seed" min="1" max="99999" value="1" style="font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);color:var(--text);width:100%;box-sizing:border-box"></label>
+          <label class="ctrl"><span>템포 <output id="fl-gn-bpm-out"></output></span><input type="range" id="fl-gn-bpm" min="60" max="150" value="96" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="fl-gn-play">▶ 그루브 + 필 반복</button><button class="btn" id="fl-gn-next">다음 필 →</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 수(손 / 킥)</span><span class="v" id="fl-gn-o-n">—</span></div>
+        <div class="stat"><span class="k">팔 엇갈림</span><span class="v" id="fl-gn-o-x">—</span></div>
+        <div class="stat"><span class="k">전체 조합 \((k+2)^n\)</span><span class="v" id="fl-gn-o-all">—</span></div>
+        <div class="stat"><span class="k">시계 방향 경로 수</span><span class="v" id="fl-gn-o-cw">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 기본 설정에서 '다음 필 →'을 열 번쯤 눌러 들어 보세요. 대부분 그럴듯하지만, 가끔 어색한 것이 섞입니다. 어색한 필은 대개 박의 첫 칸이 비었거나, 킥이 마지막 칸에 와서 착지 직전이 무거워졌거나, 엇갈림이 있는 경우입니다. 밀도를 0.5로 내리면 '공간이 있는 필'에 가까워지고, 시계 방향 제한을 끄면 북이 이리저리 튀어 엇갈림이 늘어납니다. 셋잇단 격자는 1박에 3칸입니다. 재생 중에 설정을 바꾸면 다음 반복부터 새 필이 들어갑니다. 씨앗과 설정이 같으면 늘 같은 필이 나오므로 마음에 드는 필은 번호를 적어 두세요.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 생성기를 '시창'처럼</strong> 생성기를 악보 읽기 연습 도구로 쓸 수 있습니다. ① 재생하지 말고 악보만 보고 필을 60 BPM으로 쳐 봅니다(<a href="reading.html">4장</a>). ② 재생해서 맞았는지 확인합니다. ③ 맞으면 '다음 필'. 하루 열 개면 몇 주 안에 처음 보는 필도 한두 번 만에 칠 수 있게 됩니다. 엇갈림이 나온 필은 스티킹을 고쳐 적어 보세요. 그 자체가 좋은 공부입니다. 더 다양한 조합은 <a href="studio.html">14장 드럼 스튜디오</a>의 시퀀서에서 직접 만들어 저장할 수 있습니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>필은 구간 전환의 신호(큐)이자 반복 사이의 숨 고르기다. 필의 크기는 경계의 크기에 맞추고, 무엇보다 템포를 지킨다.</li>
+      <li>필은 끝을 기준으로 거꾸로 센다. 길이 \(L\)박의 필은 \(4m - L\)박에서 시작하고, 시작 전까지는 그루브를 그대로 친다. 필은 다음 마디 1박에서 끝난다.</li>
+      <li>탐 하강은 스네어 → 하이 탐 → 미드 탐 → 플로어의 시계 방향이 기본이다. 오른손이 길을 열고 왼손이 따라가면 팔이 엇갈리지 않는다. 반대 방향은 스티킹을 바꾸거나 더블로 손 순서를 뒤집는다.</li>
+      <li>필 어휘(16분 싱글, 셋잇단, 플램, RLK, 리니어, 공간, 액센트, 버즈)는 격자·손발 배분·셈여림이 다르고, 곡의 성격에 맞게 고른다.</li>
+      <li>착지는 다음 마디 1박에 크래시와 킥을 동시에. 손–발 간격이 10–20 ms를 넘으면 갈라져 들린다. 필의 마지막 음과 크래시의 거리를 고려해 스티킹을 짠다.</li>
+      <li>마디는 4·8·16마디 프레이즈로 묶이고 하이퍼미터의 위계(1 &gt; 5 &gt; 3·7 &gt; 짝수)를 가진다. 큰 필은 프레이즈 끝에, 마디는 늘 속으로 센다.</li>
+      <li>송 폼의 구간마다 타임키핑 악기·밀도·백비트 위치·셈여림으로 에너지를 바꾼다. 필 조합은 \((k+2)^n\)으로 폭발하므로 시계 방향 같은 제약(\(\binom{n+k-1}{k-1}\))으로 줄여 고른다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>8마디째에 2박짜리 필을 넣는다. 필은 몇 마디 몇 박에서 시작하는가?</p><div class="opts">
+        <button class="opt">8마디 1박</button><button class="opt">8마디 2박</button><button class="opt" data-correct>8마디 3박</button><button class="opt">9마디 1박</button>
+      </div><div class="quiz-exp">필은 끝(다음 마디 1박)에서 거꾸로 센다. \(t_{\text{start}} = 4\times 8 - 2 = 30\)박 = 8마디의 3박. 그 앞의 1·2박은 그루브를 친다.</div></div>
+      <div class="quiz-q"><p>R L 교대로 플로어 탐(4타) → 스네어(4타)로 올라갈 때 생기는 문제는?</p><div class="opts">
+        <button class="opt">문제없다. 방향은 상관없다</button><button class="opt" data-correct>플로어 탐의 마지막 음을 친 왼손이 오른쪽에 남은 채 오른손이 스네어로 가서 팔이 엇갈린다</button><button class="opt">킥과 겹친다</button><button class="opt">음높이가 너무 높아진다</button>
+      </div><div class="quiz-exp">한 북에 4타(R L R L)면 북이 바뀔 때 다음 북은 R이 친다. 반시계 방향에서는 L이 오른쪽(플로어)에 있는데 R이 왼쪽(스네어)으로 가므로 X자로 엇갈린다. L R로 시작하거나 더블로 손 순서를 뒤집으면 해결된다.</div></div>
+      <div class="quiz-q"><p>필 다음 1박의 착지에서 크래시가 킥보다 25 ms 늦게 쳐졌다. 어떻게 들리는가?</p><div class="opts">
+        <button class="opt">하나로 단단하게 들린다</button><button class="opt" data-correct>'쿵–처' 하고 플램처럼 갈라져 들린다</button><button class="opt">크래시가 들리지 않는다</button><button class="opt">템포가 빨라진 것처럼 들린다</button>
+      </div><div class="quiz-exp">두 타격의 간격이 대략 10–20 ms를 넘으면 귀는 둘로 갈라 듣는다. 25 ms면 플램(약 25 ms 간격 꾸밈음)과 같은 크기의 어긋남이다.</div></div>
+      <div class="quiz-q"><p>8마디 프레이즈의 하이퍼미터에서 1마디 다음으로 무거운 마디는?</p><div class="opts">
+        <button class="opt">2마디</button><button class="opt">4마디</button><button class="opt" data-correct>5마디</button><button class="opt">8마디</button>
+      </div><div class="quiz-exp">마디 무게는 4/4 박의 강약을 한 단계 올린 것이다. 1 &gt; 5 &gt; 3·7 &gt; 짝수. 5마디는 뒤 4마디('대답')의 시작이라 4마디째 끝에 작은 필이 어울린다.</div></div>
+      <div class="quiz-q"><p>120 BPM의 4/4에서 16마디 코러스는 얼마나 걸리는가?</p><div class="opts">
+        <button class="opt">16초</button><button class="opt" data-correct>32초</button><button class="opt">48초</button><button class="opt">64초</button>
+      </div><div class="quiz-exp">한 마디 = 4 × 60/120 = 2초, 16마디 = 32초. 폼을 마디 수로 외우면 곡 길이도 바로 계산된다.</div></div>
+      <div class="quiz-q"><p>브리지에서 템포는 그대로 두고 '템포가 절반이 된 듯한' 느낌을 주는 드럼 방법은?</p><div class="opts">
+        <button class="opt">하이햇을 16분으로 바꾼다</button><button class="opt" data-correct>백비트를 3박 하나로 줄이는 하프타임 그루브</button><button class="opt">킥을 네 박 모두에 둔다</button><button class="opt">필을 더 자주 넣는다</button>
+      </div><div class="quiz-exp">하프타임은 2·4박의 백비트를 3박으로 옮겨 마디 하나를 두 박처럼 느끼게 한다. 박의 빠르기는 같지만 큰 박의 간격이 두 배가 된다.</div></div>
+      <div class="quiz-q"><p>북 네 개(\(k=4\))로 쉼 없이 손으로만, 되돌아가지 않는 시계 방향으로 16분 1박(4칸) 필을 만든다. 가능한 경로의 수는?</p><div class="opts">
+        <button class="opt">16</button><button class="opt" data-correct>35</button><button class="opt">256</button><button class="opt">1296</button>
+      </div><div class="quiz-exp">중복조합 \(\binom{n+k-1}{k-1} = \binom{7}{3} = 35\). 북을 고르는 \(4^4 = 256\)가지 중 순서가 '내려가기만' 하는 것만 남긴 수다. 킥과 쉼까지 넣으면 \(6^4 = 1296\)가지.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 fl) */
+const flKit = DR.default();
+const flSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const flF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const flMs = (x) => (x == null || !isFinite(x) ? "—" : (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(0) + "<small>ms</small>");
+/** 반복 재생 버튼(재생 중 패턴이 바뀌면 restart로 처음부터 다시) */
+function flLoop(btnId, build, o = {}) {
+  let sc = null, pb = null;
+  const halt = () => { const s = sc; sc = null; if (s && s.running) s.stop(); pb.set(false); flSolo.drop(halt); o.onHalt && o.onHalt(); };
+  function start() {
+    const b = build(), user = b.opts || {};
+    const s = DR.playEvents(b.events, Object.assign({ kit: flKit, loop: true, bpm: o.bpm }, user, {
+      onStop(nat) { user.onStop && user.onStop(nat); if (nat && sc === s) { sc = null; pb.set(false); flSolo.drop(halt); o.onHalt && o.onHalt(); } },
+    }));
+    sc = s; s.start();
+  }
+  const btnEl = document.getElementById(btnId), labels = o.labels || [btnEl.textContent.trim(), "■ 정지"];
+  pb = MB.playButton(btnId, () => { flSolo.take(halt); o.onStart && o.onStart(); start(); if (document.activeElement) document.activeElement.blur(); }, halt, labels);
+  return {
+    restart() { if (sc && sc.running) { const s = sc; sc = null; s.stop(); start(); } },
+    halt,
+    get running() { return !!(sc && sc.running); },
+    get sched() { return sc; },
+  };
+}
+/** 필 토큰 → 이벤트. 토큰 "SR^" = 스네어·오른손·액센트, "FTLf" 플램, "Sz" 버즈, "K" 킥, "-" 쉼. */
+const FL_PC = { S: "snare", T1: "tom1", T2: "tom2", FT: "floor", K: "kick", CR: "crash" };
+function flSeq(str, div, t0 = 0, o = {}) {
+  const toks = str.trim().split(/\s+/).filter((x) => x !== "|"), out = [];
+  const n = toks.length;
+  toks.forEach((tk, i) => {
+    const m = tk.match(/^(T1|T2|FT|CR|S|K)([RL]?)([\^gfzd]*)$/); if (!m) return;
+    const e = { t: t0 + i / div, p: FL_PC[m[1]], v: o.tap || 0.72, fill: true };
+    if (m[2]) e.hand = m[2];
+    if (o.ramp) e.v = o.ramp[0] + (o.ramp[1] - o.ramp[0]) * (i / Math.max(1, n - 1));
+    if (m[3].includes("^")) e.v = 1;
+    if (m[3].includes("g")) e.v = 0.3;
+    if (m[3].includes("f")) e.flam = true;
+    if (m[3].includes("d")) e.drag = true;
+    if (m[3].includes("z")) e.buzz = 1 / div;
+    if (e.p === "kick") e.v = Math.max(e.v, 0.85);
+    out.push(e);
+  });
+  return out;
+}
+const FL_ACC332 = (() => { const a = [0, 3, 6, 8, 11, 14]; return Array.from({ length: 16 }, (x, i) => "S" + (i % 2 ? "L" : "R") + (a.includes(i) ? "^" : "")).join(" "); })();
+const FL_FILLS = {
+  single16: { name: "16분 싱글 다운", len: 4, div: 4, seq: "SR^ SL SR SL T1R^ T1L T1R T1L T2R^ T2L T2R T2L FTR^ FTL FTR FTL", desc: "박마다 한 북씩 내려가는 가장 기본적인 1마디 필. 오른손이 북을 먼저 옮긴다." },
+  trip: { name: "셋잇단 필", len: 4, div: 3, seq: "SR^ SL SR T1L^ T1R T1L T2R^ T2L T2R FTL^ FTR FTL", desc: "1박에 3타. R L R / L R L로 박마다 리드 손이 바뀐다. 둥글게 굴러가는 느낌." },
+  flam: { name: "플램 필", len: 4, div: 2, seq: "SRf SLf T1Rf T1Lf T2Rf T2Lf FTRf FTLf", desc: "8분 플램(lR rL). 음 수는 적지만 하나하나가 두껍고 넓다. 느린 템포의 큰 경계." },
+  rlk: { name: "RLK 셋잇단", len: 4, div: 3, seq: "T1R^ T1L K T2R^ T2L K FTR^ FTL K SR^ SL K", desc: "손 둘 + 킥 하나를 셋잇단으로. 손이 쉬는 사이 킥이 들어가 같은 손 속도로 더 빠르고 묵직하게 들린다." },
+  linear: { name: "리니어 필", len: 4, div: 4, seq: "SR^ SL FTR K T1R^ T1L FTR K T2R^ T2L FTR K FTR^ FTL K K", desc: "R L R K. 두 음이 같은 칸에서 겹치지 않는 '한 줄' 필. 건조하고 또렷하다." },
+  space: { name: "공간이 있는 필", len: 4, div: 4, seq: "SR^ - - FTR^ - - SR^ - K - FTR^ - SR^ - - -", desc: "쉼표를 섞어 말을 줄인다. 마지막 박을 비워 두면 크래시가 더 크게 느껴진다." },
+  acc332: { name: "스네어 액센트 3·3·2", len: 4, div: 4, seq: FL_ACC332, tap: 0.45, desc: "스네어만으로, 16분 R L 위에 3+3+2 칸마다 액센트. 액센트가 박을 가로질러 박자감을 흔든다." },
+  buzz: { name: "버즈 크레셴도", len: 4, div: 4, seq: "SRz SLz SRz SLz SRz SLz SRz SLz SRz SLz SRz SLz SRz SLz SRz SL^", ramp: [0.3, 0.92], desc: "16분 버즈 롤이 점점 세지다가 마지막 액센트에서 크래시로. 큰 구간 전환." },
+  half: { name: "2박 탐 하강", len: 2, div: 4, seq: "T1R^ T1L T1R T1L T2R^ T2L FTR FTL", desc: "3박에서 시작하는 짧은 필. 4마디 경계 같은 중간 크기 경계용." },
+  pickup: { name: "1박 픽업", len: 1, div: 4, seq: "SR^ SL FTR^ FTL", desc: "4박 하나만 채우는 작은 필. 숨 고르기, 2·4마디마다." },
+};
+function flFill(key, t0) { const f = FL_FILLS[key]; return flSeq(f.seq, f.div, t0, { ramp: f.ramp, tap: f.tap }); }
+/** 그루브 bars마디 + 마지막 마디 끝에 fill(이벤트, 길이 L박) + 첫 박 크래시·킥(land) */
+function flPhrase(gKey, bars, fillEvs, L, o = {}) {
+  const g = typeof gKey === "string" ? DR.groove(gKey) : DR.parse(gKey.spec, { div: gKey.div }), out = [], total = bars * 4, fs = total - L;
+  for (let b = 0; b < bars; b++) g.forEach((e) => { const t = e.t + b * 4; if (L > 0 && t >= fs - 1e-6) return; if (b === 0 && Math.abs(e.t) < 1e-6 && /^(hat|ride|kick|crash)$/.test(e.p) && o.crash !== false) return; out.push(Object.assign({}, e, { t, v: (e.v || 0.75) * (o.vmul || 1) })); });
+  if (o.crash !== false) out.push({ t: 0, p: "crash", v: 1, land: true }, { t: 0, p: "kick", v: 0.95, land: true });
+  fillEvs.forEach((e) => out.push(Object.assign({}, e, { t: e.t + fs, v: Math.min(1, e.v * (o.vmul || 1)) })));
+  return DR.sort(out);
+}
+/** 팔 엇갈림: 왼손이 오른손보다 δ 넘게 오른쪽 북을 칠 때 */
+const FL_X = { snare: 126, tom1: 166, tom2: 240, floor: 296 }, FL_DELTA = 50;
+function flCrosses(strokes) {
+  let xl = null, xr = null; const bad = [];
+  strokes.forEach((s, i) => {
+    const x = FL_X[s.p]; if (x == null || !s.hand) return;
+    if (s.hand === "L") { if (xr != null && x - xr > FL_DELTA) bad.push(i); xl = x; }
+    else { if (xl != null && xl - x > FL_DELTA) bad.push(i); xr = x; }
+  });
+  return bad;
+}
+const flBars = (el, n, fillFrom) => { el.style.setProperty("--n", n); el.innerHTML = Array.from({ length: n }, (x, i) => `<span class="${i + 1 >= fillFrom ? "fill" : ""}">${i + 1}</span>`).join(""); };
+
+/* ================================================================ 1. 필의 길이와 위치 */
+(function () {
+  const staff = DR.staff("#fl-ln-staff", [], { barNumbers: true });
+  const bars = document.getElementById("fl-ln-bars"), big = document.getElementById("fl-ln-big");
+  const bpm = MB.range("fl-ln-bpm", (v) => v + " BPM", () => info());
+  const click = MB.check("fl-ln-click");
+  const len = MB.seg("fl-ln-len", () => { build(); loop.restart(); });
+  const kind = MB.seg("fl-ln-kind", () => { build(); loop.restart(); });
+  let evs = [];
+  function fillEvents(L) {
+    if (!L) return [];
+    const k = kind(), d = k === "trip" ? 3 : 4, n = L * d, P = ["S", "T1", "T2", "FT"], toks = [];
+    for (let i = 0; i < n; i++) {
+      const pc = k === "snare" ? "S" : P[Math.min(3, Math.floor((i * (L === 1 ? 2 : 4)) / n) + (L === 1 ? 2 : 0))];
+      toks.push(pc + (i % 2 ? "L" : "R") + (i % d === 0 ? "^" : ""));
+    }
+    return flSeq(toks.join(" "), d, 0);
+  }
+  function build() {
+    const L = +len();
+    evs = flPhrase("rock8", 4, fillEvents(L), L);
+    staff.setEvents(evs);
+    flBars(bars, 4, L ? 4 : 99);
+    info();
+  }
+  function info() {
+    const L = +len(), d = kind() === "trip" ? 3 : 4, spb = 60 / bpm();
+    MB.stat("fl-ln-o-start", L ? `4마디 ${5 - L}박` : "필 없음");
+    MB.stat("fl-ln-o-n", L ? String(L * d) : "0");
+    MB.stat("fl-ln-o-t", L ? flF(L * spb, 2) + "<small>s</small>" : "—");
+    MB.stat("fl-ln-o-bar", flF(16 * spb, 1) + "<small>s</small>");
+  }
+  const loop = flLoop("fl-ln-play", () => ({
+    events: evs,
+    opts: {
+      length: 16, staff, clickOn: () => click(),
+      onBeat(b) {
+        const bar = Math.floor(b / 4), bt = (b % 4) + 1;
+        big.innerHTML = `${bar + 1} · ${bt}<small>마디 · 박</small>`;
+        bars.querySelectorAll("span").forEach((s, i) => s.classList.toggle("now", i === bar));
+      },
+      onStop() { bars.querySelectorAll(".now").forEach((s) => s.classList.remove("now")); },
+    },
+  }), { bpm: () => bpm() });
+  build();
+})();
+
+/* ================================================================ 2. 탐 경로 설계기 */
+(function () {
+  const ORDER = ["snare", "tom1", "tom2", "floor"];
+  const PRE = { cw: [0, 1, 2, 3], ccw: [3, 2, 1, 0], back: [0, 1, 3, 0], jump: [2, 0, 3, 1] };
+  const slotsEl = document.getElementById("fl-pt-slots"), stkEl = document.getElementById("fl-pt-stk"), msg = document.getElementById("fl-pt-msg");
+  const staff = DR.staff("#fl-pt-staff", [], { sticking: true });
+  DR.kitView("#fl-pt-kit", { kit: flKit });
+  const bpm = MB.range("fl-pt-bpm", (v) => v + " BPM");
+  let slots = [], evs = [];
+  const size = MB.seg("fl-pt-size", () => { setPreset(pre()); });
+  const pre = MB.seg("fl-pt-pre", (k) => setPreset(k));
+  const stick = MB.seg("fl-pt-stick", () => { build(); loop.restart(); });
+  function setPreset(k) {
+    const n = 16 / +size(), p = PRE[k];
+    slots = Array.from({ length: n }, (x, i) => p[Math.floor((i * 4) / n)]);
+    build(); loop.restart();
+  }
+  slotsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    const k = +b.dataset.k; slots[k] = (slots[k] + 1) % 4;
+    MB.ctx(); flKit.hit(ORDER[slots[k]], 0.8, null, { src: "grid" });
+    build(); loop.restart();
+  });
+  /** 스티킹: RL/LR 교대 또는 자동(엇갈릴 자리에서만 같은 손 한 번 더) */
+  function hands(pieces) {
+    const m = stick(), out = [];
+    if (m !== "auto") return pieces.map((p, i) => ((i % 2 === 0) === (m === "RL") ? "R" : "L"));
+    let xl = null, xr = null, prev = "L";
+    const crossFor = (h, x) => (h === "L" ? xr != null && x - xr > FL_DELTA : xl != null && xl - x > FL_DELTA);
+    pieces.forEach((p) => {
+      const x = FL_X[p], alt = prev === "R" ? "L" : "R";
+      let h = alt;
+      if (crossFor(alt, x) && !crossFor(prev, x)) h = prev;
+      out.push(h); prev = h; if (h === "L") xl = x; else xr = x;
+    });
+    return out;
+  }
+  function build() {
+    const sz = +size(), pieces = [];
+    for (let i = 0; i < 16; i++) pieces.push(ORDER[slots[Math.floor(i / sz)]]);
+    const hs = hands(pieces);
+    const strokes = pieces.map((p, i) => ({ p, hand: hs[i] }));
+    const bad = new Set(flCrosses(strokes));
+    const fill = strokes.map((s, i) => ({ t: i / 4, p: s.p, hand: s.hand, v: i % 4 === 0 ? 1 : 0.72, fill: true, cross: bad.has(i) }));
+    evs = flPhrase("rock8", 2, fill, 4);
+    staff.setEvents(evs);
+    evs.forEach((e, i) => { if (e.cross) staff.mark(i, "bad"); });
+    // 칸 버튼: 엇갈림이 있는 칸에 빨간 테두리
+    slotsEl.style.setProperty("--n", slots.length);
+    slotsEl.innerHTML = slots.map((s, k) => { const x = [...bad].some((i) => Math.floor(i / sz) === k); return `<button type="button" data-k="${k}" class="p-${ORDER[s]}${x ? " x" : ""}">${DR.PIECES[ORDER[s]].short}</button>`; }).join("");
+    stkEl.innerHTML = "스티킹 " + strokes.map((s, i) => (bad.has(i) ? `<b class="x">${s.hand}</b>` : s.hand) + (i % 4 === 3 && i < 15 ? " | " : " ")).join("");
+    let mv = 0, cw = 0, dbl = 0;
+    for (let i = 1; i < 16; i++) { if (pieces[i] !== pieces[i - 1]) { mv++; if (FL_X[pieces[i]] > FL_X[pieces[i - 1]]) cw++; } if (hs[i] === hs[i - 1]) dbl++; }
+    MB.stat("fl-pt-o-x", String(bad.size));
+    MB.stat("fl-pt-o-mv", String(mv));
+    MB.stat("fl-pt-o-cw", mv ? `${cw}/${mv}` : "—");
+    MB.stat("fl-pt-o-dbl", String(dbl));
+    msg.className = "sim-msg " + (bad.size ? "bad" : "ok");
+    msg.innerHTML = bad.size ? `팔 엇갈림 ${bad.size}곳: 왼손이 오른쪽 북에 남아 있는데 오른손이 왼쪽 북으로 갑니다. 방향을 바꾸거나 스티킹을 '자동' 또는 'L R'로 바꿔 보세요.` : (stick() === "auto" && dbl ? `엇갈림 없음. 자동 스티킹이 더블 ${dbl}번으로 손 순서를 뒤집었습니다.` : "엇갈림 없음. 오른손이 길을 열고 왼손이 따라갑니다.");
+  }
+  const loop = flLoop("fl-pt-play", () => ({ events: evs, opts: { length: 8, staff } }), { bpm: () => bpm() });
+  setPreset("cw");
+})();
+
+/* ================================================================ 3. 필 어휘 사전 */
+(function () {
+  const chips = document.getElementById("fl-lb-chips"), desc = document.getElementById("fl-lb-desc");
+  const staff = DR.staff("#fl-lb-staff", [], { sticking: true });
+  DR.kitView("#fl-lb-kit", { kit: flKit });
+  const bpm = MB.range("fl-lb-bpm", (v) => v + " BPM", () => info());
+  const click = MB.check("fl-lb-click");
+  let cur = "single16", evs = [];
+  const gr = MB.seg("fl-lb-gr", () => { build(); loop.restart(); });
+  chips.innerHTML = Object.keys(FL_FILLS).map((k) => `<button type="button" data-k="${k}" class="${k === cur ? "on" : ""}">${FL_FILLS[k].name}</button>`).join("");
+  chips.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    cur = b.dataset.k; chips.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    build(); loop.restart();
+  });
+  function build() {
+    const f = FL_FILLS[cur];
+    evs = flPhrase(gr(), 2, flFill(cur, 0).map((e) => (e.p === "kick" ? Object.assign({}, e, { hand: undefined }) : e)), f.len);
+    staff.setEvents(evs);
+    desc.innerHTML = `<b>${f.name}</b> · ${f.desc}`;
+    info();
+  }
+  function info() {
+    const f = FL_FILLS[cur], fe = flFill(cur, 0), hand = fe.filter((e) => e.p !== "kick").length, foot = fe.length - hand;
+    MB.stat("fl-lb-o-name", f.name);
+    MB.stat("fl-lb-o-len", f.len === 4 ? "1마디" : f.len + "박");
+    MB.stat("fl-lb-o-n", `${hand} / ${foot}`);
+    MB.stat("fl-lb-o-rate", flF(fe.length / (f.len * 60 / bpm()), 1) + "<small>타/초</small>");
+  }
+  const loop = flLoop("fl-lb-play", () => ({ events: evs, opts: { length: 8, staff, clickOn: () => click() } }), { bpm: () => bpm() });
+  const once = flLoop("fl-lb-solo", () => {
+    const f = FL_FILLS[cur], fe = flFill(cur, 0);
+    fe.push({ t: f.len, p: "crash", v: 1 }, { t: f.len, p: "kick", v: 0.95 });
+    return { events: fe, opts: { loop: false, length: f.len + 2 } };
+  }, { bpm: () => bpm(), labels: ["▶ 필만 한 번", "■ 정지"] });
+  build();
+})();
+
+/* ================================================================ 4. 크래시 착지 정확도 */
+(function () {
+  const sim = document.getElementById("sim-fl-land"), big = document.getElementById("fl-ld-big");
+  const staff = DR.staff("#fl-ld-staff", [], { sticking: true, compact: true });
+  const bpm = MB.range("fl-ld-bpm", (v) => v + " BPM");
+  const demo = MB.check("fl-ld-demo", () => build());
+  const nSeg = MB.seg("fl-ld-n");
+  const fill = MB.seg("fl-ld-fill", () => { build(); });
+  let evs = [], exp = [], rounds = [], running = false, total = 8;
+  let tapper = null;
+  function build() {
+    const f = FL_FILLS[fill()];
+    evs = flPhrase("rock8", 2, flFill(fill(), 0).map((e) => (e.p === "kick" ? Object.assign({}, e, { hand: undefined }) : e)), f.len);
+    staff.setEvents(evs);
+    evs.forEach((e, i) => { if (e.land && !demo()) staff.mark(i, "ghost"); });
+  }
+  const hit = (p, v, hand, src) => { MB.ctx(); flKit.hit(p, v, null, { hand, src }); };
+  DR.keyTarget(sim, (p, v, hand, src) => { if (p === "crash" || p === "kick") hit(p, v, hand, src); });
+  const btn = (id, f) => document.getElementById(id).addEventListener("pointerdown", (e) => { e.preventDefault(); f(); });
+  btn("fl-ld-cr", () => hit("crash", 0.95, "R", "tap"));
+  btn("fl-ld-bd", () => hit("kick", 0.9, null, "tap"));
+  btn("fl-ld-both", () => { hit("crash", 0.95, "R", "tap"); hit("kick", 0.9, null, "tap"); });
+  function scoreAll() {
+    const taps = tapper.taps;
+    rounds = exp.map((t) => {
+      const near = (p) => { let best = null; taps.forEach((x) => { if (x.p !== p) return; const d = x.when - t; if (Math.abs(d) <= 0.15 && (best == null || Math.abs(d) < Math.abs(best))) best = d; }); return best == null ? null : best * 1000; };
+      return { cr: near("crash"), bd: near("kick") };
+    });
+    const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+    const done = rounds;
+    const cr = avg(done.filter((r) => r.cr != null).map((r) => r.cr)), bd = avg(done.filter((r) => r.bd != null).map((r) => r.bd));
+    const hf = avg(done.filter((r) => r.cr != null && r.bd != null).map((r) => r.cr - r.bd));
+    const ok = done.filter((r) => r.cr != null && r.bd != null && Math.abs(r.cr) <= 40 && Math.abs(r.bd) <= 40).length;
+    MB.stat("fl-ld-o-cr", flMs(cr)); MB.stat("fl-ld-o-bd", flMs(bd)); MB.stat("fl-ld-o-hf", flMs(hf));
+    MB.stat("fl-ld-o-ok", exp.length ? `${ok}<small>/${exp.length}</small>` : "—");
+    cv.redraw();
+  }
+  tapper = DR.tapper(flKit, { onTap: () => { if (running) setTimeout(scoreAll, 0); } });
+  const loop = flLoop("fl-ld-play", () => {
+    total = +nSeg(); exp = []; rounds = []; tapper.clear(); running = true;
+    big.innerHTML = `준비<small>첫 반복은 예비 마디입니다</small>`;
+    const marker = { t: 0, mark: true };
+    return {
+      events: evs.concat([marker]),
+      opts: {
+        length: 8,
+        staff,
+        mute: (p, ev) => !!ev.land && !demo(),
+        onHit(ev, i, when, loopNo) { if (ev.mark && loopNo >= 1 && loopNo <= total) exp.push(when); },
+        onLoop(n) {
+          big.innerHTML = n <= total ? `${n} / ${total}<small>필 다음 1박에 크래시 + 킥</small>` : `끝<small>결과를 확인하세요</small>`;
+          setTimeout(scoreAll, 300);
+          if (n > total) setTimeout(() => loop.halt(), 400);
+        },
+      },
+    };
+  }, { bpm: () => bpm(), labels: ["▶ 시작", "■ 정지"], onHalt: () => { running = false; setTimeout(scoreAll, 50); } });
+  const cv = MB.canvas("#fl-ld-cv", (ctx, w, h) => {
+    const L = 34, R = 10, x = (ms) => L + ((ms + 150) / 300) * (w - L - R), n = Math.max(total, 4), rh = (h - 18) / n;
+    ctx.font = "600 10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    [-150, -40, 0, 40, 150].forEach((m) => { ctx.strokeStyle = MB.color(m === 0 ? "text-dim" : "border"); ctx.setLineDash(m && Math.abs(m) < 100 ? [3, 3] : []); ctx.beginPath(); ctx.moveTo(x(m), 2); ctx.lineTo(x(m), h - 14); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = MB.color("text-faint"); ctx.fillText((m > 0 ? "+" : "") + m, x(m) - 10, h - 3); });
+    rounds.forEach((r, k) => {
+      const y = 4 + k * rh + rh / 2;
+      ctx.fillStyle = MB.color("text-faint"); ctx.fillText(String(k + 1), 6, y + 4);
+      if (r.cr != null) { ctx.fillStyle = MB.color("accent"); ctx.beginPath(); ctx.arc(x(r.cr), y - 3, 4.5, 0, 7); ctx.fill(); }
+      if (r.bd != null) { ctx.fillStyle = MB.color("accent-2"); ctx.fillRect(x(r.bd) - 4, y, 8, 6); }
+    });
+    if (!rounds.length) { ctx.fillStyle = MB.color("text-faint"); ctx.fillText("● 크래시  ■ 킥 — 착지할 때마다 한 줄씩", L + 4, h / 2); }
+  }, { aspect: (w) => (w < 500 ? 0.5 : 0.3), maxHeight: 200 });
+  build();
+})();
+
+/* ================================================================ 5. 프레이즈 카운터 */
+(function () {
+  const sim = document.getElementById("sim-fl-phrase"), big = document.getElementById("fl-ph-big"), barsEl = document.getElementById("fl-ph-bars");
+  const lamps = [...document.querySelectorAll("#fl-ph-lamps i")], tapBtn = document.getElementById("fl-ph-tap");
+  const bpm = MB.range("fl-ph-bpm", (v) => v + " BPM", () => info());
+  const test = MB.check("fl-ph-test", () => { barsEl.classList.toggle("hide", test()); });
+  const len = MB.seg("fl-ph-len", () => { info(); loop.restart(); });
+  const fillL = MB.seg("fl-ph-fill", () => loop.restart());
+  let exp = [], t0 = 0;
+  const taps = DR.tapper(flKit, { onTap: () => setTimeout(score, 0) });
+  const hit = (p, v, hand, src) => { MB.ctx(); flKit.hit(p, v, null, { hand, src }); };
+  DR.keyTarget(sim, (p, v, hand, src) => { if (p === "crash" || p === "kick") hit(p, v, hand, src); });
+  tapBtn.addEventListener("pointerdown", (e) => { e.preventDefault(); hit("crash", 0.9, "R", "tap"); tapBtn.classList.add("hit"); setTimeout(() => tapBtn.classList.remove("hit"), 100); });
+  function info() {
+    const N = +len();
+    flBars(barsEl, N, N);
+    barsEl.classList.toggle("hide", test());
+    MB.stat("fl-ph-o-t", flF(N * 4 * 60 / bpm(), 1) + "<small>s</small>");
+  }
+  function score() {
+    if (!exp.length) { MB.stat("fl-ph-o-hit", "—"); MB.stat("fl-ph-o-mean", "—"); MB.stat("fl-ph-o-sd", "—"); return; }
+    const tp = taps.taps.filter((x) => x.when > t0 && (x.p === "crash" || x.p === "kick"));
+    const r = DR.score(exp.filter((e) => e < MB.now() + 0.2), tp, { window: 0.2 });
+    MB.stat("fl-ph-o-hit", `${r.hits}<small>/${r.pairs.length}</small>`);
+    MB.stat("fl-ph-o-mean", r.hits ? flMs(r.mean) : "—");
+    MB.stat("fl-ph-o-sd", r.hits > 1 ? flF(r.sd) + "<small>ms</small>" : "—");
+  }
+  const loop = flLoop("fl-ph-play", () => {
+    const N = +len(), L = +fillL(), f = L === 1 ? "pickup" : L === 2 ? "half" : "single16";
+    exp = []; t0 = MB.now(); score();
+    const evs = flPhrase("rock8", N, flFill(f, 0), L);
+    return {
+      events: evs.concat([{ t: 0, mark: true }]),
+      opts: {
+        length: N * 4,
+        mute: (p, ev) => !!ev.land && test(),
+        onHit(ev, i, when, loopNo) { if (ev.mark && loopNo >= 1 && test()) exp.push(when); },
+        onBeat(b) {
+          const bar = Math.floor(b / 4), bt = b % 4;
+          lamps.forEach((l, k) => l.classList.toggle("on", k === bt));
+          barsEl.querySelectorAll("span").forEach((s, k) => s.classList.toggle("now", k === bar));
+          big.innerHTML = test() ? `?<small>${bar === N - 1 ? "필이 끝나면 1박!" : "속으로 마디를 세세요"}</small>` : `${bar + 1}<small>마디 / ${N}${bar === N - 1 ? " · 필" : ""}</small>`;
+        },
+        onStop() { lamps.forEach((l) => l.classList.remove("on")); barsEl.querySelectorAll(".now").forEach((s) => s.classList.remove("now")); setTimeout(score, 50); },
+      },
+    };
+  }, { bpm: () => bpm() });
+  info();
+})();
+
+/* ================================================================ 6. 송 폼 빌더 */
+(function () {
+  const TYPES = ["인트로", "벌스", "프리코러스", "코러스", "브리지", "아웃트로"];
+  const GR = {
+    toms: { name: "탐·킥", key: null, spec: "FT xxxxxxxx\nBD x...x...", div: 2 },
+    ballad: { name: "크로스 스틱", key: "ballad" },
+    rock8: { name: "HH 8분", key: "rock8" },
+    rock16: { name: "HH 16분", key: "rock16" },
+    ride: { name: "라이드 8분", key: null, spec: "RD xxxxxxxx\nSN ..X...X.\nBD x...x.x.", div: 2 },
+    disco: { name: "오픈 HH(디스코)", key: "disco" },
+    halftime: { name: "하프타임", key: "halftime" },
+  };
+  const PRESETS = {
+    pop: [["인트로", 4, "toms", 1], ["벌스", 8, "rock8", 1], ["프리코러스", 4, "rock16", 2], ["코러스", 8, "ride", 3], ["벌스", 8, "rock8", 1], ["프리코러스", 4, "rock16", 2], ["코러스", 8, "ride", 3], ["브리지", 8, "halftime", 2], ["코러스", 8, "disco", 3], ["아웃트로", 4, "toms", 1]],
+    short: [["인트로", 2, "rock8", 1], ["벌스", 4, "rock8", 1], ["코러스", 4, "ride", 3], ["아웃트로", 2, "halftime", 2]],
+    ballad: [["인트로", 4, "ballad", 1], ["벌스", 8, "ballad", 1], ["코러스", 8, "rock8", 2], ["벌스", 8, "ballad", 1], ["코러스", 8, "rock16", 3], ["아웃트로", 4, "ballad", 1]],
+  };
+  const rowsEl = document.getElementById("fl-fm-rows"), strip = document.getElementById("fl-fm-strip"), big = document.getElementById("fl-fm-big");
+  const bpm = MB.range("fl-fm-bpm", (v) => v + " BPM", () => info());
+  let secs = [], map = [];
+  const pre = MB.seg("fl-fm-pre", (k) => { loop.halt(); load(k); });
+  function load(k) { secs = PRESETS[k].map(([type, bars, gr, en]) => ({ type, bars, gr, en })); render(); }
+  const opt = (list, cur) => list.map(([v, t]) => `<option value="${v}"${String(v) === String(cur) ? " selected" : ""}>${t}</option>`).join("");
+  function render() {
+    rowsEl.innerHTML = secs.map((s, i) => `<div class="fl-row" data-i="${i}">
+      <select data-f="type" aria-label="구간">${opt(TYPES.map((t) => [t, t]), s.type)}</select>
+      <select data-f="bars" aria-label="마디 수">${opt([2, 4, 8, 16].map((b) => [b, b + "마디"]), s.bars)}</select>
+      <select data-f="gr" aria-label="그루브">${opt(Object.keys(GR).map((k) => [k, GR[k].name]), s.gr)}</select>
+      <select data-f="en" aria-label="에너지">${opt([[1, "에너지 1"], [2, "에너지 2"], [3, "에너지 3"]], s.en)}</select>
+      <button type="button" data-del="${i}" aria-label="구간 삭제" title="삭제">×</button></div>`).join("");
+    const total = secs.reduce((a, s) => a + s.bars, 0) || 1;
+    strip.innerHTML = secs.map((s, i) => `<span data-i="${i}" class="e${s.en}" style="--b:${s.bars}" title="${s.type} ${s.bars}마디">${s.type}</span>`).join("");
+    info();
+  }
+  rowsEl.addEventListener("change", (e) => { const r = e.target.closest(".fl-row"), f = e.target.dataset.f; if (!r || !f) return; const s = secs[+r.dataset.i]; s[f] = f === "type" || f === "gr" ? e.target.value : +e.target.value; render(); });
+  rowsEl.addEventListener("click", (e) => { const d = e.target.closest("[data-del]"); if (!d || secs.length <= 1) return; secs.splice(+d.dataset.del, 1); render(); });
+  document.getElementById("fl-fm-add").addEventListener("click", () => { if (secs.length >= 16) return; secs.push({ type: "코러스", bars: 4, gr: "rock8", en: 2 }); render(); });
+  function info() {
+    const bars = secs.reduce((a, s) => a + s.bars, 0), sec = (bars * 4 * 60) / bpm();
+    MB.stat("fl-fm-o-bars", String(bars));
+    MB.stat("fl-fm-o-time", `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, "0")}`);
+    MB.stat("fl-fm-o-n", String(secs.length));
+  }
+  const grooveKey = (k) => GR[k].key || GR[k];
+  function build() {
+    const out = []; map = []; let t = 0;
+    secs.forEach((s, i) => {
+      const L = s.bars < 2 ? 0 : s.en === 1 ? 1 : s.en === 2 ? 2 : 4, fk = L === 1 ? "pickup" : L === 2 ? "half" : "single16";
+      const ph = flPhrase(grooveKey(s.gr), s.bars, L ? flFill(fk, 0) : [], L, { vmul: [0, 0.75, 0.9, 1][s.en] });
+      ph.forEach((e) => out.push(Object.assign({}, e, { t: e.t + t })));
+      map.push({ start: t, end: t + s.bars * 4, i });
+      t += s.bars * 4;
+    });
+    out.push({ t, p: "crash", v: 1 }, { t, p: "kick", v: 0.95 });
+    return { events: DR.sort(out), length: t + 4 };
+  }
+  const loop = flLoop("fl-fm-play", () => {
+    const b = build();
+    return {
+      events: b.events,
+      opts: {
+        loop: false, length: b.length,
+        onBeat(beat) {
+          const m = map.find((x) => beat >= x.start && beat < x.end);
+          rowsEl.querySelectorAll(".fl-row").forEach((r) => r.classList.toggle("now", m && +r.dataset.i === m.i));
+          strip.querySelectorAll("span").forEach((s) => s.classList.toggle("now", m && +s.dataset.i === m.i));
+          if (m) { const s = secs[m.i], bar = Math.floor((beat - m.start) / 4) + 1; big.innerHTML = `${s.type} · ${bar}/${s.bars}<small>${GR[s.gr].name} · 에너지 ${s.en}${bar === s.bars ? " · 필" : ""}</small>`; MB.stat("fl-fm-o-now", `${s.type} ${bar}/${s.bars}`); }
+          else { big.innerHTML = `끝<small>마무리 크래시</small>`; }
+        },
+        onStop() { rowsEl.querySelectorAll(".now").forEach((r) => r.classList.remove("now")); strip.querySelectorAll(".now").forEach((r) => r.classList.remove("now")); },
+      },
+    };
+  }, { bpm: () => bpm(), labels: ["▶ 처음부터 재생", "■ 정지"] });
+  load("pop");
+})();
+
+/* ================================================================ 7. 무작위 필 생성기 */
+(function () {
+  const staff = DR.staff("#fl-gn-staff", [], { sticking: true });
+  DR.kitView("#fl-gn-kit", { kit: flKit });
+  const stkEl = document.getElementById("fl-gn-stk"), seedEl = document.getElementById("fl-gn-seed");
+  const regen = () => { build(); loop.restart(); };
+  const len = MB.seg("fl-gn-len", regen), div = MB.seg("fl-gn-div", regen);
+  const dens = MB.range("fl-gn-dens", (v) => v.toFixed(2), regen);
+  const K = MB.range("fl-gn-k", (v) => String(v), regen);
+  const kick = MB.range("fl-gn-kick", (v) => v.toFixed(2), regen);
+  const dbl = MB.range("fl-gn-dbl", (v) => v.toFixed(2), regen);
+  const cw = MB.check("fl-gn-cw", regen);
+  const bpm = MB.range("fl-gn-bpm", (v) => v + " BPM");
+  seedEl.addEventListener("change", regen);
+  document.getElementById("fl-gn-next").addEventListener("click", () => { seedEl.value = (Math.max(1, +seedEl.value || 1) % 99999) + 1; regen(); });
+  let evs = [];
+  const C = (n, r) => { let x = 1; for (let i = 1; i <= r; i++) x = (x * (n - r + i)) / i; return Math.round(x); };
+  const sci = (lg) => (lg < 6 ? Math.round(Math.pow(10, lg)).toLocaleString("en-US") : `${Math.pow(10, lg - Math.floor(lg)).toFixed(1)}×10<sup>${Math.floor(lg)}</sup>`);
+  /** 씨앗 → 필 이벤트(길이 L박, 격자 d) */
+  function generate() {
+    const seed = Math.max(1, Math.floor(+seedEl.value || 1));
+    const rng = MB.rng(seed * 2654435761 % 4294967296 || seed);
+    for (let i = 0; i < 5; i++) rng(); // 씨앗이 작을 때 처음 몇 개가 비슷한 것을 버린다
+    const L = +len(), d = +div(), n = L * d, k = K(), pcs = ["snare", "tom1", "tom2", "floor"].slice(0, k);
+    const cuts = []; while (cuts.length < k - 1) { const c = 1 + Math.floor(rng() * (n - 1)); if (!cuts.includes(c) || n - 1 < k - 1) cuts.push(c); if (cuts.length > 8) break; }
+    cuts.sort((a, b) => a - b);
+    const out = []; let prevHand = null;
+    for (let s = 0; s < n; s++) {
+      if (s > 0 && rng() >= dens()) continue;
+      const t = s / d;
+      if (s > 0 && rng() < kick()) { out.push({ t, p: "kick", v: 0.9, fill: true }); continue; }
+      const pi = cw() ? Math.min(k - 1, cuts.filter((c) => c <= s).length) : Math.floor(rng() * k);
+      let hand = (s % d) % 2 === 0 ? "R" : "L";
+      if (d === 3) hand = s % 2 === 0 ? "R" : "L";
+      if (prevHand && rng() < dbl()) hand = prevHand;
+      prevHand = hand;
+      out.push({ t, p: pcs[pi], hand, v: s % d === 0 ? 0.98 : 0.7, fill: true });
+    }
+    return { fill: out, L, n, k };
+  }
+  function build() {
+    const g = generate();
+    const handStrokes = g.fill.filter((e) => e.p !== "kick");
+    const bad = new Set(flCrosses(handStrokes).map((i) => handStrokes[i]));
+    g.fill.forEach((e) => { e.cross = bad.has(e); });
+    evs = flPhrase("rock8", 2, g.fill, g.L);
+    staff.setEvents(evs);
+    evs.forEach((e, i) => { if (e.cross) staff.mark(i, "bad"); });
+    stkEl.innerHTML = "씨앗 " + seedEl.value + " · " + g.fill.map((e) => (e.p === "kick" ? "K" : e.cross ? `<b class="x">${e.hand}</b>` : e.hand)).join(" ");
+    MB.stat("fl-gn-o-n", `${handStrokes.length} / ${g.fill.length - handStrokes.length}`);
+    MB.stat("fl-gn-o-x", String(bad.size));
+    MB.stat("fl-gn-o-all", sci(g.n * Math.log10(g.k + 2)));
+    MB.stat("fl-gn-o-cw", C(g.n + g.k - 1, g.k - 1).toLocaleString("en-US"));
+  }
+  const loop = flLoop("fl-gn-play", () => ({ events: evs, opts: { length: 8, staff } }), { bpm: () => bpm() });
+  build();
+})();
+</script>
+</body>
+</html>

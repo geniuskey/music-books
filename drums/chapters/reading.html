@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>드럼 악보 읽기 · DrumBook</title>
+<meta name="description" content="타악기 보표와 악기별 자리, 음표 머리 모양, 손·발 두 성부와 빔, 쉼표와 셋잇단, 액센트·고스트·플램 같은 아티큘레이션, 반복 기호와 드럼 차트를 가상 드럼으로 듣고 읽기 게임으로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/reading.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="드럼 악보 읽기 · DrumBook">
+<meta property="og:description" content="타악기 보표와 악기별 자리, 음표 머리 모양, 손·발 두 성부와 빔, 쉼표와 셋잇단, 액센트·고스트·플램 같은 아티큘레이션, 반복 기호와 드럼 차트를 가상 드럼으로 듣고 읽기 게임으로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/reading.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .rd-fig-staff { display: grid; gap: 10px; }
+  .rd-fig-staff .rd-cap { font-size: 13px; color: var(--text-dim); margin: 0 0 -4px 4px; }
+  .rd-code { font: 500 12px/1.5 var(--mono); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; margin: 8px 0 0; white-space: pre; overflow-x: auto; color: var(--text-dim); }
+  .rd-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
+  .rd-opts[hidden] { display: none; }
+  .rd-opt { display: grid; gap: 6px; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-elev); }
+  .rd-opt.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--bg-elev)); }
+  .rd-opt.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--bg-elev)); }
+  .rd-opt b { font: 700 13px var(--font); color: var(--text-dim); }
+  .rd-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 10px; }
+  .rd-card { all: unset; box-sizing: border-box; cursor: pointer; display: block; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--canvas-bg); padding: 4px; min-width: 0; }
+  .rd-card:hover { border-color: var(--accent); }
+  .rd-card.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--canvas-bg)); }
+  .rd-card.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--canvas-bg)); }
+  .rd-card .lab { display: block; font: 700 12px var(--mono); color: var(--text-dim); padding: 2px 4px; }
+  .rd-card .dr-staff { pointer-events: none; }
+  .rd-plus { font: 700 13px var(--mono); fill: var(--text); text-anchor: middle; }
+  .rd-seq { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .rd-seq span { font: 700 12px var(--mono); padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-elev); }
+  .rd-seq span.now { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .rd-seq span.done { color: var(--text-faint); }
+  .rd-chart svg { display: block; width: 100%; height: auto; }
+  .rd-chart { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 6px; }
+  .rd-chbar { fill: transparent; transition: fill .08s; }
+  .rd-chbar.now { fill: var(--accent-soft); }
+  .rd-chbar.done { fill: color-mix(in srgb, var(--accent) 5%, transparent); }
+  .rd-legend-row { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .rd-legend-row i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .rd-big-count { font: 800 26px var(--mono); text-align: center; color: var(--accent); min-height: 34px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="reading">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 04</div>
+    <h1>드럼 악보 읽기</h1>
+    <p class="lead">드럼 악보는 피아노 악보와 같은 오선을 쓰지만, 줄과 칸이 뜻하는 것이 완전히 다릅니다. 피아노에서 높이는 <b>음높이</b>이고, 드럼에서 높이는 <b>어느 악기를 치는가</b>입니다. 음표 머리의 모양은 북인지 심벌인지를, 기둥의 방향은 손인지 발인지를 알려 주고, 빔은 박을 묶어 보여 줍니다. 드럼은 소리가 저절로 사라지는 악기라서 음표의 '길이'보다 '언제 시작하는가'가 중요하다는 점도 다릅니다. 이 장에서는 타악기 보표의 지도(어느 자리에 어떤 악기)를 익히고, 머리 모양과 아티큘레이션 기호를 소리와 짝지어 듣고, 스텝 그리드와 악보를 서로 번역해 봅니다. 그다음 읽기 게임과 초견 사다리로 '보는 순간 손발이 움직이는' 단계까지 연습하고, 마지막으로 도돌이표와 1·2번 괄호가 있는 드럼 차트를 처음부터 끝까지 따라가 봅니다.</p>
+    <ul class="objectives">
+      <li>타악기 보표의 중립 음자리표를 알고, 킷의 각 조각이 오선의 어느 자리에 적히는지 말할 수 있다(출판사마다 다르므로 범례를 먼저 본다).</li>
+      <li>음표 머리(보통·x·원 친 x·다이아몬드·빗금)로 북과 심벌, 크로스 스틱·벨·림샷을 구별한다.</li>
+      <li>손은 기둥 위, 발은 기둥 아래의 두 성부로 적는 이유와, 빔이 박 단위를 드러내는 방식을 안다.</li>
+      <li>드럼에서는 음 길이보다 시작 시점이 중요하지만 쉼표가 여전히 필요한 이유를 설명한다. 셋잇단 표기를 읽는다.</li>
+      <li>액센트·고스트·열린/닫힌 하이햇·플램·드래그·버즈·스티킹 기호를 소리와 짝짓는다.</li>
+      <li>읽기 게임과 초견 사다리로 4분 → 8분 → 쉼표 → 16분 → 셋잇단 순서로 읽기 속도를 올린다.</li>
+      <li>도돌이표, 한 마디 반복(%), 1·2번 괄호, 리허설 마크, 슬래시 'time' 표기가 있는 드럼 차트의 연주 순서를 따라간다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="staff">
+    <h2>타악기 보표: 높이가 곧 악기다</h2>
+    <p>드럼 악보도 다섯 줄 오선을 씁니다. 다만 맨 앞에는 높은음자리표 대신 굵은 세로 막대 두 개, 곧 <span class="term">중립 음자리표</span><span class="en">(Neutral clef, Percussion clef)</span>가 놓입니다. "이 오선의 줄과 칸은 음높이가 아니다"라는 선언입니다. 음높이가 없는 대신 줄과 칸마다 킷의 조각 하나를 배정하는데, 배정 규칙에는 직관적인 원리가 하나 있습니다. <b>실제로 낮은 소리가 나는 악기는 아래에, 높은 소리와 심벌은 위에</b> 적습니다. 킥 드럼은 맨 아래 칸 근처, 스네어는 셋째 칸, 탐은 높은 탐부터 차례로 내려가고, 심벌은 오선 위쪽과 덧줄에 x 머리로 적습니다. 그래서 악보를 멀리서 보아도 "위쪽은 반짝이는 금속, 가운데는 스네어, 아래는 쿵" 하는 소리의 지형이 보입니다.</p>
+    <p>이 책은 미국 타악기 협회<span class="en">(PAS)</span> 계열의 표기 권고와 대부분의 교본이 쓰는 배치를 따릅니다. 오선 아래에서부터 첫째 줄이 E4, 첫째 칸이 F4 … 다섯째 줄이 F5라고 이름을 붙이면(이 이름은 자리를 가리키는 좌표일 뿐 음높이가 아닙니다), 각 조각의 자리는 다음과 같습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 290" role="img" aria-label="타악기 보표 위의 악기 자리: 크래시 A5 덧줄, 하이햇 G5, 라이드 F5, 하이 탐 E5, 미드 탐 D5, 스네어 C5, 플로어 탐 A4, 킥 F4, 하이햇 페달 D4">
+        <g id="rd-fig1"></g>
+      </svg>
+      <figcaption><b>그림 4-1.</b> 보표 위치표. 손으로 치는 조각은 기둥이 위로(윗성부), 발로 밟는 킥과 하이햇 페달은 기둥이 아래로(아랫성부) 향한다. 심벌은 x 머리, 북은 보통 머리다. 크래시는 오선 위 첫 덧줄(A5), 하이햇은 오선 바로 위(G5), 라이드는 다섯째 줄(F5)에 앉는다. 오른쪽 글자는 줄 이름(좌표)이다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>조각</th><th>자리(좌표)</th><th>머리</th><th>성부</th><th>외우는 법</th></tr></thead>
+      <tbody>
+        <tr><td>크래시</td><td>A5 (위 덧줄)</td><td>x</td><td>손(위)</td><td>가장 크고 높이 달린 심벌 → 오선 밖, 덧줄</td></tr>
+        <tr><td>하이햇(손)</td><td>G5 (오선 위)</td><td>x</td><td>손(위)</td><td>가장 자주 치는 심벌 → 덧줄 없이 바로 위</td></tr>
+        <tr><td>라이드</td><td>F5 (다섯째 줄)</td><td>x</td><td>손(위)</td><td>하이햇 한 칸 아래. 벨은 같은 자리에 다이아몬드</td></tr>
+        <tr><td>하이 탐 / 미드 탐</td><td>E5 / D5</td><td>보통</td><td>손(위)</td><td>스네어 위의 두 자리, 높은 탐이 위</td></tr>
+        <tr><td>스네어</td><td>C5 (셋째 칸)</td><td>보통</td><td>손(위)</td><td>오선 한가운데 바로 위 칸 — 가장 바쁜 자리</td></tr>
+        <tr><td>플로어 탐</td><td>A4 (둘째 칸)</td><td>보통</td><td>손(위)</td><td>가장 낮은 탐 → 스네어보다 두 칸 아래</td></tr>
+        <tr><td>킥(베이스 드럼)</td><td>F4 (첫째 칸)</td><td>보통</td><td>발(아래)</td><td>가장 낮은 북 → 맨 아래 칸</td></tr>
+        <tr><td>하이햇 페달</td><td>D4 (오선 아래)</td><td>x</td><td>발(아래)</td><td>왼발 '칙' → 킥보다 더 아래, 심벌이라 x</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout note"><strong>표준은 하나가 아니다: 범례부터 본다</strong> 드럼 표기는 피아노만큼 통일되어 있지 않습니다. 어떤 교본은 하이햇을 G5에, 라이드를 F5에 두지만, 오래된 악보나 다른 나라 출판사는 라이드를 덧줄 위에, 크래시를 B5에, 플로어 탐을 G4에 적기도 합니다. 하이햇 페달을 오선 아래 덧줄 쪽(C4 부근)에 적는 악보도 있습니다. 그래서 대부분의 드럼 악보와 교본은 첫 쪽에 <b>범례</b><span class="en">(Key, Legend)</span>를 싣습니다. 처음 보는 악보를 받으면 음표를 읽기 전에 범례를 먼저 보고, 범례가 없으면 첫 몇 마디에서 "가장 많이 나오는 x = 하이햇, 둘째·넷째 박의 셋째 칸 = 스네어"처럼 문맥으로 추리합니다. 아래 시뮬레이터의 '범례 보표'가 바로 그런 범례입니다.</div>
+
+    <div class="sim" id="sim-rd-key">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>범례 탐색기: 킷을 치면 악보 자리가 보인다</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rd-key-kit"></div>
+          <div id="rd-key-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>변형 소리(같은 자리, 다른 머리)</span>
+            <div class="dr-chips" id="rd-key-chips">
+              <button data-p="hatOpen">열린 하이햇</button><button data-p="hatHalf">반열림</button><button data-p="bell">라이드 벨</button><button data-p="rim">림샷</button><button data-p="xstick">크로스 스틱</button><button data-p="hatFoot">하이햇 페달</button><button data-p="cowbell">카우벨</button>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn primary" id="rd-key-tour">▶ 위에서 아래로 차례로 듣기</button></div>
+          <div class="dr-hint" id="rd-key-hint"></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">조각</span><span class="v" id="rd-key-o-name">—</span></div>
+        <div class="stat"><span class="k">보표 자리</span><span class="v" id="rd-key-o-pos">—</span></div>
+        <div class="stat"><span class="k">머리 · 성부</span><span class="v" id="rd-key-o-head">—</span></div>
+        <div class="stat"><span class="k">GM 번호 · 키</span><span class="v" id="rd-key-o-gm">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 위 킷 그림의 조각을 눌러 보세요. 범례 보표에서 그 조각의 음표가 강조되고 자리·머리 모양이 표시됩니다. 거꾸로 범례 보표의 음표를 눌러도 소리가 납니다. 스네어 가장자리를 누르면 림샷, 라이드 가운데(벨)를 누르면 라이드 벨이며, 하이햇 페달은 누를 때마다 열림/닫힘이 바뀝니다(열린 채 하이햇을 치면 '치이–' 하고 길게 웁니다). 컴퓨터 키보드로도 칠 수 있습니다. GM 번호는 General MIDI 드럼 맵의 음 번호로, 전자 드럼·DAW가 이 번호로 조각을 구별합니다(<a href="studio.html">14장</a>). 소리는 원형 막의 베셀 모드와 금속 부분음으로 만든 근사 모델입니다(<a href="instrument.html">1장</a>).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="heads">
+    <h2>음표 머리: 모양이 재료를 말한다</h2>
+    <p>자리가 '어느 악기'를 알려 준다면 <span class="term">음표 머리</span><span class="en">(Notehead)</span>의 모양은 '무엇으로, 어디를'을 알려 줍니다. 규칙은 단순합니다. 가죽(헤드)을 치는 북은 <b>보통의 검은 타원</b>, 금속인 심벌은 <b>x</b>입니다. 같은 자리라도 치는 방법이 달라지면 머리 모양을 바꿉니다. 스네어 자리(C5)의 원 친 x는 스틱을 헤드에 눕혀 테를 치는 크로스 스틱, 빗금 친 머리는 헤드와 테를 동시에 때리는 림샷, 라이드 자리(F5)의 다이아몬드는 가운데 볼록한 벨을 치라는 뜻입니다. 덕분에 악보 한 줄로도 음색의 변화를 정밀하게 지시할 수 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="음표 머리 모양 여섯 가지: 보통, x, 원 친 x, 다이아몬드, 빗금, 세모">
+        <g id="rd-fig2"></g>
+      </svg>
+      <figcaption><b>그림 4-2.</b> 음표 머리 모양과 뜻. 보통 머리 = 북의 헤드, x = 심벌(하이햇·라이드·크래시), 원 친 x = 크로스 스틱, 다이아몬드 = 라이드 벨(일부 교본은 다이아몬드를 '반열림 하이햇'이나 '페달로 밟는 하이햇'에 쓰기도 한다), 빗금 = 림샷, 세모 = 카우벨. 교본마다 조금씩 다르므로 여기서도 범례가 우선이다.</figcaption>
+    </figure>
+    <p>머리 모양을 배울 때는 눈보다 귀가 먼저입니다. 범례 탐색기에서 스네어(보통) → 크로스 스틱(원 친 x) → 림샷(빗금)을 차례로 눌러 보면, 같은 자리의 세 음표가 얼마나 다른 소리인지 바로 들립니다. 보통 스트로크는 막의 여러 모드와 스네어 와이어의 '치익'이 섞인 소리, 크로스 스틱은 테와 스틱이 부딪는 짧고 나무 같은 '똑', 림샷은 둘이 한꺼번에 나는 날카로운 '빡'입니다. 소리의 이유는 <a href="instrument.html">1장</a>과 <a href="sound.html">12장</a>에서 자세히 다룹니다.</p>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="voices">
+    <h2>두 성부와 빔: 손은 위로, 발은 아래로</h2>
+    <p>드럼 연주자는 네 개의 팔다리로 동시에 여러 리듬을 칩니다. 이것을 한 줄에 모두 섞어 적으면 기둥과 빔이 뒤엉켜 읽기 어렵습니다. 그래서 대부분의 드럼 악보는 <span class="term">두 성부</span><span class="en">(Two voices)</span>로 나눠 적습니다. <b>손으로 치는 것(심벌·스네어·탐)은 기둥을 위로</b>, <b>발로 밟는 것(킥·하이햇 페달)은 기둥을 아래로</b> 그립니다. 같은 순간에 친 음들은 한 기둥에 머리를 여러 개 매답니다(하이햇과 스네어가 같은 기둥에 붙은 것 = 두 손이 동시에 친다). 이 방식의 장점은 눈이 위아래 두 '선율'을 따로 따라갈 수 있다는 것입니다. 손 성부는 손의 리듬을, 발 성부는 발의 리듬을 보여 주므로 연습할 때도 "손만", "발만" 떼어 읽기 쉽습니다.</p>
+    <p>두 번째 장치는 <span class="term">빔</span><span class="en">(Beam)</span>입니다. 8분·16분음표의 꼬리를 하나하나 달지 않고 <b>한 박 단위로</b> 굵은 막대로 묶습니다. 빔 하나는 8분음표, 둘은 16분음표입니다. 빔이 박마다 끊기므로, 빔 묶음 하나 = 4분음표 한 박이라는 '눈금'이 생깁니다. 숙련된 드러머는 음표를 하나씩 읽지 않고 이 묶음을 하나의 단어처럼 읽습니다.</p>
+    <figure class="diagram">
+      <div class="rd-fig-staff">
+        <p class="rd-cap">(가) 한 성부: 모든 음표의 기둥이 위로</p>
+        <div id="rd-fig3a"></div>
+        <p class="rd-cap">(나) 두 성부: 손(위) · 발(아래)</p>
+        <div id="rd-fig3b"></div>
+      </div>
+      <figcaption><b>그림 4-3.</b> 같은 8비트(하이햇 8분음표, 스네어 2·4박, 킥 1·2&amp;·3박)를 두 가지로 적은 것. (가)는 킥까지 한 기둥에 묶어 세로로 길어지고, (나)는 손과 발이 각자의 리듬으로 보인다. 두 경우 모두 빔이 박마다 끊겨 네 묶음 = 네 박이다. 아래 숫자는 카운트(1 &amp; 2 &amp; …)다.</figcaption>
+    </figure>
+    <p>박 단위로 묶어 읽는 것이 왜 빠른지는 경우의 수로 볼 수 있습니다. 8분음표 격자에서 한 조각이 한 마디에 만들 수 있는 리듬은 칸마다 '친다/안 친다' 두 가지이므로 \(2^8 = 256\)가지입니다. 하지만 한 박만 보면 \(2^2 = 4\)가지, 16분음표 격자에서도 \(2^4 = 16\)가지뿐입니다.</p>
+    <div class="formula">$$N_{\text{마디}} = 2^{\,d\cdot b},\qquad N_{\text{박}} = 2^{\,d}\qquad(d = \text{한 박의 칸 수},\ b = \text{마디의 박 수})$$
+      <div class="where">16분음표(\(d = 4\)) 4/4 마디 한 줄은 \(2^{16} = 65\,536\)가지지만, 박 하나의 모양은 16가지다. 16가지 '박 단어'를 소리와 함께 외우면 어떤 마디든 단어 넷으로 읽힌다. 언어에서 글자 대신 단어를 보는 것과 같은 <b>청킹</b><span class="en">(Chunking)</span>이며, 빔이 박마다 끊기는 이유다. 박마다 카운트를 붙이는 법은 <a href="counting.html">3장</a>에서 연습했다.</div>
+    </div>
+
+    <div class="sim" id="sim-rd-trans">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>그리드 ↔ 악보 번역기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div id="rd-tr-grid"></div>
+          <div id="rd-tr-staff" style="margin-top:10px"></div>
+          <pre class="rd-code" id="rd-tr-code"></pre>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>격자</span><div class="seg" id="rd-tr-div"><button data-value="2">8분</button><button data-value="4" class="on">16분</button><button data-value="3">셋잇단</button></div></div>
+          <div class="ctrl"><span>성부</span><div class="seg" id="rd-tr-voices"><button data-value="2" class="on">두 성부(손·발)</button><button data-value="1">한 성부</button></div></div>
+          <div class="ctrl"><span>예제</span>
+            <div class="dr-chips" id="rd-tr-pre">
+              <button data-k="rock">8비트</button><button data-k="kick">킥 변형</button><button data-k="funk">16비트 고스트</button><button data-k="shuffle">셔플(셋잇단)</button><button data-k="fill">탐 필</button><button data-k="open">열린 하이햇</button><button data-k="clear">비우기</button>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="rd-tr-counts" checked> 카운트 줄</label>
+          <label class="ctrl"><span>템포 <output id="rd-tr-bpm-out"></output></span><input type="range" id="rd-tr-bpm" min="50" max="160" value="90" step="2"></label>
+          <label class="check"><input type="checkbox" id="rd-tr-click" checked> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="rd-tr-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">손 성부 음표</span><span class="v" id="rd-tr-o-h">—</span></div>
+        <div class="stat"><span class="k">발 성부 음표</span><span class="v" id="rd-tr-o-f">—</span></div>
+        <div class="stat"><span class="k">동시 타격(한 기둥 여러 머리)</span><span class="v" id="rd-tr-o-c">—</span></div>
+        <div class="stat"><span class="k">쉼표가 생긴 박</span><span class="v" id="rd-tr-o-r">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 그리드 칸을 누를 때마다 '쉼 → 보통 → 액센트(▲) → 특수'로 바뀌고(하이햇은 ○ = 열림, 스네어는 · = 고스트·f = 플램·d = 드래그, 라이드는 ◆ = 벨), 아래 악보가 곧바로 다시 그려집니다. 하이햇의 한 칸을 비우면 손 성부에 쉼표가 생기고, 킥을 16분 자리로 옮기면 발 성부의 빔이 바뀝니다. '한 성부'로 바꾸면 모든 기둥이 위로 모여 읽기가 얼마나 어려워지는지 비교해 보세요. 맨 아래 글자는 이 책의 엔진(<code>DR.parse</code>)이 읽는 패턴 문자열입니다. 악보 엔진은 음표 길이를 '다음 음이 시작할 때까지'로 자동 결정하므로, 같은 소리를 다르게 적는 표기(그림 4-4)는 고를 수 없습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 손 성부만, 발 성부만</strong> 새 리듬을 받으면 ① 손 성부만 무릎이나 책상 위에서 두 손으로 치며 카운트("1 & 2 &")를 소리 내어 셉니다. ② 발 성부만 발뒤꿈치로 바닥을 두드립니다. ③ 둘을 합칠 때는 <b>한 박씩</b> 끊어서, 그 박의 기둥을 세로로 읽어 "같이 치는 것"과 "혼자 치는 것"을 확인합니다. 메트로놈 60 BPM에서 네 번 연속 틀리지 않으면 8 BPM씩 올립니다. 드럼이 없어도 오른손 = 오른쪽 무릎(하이햇), 왼손 = 왼쪽 무릎(스네어), 오른발 = 바닥(킥)으로 충분합니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="durations">
+    <h2>길이보다 시작 시점: 그래도 쉼표가 필요한 이유</h2>
+    <p>피아노에서 4분음표와 "8분음표 + 8분쉼표"는 다른 소리입니다. 앞의 것은 건반을 한 박 동안 누르고, 뒤의 것은 반 박 만에 뗍니다. 그런데 드럼은 친 순간부터 소리가 저절로 줄어드는 <b>감쇠 악기</b>라, 연주자가 소리의 끝을 거의 조절하지 못합니다. 스네어를 4분음표로 치든 8분음표 + 쉼표로 치든 들리는 소리는 같습니다. 드럼 악보에서 실제로 의미가 있는 정보는 각 음이 <b>언제 시작하는가</b>, 곧 <span class="term">시작 시점</span><span class="en">(Onset)</span>과 시작 사이의 간격(<span class="term">IOI</span><span class="en">(Inter-onset interval)</span>)입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="4분음표 넷과 8분음표 더하기 8분쉼표 넷이 드럼에서는 같은 소리가 나는 것을 보여 주는 그림">
+        <g id="rd-fig4"></g>
+      </svg>
+      <figcaption><b>그림 4-4.</b> 위: 스네어 4분음표 넷. 가운데: 8분음표 + 8분쉼표 넷. 아래: 실제 소리의 포락선. 드럼 소리는 치는 순간 최대이고 수백 ms 안에 사라지므로 두 표기는 같은 소리를 낸다. 악보가 정하는 것은 세로 점선, 곧 시작 시점뿐이다. 예외는 심벌 초크(손으로 잡아 멈춤)와 열린 하이햇처럼 '끝'을 연주자가 정하는 경우다.</figcaption>
+    </figure>
+    <p>그렇다면 쉼표는 왜 필요할까요? 이유는 세 가지입니다. 첫째, <b>성부마다 박의 합이 맞아야</b> 합니다. 악보는 각 성부가 한 마디를 정확히 채우도록 적는 규칙이 있어서, 손이 쉬는 동안에도 손 성부에는 그 길이만큼 쉼표가 있어야 박의 위치를 셀 수 있습니다. 둘째, 쉼표는 <b>"여기서 아무것도 치지 않는다"는 적극적인 지시</b>입니다. 쉼표가 없으면 빈자리가 실수로 지워진 것인지 일부러 비운 것인지 알 수 없습니다. 셋째, 하이햇처럼 끝을 조절할 수 있는 조각에서는 길이가 다시 의미를 갖습니다(열린 하이햇을 언제 닫는가). 그래서 드럼 악보 표기 관습은 "읽기 쉬운 쪽"을 택합니다. 보통은 다음 음까지를 음표 길이로 채우고, 박을 가로질러 생긴 빈틈에만 쉼표를 둡니다.</p>
+    <div class="formula">$$\sum_{i \in \text{성부}} d_i = \frac{4N}{D}\ \text{박},\qquad t_{k} = (m-1)\,\frac{4N}{D} + \beta_k,\qquad \text{IOI}_k = t_{k+1}-t_k$$
+      <div class="where">\(d_i\) = 한 성부 안 음표·쉼표의 길이(4분음표 = 1박), \(N/D\) = 박자표(4/4면 한 마디 4박). \(t_k\)는 \(m\)번째 마디 안의 위치 \(\beta_k\)(박)에서 시작하는 \(k\)번째 음의 절대 시각이다. 드럼 악보를 읽는다는 것은 결국 각 음의 \(\beta_k\)를 찾는 일이고, 초 단위로 바꾸면 \(t\,[\text{s}] = t\,[\text{박}]\times 60/\text{BPM}\)이다.</div>
+    </div>
+    <p><b>셋잇단</b><span class="en">(Triplet)</span>은 한 박을 셋으로 나눈 리듬입니다. 8분음표 셋을 빔으로 묶고 그 위(또는 아래)에 작은 숫자 3을 적습니다. 위치는 \(\beta = b + \tfrac{k}{3}\)(\(k = 0, 1, 2\))이고 "1 trip let 2 trip let"으로 셉니다. 이 책의 시뮬레이터에서 셋잇단 격자를 고르면 엔진이 빔 위에 3을 그려 줍니다. 셔플과 12/8은 셋잇단 위에 사는 리듬이며 <a href="shuffle.html">9장</a>에서 깊게 다룹니다. 16분음표 셋잇단(한 박에 여섯)은 숫자 6으로 적습니다.</p>
+    <div class="callout warn"><strong>쉼표를 '쉬는 시간'으로 착각하지 말 것</strong> 악보의 쉼표는 연주자에게 쉬라는 뜻이 아니라 <b>그 자리에서 치지 말고 박을 계속 세라</b>는 뜻입니다. 특히 손 성부에 쉼표가 있고 발 성부에만 음이 있는 박(예: 하이햇이 비고 킥만 있는 &amp;)에서 초보자는 박을 놓치기 쉽습니다. 쉬는 손도 하이햇 위에서 리듬에 맞춰 살짝 움직이는 '고스트 모션'을 하면 위치를 잃지 않습니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="articulation">
+    <h2>아티큘레이션과 스티킹: 같은 자리, 다른 소리</h2>
+    <p>음표 머리와 자리가 '무엇을 언제'라면, 머리 둘레의 작은 기호들은 '어떻게'를 지시합니다. 드럼 악보에서 자주 만나는 기호는 여덟 가지입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="드럼 아티큘레이션 기호 여덟 가지: 액센트, 고스트 노트, 열린 하이햇, 닫힌 하이햇, 플램, 드래그, 버즈, 스티킹">
+        <g id="rd-fig5"></g>
+      </svg>
+      <figcaption><b>그림 4-5.</b> 아티큘레이션 기호. 액센트 &gt; = 세게, 괄호 = 고스트 노트(아주 여리게), 머리 위 o = 하이햇을 열고 친다, + = 닫는다(보통 하이햇 페달을 밟아 닫음), 작은 꾸밈음 하나 = 플램, 둘 = 드래그(러프), 기둥 위 z = 버즈(다중 바운스), 음표 아래 R·L = 스티킹(오른손·왼손).</figcaption>
+    </figure>
+    <ul>
+      <li><b>액센트</b> <code>&gt;</code>: 그 음만 세게. 스틱을 더 높이 들었다가 떨어뜨리는 '풀 스트로크'(<a href="setup.html">2장</a>).</li>
+      <li><b>고스트 노트</b> <code>( )</code>: 들릴 듯 말 듯 아주 여리게. 스틱 높이 2–3 cm. 16비트·펑크 그루브의 '숨결'이다(<a href="sixteenth.html">7장</a>).</li>
+      <li><b>열린 하이햇</b> <code>o</code> / <b>닫힘</b> <code>+</code>: 왼발을 살짝 들어 두 심벌 사이를 벌린 채 치면 '치이–' 하고 길게 울린다. +는 다시 밟아 닫는 지점(보통 하이햇 페달 음표와 함께 적는다).</li>
+      <li><b>플램</b>: 작은 꾸밈음 하나가 본음 바로 앞에 붙는다. 두 손이 거의 동시에 떨어지되 꾸밈음 손이 낮은 높이에서 약간 먼저.</li>
+      <li><b>드래그</b>(러프): 꾸밈음 둘. 한 손의 더블 바운스가 본음 앞에 붙는다.</li>
+      <li><b>버즈</b> <code>z</code>: 스틱을 헤드에 눌러 여러 번 튀게 하는 다중 바운스. 이어 치면 버즈 롤이 된다.</li>
+      <li><b>스티킹</b> <code>R L</code>: 어느 손으로 칠지. 루디먼트(<a href="rudiments.html">5장</a>)와 필(<a href="fills.html">8장</a>)에서 소리를 바꾼다.</li>
+    </ul>
+    <p>셈여림은 스틱이 헤드를 때리는 속도로 정해지고, 음압은 그 속도에 대해 대략 거듭제곱으로 커집니다. 이 책의 가상 킷은 벨로시티 \(v\)(0–1)를 다음과 같은 이득으로 바꿉니다.</p>
+    <div class="formula">$$g(v) = 0.02 + 0.98\,v^{1.7},\qquad \Delta L = 20\log_{10}\frac{g(v)}{g(0.75)}\ \text{dB}$$
+      <div class="where">고스트(\(v = 0.28\))는 보통(\(v = 0.75\))보다 약 \(-15\) dB, 액센트(\(v = 1\))는 약 \(+4\) dB다. 실제 드럼에서도 고스트와 액센트의 차이는 20 dB 안팎이며, 이 큰 대비가 그루브의 입체감을 만든다. 악보 엔진은 \(v \ge 0.9\)를 &gt;로, \(v \le 0.4\)를 괄호로 그린다.</div>
+    </div>
+
+    <div class="sim" id="sim-rd-art">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>아티큘레이션 소리 사전</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rd-ar-staff"></div>
+          <div class="rd-big-count" id="rd-ar-sym" aria-live="polite"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기호</span>
+            <div class="dr-chips" id="rd-ar-chips">
+              <button data-k="plain" class="on">보통</button><button data-k="accent">액센트 &gt;</button><button data-k="ghost">고스트 ( )</button><button data-k="open">열림 o / 닫힘 +</button><button data-k="flam">플램</button><button data-k="drag">드래그</button><button data-k="buzz">버즈 z</button><button data-k="xstick">크로스 스틱</button><button data-k="rim">림샷</button><button data-k="bell">라이드 벨</button><button data-k="stick">스티킹 R L</button>
+            </div>
+          </div>
+          <label class="ctrl"><span>템포 <output id="rd-ar-bpm-out"></output></span><input type="range" id="rd-ar-bpm" min="50" max="140" value="84" step="2"></label>
+          <label class="check"><input type="checkbox" id="rd-ar-loop"> 반복</label>
+          <div class="btn-row"><button class="btn primary" id="rd-ar-play">▶ 예제 듣기</button></div>
+          <div class="ctrl"><span>한 번씩 쳐서 비교(스네어)</span>
+            <div class="btn-row"><button class="btn" data-v="0.28" id="rd-ar-v1">고스트</button><button class="btn" data-v="0.5" id="rd-ar-v2">여리게</button><button class="btn" data-v="0.75" id="rd-ar-v3">보통</button><button class="btn" data-v="1" id="rd-ar-v4">액센트</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-ar-msg">기호를 고르고 '예제 듣기'를 누르세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">패턴 문자</span><span class="v" id="rd-ar-o-c">—</span></div>
+        <div class="stat"><span class="k">벨로시티</span><span class="v" id="rd-ar-o-v">—</span></div>
+        <div class="stat"><span class="k">보통 대비 음량</span><span class="v" id="rd-ar-o-db">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '보통'과 '액센트'를 번갈아 들은 뒤, 아래 비교 버튼으로 고스트–보통–액센트 한 타씩의 음량 차(dB)를 확인하세요. '열림 o / 닫힘 +'는 하이햇을 2&amp;·4&amp;에서 열고 다음 박에 왼발로 닫는 예입니다(+ 표시는 이 장의 스크립트가 악보 위에 덧그린 것). 플램과 드래그의 꾸밈음은 본음보다 25–32 ms 앞에 오도록 모델링했고, 버즈는 약 26 Hz로 튀며 점점 약해지는 바운스의 근사입니다. 고스트 노트가 거의 안 들리면 정상입니다. 실제 드럼에서도 '느끼는' 소리에 가깝습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 두 높이 스트로크</strong> 액센트와 고스트를 섞어 읽으려면 손이 먼저 두 높이를 기억해야 합니다. 연습 패드에서 오른손만 8분음표로 "높이 30 cm(액센트) – 3 cm(고스트)"를 번갈아 치고, 높이를 바꿀 때 손목에 힘을 주지 말고 스틱을 <b>멈추는 위치</b>만 바꿉니다(다운 스트로크·업 스트로크, <a href="setup.html#strokes">2장</a>). 70 BPM에서 1분, 왼손 1분, 그다음 양손 교대로. 두 소리의 음량 차가 위 비교 버튼의 '고스트 vs 액센트' 정도로 벌어지면 성공입니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="game">
+    <h2>읽기 게임: 보고 → 듣고 → 치기</h2>
+    <p>읽기는 지식이 아니라 반사입니다. 머리로 "셋째 칸이니까 스네어, 둘째 &amp;니까…"라고 해석하는 단계를 지나, 박 하나의 모양을 보면 손발이 먼저 움직이는 단계까지 가야 합니다. 그 사이를 잇는 연습이 <b>악보 → 소리</b>와 <b>소리 → 악보</b>의 양방향 짝짓기입니다. 첫 게임은 악보를 보여 주고 세 소리 중 맞는 것을 고르게 하거나(소리 고르기) 직접 쳐 보게 하고(직접 치기), 두 번째 게임은 소리를 들려주고 세 악보 중 맞는 것을 고르게 합니다. 오답 보기는 정답에서 킥 하나를 옮기거나, 스네어를 한 칸 밀거나, 음 하나를 더하거나 빼서 만든 '아주 가까운' 리듬이라, 대충 보면 틀립니다.</p>
+
+    <div class="sim" id="sim-rd-game">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>읽기 게임: 이 악보는 어떤 소리인가?</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rd-gm-staff"></div>
+          <div class="rd-opts" id="rd-gm-opts">
+            <div class="rd-opt"><b>소리 A</b><button class="btn" data-play="0">▶ 듣기</button><button class="btn primary" data-pick="0">A가 맞다</button></div>
+            <div class="rd-opt"><b>소리 B</b><button class="btn" data-play="1">▶ 듣기</button><button class="btn primary" data-pick="1">B가 맞다</button></div>
+            <div class="rd-opt"><b>소리 C</b><button class="btn" data-play="2">▶ 듣기</button><button class="btn primary" data-pick="2">C가 맞다</button></div>
+          </div>
+          <div id="rd-gm-play" hidden>
+            <div class="dr-lamps" id="rd-gm-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+            <div id="rd-gm-pads"></div>
+            <canvas id="rd-gm-tl" class="dr-cv" style="margin-top:8px"></canvas>
+          </div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>방식</span><div class="seg" id="rd-gm-mode"><button data-value="pick" class="on">소리 고르기</button><button data-value="play">직접 치기</button></div></div>
+          <div class="ctrl"><span>단계</span><div class="seg" id="rd-gm-lv"><button data-value="1">4분</button><button data-value="2" class="on">8분</button><button data-value="3">쉼표</button><button data-value="4">16분</button><button data-value="5">셋잇단</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-gm-bpm-out"></output></span><input type="range" id="rd-gm-bpm" min="50" max="130" value="80" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="rd-gm-go" hidden>▶ 치기 시작 (예비 1마디)</button><button class="btn" id="rd-gm-next">다음 문제</button></div>
+          <div class="dr-hint" id="rd-gm-hint"></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-gm-msg">악보를 보고, 세 소리를 들어 본 뒤 맞는 것을 고르세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">푼 문제</span><span class="v" id="rd-gm-o-n">0</span></div>
+        <div class="stat"><span class="k">정답률</span><span class="v" id="rd-gm-o-a">—</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="rd-gm-o-s">0</span></div>
+        <div class="stat"><span class="k">직접 치기 정확도</span><span class="v" id="rd-gm-o-p">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '소리 고르기'에서는 듣기 전에 먼저 악보를 소리 내어 세어 보고("쿵 칙 딱 칙…"), 그 예상과 같은 소리를 찾으세요. 다섯 문제 연속 정답이면 단계를 올립니다. '직접 치기'는 예비 1마디(클릭 넷) 뒤 같은 마디를 두 번 치면 하이햇·스네어·킥 각각의 맞힘과 타이밍 오차를 보여 줍니다(허용 창 ±130 ms 또는 칸 간격의 30% 중 작은 값). 아래 타임라인의 점은 악보, 막대는 내가 친 시각입니다. 키보드: <kbd>D</kbd>/<kbd>K</kbd> 하이햇, <kbd>F</kbd>/<kbd>J</kbd> 스네어, <kbd>Space</kbd> 킥. 브라우저·키보드 지연 수십 ms가 오차에 섞입니다.</div>
+    </div>
+
+    <div class="sim" id="sim-rd-ear">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>어느 악보를 들었나? 소리 → 악보</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="btn-row"><button class="btn primary" id="rd-er-play">▶ 문제 듣기</button><button class="btn" id="rd-er-next">다음 문제</button></div>
+          <div class="rd-cards" id="rd-er-cards"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>단계</span><div class="seg" id="rd-er-lv"><button data-value="1">4분</button><button data-value="2" class="on">8분</button><button data-value="3">쉼표</button><button data-value="4">16분</button><button data-value="5">셋잇단</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-er-bpm-out"></output></span><input type="range" id="rd-er-bpm" min="50" max="130" value="76" step="2"></label>
+          <label class="check"><input type="checkbox" id="rd-er-click" checked> 메트로놈 함께</label>
+          <label class="check"><input type="checkbox" id="rd-er-solo"> 킥만 크게(발 성부 집중)</label>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-er-msg">'문제 듣기'를 누르고, 들은 리듬과 같은 악보 카드를 고르세요. 여러 번 들어도 됩니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">푼 문제</span><span class="v" id="rd-er-o-n">0</span></div>
+        <div class="stat"><span class="k">정답률</span><span class="v" id="rd-er-o-a">—</span></div>
+        <div class="stat"><span class="k">평균 들은 횟수</span><span class="v" id="rd-er-o-l">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 하이햇은 세 카드가 모두 같으니 무시하고, 먼저 <b>스네어가 어디서 나는지</b>, 다음에 <b>킥이 몇 번, 어디서</b> 나는지만 들으세요. 저음은 듣기 어려우므로 '킥만 크게'를 켜면 킥 음량이 올라갑니다. 한 번 듣고 맞히는 것이 목표지만, 처음에는 세 번까지 들어도 괜찮습니다. 들은 횟수가 줄어드는 것이 실력이 느는 신호입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="sight">
+    <h2>초견 사다리: 쉬운 것부터 멈추지 않고</h2>
+    <p>초견<span class="en">(Sight-reading)</span>은 처음 보는 악보를 멈추지 않고 치는 기술입니다. 드럼 초견의 첫째 원칙은 <b>박을 멈추지 않는 것</b>입니다. 음 하나를 틀려도 다음 박 1에는 반드시 돌아와야 합니다. 밴드에서 드러머가 멈추면 곡 전체가 멈추기 때문입니다. 둘째 원칙은 눈이 손보다 <b>한 박 앞</b>을 읽는 것입니다. 지금 치는 박을 보고 있으면 이미 늦습니다. 셋째, 난이도는 리듬의 종류 순서로 올립니다. 4분음표만 → 8분음표 → 쉼표가 섞인 8분 → 16분음표 → 셋잇단. 아래 사다리는 단계마다 무작위 두 마디 패턴을 만들어 들려주고, 손 또는 발 파트를 빼서 그 부분을 여러분이 직접 치게 합니다.</p>
+
+    <div class="sim" id="sim-rd-sight">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>초견 사다리: 무작위 패턴 따라 치기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rd-sr-staff"></div>
+          <div class="dr-lamps" id="rd-sr-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+          <div id="rd-sr-pads"></div>
+          <canvas id="rd-sr-tl" class="dr-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>단계</span><div class="seg" id="rd-sr-lv"><button data-value="1" class="on">1 4분</button><button data-value="2">2 8분</button><button data-value="3">3 쉼표</button><button data-value="4">4 16분</button><button data-value="5">5 셋잇단</button></div></div>
+          <div class="ctrl"><span>내가 칠 파트(소리를 뺀다)</span><div class="seg" id="rd-sr-part"><button data-value="none">없음(듣기만)</button><button data-value="hands" class="on">손</button><button data-value="feet">발</button><button data-value="all">전부</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-sr-bpm-out"></output></span><input type="range" id="rd-sr-bpm" min="50" max="140" value="72" step="2"></label>
+          <label class="check"><input type="checkbox" id="rd-sr-auto" checked> 끝나면 새 패턴으로 이어서</label>
+          <label class="check"><input type="checkbox" id="rd-sr-up"> 90% 넘으면 단계 올리기</label>
+          <div class="btn-row"><button class="btn primary" id="rd-sr-go">▶ 시작</button><button class="btn" id="rd-sr-new">새 패턴</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-sr-msg">시작하면 예비 1마디 뒤 두 마디 패턴을 두 번 연주합니다. 소리를 뺀 파트를 직접 치세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">단계 · 패턴</span><span class="v" id="rd-sr-o-lv">—</span></div>
+        <div class="stat"><span class="k">이번 정확도</span><span class="v" id="rd-sr-o-a">—</span></div>
+        <div class="stat"><span class="k">평균 오차 / 흔들림</span><span class="v" id="rd-sr-o-d">—</span></div>
+        <div class="stat"><span class="k">지금까지(평균)</span><span class="v" id="rd-sr-o-h">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 1단계 72 BPM, '손'으로 시작해 정확도 90% 이상이 세 번 나오면 단계를 올리고, 5단계까지 간 뒤에는 템포를 8 BPM 올려 1단계부터 다시. '발'을 고르면 킥(<kbd>Space</kbd>)만 치면 됩니다. 손 파트는 하이햇 <kbd>K</kbd>, 스네어 <kbd>F</kbd>로 치되, 하이햇과 스네어가 같은 기둥이면 두 키를 함께 누릅니다. 정확도 = 맞힌 음 ÷ (악보의 음 + 남는 타격). 생성기는 1박 킥과 2·4박 스네어를 대체로 지키고 나머지를 무작위로 채우므로, 음악적으로 어색한 패턴도 나올 수 있습니다. 그것도 좋은 읽기 연습입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 하루 10분 초견</strong> ① 1분: 범례 확인 없이 오늘 볼 악보의 첫 두 마디를 눈으로만 세기("1 & 2 &"). ② 6분: 위 사다리를 '손' → '발' → '전부' 순서로 2분씩. 틀려도 멈추지 않는 것이 규칙입니다. ③ 3분: 교본이나 공유 악보에서 처음 보는 4–8마디를 메트로놈 60에 한 번만 쳐 보기. 같은 악보를 여러 번 치면 그것은 초견이 아니라 연습이 됩니다. 실제 드럼이 없으면 무릎과 발뒤꿈치로, 소리가 필요하면 이 페이지의 패드와 키보드로 합니다. 4주면 8분음표 단계는 '보는 순간' 칠 수 있게 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="repeats">
+    <h2>반복 기호와 드럼 차트</h2>
+    <p>대중음악의 드럼 파트는 같은 그루브를 수십 마디 반복하므로, 모든 마디를 음표로 적으면 악보가 몇 쪽씩 늘어나고 읽는 사람도 지칩니다. 그래서 드럼 악보는 <b>반복 기호</b>를 적극적으로 씁니다. <span class="term">도돌이표</span><span class="en">(Repeat sign)</span> <code>|: … :|</code>는 사이를 한 번 더, <span class="term">한 마디 반복</span><span class="en">(Simile, %)</span>은 바로 앞 마디를 그대로, 빗금 둘과 숫자 2가 있는 기호는 앞의 두 마디를 그대로 치라는 뜻입니다. 반복의 끝을 다르게 하려면 <b>1·2번 괄호</b><span class="en">(1st / 2nd ending)</span>를 씁니다. 첫 번째에는 1번 괄호 마디를 치고 도돌이표로 돌아가고, 두 번째에는 1번 괄호를 건너뛰어 2번 괄호로 갑니다. 더 큰 구조는 세뇨(S에 빗금과 점 둘)·코다(⊕ 모양)와 D.S. al Coda("세뇨로 돌아가 코다 표시에서 코다로 건너뛰기") 같은 <span class="term">로드맵</span><span class="en">(Roadmap)</span> 기호로 적습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="반복 기호: 도돌이표, 한 마디 반복, 두 마디 반복, 1·2번 괄호, 세뇨와 코다">
+        <g id="rd-fig6"></g>
+      </svg>
+      <figcaption><b>그림 4-6.</b> 반복 기호. (가) 도돌이표: 굵은 선 쪽의 두 점이 반복 구간을 가리킨다. (나) 한 마디 반복 %: 앞 마디를 그대로. (다) 두 마디 반복: 마디선 위의 %%와 숫자 2. (라) 1·2번 괄호: 연주 순서는 1 2 3 · 1 2 4. (마) 세뇨·코다: D.S.에서 세뇨로 돌아가고, 'To Coda'에서 코다로 건너뛴다. 아래 회색 숫자는 실제 연주 순서다.</figcaption>
+    </figure>
+    <p>스튜디오와 밴드 현장에서 드러머가 가장 자주 받는 악보는 한 음 한 음 적힌 악보가 아니라 <span class="term">드럼 차트</span><span class="en">(Drum chart)</span>입니다. 리드시트처럼 곡의 뼈대만 적고, 그루브는 연주자에게 맡깁니다. 차트를 읽는 요령은 다음과 같습니다.</p>
+    <ul>
+      <li><b>리허설 마크</b><span class="en">(Rehearsal mark)</span>: 네모 안의 A, B, C(또는 Verse, Chorus)는 곡의 단락 이름이다. "B부터 다시"처럼 소통하는 주소다.</li>
+      <li><b>슬래시 표기</b><span class="en">(Slash notation)</span>와 <b>time</b>: 박마다 빗금 하나. 구체적인 리듬 없이 "이 스타일로 박을 유지하라"는 뜻이다. 위에 'Time', 'Ride', 'Rock 8ths', 'Hi-hat' 같은 지시를 적는다.</li>
+      <li><b>필</b><span class="en">(Fill)</span>: 'Fill' 또는 물결선이 있는 박은 자유롭게 채우되, 다음 마디의 1에는 정확히 착지한다(<a href="fills.html">8장</a>).</li>
+      <li><b>합주 리듬</b><span class="en">(Ensemble figures, Kicks)</span>: 오선 위에 작게 적은 리듬은 밴드 전체가 함께 치는 강조점이다. 드러머는 그 리듬을 크래시·킥으로 받쳐 준다.</li>
+      <li><b>마디 수 세기</b>: 차트에는 같은 슬래시 마디가 이어지므로, 4마디 단위로 손가락을 접거나 머리로 "1–2–3–4, 2–2–3–4"처럼 마디 번호를 센다.</li>
+    </ul>
+
+    <div class="sim" id="sim-rd-chart">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>로드맵 따라가기: 도돌이표와 1·2번 괄호가 있는 차트</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="rd-chart"><svg viewBox="0 0 760 270" id="rd-ch-svg" role="img" aria-label="8마디 드럼 차트"></svg></div>
+          <div class="rd-seq" id="rd-ch-seq"></div>
+          <p class="rd-cap" style="font-size:13px;color:var(--text-dim);margin:8px 0 0">지금 마디를 실제로 치면 이렇게 된다:</p>
+          <div id="rd-ch-staff"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>읽는 방법</span><div class="seg" id="rd-ch-mode"><button data-value="road" class="on">반복 기호대로(정답)</button><button data-value="flat">적힌 순서대로(오답)</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-ch-bpm-out"></output></span><input type="range" id="rd-ch-bpm" min="60" max="150" value="104" step="2"></label>
+          <label class="check"><input type="checkbox" id="rd-ch-click"> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="rd-ch-play">▶ 차트 연주</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">연주 중인 마디(적힌 번호)</span><span class="v" id="rd-ch-o-bar">—</span></div>
+        <div class="stat"><span class="k">연주 순서</span><span class="v" id="rd-ch-o-seq">—</span></div>
+        <div class="stat"><span class="k">단락</span><span class="v" id="rd-ch-o-sec">—</span></div>
+        <div class="stat"><span class="k">총 연주 마디</span><span class="v" id="rd-ch-o-tot">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 차트를 먼저 눈으로 따라가며 연주 순서를 직접 적어 보세요(정답: 1 2 3 4 · 1 2 3 5 · 6 7 8, 모두 11마디). 그다음 '차트 연주'로 확인합니다. 'Time'은 8분 하이햇 록 비트, % 마디는 앞 마디와 같고, 1번 괄호는 스네어 필, 2번 괄호는 탐 필로 B에 들어가며, B는 라이드로 바꿔 크래시와 함께 시작합니다. '적힌 순서대로'를 고르면 반복을 무시했을 때 곡이 얼마나 짧아지고 어색해지는지(필이 두 번 연달아 나온다) 들립니다. 악보 엔진(<code>DR.staff</code>)은 시작 도돌이표·1·2번 괄호·%를 그리지 못해 이 차트는 장 스크립트가 직접 그린 SVG입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 차트를 받으면 30초 점검</strong> ① 템포·스타일 지시(예: ♩ = 104, Rock)와 범례. ② 리허설 마크를 따라 큰 구조를 훑고, 도돌이표·괄호·D.S.·코다에 손가락을 짚어 연주 순서를 미리 정합니다. ③ 합주 리듬(킥)이 있는 마디와 필 마디에 눈도장. ④ 단락마다 마디 수를 세어 둡니다(대개 4·8마디). 처음 보는 차트를 들고 녹음된 반주에 맞춰 칠 때는 <b>마디 수 세기를 절대 멈추지 않는 것</b>이 가장 중요합니다. 필이 엉망이어도 다음 단락의 1에 크래시를 맞히면 연주는 성공입니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>타악기 보표는 중립 음자리표를 쓰고, 줄·칸이 음높이 대신 악기를 뜻한다. 낮은 소리는 아래, 심벌은 위: 크래시 A5(덧줄), 하이햇 G5, 라이드 F5, 탐 E5·D5, 스네어 C5, 플로어 탐 A4, 킥 F4, 하이햇 페달 D4. 출판사마다 다르므로 범례를 먼저 본다.</li>
+      <li>음표 머리는 재료와 주법을 말한다. 보통 = 북, x = 심벌, 원 친 x = 크로스 스틱, 다이아몬드 = 라이드 벨, 빗금 = 림샷.</li>
+      <li>손은 기둥 위, 발은 기둥 아래의 두 성부로 적고, 같은 기둥의 머리는 동시에 친다. 빔은 박마다 끊어 '박 단어'(8분 4가지, 16분 16가지)로 읽게 한다.</li>
+      <li>드럼은 감쇠 악기라 시작 시점(onset)이 핵심 정보다. 그래도 쉼표는 성부의 박 합을 맞추고 '치지 말라'를 명시하기 위해 필요하다. 셋잇단은 빔 위의 3으로 적는다.</li>
+      <li>액센트 &gt;, 고스트 ( ), 열림 o / 닫힘 +, 플램(꾸밈음 1)·드래그(2), 버즈 z, 스티킹 R/L. 고스트와 액센트의 음량 차는 약 20 dB에 이른다.</li>
+      <li>읽기는 악보 → 소리, 소리 → 악보의 양방향 짝짓기와, 쉬운 단계부터 멈추지 않는 초견 반복으로 자동화된다. 눈은 손보다 한 박 앞을 본다.</li>
+      <li>도돌이표, %, 1·2번 괄호, D.S.·코다로 반복을 줄여 적는다. 드럼 차트는 리허설 마크, 슬래시 'time', 필, 합주 리듬으로 곡의 뼈대를 주고, 드러머는 마디 수를 세며 그루브를 채운다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>이 책의 표준 범례에서 오선 셋째 칸(C5)에 보통 머리로 적힌 음표는?</p><div class="opts">
+        <button class="opt">킥</button><button class="opt" data-correct>스네어</button><button class="opt">플로어 탐</button><button class="opt">라이드</button>
+      </div><div class="quiz-exp">스네어는 C5(셋째 칸)다. 킥은 F4(첫째 칸), 플로어 탐은 A4(둘째 칸), 라이드는 F5(다섯째 줄)에 x 머리로 적는다.</div></div>
+      <div class="quiz-q"><p>같은 스네어 자리에 원 친 x 머리가 있다. 어떻게 쳐야 하나?</p><div class="opts">
+        <button class="opt">헤드와 테를 동시에 세게 친다(림샷)</button><button class="opt" data-correct>스틱을 헤드에 눕히고 테를 친다(크로스 스틱)</button><button class="opt">스네어 와이어를 풀고 친다</button><button class="opt">고스트 노트로 아주 여리게 친다</button>
+      </div><div class="quiz-exp">원 친 x는 크로스 스틱(사이드 스틱)이다. 림샷은 빗금 친 머리, 고스트 노트는 머리를 괄호로 감싼다.</div></div>
+      <div class="quiz-q"><p>두 성부 드럼 악보에서 기둥이 아래로 향한 음표는 대개 무엇인가?</p><div class="opts">
+        <button class="opt">왼손으로 치는 음</button><button class="opt">여리게 치는 음</button><button class="opt" data-correct>발로 밟는 킥과 하이햇 페달</button><button class="opt">심벌</button>
+      </div><div class="quiz-exp">손(심벌·스네어·탐)은 기둥 위, 발(킥·하이햇 페달)은 기둥 아래로 성부를 나눈다. 오른손·왼손은 기둥 방향이 아니라 스티킹(R/L)으로 구별한다.</div></div>
+      <div class="quiz-q"><p>드럼 악보에서 스네어 4분음표와 '8분음표 + 8분쉼표'를 비교한 설명으로 옳은 것은?</p><div class="opts">
+        <button class="opt">4분음표가 두 배 길게 울린다</button><button class="opt" data-correct>소리는 거의 같다. 드럼은 감쇠 악기라 시작 시점이 핵심이며, 쉼표는 박의 합과 '치지 않음'을 명시한다</button><button class="opt">8분음표 쪽이 두 번 친다</button><button class="opt">쉼표가 있으면 스네어 와이어를 손으로 막는다</button>
+      </div><div class="quiz-exp">드럼은 친 뒤 저절로 소리가 사라지므로 두 표기는 같은 소리를 낸다. 쉼표는 성부의 박 합을 맞추고 빈자리가 의도된 것임을 알린다.</div></div>
+      <div class="quiz-q"><p>16분음표 격자에서 한 박 안에 한 조각이 만들 수 있는 리듬 모양(치거나 안 치거나)은 몇 가지인가?</p><div class="opts">
+        <button class="opt">4가지</button><button class="opt">8가지</button><button class="opt" data-correct>16가지</button><button class="opt">256가지</button>
+      </div><div class="quiz-exp">한 박에 칸이 넷이고 칸마다 2가지이므로 \(2^4 = 16\). 한 마디 전체는 \(2^{16}\)가지지만, 빔이 박마다 끊기므로 16가지 '박 단어'만 익히면 된다.</div></div>
+      <div class="quiz-q"><p>하이햇 음표 위에 o, 다음 하이햇 음표 위에 +가 있다. 뜻은?</p><div class="opts">
+        <button class="opt">o는 액센트, +는 고스트</button><button class="opt" data-correct>o에서 하이햇을 열고 치고, +에서 다시 닫는다(보통 왼발로 밟아서)</button><button class="opt">o는 라이드, +는 크래시</button><button class="opt">o는 오른손, +는 왼손</button>
+      </div><div class="quiz-exp">o = 열린 하이햇, + = 닫힌 하이햇. 열린 소리를 언제 닫느냐가 하이햇 소리의 길이를 정하므로, 드럼에서 드물게 '길이'가 의미를 갖는 경우다.</div></div>
+      <div class="quiz-q"><p>마디 1–4가 도돌이표로 감싸여 있고 마디 4에 1번 괄호, 마디 5에 2번 괄호가 있다. 연주 순서는?</p><div class="opts">
+        <button class="opt">1 2 3 4 5</button><button class="opt">1 2 3 4 1 2 3 4 5</button><button class="opt" data-correct>1 2 3 4 1 2 3 5</button><button class="opt">1 2 3 5 1 2 3 4</button>
+      </div><div class="quiz-exp">첫 번째에는 1번 괄호(마디 4)를 치고 처음으로 돌아가며, 두 번째에는 1번 괄호를 건너뛰어 2번 괄호(마디 5)로 간다.</div></div>
+      <div class="quiz-q"><p>드럼 차트의 슬래시 마디 위에 'Time'이라고 적혀 있다. 드러머가 할 일은?</p><div class="opts">
+        <button class="opt">빗금 수만큼 스네어를 친다</button><button class="opt">그 마디는 쉰다</button><button class="opt" data-correct>정해진 리듬 없이 곡의 스타일에 맞는 그루브로 박을 유지한다</button><button class="opt">템포를 자유롭게 바꾼다</button>
+      </div><div class="quiz-exp">슬래시 + 'Time'은 "이 스타일로 박을 유지하라"는 지시다. 빗금은 박의 수를 보여 줄 뿐 그대로 치라는 리듬이 아니다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 rd) */
+const RD_EPS = 1e-6;
+const rdSolo = (() => {
+  let cur = null;
+  return { take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; } };
+})();
+const rdF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const rdPick = (a) => a[Math.floor(Math.random() * a.length)];
+const rdBase = (p) => (p === "hatOpen" || p === "hatHalf" ? "hat" : p === "rim" || p === "xstick" ? "snare" : p === "bell" ? "ride" : p);
+/** 재생/정지 토글(다시 시작 가능). make() → scheduler */
+function rdPlayer(btn, make, labels = ["▶ 재생", "■ 정지"]) {
+  const b = typeof btn === "string" ? document.querySelector(btn) : btn;
+  let s = null;
+  const set = (on) => { b.textContent = on ? labels[1] : labels[0]; b.classList.toggle("playing", on); };
+  const api = {
+    start() {
+      MB.ctx(); api.stop();
+      const me = make(); if (!me) return;
+      s = me; rdSolo.take(api.stop);
+      const os = me.stop; me.stop = function (n) { os.call(me, n); if (s === me) set(false); };
+      me.start(); set(true);
+    },
+    stop() { const x = s; s = null; if (x && x.running) x.stop(); set(false); },
+    restart() { if (api.running) api.start(); },
+    get running() { return !!(s && s.running); },
+    get sched() { return s; },
+  };
+  b.addEventListener("click", () => (api.running ? api.stop() : api.start()));
+  return api;
+}
+/** playEvents + 악보 강조를 '시각'으로 맞춘다(재생 배열과 악보 배열이 달라도 됨). offset = 악보 0박 앞의 예비 박 */
+function rdLive(o) {
+  const st = o.staff, off = o.offset || 0;
+  const tOf = o.tOf || ((ev) => ev.t - off);
+  const sched = DR.playEvents(o.events, Object.assign({}, o, {
+    staff: null,
+    onNote(ev, i) {
+      if (st) { const T = tOf(ev), idx = []; st.events.forEach((e, k) => { if (Math.abs(e.t - T) < RD_EPS) idx.push(k); }); st.highlight(idx); }
+      o.onNote && o.onNote(ev, i);
+    },
+    onStop(n) { if (st) { st.highlight(-1); st.at(null); } o.onStop && o.onStop(n); },
+  }));
+  if (st) {
+    const s0 = sched.start;
+    sched.start = function () { s0.call(sched); const tick = () => { if (!sched.running) return; const b = sched.beat - off; st.at(b >= 0 ? b : null); requestAnimationFrame(tick); }; requestAnimationFrame(tick); };
+  }
+  return sched;
+}
+/** 한 번 재생(다른 재생은 멈춘다) */
+function rdOnce(evs, o) {
+  MB.ctx();
+  const s = rdLive(Object.assign({ events: evs, kit: DR.default() }, o));
+  rdSolo.take(() => s.stop());
+  s.start();
+  return s;
+}
+/** 예비 박 + reps번 반복하며 score 조각(소리를 뺀다)의 타격을 채점 */
+function rdRun(o) {
+  const C = o.countIn != null ? o.countIn : 4, L = o.length, reps = o.reps || 1, spb = 60 / o.bpm;
+  const all = [];
+  for (let r = 0; r < reps; r++) o.events.forEach((e, si) => all.push(Object.assign({}, e, { t: e.t + C + r * L, si, rep: r })));
+  const score = o.score || new Set();
+  const tap = DR.tapper(o.kit);
+  let sched = null;
+  sched = rdLive({
+    events: all, length: C + reps * L, bpm: o.bpm, kit: o.kit, click: true,
+    staff: o.staff, offset: C, tOf: (ev) => ev.t - C - ev.rep * L,
+    mute: (p) => score.has(rdBase(p)),
+    onBeat: (b) => o.onBeat && o.onBeat(b - C, b),
+    onStop(natural) {
+      tap.stop();
+      if (!natural || !score.size) { o.onDone && o.onDone(null, natural); return; }
+      const t0 = sched.t0, from = t0 + (C - 0.5) * spb;
+      const taps = tap.taps.filter((t) => t.when >= from);
+      const res = { pieces: {}, hitsByIdx: {}, total: 0, hits: 0, extra: 0, devs: [], tl: [], reps };
+      score.forEach((p) => {
+        const evs = all.filter((e) => rdBase(e.p) === p);
+        const tp = taps.filter((t) => rdBase(t.p) === p);
+        const sc = DR.score(evs.map((e) => t0 + e.t * spb), tp, { window: Math.min(0.13, spb / (o.div || 2) * 0.6) });
+        sc.pairs.forEach((pr, k) => { const si = evs[k].si; res.hitsByIdx[si] = (res.hitsByIdx[si] || 0) + (pr.tap != null ? 1 : 0); if (pr.dev != null) res.devs.push(pr.dev); });
+        res.pieces[p] = { n: evs.length, hits: sc.hits, extra: sc.extra, mean: sc.mean };
+        res.total += evs.length; res.hits += sc.hits; res.extra += sc.extra;
+        const used = new Set(sc.pairs.filter((x) => x.tap != null).map((x) => x.tap));
+        tp.forEach((t) => res.tl.push({ t: (t.when - t0) / spb - C, p, cls: used.has(t.when) ? "ok" : "bad" }));
+      });
+      const m = res.devs.length ? res.devs.reduce((a, b) => a + b, 0) / res.devs.length : 0;
+      res.mean = m;
+      res.sd = res.devs.length > 1 ? Math.sqrt(res.devs.reduce((a, b) => a + (b - m) * (b - m), 0) / (res.devs.length - 1)) : 0;
+      res.acc = res.total ? res.hits / (res.total + res.extra) : 0;
+      o.onDone && o.onDone(res, true);
+    },
+  });
+  return sched;
+}
+/** 열린 하이햇 뒤 닫힘(+) 표시를 악보에 덧그린다 */
+function rdPlus(staff, times) {
+  const svg = staff.el.querySelector("svg"), L = staff.layout; if (!svg || !L) return;
+  times.forEach((t) => {
+    const x = L.xOf(t), bar = Math.floor(t / L.BL + RD_EPS), r = L.xs[bar]; if (x == null || !r) return;
+    const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    tx.setAttribute("x", x); tx.setAttribute("y", r.top - 46); tx.setAttribute("class", "rd-plus"); tx.textContent = "+";
+    svg.appendChild(tx);
+  });
+}
+/* ---------- 무작위 패턴 생성기 (단계 1–5) */
+const RD_LEVELS = { 1: { name: "4분음표", div: 2 }, 2: { name: "8분음표", div: 2 }, 3: { name: "쉼표 섞기", div: 2 }, 4: { name: "16분음표", div: 4 }, 5: { name: "셋잇단", div: 3 } };
+function rdGenBar(level) {
+  const d = RD_LEVELS[level].div, n = 4 * d, R = Math.random;
+  const hat = Array(n).fill("."), sn = Array(n).fill("."), bd = Array(n).fill(".");
+  const at = (b, k = 0) => b * d + k;
+  if (level === 1) {
+    for (let b = 0; b < 4; b++) hat[at(b)] = "x";
+    bd[0] = "x";
+    for (let b = 1; b < 4; b++) { const r = R(); if (b % 2) { if (r < 0.82) sn[at(b)] = "x"; else bd[at(b)] = "x"; if (r > 0.9) bd[at(b)] = "x"; } else { if (r < 0.65) bd[at(b)] = "x"; else sn[at(b)] = "x"; } }
+  } else if (level === 2) {
+    for (let i = 0; i < n; i++) hat[i] = "x";
+    sn[at(1)] = "x"; sn[at(3)] = "x"; if (R() < 0.25) sn[at(3, 1)] = "x";
+    bd[0] = "x"; for (let i = 1; i < n; i++) if (sn[i] === "." && R() < 0.28) bd[i] = "x";
+  } else if (level === 3) {
+    const step = R() < 0.4 ? 2 : 1;
+    for (let i = 0; i < n; i += step) hat[i] = "x";
+    sn[at(1)] = "x"; if (R() < 0.6) sn[at(3)] = "x"; else sn[at(3, 1)] = "x";
+    bd[0] = "x"; for (let i = 1; i < n; i++) if (sn[i] === "." && R() < 0.2) bd[i] = "x";
+    // 손 쉼표: 하이햇 몇 개를 지운다(스네어가 없는 자리)
+    const cand = []; for (let i = 1; i < n; i++) if (hat[i] === "x" && sn[i] === ".") cand.push(i);
+    const k = 1 + Math.floor(R() * 3); for (let j = 0; j < k && cand.length; j++) hat[cand.splice(Math.floor(R() * cand.length), 1)[0]] = ".";
+  } else if (level === 4) {
+    for (let b = 0; b < 4; b++) { hat[at(b)] = "x"; hat[at(b, 2)] = "x"; }
+    sn[at(1)] = "x"; sn[at(3)] = "x"; if (R() < 0.35) sn[at(3, 3)] = "x"; if (R() < 0.25) sn[at(2, 3)] = "x";
+    bd[0] = "x"; const m = 2 + Math.floor(R() * 3); for (let k = 0; k < m; k++) { const i = 1 + Math.floor(R() * (n - 1)); if (sn[i] === ".") bd[i] = "x"; }
+  } else {
+    const full = R() < 0.4;
+    for (let b = 0; b < 4; b++) { hat[at(b)] = "x"; if (full) hat[at(b, 1)] = "x"; hat[at(b, 2)] = "x"; }
+    sn[at(1)] = "x"; sn[at(3)] = "x"; if (R() < 0.3) sn[at(3, 2)] = "x";
+    bd[0] = "x"; for (let b = 0; b < 4; b++) { if (R() < 0.35 && sn[at(b, 2)] === ".") bd[at(b, 2)] = "x"; if (b === 2 && R() < 0.7) bd[at(2)] = "x"; }
+  }
+  return { hat: hat.join(""), snare: sn.join(""), kick: bd.join("") };
+}
+function rdGen(level, bars = 1) {
+  const out = { hat: "", snare: "", kick: "" };
+  for (let b = 0; b < bars; b++) { const g = rdGenBar(level); out.hat += g.hat; out.snare += g.snare; out.kick += g.kick; }
+  return out;
+}
+const rdKey = (s) => s.hat + "|" + s.snare + "|" + s.kick;
+function rdMutate(spec) {
+  const s = { hat: spec.hat.split(""), snare: spec.snare.split(""), kick: spec.kick.split("") }, n = s.kick.length, R = Math.random;
+  const on = (a) => a.map((c, i) => (c !== "." ? i : -1)).filter((i) => i >= 0);
+  const ops = [
+    () => { const ks = on(s.kick).filter((i) => i > 0); if (!ks.length) return false; const i = rdPick(ks), j = i + (R() < 0.5 ? -1 : 1); if (j <= 0 || j >= n || s.kick[j] !== ".") return false; s.kick[i] = "."; s.kick[j] = "x"; return true; },
+    () => { const free = []; for (let i = 1; i < n; i++) if (s.kick[i] === "." && s.snare[i] === ".") free.push(i); if (!free.length) return false; s.kick[rdPick(free)] = "x"; return true; },
+    () => { const ks = on(s.kick).filter((i) => i > 0); if (!ks.length) return false; s.kick[rdPick(ks)] = "."; return true; },
+    () => { const ss = on(s.snare); if (!ss.length) return false; const i = rdPick(ss), j = i + (R() < 0.5 ? -1 : 1); if (j < 0 || j >= n || s.snare[j] !== ".") return false; s.snare[i] = "."; s.snare[j] = "x"; return true; },
+    () => { const ss = on(s.snare); if (!ss.length) return false; const i = rdPick(ss); if (s.kick[i] !== ".") return false; s.snare[i] = "."; s.kick[i] = "x"; return true; },
+  ];
+  for (let g = 0; g < 60; g++) if (rdPick(ops)()) break;
+  return { hat: s.hat.join(""), snare: s.snare.join(""), kick: s.kick.join("") };
+}
+/** 정답 + 가까운 오답 둘 → 섞은 배열과 정답 위치 */
+function rdChoices(level) {
+  const ans = rdGen(level, 1), list = [ans], keys = new Set([rdKey(ans)]);
+  for (let g = 0; list.length < 3 && g < 200; g++) { let m = rdMutate(ans); if (Math.random() < 0.35) m = rdMutate(m); if (!keys.has(rdKey(m))) { keys.add(rdKey(m)); list.push(m); } }
+  while (list.length < 3) list.push(rdGen(level, 1));
+  const order = [0, 1, 2].sort(() => Math.random() - 0.5);
+  return { opts: order.map((k) => list[k]), answer: order.indexOf(0), div: RD_LEVELS[level].div };
+}
+const RD_STEP_NAME = { 29: "D4", 30: "E4", 31: "F4", 32: "G4", 33: "A4", 34: "B4", 35: "C5", 36: "D5", 37: "E5", 38: "F5", 39: "G5", 40: "A5", 41: "B5", 42: "C6", 43: "D6" };
+function rdWhere(s) {
+  if (s === 29) return "첫째 줄 아래";
+  if (s >= 30 && s <= 38) return s % 2 === 0 ? `${(s - 30) / 2 + 1}번째 줄` : `${(s - 31) / 2 + 1}번째 칸`;
+  if (s === 39) return "다섯째 줄 위";
+  if (s === 40) return "위 덧줄 하나";
+  if (s === 41) return "덧줄 하나 위";
+  return "위 덧줄 둘";
+}
+const RD_HEAD = { n: "보통", x: "x", xc: "원 친 x", d: "다이아몬드", slash: "빗금", tri: "세모" };
+
+/* ================================================================ 정적 그림 */
+function rdHeadSVG(x, y, h, s = 1) {
+  const rx = 6.2 * s, ry = 4.5 * s, st = `stroke:var(--text);stroke-width:${(1.8 * s).toFixed(2)};fill:none;stroke-linecap:round`;
+  if (h === "x" || h === "xc") { let o = `<path d="M${x - rx} ${y - ry} L${x + rx} ${y + ry} M${x - rx} ${y + ry} L${x + rx} ${y - ry}" style="${st}"/>`; if (h === "xc") o += `<circle cx="${x}" cy="${y}" r="${8.6 * s}" style="stroke:var(--text);stroke-width:1.2;fill:none"/>`; return o; }
+  if (h === "d") return `<path d="M${x - rx} ${y} L${x} ${y - ry - 2 * s} L${x + rx} ${y} L${x} ${y + ry + 2 * s} z" style="fill:var(--text)"/>`;
+  if (h === "tri") return `<path d="M${x - rx} ${y + ry} L${x} ${y - ry - 1.5 * s} L${x + rx} ${y + ry} z" style="fill:var(--text)"/>`;
+  let o = `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" transform="rotate(-20 ${x} ${y})" style="fill:var(--text)"/>`;
+  if (h === "slash") o += `<line x1="${x - 9 * s}" y1="${y + 7 * s}" x2="${x + 9 * s}" y2="${y - 7 * s}" style="stroke:var(--text);stroke-width:1.6"/>`;
+  return o;
+}
+const rdLines = (x1, x2, top, sp, cls = "var(--text-dim)") => { let s = ""; for (let k = 0; k < 5; k++) s += `<line x1="${x1}" x2="${x2}" y1="${top + k * sp}" y2="${top + k * sp}" style="stroke:${cls};stroke-width:1"/>`; return s; };
+const rdClef = (x, top, sp) => `<rect x="${x}" y="${top + sp}" width="4" height="${2 * sp}" style="fill:var(--text)"/><rect x="${x + 8}" y="${top + sp}" width="4" height="${2 * sp}" style="fill:var(--text)"/>`;
+/** 간단한 음표 글리프(기둥 위). d = 1(4분), 0.5(8분) */
+function rdNote(x, y, d, head = "n") {
+  let s = rdHeadSVG(x, y, head) + `<line x1="${x + 5.6}" y1="${y - 1}" x2="${x + 5.6}" y2="${y - 34}" style="stroke:var(--text);stroke-width:1.4"/>`;
+  if (d <= 0.5) s += `<path d="M${x + 5.6} ${y - 34} c1 6 9 8 7 17 c2-7-3-10-7-11" style="fill:var(--text)"/>`;
+  return s;
+}
+function rdRest(x, y, d) {
+  if (d >= 1) return `<path d="M${x - 2} ${y - 16} l5 7 l-5 6 l5 7 c-5 -2 -7 2 -3 6 c-7 -3 -5 -10 1 -7 l-5 -6 l4 -6z" style="fill:var(--text)"/>`;
+  return `<line x1="${x + 3}" y1="${y - 12}" x2="${x - 2}" y2="${y + 6}" style="stroke:var(--text);stroke-width:1.5"/><circle cx="${x - 2}" cy="${y - 11}" r="2.4" style="fill:var(--text)"/><path d="M${x - 2} ${y - 10} q3 1 5 -2" style="stroke:var(--text);stroke-width:1.5;fill:none"/>`;
+}
+(function () {
+  // 그림 4-1 보표 위치표
+  const top = 112, sp = 14, y = (st) => top + (38 - st) * (sp / 2);
+  let s = `<g font-family="var(--font)">` + rdLines(20, 720, top, sp) + rdClef(34, top, sp);
+  const P = ["crash", "hat", "ride", "tom1", "tom2", "snare", "floor", "kick", "hatFoot"];
+  const short = { crash: "크래시", hat: "하이햇", ride: "라이드", tom1: "하이 탐", tom2: "미드 탐", snare: "스네어", floor: "플로어 탐", kick: "킥", hatFoot: "HH 페달" };
+  P.forEach((p, k) => {
+    const pc = DR.PIECES[p], x = 100 + k * 70, yy = y(pc.step), foot = pc.limb === "foot";
+    if (pc.step >= 40) s += `<line x1="${x - 12}" x2="${x + 12}" y1="${y(40)}" y2="${y(40)}" style="stroke:var(--text-dim);stroke-width:1.3"/>`;
+    s += rdHeadSVG(x, yy, pc.head, 1.05);
+    s += foot ? `<line x1="${x - 6}" y1="${yy + 1}" x2="${x - 6}" y2="${yy + 32}" style="stroke:var(--text);stroke-width:1.4"/>` : `<line x1="${x + 6}" y1="${yy - 1}" x2="${x + 6}" y2="${yy - 34}" style="stroke:var(--text);stroke-width:1.4"/>`;
+    s += `<line x1="${x}" y1="${foot ? Math.max(yy + 36, 232) : 232}" x2="${x}" y2="238" style="stroke:var(--border)"/>`;
+    s += `<text x="${x}" y="254" text-anchor="middle" class="t" style="font-size:13px;font-weight:700">${short[p]}</text><text x="${x}" y="272" text-anchor="middle" class="t-mono" style="font-size:11.5px">${RD_STEP_NAME[pc.step]}</text>`;
+  });
+  [[38, "F5"], [36, "D5"], [34, "B4"], [32, "G4"], [30, "E4"]].forEach(([st, nm]) => { s += `<text x="732" y="${y(st) + 4}" class="t-mono" style="font-size:11px">${nm}</text>`; });
+  s += `<text x="100" y="28" class="t-acc" style="font-size:13px;font-weight:700">손 → 기둥 위 (윗성부)</text><text x="560" y="28" class="t-acc" style="font-size:13px;font-weight:700">발 → 기둥 아래</text>`;
+  s += `<text x="40" y="${top + 4 * sp + 24}" text-anchor="middle" class="t-dim" style="font-size:11px">중립</text><text x="40" y="${top + 4 * sp + 38}" text-anchor="middle" class="t-dim" style="font-size:11px">음자리표</text>`;
+  document.getElementById("rd-fig1").innerHTML = s + "</g>";
+
+  // 그림 4-2 음표 머리
+  const H = [["n", "보통", "북 헤드", "스네어·탐·킥"], ["x", "x", "심벌", "하이햇·라이드·크래시"], ["xc", "원 친 x", "크로스 스틱", "스네어 자리"], ["d", "다이아몬드", "라이드 벨", "라이드 자리"], ["slash", "빗금", "림샷", "스네어 자리"], ["tri", "세모", "카우벨", "위 덧줄 근처"]];
+  let s2 = `<g font-family="var(--font)">`;
+  H.forEach(([h, nm, what, where], k) => {
+    const cx = 67 + k * 133, t = 50, sp2 = 13;
+    s2 += `<rect x="${cx - 60}" y="10" width="120" height="180" rx="10" class="f-surface"/>`;
+    for (let j = 0; j < 3; j++) s2 += `<line x1="${cx - 44}" x2="${cx + 44}" y1="${t + j * sp2}" y2="${t + j * sp2}" style="stroke:var(--text-faint)"/>`;
+    s2 += rdHeadSVG(cx, t + sp2 * 1.5, h, 1.7);
+    s2 += `<text x="${cx}" y="122" text-anchor="middle" class="t" style="font-size:15px;font-weight:700">${nm}</text><text x="${cx}" y="146" text-anchor="middle" class="t-acc" style="font-size:13px">${what}</text><text x="${cx}" y="168" text-anchor="middle" class="t-dim" style="font-size:11.5px">${where}</text>`;
+  });
+  document.getElementById("rd-fig2").innerHTML = s2 + "</g>";
+
+  // 그림 4-4 길이 vs 시작
+  const X0 = 150, W = 600, bx = (b) => X0 + (b / 4) * W;
+  let s4 = `<g font-family="var(--font)">`;
+  const row = (y0, label, notes) => {
+    let q = `<text x="14" y="${y0 + 4}" class="t" style="font-size:13px;font-weight:700">${label}</text>`;
+    for (let k = 0; k < 3; k++) q += `<line x1="${X0 - 10}" x2="${X0 + W}" y1="${y0 - 14 + k * 10}" y2="${y0 - 14 + k * 10}" style="stroke:var(--text-faint)"/>`;
+    notes.forEach(([b, d, rest]) => { q += rest ? rdRest(bx(b) + 12, y0 - 2, d) : rdNote(bx(b) + 12, y0 + 1, d); });
+    return q;
+  };
+  s4 += row(56, "♩ ×4", [[0, 1], [1, 1], [2, 1], [3, 1]]);
+  s4 += row(130, "♪ + 쉼표 ×4", [[0, 0.5], [0.5, 0.5, 1], [1, 0.5], [1.5, 0.5, 1], [2, 0.5], [2.5, 0.5, 1], [3, 0.5], [3.5, 0.5, 1]]);
+  // 소리 포락선
+  const ey = 222;
+  s4 += `<text x="14" y="${ey - 6}" class="t" style="font-size:13px;font-weight:700">들리는 소리</text><line x1="${X0 - 10}" x2="${X0 + W}" y1="${ey}" y2="${ey}" style="stroke:var(--text-faint)"/>`;
+  for (let b = 0; b < 4; b++) {
+    let d = `M${bx(b) + 12} ${ey}`; for (let k = 0; k <= 40; k++) { const tt = k / 40 * 0.9, xx = bx(b) + 12 + tt * (W / 4), a = Math.exp(-tt * 5.5) * 34; d += ` L${xx.toFixed(1)} ${(ey - a).toFixed(1)}`; }
+    s4 += `<path d="${d} L${bx(b) + 12 + 0.9 * W / 4} ${ey} z" class="f-acc-soft" style="stroke-width:1.2"/>`;
+    s4 += `<line x1="${bx(b) + 12}" x2="${bx(b) + 12}" y1="12" y2="${ey + 8}" style="stroke:var(--accent);stroke-dasharray:3 3"/>`;
+    s4 += `<text x="${bx(b) + 12}" y="${ey + 22}" text-anchor="middle" class="t-mono" style="font-size:11.5px">${b + 1}</text>`;
+  }
+  s4 += `<text x="${X0 + W}" y="${ey + 22}" text-anchor="end" class="t-dim" style="font-size:11.5px">점선 = 시작 시점(onset)</text>`;
+  document.getElementById("rd-fig4").innerHTML = s4 + "</g>";
+
+  // 그림 4-5 아티큘레이션
+  let s5 = `<g font-family="var(--font)">`;
+  const A = ["액센트", "고스트", "열림", "닫힘", "플램", "드래그", "버즈", "스티킹"];
+  A.forEach((nm, k) => {
+    const cx = 52 + k * 99, hy = 108, head = k === 2 || k === 3 ? "x" : "n";
+    s5 += `<rect x="${cx - 46}" y="10" width="92" height="190" rx="10" class="f-surface"/>`;
+    for (let j = 0; j < 3; j++) s5 += `<line x1="${cx - 34}" x2="${cx + 34}" y1="${hy - 14 + j * 14}" y2="${hy - 14 + j * 14}" style="stroke:var(--text-faint)"/>`;
+    s5 += rdHeadSVG(cx, hy, head, 1.25) + `<line x1="${cx + 7}" y1="${hy - 1}" x2="${cx + 7}" y2="${hy - 46}" style="stroke:var(--text);stroke-width:1.4"/>`;
+    const my = hy - 58;
+    if (k === 0) s5 += `<path d="M${cx - 8} ${my - 6} L${cx + 8} ${my} L${cx - 8} ${my + 6}" style="stroke:var(--accent);stroke-width:2.2;fill:none"/>`;
+    if (k === 1) s5 += `<path d="M${cx - 11} ${hy - 9} q -6 9 0 18 M${cx + 11} ${hy - 9} q 6 9 0 18" style="stroke:var(--accent);stroke-width:2;fill:none"/>`;
+    if (k === 2) s5 += `<circle cx="${cx}" cy="${my}" r="6" style="stroke:var(--accent);stroke-width:2;fill:none"/>`;
+    if (k === 3) s5 += `<path d="M${cx - 7} ${my} h14 M${cx} ${my - 7} v14" style="stroke:var(--accent);stroke-width:2.4"/>`;
+    if (k === 4 || k === 5) {
+      const n = k === 4 ? 1 : 2;
+      for (let g = 0; g < n; g++) { const gx = cx - 20 - (n - 1 - g) * 10; s5 += `<g style="opacity:.95">${rdHeadSVG(gx, hy, "n", 0.65)}</g><line x1="${gx + 3.6}" y1="${hy}" x2="${gx + 3.6}" y2="${hy - 24}" style="stroke:var(--accent);stroke-width:1.3"/>`; }
+      if (n === 1) s5 += `<line x1="${cx - 24}" y1="${hy - 10}" x2="${cx - 12}" y2="${hy - 20}" style="stroke:var(--accent);stroke-width:1.3"/>`;
+      else s5 += `<line x1="${cx - 26.4}" y1="${hy - 24}" x2="${cx - 16.4}" y2="${hy - 24}" style="stroke:var(--accent);stroke-width:2"/>`;
+    }
+    if (k === 6) s5 += `<text x="${cx + 7}" y="${hy - 22}" text-anchor="middle" style="font:italic 700 15px Georgia, serif;fill:var(--accent)">z</text>`;
+    if (k === 7) s5 += `<text x="${cx}" y="${hy + 34}" text-anchor="middle" style="font:700 14px var(--mono);fill:var(--accent)">R</text>`;
+    s5 += `<text x="${cx}" y="172" text-anchor="middle" class="t" style="font-size:14px;font-weight:700">${nm}</text>`;
+    s5 += `<text x="${cx}" y="190" text-anchor="middle" class="t-mono" style="font-size:11px">${["X", "g", "o", "+", "f", "d", "z", "ST R/L"][k]}</text>`;
+  });
+  document.getElementById("rd-fig5").innerHTML = s5 + "</g>";
+
+  // 그림 4-6 반복 기호
+  let s6 = `<g font-family="var(--font)">`;
+  const sp6 = 8;
+  const staff6 = (x1, x2, t) => rdLines(x1, x2, t, sp6, "var(--text-faint)");
+  const slash = (x, t) => `<line x1="${x - 5}" y1="${t + 3.2 * sp6}" x2="${x + 5}" y2="${t + 0.8 * sp6}" style="stroke:var(--text);stroke-width:4;stroke-linecap:round"/>`;
+  const bar = (x, t) => `<line x1="${x}" x2="${x}" y1="${t}" y2="${t + 4 * sp6}" style="stroke:var(--text-dim);stroke-width:1.2"/>`;
+  const repL = (x, t) => `<rect x="${x}" y="${t}" width="3.5" height="${4 * sp6}" style="fill:var(--text)"/><line x1="${x + 7}" x2="${x + 7}" y1="${t}" y2="${t + 4 * sp6}" style="stroke:var(--text);stroke-width:1.2"/><circle cx="${x + 12}" cy="${t + 1.5 * sp6}" r="2" style="fill:var(--text)"/><circle cx="${x + 12}" cy="${t + 2.5 * sp6}" r="2" style="fill:var(--text)"/>`;
+  const repR = (x, t) => `<circle cx="${x - 12}" cy="${t + 1.5 * sp6}" r="2" style="fill:var(--text)"/><circle cx="${x - 12}" cy="${t + 2.5 * sp6}" r="2" style="fill:var(--text)"/><line x1="${x - 7}" x2="${x - 7}" y1="${t}" y2="${t + 4 * sp6}" style="stroke:var(--text);stroke-width:1.2"/><rect x="${x - 3.5}" y="${t}" width="3.5" height="${4 * sp6}" style="fill:var(--text)"/>`;
+  const sim1 = (x, t) => `<line x1="${x - 7}" y1="${t + 3.3 * sp6}" x2="${x + 7}" y2="${t + 0.7 * sp6}" style="stroke:var(--text);stroke-width:4"/><circle cx="${x - 6}" cy="${t + 1.2 * sp6}" r="2.4" style="fill:var(--text)"/><circle cx="${x + 6}" cy="${t + 2.8 * sp6}" r="2.4" style="fill:var(--text)"/>`;
+  const panel = (x, y0, w, title) => `<rect x="${x}" y="${y0}" width="${w}" height="132" rx="10" class="f-surface"/><text x="${x + 10}" y="${y0 + 20}" class="t" style="font-size:13px;font-weight:700">${title}</text>`;
+  const ord = (x, y0, txt) => `<text x="${x}" y="${y0 + 120}" class="t-mono" style="font-size:11.5px">${txt}</text>`;
+  // (가)
+  { const x = 10, y0 = 8, t = y0 + 50; s6 += panel(x, y0, 250, "(가) 도돌이표") + staff6(x + 14, x + 236, t) + repL(x + 16, t); [0, 1].forEach((k) => { const bx0 = x + 34 + k * 98; for (let j = 0; j < 4; j++) s6 += slash(bx0 + 14 + j * 21, t); if (k === 0) s6 += bar(x + 132, t); }); s6 += repR(x + 236, t) + ord(x + 14, y0, "연주: 1 2 1 2"); }
+  // (나)
+  { const x = 274, y0 = 8, t = y0 + 50; s6 += panel(x, y0, 250, "(나) 한 마디 반복 %") + staff6(x + 14, x + 236, t); for (let j = 0; j < 4; j++) s6 += slash(x + 34 + j * 20, t); s6 += bar(x + 125, t) + sim1(x + 180, t) + bar(x + 236, t) + ord(x + 14, y0, "연주: 1 1(앞 마디 그대로)"); }
+  // (다)
+  { const x = 538, y0 = 8, t = y0 + 50; s6 += panel(x, y0, 252, "(다) 두 마디 반복") + staff6(x + 14, x + 238, t); s6 += bar(x + 70, t) + bar(x + 126, t) + bar(x + 238, t); for (let j = 0; j < 2; j++) { s6 += slash(x + 30 + j * 18, t); s6 += slash(x + 86 + j * 18, t); } s6 += `<g transform="translate(${x + 182} 0)">${sim1(-9, t)}${sim1(9, t)}</g><text x="${x + 182}" y="${t - 8}" text-anchor="middle" class="t" style="font-size:13px;font-weight:700">2</text>` + ord(x + 14, y0, "연주: 1 2 1 2"); }
+  // (라) 1·2번 괄호
+  { const x = 10, y0 = 156, t = y0 + 54, w = 420; s6 += panel(x, y0, w, "(라) 1·2번 괄호") + staff6(x + 14, x + w - 14, t) + repL(x + 16, t);
+    const bw = 80, b0 = x + 32; [1, 2, 3, 4].forEach((k) => { const bx0 = b0 + (k - 1) * bw; s6 += `<text x="${bx0 + 4}" y="${t - 4}" class="t-mono" style="font-size:10px">${k}</text>`; if (k < 4) s6 += bar(bx0 + bw, t); });
+    for (let k = 0; k < 3; k++) for (let j = 0; j < 4; j++) s6 += slash(b0 + k * bw + 18 + j * 18, t);
+    const e1 = b0 + 3 * bw; s6 += `<path d="M${e1 + 2} ${t - 4} V${t - 18} H${e1 + bw - 6}" style="stroke:var(--accent);stroke-width:1.6;fill:none"/><text x="${e1 + 8}" y="${t - 22}" class="t-acc" style="font-size:12px;font-weight:700">1.</text>`;
+    s6 += `<text x="${e1 + 46}" y="${t + 21}" text-anchor="middle" class="t-dim" style="font-size:11px">fill</text>` + repR(e1 + bw - 4, t);
+    const e2 = e1 + bw - 2; s6 += `<path d="M${e2 + 4} ${t - 4} V${t - 18} H${x + w - 16}" style="stroke:var(--accent);stroke-width:1.6;fill:none"/><text x="${e2 + 10}" y="${t - 22}" class="t-acc" style="font-size:12px;font-weight:700">2.</text><text x="${e2 + 28}" y="${t - 4}" class="t-mono" style="font-size:10px">5</text><text x="${(e2 + x + w) / 2}" y="${t + 21}" text-anchor="middle" class="t-dim" style="font-size:11px">fill 2</text>`;
+    s6 += ord(x + 14, y0, "연주: 1 2 3 4 · 1 2 3 5"); }
+  // (마) 세뇨·코다
+  { const x = 444, y0 = 156, w = 346; s6 += panel(x, y0, w, "(마) 세뇨 · 코다");
+    const segno = (cx, cy) => `<path d="M${cx + 6} ${cy - 8} c-6 -6 -14 0 -8 5 c6 5 12 6 6 12 c-5 4 -11 0 -9 -3" style="stroke:var(--accent);stroke-width:2;fill:none"/><line x1="${cx - 9}" y1="${cy + 9}" x2="${cx + 9}" y2="${cy - 9}" style="stroke:var(--accent);stroke-width:1.4"/><circle cx="${cx - 7}" cy="${cy - 1}" r="1.8" style="fill:var(--accent)"/><circle cx="${cx + 7}" cy="${cy + 2}" r="1.8" style="fill:var(--accent)"/>`;
+    const coda = (cx, cy) => `<ellipse cx="${cx}" cy="${cy}" rx="7" ry="9" style="stroke:var(--accent);stroke-width:2;fill:none"/><path d="M${cx - 12} ${cy} H${cx + 12} M${cx} ${cy - 13} V${cy + 13}" style="stroke:var(--accent);stroke-width:1.4"/>`;
+    const by = y0 + 62, bw = 64;
+    ["A", "B", "C", "D"].forEach((nm, k) => { s6 += `<rect x="${x + 14 + k * (bw + 6)}" y="${by - 16}" width="${bw}" height="32" rx="6" class="f-elev" style="stroke:var(--border)"/><text x="${x + 14 + k * (bw + 6) + bw / 2}" y="${by + 5}" text-anchor="middle" class="t" style="font-size:13px">${nm}</text>`; });
+    const bxk = (k) => x + 14 + k * (bw + 6);
+    s6 += segno(bxk(1) + 12, by - 30) + coda(bxk(2) + bw - 12, by - 32) + coda(bxk(3) + 12, by - 32);
+    s6 += `<text x="${bxk(2) + bw - 26}" y="${by - 28}" text-anchor="end" class="t-dim" style="font-size:10px">To Coda</text><text x="${bxk(2) + bw / 2}" y="${by + 32}" text-anchor="middle" class="t-dim" style="font-size:10.5px">끝에서 D.S. al Coda</text>`;
+    s6 += ord(x + 14, y0, "연주: A B C · B → 코다 D"); }
+  document.getElementById("rd-fig6").innerHTML = s6 + "</g>";
+
+  // 그림 4-3: 엔진 악보로 같은 비트 두 표기
+  const ev = DR.parse("HH xxxxxxxx\nSN ..x...x.\nBD x..xx...", { div: 2 });
+  DR.staff("#rd-fig3a", ev, { voices: 1, counts: true, width: 560 });
+  DR.staff("#rd-fig3b", ev, { voices: 2, counts: true, width: 560 });
+})();
+
+/* ================================================================ 1. 범례 탐색기 */
+(function () {
+  const kit = DR.kit();
+  const LEG = ["crash", "ride", "bell", "hat", "hatOpen", "hatHalf", "tom1", "tom2", "snare", "xstick", "rim", "floor", "kick", "hatFoot", "cowbell"];
+  const evs = LEG.map((p, i) => ({ t: i, p, v: 0.75 }));
+  const staff = DR.staff("#rd-key-staff", evs, { bars: 4, width: 640, onClick: (i, ev) => { hit(ev.p, "pointer"); } });
+  document.getElementById("rd-key-hint").innerHTML = DR.KEY_HINT;
+  const keyOf = (p) => Object.keys(DR.KEYS).filter((k) => DR.KEYS[k][0] === p).map((k) => (k === " " ? "Space" : k.toUpperCase())).join("·") || "—";
+  function select(p) {
+    const P = DR.PIECES[p]; if (!P) return;
+    const i = LEG.indexOf(p);
+    staff.highlight(i >= 0 ? i : -1);
+    MB.stat("rd-key-o-name", `${P.ko} <small>(${P.en})</small>`);
+    MB.stat("rd-key-o-pos", `${RD_STEP_NAME[P.step] || "—"} · ${rdWhere(P.step)}`);
+    MB.stat("rd-key-o-head", `${RD_HEAD[P.head]}${P.mark === "o" ? " + 위에 o" : P.mark === "half" ? " + 위에 반열림 표시" : ""} · ${P.limb === "foot" ? "발(기둥 아래)" : "손(기둥 위)"}`);
+    MB.stat("rd-key-o-gm", `${P.gm} · ${keyOf(p)}`);
+    document.querySelectorAll("#rd-key-chips button").forEach((b) => b.classList.toggle("on", b.dataset.p === p));
+  }
+  function hit(p, src) { MB.ctx(); kit.hit(p, 0.8, null, { src, open: p === "hatOpen" ? 1 : p === "hatHalf" ? 0.5 : undefined }); select(p); }
+  DR.kitView("#rd-key-kit", { kit, onHit: (p) => select(p === "hatFoot" ? "hatFoot" : p === "hat" && kit.hatOpen >= 0.7 ? "hatOpen" : p) });
+  document.getElementById("rd-key-chips").addEventListener("click", (e) => { const b = e.target.closest("button[data-p]"); if (b) hit(b.dataset.p, "pointer"); });
+  const tour = rdPlayer("#rd-key-tour", () => {
+    const tevs = LEG.map((p, i) => ({ t: i * 0.75, p, v: 0.8 }));
+    return rdLive({ events: tevs, kit, bpm: 80, length: Math.ceil(LEG.length * 0.75) + 1, onNote: (ev) => select(ev.p) });
+  }, ["▶ 위에서 아래로 차례로 듣기", "■ 정지"]);
+  select("snare");
+})();
+
+/* ================================================================ 2. 그리드 ↔ 악보 번역기 */
+(function () {
+  const kit = DR.kit();
+  const ROWS = ["crash", "hat", "ride", "tom1", "snare", "tom2", "floor", "kick", "hatFoot"];
+  const PRE = {
+    rock: [2, "HH xxxxxxxx\nSN ..x...x.\nBD x...x..."],
+    kick: [2, "HH xxxxxxxx\nSN ..x...x.\nBD x..xx.x."],
+    funk: [4, "HH x.x.x.x.x.x.x.x.\nSN ..g.X..g.g..X.g.\nBD x.x.......x..x.."],
+    shuffle: [3, "HH x.xx.xx.xx.x\nSN ...X.....X..\nBD x.....x....."],
+    fill: [4, "SN xxxx........x...\nT1 ....xx..........\nT2 ......xx........\nFT ........xxxx....\nBD ............x...\nCR ............x..."],
+    open: [2, "HH xxxoxxxo\nHF x...x...\nSN ..x...x.\nBD x...x..."],
+  };
+  const div = MB.seg("rd-tr-div", (v) => { grid.setDiv(+v, 4); update(); });
+  const voices = MB.seg("rd-tr-voices", () => update());
+  const counts = MB.check("rd-tr-counts", () => update());
+  const bpm = MB.range("rd-tr-bpm", (v) => v + " BPM");
+  const click = MB.check("rd-tr-click");
+  const grid = DR.grid("#rd-tr-grid", { rows: ROWS, div: 4, beats: 4, kit, cycle: { crash: [".", "x"], hatFoot: [".", "x"], snare: [".", "x", "X", "g", "f", "d"], tom1: [".", "x", "X"], tom2: [".", "x", "X"], floor: [".", "x", "X"], kick: [".", "x", "X"] }, onChange: () => update() });
+  const staff = DR.staff("#rd-tr-staff", [], { bars: 1, width: 560, counts: true });
+  let evs = [];
+  function update() {
+    evs = grid.events();
+    staff.setEvents(evs, { voices: +voices(), counts: counts(), bars: 1 });
+    const hatOpenTimes = []; evs.forEach((e) => { if (e.p === "hatFoot") { const prev = evs.filter((x) => x.t < e.t - RD_EPS && rdBase(x.p) === "hat").pop(); if (prev && prev.p === "hatOpen") hatOpenTimes.push(e.t); } });
+    rdPlus(staff, hatOpenTimes);
+    const hands = evs.filter((e) => !DR.isFoot(e.p)), feet = evs.filter((e) => DR.isFoot(e.p));
+    const ht = new Set(hands.map((e) => e.t.toFixed(4)));
+    MB.stat("rd-tr-o-h", `${hands.length}개 · 기둥 ${ht.size}`);
+    MB.stat("rd-tr-o-f", `${feet.length}개`);
+    const byT = {}; evs.forEach((e) => { const k = e.t.toFixed(4); byT[k] = (byT[k] || 0) + 1; });
+    MB.stat("rd-tr-o-c", `${Object.values(byT).filter((n) => n > 1).length}곳`);
+    let rests = 0; for (let b = 0; b < 4; b++) { if (!hands.some((e) => Math.abs(e.t - b) < RD_EPS)) rests++; }
+    MB.stat("rd-tr-o-r", `${rests}박(손 성부)`);
+    const sp = grid.spec(), lines = Object.keys(sp).filter((k) => /[^.]/.test(sp[k])).map((k) => `${DR.PIECES[k].short.padEnd(2)} ${sp[k].replace(new RegExp(`(.{${grid.div}})`, "g"), "$1 ").trim()}`);
+    document.getElementById("rd-tr-code").textContent = lines.length ? lines.join("\n") + `\n// div = ${grid.div} (한 박의 칸 수)` : "(비어 있음)";
+    play.restart();
+  }
+  document.getElementById("rd-tr-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    if (b.dataset.k === "clear") { grid.clear(); return; }
+    const [d, spec] = PRE[b.dataset.k];
+    div.set(String(d), false); grid.setDiv(d, 4); grid.set(spec); update();
+  });
+  const play = rdPlayer("#rd-tr-play", () => rdLive({ events: evs, kit, staff, grid, bpm: () => bpm(), loop: true, length: 4, click: true, clickOn: () => click() }), ["▶ 반복 재생", "■ 정지"]);
+  div.set("2", false); grid.setDiv(2, 4); grid.set(PRE.rock[1]);
+  update();
+})();
+
+/* ================================================================ 3. 아티큘레이션 */
+(function () {
+  const kit = DR.kit();
+  const base = "HH xxxxxxxx\nBD x...x...";
+  const ART = {
+    plain: { div: 2, spec: "SN xxxxxxxx\nST RLRLRLRL", sym: "●", ch: "x", v: 0.75, msg: "보통 스트로크. 모든 음이 같은 높이(같은 세기)." },
+    accent: { div: 2, spec: "SN XxxXxxXx\nST RLRLRLRL", sym: "&gt;", ch: "X", v: 1, msg: "액센트 &gt;: 3+3+2로 묶인 강세. 나머지 음은 그대로 두고 액센트만 높이 든다." },
+    ghost: { div: 4, spec: base.replace("xxxxxxxx", "x.x.x.x.x.x.x.x.").replace("x...x...", "x.x.......x..x..") + "\nSN ..g.X..g.g..X.g.", sym: "( )", ch: "g", v: 0.28, msg: "고스트 노트 ( ): 2·4박 백비트 사이를 아주 여린 스네어가 채운다. 들리기보다 '느껴지는' 소리." },
+    open: { div: 2, spec: "HH xxxoxxxo\nHF x...x...\nSN ..x...x.\nBD x...x...", sym: "o → +", ch: "o", v: 0.75, plus: [0, 2], msg: "2&amp;·4&amp;에서 하이햇을 열고(o), 다음 박에 왼발로 닫는다(+). 닫는 순간 열린 소리가 '칙' 하고 끊긴다." },
+    flam: { div: 2, spec: "SN f.f.f.f.\nST R.L.R.L.", sym: "♪ 꾸밈음 1", ch: "f", v: 0.85, msg: "플램: 반대 손의 작은 꾸밈음이 약 25 ms 먼저. 두 음이 '프람' 하나로 두껍게 들려야 한다." },
+    drag: { div: 2, spec: "SN d.d.d.d.\nST R.L.R.L.", sym: "♬ 꾸밈음 2", ch: "d", v: 0.8, msg: "드래그(러프): 한 손의 더블 바운스 두 개가 본음 앞에. '드르락'." },
+    buzz: { div: 4, spec: "SN zzzzzzzzzzzzX...\nST RLRLRLRLRLRLR...", sym: "z", ch: "z", v: 0.55, msg: "버즈 z: 스틱을 헤드에 눌러 여러 번 튀게 한다. 16분마다 손을 바꾸면 이어진 버즈 롤이 된다." },
+    xstick: { div: 2, spec: "HH xxxxxxxx\nXS ..x...x.\nBD x...x...", sym: "⊗", ch: "XS x", v: 0.75, msg: "크로스 스틱(원 친 x): 발라드·보사노바의 '똑'. 왼손 스틱을 헤드에 눕히고 손바닥 쪽 끝으로 테를 친다." },
+    rim: { div: 2, spec: "HH xxxxxxxx\nRS ..x...x.\nBD x...x...", sym: "⌀", ch: "RS x", v: 0.75, msg: "림샷(빗금): 헤드와 테를 동시에 때려 '빡' 하는 날카로운 백비트." },
+    bell: { div: 2, spec: "RD bxbxbxbx\nSN ..x...x.\nBD x...x...", sym: "◆", ch: "b", v: 0.75, msg: "라이드 벨(다이아몬드): 박마다 벨, &amp;는 보우(평평한 면). 벨은 맑고 멀리 뚫고 나간다." },
+    stick: { div: 4, spec: "SN XxxxXxxxXxxxXxxx\nST RLRRLRLLRLRRLRLL", sym: "R L R R", ch: "ST", v: 0.75, sticking: true, msg: "스티킹 R/L: 싱글 패러디들 RLRR LRLL. 손의 순서가 액센트 위치와 다음 동작을 정한다(5장)." },
+  };
+  const bpm = MB.range("rd-ar-bpm", (v) => v + " BPM");
+  const loop = MB.check("rd-ar-loop");
+  const staff = DR.staff("#rd-ar-staff", [], { bars: 1, width: 520 });
+  let cur = "plain", evs = [];
+  function show(k) {
+    cur = k; const A = ART[k];
+    evs = DR.parse(A.spec, { div: A.div });
+    staff.setEvents(evs, { sticking: !!A.sticking || /ST /.test(A.spec), bars: 1 });
+    if (A.plus) rdPlus(staff, A.plus);
+    document.getElementById("rd-ar-sym").innerHTML = A.sym;
+    document.getElementById("rd-ar-msg").innerHTML = A.msg;
+    MB.stat("rd-ar-o-c", `<code>${A.ch}</code>`);
+    MB.stat("rd-ar-o-v", rdF(A.v, 2));
+    MB.stat("rd-ar-o-db", db(A.v));
+    document.querySelectorAll("#rd-ar-chips button").forEach((b) => b.classList.toggle("on", b.dataset.k === k));
+  }
+  const db = (v) => { const d = 20 * Math.log10(DR.velGain(v) / DR.velGain(0.75)); return (d >= 0 ? "+" : "") + rdF(d, 1) + " dB"; };
+  document.getElementById("rd-ar-chips").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (!b) return; show(b.dataset.k); if (play.running) play.restart(); else play.start(); });
+  const play = rdPlayer("#rd-ar-play", () => {
+    if (ART[cur].plus) { kit.hatPedal(0); }
+    return rdLive({ events: evs, kit, staff, bpm: () => bpm(), loop: loop(), length: 4, click: false });
+  }, ["▶ 예제 듣기", "■ 정지"]);
+  ["rd-ar-v1", "rd-ar-v2", "rd-ar-v3", "rd-ar-v4"].forEach((id) => document.getElementById(id).addEventListener("click", (e) => {
+    MB.ctx(); const v = +e.currentTarget.dataset.v; kit.hit("snare", v, null, { src: "pointer" });
+    MB.stat("rd-ar-o-v", rdF(v, 2)); MB.stat("rd-ar-o-db", db(v)); MB.stat("rd-ar-o-c", `<code>${v <= 0.4 ? "g" : v >= 0.9 ? "X" : v === 0.5 ? "5" : "x"}</code>`);
+  }));
+  show("plain");
+})();
+
+/* ================================================================ 4. 읽기 게임 */
+(function () {
+  const kit = DR.kit();
+  const mode = MB.seg("rd-gm-mode", () => { stopAll(); layout(); newQ(); });
+  const lv = MB.seg("rd-gm-lv", () => { stopAll(); newQ(); });
+  const bpm = MB.range("rd-gm-bpm", (v) => v + " BPM");
+  const staff = DR.staff("#rd-gm-staff", [], { bars: 1, width: 440, counts: true });
+  const pads = DR.pads("#rd-gm-pads", { kit, pieces: ["hat", "snare", "kick"] });
+  const tl = DR.timeline("#rd-gm-tl", { rows: ["hat", "snare", "kick"], beats: 8, div: 2, aspect: (w) => (w < 500 ? 0.5 : 0.3) });
+  const lamps = [...document.querySelectorAll("#rd-gm-lamps i")];
+  const msg = document.getElementById("rd-gm-msg");
+  document.getElementById("rd-gm-hint").innerHTML = DR.KEY_HINT;
+  let Q = null, answered = false, n = 0, ok = 0, streak = 0, playAcc = [];
+  function layout() {
+    const play = mode() === "play";
+    document.getElementById("rd-gm-opts").hidden = play;
+    document.getElementById("rd-gm-play").hidden = !play;
+    document.getElementById("rd-gm-go").hidden = !play;
+    if (play) tl.draw();
+  }
+  function evOf(spec, div) { return DR.parse(spec, { div }); }
+  function newQ() {
+    Q = rdChoices(+lv()); answered = false;
+    staff.setEvents(evOf(Q.opts[Q.answer], Q.div), { bars: 1 });
+    staff.unmark();
+    document.querySelectorAll("#rd-gm-opts .rd-opt").forEach((o) => o.classList.remove("ok", "bad"));
+    msg.className = "sim-msg";
+    msg.textContent = mode() === "pick" ? "악보를 보고, 세 소리를 들어 본 뒤 맞는 것을 고르세요." : "'치기 시작'을 누르면 예비 1마디(클릭 넷) 뒤 이 마디를 두 번 치세요.";
+    tl.set({ events: [], taps: [], beats: 8 });
+  }
+  function stopAll() { if (go.running) go.stop(); MB.stopAll(); }
+  document.getElementById("rd-gm-opts").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b || !Q) return;
+    if (b.dataset.play != null) { const k = +b.dataset.play; rdOnce(evOf(Q.opts[k], Q.div), { kit, bpm: bpm(), length: 4, click: true }); return; }
+    if (b.dataset.pick != null && !answered) {
+      answered = true; const k = +b.dataset.pick, right = k === Q.answer; n++;
+      if (right) { ok++; streak++; } else streak = 0;
+      const cards = document.querySelectorAll("#rd-gm-opts .rd-opt");
+      cards[Q.answer].classList.add("ok"); if (!right) cards[k].classList.add("bad");
+      msg.className = "sim-msg " + (right ? "ok" : "bad");
+      msg.textContent = right ? `정답! ${"ABC"[k]}가 악보와 같습니다.${streak >= 5 ? " 다섯 문제 연속 — 단계를 올려 보세요." : ""}` : `아쉽습니다. 정답은 ${"ABC"[Q.answer]}. 두 소리를 다시 들어 차이를 찾아보세요(대개 킥 하나의 위치).`;
+      stats();
+    }
+  });
+  function stats() {
+    MB.stat("rd-gm-o-n", n); MB.stat("rd-gm-o-a", n ? Math.round((ok / n) * 100) + "%" : "—"); MB.stat("rd-gm-o-s", streak);
+    MB.stat("rd-gm-o-p", playAcc.length ? Math.round(playAcc[playAcc.length - 1] * 100) + "% (최근)" : "—");
+  }
+  const go = rdPlayer("#rd-gm-go", () => {
+    const evs = evOf(Q.opts[Q.answer], Q.div);
+    staff.unmark(); msg.className = "sim-msg"; msg.textContent = "준비… 클릭 넷 뒤에 시작";
+    return rdRun({
+      events: evs, length: 4, reps: 2, bpm: bpm(), kit, staff, div: Q.div, score: new Set(["hat", "snare", "kick"]),
+      onBeat: (b) => { lamps.forEach((l, i) => l.classList.toggle("on", ((b % 4) + 4) % 4 === i)); if (b < 0) msg.textContent = `준비… ${b + 5}`; else if (b === 0) msg.textContent = "치세요!"; },
+      onDone(res) {
+        lamps.forEach((l) => l.classList.remove("on"));
+        if (!res) { msg.textContent = "멈췄습니다."; return; }
+        playAcc.push(res.acc);
+        Object.keys(res.hitsByIdx).forEach((si) => staff.mark(+si, res.hitsByIdx[si] === 2 ? "ok" : "bad"));
+        const P = res.pieces, f = (p) => `${DR.PIECES[p].ko.replace(/\(.*\)/, "")} ${P[p].hits}/${P[p].n}`;
+        msg.className = "sim-msg " + (res.acc >= 0.85 ? "ok" : res.acc < 0.6 ? "bad" : "");
+        msg.innerHTML = `정확도 ${Math.round(res.acc * 100)}% — ${f("hat")}, ${f("snare")}, ${f("kick")}, 남는 타격 ${res.extra}. 평균 ${res.mean >= 0 ? "+" : ""}${rdF(res.mean)} ms(＋ = 늦음).`;
+        const tevs = DR.concat([evs, 4], [evs, 4]);
+        tl.set({ events: tevs, taps: res.tl, beats: 8, div: Q.div });
+        stats();
+      },
+    });
+  }, ["▶ 치기 시작 (예비 1마디)", "■ 정지"]);
+  document.getElementById("rd-gm-next").addEventListener("click", () => { stopAll(); newQ(); });
+  layout(); newQ(); stats();
+})();
+
+/* ================================================================ 5. 소리 → 악보 */
+(function () {
+  const kit = DR.kit();
+  const lv = MB.seg("rd-er-lv", () => newQ());
+  const bpm = MB.range("rd-er-bpm", (v) => v + " BPM");
+  const click = MB.check("rd-er-click");
+  const solo = MB.check("rd-er-solo", (v) => { kit.levels.kick = v ? 1.8 : 1; });
+  const host = document.getElementById("rd-er-cards"), msg = document.getElementById("rd-er-msg");
+  let Q = null, answered = false, listens = 0, n = 0, ok = 0, totalListens = 0;
+  function newQ() {
+    Q = rdChoices(+lv()); answered = false; listens = 0;
+    host.innerHTML = Q.opts.map((_, k) => `<button class="rd-card" data-k="${k}" aria-label="악보 ${"ABC"[k]}"><span class="lab">${"ABC"[k]}</span><div id="rd-er-st${k}"></div></button>`).join("");
+    Q.opts.forEach((sp, k) => DR.staff(`#rd-er-st${k}`, DR.parse(sp, { div: Q.div }), { bars: 1, width: 400, compact: true, showTime: false }));
+    msg.className = "sim-msg"; msg.textContent = "'문제 듣기'를 누르고, 들은 리듬과 같은 악보 카드를 고르세요.";
+  }
+  document.getElementById("rd-er-play").addEventListener("click", () => {
+    listens++;
+    rdOnce(DR.parse(Q.opts[Q.answer], { div: Q.div }), { kit, bpm: bpm(), length: 4, click: click() });
+  });
+  document.getElementById("rd-er-next").addEventListener("click", () => { MB.stopAll(); newQ(); });
+  host.addEventListener("click", (e) => {
+    const b = e.target.closest(".rd-card"); if (!b || answered) return;
+    if (!listens) { msg.textContent = "먼저 '문제 듣기'를 눌러 소리를 들으세요."; return; }
+    answered = true; n++; totalListens += listens;
+    const k = +b.dataset.k, right = k === Q.answer; if (right) ok++;
+    host.children[Q.answer].classList.add("ok"); if (!right) b.classList.add("bad");
+    msg.className = "sim-msg " + (right ? "ok" : "bad");
+    msg.textContent = right ? `정답! (${listens}번 듣고 맞힘)` : `정답은 ${"ABC"[Q.answer]}입니다. 고른 카드와 정답 카드의 차이를 찾아 다시 들어 보세요.`;
+    MB.stat("rd-er-o-n", n); MB.stat("rd-er-o-a", Math.round((ok / n) * 100) + "%"); MB.stat("rd-er-o-l", rdF(totalListens / n, 1) + "번");
+  });
+  newQ();
+})();
+
+/* ================================================================ 6. 초견 사다리 */
+(function () {
+  const kit = DR.kit();
+  const lv = MB.seg("rd-sr-lv", () => { go.stop(); newPattern(); });
+  const part = MB.seg("rd-sr-part", () => go.stop());
+  const bpm = MB.range("rd-sr-bpm", (v) => v + " BPM");
+  const auto = MB.check("rd-sr-auto"), up = MB.check("rd-sr-up");
+  const staff = DR.staff("#rd-sr-staff", [], { bars: 2, width: 720, counts: true });
+  DR.pads("#rd-sr-pads", { kit, pieces: ["hat", "snare", "kick"] });
+  const tl = DR.timeline("#rd-sr-tl", { rows: ["hat", "snare", "kick"], beats: 16, div: 2, aspect: (w) => (w < 500 ? 0.5 : 0.24) });
+  const lamps = [...document.querySelectorAll("#rd-sr-lamps i")];
+  const msg = document.getElementById("rd-sr-msg");
+  let spec = null, evs = [], div = 2, count = 0, hist = [], passes = 0, timer = 0;
+  function newPattern() {
+    const L = +lv(); div = RD_LEVELS[L].div; spec = rdGen(L, 2); count++;
+    evs = DR.parse(spec, { div });
+    staff.setEvents(evs, { bars: 2 }); staff.unmark();
+    MB.stat("rd-sr-o-lv", `${L} ${RD_LEVELS[L].name} · #${count}`);
+  }
+  function scoreSet() {
+    const pt = part();
+    return new Set(pt === "hands" ? ["hat", "snare"] : pt === "feet" ? ["kick"] : pt === "all" ? ["hat", "snare", "kick"] : []);
+  }
+  const go = rdPlayer("#rd-sr-go", () => {
+    clearTimeout(timer); staff.unmark();
+    const score = scoreSet();
+    msg.className = "sim-msg"; msg.textContent = "준비…";
+    return rdRun({
+      events: evs, length: 8, reps: 2, bpm: bpm(), kit, staff, div, score,
+      onBeat: (b) => { lamps.forEach((l, i) => l.classList.toggle("on", ((b % 4) + 4) % 4 === i)); if (b < 0) msg.textContent = `준비… ${b + 5}`; else if (b === 0) msg.textContent = score.size ? "치세요! 눈은 한 박 앞을." : "듣고 눈으로 따라가세요."; },
+      onDone(res, natural) {
+        lamps.forEach((l) => l.classList.remove("on"));
+        if (!natural) return;
+        if (res) {
+          hist.push(res.acc);
+          Object.keys(res.hitsByIdx).forEach((si) => staff.mark(+si, res.hitsByIdx[si] === 2 ? "ok" : "bad"));
+          MB.stat("rd-sr-o-a", Math.round(res.acc * 100) + "%");
+          MB.stat("rd-sr-o-d", `${res.mean >= 0 ? "+" : ""}${rdF(res.mean)} / ${rdF(res.sd)} ms`);
+          MB.stat("rd-sr-o-h", `${Math.round((hist.reduce((a, b) => a + b, 0) / hist.length) * 100)}% · ${hist.length}회`);
+          tl.set({ events: DR.concat([evs, 8], [evs, 8]), taps: res.tl, beats: 16, div });
+          msg.className = "sim-msg " + (res.acc >= 0.9 ? "ok" : res.acc < 0.6 ? "bad" : "");
+          msg.textContent = `정확도 ${Math.round(res.acc * 100)}% (맞힘 ${res.hits}/${res.total}, 남는 타격 ${res.extra}).`;
+          if (res.acc >= 0.9) passes++; else passes = 0;
+          if (up() && passes >= 1 && res.acc >= 0.9 && +lv() < 5) { lv.set(String(+lv() + 1), false); passes = 0; msg.textContent += " 단계를 올립니다!"; }
+        } else msg.textContent = "다음 패턴을 들어 보세요.";
+        if (auto()) { newPattern(); timer = setTimeout(() => go.start(), 900); }
+      },
+    });
+  }, ["▶ 시작", "■ 정지"]);
+  const os = go.stop; go.stop = () => { clearTimeout(timer); os(); };
+  document.getElementById("rd-sr-go").addEventListener("click", () => { if (!go.running) clearTimeout(timer); }, true);
+  document.getElementById("rd-sr-new").addEventListener("click", () => { go.stop(); newPattern(); });
+  newPattern();
+})();
+
+/* ================================================================ 7. 로드맵 차트 */
+(function () {
+  const kit = DR.kit();
+  const BARS = {
+    A: "HH xxxxxxxx\nSN ..x...x.\nBD x...x.x.",
+    F1: "HH xxxx....\nSN ..x.xxxx\nBD x...x...",
+    F2: "HH xxxx....\nSN ..x.....\nT1 ....xx..\nT2 ......x.\nFT .......x\nBD x...x...",
+    B1: "CR x.......\nRD .xxxxxxx\nSN ..x...x.\nBD x..xx...",
+    B: "RD xxxxxxxx\nSN ..x...x.\nBD x..xx...",
+    END: "CR X.......\nBD X.......",
+  };
+  // 적힌 마디(0-기준): 내용, 표시
+  const WRITTEN = [
+    { c: "A", kind: "time", sec: "A" }, { c: "A", kind: "sim", sec: "A" }, { c: "A", kind: "time", sec: "A" }, { c: "F1", kind: "fill", sec: "A" },
+    { c: "F2", kind: "fill", sec: "A" }, { c: "B1", kind: "time", sec: "B" }, { c: "B", kind: "time", sec: "B" }, { c: "END", kind: "end", sec: "B" },
+  ];
+  const ROAD = [0, 1, 2, 3, 0, 1, 2, 4, 5, 6, 7], FLAT = [0, 1, 2, 3, 4, 5, 6, 7];
+  const mode = MB.seg("rd-ch-mode", () => { play.stop(); seqChips(); });
+  const bpm = MB.range("rd-ch-bpm", (v) => v + " BPM");
+  const click = MB.check("rd-ch-click");
+  const staff = DR.staff("#rd-ch-staff", DR.parse(BARS.A, { div: 2 }), { bars: 1, width: 480 });
+  const svg = document.getElementById("rd-ch-svg");
+  // 차트 그리기
+  const BW = 180, X0 = 22, TOPS = [70, 196], SP = 8;
+  const bx = (k) => X0 + (k % 4) * BW, by = (k) => TOPS[Math.floor(k / 4)];
+  let s = `<g font-family="var(--font)">`;
+  WRITTEN.forEach((w, k) => { s += `<rect class="rd-chbar" data-k="${k}" x="${bx(k)}" y="${by(k) - 14}" width="${BW}" height="${4 * SP + 28}" rx="4"/>`; });
+  TOPS.forEach((t) => { s += rdLines(X0, X0 + 4 * BW, t, SP, "var(--text-faint)"); });
+  const slash = (x, t) => `<line x1="${x - 5}" y1="${t + 3.2 * SP}" x2="${x + 5}" y2="${t + 0.8 * SP}" style="stroke:var(--text);stroke-width:4;stroke-linecap:round"/>`;
+  WRITTEN.forEach((w, k) => {
+    const x = bx(k), t = by(k);
+    s += `<text x="${x + 5}" y="${t + 4 * SP + 12}" class="t-mono" style="font-size:10px">${k + 1}</text>`;
+    if (k % 4 !== 3 && k !== 3) s += `<line x1="${x + BW}" x2="${x + BW}" y1="${t}" y2="${t + 4 * SP}" style="stroke:var(--text-dim);stroke-width:1.2"/>`;
+    if (w.kind === "time") for (let j = 0; j < 4; j++) s += slash(x + 32 + j * 38, t);
+    if (w.kind === "sim") s += `<line x1="${x + BW / 2 - 8}" y1="${t + 3.3 * SP}" x2="${x + BW / 2 + 8}" y2="${t + 0.7 * SP}" style="stroke:var(--text);stroke-width:4"/><circle cx="${x + BW / 2 - 7}" cy="${t + 1.2 * SP}" r="2.6" style="fill:var(--text)"/><circle cx="${x + BW / 2 + 7}" cy="${t + 2.8 * SP}" r="2.6" style="fill:var(--text)"/>`;
+    if (w.kind === "fill") { for (let j = 0; j < 2; j++) s += slash(x + 32 + j * 38, t); s += `<path d="M${x + 100} ${t + 2 * SP} q 8 -6 16 0 t 16 0 t 16 0 t 16 0" style="stroke:var(--accent);stroke-width:2;fill:none"/><text x="${x + 132}" y="${t - 3}" text-anchor="middle" class="t-acc" style="font-size:11px;font-weight:700">Fill</text>`; }
+    if (w.kind === "end") { s += `<path d="M${x + 22} ${t + 1.2 * SP} l8 8 m0 -8 l-8 8" style="stroke:var(--text);stroke-width:2"/><line x1="${x + 30}" y1="${t + 1.4 * SP}" x2="${x + 30}" y2="${t - 14}" style="stroke:var(--text);stroke-width:1.3"/><text x="${x + 44}" y="${t + 2.4 * SP}" class="t-dim" style="font-size:11px">Crash + 킥, 울리게</text><path d="M${x + 16} ${t - 18} q 14 -14 28 0" style="stroke:var(--text);stroke-width:1.6;fill:none"/><circle cx="${x + 30}" cy="${t - 20}" r="1.8" style="fill:var(--text)"/>`; s += `<line x1="${x + BW - 7}" x2="${x + BW - 7}" y1="${t}" y2="${t + 4 * SP}" style="stroke:var(--text);stroke-width:1.2"/><rect x="${x + BW - 4}" y="${t}" width="4" height="${4 * SP}" style="fill:var(--text)"/>`; }
+  });
+  // 도돌이표·괄호·리허설 마크·지시
+  { const t = TOPS[0], x = bx(0); s += `<rect x="${x}" y="${t}" width="3.5" height="${4 * SP}" style="fill:var(--text)"/><line x1="${x + 7}" x2="${x + 7}" y1="${t}" y2="${t + 4 * SP}" style="stroke:var(--text);stroke-width:1.2"/><circle cx="${x + 12}" cy="${t + 1.5 * SP}" r="2" style="fill:var(--text)"/><circle cx="${x + 12}" cy="${t + 2.5 * SP}" r="2" style="fill:var(--text)"/>`; }
+  { const t = TOPS[0], x = bx(3) + BW; s += `<circle cx="${x - 12}" cy="${t + 1.5 * SP}" r="2" style="fill:var(--text)"/><circle cx="${x - 12}" cy="${t + 2.5 * SP}" r="2" style="fill:var(--text)"/><line x1="${x - 7}" x2="${x - 7}" y1="${t}" y2="${t + 4 * SP}" style="stroke:var(--text);stroke-width:1.2"/><rect x="${x - 3.5}" y="${t}" width="3.5" height="${4 * SP}" style="fill:var(--text)"/>`; }
+  s += `<path d="M${bx(3) + 4} ${TOPS[0] - 8} V${TOPS[0] - 28} H${bx(3) + BW - 10}" style="stroke:var(--accent);stroke-width:1.6;fill:none"/><text x="${bx(3) + 10}" y="${TOPS[0] - 32}" class="t-acc" style="font-size:12px;font-weight:700">1.</text>`;
+  s += `<path d="M${bx(4) + 4} ${TOPS[1] - 8} V${TOPS[1] - 28} H${bx(4) + BW - 10}" style="stroke:var(--accent);stroke-width:1.6;fill:none"/><text x="${bx(4) + 10}" y="${TOPS[1] - 32}" class="t-acc" style="font-size:12px;font-weight:700">2.</text>`;
+  const mark = (x, y, L) => `<rect x="${x}" y="${y - 17}" width="22" height="22" rx="3" style="fill:none;stroke:var(--text);stroke-width:1.6"/><text x="${x + 11}" y="${y}" text-anchor="middle" class="t" style="font-size:14px;font-weight:800">${L}</text>`;
+  s += mark(bx(0), TOPS[0] - 30, "A") + `<text x="${bx(0) + 30}" y="${TOPS[0] - 34}" class="t" style="font-size:12px;font-style:italic">Rock · Time (8분 하이햇)</text>`;
+  s += mark(bx(5), TOPS[1] - 30, "B") + `<text x="${bx(5) + 30}" y="${TOPS[1] - 34}" class="t" style="font-size:12px;font-style:italic">Ride · 1박 크래시</text>`;
+  s += `<text x="${X0 + 4 * BW}" y="18" text-anchor="end" class="t-mono" style="font-size:11px">♩ = 104 · 4/4</text>`;
+  svg.innerHTML = s + "</g>";
+  const rects = [...svg.querySelectorAll(".rd-chbar")];
+  const seqEl = document.getElementById("rd-ch-seq");
+  const order = () => (mode() === "road" ? ROAD : FLAT);
+  function seqChips() {
+    seqEl.innerHTML = order().map((k) => `<span>${k + 1}</span>`).join("");
+    MB.stat("rd-ch-o-seq", order().map((k) => k + 1).join(" "));
+    MB.stat("rd-ch-o-tot", order().length + "마디");
+    rects.forEach((r) => r.classList.remove("now", "done"));
+  }
+  function showBar(n) {
+    const ord = order(), k = ord[n]; if (k == null) return;
+    rects.forEach((r, j) => { r.classList.toggle("now", j === k); });
+    [...seqEl.children].forEach((c, j) => { c.classList.toggle("now", j === n); c.classList.toggle("done", j < n); });
+    MB.stat("rd-ch-o-bar", `${k + 1} (${n + 1}번째)`);
+    MB.stat("rd-ch-o-sec", WRITTEN[k].sec + (WRITTEN[k].kind === "fill" ? " · 필" : WRITTEN[k].kind === "sim" ? " · % 반복" : ""));
+    staff.setEvents(DR.parse(BARS[WRITTEN[k].c], { div: 2 }), { bars: 1 });
+  }
+  const play = rdPlayer("#rd-ch-play", () => {
+    const ord = order();
+    const evs = DR.concat(...ord.map((k) => [DR.parse(BARS[WRITTEN[k].c], { div: 2 }), 4]));
+    return rdLive({
+      events: evs, kit, bpm: () => bpm(), length: ord.length * 4, click: true, clickOn: () => click(),
+      onBeat: (b) => { if (b % 4 === 0) showBar(b / 4); },
+      onStop: () => { rects.forEach((r) => r.classList.remove("now")); },
+    });
+  }, ["▶ 차트 연주", "■ 정지"]);
+  seqChips();
+})();
+</script>
+</body>
+</html>

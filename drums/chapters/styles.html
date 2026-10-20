@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>장르 그루브 · DrumBook</title>
+<meta name="description" content="펑크·디스코·하우스·레게·힙합·드럼 앤 베이스·펑크 록·메탈·보사노바·클라베·트레인 비트까지, 장르를 가르는 몇 개의 음을 비교·변신·청음으로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/styles.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="장르 그루브 · DrumBook">
+<meta property="og:description" content="펑크·디스코·하우스·레게·힙합·드럼 앤 베이스·펑크 록·메탈·보사노바·클라베·트레인 비트까지, 장르를 가르는 몇 개의 음을 비교·변신·청음으로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/styles.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .sty-pad { padding: 8px; }
+  .sty-msg { font-size: 14px; color: var(--text-dim); padding: 8px 10px; min-height: 1.4em; }
+  .sty-msg b { color: var(--text); }
+  .sty-cv { display: block; width: 100%; touch-action: manipulation; }
+  .sty-df { display: grid; gap: 3px; padding: 6px 2px; }
+  .sty-df-row { display: grid; grid-template-columns: 30px repeat(16, minmax(0, 1fr)); gap: 2px; align-items: center; }
+  .sty-df-row .lab { font: 700 10.5px var(--mono); color: var(--text-dim); text-align: right; padding-right: 3px; overflow: hidden; }
+  .sty-df-row span.c { height: 24px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 10px/22px var(--mono); text-align: center; color: var(--text-dim); overflow: hidden; min-width: 0; }
+  .sty-df-row span.c.bt { border-left: 2px solid var(--text-faint); }
+  .sty-df-row span.c.same { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); color: var(--accent); }
+  .sty-df-row span.c.a { background: var(--bg-elev); border: 2px solid var(--accent); color: var(--accent); }
+  .sty-df-row span.c.b { background: var(--accent-2-soft); border: 2px solid var(--accent-2); color: var(--accent-2); }
+  .sty-df-row span.c.chg { background: color-mix(in srgb, var(--warn) 16%, var(--bg-elev)); border: 2px solid var(--warn); color: var(--text); }
+  .sty-df-row span.c.sw { box-shadow: 0 0 0 2px var(--warn) inset; background: var(--warn); color: var(--on-accent); }
+  .sty-df-row span.c.now { outline: 2px solid var(--text); outline-offset: -1px; }
+  .sty-df-row.cnt span { font: 500 9.5px var(--mono); color: var(--text-faint); text-align: center; }
+  .sty-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--text-dim); padding: 4px 10px 8px; }
+  .sty-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; border: 2px solid; }
+  .sty-ans { justify-content: center; margin-top: 10px; }
+  .sty-ans button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 15%, var(--bg-elev)); color: var(--text); }
+  .sty-ans button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--bg-elev)); color: var(--text); }
+  .sty-desc { font-size: 14px; color: var(--text-dim); padding: 8px 10px; border-top: 1px solid var(--border); }
+  .sty-desc b { color: var(--text); }
+  svg .sty-off { fill: none; stroke: var(--border); stroke-width: 1; }
+  svg .sty-on { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+  svg .sty-hi { fill: var(--accent); stroke: var(--accent); }
+  svg .sty-open { fill: var(--accent-2-soft); stroke: var(--accent-2); stroke-width: 1.4; }
+  svg .sty-hi + .sty-oc { stroke: var(--on-accent); }
+  svg .sty-oc { fill: none; stroke: var(--accent-2); stroke-width: 1.5; }
+  svg .sty-b { stroke-width: 1.8; }
+  svg .sty-c { font: 500 11px var(--mono); fill: var(--text-faint); text-anchor: middle; }
+  svg .sty-c.b { font-weight: 800; fill: var(--text-dim); }
+  svg .sty-mid { stroke: var(--text-faint); stroke-width: 1; stroke-dasharray: 3 4; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="styles">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 10</div>
+    <h1>장르 그루브</h1>
+    <p class="lead">8비트 록과 디스코, 원 드롭 레게, 드럼 앤 베이스를 16칸 격자에 나란히 적어 보면 놀랄 만큼 비슷합니다. 하이햇은 거의 같고, 다른 것은 <b>몇 개의 음</b>뿐입니다. 킥이 어느 칸에 있는가, 하이햇이 어디서 열리는가, 백비트가 2·4박인가 3박인가, 8분음표가 곧은가 흔들리는가. 이 장은 그 '몇 개의 음'을 장르를 구별하는 열쇠로 삼아, 펑크·디스코·하우스·레게·힙합·드럼 앤 베이스·펑크 록·메탈·보사노바·아프로 쿠반 클라베·컨트리 트레인 비트를 차례로 지나갑니다. 두 그루브의 차이를 칸 단위로 세고, 한 장르를 다른 장르로 한 칸씩 '변신'시키고, 마지막에는 이름표 없이 듣고 장르를 맞혀 봅니다.</p>
+    <ul class="objectives">
+      <li>그루브를 킥 위치·하이햇 오픈·백비트 위치·스윙의 네 축으로 분석하고, 두 그루브의 차이를 칸 수(해밍 거리)로 잰다.</li>
+      <li>펑크의 16분 고스트·'원'의 무게·리니어 그루브, 디스코·하우스의 포 온 더 플로어를 친다.</li>
+      <li>레게의 원 드롭·록커스·스테퍼스를 킥 위치로 구별한다.</li>
+      <li>붐뱁의 16분 스윙과 트랩의 하이햇 롤(32분·셋잇단)을 수치로 설명하고 만든다.</li>
+      <li>드럼 앤 베이스의 투스텝, 펑크 록의 스캥크 비트, 메탈의 더블 베이스와 블라스트 비트 개념을 안다.</li>
+      <li>손·룸바 클라베의 3–2·2–3 방향, 보사노바 클라베, 트레시요, 6/8 벨 패턴을 16칸(12칸) 시계 위에서 읽는다.</li>
+      <li>장르별 대략의 템포 범위를 알고, 소리만 듣고 장르를 맞힌다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="few-notes">
+    <h2>장르를 가르는 '몇 개의 음'</h2>
+    <p>장르를 구별하는 데 드럼 전체를 다 볼 필요는 없습니다. 대부분의 대중음악 그루브는 같은 뼈대(심벌이 시간을 채우고, 스네어가 백비트, 킥이 무게)를 공유하고, 장르의 '얼굴'은 다음 네 가지에서 갈립니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>축</th><th>질문</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>킥 위치</td><td>킥이 박 위에 있는가, 어느 박을 비우는가, 16분 엇박에 들어가는가</td><td>포 온 더 플로어(네 박), 원 드롭(3박만), 투스텝(1·3&amp;), 펑크(16분 엇박)</td></tr>
+        <tr><td>하이햇 오픈</td><td>하이햇이 어디서 열리는가</td><td>디스코·하우스의 &amp; 오픈, 펑크의 마디 끝 오픈</td></tr>
+        <tr><td>백비트 위치</td><td>스네어가 2·4박인가, 3박인가, 매 박인가</td><td>록 2·4, 하프타임·원 드롭·트랩 3, 모타운식 4분 스네어</td></tr>
+        <tr><td>세분과 스윙</td><td>8분·16분·셋잇단 중 무엇으로 흐르고, 얼마나 흔들리는가</td><td>셔플·재즈(셋잇단), 붐뱁(16분 스윙), 하우스(곧은 16분)</td></tr>
+      </tbody>
+    </table></div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 348" role="img" aria-label="8비트 록, 디스코, 원 드롭, 드럼 앤 베이스의 16칸 패턴 비교"><text class="t" x="12" y="42">8비트 록</text><text class="t-dim" x="12" y="58">킥 1·3, 스네어 2·4</text><text class="t-mono" x="202" y="41" text-anchor="end">HH</text><rect class="sty-on sty-b" x="211" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="279" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="30" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="30" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="30" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="687" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="30" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="59" text-anchor="end">SN</text><rect class="sty-off sty-b" x="211" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="48" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="347" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="48" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="48" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="619" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="48" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="77" text-anchor="end">BD</text><rect class="sty-hi sty-b" x="211" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="66" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="66" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="66" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="66" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="66" width="32" height="15" rx="3"/><text class="t" x="12" y="118">디스코</text><text class="t-dim" x="12" y="134">킥 네 박 + & 오픈 햇</text><text class="t-mono" x="202" y="117" text-anchor="end">HH</text><rect class="sty-on sty-b" x="211" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="106" width="32" height="15" rx="3"/><rect class="sty-hi" x="279" y="106" width="32" height="15" rx="3"/><circle class="sty-oc" cx="295" cy="113.5" r="4"/><rect class="sty-off" x="313" y="106" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="106" width="32" height="15" rx="3"/><rect class="sty-hi" x="415" y="106" width="32" height="15" rx="3"/><circle class="sty-oc" cx="431" cy="113.5" r="4"/><rect class="sty-off" x="449" y="106" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="106" width="32" height="15" rx="3"/><rect class="sty-hi" x="551" y="106" width="32" height="15" rx="3"/><circle class="sty-oc" cx="567" cy="113.5" r="4"/><rect class="sty-off" x="585" y="106" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="106" width="32" height="15" rx="3"/><rect class="sty-hi" x="687" y="106" width="32" height="15" rx="3"/><circle class="sty-oc" cx="703" cy="113.5" r="4"/><rect class="sty-off" x="721" y="106" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="135" text-anchor="end">SN</text><rect class="sty-off sty-b" x="211" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="124" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="124" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="124" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="124" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="124" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="153" text-anchor="end">BD</text><rect class="sty-on sty-b" x="211" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="142" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="347" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="142" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="142" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="619" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="142" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="142" width="32" height="15" rx="3"/><text class="t" x="12" y="194">레게 원 드롭</text><text class="t-dim" x="12" y="210">1박을 비우고 3박에</text><text class="t-mono" x="202" y="193" text-anchor="end">HH</text><rect class="sty-on sty-b" x="211" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="182" width="32" height="15" rx="3"/><rect class="sty-on" x="279" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="182" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="182" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="182" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="182" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="182" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="182" width="32" height="15" rx="3"/><rect class="sty-on" x="687" y="182" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="182" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="211" text-anchor="end">XS</text><rect class="sty-off sty-b" x="211" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="200" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="200" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="200" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="200" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="200" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="229" text-anchor="end">BD</text><rect class="sty-off sty-b" x="211" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="218" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="218" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="218" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="218" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="218" width="32" height="15" rx="3"/><text class="t" x="12" y="270">드럼 앤 베이스</text><text class="t-dim" x="12" y="286">킥 1 · 3&, 172 BPM</text><text class="t-mono" x="202" y="269" text-anchor="end">HH</text><rect class="sty-on sty-b" x="211" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="258" width="32" height="15" rx="3"/><rect class="sty-on" x="279" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="258" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="258" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="258" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="258" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="258" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="258" width="32" height="15" rx="3"/><rect class="sty-on" x="687" y="258" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="258" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="287" text-anchor="end">SN</text><rect class="sty-off sty-b" x="211" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="276" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="276" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="276" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="276" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="276" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="305" text-anchor="end">BD</text><rect class="sty-on sty-b" x="211" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="294" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="294" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="294" width="32" height="15" rx="3"/><rect class="sty-hi" x="551" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="294" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="294" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="294" width="32" height="15" rx="3"/><text class="sty-c b" x="227" y="336">1</text><text class="sty-c" x="261" y="336">e</text><text class="sty-c" x="295" y="336">&</text><text class="sty-c" x="329" y="336">a</text><text class="sty-c b" x="363" y="336">2</text><text class="sty-c" x="397" y="336">e</text><text class="sty-c" x="431" y="336">&</text><text class="sty-c" x="465" y="336">a</text><text class="sty-c b" x="499" y="336">3</text><text class="sty-c" x="533" y="336">e</text><text class="sty-c" x="567" y="336">&</text><text class="sty-c" x="601" y="336">a</text><text class="sty-c b" x="635" y="336">4</text><text class="sty-c" x="669" y="336">e</text><text class="sty-c" x="703" y="336">&</text><text class="sty-c" x="737" y="336">a</text><line class="sty-mid" x1="482" y1="20" x2="482" y2="332"/></svg>
+      <figcaption><b>그림 10-1.</b> 네 장르를 16칸으로 적은 그림. 진하게 칠한 칸이 그 장르의 '얼굴'이 되는 음이다. 하이햇은 네 장르 모두 8분음표로 거의 같고, 록은 1·3 킥과 2·4 스네어, 디스코는 네 박 킥과 &amp; 오픈 하이햇(청록 원), 원 드롭은 1박을 비우고 3박에 킥과 크로스 스틱, 드럼 앤 베이스는 3박의 &amp;로 밀린 킥이다. 점선은 마디의 가운데다.</figcaption>
+    </figure>
+    <p>두 그루브가 얼마나 다른지는 칸 단위로 셀 수 있습니다. 조각마다 16칸의 문자열을 만들고, 같은 칸의 문자가 다른 곳의 개수를 더하면 정보 이론의 <span class="term">해밍 거리</span><span class="en">(Hamming distance)</span>가 됩니다.</p>
+    <div class="formula">$$d(A, B) = \sum_{p \in \text{조각}}\ \sum_{i=0}^{15} \bigl[\,a_{p,i} \ne b_{p,i}\,\bigr]$$
+      <div class="where">\(a_{p,i}\): 그루브 A에서 조각 \(p\)의 \(i\)번째 칸(쉼, 보통, 액센트, 고스트, 열림). 8비트 록과 디스코의 거리는 하이햇 오픈 4칸 + 킥 2칸 + 스네어 액센트 2칸 = 8, 8비트 록과 원 드롭은 킥 1칸 + 스네어 2칸 + 크로스 스틱 1칸 = 4다. 숫자가 작아도 귀에는 전혀 다른 장르로 들린다는 것이 이 장의 요점이다. 어느 칸이 바뀌는가가 몇 칸이 바뀌는가보다 중요하다.</div>
+    </div>
+
+    <div class="sim" id="sim-sty-juke">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장르 주크박스: 모든 그루브 듣기 · A/B 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div id="sty-jb-kit"></div>
+          <div id="sty-jb-staff" style="margin-top:6px"></div>
+          <div id="sty-jb-grid" style="margin-top:8px"></div>
+          <div class="sty-desc" id="sty-jb-desc"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>그루브 A</span><select id="sty-jb-a"></select></label>
+          <label class="ctrl"><span>그루브 B</span><select id="sty-jb-b"></select></label>
+          <div class="ctrl"><span>재생</span><div class="seg" id="sty-jb-mode"><button data-value="a" class="on">A</button><button data-value="b">B</button><button data-value="ab">A 2마디 ↔ B 2마디</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sty-jb-bpm-out"></output></span><input type="range" id="sty-jb-bpm" min="40" max="220" value="100" step="1"></label>
+          <label class="check"><input type="checkbox" id="sty-jb-sw" checked> 그루브에 적힌 스윙 적용</label>
+          <div class="btn-row"><button class="btn primary" id="sty-jb-play">▶ 반복 재생</button><button class="btn" id="sty-jb-tempo">기본 템포로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">장르</span><span class="v" id="sty-jb-o-g">—</span></div>
+        <div class="stat"><span class="k">기본 템포</span><span class="v" id="sty-jb-o-bpm">—</span></div>
+        <div class="stat"><span class="k">격자</span><span class="v" id="sty-jb-o-div">—</span></div>
+        <div class="stat"><span class="k">스윙</span><span class="v" id="sty-jb-o-sw">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: A = 8비트 록, B = 디스코로 두고 'A 2마디 ↔ B 2마디'를 들으면 킥 두 개와 하이햇 오픈만으로 장르가 바뀌는 순간이 들립니다. A/B 모드에서는 두 그루브를 같은 템포(슬라이더)로 연주해 템포 차이가 아니라 음의 차이만 비교합니다. 그루브를 고르면 템포가 그 그루브의 기본값으로 바뀝니다. 셋잇단(div 3) 그루브는 4/4 셋잇단으로 적힙니다(12/8로 읽어도 같은 소리, <a href="shuffle.html">9장</a>). 모든 그루브는 <code>DR.GROOVES</code> 사전의 장르 일반형이며 특정 곡의 드럼 파트가 아닙니다.</div>
+    </div>
+
+    <div class="sim" id="sim-sty-diff">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>"무엇이 이것을 X로 만드나": 칸 비교와 한 마디씩 변신</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div class="sty-df" id="sty-df-grid"></div>
+          <div class="sty-legend"><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>둘 다</span><span><i style="border-color:var(--accent)"></i>A에만</span><span><i style="border-color:var(--accent-2);background:var(--accent-2-soft)"></i>B에만</span><span><i style="border-color:var(--warn)"></i>셈여림·열림만 다름</span><span><i style="border-color:var(--warn);background:var(--warn)"></i>지금 B로 바뀐 칸</span></div>
+          <div class="sty-msg" id="sty-df-msg"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>A</span><select id="sty-df-a"></select></label>
+          <label class="ctrl"><span>B</span><select id="sty-df-b"></select></label>
+          <div class="ctrl"><span>재생</span><div class="seg" id="sty-df-mode"><button data-value="a">A</button><button data-value="b">B</button><button data-value="m" class="on">A → B 변신(5마디)</button></div></div>
+          <div class="ctrl"><span>바꾸는 순서</span><div class="seg" id="sty-df-ord"><button data-value="low" class="on">킥 → 스네어 → 심벌</button><button data-value="high">심벌 → 스네어 → 킥</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sty-df-bpm-out"></output></span><input type="range" id="sty-df-bpm" min="60" max="190" value="110" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="sty-df-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">해밍 거리 d</span><span class="v" id="sty-df-o-d">—</span></div>
+        <div class="stat"><span class="k">조각별 차이</span><span class="v" id="sty-df-o-rows">—</span></div>
+        <div class="stat"><span class="k">지금 마디</span><span class="v" id="sty-df-o-bar">—</span></div>
+      </div>
+      <div class="sim-note">변신은 A(0%) → 25% → 50% → 75% → B(100%) 다섯 마디를 이어 연주합니다. 마디마다 다른 칸의 앞쪽부터 정해진 순서로 B의 값으로 바꾸므로, 몇 번째 마디에서 '장르가 넘어가는지' 귀로 찾아보세요. 대개 킥이 바뀌는 순간 장르의 정체가 바뀝니다. 비교할 수 있도록 곧은 8분·16분 한 마디 그루브만 목록에 넣었고, 8분 그루브는 16칸으로 펼쳤습니다. 붐뱁의 스윙은 이 도구에서 꺼집니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="funk">
+    <h2>펑크: 16분 고스트와 '원'</h2>
+    <p><span class="term">펑크</span><span class="en">(Funk)</span> 드럼의 재료는 7장에서 익힌 16분 하이햇과 <a href="sixteenth.html">고스트 노트</a>입니다. 다른 점은 <b>배치</b>입니다. 킥은 박 위만이 아니라 16분 엇박(e·a)에 자주 들어가 베이스 기타와 맞물리고, 스네어 고스트가 백비트 사이 16분 칸을 채워 그루브를 쉬지 않고 굴립니다. 그러면서도 마디의 첫 박, 이른바 '<b>원</b>'<span class="en">(The One)</span>에는 밴드 전체가 무게를 모읍니다. 킥과 베이스가 1박에 함께 떨어지고 나머지는 그 주변을 돕니다. 마디 끝(4박의 &amp; 근처)에서 하이햇을 짧게 열어 다음 '원'을 예고하는 것도 흔합니다.</p>
+    <p>펑크의 한 갈래인 <span class="term">리니어 그루브</span><span class="en">(Linear groove)</span>는 두 조각이 같은 칸에서 절대 겹치지 않게 하는 방식입니다. 하이햇·스네어·킥이 16칸을 한 줄로 나눠 가져서 '한 사람이 치는 멜로디'처럼 들립니다. <code>DR.GROOVES.linear</code>는 16칸이 모두 정확히 한 조각씩으로 채워져 있습니다. 위 주크박스에서 '펑크(고스트 노트)'와 '리니어 펑크'를 번갈아 들어 보세요. 리니어는 동시 타격이 없어서 템포가 같아도 더 가볍고 날렵하게 들립니다.</p>
+    <div class="callout tip"><strong>연습법: 펑크 고스트 노트</strong> ① 76 BPM, 오른손 8분 하이햇 + 2·4 백비트(25 cm)만. ② 왼손 고스트(2 cm)를 한 개씩 더합니다. 먼저 2박 앞의 'a', 다음 4박 뒤의 'e'. ③ 킥 16분 엇박을 마지막에. 킥이 들어가면 고스트가 커지거나 백비트가 작아지기 쉬우니 녹음해서 확인합니다. ④ 4마디 × 8회 깨끗하면 4 BPM씩, 목표 96 BPM. 패드가 없으면 왼손 고스트를 손가락 끝으로 책상에 '톡' 대는 크기로 연습해도 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="disco">
+    <h2>디스코·하우스·4분 스네어: 포 온 더 플로어</h2>
+    <p>1970년대 디스코에서 시작해 하우스·테크노·댄스 팝으로 이어진 그루브의 핵심은 <span class="term">포 온 더 플로어</span><span class="en">(Four on the floor)</span>, 킥이 네 박을 모두 밟는 것입니다. 춤추는 사람의 발걸음과 킥이 일대일로 맞아서 템포를 몸으로 잃어버릴 수 없습니다. 그 위에서 장르를 만드는 것은 하이햇입니다. <b>디스코</b>는 닫힌 하이햇을 박 위에, <b>열린 하이햇을 &amp;마다</b> 쳐서 '츠–칙 츠–칙'의 들썩임을 만들고, 왼발로 박 위에서 다시 닫아 소리를 끊습니다. <b>하우스</b>는 이 &amp; 오픈 햇을 더 앞세우고 스네어 대신 클랩을 2·4박에 둡니다.</p>
+    <p>1960년대 소울(디트로이트 계열 음반사의 사운드로 흔히 불리는 스타일)에서는 또 다른 '네 박' 아이디어가 쓰였습니다. 킥이 아니라 <b>스네어가 네 박을 모두</b> 치고(때로 탬버린이 2·4박이나 모든 박을 겹쳐) 박을 위에서 꽉 채우는 <b>4분 스네어</b>입니다. 백비트의 강약이 사라지는 대신 걷는 듯한 일정한 추진력이 생깁니다. 아래 빌더에서는 탬버린 대신 셰이커로 그 자리를 채워 봅니다.</p>
+
+    <div class="sim" id="sim-sty-four">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>포 온 더 플로어 빌더</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div id="sty-ff-staff"></div>
+          <div id="sty-ff-grid" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>닫힌 하이햇</span><div class="seg" id="sty-ff-hat"><button data-value="8" class="on">8분</button><button data-value="16">16분</button><button data-value="0">없음</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-ff-open" checked> &amp;마다 열린 하이햇</label>
+          <div class="ctrl"><span>스네어</span><div class="seg" id="sty-ff-sn"><button data-value="24" class="on">2·4박</button><button data-value="all">네 박(4분 스네어)</button><button data-value="0">없음</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-ff-clap"> 클랩 2·4박</label>
+          <label class="check"><input type="checkbox" id="sty-ff-shk"> 셰이커 16분(탬버린 자리)</label>
+          <label class="ctrl"><span>템포 <output id="sty-ff-bpm-out"></output></span><input type="range" id="sty-ff-bpm" min="96" max="132" value="118" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="sty-ff-play">▶ 반복 재생</button></div>
+          <div class="dr-chips" id="sty-ff-pre"><button data-k="disco" class="on">디스코</button><button data-k="house">하우스</button><button data-k="soul">4분 스네어</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">킥 간격</span><span class="v" id="sty-ff-o-k">—</span></div>
+        <div class="stat"><span class="k">열린 햇 길이(&amp; → 다음 박)</span><span class="v" id="sty-ff-o-o">—</span></div>
+        <div class="stat"><span class="k">손 타수 / 마디</span><span class="v" id="sty-ff-o-n">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '디스코' 프리셋에서 열린 하이햇만 꺼 보세요. 킥은 그대로인데 들썩임이 사라져 평범한 록처럼 들립니다. 재생 중에 옵션을 바꾸거나 격자 칸을 눌러도 박이 끊기지 않습니다(하이햇 칸은 누를 때마다 쉼 → 닫힘 → 액센트 → 열림). 가상 킷의 하이햇은 새로 칠 때 앞의 열린 소리를 초크하므로, &amp;의 열린 소리는 다음 박의 닫힌 하이햇에서 끊깁니다. 실제로는 왼발 페달로 닫는 동작입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 열고 닫기의 타이밍</strong> 디스코 하이햇은 손보다 <b>왼발</b>이 어렵습니다. ① 120 BPM, 킥 네 박 + 하이햇 8분. ② &amp;에서 페달을 살짝 들어 열고 치고, 다음 박에서 발을 내려 닫으며 칩니다. 발이 오른발 킥과 같은 타이밍에 '내려가는' 동작이라 처음엔 두 발이 함께 움직이는 것이 오히려 쉽습니다. ③ 열림 정도는 2–3 mm면 충분합니다. 너무 열면 '쏴–'가 길어져 다음 박을 덮습니다. 드럼이 없으면 의자에 앉아 오른발 뒤꿈치로 4분, 왼발 앞꿈치로 &amp;에 들었다 박에 내리는 동작만 3분씩 반복하세요.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="reggae">
+    <h2>레게: 원 드롭 · 록커스 · 스테퍼스</h2>
+    <p>자메이카의 레게 드럼은 '어디를 비우는가'로 장르를 만듭니다. 가장 유명한 <span class="term">원 드롭</span><span class="en">(One drop)</span>은 <b>1박을 비우고</b> 3박에 킥과 크로스 스틱(또는 림샷)을 함께 떨어뜨립니다. 한 마디에 '떨어지는' 음이 하나라 이름이 그렇습니다. 4/4로 세면 3박 백비트라 하프타임처럼 느리고 무겁게, 그 위의 기타 '스캥크'(&amp;의 짧은 화음)가 가볍게 들립니다. 원 드롭을 바탕으로 킥을 늘린 두 변형이 있습니다. <span class="term">록커스</span><span class="en">(Rockers)</span>는 킥을 <b>1·3박</b>에 두어 조금 더 앞으로 굴리고, <span class="term">스테퍼스</span><span class="en">(Steppers)</span>는 킥이 <b>네 박</b>을 모두 밟아 행진하듯 밀어붙입니다. 크로스 스틱은 세 변형 모두 3박이 기본이고 연주자에 따라 2·4박에 두기도 합니다. 하이햇은 곧은 8분부터 셔플에 가까운 흔들림까지 곡마다 다릅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 218" role="img" aria-label="원 드롭, 록커스, 스테퍼스의 킥 위치"><text class="t" x="12" y="42">원 드롭</text><text class="t-dim" x="12" y="58">킥 = 3박만</text><text class="t-mono" x="202" y="41" text-anchor="end">XS</text><rect class="sty-off sty-b" x="211" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="30" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="30" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="30" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="30" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="59" text-anchor="end">BD</text><rect class="sty-off sty-b" x="211" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="48" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="48" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="48" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="48" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="48" width="32" height="15" rx="3"/><text class="t" x="12" y="100">록커스</text><text class="t-dim" x="12" y="116">킥 = 1·3박</text><text class="t-mono" x="202" y="99" text-anchor="end">XS</text><rect class="sty-off sty-b" x="211" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="88" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="88" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="88" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="88" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="88" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="117" text-anchor="end">BD</text><rect class="sty-hi sty-b" x="211" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="106" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="106" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="106" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="106" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="106" width="32" height="15" rx="3"/><text class="t" x="12" y="158">스테퍼스</text><text class="t-dim" x="12" y="174">킥 = 네 박</text><text class="t-mono" x="202" y="157" text-anchor="end">XS</text><rect class="sty-off sty-b" x="211" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="146" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="146" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="146" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="146" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="146" width="32" height="15" rx="3"/><text class="t-mono" x="202" y="175" text-anchor="end">BD</text><rect class="sty-hi sty-b" x="211" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="164" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="347" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="164" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="483" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="164" width="32" height="15" rx="3"/><rect class="sty-hi sty-b" x="619" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="164" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="164" width="32" height="15" rx="3"/><text class="sty-c b" x="227" y="206">1</text><text class="sty-c" x="261" y="206">e</text><text class="sty-c" x="295" y="206">&</text><text class="sty-c" x="329" y="206">a</text><text class="sty-c b" x="363" y="206">2</text><text class="sty-c" x="397" y="206">e</text><text class="sty-c" x="431" y="206">&</text><text class="sty-c" x="465" y="206">a</text><text class="sty-c b" x="499" y="206">3</text><text class="sty-c" x="533" y="206">e</text><text class="sty-c" x="567" y="206">&</text><text class="sty-c" x="601" y="206">a</text><text class="sty-c b" x="635" y="206">4</text><text class="sty-c" x="669" y="206">e</text><text class="sty-c" x="703" y="206">&</text><text class="sty-c" x="737" y="206">a</text><line class="sty-mid" x1="482" y1="20" x2="482" y2="202"/></svg>
+      <figcaption><b>그림 10-2.</b> 레게의 세 가지 킥 배치. 크로스 스틱(XS)은 셋 다 3박에 있고 킥만 3박 → 1·3박 → 네 박으로 늘어난다. 같은 템포라도 킥이 많을수록 체감 에너지가 커진다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-sty-reggae">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>레게 변형: 같은 3박, 다른 킥</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div id="sty-rg-staff"></div>
+          <div id="sty-rg-grid" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>변형</span><div class="seg" id="sty-rg-var"><button data-value="one" class="on">원 드롭</button><button data-value="rock">록커스</button><button data-value="step">스테퍼스</button></div></div>
+          <div class="ctrl"><span>하이햇</span><div class="seg" id="sty-rg-hat"><button data-value="str" class="on">곧은 8분</button><button data-value="sw">흔들리는 8분</button><button data-value="off">&amp;만(오픈)</button><button data-value="trip">셋잇단 채움</button></div></div>
+          <div class="ctrl"><span>3박 소리</span><div class="seg" id="sty-rg-rim"><button data-value="xstick" class="on">크로스 스틱</button><button data-value="rim">림샷</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-rg-24"> 크로스 스틱을 2·4박으로</label>
+          <label class="ctrl"><span>템포 <output id="sty-rg-bpm-out"></output></span><input type="range" id="sty-rg-bpm" min="60" max="100" value="76" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="sty-rg-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">킥 위치</span><span class="v" id="sty-rg-o-k">—</span></div>
+        <div class="stat"><span class="k">마디당 킥</span><span class="v" id="sty-rg-o-n">—</span></div>
+        <div class="stat"><span class="k">하이햇 스윙 r</span><span class="v" id="sty-rg-o-r">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 원 드롭에서 1박이 '비어 있다'는 것을 몸으로 느껴 보세요. 머리를 1박에 끄덕이려 하면 어색하고, 3박에 끄덕이면 편합니다. '흔들리는 8분'은 스윙 비율 0.6을 하이햇에만 적용하고, '셋잇단 채움'은 하이햇을 셋잇단 열두 칸으로 바꿉니다(이때 킥·크로스 스틱도 셋잇단 격자 위의 같은 박에 있으므로 그대로입니다). 패턴은 <code>DR.parse</code>로 직접 만든 일반형입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="hiphop">
+    <h2>힙합: 붐뱁의 스윙 16분, 트랩의 하이햇 롤</h2>
+    <p><b>붐뱁</b><span class="en">(Boom bap)</span>은 이름 그대로 '붐'(킥)과 '뱁'(스네어)이 중심인 1990년대 계열의 힙합 비트입니다. 85–100 BPM의 여유로운 템포에 2·4박 스네어가 묵직하고, 킥은 1박과 2박 근처의 16분 엇박에 한두 개 더 들어갑니다. 결정적인 특징은 <b>16분 스윙</b>입니다. 샘플러·드럼 머신의 '스윙' 손잡이로 16분음표의 뒷칸(e·a)을 조금 늦추면, 정확한 기계 박자인데도 사람처럼 느슨하게 들립니다. <a href="shuffle.html">9장</a>의 스윙 비율 \(r\)을 8분이 아니라 16분 쌍에 적용한 것입니다.</p>
+    <div class="formula">$$\Delta_{16} = \left(r - \tfrac12\right)\cdot 2u_{16},\qquad u_{16} = \frac{60\,000}{4\cdot\text{BPM}}\ \text{ms},\qquad T_{32} = \frac{60\,000}{8\cdot\text{BPM}}$$
+      <div class="where">90 BPM, \(r = 0.58\)이면 \(u_{16} = 167\) ms, \(\Delta_{16} = 0.08\times 333 \approx 27\) ms. 8분 스윙보다 지연이 작아 '스윙한다'기보다 '느슨하다'로 들린다. \(T_{32}\): 32분음표 하나. 140 BPM이면 54 ms로 초당 약 19번, 손으로 치려면 싱글 스트로크가 아닌 더블·버즈로 해야 하는 속도다.</div>
+    </div>
+    <p><b>트랩</b><span class="en">(Trap)</span>은 2000년대 이후의 힙합 프로덕션 스타일입니다. 템포는 130–160 BPM으로 빠르게 세지만 스네어(클랩)를 <b>3박에만</b> 두어 하프타임으로 느끼게 하고, 그 위에서 하이햇이 8분 → 16분 → 32분 → 셋잇단으로 수시로 쪼개지는 <span class="term">하이햇 롤</span>이 장식을 맡습니다. 원래 드럼 머신에서 만든 소리라 사람이 그대로 치기 어려운 부분도 있지만, 라이브 드러머는 더블 스트로크와 버즈로 흉내 냅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="한 박을 2, 4, 6, 8로 나눈 하이햇 롤의 간격과 140 BPM에서의 시간"><text class="t" x="12" y="45">8분 (÷2)</text><line class="s-axis" x1="170" y1="40" x2="650" y2="40"/><circle class="f-acc" cx="170" cy="40" r="8"/><circle class="f-acc2-soft" cx="410" cy="40" r="6.5"/><circle class="f-acc" cx="650" cy="40" r="8" opacity=".35"/><text class="t-mono" x="672" y="44">214 ms · 5 Hz</text><text class="t" x="12" y="97">16분 (÷4)</text><line class="s-axis" x1="170" y1="92" x2="650" y2="92"/><circle class="f-acc" cx="170" cy="92" r="8"/><circle class="f-acc2-soft" cx="290" cy="92" r="6.5"/><circle class="f-acc2-soft" cx="410" cy="92" r="6.5"/><circle class="f-acc2-soft" cx="530" cy="92" r="6.5"/><circle class="f-acc" cx="650" cy="92" r="8" opacity=".35"/><text class="t-mono" x="672" y="96">107 ms · 9 Hz</text><text class="t" x="12" y="149">16분 셋잇단 (÷6)</text><line class="s-axis" x1="170" y1="144" x2="650" y2="144"/><circle class="f-acc" cx="170" cy="144" r="8"/><circle class="f-acc2-soft" cx="250" cy="144" r="6.5"/><circle class="f-acc2-soft" cx="330" cy="144" r="6.5"/><circle class="f-acc2-soft" cx="410" cy="144" r="6.5"/><circle class="f-acc2-soft" cx="490" cy="144" r="6.5"/><circle class="f-acc2-soft" cx="570" cy="144" r="6.5"/><circle class="f-acc" cx="650" cy="144" r="8" opacity=".35"/><text class="t-mono" x="672" y="148">71 ms · 14 Hz</text><text class="t" x="12" y="201">32분 (÷8)</text><line class="s-axis" x1="170" y1="196" x2="650" y2="196"/><circle class="f-acc" cx="170" cy="196" r="8"/><circle class="f-acc2-soft" cx="230" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="290" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="350" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="410" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="470" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="530" cy="196" r="6.5"/><circle class="f-acc2-soft" cx="590" cy="196" r="6.5"/><circle class="f-acc" cx="650" cy="196" r="8" opacity=".35"/><text class="t-mono" x="672" y="200">54 ms · 19 Hz</text><text class="t-dim" x="170" y="236">박</text><text class="t-dim" x="650" y="236" text-anchor="middle">다음 박</text></svg>
+      <figcaption><b>그림 10-3.</b> 한 박을 2·4·6·8로 나눈 하이햇 롤의 간격(140 BPM). 롤의 '속도 바꾸기'는 결국 한 박의 세분 수를 바꾸는 것이다. 16분 셋잇단(÷6)은 16분과 32분 사이에 있어 롤이 '구르는' 느낌을 준다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-sty-hiphop">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>힙합 실험실: 붐뱁 스윙 · 트랩 롤 생성기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div id="sty-hh-staff"></div>
+          <canvas id="sty-hh-cv" class="sty-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>스타일</span><div class="seg" id="sty-hh-mode"><button data-value="boom" class="on">붐뱁</button><button data-value="trap">트랩</button></div></div>
+          <label class="ctrl"><span>붐뱁 16분 스윙 r <output id="sty-hh-sw-out"></output></span><input type="range" id="sty-hh-sw" min="50" max="72" value="58" step="1"></label>
+          <label class="check"><input type="checkbox" id="sty-hh-16"> 붐뱁 하이햇을 16분으로</label>
+          <label class="ctrl"><span>트랩 롤 밀도 <output id="sty-hh-den-out"></output></span><input type="range" id="sty-hh-den" min="0" max="100" value="45" step="5"></label>
+          <div class="ctrl"><span>롤 속도(여러 개 고르기)</span><div class="dr-chips" id="sty-hh-rates"><button data-d="4" class="on">1/16</button><button data-d="8" class="on">1/32</button><button data-d="6" class="on">16분 셋잇단</button><button data-d="3">8분 셋잇단</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-hh-ramp" checked> 롤을 점점 세게</label>
+          <label class="ctrl"><span>템포 <output id="sty-hh-bpm-out"></output></span><input type="range" id="sty-hh-bpm" min="70" max="160" value="90" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="sty-hh-play">▶ 반복 재생</button><button class="btn" id="sty-hh-new">새 롤</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">16분</span><span class="v" id="sty-hh-o-16">—</span></div>
+        <div class="stat"><span class="k">뒷16분 지연</span><span class="v" id="sty-hh-o-d">—</span></div>
+        <div class="stat"><span class="k">32분</span><span class="v" id="sty-hh-o-32">—</span></div>
+        <div class="stat"><span class="k">롤이 든 박</span><span class="v" id="sty-hh-o-roll">—</span></div>
+      </div>
+      <div class="sim-note">붐뱁: <code>DR.GROOVES.boombap</code>에 16분 스윙(<code>swingUnit 0.25</code>)을 걸었습니다. 8분 하이햇만 있으면 스윙이 킥의 16분 엇박에만 걸려 잘 안 들리니, '하이햇을 16분으로'를 켜고 r을 50 → 66으로 밀어 보세요. 트랩: 박마다 '밀도'의 확률로 하이햇 8분을 고른 속도의 롤로 바꿉니다(1/32는 엔진 격자 div 8). 아래 타임라인에서 점 하나가 한 타격입니다. 트랩 패턴은 이 장에서 만든 일반형이고, 실제 트랩의 808 베이스(킥과 겹치는 저음)는 이 킷에 없습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="fast">
+    <h2>빠른 그루브: 드럼 앤 베이스 · 펑크 록 · 메탈</h2>
+    <p><b>드럼 앤 베이스</b><span class="en">(Drum and bass)</span>는 160–180 BPM의 빠른 템포에서 <span class="term">투스텝</span><span class="en">(Two-step)</span>이라 부르는 성긴 킥 배치를 씁니다. 킥이 1박과 3박의 &amp;에만, 스네어는 2·4박. 3박 정박을 비우고 반 박 늦게 킥을 넣어 빠른 템포에서도 '뛰기'보다 '미끄러지기'에 가까운 느낌을 만듭니다. 원래 녹음된 브레이크비트를 잘게 잘라 빠르게 재배열하던 데서 출발한 장르라 고스트와 장식음이 매우 촘촘한 변형이 많습니다.</p>
+    <p><b>펑크 록</b><span class="en">(Punk rock)</span>과 그 주변의 빠른 록은 <span class="term">스캥크 비트</span><span class="en">(Skank beat)</span>를 즐겨 씁니다. 킥과 스네어가 8분음표로 '쿵딱쿵딱' 번갈아(킥 박 위, 스네어 &amp;) 나오고, 오른손은 라이드나 크래시를 8분 또는 4분으로 칩니다. 180 BPM이면 킥·스네어가 각각 초당 3번, 합쳐 초당 6번입니다. <b>메탈</b>의 <span class="term">더블 베이스</span><span class="en">(Double bass)</span>는 두 발(더블 페달 또는 킥 두 대)로 16분 킥을 연타합니다. 160 BPM 16분은 초당 약 10.7타, 한 발은 그 절반인 5.3 Hz입니다. 익스트림 메탈의 <span class="term">블라스트 비트</span><span class="en">(Blast beat)</span>는 킥·스네어·심벌이 아주 빠른 8분이나 16분으로 거의 동시에 또는 번갈아 쏟아지는 기법인데, 200 BPM을 넘는 속도와 지구력이 필요해 이 책에서는 개념만 소개합니다.</p>
+    <div class="callout warn"><strong>속도보다 먼저 몸</strong> 빠른 그루브는 근육이 아니라 리바운드와 경제적인 동작으로 칩니다(<a href="setup.html">2장</a>). 더블 베이스는 발목과 발가락 쪽 힘으로 비터를 '튕기고', 허벅지 전체를 들어 올리지 않습니다. 정강이·발목이 아프면 즉시 쉬세요. 메트로놈 100 BPM 16분 킥을 1분간 고르게 칠 수 있을 때까지 템포를 올리지 않는 것이 부상 없이 빨라지는 길입니다.</div>
+    <div class="callout tip"><strong>연습법: 트레인 비트(컨트리)</strong> 컨트리의 <span class="term">트레인 비트</span><span class="en">(Train beat)</span>는 스네어 하나로 기차 바퀴 소리를 냅니다. 양손 교대 16분 고스트(RLRL…) 위에 2·4박만 액센트, 킥은 1·3박. 브러시로 치면 더 기차 같습니다. ① 100 BPM에서 고스트를 고르게(2 cm), 액센트는 오른손으로만 25 cm. ② 액센트 앞의 왼손이 커지지 않게. ③ 4 BPM씩 올려 150 BPM이 목표. 주크박스의 '트레인 비트'와 같은 패턴입니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="latin">
+    <h2>라틴: 클라베 · 보사노바 · 트레시요 · 6/8 벨</h2>
+    <p>쿠바 음악의 모든 악기는 <span class="term">클라베</span><span class="en">(Clave)</span>라는 두 마디짜리 리듬 열쇠에 맞춰 짜입니다. 나무 막대 두 개(클라베스)로 치는 다섯 음의 패턴인데, 앞 절반에 셋, 뒤 절반에 둘이 있어 <b>3–2</b>라 부르고, 절반을 돌려 둘부터 시작하면 <b>2–3</b>입니다. 이 '방향'이 곡마다 정해져 있어서 선율·베이스·드럼이 같은 방향을 따라야 합니다. 방향이 어긋나면 쿠바 음악가들은 '클라베에서 벗어났다'고 말합니다. <span class="term">손 클라베</span><span class="en">(Son clave)</span>의 3쪽은 셋째 음이 박 위(4박)에 있고, <span class="term">룸바 클라베</span><span class="en">(Rumba clave)</span>는 그 음이 반 칸 늦어(4박의 &amp; 직전 16분) 더 긴장된 느낌입니다.</p>
+    <p>클라베는 보통 2/2 두 마디(또는 4/4 두 마디의 8분음표 16칸)로 적는데, 이 책의 엔진은 <code>DR.CLAVE</code>처럼 4/4 한 마디의 16분음표 16칸으로 압축해 적습니다. 두 표기는 BPM을 두 배로 바꾸면 같은 소리입니다. 3–2 손 클라베의 앞 절반(x..x..x.)은 <span class="term">트레시요</span><span class="en">(Tresillo)</span>, 8칸을 3+3+2로 나눈 리듬과 같습니다. 트레시요는 쿠바·브라질·뉴올리언스·현대 팝까지 퍼진 '아프리카계 아메리카 리듬의 세포'로 불립니다. 수학적으로는 8칸에 음 3개를 가장 고르게 흩어 놓은 <span class="term">유클리드 리듬</span> \(E(3,8)\)입니다(<a href="odd.html">11장</a>).</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 244" role="img" aria-label="손 클라베 3-2와 2-3, 룸바, 보사노바 클라베, 트레시요"><text class="t" x="12" y="42">손 클라베 3–2</text><text class="t-dim" x="12" y="58">3쪽 | 2쪽</text><text class="t-mono" x="202" y="41" text-anchor="end">CL</text><rect class="sty-on sty-b" x="211" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="313" y="30" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="30" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="30" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="30" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="30" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="30" width="32" height="15" rx="3"/><text class="t" x="12" y="82">손 클라베 2–3</text><text class="t-dim" x="12" y="98">절반을 돌린 것</text><text class="t-mono" x="202" y="81" text-anchor="end">CL</text><rect class="sty-off sty-b" x="211" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="70" width="32" height="15" rx="3"/><rect class="sty-on" x="279" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="313" y="70" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="347" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="70" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="70" width="32" height="15" rx="3"/><rect class="sty-on" x="585" y="70" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="70" width="32" height="15" rx="3"/><rect class="sty-on" x="687" y="70" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="70" width="32" height="15" rx="3"/><text class="t" x="12" y="122">룸바 클라베 3–2</text><text class="t-dim" x="12" y="138">셋째 음이 한 칸 늦다</text><text class="t-mono" x="202" y="121" text-anchor="end">CL</text><rect class="sty-on sty-b" x="211" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="110" width="32" height="15" rx="3"/><rect class="sty-on" x="313" y="110" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="415" y="110" width="32" height="15" rx="3"/><rect class="sty-hi" x="449" y="110" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="110" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="110" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="619" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="110" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="110" width="32" height="15" rx="3"/><text class="t" x="12" y="162">보사노바</text><text class="t-dim" x="12" y="178">둘째 쪽이 한 칸 늦다</text><text class="t-mono" x="202" y="161" text-anchor="end">XS</text><rect class="sty-on sty-b" x="211" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="150" width="32" height="15" rx="3"/><rect class="sty-on" x="313" y="150" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="150" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="150" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="483" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="150" width="32" height="15" rx="3"/><rect class="sty-on" x="551" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="585" y="150" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="150" width="32" height="15" rx="3"/><rect class="sty-hi" x="653" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="687" y="150" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="150" width="32" height="15" rx="3"/><text class="t" x="12" y="202">트레시요 ×2</text><text class="t-dim" x="12" y="218">3+3+2 = E(3,8)</text><text class="t-mono" x="202" y="201" text-anchor="end">BD</text><rect class="sty-on sty-b" x="211" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="245" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="279" y="190" width="32" height="15" rx="3"/><rect class="sty-on" x="313" y="190" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="347" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="381" y="190" width="32" height="15" rx="3"/><rect class="sty-on" x="415" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="449" y="190" width="32" height="15" rx="3"/><rect class="sty-on sty-b" x="483" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="517" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="551" y="190" width="32" height="15" rx="3"/><rect class="sty-on" x="585" y="190" width="32" height="15" rx="3"/><rect class="sty-off sty-b" x="619" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="653" y="190" width="32" height="15" rx="3"/><rect class="sty-on" x="687" y="190" width="32" height="15" rx="3"/><rect class="sty-off" x="721" y="190" width="32" height="15" rx="3"/><text class="sty-c b" x="227" y="232">1</text><text class="sty-c b" x="363" y="232">2</text><text class="sty-c b" x="499" y="232">3</text><text class="sty-c b" x="635" y="232">4</text><line class="sty-mid" x1="482" y1="20" x2="482" y2="228"/></svg>
+      <figcaption><b>그림 10-4.</b> 16칸(4/4 한 마디의 16분, 전통 표기로는 두 마디)으로 적은 클라베들. 점선이 3쪽과 2쪽의 경계다. 2–3은 3–2의 절반을 돌린 것이고, 룸바는 3쪽 셋째 음이, 보사노바 클라베는 2쪽 둘째 음이 한 칸 늦다(진한 칸). 트레시요 둘을 이으면 3+3+2 | 3+3+2.</figcaption>
+    </figure>
+    <div class="formula">$$\text{IOI}_{\text{son 3–2}} = (3, 3, 4, 2, 4),\quad \text{IOI}_{\text{rumba 3–2}} = (3, 4, 3, 2, 4),\quad \textstyle\sum \text{IOI} = 16,\qquad E(3,8) = (3, 3, 2)$$
+      <div class="where">IOI(Inter-onset interval): 이웃한 두 음 사이의 칸 수. 손 클라베의 3쪽(3, 3, 그리고 2쪽으로 넘어가는 4)은 트레시요와 같고, 2쪽(2, 4)은 박 위의 두 음이다. 음 다섯을 16칸에 가장 고르게 흩은 \(E(5,16)\)은 (3, 3, 3, 3, 4)인데, 손 클라베는 이것에서 한 음만 옮긴 모양이라 '고르면서도 비대칭'이다.</div>
+    </div>
+    <p><b>보사노바</b><span class="en">(Bossa nova)</span>는 브라질 삼바를 조용히 다듬은 1950년대 말의 스타일입니다. 드럼에서는 오른손이 하이햇이나 라이드로 곧은 8분을 고르게 치고, 왼손이 <b>크로스 스틱</b>으로 보사노바 클라베를 두 마디에 걸쳐 치며, 킥은 '<b>쿵–쿠쿵</b>'(1박 점4분 + 2박 &amp;의 8분, 3박 점4분 + 4박 &amp;) 패턴으로 서도의 베이스(수르두) 느낌을 흉내 냅니다. 크로스 스틱은 스네어 헤드에 스틱을 눕혀 림을 '톡' 치는 소리라 기타·목소리와 잘 섞입니다.</p>
+    <p>아프리카–쿠바 계열의 6/8(12/8) 리듬은 <span class="term">벨 패턴</span><span class="en">(Bell pattern, 스탠더드 패턴)</span>이라는 12칸짜리 열쇠를 씁니다(x.x.xx.x.x.x). 서아프리카 에웨족 음악 등에서 널리 쓰이는 패턴으로, 12칸에 음 7개를 2+2+1+2+2+2+1로 놓은 비대칭 구조입니다. 이 패턴을 4/4 16칸의 손 클라베와 나란히 놓으면 음의 배치가 놀랄 만큼 닮아서, 둘이 같은 뿌리의 '셋잇단 판'과 '곧은 판'이라고 설명하기도 합니다. 주크박스의 '12/8 아프로 쿠반(벨 패턴)'에서 카우벨로 들을 수 있습니다.</p>
+
+    <div class="sim" id="sim-sty-clave">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>클라베 탐험기: 16칸 시계와 방향</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <canvas id="sty-cl-cv" class="sty-cv"></canvas>
+          <div id="sty-cl-staff" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>패턴</span><div class="seg" id="sty-cl-pat"><button data-value="son" class="on">손</button><button data-value="rumba">룸바</button><button data-value="bossa">보사노바</button><button data-value="tresillo">트레시요</button><button data-value="bell68">6/8 벨</button></div></div>
+          <div class="ctrl"><span>방향</span><div class="seg" id="sty-cl-dir"><button data-value="32" class="on">3–2</button><button data-value="23">2–3(절반 돌림)</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-cl-groove" checked> 바탕 그루브(셰이커·킥)</label>
+          <label class="check"><input type="checkbox" id="sty-cl-click"> 박 클릭</label>
+          <label class="ctrl"><span>템포(엔진 ♩) <output id="sty-cl-bpm-out"></output></span><input type="range" id="sty-cl-bpm" min="60" max="130" value="96" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="sty-cl-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">IOI(칸)</span><span class="v" id="sty-cl-o-ioi">—</span></div>
+        <div class="stat"><span class="k">앞 · 뒤 절반</span><span class="v" id="sty-cl-o-half">—</span></div>
+        <div class="stat"><span class="k">같은 수의 유클리드</span><span class="v" id="sty-cl-o-e">—</span></div>
+        <div class="stat"><span class="k">전통 표기 템포</span><span class="v" id="sty-cl-o-bpm">—</span></div>
+      </div>
+      <div class="sim-note">시계: 맨 위가 첫 칸, 시계 방향으로 한 바퀴가 패턴 한 번(16칸, 6/8 벨은 12칸)입니다. 굵은 눈금이 박, 점선 지름이 절반 경계, 점을 이은 다각형이 패턴의 '모양'입니다. 방향을 2–3으로 바꾸면 다각형은 그대로 180° 돌아갈 뿐이라는 것, 그러나 귀에는 첫 박이 바뀌어 전혀 다르게 들린다는 것을 확인하세요. 트레시요는 절반이 똑같아 돌려도 변하지 않습니다. 바탕 그루브: 손·룸바·트레시요는 셰이커 16분 + 킥(통바오 자리: 각 절반의 4번째·7번째 칸), 보사노바는 하이햇 + '쿵–쿠쿵' 킥, 6/8 벨은 점4분 킥 + 2·4박 하이햇 페달. 클라베 소리: 손·룸바·트레시요 = 클라베스, 보사노바 = 크로스 스틱, 6/8 = 카우벨.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 클라베를 발로</strong> 클라베에 익숙해지는 가장 좋은 방법은 <b>왼발로 박</b>을 밟으면서(하이햇 페달 4분) 손으로 클라베를 치는 것입니다. ① 손 클라베 3–2를 크로스 스틱으로, 엔진 템포 80(전통 표기 160)에서 4마디 × 8번. ② 방향을 바꿔 2–3. 첫 음이 3박(전통 표기 둘째 박)에서 나오는 느낌을 입으로 "(쉬고) 따 따 | 따 따 따"로 세며. ③ 오른손 하이햇 8분(엔진 16분)을 더하고 클라베는 왼손으로 옮깁니다. ④ 킥을 통바오 자리(각 절반의 4·7번째 칸)에 넣으면 기본적인 '송고·살사풍' 키트 그루브의 뼈대가 됩니다. 무릎으로 하려면 오른손 무릎 = 하이햇, 왼손 = 클라베, 발 = 바닥.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="tempo">
+    <h2>장르별 템포 지도</h2>
+    <p>장르는 템포 범위로도 어느 정도 가를 수 있습니다. 아래 표는 각 장르에서 흔히 쓰는 대략의 범위입니다. 곡마다 예외가 많고, 같은 BPM이라도 하프타임(백비트 3박)이면 절반 템포처럼 느껴지므로 '느끼는 템포'와 '세는 템포'를 구별해야 합니다. 12/8 계열은 점4분음표 기준 값입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>장르·그루브</th><th>대략의 BPM</th><th>느끼는 박·특징</th></tr></thead>
+      <tbody id="sty-tm-table"></tbody>
+    </table></div>
+
+    <div class="sim" id="sim-sty-tempo">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>템포 지도: 눌러서 그 템포로 듣기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view sty-pad">
+          <canvas id="sty-tm-cv" class="sty-cv"></canvas>
+          <div class="sty-msg" id="sty-tm-msg">막대 위 원하는 BPM 자리를 누르면 그 장르의 그루브를 그 템포로 반복 재생합니다. 같은 장르의 범위 양 끝을 눌러 비교해 보세요.</div>
+        </div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn" id="sty-tm-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">장르</span><span class="v" id="sty-tm-o-g">—</span></div>
+        <div class="stat"><span class="k">BPM</span><span class="v" id="sty-tm-o-bpm">—</span></div>
+        <div class="stat"><span class="k">범위 안의 위치</span><span class="v" id="sty-tm-o-pos">—</span></div>
+        <div class="stat"><span class="k">한 박</span><span class="v" id="sty-tm-o-ms">—</span></div>
+      </div>
+      <div class="sim-note">막대 = 흔히 쓰는 범위, 점 = 이 책 그루브 사전의 기본 템포. 범위는 여러 장르 안내서와 연주 관행을 종합한 대략값이며 엄밀한 통계가 아닙니다. 트랩은 이 장 힙합 실험실의 기본 패턴(롤 없음)으로 들려줍니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="ear">
+    <h2>귀로 장르 맞히기</h2>
+    <p>이제 이름표를 떼고 들어 봅시다. 아래 퀴즈는 그루브 사전에서 하나를 골라 그 그루브의 기본 템포·스윙으로 두 바퀴 들려주고, 네 개의 보기 중 장르를 고르게 합니다. 처음에는 이 장의 네 축(킥 위치, 하이햇 오픈, 백비트 위치, 세분·스윙)을 차례로 물어보며 들으세요. "백비트가 3박인가?"만 확인해도 보기의 절반이 지워집니다.</p>
+
+    <div class="sim" id="sim-sty-quiz">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장르 청음 퀴즈</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view sty-pad">
+          <div class="dr-big" id="sty-qz-big">?<small>'새 문제'를 누르고 들으세요</small></div>
+          <div class="dr-chips sty-ans" id="sty-qz-ans"></div>
+          <div class="sty-msg" id="sty-qz-msg" style="text-align:center"></div>
+          <div id="sty-qz-staff"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="sty-qz-new">▶ 새 문제</button><button class="btn" id="sty-qz-again">↻ 다시 듣기</button></div>
+          <label class="check"><input type="checkbox" id="sty-qz-tempo"> 템포를 ±15% 흔들기</label>
+          <label class="check"><input type="checkbox" id="sty-qz-score" checked> 답한 뒤 악보 보여 주기</label>
+          <div class="btn-row"><button class="btn" id="sty-qz-reset">점수 초기화</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점수</span><span class="v" id="sty-qz-o-score">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="sty-qz-o-streak">0</span></div>
+        <div class="stat"><span class="k">자주 틀린 장르</span><span class="v" id="sty-qz-o-miss">—</span></div>
+      </div>
+      <div class="sim-note">문제는 사전의 16개 그루브(8비트 록, 발라드, 하프타임, 펑크, 리니어, 디스코, 하우스, 레게, 붐뱁, 드럼 앤 베이스, 펑크 록, 트레인, 메탈, 보사노바, 셔플, 재즈)에서 고르고, 보기는 정답 하나와 무작위 셋입니다. 비슷한 짝(디스코↔하우스, 펑크↔리니어)이 함께 나오면 어렵습니다. 답하기 전에는 악보를 숨깁니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>장르의 얼굴은 몇 개의 음이 정한다. 킥 위치, 하이햇 오픈, 백비트 위치, 세분·스윙의 네 축으로 그루브를 분석하고, 차이는 칸 단위 해밍 거리로 잴 수 있다. 몇 칸보다 어느 칸이 중요하다.</li>
+      <li>펑크는 16분 고스트·16분 엇박 킥·'원'의 무게, 리니어 그루브는 동시 타격 없이 16칸을 한 줄로 나눈다.</li>
+      <li>디스코·하우스는 네 박 킥(포 온 더 플로어)에 &amp; 오픈 하이햇, 하우스는 2·4 클랩. 1960년대 소울의 4분 스네어는 스네어가 네 박을 채운다.</li>
+      <li>레게는 원 드롭(3박에 킥+크로스 스틱, 1박 비움), 록커스(킥 1·3), 스테퍼스(킥 네 박)로 킥만 늘어난다.</li>
+      <li>붐뱁은 16분 스윙(\(r \approx 0.55\)–0.62)의 느슨함, 트랩은 3박 하프타임 백비트 위의 하이햇 롤(÷4, ÷6, ÷8). 140 BPM의 32분은 54 ms.</li>
+      <li>드럼 앤 베이스 투스텝은 킥 1·3&amp;, 펑크 록 스캥크는 킥·스네어 8분 교대, 메탈 더블 베이스는 두 발 16분, 블라스트는 극한 속도의 동시·교대 타격이다.</li>
+      <li>클라베는 3–2·2–3 방향이 있는 다섯 음 열쇠다(손 IOI 3-3-4-2-4, 룸바 3-4-3-2-4). 트레시요 3+3+2 = \(E(3,8)\). 보사노바는 크로스 스틱 클라베와 '쿵–쿠쿵' 킥, 6/8은 12칸 벨 패턴.</li>
+      <li>장르마다 대략의 템포 범위가 있지만, 하프타임은 세는 템포의 절반으로 느껴진다. 귀로 장르를 맞힐 때는 네 축을 차례로 확인한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>8비트 록 그루브를 디스코로 바꾸려면 무엇을 바꾸는 것이 가장 결정적인가?</p><div class="opts">
+        <button class="opt">스네어를 3박으로 옮긴다</button><button class="opt" data-correct>킥을 네 박 모두에 두고 &amp;에서 하이햇을 연다</button><button class="opt">하이햇을 셋잇단으로 바꾼다</button><button class="opt">킥을 3박 &amp;로 옮긴다</button>
+      </div><div class="quiz-exp">포 온 더 플로어 킥과 &amp; 오픈 하이햇이 디스코의 얼굴이다. 스네어 3박은 하프타임·원 드롭, 셋잇단은 셔플, 3박 &amp; 킥은 드럼 앤 베이스 투스텝 쪽으로 간다.</div></div>
+      <div class="quiz-q"><p>레게 원 드롭의 특징으로 옳은 것은?</p><div class="opts">
+        <button class="opt">킥이 네 박을 모두 밟는다</button><button class="opt">킥과 스네어가 8분음표로 번갈아 나온다</button><button class="opt" data-correct>1박을 비우고 3박에 킥과 크로스 스틱이 함께 떨어진다</button><button class="opt">킥이 1·3박, 스네어가 2·4박이다</button>
+      </div><div class="quiz-exp">원 드롭은 마디에 '떨어지는' 음이 3박 하나다. 네 박 킥은 스테퍼스, 1·3 킥은 록커스(크로스 스틱은 여전히 3박), 8분 교대는 펑크 록의 스캥크 비트다.</div></div>
+      <div class="quiz-q"><p>140 BPM에서 트랩 하이햇 롤을 32분음표로 칠 때 한 음의 간격은?</p><div class="opts">
+        <button class="opt">약 107 ms</button><button class="opt">약 71 ms</button><button class="opt" data-correct>약 54 ms</button><button class="opt">약 27 ms</button>
+      </div><div class="quiz-exp">\(T_{32} = 60\,000 / (8 \times 140) \approx 53.6\) ms. 107 ms는 16분, 71 ms는 16분 셋잇단이다.</div></div>
+      <div class="quiz-q"><p>손 클라베 3–2(16칸: x..x..x...x.x...)를 2–3으로 바꾸는 방법은?</p><div class="opts">
+        <button class="opt">패턴을 거꾸로 읽는다</button><button class="opt" data-correct>패턴을 절반(8칸) 돌려 2쪽부터 시작한다</button><button class="opt">셋째 음을 한 칸 늦춘다</button><button class="opt">모든 음을 한 칸씩 늦춘다</button>
+      </div><div class="quiz-exp">2–3은 같은 다섯 음을 뒤 절반부터 시작한 것이다(..x.x...x..x..x.). 셋째 음을 한 칸 늦추는 것은 손 → 룸바 클라베의 변화다.</div></div>
+      <div class="quiz-q"><p>트레시요(3+3+2)에 대한 설명으로 옳지 않은 것은?</p><div class="opts">
+        <button class="opt">8칸에 음 3개를 가장 고르게 놓은 유클리드 리듬 E(3,8)과 같다</button><button class="opt">손 클라베 3–2의 3쪽과 같은 모양이다</button><button class="opt" data-correct>박 위에만 음이 있어 당김음이 없다</button><button class="opt">패턴을 절반 돌려도(16칸에 두 번 반복할 때) 변하지 않는다</button>
+      </div><div class="quiz-exp">트레시요의 둘째 음(8칸 중 4번째 칸, 전통 표기인 4/4 한 마디의 8분 격자로는 2박의 &amp;)은 박 위가 아니다. 그 엇갈림이 트레시요의 추진력이다.</div></div>
+      <div class="quiz-q"><p>붐뱁 비트(90 BPM)에서 16분 스윙 r = 0.6을 걸면 16분 뒷칸(e·a)은 얼마나 늦어지는가?</p><div class="opts">
+        <button class="opt">약 17 ms</button><button class="opt" data-correct>약 33 ms</button><button class="opt">약 67 ms</button><button class="opt">약 111 ms</button>
+      </div><div class="quiz-exp">\(u_{16} = 60\,000/(4\times 90) \approx 167\) ms, \(\Delta = (0.6 - 0.5)\times 2 \times 167 \approx 33\) ms. 8분 스윙과 같은 식에 단위만 16분으로 바꾼 것이다.</div></div>
+      <div class="quiz-q"><p>보사노바 드럼의 전형적인 구성은?</p><div class="opts">
+        <button class="opt" data-correct>곧은 8분 하이햇, 크로스 스틱으로 친 보사노바 클라베, 킥 '쿵–쿠쿵'</button><button class="opt">셔플 하이햇, 3박 백비트, 고스트 노트</button><button class="opt">라이드 '딩 딩–가', 2·4 하이햇 페달</button><button class="opt">네 박 킥, &amp; 오픈 하이햇, 2·4 클랩</button>
+      </div><div class="quiz-exp">보사노바는 곧은 8분 위에 두 마디 클라베를 크로스 스틱으로, 킥은 1박·2박&amp;·3박·4박&amp;의 '쿵–쿠쿵'이다. 나머지는 하프타임 셔플, 재즈, 하우스다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 sty) */
+const stySolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+function styBind(id, make, labels = ["▶ 반복 재생", "■ 정지"]) {
+  const b = document.getElementById(id);
+  let sc = null;
+  const set = (on) => { if (b) { b.textContent = labels[on ? 1 : 0]; b.classList.toggle("playing", on); } };
+  function halt() { if (sc && sc.running) sc.stop(); else set(false); stySolo.drop(halt); }
+  function go() {
+    stySolo.take(halt);
+    const me = make(); sc = me;
+    if (!me) { set(false); return; }
+    const os = me.stop;
+    me.stop = function (n) { os.call(me, n); if (sc === me) { set(false); stySolo.drop(halt); } };
+    me.start(); set(true);
+  }
+  if (b) b.addEventListener("click", () => { MB.ctx(); if (sc && sc.running) halt(); else go(); });
+  set(false);
+  return { halt, go, restart() { if (sc && sc.running) { const old = sc; sc = null; old.stop(); go(); } }, get running() { return !!(sc && sc.running); } };
+}
+const styF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const styMs = (ms) => styF(ms, 0) + " ms";
+const baseRow = (p) => (p === "hatOpen" || p === "hatHalf" ? "hat" : p === "bell" ? "ride" : p);
+/** 그루브 spec 문자열 → {줄이름: 문자열} (ST 포함) */
+function stySpecObj(spec) { const o = {}; String(spec).split("\n").forEach((l) => { const m = l.trim().match(/^(\S+)\s+(.+)$/); if (m) o[m[1]] = m[2].replace(/[|\s]/g, ""); }); return o; }
+/** 그루브의 줄 → 격자 행(조각) 목록 */
+function styRows(spec) { const out = []; Object.keys(stySpecObj(spec)).forEach((k) => { const p = DR.pieceOf(k); if (p) { const r = baseRow(p); if (!out.includes(r)) out.push(r); } }); return out; }
+/** 재생 중에 이벤트를 바꿀 수 있는 루프 (DR.playEvents는 시작할 때 이벤트를 복사한다) */
+function styLive(o) {
+  let evs = [], L = 4, raf = 0;
+  const withMarks = () => { const a = evs.slice(); for (let b = 0; b < L; b++) a.push({ t: b, beatMark: b }); return a; };
+  const sc = DR.scheduler([], {
+    bpm: o.bpm, loop: true, length: () => L,
+    onEvent(ev, when, spb) {
+      if (ev.beatMark != null) return;
+      const sw = o.swing ? o.swing(ev) : 0.5;
+      const w = when + (DR.swingTime(ev.t, sw, 0.5) - ev.t) * spb;
+      o.kit.hit(ev.p, ev.v != null ? ev.v : 0.75, Math.max(MB.now(), w), { hand: ev.hand, src: "seq" });
+    },
+    onUI(ev) {
+      if (ev.beatMark != null) return;
+      if (o.staff) o.staff.highlight(evs.map((e, i) => (Math.abs(e.t - ev.t) < 1e-6 ? i : -1)).filter((i) => i >= 0));
+      if (o.grid) o.grid.nowBeat(ev.t);
+    },
+    onStart() { const tick = () => { if (!sc.running) return; if (o.staff) o.staff.at(sc.beat); raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick); },
+    onStop() { cancelAnimationFrame(raf); o.kit.stop(); if (o.staff) { o.staff.highlight(-1); o.staff.at(null); } if (o.grid) o.grid.now(-1); },
+  });
+  return { sc, set(e, len) { evs = e; if (len) L = len; sc.setEvents(withMarks()); } };
+}
+/** 그루브 → 이벤트(스윙 정보를 이벤트에 붙인다) */
+function styGroove(key, t0 = 0) { const g = DR.GROOVES[key]; return DR.groove(key, { t0 }).map((e) => Object.assign(e, { sw: g.swing || 0.5, su: g.swingUnit || 0.5 })); }
+function styRepeat(key, beats, t0 = 0) { const L = DR.grooveLength(key), out = []; for (let t = 0; t < beats - 1e-6; t += L) out.push(...styGroove(key, t0 + t)); return out; }
+const STY_KEYS = Object.keys(DR.GROOVES);
+const styOptions = (keys, sel) => keys.map((k) => `<option value="${k}"${k === sel ? " selected" : ""}>${DR.GROOVES[k].name} · ${DR.GROOVES[k].genre}</option>`).join("");
+
+/* ================================================================ 1. 주크박스 */
+(function () {
+  const kit = DR.kit();
+  DR.kitView("#sty-jb-kit", { kit });
+  const selA = document.getElementById("sty-jb-a"), selB = document.getElementById("sty-jb-b");
+  selA.innerHTML = styOptions(STY_KEYS, "rock8");
+  selB.innerHTML = styOptions(STY_KEYS, "disco");
+  const bpm = MB.range("sty-jb-bpm", (v) => v + " BPM");
+  const sw = MB.check("sty-jb-sw");
+  const mode = MB.seg("sty-jb-mode", () => { load(); bind.restart(); });
+  const staff = DR.staff("#sty-jb-staff", [], { counts: true });
+  const grid = DR.grid("#sty-jb-grid", { rows: ["hat", "snare", "kick"], kit });
+  const desc = document.getElementById("sty-jb-desc");
+  let evs = [], L = 4;
+  const cur = () => (mode() === "b" ? selB.value : selA.value);
+  function load() {
+    const m = mode();
+    if (m === "ab") {
+      evs = DR.sort(styRepeat(selA.value, 8).concat(styRepeat(selB.value, 8, 8))); L = 16;
+      grid.el.style.display = "none";
+    } else {
+      const k = cur(), g = DR.GROOVES[k];
+      evs = styGroove(k); L = DR.grooveLength(k);
+      grid.el.style.display = "";
+      grid.setRows(styRows(g.spec)); grid.setDiv(g.div, L); grid.set(g.spec);
+    }
+    staff.setEvents(evs, { bars: L / 4 });
+    const k = cur(), g = DR.GROOVES[k];
+    MB.stat("sty-jb-o-g", m === "ab" ? `${DR.GROOVES[selA.value].genre} ↔ ${DR.GROOVES[selB.value].genre}` : g.genre);
+    MB.stat("sty-jb-o-bpm", g.bpm + " BPM");
+    MB.stat("sty-jb-o-div", { 2: "8분", 3: "셋잇단", 4: "16분" }[g.div] + (g.bars ? ` · ${g.bars}마디` : ""));
+    MB.stat("sty-jb-o-sw", g.swing ? `${g.swing} (${g.swingUnit === 0.25 ? "16분" : "8분"})` : g.div === 3 ? "셋잇단 자체" : "없음");
+    desc.innerHTML = m === "ab" ? `<b>A</b> ${DR.GROOVES[selA.value].desc}<br><b>B</b> ${DR.GROOVES[selB.value].desc}` : `<b>${g.name}</b> ${g.desc}`;
+  }
+  const setTempo = () => bpm.set(DR.GROOVES[mode() === "b" ? selB.value : selA.value].bpm, false);
+  selA.addEventListener("change", () => { setTempo(); load(); bind.restart(); });
+  selB.addEventListener("change", () => { if (mode() === "b") setTempo(); load(); bind.restart(); });
+  document.getElementById("sty-jb-tempo").addEventListener("click", setTempo);
+  const bind = styBind("sty-jb-play", () => {
+    DR.warm();
+    return DR.playEvents(evs, {
+      kit, bpm: () => bpm(), loop: true, length: L, staff, grid: mode() === "ab" ? null : grid,
+      swing: (e) => (sw() && e.sw ? e.sw : 0.5), swingUnit: (e) => e.su || 0.5,
+    });
+  });
+  setTempo(); load();
+})();
+
+/* ================================================================ 2. 칸 비교와 변신 */
+(function () {
+  const kit = DR.kit();
+  const KEYS = STY_KEYS.filter((k) => { const g = DR.GROOVES[k]; return (g.div === 2 || g.div === 4) && !g.bars; });
+  const selA = document.getElementById("sty-df-a"), selB = document.getElementById("sty-df-b");
+  selA.innerHTML = styOptions(KEYS, "rock8"); selB.innerHTML = styOptions(KEYS, "disco");
+  const bpm = MB.range("sty-df-bpm", (v) => v + " BPM");
+  const mode = MB.seg("sty-df-mode", () => bind.restart());
+  const ord = MB.seg("sty-df-ord", () => { analyse(); bind.restart(); });
+  const host = document.getElementById("sty-df-grid"), msg = document.getElementById("sty-df-msg");
+  const ROWORDER = ["crash", "ride", "hat", "shaker", "clap", "snare", "xstick", "rim", "kick", "hatFoot"];
+  const RNAME = { crash: "크래시", ride: "라이드", hat: "하이햇", clap: "클랩", snare: "스네어", xstick: "크로스 스틱", kick: "킥", shaker: "셰이커", rim: "림샷", hatFoot: "HH 페달" };
+  let A = {}, B = {}, rows = [], diffs = [], cells = {};
+  const to16 = (k) => { const g = DR.GROOVES[k]; return DR.toSpec(DR.groove(k), { div: 4, length: 4 }); };
+  const glyph = (c) => (c === "." ? "" : c === "o" || c === "O" ? "○" : c === "g" ? "·" : c === "X" ? "▲" : c === "b" ? "◆" : "●");
+  function analyse() {
+    A = to16(selA.value); B = to16(selB.value);
+    rows = ROWORDER.filter((r) => A[r] || B[r]);
+    rows.forEach((r) => { A[r] = A[r] || "................"; B[r] = B[r] || "................"; });
+    diffs = [];
+    rows.forEach((r) => { for (let i = 0; i < 16; i++) if (A[r][i] !== B[r][i]) diffs.push({ r, i }); });
+    const rank = (r) => { const k = ord() === "low" ? ["kick", "hatFoot", "snare", "xstick", "rim", "clap"] : ["crash", "ride", "hat", "shaker", "clap", "snare", "xstick", "rim"]; const j = k.indexOf(r); return j < 0 ? 99 : j; };
+    diffs.sort((x, y) => rank(x.r) - rank(y.r) || x.i - y.i);
+    render(0);
+    const per = rows.map((r) => [r, diffs.filter((d) => d.r === r).length]).filter((x) => x[1]);
+    MB.stat("sty-df-o-d", diffs.length + "칸");
+    MB.stat("sty-df-o-rows", per.length ? per.map(([r, n]) => `${RNAME[r] || r} ${n}`).join(", ") : "같음");
+    msg.innerHTML = diffs.length ? `<b>${DR.GROOVES[selA.value].name}</b>와 <b>${DR.GROOVES[selB.value].name}</b>는 ${rows.length}줄 × 16칸 중 <b>${diffs.length}칸</b>이 다릅니다.` : "두 그루브가 같습니다.";
+  }
+  function render(nSwitched) {
+    const sw = new Set(diffs.slice(0, nSwitched).map((d) => d.r + d.i));
+    let h = "";
+    rows.forEach((r) => {
+      h += `<div class="sty-df-row"><span class="lab" title="${RNAME[r] || r}">${DR.PIECES[r].short}</span>`;
+      for (let i = 0; i < 16; i++) {
+        const a = A[r][i], b = B[r][i];
+        let cls = a === b ? (a === "." ? "" : "same") : a === "." ? "b" : b === "." ? "a" : "chg";
+        const g = sw.has(r + i) ? glyph(b) : glyph(a !== "." ? a : b);
+        if (sw.has(r + i)) cls += " sw";
+        h += `<span class="c ${cls}${i % 4 === 0 ? " bt" : ""}" data-i="${i}">${g}</span>`;
+      }
+      h += `</div>`;
+    });
+    h += `<div class="sty-df-row cnt"><span></span>${DR.counts(4, 4).map((c) => `<span>${c}</span>`).join("")}</div>`;
+    host.innerHTML = h;
+  }
+  function barSpec(n) {
+    const s = {}; rows.forEach((r) => (s[r] = A[r].split("")));
+    diffs.slice(0, n).forEach((d) => (s[d.r][d.i] = B[d.r][d.i]));
+    Object.keys(s).forEach((r) => (s[r] = s[r].join("")));
+    return s;
+  }
+  let stepN = [];
+  function events() {
+    const m = mode();
+    if (m === "a") { stepN = [0]; return [DR.parse(barSpec(0), { div: 4 }), 4]; }
+    if (m === "b") { stepN = [diffs.length]; return [DR.parse(barSpec(diffs.length), { div: 4 }), 4]; }
+    stepN = [0, 1, 2, 3, 4].map((k) => Math.round((k * diffs.length) / 4));
+    return [DR.concat(...stepN.map((n) => [DR.parse(barSpec(n), { div: 4 }), 4])), 20];
+  }
+  [selA, selB].forEach((s) => s.addEventListener("change", () => { bpm.set(Math.round((DR.GROOVES[selA.value].bpm + DR.GROOVES[selB.value].bpm) / 2), false); analyse(); bind.restart(); }));
+  const bind = styBind("sty-df-play", () => {
+    DR.warm();
+    const [ev, L] = events();
+    let lastBar = -1;
+    return DR.playEvents(ev, {
+      kit, bpm: () => bpm(), loop: true, length: L,
+      onBeat(b) {
+        const bar = Math.floor(b / 4);
+        if (bar !== lastBar) { lastBar = bar; render(stepN[bar]); const pct = diffs.length ? Math.round((100 * stepN[bar]) / diffs.length) : 0; MB.stat("sty-df-o-bar", mode() === "m" ? `${bar + 1}/5 (B로 ${pct}%)` : mode().toUpperCase()); }
+        host.querySelectorAll("span.c.now").forEach((x) => x.classList.remove("now"));
+      },
+      onNote(e) { const i = Math.round((e.t % 4) * 4); host.querySelectorAll("span.c.now").forEach((x) => x.classList.remove("now")); host.querySelectorAll(`span.c[data-i="${i}"]`).forEach((x) => x.classList.add("now")); },
+      onStop() { render(0); MB.stat("sty-df-o-bar", "—"); },
+    });
+  });
+  bpm.set(Math.round((DR.GROOVES.rock8.bpm + DR.GROOVES.disco.bpm) / 2), false);
+  analyse();
+})();
+
+/* ================================================================ 3. 포 온 더 플로어 빌더 */
+(function () {
+  const kit = DR.kit();
+  const hat = MB.seg("sty-ff-hat", () => build());
+  const open = MB.check("sty-ff-open", () => build());
+  const sn = MB.seg("sty-ff-sn", () => build());
+  const clap = MB.check("sty-ff-clap", () => build());
+  const shk = MB.check("sty-ff-shk", () => build());
+  const bpm = MB.range("sty-ff-bpm", (v) => v + " BPM", () => stats());
+  const staff = DR.staff("#sty-ff-staff", [], { counts: true });
+  const grid = DR.grid("#sty-ff-grid", { rows: ["hat", "snare", "clap", "shaker", "kick"], div: 4, beats: 4, kit, onChange: () => apply(DR.parse(grid.spec(), { div: 4 })) });
+  const live = styLive({ kit, bpm: () => bpm(), staff, grid });
+  let evs = [];
+  const PRE = { disco: { hat: "8", open: true, sn: "24", clap: false, shk: false, bpm: 118 }, house: { hat: "0", open: true, sn: "0", clap: true, shk: true, bpm: 124 }, soul: { hat: "8", open: false, sn: "all", clap: false, shk: true, bpm: 112 } };
+  document.getElementById("sty-ff-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    document.querySelectorAll("#sty-ff-pre button").forEach((x) => x.classList.toggle("on", x === b));
+    const p = PRE[b.dataset.k];
+    hat.set(p.hat, false); sn.set(p.sn, false); document.getElementById("sty-ff-open").checked = p.open; document.getElementById("sty-ff-clap").checked = p.clap; document.getElementById("sty-ff-shk").checked = p.shk; bpm.set(p.bpm, false);
+    build();
+  });
+  function build() {
+    const S = { hat: "", snare: "", clap: "", shaker: "", kick: "" };
+    for (let i = 0; i < 16; i++) {
+      const on = i % 4 === 0, and = i % 4 === 2, back = i === 4 || i === 12;
+      let h = ".";
+      if (hat() === "8" && i % 2 === 0) h = "x";
+      if (hat() === "16") h = on ? "X" : "x";
+      if (open() && and) h = "o";
+      S.hat += h;
+      S.snare += sn() === "24" ? (back ? "X" : ".") : sn() === "all" ? (on ? (back ? "X" : "x") : ".") : ".";
+      S.clap += clap() && back ? "x" : ".";
+      S.shaker += shk() ? (on ? "4" : and ? "7" : "5") : ".";
+      S.kick += on ? "X" : ".";
+    }
+    grid.set(S);
+    apply(DR.parse(S, { div: 4 }));
+  }
+  function apply(e) { evs = e; staff.setEvents(evs); live.set(evs, 4); stats(); }
+  function stats() {
+    const q = 60000 / bpm();
+    MB.stat("sty-ff-o-k", `${styMs(q)} (분당 ${bpm()}번)`);
+    MB.stat("sty-ff-o-o", evs.some((e) => e.p === "hatOpen") ? styMs(q / 2) : "열린 햇 없음");
+    MB.stat("sty-ff-o-n", String(new Set(evs.filter((e) => !DR.isFoot(e.p)).map((e) => e.t.toFixed(3) + e.p)).size));
+  }
+  styBind("sty-ff-play", () => { DR.warm(["hat", "hatOpen", "snare", "clap", "shaker", "kick"]); live.set(evs, 4); return live.sc; });
+  build();
+})();
+
+/* ================================================================ 4. 레게 변형 */
+(function () {
+  const kit = DR.kit();
+  const vr = MB.seg("sty-rg-var", () => { build(); bind.restart(); });
+  const hat = MB.seg("sty-rg-hat", () => { build(); bind.restart(); });
+  const rim = MB.seg("sty-rg-rim", () => { build(); bind.restart(); });
+  const b24 = MB.check("sty-rg-24", () => { build(); bind.restart(); });
+  const bpm = MB.range("sty-rg-bpm", (v) => v + " BPM");
+  const staff = DR.staff("#sty-rg-staff", [], { counts: true });
+  const grid = DR.grid("#sty-rg-grid", { rows: ["hat", "snare", "kick"], div: 4, beats: 4, kit });
+  let evs = [], div = 4;
+  function build() {
+    const trip = hat() === "trip"; div = trip ? 3 : 4;
+    const n = 4 * div, beatAt = (b) => b * div;
+    const KICK = { one: [2], rock: [0, 2], step: [0, 1, 2, 3] }[vr()];
+    const XSB = b24() ? [1, 3] : [2];
+    let H = "", X = "", K = "";
+    for (let i = 0; i < n; i++) {
+      const p = i % div, b = Math.floor(i / div);
+      if (trip) H += p === 0 ? "7" : "4";
+      else if (hat() === "off") H += p === 2 ? "o" : ".";
+      else H += p % 2 === 0 ? (p === 0 ? "7" : "5") : ".";
+      X += p === 0 && XSB.includes(b) ? "x" : ".";
+      K += p === 0 && KICK.includes(b) ? "x" : ".";
+    }
+    const pieceRow = rim() === "rim" ? "rim" : "xstick";
+    grid.setRows(["hat", pieceRow, "kick"]); grid.setDiv(div, 4); grid.set({ hat: H, [pieceRow]: X, kick: K });
+    evs = DR.parse({ hat: H, [pieceRow]: X, kick: K }, { div });
+    staff.setEvents(evs);
+    MB.stat("sty-rg-o-k", KICK.map((b) => b + 1 + "박").join(" · "));
+    MB.stat("sty-rg-o-n", KICK.length + "개");
+    MB.stat("sty-rg-o-r", hat() === "sw" ? "0.60(8분)" : trip ? "셋잇단 격자" : "0.50");
+  }
+  const bind = styBind("sty-rg-play", () => {
+    DR.warm(["hat", "hatOpen", "xstick", "rim", "kick"]);
+    return DR.playEvents(evs, { kit, bpm: () => bpm(), loop: true, length: 4, staff, grid, swing: (e) => (hat() === "sw" && e.p === "hat" ? 0.6 : 0.5) });
+  });
+  build();
+})();
+
+/* ================================================================ 5. 힙합 실험실 */
+(function () {
+  const kit = DR.kit();
+  const mode = MB.seg("sty-hh-mode", (v) => { bpm.set(v === "boom" ? 90 : 140, false); build(); bind.restart(); });
+  const sw = MB.range("sty-hh-sw", (v) => (v / 100).toFixed(2), () => stats());
+  const h16 = MB.check("sty-hh-16", () => { build(); bind.restart(); });
+  const den = MB.range("sty-hh-den", (v) => v + "%", () => { if (mode() === "trap") { build(); bind.restart(); } });
+  const ramp = MB.check("sty-hh-ramp", () => { if (mode() === "trap") { build(); bind.restart(); } });
+  const bpm = MB.range("sty-hh-bpm", (v) => v + " BPM", () => stats());
+  const rates = document.getElementById("sty-hh-rates");
+  rates.addEventListener("click", (e) => { const b = e.target.closest("button[data-d]"); if (!b) return; b.classList.toggle("on"); if (!rates.querySelector(".on")) b.classList.add("on"); if (mode() === "trap") { build(); bind.restart(); } });
+  const staff = DR.staff("#sty-hh-staff", [], { counts: false });
+  const tl = DR.timeline("#sty-hh-cv", { rows: ["hat", "clap", "snare", "kick"], beats: 4, div: 4, aspect: (w) => (w < 500 ? 0.45 : 0.24), maxHeight: 180 });
+  let evs = [], rolled = 0;
+  function trap() {
+    const rs = [...rates.querySelectorAll("button.on")].map((b) => +b.dataset.d);
+    const out = DR.parse({ clap: "........x.......", snare: "........x.......", kick: "x.....x...x..x.." }, { div: 4 });
+    out.forEach((e) => { if (e.p === "snare") e.v = 0.5; });
+    rolled = 0;
+    for (let b = 0; b < 4; b++) {
+      if (Math.random() < den() / 100) {
+        rolled++;
+        const d = rs[Math.floor(Math.random() * rs.length)];
+        const half = Math.random() < 0.5 && d !== 3; // 박의 뒤 절반만 롤
+        const start = half ? 0.5 : 0, n = Math.round((1 - start) * d);
+        if (half) out.push({ t: b, p: "hat", v: 0.7 });
+        for (let k = 0; k < n; k++) out.push({ t: b + start + k / d, p: "hat", v: ramp() ? 0.4 + 0.5 * (k / Math.max(1, n - 1)) : 0.62 });
+      } else { out.push({ t: b, p: "hat", v: 0.75 }, { t: b + 0.5, p: "hat", v: 0.55 }); }
+    }
+    return DR.sort(out);
+  }
+  function build() {
+    if (mode() === "boom") {
+      const S = stySpecObj(DR.GROOVES.boombap.spec);
+      if (h16()) S.HH = "x.x.x.x.x.x.x.x.".replace(/\./g, "5");
+      evs = DR.parse(`HH ${S.HH}\nSN ${S.SN}\nBD ${S.BD}`, { div: 4 });
+      rolled = 0;
+    } else evs = trap();
+    staff.setEvents(evs);
+    tl.set({ events: evs });
+    stats();
+  }
+  function stats() {
+    const u = 15000 / bpm();
+    MB.stat("sty-hh-o-16", styMs(u));
+    MB.stat("sty-hh-o-d", mode() === "boom" ? "+" + styMs((sw() / 100 - 0.5) * 2 * u) : "스윙 없음");
+    MB.stat("sty-hh-o-32", styMs(u / 2));
+    MB.stat("sty-hh-o-roll", mode() === "trap" ? `${rolled} / 4` : "—");
+  }
+  let raf = 0;
+  const bind = styBind("sty-hh-play", () => {
+    DR.warm(["hat", "snare", "clap", "kick"]);
+    const sc = DR.playEvents(evs, {
+      kit, bpm: () => bpm(), loop: true, length: 4, staff,
+      swing: () => (mode() === "boom" ? sw() / 100 : 0.5), swingUnit: 0.25,
+      onStop() { cancelAnimationFrame(raf); tl.now(null); },
+    });
+    const st = sc.start; sc.start = function () { st(); const tick = () => { if (!sc.running) return; tl.now(sc.beat); raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick); };
+    return sc;
+  });
+  document.getElementById("sty-hh-new").addEventListener("click", () => { MB.ctx(); if (mode() !== "trap") mode.set("trap"); else { build(); bind.restart(); } });
+  build();
+})();
+
+/* ================================================================ 6. 클라베 탐험기 */
+(function () {
+  const kit = DR.kit();
+  const pat = MB.seg("sty-cl-pat", () => { build(); bind.restart(); });
+  const dir = MB.seg("sty-cl-dir", () => { build(); bind.restart(); });
+  const groove = MB.check("sty-cl-groove", () => { build(); bind.restart(); });
+  const click = MB.check("sty-cl-click");
+  const bpm = MB.range("sty-cl-bpm", (v) => v + " BPM", () => stats());
+  const staff = DR.staff("#sty-cl-staff", [], { counts: true });
+  const P = { son: ["son32", "clave"], rumba: ["rumba32", "clave"], bossa: ["bossa", "xstick"], tresillo: ["tresillo", "clave"], bell68: ["bell68", "cowbell"] };
+  let evs = [], str = "", N = 16, div = 4, now = -1;
+  const rot = (s, k) => s.slice(k) + s.slice(0, k);
+  function build() {
+    const [ck, pc] = P[pat()], c = DR.CLAVE[ck];
+    div = c.div; N = c.spec.length;
+    str = dir() === "23" ? rot(c.spec, N / 2) : c.spec;
+    let spec = { [pc]: str };
+    if (groove()) {
+      if (pat() === "bossa") { const g = stySpecObj(DR.GROOVES.bossa.spec); spec.hat = "6".repeat(16).split("").map((x, i) => (i % 2 ? "4" : "6")).join(""); spec.kick = g.BD; }
+      else if (pat() === "bell68") { spec.kick = "x..x..x..x.."; spec.hatFoot = "...x.....x.."; }
+      else { spec.shaker = "7444744474447444"; spec.kick = "...x..x....x..x."; }
+    }
+    evs = DR.parse(spec, { div });
+    evs.forEach((e) => { if (e.p === pc) e.cl = Math.round(e.t * div); });
+    const clicks = []; for (let b = 0; b < 4; b++) clicks.push({ t: b, clk: true, acc: b === 0 });
+    staff.setEvents(evs);
+    evs = evs.concat(clicks);
+    stats(); cv.redraw();
+  }
+  function stats() {
+    const on = [...str].map((c, i) => (c !== "." ? i : -1)).filter((i) => i >= 0);
+    const ioi = on.map((x, k) => (on[(k + 1) % on.length] - x + N) % N || N);
+    MB.stat("sty-cl-o-ioi", ioi.join("-"));
+    MB.stat("sty-cl-o-half", `${on.filter((i) => i < N / 2).length} · ${on.filter((i) => i >= N / 2).length}`);
+    const e = DR.euclid(on.length, N).map((x) => (x ? "x" : ".")).join("");
+    const eo = [...e].map((c, i) => (c === "x" ? i : -1)).filter((i) => i >= 0);
+    MB.stat("sty-cl-o-e", `E(${on.length},${N}) = ${eo.map((x, k) => (eo[(k + 1) % eo.length] - x + N) % N || N).join("-")}`);
+    MB.stat("sty-cl-o-bpm", pat() === "bell68" ? `♩. = ${bpm()} (12/8)` : `♩ = ${bpm() * 2} (2마디 표기)`);
+  }
+  const cv = MB.canvas("#sty-cl-cv", (ctx, w, h) => {
+    const Pl = MB.palette(), cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 26;
+    const ang = (i) => -Math.PI / 2 + (2 * Math.PI * i) / N, pt = (i, r = R) => [cx + r * Math.cos(ang(i)), cy + r * Math.sin(ang(i))];
+    ctx.strokeStyle = Pl.border; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+    ctx.setLineDash([3, 4]); ctx.strokeStyle = Pl.faint; const [ax, ay] = pt(0, R + 8), [bx, by] = pt(N / 2, R + 8); ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke(); ctx.setLineDash([]);
+    ctx.font = "600 11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let i = 0; i < N; i++) {
+      const beat = i % div === 0, [x1, y1] = pt(i, R - (beat ? 9 : 5)), [x2, y2] = pt(i, R + (beat ? 9 : 5));
+      ctx.strokeStyle = beat ? Pl.dim : Pl.faint; ctx.lineWidth = beat ? 2 : 1; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      if (beat) { const [tx, ty] = pt(i, R + 18); ctx.fillStyle = Pl.dim; ctx.fillText(String(i / div + 1), tx, ty); }
+    }
+    const on = [...str].map((c, i) => (c !== "." ? i : -1)).filter((i) => i >= 0);
+    ctx.fillStyle = Pl.accent; ctx.globalAlpha = 0.14; ctx.strokeStyle = Pl.accent; ctx.lineWidth = 2;
+    ctx.beginPath(); on.forEach((i, k) => { const [x, y] = pt(i); k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1; ctx.stroke();
+    on.forEach((i) => { const [x, y] = pt(i); ctx.fillStyle = i === now ? Pl.warn : i < N / 2 ? Pl.accent : Pl.accent2; ctx.beginPath(); ctx.arc(x, y, i === now ? 10 : 7, 0, 7); ctx.fill(); });
+    if (now >= 0) { const [x, y] = pt(now, R - 16); ctx.strokeStyle = Pl.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke(); }
+    ctx.fillStyle = Pl.text; ctx.font = "700 13px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillText(pat() === "tresillo" || pat() === "bell68" ? DR.CLAVE[P[pat()][0]].name : DR.CLAVE[P[pat()][0]].name.replace("3–2", dir() === "23" ? "2–3" : "3–2"), cx, cy);
+  }, { aspect: (w) => (w < 500 ? 0.9 : 0.62), maxHeight: 360 });
+  const bind = styBind("sty-cl-play", () => {
+    DR.warm(["clave", "xstick", "cowbell", "shaker", "kick", "hat", "hatFoot"]);
+    return DR.playEvents(evs, {
+      kit, bpm: () => bpm(), loop: true, length: 4, staff,
+      onHit(e, i, when) { if (e.clk && click()) DR.click(when, e.acc); },
+      onNote(e) { now = Math.round(e.t * div) % N; cv.redraw(); },
+      onStop() { now = -1; cv.redraw(); },
+    });
+  });
+  build();
+})();
+
+/* ================================================================ 7. 템포 지도 */
+const STY_TEMPO = [
+  { name: "12/8 블루스 발라드", key: "shuffle128", lo: 50, hi: 70, note: "점4분음표 기준, 셋잇단 열두 칸" },
+  { name: "발라드", key: "ballad", lo: 60, hi: 80, note: "16분이나 8분이 느린 박을 채운다" },
+  { name: "레게 원 드롭", key: "reggae", lo: 60, hi: 90, note: "3박 하나에 무게, 체감은 더 느리다" },
+  { name: "붐뱁 힙합", key: "boombap", lo: 85, hi: 100, note: "16분 스윙, 묵직한 2·4" },
+  { name: "펑크", key: "funk", lo: 90, hi: 115, note: "16분 고스트, '원'" },
+  { name: "셔플 블루스", key: "shuffle", lo: 90, hi: 140, note: "셋잇단 1·3칸" },
+  { name: "8비트 록·팝", key: "rock8", lo: 100, hi: 140, note: "2·4 백비트" },
+  { name: "디스코", key: "disco", lo: 110, hi: 130, note: "네 박 킥, & 오픈 햇" },
+  { name: "하우스", key: "house", lo: 118, hi: 130, note: "네 박 킥, 2·4 클랩" },
+  { name: "보사노바", key: "bossa", lo: 110, hi: 145, note: "2마디 클라베, 조용하게" },
+  { name: "트랩", key: "trap", lo: 130, hi: 160, note: "3박 백비트로 하프타임 체감" },
+  { name: "컨트리 트레인", key: "train", lo: 140, hi: 200, note: "16분 고스트 위 2·4 액센트" },
+  { name: "메탈 더블 베이스", key: "metal", lo: 140, hi: 220, note: "두 발 16분" },
+  { name: "드럼 앤 베이스", key: "dnb", lo: 160, hi: 180, note: "투스텝, 체감은 하프타임" },
+  { name: "펑크 록", key: "punk", lo: 160, hi: 220, note: "킥·스네어 8분 교대" },
+  { name: "재즈 스윙", key: "jazz", lo: 100, hi: 300, note: "발라드부터 비밥까지 아주 넓다" },
+];
+(function () {
+  document.getElementById("sty-tm-table").innerHTML = STY_TEMPO.map((r) => `<tr><td>${r.name}</td><td>${r.lo}–${r.hi}</td><td>${r.note}</td></tr>`).join("");
+  const kit = DR.kit();
+  let sel = null, selBpm = 0, sc = null;
+  const X0 = 300, X1 = 40;
+  const geo = { L: 0, R: 0, top: 0, rh: 0 };
+  const cv = MB.canvas("#sty-tm-cv", (ctx, w, h) => {
+    const Pl = MB.palette(), narrow = w < 520, L = narrow ? 104 : 150, R = 14, top = 8, B = 26, rh = (h - top - B) / STY_TEMPO.length;
+    Object.assign(geo, { L, R, top, rh, w });
+    const X = (b) => L + ((b - X1) / (X0 - X1)) * (w - L - R);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    for (let b = 40; b <= 300; b += 20) { ctx.strokeStyle = Pl.grid; ctx.beginPath(); ctx.moveTo(X(b), top); ctx.lineTo(X(b), h - B); ctx.stroke(); if (b % 40 === 0) { ctx.fillStyle = Pl.dim; ctx.textAlign = "center"; ctx.fillText(String(b), X(b), h - B + 14); } }
+    ctx.font = (narrow ? "11.5px " : "12.5px ") + getComputedStyle(document.body).getPropertyValue("--font");
+    STY_TEMPO.forEach((r, i) => {
+      const y = top + i * rh, mid = y + rh / 2;
+      ctx.fillStyle = sel === i ? Pl.accent : Pl.text; ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(r.name, L - 8, mid);
+      ctx.fillStyle = sel === i ? Pl.accent : Pl.accent2; ctx.globalAlpha = sel === i ? 0.55 : 0.32;
+      ctx.fillRect(X(r.lo), y + rh * 0.2, X(r.hi) - X(r.lo), rh * 0.6); ctx.globalAlpha = 1;
+      const def = r.key === "trap" ? 140 : DR.GROOVES[r.key].bpm;
+      ctx.fillStyle = Pl.text; ctx.beginPath(); ctx.arc(X(def), mid, 3, 0, 7); ctx.fill();
+      if (sel === i) { ctx.strokeStyle = Pl.warn; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(selBpm), y + 2); ctx.lineTo(X(selBpm), y + rh - 2); ctx.stroke(); ctx.lineWidth = 1; }
+    });
+    ctx.textBaseline = "alphabetic"; ctx.fillStyle = Pl.faint; ctx.textAlign = "right"; ctx.fillText("BPM →", w - R, h - 2);
+  }, { aspect: (w) => (w < 520 ? 1.15 : 0.55), maxHeight: 520 });
+  function stop() { if (sc && sc.running) sc.stop(); styleStop(); }
+  function styleStop() { stySolo.drop(stop); }
+  function evsOf(key) {
+    if (key === "trap") return { ev: DR.parse({ hat: "x.x.x.x.x.x.x.x.", clap: "........x.......", kick: "x.....x...x..x.." }, { div: 4 }), L: 4 };
+    return { ev: styGroove(key), L: DR.grooveLength(key) };
+  }
+  cv.canvas.addEventListener("pointerdown", (e) => {
+    const rc = cv.canvas.getBoundingClientRect(), x = e.clientX - rc.left, y = e.clientY - rc.top;
+    const i = Math.floor((y - geo.top) / geo.rh); if (i < 0 || i >= STY_TEMPO.length) return;
+    const r = STY_TEMPO[i];
+    let b = X1 + ((x - geo.L) / (geo.w - geo.L - geo.R)) * (X0 - X1);
+    if (x < geo.L) b = r.key === "trap" ? 140 : DR.GROOVES[r.key].bpm;
+    b = Math.round(MB.clamp(b, 40, 300));
+    MB.ctx();
+    sel = i; selBpm = b; cv.redraw();
+    if (sc && sc.running) sc.stop();
+    stySolo.take(stop);
+    const { ev, L } = evsOf(r.key);
+    DR.warm();
+    sc = DR.playEvents(ev, { kit, bpm: () => selBpm, loop: true, length: L, swing: (q) => q.sw || 0.5, swingUnit: (q) => q.su || 0.5 });
+    sc.start();
+    MB.stat("sty-tm-o-g", r.name); MB.stat("sty-tm-o-bpm", b + " BPM");
+    MB.stat("sty-tm-o-pos", b < r.lo ? "범위보다 느림" : b > r.hi ? "범위보다 빠름" : Math.round((100 * (b - r.lo)) / Math.max(1, r.hi - r.lo)) + "%");
+    MB.stat("sty-tm-o-ms", styMs(60000 / b));
+  });
+  document.getElementById("sty-tm-stop").addEventListener("click", () => { stop(); sel = null; cv.redraw(); });
+})();
+
+/* ================================================================ 8. 장르 청음 퀴즈 */
+(function () {
+  const kit = DR.kit();
+  const POOL = ["rock8", "ballad", "halftime", "funk", "linear", "disco", "house", "reggae", "boombap", "dnb", "punk", "train", "metal", "bossa", "shuffle", "jazz"];
+  const big = document.getElementById("sty-qz-big"), ans = document.getElementById("sty-qz-ans"), msg = document.getElementById("sty-qz-msg");
+  const jig = MB.check("sty-qz-tempo"), showSc = MB.check("sty-qz-score");
+  const staffEl = document.getElementById("sty-qz-staff");
+  let staff = null, q = null, sc = null, score = 0, total = 0, streak = 0;
+  const miss = {};
+  function stop() { if (sc && sc.running) sc.stop(); }
+  function play() {
+    if (!q) return;
+    if (sc && sc.running) sc.stop();
+    stySolo.take(stop);
+    const L = DR.grooveLength(q.key), beats = Math.max(8, 2 * L);
+    const ev = styRepeat(q.key, beats);
+    DR.warm();
+    sc = DR.playEvents(ev, { kit, bpm: q.bpm, loop: false, length: beats, swing: (e) => e.sw || 0.5, swingUnit: (e) => e.su || 0.5, onEnd() { stySolo.drop(stop); } });
+    sc.start();
+  }
+  function fresh() {
+    MB.ctx();
+    const key = POOL[Math.floor(Math.random() * POOL.length)], g = DR.GROOVES[key];
+    const others = POOL.filter((k) => k !== key).sort(() => Math.random() - 0.5).slice(0, 3);
+    const opts = others.concat([key]).sort(() => Math.random() - 0.5);
+    q = { key, bpm: Math.round(g.bpm * (jig() ? 0.85 + 0.3 * Math.random() : 1)), done: false };
+    ans.innerHTML = opts.map((k) => `<button data-k="${k}">${DR.GROOVES[k].name}</button>`).join("");
+    big.innerHTML = `?<small>${q.bpm} BPM · ${Math.max(8, 2 * DR.grooveLength(key)) / 4}마디</small>`; msg.textContent = "";
+    staffEl.innerHTML = ""; staff = null;
+    play();
+  }
+  ans.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b || !q || q.done) return;
+    q.done = true; total++;
+    const ok = b.dataset.k === q.key, g = DR.GROOVES[q.key];
+    if (ok) { score++; streak++; } else { streak = 0; miss[g.name] = (miss[g.name] || 0) + 1; }
+    ans.querySelectorAll("button").forEach((x) => { if (x.dataset.k === q.key) x.classList.add("ok"); else if (x === b) x.classList.add("bad"); });
+    big.innerHTML = `${g.genre}<small>${g.name}</small>`;
+    msg.innerHTML = (ok ? "정답! " : "아쉽네요. ") + g.desc;
+    if (showSc()) staff = DR.staff(staffEl, DR.groove(q.key), { counts: true });
+    MB.stat("sty-qz-o-score", `${score} / ${total}`); MB.stat("sty-qz-o-streak", String(streak));
+    const top = Object.entries(miss).sort((a, c) => c[1] - a[1])[0]; MB.stat("sty-qz-o-miss", top ? `${top[0]} (${top[1]})` : "—");
+  });
+  document.getElementById("sty-qz-new").addEventListener("click", fresh);
+  document.getElementById("sty-qz-again").addEventListener("click", () => { MB.ctx(); if (q) play(); else fresh(); });
+  document.getElementById("sty-qz-reset").addEventListener("click", () => { score = total = streak = 0; Object.keys(miss).forEach((k) => delete miss[k]); MB.stat("sty-qz-o-score", "0 / 0"); MB.stat("sty-qz-o-streak", "0"); MB.stat("sty-qz-o-miss", "—"); });
+})();
+</script>
+</body>
+</html>

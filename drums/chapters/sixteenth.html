@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>16비트와 고스트 노트 · DrumBook</title>
+<meta name="description" content="한 손·양손 16분 하이햇, 액센트 패턴, 16분 킥과 싱코페이션, 고스트 노트의 벨로시티와 dB, 하이햇 열고 닫기, 액센트–보통–고스트 세 층의 셈여림을 가상 드럼으로 듣고 연습한다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/sixteenth.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="16비트와 고스트 노트 · DrumBook">
+<meta property="og:description" content="한 손·양손 16분 하이햇, 액센트 패턴, 16분 킥과 싱코페이션, 고스트 노트의 벨로시티와 dB, 하이햇 열고 닫기, 액센트–보통–고스트 세 층의 셈여림을 가상 드럼으로 듣고 연습한다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/sixteenth.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .sx-lanes { display: grid; gap: 3px; margin-top: 10px; }
+  .sx-lane { display: grid; grid-template-columns: 22px repeat(16, minmax(0, 1fr)); gap: 2px; align-items: center; }
+  .sx-lane b { font: 700 11px var(--mono); color: var(--text-dim); }
+  .sx-lane span { font: 600 9.5px/20px var(--mono); text-align: center; border-radius: 4px; background: var(--surface); color: var(--text-faint); min-width: 0; overflow: hidden; white-space: nowrap; }
+  .sx-lane span.r { background: var(--accent-soft); color: var(--accent); }
+  .sx-lane span.l { background: var(--accent-2-soft); color: var(--accent-2); }
+  .sx-lane span.now { outline: 2px solid var(--warn); outline-offset: -1px; }
+  .sx-lane.cnt span { background: transparent; }
+  .sx-opts { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+  .sx-opt { all: unset; box-sizing: border-box; display: block; cursor: pointer; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-elev); padding: 4px 6px 2px; }
+  .sx-opt:hover { border-color: var(--accent); }
+  .sx-opt.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--bg-elev)); }
+  .sx-opt.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 8%, var(--bg-elev)); }
+  .sx-opt > small { display: block; font: 700 12px var(--font); color: var(--text-dim); }
+  .sx-pad { height: 168px; padding: 0; display: grid; grid-template-rows: 1fr 1fr 1fr; background: linear-gradient(to bottom, var(--accent-2-soft) 0 33.3%, var(--surface) 33.3% 66.6%, var(--accent-soft) 66.6%); }
+  .sx-pad span { display: flex; align-items: center; justify-content: center; font: 600 13px var(--font); color: var(--text-dim); pointer-events: none; }
+  .sx-pad.hit { border-color: var(--warn); }
+  .sx-target { margin: 6px 0; }
+  .sx-target.l0 { color: var(--accent-2); } .sx-target.l1 { color: var(--text); } .sx-target.l2 { color: var(--accent); }
+  .sx-pedal { font: 700 13px var(--font); text-align: center; padding: 6px; border-radius: var(--radius-sm); background: var(--surface); color: var(--text-dim); margin-top: 6px; }
+  .sx-pedal.open { background: var(--accent-2-soft); color: var(--accent-2); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="sixteenth">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 07</div>
+    <h1>16비트와 고스트 노트</h1>
+    <p class="lead">6장의 8비트는 한 박을 둘로 나눴습니다. 이번에는 넷으로 나눕니다. 한 마디에 하이햇이 열여섯 번 지나가면 박과 박 사이에 'e'와 'a'라는 새 자리가 생기고, 그 자리를 무엇으로 채우느냐가 팝·펑크·R&amp;B·힙합의 차이를 만듭니다. 16분음표를 한 손으로 칠지 두 손으로 나눌지는 템포가 정하고(속도의 물리), 그 위의 액센트 배치는 그루브의 '방향'을 정합니다(리듬 이론). 그리고 이 장의 주인공인 <b>고스트 노트</b>는 스네어를 2–3 cm 높이에서 살짝 떨어뜨린, 백비트보다 15–20 dB 작은 음입니다. 거의 들리지 않는데도 빼면 그루브가 텅 빈 것처럼 느껴지는 이상한 음이죠. 이 장에서는 이 음을 dB로 재고, 놓을 자리를 규칙으로 정리하고, 하이햇 열고 닫기와 함께 <b>액센트–보통–고스트</b> 세 층의 셈여림으로 그루브를 조각합니다.</p>
+    <ul class="objectives">
+      <li>16분 하이햇을 한 손(손목·손가락)과 양손 교대로 칠 때의 속도 한계를 \(r = 4\cdot\text{BPM}/60\)으로 계산하고, 템포에 따라 스티킹을 고른다.</li>
+      <li>다운비트·업비트·'e'·'a' 액센트가 같은 16분 하이햇의 느낌을 어떻게 바꾸는지 듣고 설명한다.</li>
+      <li>킥을 16분 자리(e·&·a)로 옮겨 싱코페이션을 만들고, 그 정도를 지수로 비교한다.</li>
+      <li>고스트 노트의 벨로시티·스틱 높이·음량(dB) 관계를 알고, 백비트 직전 'a'와 직후 'e'에 놓는다.</li>
+      <li>하이햇을 '&'·'a'에서 열고 다음 칸에서 발이나 손으로 닫는 초크 타이밍을 익힌다.</li>
+      <li>액센트–보통–고스트 세 층을 손으로 구별해 치고, 세 층을 섞은 16비트 그루브를 직접 만든다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="hand16">
+    <h2>16분 하이햇: 한 손이냐, 두 손이냐</h2>
+    <p>16비트의 바탕은 하이햇이 한 박에 네 번, "1 e &amp; a 2 e &amp; a …"를 모두 치는 것입니다. 방법은 두 가지입니다. <b>한 손</b>으로 오른손이 열여섯 칸을 모두 치고 왼손은 2·4박 스네어만 맡거나, <b>양손 교대</b>로 R L R L을 하이햇에 나눠 치는 것입니다. 무엇을 고를지는 취향보다 <b>속도</b>가 먼저 정합니다. 오른손이 1초에 몇 번 쳐야 하는지 계산해 보면 바로 보입니다. (이 책은 오른손잡이 표준 세팅을 기준으로 씁니다. 왼손잡이 세팅이라면 R과 L, 오른발과 왼발을 모두 바꿔 읽으면 됩니다.)</p>
+    <div class="formula">$$r_{\text{한 손}} = \frac{\text{BPM}}{60}\times 4\ \ \text{타/초},\qquad r_{\text{양손}} = \frac{\text{BPM}}{60}\times 2\ \ \text{타/초(손마다)},\qquad \Delta t = \frac{60\,000}{4\cdot \text{BPM}}\ \text{ms}$$
+      <div class="where">\(\Delta t\): 16분음표 사이 간격. 80 BPM에서 한 손 16분은 초당 5.3타(간격 188 ms), 100 BPM이면 6.7타(150 ms), 120 BPM이면 8타(125 ms)다. 손목만 써서 같은 높이로 고르게 칠 수 있는 싱글 스트로크는 보통 초당 6–7타 언저리에서 무너지기 시작한다. 그래서 한 손 16분은 대략 100 BPM 안팎이 실용 한계이고, 그보다 빠르면 양손 교대(손마다 절반 속도)로 바꾼다.</div>
+    </div>
+    <p>한 손 16분을 오래 버티는 요령은 <b>손목과 손가락의 분업</b>입니다. 손목만으로 열여섯 번을 같은 높이에서 내리치면 근육이 금세 굳습니다. 대신 박(1·2·3·4)에서 손목을 조금 크게 써서 스틱을 '던지고', 사이의 e·&amp;·a는 손가락(특히 중지·약지)이 스틱을 받치며 되튀는 힘을 다시 밀어 주는 작은 동작으로 칩니다. 이것이 자연스러운 셈여림을 만듭니다. 박은 조금 크고 사이는 조금 작게 들려서, 한 손 16분에는 저절로 "<b>강</b>–약–중–약"의 무늬가 생깁니다. 손가락 동작은 <a href="setup.html">2장 그립</a>의 받침점(엄지와 검지 사이)이 단단할 때만 됩니다.</p>
+    <p>양손 교대는 손마다 8분 속도라 훨씬 빠른 템포까지 갑니다. 문제는 백비트입니다. 2·4박의 첫 칸은 R 차례인데, 왼손은 하이햇 위에 있습니다. 그래서 그 칸에서는 <b>오른손이 하이햇 대신 스네어로 내려가고</b>, 왼손은 계속 하이햇에 남습니다(그림 7-1의 ②). 표준 세팅에서는 오른손이 왼손 위로 엇갈려 하이햇을 치므로, 오른손이 스네어로 '빠지는' 이 스티킹이 팔을 더 꼬이지 않게 하는 길입니다. 그 대가로 2·4박의 하이햇 한 칸이 비지만, 백비트가 그 자리를 덮어 거의 들리지 않습니다.</p>
+    <figure class="diagram">
+<!--FIG:sticking-->
+<svg viewBox="0 0 800 276" role="img" aria-label="한 손 16분 하이햇과 양손 교대 16분 하이햇의 스티킹 비교">
+<g font-family="var(--font)">
+<line x1="110" y1="34" x2="110" y2="210" class="s-axis" stroke-dasharray=""/>
+<line x1="270" y1="34" x2="270" y2="210" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="430" y1="34" x2="430" y2="210" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="590" y1="34" x2="590" y2="210" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="750" y1="34" x2="750" y2="210" class="s-axis" stroke-dasharray=""/>
+<text x="20" y="24" class="t-acc">① 한 손: 오른손이 16분 하이햇을 모두, 왼손은 2·4박 스네어</text>
+<text x="20" y="133" class="t-acc">② 양손 교대: R L R L…, 2·4박에서는 R이 스네어로 옮겨 간다</text>
+<text x="100" y="56" text-anchor="end" class="t-mono">HH</text>
+<text x="100" y="90" text-anchor="end" class="t-mono">SN</text>
+<text x="100" y="164" text-anchor="end" class="t-mono">HH</text>
+<text x="100" y="198" text-anchor="end" class="t-mono">SN</text>
+<circle cx="130" cy="52" r="13" class="f-acc-soft" /><text x="130" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="130" cy="160" r="13" class="f-acc-soft" /><text x="130" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="130" y="230" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">1</text>
+<circle cx="170" cy="52" r="13" class="f-acc-soft" /><text x="170" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="170" cy="160" r="13" class="f-acc2-soft" /><text x="170" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="170" y="230" text-anchor="middle" class="t-mono" style="">e</text>
+<circle cx="210" cy="52" r="13" class="f-acc-soft" /><text x="210" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="210" cy="160" r="13" class="f-acc-soft" /><text x="210" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="210" y="230" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="250" cy="52" r="13" class="f-acc-soft" /><text x="250" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="250" cy="160" r="13" class="f-acc2-soft" /><text x="250" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="250" y="230" text-anchor="middle" class="t-mono" style="">a</text>
+<circle cx="290" cy="52" r="13" class="f-acc-soft" /><text x="290" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="290" cy="86" r="13" class="f-acc2-soft" /><text x="290" y="90.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<circle cx="290" cy="160" r="13" fill="none" stroke="var(--text-faint)" stroke-dasharray="3 3"/>
+<path d="M290 175 L290 178" class="s-acc"/><circle cx="290" cy="194" r="13" class="f-acc-soft" /><text x="290" y="198.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<path d="M286 171 L290 179 L294 171" class="s-acc"/>
+<text x="290" y="230" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">2</text>
+<circle cx="330" cy="52" r="13" class="f-acc-soft" /><text x="330" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="330" cy="160" r="13" class="f-acc2-soft" /><text x="330" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="330" y="230" text-anchor="middle" class="t-mono" style="">e</text>
+<circle cx="370" cy="52" r="13" class="f-acc-soft" /><text x="370" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="370" cy="160" r="13" class="f-acc-soft" /><text x="370" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="370" y="230" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="410" cy="52" r="13" class="f-acc-soft" /><text x="410" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="410" cy="160" r="13" class="f-acc2-soft" /><text x="410" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="410" y="230" text-anchor="middle" class="t-mono" style="">a</text>
+<circle cx="450" cy="52" r="13" class="f-acc-soft" /><text x="450" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="450" cy="160" r="13" class="f-acc-soft" /><text x="450" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="450" y="230" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">3</text>
+<circle cx="490" cy="52" r="13" class="f-acc-soft" /><text x="490" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="490" cy="160" r="13" class="f-acc2-soft" /><text x="490" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="490" y="230" text-anchor="middle" class="t-mono" style="">e</text>
+<circle cx="530" cy="52" r="13" class="f-acc-soft" /><text x="530" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="530" cy="160" r="13" class="f-acc-soft" /><text x="530" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="530" y="230" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="570" cy="52" r="13" class="f-acc-soft" /><text x="570" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="570" cy="160" r="13" class="f-acc2-soft" /><text x="570" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="570" y="230" text-anchor="middle" class="t-mono" style="">a</text>
+<circle cx="610" cy="52" r="13" class="f-acc-soft" /><text x="610" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="610" cy="86" r="13" class="f-acc2-soft" /><text x="610" y="90.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<circle cx="610" cy="160" r="13" fill="none" stroke="var(--text-faint)" stroke-dasharray="3 3"/>
+<path d="M610 175 L610 178" class="s-acc"/><circle cx="610" cy="194" r="13" class="f-acc-soft" /><text x="610" y="198.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<path d="M606 171 L610 179 L614 171" class="s-acc"/>
+<text x="610" y="230" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">4</text>
+<circle cx="650" cy="52" r="13" class="f-acc-soft" /><text x="650" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="650" cy="160" r="13" class="f-acc2-soft" /><text x="650" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="650" y="230" text-anchor="middle" class="t-mono" style="">e</text>
+<circle cx="690" cy="52" r="13" class="f-acc-soft" /><text x="690" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="690" cy="160" r="13" class="f-acc-soft" /><text x="690" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<text x="690" y="230" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="730" cy="52" r="13" class="f-acc-soft" /><text x="730" y="56.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">R</text>
+<circle cx="730" cy="160" r="13" class="f-acc2-soft" /><text x="730" y="164.5" text-anchor="middle" class="t" style="font-size:12px;font-weight:700">L</text>
+<text x="730" y="230" text-anchor="middle" class="t-mono" style="">a</text>
+<text x="400" y="262" text-anchor="middle" class="t-dim">①은 한 손이 초당 BPM×4/60번(100 BPM이면 6.7번) 쳐야 하고, ②는 손마다 그 절반이다. ②에서 L은 늘 하이햇에 남는다.</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 7-1.</b> 16분 하이햇의 두 가지 스티킹. 동그라미 하나가 16분음표 한 칸이다. ①은 오른손이 하이햇 열여섯 칸을 모두 치고 왼손이 2·4박 스네어를 친다. ②는 R L을 번갈아 치다가 2·4박의 R이 스네어로 옮겨 가고(화살표), 점선 칸의 하이햇은 비운다. 굵은 세로선이 마디, 점선이 박의 경계다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-sx-stick">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>16분 하이햇 스티킹 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-st-staff"></div>
+          <div class="sx-lanes" id="sx-st-lanes"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>스티킹</span><div class="seg" id="sx-st-mode"><button data-value="one" class="on">한 손(R만)</button><button data-value="alt">양손 교대</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sx-st-bpm-out"></output></span><input type="range" id="sx-st-bpm" min="56" max="140" value="84" step="2"></label>
+          <label class="check"><input type="checkbox" id="sx-st-click"> 메트로놈(4분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="sx-st-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">오른손 속도</span><span class="v" id="sx-st-o-rate">—</span></div>
+        <div class="stat"><span class="k">오른손 타격 간격</span><span class="v" id="sx-st-o-gap">—</span></div>
+        <div class="stat"><span class="k">16분 간격</span><span class="v" id="sx-st-o-step">—</span></div>
+        <div class="stat"><span class="k">왼손 일</span><span class="v" id="sx-st-o-left">—</span></div>
+      </div>
+      <div class="sim-msg" id="sx-st-msg" hidden></div>
+      <div class="sim-note">해볼 것: 84 BPM에서 두 스티킹을 번갈아 들어 보세요. 소리는 거의 같은데 아래 두 줄(R 손·L 손)의 일이 전혀 다릅니다. 템포를 올려 경고가 뜨는 지점을 확인하고, 실제 패드에서 그 템포를 한 손으로 쳐 보세요. 한 손 모드는 박 0.85, '&amp;' 0.7, 'e·a' 0.55의 벨로시티로 손목–손가락 분업의 자연스러운 셈여림을 흉내 냈고, 양손 모드는 R 0.8·L 0.55로 '센 손·약한 손' 차이를 넣었습니다. 킥은 1박·2박 &amp;·3박 &amp;입니다. 템포는 재생 중에도 바로 바뀝니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 한 손 16분 템포 사다리</strong> ① 메트로놈 60 BPM에서 오른손만 연습 패드(또는 허벅지)에 16분음표를 2분 동안 칩니다. 박에서만 손목을 쓰고 사이는 손가락으로 밀어 줍니다. ② 어깨·팔꿈치가 들리거나 손등에 힘이 들어가면 즉시 멈추고 털어 냅니다. ③ 2분을 고르게 버티면 4 BPM 올립니다. 하루 목표는 20분, 일주일에 8–12 BPM 정도 오르는 것이 정상입니다. ④ 92–100 BPM에서 굳는다면 그 지점이 지금의 한 손 한계입니다. 그보다 빠른 곡은 양손 교대로 치고, 양손 교대도 같은 방법으로 80 → 140 BPM 사다리를 오릅니다. 책상에서 연습할 때는 수건을 접어 깔면 리바운드가 실제 패드와 비슷해집니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="accents">
+    <h2>하이햇 액센트: 같은 16분, 다른 그루브</h2>
+    <p>16분 하이햇을 모두 같은 세기로 치면 재봉틀처럼 들립니다. 그루브에 '방향'을 주는 것은 <span class="term">액센트</span><span class="en">(Accent)</span>입니다. 같은 열여섯 칸이라도 어느 칸을 세게 치느냐에 따라 귀가 박을 묶는 방식이 달라지기 때문입니다. 사람의 박 지각은 강한 소리가 일정한 간격으로 오면 그것을 '박'으로 붙잡고, 나머지를 그 사이의 장식으로 듣습니다. 그러니 액센트를 옮기면 같은 박자 안에서 무게중심이 옮겨 갑니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>액센트 자리</th><th>패턴(16칸, X = 액센트)</th><th>느낌</th><th>자주 쓰는 곳</th></tr></thead>
+      <tbody>
+        <tr><td>다운비트(1 2 3 4)</td><td><code>X··· X··· X··· X···</code></td><td>박이 또렷하고 단단하다</td><td>록, 행진하는 팝</td></tr>
+        <tr><td>업비트(&amp;)</td><td><code>··X· ··X· ··X· ··X·</code></td><td>박 사이가 떠오르며 춤추는 느낌</td><td>디스코, 하우스, 업템포 팝</td></tr>
+        <tr><td>'e'</td><td><code>·X·· ·X·· ·X·· ·X··</code></td><td>박 바로 뒤를 당겨 앞으로 쏠린다</td><td>펑크, 네오 소울</td></tr>
+        <tr><td>'a'</td><td><code>···X ···X ···X ···X</code></td><td>다음 박을 미리 끌어당긴다</td><td>R&amp;B, 셔플 느낌을 섞을 때</td></tr>
+        <tr><td>8분(1 &amp;)</td><td><code>X·X· X·X· X·X· X·X·</code></td><td>8비트 위에 16분 그림자가 깔린다</td><td>16비트 팝·발라드의 기본</td></tr>
+      </tbody>
+    </table></div>
+    <p>액센트를 '세게 친다'고만 생각하면 팔에 힘이 들어갑니다. 실제로는 <b>스틱 높이</b>의 문제입니다. 액센트 칸 직전에 스틱을 높이 들어 두고(업 스트로크), 액센트를 친 뒤에는 스틱을 낮은 자리에 멈춰 세웁니다(다운 스트로크). 나머지 칸은 낮은 자리에서 탭으로 칩니다. <a href="rudiments.html">5장 루디먼트</a>의 네 가지 스트로크(풀·다운·탭·업)가 그대로 하이햇 위에서 쓰입니다. 하이햇에서는 또 하나의 도구가 있습니다. 액센트는 스틱의 <b>어깨</b>(목 부분)로 하이햇 가장자리를 치고, 보통 음은 스틱 <b>끝</b>(팁)으로 윗면을 칩니다. 어깨로 가장자리를 치면 같은 힘으로도 소리가 훨씬 크고 두꺼워져서, 손목을 덜 쓰고 액센트를 만들 수 있습니다.</p>
+
+    <div class="sim" id="sim-sx-acc">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>액센트 패턴 실험실</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-ac-grid"></div>
+          <div id="sx-ac-staff" style="margin-top:10px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>액센트 자리</span><div class="seg" id="sx-ac-pre"><button data-value="down" class="on">다운비트</button><button data-value="up">업비트 &amp;</button><button data-value="e">e</button><button data-value="a">a</button><button data-value="eighth">8분</button><button data-value="none">없음</button></div></div>
+          <label class="ctrl"><span>비액센트 세기 <output id="sx-ac-soft-out"></output></span><input type="range" id="sx-ac-soft" min="0.3" max="0.8" value="0.5" step="0.05"></label>
+          <label class="ctrl"><span>템포 <output id="sx-ac-bpm-out"></output></span><input type="range" id="sx-ac-bpm" min="60" max="130" value="96" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="sx-ac-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">액센트 자리</span><span class="v" id="sx-ac-o-pos" style="font-size:14px">—</span></div>
+        <div class="stat"><span class="k">액센트 수</span><span class="v" id="sx-ac-o-n">—</span></div>
+        <div class="stat"><span class="k">액센트 − 보통</span><span class="v" id="sx-ac-o-db">—</span></div>
+      </div>
+      <div class="sim-msg" id="sx-ac-msg"></div>
+      <div class="sim-note">해볼 것: 재생을 켠 채 액센트 자리를 다운비트 → 업비트 → e → a로 바꿔 보세요. 스네어와 킥은 그대로인데 몸이 움직이는 방식이 달라집니다. 격자의 하이햇 칸을 직접 눌러(빈칸 → 보통 → 액센트) 나만의 액센트를 만들 수도 있습니다. '비액센트 세기'를 낮추면 액센트가 도드라지고, 0.75(보통)에 가까울수록 평평해집니다. 액센트 − 보통 dB는 이 책 가상 킷의 음량 곡선(\(g(v)=0.02+0.98v^{1.7}\))으로 계산한 값입니다. 바꾸면 다음 마디부터 새 패턴으로 다시 시작합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 액센트 옮기기 드릴</strong> 70 BPM, 한 손 16분 하이햇에 2·4박 스네어와 1·3박 킥을 깔고 시작합니다. 네 마디씩 액센트를 다운비트 → &amp; → e → a → 다시 다운비트로 옮깁니다. 액센트가 바뀌어도 스네어와 킥의 자리가 흔들리지 않아야 합니다. 특히 'e'와 'a' 액센트에서 킥이 액센트를 따라 끌려가는 실수가 흔합니다. 입으로 "원 <b>이</b> 앤 어"처럼 액센트 음절만 크게 말하며 치면 훨씬 쉬워집니다. 패드가 없다면 무릎 위에서 오른손으로 하이햇, 왼손으로 2·4박을 치고 발뒤꿈치로 킥을 대신합니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="kick16">
+    <h2>16분 킥: 박 사이로 발을 밀어 넣기</h2>
+    <p>8비트에서 킥은 1·3박과 그 '&amp;'에만 있었습니다. 16분 격자에서는 킥이 'e'와 'a'에도 들어갈 수 있고, 그 순간 그루브는 <span class="term">싱코페이션</span><span class="en">(Syncopation, 당김음)</span>을 얻습니다. 싱코페이션이란 약한 자리에서 시작한 음이 다음의 강한 자리를 '건너뛰어' 그 강박을 비게 만드는 것입니다. 예를 들어 '2박의 a'에 킥을 넣고 3박을 비우면, 귀는 3박에 올 것이라고 기대한 무게를 반 칸 일찍 받아 앞으로 쏠리는 느낌을 받습니다.</p>
+    <p>이 쏠림을 수로 비교해 볼 수 있습니다. 마디 안의 16칸에 박자의 위계로 무게 \(W\)를 줍니다(1박 5, 3박 4, 2·4박 3, '&amp;' 2, 'e·a' 1). 그리고 음 하나가 시작한 자리부터 다음 음 직전까지 <b>비어 있는</b> 칸 가운데 가장 무거운 칸이 그 음보다 무거우면, 그 차이만큼 싱코페이션이 생겼다고 셉니다. 롱게히긴스와 리(Longuet-Higgins &amp; Lee, 1984)의 싱코페이션 모델을 단순하게 줄인 것입니다.</p>
+    <div class="formula">$$S = \sum_{\text{음 } i} \max\!\Big(0,\ \max_{j\,\in\,(i,\ n_i)} W_j \;-\; W_i\Big),\qquad W = \{\,1\text{박}{:}5,\ 3\text{박}{:}4,\ 2{\cdot}4\text{박}{:}3,\ \&{:}2,\ e{\cdot}a{:}1\,\}$$
+      <div class="where">\(n_i\): 음 \(i\) 다음 음의 자리, \((i, n_i)\): 그 사이의 빈 칸들. 1·3박에만 있는 기본 킥은 \(S=0\)이다. '1박의 a'에 킥을 넣고 2박을 비우면 \(3-1=2\)가 더해진다. 같은 음 수라도 자리가 약할수록, 그리고 뒤의 강박을 비울수록 \(S\)가 커진다. 그루브의 '재미'를 재는 절대 척도는 아니지만, 두 패턴 가운데 어느 쪽이 더 당겨지는지를 비교하는 데는 쓸 만하다.</div>
+    </div>
+
+    <div class="sim" id="sim-sx-kick">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>16분 킥 빌더</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-kk-grid"></div>
+          <div id="sx-kk-staff" style="margin-top:10px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>킥 프리셋</span><select id="sx-kk-pre"></select></label>
+          <label class="ctrl"><span>템포 <output id="sx-kk-bpm-out"></output></span><input type="range" id="sx-kk-bpm" min="60" max="130" value="90" step="2"></label>
+          <label class="check"><input type="checkbox" id="sx-kk-click"> 메트로놈(4분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="sx-kk-play">▶ 반복 재생</button><button class="btn" id="sx-kk-clear">킥 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">킥 수</span><span class="v" id="sx-kk-o-n">—</span></div>
+        <div class="stat"><span class="k">e·a 자리 킥</span><span class="v" id="sx-kk-o-off">—</span></div>
+        <div class="stat"><span class="k">싱코페이션 \(S\)</span><span class="v" id="sx-kk-o-s">—</span></div>
+        <div class="stat"><span class="k">킥 자리</span><span class="v" id="sx-kk-o-pos" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 프리셋을 위에서부터 차례로 들으며 \(S\)가 커질수록 앞으로 쏠리는 느낌이 커지는지 확인하세요. 그다음 킥 줄의 칸을 직접 눌러 1박 한 개만 남기고 하나씩 더해 보세요. '2박의 a'(3박 직전)와 '3박의 e'(3박 직후)는 같은 16분 엇박이지만 느낌이 정반대입니다. 앞의 것은 3박을 당기고, 뒤의 것은 3박에 걸려 넘어지듯 뒤따릅니다. \(S\)는 킥 줄만으로 계산하며, 한 마디가 반복된다고 보고 마디 끝에서 처음으로 이어 셉니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 오른발을 16분 격자에 올리기</strong> ① 손은 8분 하이햇과 2·4박 스네어로 단순하게 둡니다. ② 킥 하나만 '1박의 a'에 넣고 60 BPM에서 네 마디, 그다음 '2박의 a', '3박의 e'로 옮깁니다. ③ 'a'에 오는 킥은 바로 다음 박의 하이햇과 거의 붙어 있어서, 발이 박을 따라 늦게 들어가는 실수가 잦습니다. 입으로 "1 e &amp; <b>쿵</b> 2"처럼 킥 자리를 말하며 칩니다. ④ 같은 패턴을 70 → 80 → 90 BPM으로 올리되, 킥 두 개가 16분으로 붙는 자리(예: '&amp;'–'a')는 발목을 두 번 쓰는 대신 <a href="setup.html">2장</a>의 힐–토 또는 슬라이드 동작을 느린 템포에서 먼저 익힙니다. 의자에 앉아 오른발 앞꿈치로 바닥을 두드리기만 해도 좋은 연습이 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="ghost">
+    <h2>고스트 노트: 들리는 것보다 느껴지는 음</h2>
+    <p><span class="term">고스트 노트</span><span class="en">(Ghost note)</span>는 악보에 괄호로 적는 아주 여린 음입니다. 주로 스네어에서, 백비트 사이의 16분 칸을 스틱 끝으로 살짝 건드려 냅니다. 고스트 노트는 '작게 치는 보통 음'이 아니라 별도의 <b>층</b>입니다. 드럼 연주의 셈여림은 연속적인 값처럼 보이지만, 실제 그루브에서는 대개 세 층으로 뭉칩니다. 백비트와 액센트(가장 높이), 보통 음(중간), 고스트(바닥에 거의 붙어서)입니다. 이 책의 가상 킷은 벨로시티 \(v\)를 0–1로 받아 음량 배율 \(g(v)\)를 곱하고, 벨로시티 구간마다 음색이 다른 샘플 층을 고릅니다(셀수록 밝고 와이어 소리가 많다).</p>
+    <div class="formula">$$g(v) = 0.02 + 0.98\,v^{1.7},\qquad \Delta L = 20\log_{10}\frac{g(v_1)}{g(v_2)}\ \text{dB}$$
+      <div class="where">고스트 \(v=0.28\), 보통 \(0.75\), 액센트 \(1\)을 넣으면 고스트는 액센트보다 약 \(-17.6\) dB, 보통 음보다 약 \(-13.4\) dB 작다. 실제 녹음에서 재 보면 펑크 드러머의 고스트는 백비트보다 대략 15–25 dB 작은 경우가 많다. 지수 1.7은 '스틱 속도와 음압은 비례보다 조금 더 가파르게 함께 커진다'는 근사이고, 0.02는 아무리 살살 쳐도 남는 최소 음량이다.</div>
+    </div>
+    <p>왜 스틱 높이가 셈여림을 정할까요? 스틱을 손목 힘 없이 높이 \(h\)에서 떨어뜨린다고 단순화하면, 헤드에 닿는 속도는 \(u=\sqrt{2gh}\)이고 막에 들어가는 에너지는 \(\tfrac12 m u^2 = mgh\), 곧 높이에 비례합니다. 음압 진폭이 대략 스틱 속도에 비례한다면 음압 레벨의 차이는</p>
+    <div class="formula">$$\Delta L \approx 20\log_{10}\frac{u_1}{u_2} = 10\log_{10}\frac{h_1}{h_2}\ \text{dB}$$
+      <div class="where">30 cm와 2.5 cm면 \(10\log_{10}12 \approx 10.8\) dB. 실제 차이(15–25 dB)가 더 큰 것은 액센트에서는 손목이 스틱을 아래로 '밀어' 속도를 더 얹고, 고스트에서는 손가락이 스틱을 붙잡아 거의 떨어뜨리기만 하기 때문이다. 결론은 같다. 셈여림은 근육의 힘보다 <b>높이를 정확히 고르는 일</b>이다.</div>
+    </div>
+    <figure class="diagram">
+<!--FIG:height-->
+<svg viewBox="0 0 800 290" role="img" aria-label="세 가지 스틱 높이와 모델의 음량 차이">
+<g font-family="var(--font)">
+<rect x="40" y="240" width="400" height="12" rx="3" class="f-surface"/>
+<text x="240" y="274" text-anchor="middle" class="t-dim">스네어 헤드(또는 연습 패드)</text>
+<line x1="110" y1="240" x2="110" y2="60" class="s-line" stroke-dasharray="4 4"/>
+<line x1="58" y1="46" x2="106" y2="58" stroke="var(--dr-metal-2)" stroke-width="7" stroke-linecap="round"/>
+<circle cx="108" cy="59" r="5" fill="var(--dr-metal)"/>
+<text x="118" y="64" class="t" style="font-weight:700">액센트</text><text x="118" y="80" class="t-dim">≈ 30 cm (풀 스트로크)</text>
+<line x1="240" y1="240" x2="240" y2="150" class="s-line" stroke-dasharray="4 4"/>
+<line x1="188" y1="136" x2="236" y2="148" stroke="var(--dr-metal-2)" stroke-width="7" stroke-linecap="round"/>
+<circle cx="238" cy="149" r="5" fill="var(--dr-metal)"/>
+<text x="248" y="154" class="t" style="font-weight:700">보통</text><text x="248" y="170" class="t-dim">≈ 15 cm</text>
+<line x1="370" y1="240" x2="370" y2="225" class="s-line" stroke-dasharray="4 4"/>
+<line x1="318" y1="211" x2="366" y2="223" stroke="var(--dr-metal-2)" stroke-width="7" stroke-linecap="round"/>
+<circle cx="368" cy="224" r="5" fill="var(--dr-metal)"/>
+<text x="378" y="218" class="t" style="font-weight:700">고스트</text><text x="378" y="234" class="t-dim">2–3 cm (탭 아래)</text>
+<line x1="510" y1="40" x2="510" y2="240" class="s-axis"/>
+<line x1="506" y1="40" x2="780" y2="40" stroke="var(--border)"/><text x="502" y="44" text-anchor="end" class="t-mono">0 dB</text>
+<line x1="506" y1="106.66666666666667" x2="780" y2="106.66666666666667" stroke="var(--border)"/><text x="502" y="110.66666666666667" text-anchor="end" class="t-mono">-10 dB</text>
+<line x1="506" y1="173.33333333333334" x2="780" y2="173.33333333333334" stroke="var(--border)"/><text x="502" y="177.33333333333334" text-anchor="end" class="t-mono">-20 dB</text>
+<line x1="506" y1="240" x2="780" y2="240" stroke="var(--border)"/><text x="502" y="244" text-anchor="end" class="t-mono">-30 dB</text>
+<rect x="530" y="40" width="58" height="200" rx="4" class="f-acc-soft"/>
+<text x="559" y="34" text-anchor="middle" class="t-mono" style="fill:var(--text)">0</text>
+<text x="559" y="258" text-anchor="middle" class="t">액센트</text><text x="559" y="274" text-anchor="middle" class="t-mono">v=1</text>
+<rect x="616" y="67.3" width="58" height="172.7" rx="4" class="f-acc-soft"/>
+<text x="645" y="61.3" text-anchor="middle" class="t-mono" style="fill:var(--text)">-4.1</text>
+<text x="645" y="258" text-anchor="middle" class="t">보통</text><text x="645" y="274" text-anchor="middle" class="t-mono">v=0.75</text>
+<rect x="702" y="157.3" width="58" height="82.7" rx="4" class="f-acc2-soft"/>
+<text x="731" y="151.3" text-anchor="middle" class="t-mono" style="fill:var(--text)">-17.6</text>
+<text x="731" y="258" text-anchor="middle" class="t">고스트</text><text x="731" y="274" text-anchor="middle" class="t-mono">v=0.28</text>
+<text x="650" y="22" text-anchor="middle" class="t-dim">이 책 가상 킷의 음량(액센트 기준)</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 7-2.</b> 세 층의 스틱 높이와 음량. 왼쪽: 액센트는 약 30 cm에서 풀 스트로크로, 보통 음은 약 15 cm, 고스트는 헤드 위 2–3 cm에서 스틱 끝을 '떨어뜨리기만' 한다. 오른쪽: 이 책 가상 킷에서 세 벨로시티의 음량 차(액센트 = 0 dB). 고스트를 칠 때 손이 액센트 높이까지 올라갔다 내려오면 고스트가 커지고 템포가 흔들린다.</figcaption>
+    </figure>
+    <p>그런데 −17 dB면 소리가 1/7 크기입니다. 하이햇과 킥, 베이스가 함께 울리는 밴드 안에서는 고스트 노트가 거의 <b>들리지 않습니다</b>. 그런데도 고스트를 빼면 다들 금방 알아챕니다. 이유는 세 가지로 설명됩니다. 첫째, 고스트는 16분 격자를 <b>시간의 눈금</b>처럼 채워, 듣는 사람이 백비트 사이의 시간을 더 촘촘하게 예측하게 합니다. 귀는 개별 음을 '듣기' 전에 리듬의 규칙성을 먼저 붙잡습니다. 둘째, 고스트는 바로 뒤의 백비트를 '예고'해서 백비트가 더 크게 느껴지게 합니다. 대비의 효과입니다. 셋째, 연주자의 몸에 미치는 효과입니다. 왼손이 백비트 사이에서 계속 움직이면 손의 동작이 끊기지 않아 백비트의 타이밍과 음색이 더 고르게 됩니다. 고스트는 귀보다 <b>몸과 예측</b>에 작용하는 음이라서 '느껴지는 음'이라고 부릅니다.</p>
+
+    <div class="sim" id="sim-sx-ghost">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>고스트 노트 믹서: 있을 때와 없을 때</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-gh-staff"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>그루브</span><select id="sx-gh-pat"><option value="funk">펑크(고스트 노트)</option><option value="funkB">펑크 B(백비트 감싸기)</option><option value="linear">리니어 펑크</option></select></label>
+          <div class="ctrl"><span>고스트</span><div class="seg" id="sx-gh-mode"><button data-value="on" class="on">켜기</button><button data-value="off">끄기</button><button data-value="ab">A/B 마디마다</button><button data-value="solo">고스트만</button></div></div>
+          <label class="ctrl"><span>고스트 벨로시티 <output id="sx-gh-vel-out"></output></span><input type="range" id="sx-gh-vel" min="0" max="0.5" value="0.28" step="0.02"></label>
+          <label class="ctrl"><span>템포 <output id="sx-gh-bpm-out"></output></span><input type="range" id="sx-gh-bpm" min="70" max="120" value="92" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="sx-gh-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">고스트 − 백비트</span><span class="v" id="sx-gh-o-bb">—</span></div>
+        <div class="stat"><span class="k">고스트 − 보통 음</span><span class="v" id="sx-gh-o-nm">—</span></div>
+        <div class="stat"><span class="k">샘플 층</span><span class="v" id="sx-gh-o-layer">—</span></div>
+        <div class="stat"><span class="k">고스트 수</span><span class="v" id="sx-gh-o-n">—</span></div>
+        <div class="stat"><span class="k">지금</span><span class="v" id="sx-gh-o-now">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 'A/B 마디마다'를 고르면 홀수 번째 반복은 고스트가 있고 짝수 번째는 없습니다. 눈을 감고 어느 마디가 '비었는지' 맞혀 보세요. 그다음 벨로시티를 0.5까지 올리면 고스트가 보통 음처럼 커져서 오히려 백비트가 흐려지고, 0.1 아래로 내리면 사라집니다. 0.2–0.32 근처가 이 모델의 '느껴지지만 거슬리지 않는' 구간입니다. '고스트만'은 고스트를 제외한 모든 음을 꺼서 고스트의 자리를 귀로 확인하게 합니다. 악보에서 흐리게 표시된 음은 지금 꺼진 고스트입니다. 벨로시티를 바꾸면 다음 반복부터 새 값으로 다시 시작합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 고스트 높이 고정하기</strong> ① 왼손만, 연습 패드 위 2 cm에서 스틱 끝을 '떨어뜨리는' 16분음표를 60 BPM으로 칩니다. 손목은 거의 움직이지 않고 손가락으로 스틱을 받치기만 합니다. ② 4박마다 한 번(1박) 같은 손으로 30 cm 액센트를 넣고 곧바로 2 cm로 돌아옵니다(다운 스트로크). 액센트 뒤의 고스트가 커지면 다운 스트로크가 덜 멈춘 것입니다. ③ 휴대폰 소음 측정 앱을 패드 30 cm 옆에 두고 액센트와 고스트의 차이가 15 dB 이상인지 확인합니다(앱의 절대값은 부정확해도 차이는 꽤 믿을 만합니다). ④ 되면 오른손 8분 하이햇을 더해 위 시뮬레이터의 '펑크' 그루브를 70 BPM부터 칩니다. 하루 10분이면 2–3주 안에 고스트 높이가 몸에 붙습니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="placement">
+    <h2>고스트 노트를 놓는 자리</h2>
+    <p>고스트를 아무 칸에나 넣으면 16분 롤처럼 뭉개지고, 너무 적으면 효과가 없습니다. 펑크와 R&amp;B 드러머들이 오랫동안 써 온 자리에는 분명한 규칙이 있습니다. 핵심은 <b>백비트를 감싸는</b> 것입니다. 2·4박 백비트 <b>직전의 'a'</b>(1박의 a, 3박의 a)와 <b>직후의 'e'</b>(2박의 e, 4박의 e)가 1순위입니다. 직전의 고스트는 왼손이 높이 들기 직전에 낮게 한 번 치는 '준비 동작'이고, 직후의 고스트는 액센트를 치고 낮게 멈춘 스틱이 한 번 더 떨어지는 '여운'이라 손의 동작과도 잘 맞습니다.</p>
+    <figure class="diagram">
+<!--FIG:ghostpos-->
+<svg viewBox="0 0 800 236" role="img" aria-label="백비트 직전 a와 직후 e에 놓이는 고스트 노트 자리">
+<g font-family="var(--font)">
+<line x1="110" y1="24" x2="110" y2="150" class="s-axis" stroke-dasharray=""/>
+<line x1="270" y1="24" x2="270" y2="150" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="430" y1="24" x2="430" y2="150" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="590" y1="24" x2="590" y2="150" class="s-axis" stroke-dasharray="3 4"/>
+<line x1="750" y1="24" x2="750" y2="150" class="s-axis" stroke-dasharray=""/>
+<text x="100" y="44" text-anchor="end" class="t-mono">HH</text><text x="100" y="94" text-anchor="end" class="t-mono">SN</text><text x="100" y="136" text-anchor="end" class="t-mono">BD</text>
+<path d="M124 34 L136 46 M124 46 L136 34" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="130" cy="132" rx="9" ry="7" fill="var(--text)"/>
+<text x="130" y="170" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">1</text>
+<text x="170" y="170" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M204 34 L216 46 M204 46 L216 34" stroke="var(--text)" stroke-width="2"/>
+<text x="210" y="170" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="250" cy="90" r="9" class="f-acc2-soft" stroke-dasharray="3 2"/><text x="235" y="95" class="t-dim" style="font-size:16px">(</text><text x="260" y="95" class="t-dim" style="font-size:16px">)</text>
+<text x="250" y="170" text-anchor="middle" class="t-mono" style="">a</text>
+<path d="M284 34 L296 46 M284 46 L296 34" stroke="var(--text)" stroke-width="2"/>
+<circle cx="290" cy="90" r="14" class="f-acc"/><text x="290" y="95" text-anchor="middle" style="fill:var(--on-accent);font-size:13px;font-weight:800">&gt;</text>
+<text x="290" y="170" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">2</text>
+<circle cx="330" cy="90" r="9" class="f-acc2-soft" stroke-dasharray="3 2"/><text x="315" y="95" class="t-dim" style="font-size:16px">(</text><text x="340" y="95" class="t-dim" style="font-size:16px">)</text>
+<text x="330" y="170" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M364 34 L376 46 M364 46 L376 34" stroke="var(--text)" stroke-width="2"/>
+<text x="370" y="170" text-anchor="middle" class="t-mono" style="">&</text>
+<text x="410" y="170" text-anchor="middle" class="t-mono" style="">a</text>
+<path d="M444 34 L456 46 M444 46 L456 34" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="450" cy="132" rx="9" ry="7" fill="var(--text)"/>
+<text x="450" y="170" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">3</text>
+<text x="490" y="170" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M524 34 L536 46 M524 46 L536 34" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="530" cy="132" rx="9" ry="7" fill="var(--text)"/>
+<text x="530" y="170" text-anchor="middle" class="t-mono" style="">&</text>
+<circle cx="570" cy="90" r="9" class="f-acc2-soft" stroke-dasharray="3 2"/><text x="555" y="95" class="t-dim" style="font-size:16px">(</text><text x="580" y="95" class="t-dim" style="font-size:16px">)</text>
+<text x="570" y="170" text-anchor="middle" class="t-mono" style="">a</text>
+<path d="M604 34 L616 46 M604 46 L616 34" stroke="var(--text)" stroke-width="2"/>
+<circle cx="610" cy="90" r="14" class="f-acc"/><text x="610" y="95" text-anchor="middle" style="fill:var(--on-accent);font-size:13px;font-weight:800">&gt;</text>
+<text x="610" y="170" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">4</text>
+<circle cx="650" cy="90" r="9" class="f-acc2-soft" stroke-dasharray="3 2"/><text x="635" y="95" class="t-dim" style="font-size:16px">(</text><text x="660" y="95" class="t-dim" style="font-size:16px">)</text>
+<text x="650" y="170" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M684 34 L696 46 M684 46 L696 34" stroke="var(--text)" stroke-width="2"/>
+<text x="690" y="170" text-anchor="middle" class="t-mono" style="">&</text>
+<text x="730" y="170" text-anchor="middle" class="t-mono" style="">a</text>
+<text x="250" y="70" text-anchor="middle" class="t-acc" style="font-size:11.5px;fill:var(--accent-2)">직전 a</text>
+<text x="330" y="70" text-anchor="middle" class="t-acc" style="font-size:11.5px;fill:var(--accent-2)">직후 e</text>
+<text x="570" y="70" text-anchor="middle" class="t-acc" style="font-size:11.5px;fill:var(--accent-2)">직전 a</text>
+<text x="650" y="70" text-anchor="middle" class="t-acc" style="font-size:11.5px;fill:var(--accent-2)">직후 e</text>
+<text x="400" y="200" text-anchor="middle" class="t-dim">백비트(&gt;)를 앞뒤에서 감싸는 16분 칸이 고스트의 1순위 자리다. 손은 '고스트 → 액센트 → 고스트'로 높이만 바꾼다.</text>
+<text x="400" y="222" text-anchor="middle" class="t-dim">백비트 칸 자체와 킥이 몰린 1박에는 고스트를 두지 않는다(소리가 묻히거나 백비트를 흐린다).</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 7-3.</b> 고스트 노트의 1순위 자리. 백비트(&gt;)의 직전 'a'와 직후 'e'(괄호 친 점선 원)는 손이 액센트를 준비하고 정리하는 동작 안에 자연스럽게 들어간다. 1박 근처는 킥이 무게를 맡고 있어 비워 두는 편이 낫다.</figcaption>
+    </figure>
+    <ol>
+      <li><b>백비트를 감싼다.</b> 'a–<b>2</b>–e', 'a–<b>4</b>–e'. 이 네 칸만으로도 대부분의 펑크 느낌이 납니다.</li>
+      <li><b>하이햇과 같은 칸은 신중히.</b> 오른손이 8분 하이햇을 칠 때 '&amp;'의 고스트는 하이햇과 겹쳐 묻힙니다. 16분 엇박(e·a)이 고스트가 가장 잘 들리는 자리입니다.</li>
+      <li><b>킥과 대화한다.</b> 킥이 '&amp;'나 'a'에 들어가는 그루브에서는 그 칸의 고스트를 빼고, 킥이 없는 칸에 둡니다. 두 음이 한 칸을 다투지 않게 하면 16칸이 손·발로 나뉘는 <a href="styles.html">10장</a>의 리니어 그루브로 이어집니다.</li>
+      <li><b>백비트 칸 자체에는 두지 않는다.</b> 당연하지만, 고스트를 백비트 자리에 겹치면 백비트가 플램처럼 갈라집니다.</li>
+      <li><b>대칭을 조금 깬다.</b> 2박과 4박을 똑같이 감싸면 단조로워지므로, 4박 쪽만 'e'를 빼거나 '&amp;'를 더해 두 박의 모양을 다르게 합니다.</li>
+    </ol>
+
+    <div class="sim" id="sim-sx-gquiz">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>고스트 자리 맞히기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="sx-opts" id="sx-gq-opts"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="sx-gq-bpm-out"></output></span><input type="range" id="sx-gq-bpm" min="60" max="110" value="80" step="2"></label>
+          <label class="check"><input type="checkbox" id="sx-gq-loud" checked> 고스트 조금 크게(연습용)</label>
+          <label class="check"><input type="checkbox" id="sx-gq-hat"> 하이햇 빼기(쉬움)</label>
+          <div class="btn-row"><button class="btn primary" id="sx-gq-play">▶ 문제 듣기(2마디)</button><button class="btn" id="sx-gq-next">다음 문제</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힘 / 시도</span><span class="v" id="sx-gq-o-score">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="sx-gq-o-streak">0</span></div>
+        <div class="stat"><span class="k">정답률</span><span class="v" id="sx-gq-o-pct">—</span></div>
+      </div>
+      <div class="sim-msg" id="sx-gq-msg">▶ 문제 듣기를 누르고, 들은 그루브와 같은 악보를 고르세요.</div>
+      <div class="sim-note">문제는 8분 하이햇, 2·4박 백비트, 1박·3박·3박 &amp; 킥 위에 고스트 자리만 다른 세 악보 가운데 하나를 두 마디 들려줍니다. 고스트를 '듣기'보다 백비트 앞이 당겨지는지(직전 a), 뒤가 끌리는지(직후 e)를 느껴 보세요. 처음에는 '고스트 조금 크게'(벨로시티 0.38)와 '하이햇 빼기'를 켜고, 익숙해지면 둘 다 끄고 실제 크기(0.28)로 도전하세요. 정답을 고르면 그 악보 아래에 고스트 자리의 셈이 나타납니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 네 칸 고스트 사다리</strong> 오른손 8분 하이햇, 1·3박 킥, 2·4박 백비트를 깐 뒤 고스트를 하나씩 더합니다. ① '2박의 e'만(백비트 다음 낮게 한 번) ② '1박의 a'를 더함 ③ '4박의 e' ④ '3박의 a'. 단계마다 70 BPM에서 여덟 마디를 연속으로 성공하면 다음 단계로 갑니다. 네 칸이 다 되면 80 → 90 → 100 BPM으로 올립니다. 왼손 고스트가 하이햇 오른손과 같은 칸에 걸리지 않으니(e·a), 양손이 번갈아 움직이는 느낌을 즐기세요. 무릎으로 연습할 때는 왼손 손가락 두 개로 '톡' 건드리는 정도가 고스트입니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="openhat">
+    <h2>하이햇 열고 닫기</h2>
+    <p>하이햇은 두 장의 심벌을 왼발 페달로 붙였다 떼는 악기입니다. 닫힌 채로 치면 '칫', 살짝 벌리면 지글거리는 '치이', 활짝 열면 '치이이–' 하고 오래 울립니다. 16비트에서 열린 하이햇은 마디 안에 <b>한두 번</b> 들어가 그루브에 숨을 불어넣는 장치입니다. 가장 흔한 자리는 '&amp;'(특히 4박의 &amp;, 마디 끝을 열어 다음 마디로 넘기기)와 'a'(다음 박으로 넘어가는 쉼표 같은 열림)입니다. 디스코는 모든 '&amp;'를 엽니다.</p>
+    <p>열린 하이햇의 핵심은 <b>언제 닫느냐</b>입니다. 열어 놓은 채로 두면 다음 박들이 모두 지저분해지므로, 대부분은 열린 음 바로 다음 칸(대개 다음 박)에서 닫습니다. 닫는 방법은 둘입니다. ① <b>발로 닫기</b>: 왼발로 페달을 '칙' 밟아 두 심벌을 붙입니다. 이때 나는 '칙' 소리(<span class="term">풋 칙</span><span class="en">(Foot chick)</span>)가 박 위에 떨어지므로 그 자체가 리듬이 됩니다. ② <b>손으로 초크</b>: 페달을 닫은 상태로 되돌리면서 다음 칸을 스틱으로 치면, 닫힌 하이햇 소리가 열린 울림을 잘라 냅니다. 어느 쪽이든 발은 열기 <b>전에</b> 미리 움직여야 합니다. 스틱이 '&amp;'를 칠 때 이미 심벌이 벌어져 있어야 하기 때문입니다.</p>
+    <figure class="diagram">
+<!--FIG:pedal-->
+<svg viewBox="0 0 800 300" role="img" aria-label="하이햇을 &에서 열고 다음 박에서 발로 닫는 시간 그래프">
+<g font-family="var(--font)">
+<text x="20" y="26" class="t-acc">손(스틱)</text><text x="20" y="92" class="t-acc">왼발 페달</text><text x="20" y="196" class="t-acc">소리</text>
+<line x1="90" y1="34" x2="90" y2="262" stroke="var(--border)" />
+<line x1="172" y1="34" x2="172" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="254" y1="34" x2="254" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="336" y1="34" x2="336" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="418" y1="34" x2="418" y2="262" stroke="var(--border)" />
+<line x1="500" y1="34" x2="500" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="582" y1="34" x2="582" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="664" y1="34" x2="664" y2="262" stroke="var(--border)" stroke-dasharray="3 4"/>
+<line x1="746" y1="34" x2="746" y2="262" stroke="var(--border)" />
+<path d="M83 40 L97 54 M83 54 L97 40" stroke="var(--text)" stroke-width="2"/>
+<text x="90" y="284" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">1</text>
+<text x="172" y="284" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M247 40 L261 54 M247 54 L261 40" stroke="var(--text)" stroke-width="2"/>
+<circle cx="254" cy="30" r="5" fill="none" stroke="var(--accent-2)" stroke-width="2"/>
+<text x="254" y="284" text-anchor="middle" class="t-mono" style="">&</text>
+<text x="336" y="284" text-anchor="middle" class="t-mono" style="">a</text>
+<path d="M411 40 L425 54 M411 54 L425 40" stroke="var(--text)" stroke-width="2"/>
+<text x="418" y="284" text-anchor="middle" class="t-mono" style="font-weight:700;fill:var(--text)">2</text>
+<text x="500" y="284" text-anchor="middle" class="t-mono" style="">e</text>
+<path d="M575 40 L589 54 M575 54 L589 40" stroke="var(--text)" stroke-width="2"/>
+<text x="582" y="284" text-anchor="middle" class="t-mono" style="">&</text>
+<text x="664" y="284" text-anchor="middle" class="t-mono" style="">a</text>
+<path d="M90 140 L220 140 C236 140 240 82 252 82 L396 82 C408 82 414 140 418 140 L746 140" class="s-acc"/>
+<text x="752" y="144" class="t-mono">닫힘</text><text x="336" y="74" text-anchor="middle" class="t-mono">열림</text>
+<text x="224" y="158" text-anchor="middle" class="t-dim" style="font-size:11px">발뒤꿈치를 들어 미리 연다</text>
+<text x="424" y="158" class="t-dim" style="font-size:11px">발을 '칙' 밟아 닫는다</text>
+<path d="M90 250 L90 210 Q97.5 240 120 250 Z" class="f-acc-soft"/>
+<path d="M418 250 L418 210 Q425.5 240 448 250 Z" class="f-acc-soft"/>
+<path d="M582 250 L582 210 Q589.5 240 612 250 Z" class="f-acc-soft"/>
+<path d="M254 250 L254 196 C314 206 376 214 416 218 L428 250 Z" class="f-acc2-soft"/>
+<path d="M418 218 C478 228 560 238 622 244" fill="none" stroke="var(--text-faint)" stroke-dasharray="4 4"/>
+<text x="530" y="228" class="t-dim" style="font-size:11.5px">닫지 않으면 이렇게 길게 울린다</text>
+<path d="M424 160 L424 206" stroke="var(--bad)" stroke-width="2"/><text x="430" y="200" class="t" style="fill:var(--bad);font-size:12px">초크</text>
+<rect x="415" y="244" width="22" height="6" fill="var(--text)" opacity=".5"/><text x="426" y="240" text-anchor="middle" class="t-mono" style="font-size:10px">칙</text>
+</g></svg>
+<!--/FIG-->
+      <figcaption><b>그림 7-4.</b> '1박의 &amp;'를 열고 2박에서 발로 닫기. 위: 스틱이 치는 칸(○ = 열린 하이햇). 가운데: 페달 높이. 발뒤꿈치는 '&amp;' 직전에 이미 들려 있고, 2박에서 앞꿈치로 밟아 닫는다. 아래: 소리. 열린 울림(보라)은 닫는 순간 잘리고(초크) 그 자리에 짧은 '칙'이 난다. 닫지 않으면 점선처럼 다음 박까지 울린다.</figcaption>
+    </figure>
+    <div class="formula">$$T_{\text{open}} = (k_{\text{close}} - k_{\text{open}})\cdot \frac{60\,000}{4\cdot\text{BPM}}\ \text{ms}$$
+      <div class="where">\(k\): 16분 칸 번호. '&amp;'(칸 2)에서 열고 다음 박(칸 4)에서 닫으면 두 칸, 100 BPM에서 300 ms 동안 열려 있다. 'a'(칸 3)에서 열면 한 칸, 150 ms다. 실제 하이햇의 열린 울림은 1초가 넘게 이어지므로, 열린 길이는 심벌이 아니라 <b>발</b>이 정한다. 열린 길이를 일정하게 지키는 것이 깔끔한 오픈 하이햇의 전부다.</div>
+    </div>
+
+    <div class="sim" id="sim-sx-open">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하이햇 열고 닫기 트레이너</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-oc-staff"></div>
+          <canvas id="sx-oc-cv" class="dr-cv" style="margin-top:6px"></canvas>
+          <div class="sx-pedal" id="sx-oc-state">페달: 닫힘</div>
+          <div id="sx-oc-kit" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>여는 자리</span><div class="seg" id="sx-oc-pos"><button data-value="end" class="on">4박 &amp;</button><button data-value="13">1·3박 &amp;</button><button data-value="and">모든 &amp;</button><button data-value="a">2·4박 a</button></div></div>
+          <div class="ctrl"><span>닫는 방법</span><div class="seg" id="sx-oc-close"><button data-value="foot" class="on">발(칙)</button><button data-value="hand">손(초크)</button><button data-value="both">손 + 발</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sx-oc-bpm-out"></output></span><input type="range" id="sx-oc-bpm" min="70" max="130" value="100" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="sx-oc-play">▶ 반복 재생</button></div>
+          <div class="dr-hint">킷을 눌러도 됩니다. <kbd>E</kbd> 열린 하이햇 · <kbd>Z</kbd> 페달 · <kbd>D</kbd>/<kbd>K</kbd> 닫힌 하이햇</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">열린 길이</span><span class="v" id="sx-oc-o-len">—</span></div>
+        <div class="stat"><span class="k">마디당 열림</span><span class="v" id="sx-oc-o-n">—</span></div>
+        <div class="stat"><span class="k">닫는 칸</span><span class="v" id="sx-oc-o-at" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '4박 &amp;'와 '발(칙)'로 시작해 열린 소리가 1박의 '칙'에서 딱 잘리는지 들어 보세요. '손(초크)'로 바꾸면 '칙' 대신 닫힌 하이햇 한 음이 울림을 자릅니다. '모든 &amp;' + '발'은 디스코의 '츠–칙 츠–칙'입니다. 그래프의 위 줄은 스틱, 가운데 띠는 페달이 열린 시간, 아래 점은 발의 '칙'이고 주황 세로선이 지금 위치입니다. 킷 그림의 하이햇과 페달은 열려 있는 동안 점선 테두리로 바뀝니다. 가상 킷은 하이햇 묶음에서 새 음이 날 때마다 앞의 열린 울림을 12 ms 시간 상수로 잘라 냅니다(실제 초크보다 약간 깔끔합니다).</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 발로 시간 재기</strong> ① 손 없이 왼발만: 60 BPM 메트로놈에 맞춰 1박에 밟고(칙), '&amp;'에서 뒤꿈치를 들어 엽니다. 이것이 '발로 치는 8분음표'입니다. ② 오른손 8분 하이햇을 더하고, 발이 열린 '&amp;'에서만 소리가 열리게 합니다. ③ 그다음 '4박 &amp;'만 여는 패턴으로 줄여, 마디에 한 번만 발을 쓰는 연습을 합니다(가장 어렵습니다. 한 번뿐이라 늦기 쉽습니다). ④ 80 → 100 → 120 BPM. 흔한 실수는 열린 소리를 '반쯤' 여는 것(지글거리기만 함)과 닫는 '칙'이 박보다 늦는 것입니다. 하이햇 스탠드가 없다면 의자에 앉아 왼발 앞꿈치를 붙인 채 뒤꿈치를 들었다 놓는 동작으로 대신합니다.</div>
+    <div class="callout warn"><strong>왼발 뒤꿈치에 주의</strong> 오래 연습하다 보면 왼발이 하이햇 페달을 계속 세게 누르느라 종아리와 정강이가 뻐근해집니다. 닫힌 하이햇은 발의 무게만으로도 충분히 닫힙니다. 힘껏 누를 필요가 없습니다. 통증이 오면 쉬고, 하이햇 스탠드의 스프링 장력을 약하게 조절해 보세요. 열린 하이햇은 심벌 가운데 가장 큰 고음 에너지를 냅니다. 오래 연습할 때는 귀마개를 쓰세요(<a href="sound.html">12장</a>).</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="dynamics">
+    <h2>셈여림의 층: 액센트–보통–고스트</h2>
+    <p>지금까지 나온 것을 모으면 16비트 그루브는 <b>세 층</b>의 셈여림으로 만들어집니다. 맨 위 층은 백비트와 액센트(스틱 30 cm, \(v\approx 1\)), 가운데 층은 하이햇과 킥의 보통 음(15 cm, \(v\approx 0.75\)), 맨 아래 층은 고스트(2–3 cm, \(v\approx 0.28\))입니다. 이 세 층 사이의 간격이 그루브의 <span class="term">다이내믹 레인지</span><span class="en">(Dynamic range)</span>이고, 간격이 넓고 일정할수록 그루브가 입체적으로 들립니다. 초보 드러머의 그루브가 평평하게 들리는 가장 큰 이유는 리듬이 틀려서가 아니라 층이 섞여서, 즉 고스트가 커지고 액센트가 작아져 모든 음이 가운데 층으로 모이기 때문입니다.</p>
+    <div class="formula">$$\text{DR} = 20\log_{10}\frac{g(v_{\max})}{g(v_{\min})}\ \text{dB},\qquad \text{층 간격}\ \ \Delta_{\text{상}} = L_{\text{액센트}} - L_{\text{보통}},\quad \Delta_{\text{하}} = L_{\text{보통}} - L_{\text{고스트}}$$
+      <div class="where">이 책의 기본값이면 \(\Delta_{\text{상}}\approx 4\) dB, \(\Delta_{\text{하}}\approx 13\) dB, 전체 DR \(\approx 17.6\) dB다. 위 간격이 아래 간격보다 훨씬 작다는 데 주목하자. 액센트와 보통 음은 음량보다 <b>음색</b>(액센트가 더 밝고 와이어가 더 튄다)으로 구별되고, 고스트는 음량으로 구별된다. 그래서 액센트를 키우려면 더 세게가 아니라 더 '날카롭게'(림샷, 스틱 어깨) 치고, 고스트는 더 '낮게' 친다.</div>
+    </div>
+    <p>세 층을 손에 붙이려면 높이를 <b>미리</b> 정해 두는 습관이 필요합니다. 스틱이 헤드를 친 직후 다음 음의 높이에서 멈추게 하는 것, 즉 다운 스트로크(높음 → 낮음)와 업 스트로크(낮음 → 높음)입니다. 아래 게임은 화면이 요구하는 층을 맞혀 치는 연습입니다. 패드의 위쪽을 누를수록 여리게, 아래쪽을 누를수록 세게 칩니다(실제로는 스틱 높이를 고르는 것에 해당합니다). 컴퓨터 키보드로는 <kbd>F</kbd>가 고스트(왼손), <kbd>J</kbd>가 보통(오른손), <kbd>Shift</kbd>를 함께 누르면 액센트입니다.</p>
+
+    <div class="sim" id="sim-sx-dyn">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셈여림 정확도 게임</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="dr-big sx-target" id="sx-dy-target">—<small>▶ 새 게임을 누르세요</small></div>
+          <button class="dr-tap sx-pad" id="sx-dy-pad" type="button"><span>위: 고스트(2–3 cm)</span><span>가운데: 보통(15 cm)</span><span>아래: 액센트(30 cm)</span></button>
+          <canvas id="sx-dy-cv" class="dr-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>문제 수</span><div class="seg" id="sx-dy-n"><button data-value="12" class="on">12</button><button data-value="24">24</button></div></div>
+          <div class="ctrl"><span>순서</span><div class="seg" id="sx-dy-order"><button data-value="rand" class="on">무작위</button><button data-value="groove">펑크 왼손</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="sx-dy-start">▶ 새 게임</button><button class="btn" id="sx-dy-demo">목표 소리 듣기</button></div>
+          <div class="dr-hint"><kbd>F</kbd> 고스트 · <kbd>J</kbd> 보통 · <kbd>Shift</kbd>+<kbd>F</kbd>/<kbd>J</kbd> 액센트</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점수</span><span class="v" id="sx-dy-o-score">—</span></div>
+        <div class="stat"><span class="k">고스트 맞힘</span><span class="v" id="sx-dy-o-g">—</span></div>
+        <div class="stat"><span class="k">보통 맞힘</span><span class="v" id="sx-dy-o-m">—</span></div>
+        <div class="stat"><span class="k">액센트 맞힘</span><span class="v" id="sx-dy-o-a">—</span></div>
+        <div class="stat"><span class="k">마지막 벨로시티</span><span class="v" id="sx-dy-o-v">—</span></div>
+      </div>
+      <div class="sim-note">층 판정: 벨로시티 0.45 미만 = 고스트, 0.45–0.88 = 보통, 0.88 이상 = 액센트. 패드는 세 띠로 나뉘어 띠 안에서도 위아래로 벨로시티가 조금씩 바뀝니다(고스트 0.12–0.42, 보통 0.5–0.85, 액센트 0.9–1). 아래 그래프의 막대 하나가 한 번의 타격이고, 높이가 벨로시티, 초록은 맞힘, 빨강은 틀림, 가로 점선은 층의 경계입니다. '펑크 왼손' 순서는 위 펑크 그루브의 스네어 줄(고스트–액센트–고스트…)을 그대로 따라갑니다. 실제 드럼에서는 '세기'가 아니라 스틱을 어디서 출발시키느냐로 층을 고른다는 점을 잊지 마세요.</div>
+    </div>
+
+    <p>층을 손으로 구별할 수 있게 되면, 이제 그루브를 '셈여림까지 포함해' 설계할 수 있습니다. 아래 격자의 칸은 누를 때마다 <b>빈칸 → 고스트(·) → 보통(●) → 액센트(▲)</b>로 바뀌고(하이햇은 마지막에 열림 ○), 악보는 액센트를 &gt;로, 고스트를 괄호로 적습니다. 같은 리듬에서 층만 바꿔도 전혀 다른 그루브가 되는 것을 확인해 보세요.</p>
+
+    <div class="sim" id="sim-sx-build">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>세 층 그루브 만들기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="sx-bd-grid"></div>
+          <div id="sx-bd-staff" style="margin-top:10px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>시작 패턴</span><select id="sx-bd-pre"><option value="ghostA">고스트 연습 A</option><option value="funk">펑크</option><option value="pop16">16비트 팝(양손)</option><option value="linear">리니어 펑크</option><option value="train">트레인 비트</option><option value="flat">평평한 16비트(층 없음)</option><option value="empty">빈 격자</option></select></label>
+          <label class="ctrl"><span>템포 <output id="sx-bd-bpm-out"></output></span><input type="range" id="sx-bd-bpm" min="60" max="140" value="92" step="2"></label>
+          <label class="check"><input type="checkbox" id="sx-bd-click"> 메트로놈(4분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="sx-bd-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">액센트 / 보통 / 고스트</span><span class="v" id="sx-bd-o-n">—</span></div>
+        <div class="stat"><span class="k">다이내믹 레인지</span><span class="v" id="sx-bd-o-dr">—</span></div>
+        <div class="stat"><span class="k">쓰인 층</span><span class="v" id="sx-bd-o-layers">—</span></div>
+        <div class="stat"><span class="k">16칸 중 채운 칸</span><span class="v" id="sx-bd-o-fill">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '평평한 16비트'를 재생한 뒤 스네어의 2·4박을 액센트로, 그 앞뒤 'a'·'e'를 고스트로 바꾸어 보세요. 음 수는 그대로인데 그루브가 살아납니다. 다이내믹 레인지는 쓰인 가장 큰 음과 가장 작은 음의 음량 비(dB)입니다. 킥에도 고스트(아주 여린 '페더링')를 쓸 수 있습니다. 재즈에서 4분 킥을 들릴 듯 말 듯 밟는 것이 그 예입니다(<a href="shuffle.html">9장</a>). 칸을 바꾸면 다음 반복부터 새 패턴으로 다시 시작합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 세 층 스네어 드릴</strong> 스네어만으로, 60 BPM 16분음표 R L R L. ① 한 마디는 모두 고스트, 한 마디는 모두 보통, 한 마디는 모두 액센트로 쳐서 세 높이를 몸에 새깁니다(2 cm, 15 cm, 30 cm. 처음에는 거울이나 휴대폰 영상으로 높이를 확인하세요). ② '고스트 셋 + 액센트 하나'(g g g X)를 박마다 반복합니다. ③ 액센트 자리를 e, &amp;, a로 옮깁니다. ④ 마지막으로 위 격자의 '고스트 연습 A' 스네어 줄을 그대로 칩니다. 목표는 80 BPM에서 고스트와 액센트의 높이가 바뀌지 않는 것. 패드가 없다면 베개 위에서 치면 리바운드가 없어서 손가락 힘을 정확히 기를 수 있습니다(대신 오래 하면 손목이 지치니 5분씩만).</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="road">
+    <h2>16비트 팝·펑크로 가는 길</h2>
+    <p>이 장의 재료(16분 하이햇, 액센트, 16분 킥, 고스트, 오픈 하이햇, 세 층의 셈여림)는 따로 연습한 뒤 한 그루브 안에서 합칩니다. 한꺼번에 다 넣으려 하면 사지 협응이 무너지므로, <a href="beat.html">6장</a>에서 했던 것처럼 한 겹씩 쌓는 순서를 지키세요. 아래 표는 이 책이 권하는 단계와 목표 템포입니다. 각 단계는 메트로놈에 맞춰 여덟 마디를 세 번 연속 틀리지 않고 칠 수 있으면 통과입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>단계</th><th>내용</th><th>시작 BPM</th><th>목표 BPM</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>한 손 16분 하이햇 + 2·4박 스네어 + 1·3박 킥</td><td>60</td><td>96</td></tr>
+        <tr><td>2</td><td>양손 교대 16분 하이햇(2·4박 R이 스네어로)</td><td>70</td><td>120</td></tr>
+        <tr><td>3</td><td>하이햇 액센트를 다운비트·&amp;·e·a로 옮기기</td><td>70</td><td>100</td></tr>
+        <tr><td>4</td><td>킥을 16분 엇박에 하나씩 더하기(그림 7-3의 킥 자리 포함)</td><td>60</td><td>96</td></tr>
+        <tr><td>5</td><td>고스트 네 칸(a–2–e, a–4–e)</td><td>66</td><td>100</td></tr>
+        <tr><td>6</td><td>4박 &amp;의 오픈 하이햇 + 1박 발 닫기</td><td>70</td><td>110</td></tr>
+        <tr><td>7</td><td>펑크 그루브(위 시뮬레이터) 전체, 세 층 유지</td><td>70</td><td>100</td></tr>
+      </tbody>
+    </table></div>
+    <p>여기까지 오면 장르 그루브의 대부분을 칠 수 있는 손발을 갖춘 것입니다. 하이햇 8분과 고스트를 섞으면 R&amp;B·네오 소울, 16분 하이햇과 리니어 고스트는 펑크, 느슨하게 스윙한 16분 고스트는 힙합의 붐뱁이 됩니다. 이런 그루브는 <a href="styles.html">10장 장르 그루브</a>에서, 16분을 셋잇단 위로 옮긴 셔플·하프타임 셔플은 <a href="shuffle.html">9장</a>에서, 고스트의 미세한 타이밍(조금 늦거나 이른 고스트가 만드는 '끈적임')은 <a href="timing.html">13장</a>에서 다룹니다. 그리고 이 16분 손놀림은 그대로 다음 장의 필인 재료가 됩니다(<a href="fills.html">8장</a>).</p>
+    <div class="callout note"><strong>고스트 노트와 녹음</strong> 녹음실에서 고스트 노트는 컴프레서가 음량 차를 줄이면서 더 잘 들리게 됩니다. 반대로 라이브에서는 대부분 묻힙니다. 그러니 녹음을 들으며 '이만큼 크게 쳐야 하는구나' 하고 고스트를 키우지 마세요. 녹음 속 고스트는 실제로는 훨씬 작게 친 것을 엔지니어가 끌어올린 경우가 많습니다. 세 층의 간격을 지키는 것은 드러머의 몫, 그 간격을 듣기 좋게 줄이는 것은 믹싱의 몫입니다(<a href="studio.html">14장</a>).</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>16분 하이햇 한 손의 속도는 \(r = 4\cdot\text{BPM}/60\) 타/초. 100 BPM이면 6.7타로, 손목·손가락 분업이 버티는 실용 한계다. 더 빠르면 양손 교대(손마다 절반)로 치고, 2·4박에서는 오른손이 스네어로 옮겨 팔이 엇갈리지 않게 한다.</li>
+      <li>같은 16분 하이햇도 액센트 자리(다운비트·&amp;·e·a)에 따라 무게중심이 옮겨 가 그루브의 느낌이 바뀐다. 액센트는 힘이 아니라 스틱 높이(업·다운 스트로크)와 치는 부위(스틱 어깨)로 만든다.</li>
+      <li>킥을 16분 엇박에 넣고 뒤의 강박을 비우면 싱코페이션이 생긴다. 음의 자리 무게와 그 뒤 빈 칸의 최대 무게의 차를 더한 \(S\)로 패턴의 당김 정도를 비교할 수 있다.</li>
+      <li>고스트 노트는 2–3 cm 높이에서 떨어뜨린, 백비트보다 15–20 dB 작은 음이다(이 책 모델: \(g(v)=0.02+0.98v^{1.7}\)로 −17.6 dB). 잘 들리지 않아도 16분 격자를 채우고 백비트를 예고해 '느껴진다'.</li>
+      <li>고스트의 1순위 자리는 백비트 직전 'a'와 직후 'e'다. 하이햇·킥과 같은 칸을 다투지 않게 하고, 백비트 칸에는 겹치지 않는다.</li>
+      <li>오픈 하이햇은 '&amp;'나 'a'에서 열고 다음 칸(대개 다음 박)에서 발로 '칙' 닫거나 다음 하이햇 음으로 초크한다. 열린 길이는 발이 정하며, 발은 열기 전에 미리 움직인다.</li>
+      <li>16비트 그루브는 액센트–보통–고스트 세 층으로 조각한다. 층 사이 간격(다이내믹 레인지)을 넓고 일정하게 지키는 것이 '입체적인' 그루브의 비결이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>108 BPM의 16분 하이햇을 오른손 하나로 칠 때 오른손은 1초에 몇 번 쳐야 하는가?</p><div class="opts">
+        <button class="opt">3.6번</button><button class="opt">5.4번</button><button class="opt" data-correct>7.2번</button><button class="opt">14.4번</button>
+      </div><div class="quiz-exp">\(r = 4\times 108/60 = 7.2\) 타/초. 손목만으로 고르게 치기 어려운 영역이라 이 템포부터는 양손 교대(손마다 3.6타/초)를 고려한다.</div></div>
+      <div class="quiz-q"><p>양손 교대 16분 하이햇에서 2·4박의 백비트는 어느 손이 치는 것이 일반적인가?</p><div class="opts">
+        <button class="opt">왼손. 오른손은 하이햇을 계속 친다</button><button class="opt" data-correct>오른손. 그 칸의 R이 하이햇 대신 스네어로 옮겨 간다</button><button class="opt">두 손이 함께 친다</button><button class="opt">킥이 대신한다</button>
+      </div><div class="quiz-exp">2·4박의 첫 칸은 R 차례다. 오른손이 하이햇에서 스네어로 내려가고 왼손은 하이햇에 남아, 엇갈린 팔이 더 꼬이지 않는다. 그 칸의 하이햇은 비지만 백비트에 덮여 거의 들리지 않는다.</div></div>
+      <div class="quiz-q"><p>이 책의 음량 모델 \(g(v)=0.02+0.98v^{1.7}\)에서 벨로시티 0.28 고스트와 1.0 액센트의 음량 차는 대략?</p><div class="opts">
+        <button class="opt">−4 dB</button><button class="opt">−9 dB</button><button class="opt" data-correct>−18 dB</button><button class="opt">−40 dB</button>
+      </div><div class="quiz-exp">\(g(0.28)\approx 0.133\), \(g(1)=1\)이므로 \(20\log_{10}0.133\approx -17.6\) dB. 실제 펑크 녹음의 고스트도 백비트보다 15–25 dB 정도 작다.</div></div>
+      <div class="quiz-q"><p>스틱을 자유 낙하에 가깝게 떨어뜨린다고 할 때, 높이를 30 cm에서 7.5 cm로 줄이면 음압 레벨은 대략 얼마나 줄어드는가?</p><div class="opts">
+        <button class="opt">약 3 dB</button><button class="opt" data-correct>약 6 dB</button><button class="opt">약 12 dB</button><button class="opt">약 24 dB</button>
+      </div><div class="quiz-exp">속도 \(u=\sqrt{2gh}\)이므로 \(\Delta L = 20\log_{10}(u_1/u_2) = 10\log_{10}(h_1/h_2) = 10\log_{10}4 \approx 6\) dB. 실제로는 손목이 액센트에 속도를 더 얹어 차이가 더 커진다.</div></div>
+      <div class="quiz-q"><p>2·4박 백비트를 감싸는 고스트 노트의 1순위 자리는?</p><div class="opts">
+        <button class="opt">1박과 3박 정박</button><button class="opt">각 박의 '&amp;'</button><button class="opt" data-correct>백비트 직전의 'a'와 직후의 'e'</button><button class="opt">백비트와 같은 칸</button>
+      </div><div class="quiz-exp">'a–2–e', 'a–4–e'. 직전 'a'는 액센트를 위해 손을 드는 준비 동작, 직후 'e'는 액센트 뒤 낮게 멈춘 스틱의 여운이라 손의 움직임과 잘 맞고, 8분 하이햇과도 칸이 겹치지 않는다.</div></div>
+      <div class="quiz-q"><p>100 BPM에서 '4박의 &amp;'(16분 칸 14)에 하이햇을 열고 다음 마디 1박에서 발로 닫는다. 하이햇이 열려 있는 시간은?</p><div class="opts">
+        <button class="opt">150 ms</button><button class="opt" data-correct>300 ms</button><button class="opt">600 ms</button><button class="opt">1.2 s</button>
+      </div><div class="quiz-exp">칸 14에서 다음 마디의 칸 0(=16)까지 두 칸. 16분 한 칸은 60 000/(4×100) = 150 ms이므로 300 ms. 열린 길이는 심벌이 아니라 발이 정한다.</div></div>
+      <div class="quiz-q"><p>"그루브가 평평하게 들린다"는 평을 들었다. 리듬은 맞는데 고스트가 크고 백비트가 작다. 가장 알맞은 처방은?</p><div class="opts">
+        <button class="opt">템포를 올린다</button><button class="opt">고스트를 모두 뺀다</button><button class="opt" data-correct>고스트는 2–3 cm로 낮추고 백비트는 30 cm 풀 스트로크로, 세 층의 간격을 넓힌다</button><button class="opt">모든 음을 같은 세기로 맞춘다</button>
+      </div><div class="quiz-exp">층이 가운데로 모이면 다이내믹 레인지가 좁아져 평평하게 들린다. 고스트를 빼는 것보다 층 사이 간격을 되찾는 것이 해결책이다. 높이를 미리 정하는 다운·업 스트로크가 열쇠다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 sx) */
+const sxKit = DR.default();
+const sxSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const sxF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const sxDb = (a, b) => 20 * Math.log10(DR.velGain(a) / DR.velGain(b));
+const sxSigned = (x, d = 1) => (isFinite(x) ? (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(d) : "—");
+const SX_CNT = DR.counts(4, 4);
+const SX_LAYER = ["고스트", "여림", "보통", "액센트"];
+const sxDebounce = (fn, ms = 200) => { let t = 0; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+/**
+ * 반복 재생 버튼. build() → {events, opts}. 재생 중 패턴을 바꾸면 restart()로 처음부터 다시 시작한다.
+ * (DR.playEvents는 재생 중 이벤트 교체를 지원하지 않으므로 멈추고 새로 만든다.)
+ */
+function sxLoop(btnId, build, o = {}) {
+  let sc = null, pb = null;
+  const halt = () => { const s = sc; sc = null; if (s && s.running) s.stop(); pb.set(false); sxSolo.drop(halt); o.onHalt && o.onHalt(); };
+  function start() {
+    const b = build(), user = b.opts || {};
+    const s = DR.playEvents(b.events, Object.assign({ kit: sxKit, loop: true, bpm: o.bpm }, user, {
+      onStop(nat) { user.onStop && user.onStop(nat); if (nat && sc === s) { sc = null; pb.set(false); sxSolo.drop(halt); o.onHalt && o.onHalt(); } },
+    }));
+    sc = s; s.start();
+  }
+  const btnEl = document.getElementById(btnId), labels = o.labels || [btnEl.textContent.trim(), "■ 정지"];
+  pb = MB.playButton(btnId, () => { sxSolo.take(halt); o.onStart && o.onStart(); start(); }, halt, labels);
+  return {
+    restart() { if (sc && sc.running) { const s = sc; sc = null; s.stop(); start(); } },
+    halt,
+    get running() { return !!(sc && sc.running); },
+    get sched() { return sc; },
+  };
+}
+
+/* ================================================================ 1. 스티킹 탐색기 */
+(function () {
+  const staff = DR.staff("#sx-st-staff", [], { sticking: true, counts: true });
+  const lanes = document.getElementById("sx-st-lanes");
+  const bpm = MB.range("sx-st-bpm", (v) => v + " BPM", () => info());
+  const click = MB.check("sx-st-click");
+  const mode = MB.seg("sx-st-mode", () => { render(); loop.restart(); });
+  let evs = [];
+  function events() {
+    const m = mode(), ev = [];
+    for (let i = 0; i < 16; i++) {
+      const t = i / 4, bb = i === 4 || i === 12;
+      if (m === "one") {
+        ev.push({ t, p: "hat", v: i % 4 === 0 ? 0.85 : i % 2 ? 0.55 : 0.7, hand: "R" });
+        if (bb) ev.push({ t, p: "snare", v: 1, hand: "L" });
+      } else if (bb) ev.push({ t, p: "snare", v: 1, hand: "R" });
+      else ev.push({ t, p: "hat", v: i % 2 ? 0.55 : 0.8, hand: i % 2 ? "L" : "R" });
+      if (i === 0 || i === 6 || i === 10) ev.push({ t, p: "kick", v: 0.85 });
+    }
+    return DR.sort(ev);
+  }
+  function render() {
+    evs = events();
+    staff.setEvents(evs);
+    const row = (h) => {
+      let s = `<div class="sx-lane"><b>${h}</b>`;
+      for (let i = 0; i < 16; i++) {
+        const e = evs.find((x) => x.hand === h && Math.round(x.t * 4) === i);
+        s += `<span data-i="${i}" class="${e ? h.toLowerCase() : ""}">${e ? DR.PIECES[e.p].short : ""}</span>`;
+      }
+      return s + "</div>";
+    };
+    lanes.innerHTML = row("R") + row("L") + `<div class="sx-lane cnt"><b></b>${SX_CNT.map((c) => `<span>${c}</span>`).join("")}</div>`;
+    info();
+  }
+  function info() {
+    const b = bpm(), one = mode() === "one";
+    const rate = (b / 60) * (one ? 4 : 2);
+    MB.stat("sx-st-o-rate", sxF(rate, 1) + "<small>타/초</small>");
+    MB.stat("sx-st-o-gap", sxF(60000 / b / (one ? 4 : 2)) + "<small>ms</small>");
+    MB.stat("sx-st-o-step", sxF(60000 / b / 4) + "<small>ms</small>");
+    MB.stat("sx-st-o-left", one ? "2·4박 SN" : "HH 8개");
+    const msg = document.getElementById("sx-st-msg");
+    if (one && b > 110) { msg.hidden = false; msg.className = "sim-msg bad"; msg.innerHTML = `한 손 16분 = <b>${sxF(rate, 1)}회/초</b>. 대부분의 사람에게 손목·손가락만으로 고르게 버티기 어려운 속도입니다. 양손 교대로 바꾸면 손마다 ${sxF(rate / 2, 1)}회/초로 줄어듭니다.`; }
+    else if (one && b > 96) { msg.hidden = false; msg.className = "sim-msg"; msg.innerHTML = `한 손 16분 = <b>${sxF(rate, 1)}회/초</b>. 한계에 가까운 구간입니다. 박에서만 손목을 쓰고 사이는 손가락으로 밀어 주세요.`; }
+    else if (!one) { msg.hidden = false; msg.className = "sim-msg ok"; msg.innerHTML = `양손 교대: 손마다 ${sxF(rate, 1)}회/초. 2·4박에서는 R이 스네어로 가고, L은 하이햇을 떠나지 않습니다.`; }
+    else msg.hidden = true;
+  }
+  const loop = sxLoop("sx-st-play", () => ({
+    events: evs,
+    opts: {
+      length: 4, staff, clickOn: () => click(),
+      onNote(ev) { const i = Math.round(ev.t * 4); lanes.querySelectorAll("span[data-i]").forEach((s) => s.classList.toggle("now", +s.dataset.i === i)); },
+      onStop() { lanes.querySelectorAll(".now").forEach((s) => s.classList.remove("now")); },
+    },
+  }), { bpm: () => bpm(), labels: ["▶ 반복 재생", "■ 정지"] });
+  render();
+})();
+
+/* ================================================================ 2. 액센트 실험실 */
+(function () {
+  const PRE = { down: "X...X...X...X...", up: "..X...X...X...X.", e: ".X...X...X...X..", a: "...X...X...X...X", eighth: "X.X.X.X.X.X.X.X.", none: "................" };
+  const FEEL = {
+    down: "다운비트 액센트: 박이 또렷하고 단단합니다. 록과 행진하는 팝의 하이햇.",
+    up: "업비트(&amp;) 액센트: 박 사이가 떠올라 몸이 위아래로 튑니다. 디스코·하우스의 느낌.",
+    e: "'e' 액센트: 박 바로 뒤를 당겨 앞으로 쏠립니다. 펑크에서 자주 듣는 긴장감.",
+    a: "'a' 액센트: 다음 박을 미리 끌어당기는 앞당김. 셔플 비슷한 탄력이 생깁니다.",
+    eighth: "8분 액센트: 8비트 위에 16분 '그림자'가 깔린 16비트 팝·발라드의 기본형.",
+    none: "액센트 없음: 모든 칸이 같은 세기. 리듬은 맞아도 재봉틀처럼 들립니다.",
+    custom: "직접 만든 액센트 패턴입니다. 액센트 사이의 간격이 일정한지, 박과 어긋나는지 들어 보세요.",
+  };
+  const spec = (k) => ({ hat: [...PRE[k]].map((c) => (c === "X" ? "X" : "x")).join(""), snare: "....X.......X...", kick: "x.....x...x....." });
+  const staff = DR.staff("#sx-ac-staff", [], { counts: true });
+  const bpm = MB.range("sx-ac-bpm", (v) => v + " BPM");
+  const soft = MB.range("sx-ac-soft", (v) => v.toFixed(2), sxDebounce(() => { upd(); loop.restart(); }));
+  let preset = "down";
+  const grid = DR.grid("#sx-ac-grid", { rows: ["hat", "snare", "kick"], div: 4, beats: 4, cycle: { hat: [".", "x", "X"], snare: [".", "g", "x", "X"] }, spec: spec("down"), onChange: () => { preset = "custom"; upd(); loop.restart(); } });
+  const pre = MB.seg("sx-ac-pre", (k) => { preset = k; grid.set(spec(k)); upd(); loop.restart(); });
+  let evs = [];
+  function upd() {
+    evs = grid.events().map((e) => (e.p === "hat" && e.v < 0.9 ? Object.assign({}, e, { v: soft() }) : e));
+    staff.setEvents(evs);
+    const hs = grid.spec().hat, acc = [];
+    [...hs].forEach((c, i) => { if (c === "X") acc.push(SX_CNT[i]); });
+    MB.stat("sx-ac-o-pos", acc.length ? acc.join(" ") : "없음");
+    MB.stat("sx-ac-o-n", acc.length + "<small>/16</small>");
+    MB.stat("sx-ac-o-db", sxSigned(sxDb(1, soft())) + "<small>dB</small>");
+    document.getElementById("sx-ac-msg").innerHTML = FEEL[preset] || FEEL.custom;
+  }
+  const loop = sxLoop("sx-ac-play", () => ({ events: evs, opts: { length: 4, staff, grid } }), { bpm: () => bpm() });
+  upd();
+})();
+
+/* ================================================================ 3. 16분 킥 빌더 */
+(function () {
+  const PRE = [
+    ["기본 1·3박", "x.......x......."],
+    ["록 16(1·2&·3&)", "x.....x...x....."],
+    ["1·3박 + 3박 e", "x.......xx......"],
+    ["'a' 당김(1a·3a)", "x..x....x..x...."],
+    ["펑크 A(1·1&·3&·3a)", "x.x.......x..x.."],
+    ["펑크 B(1·1a·2&·3&·4e)", "x..x..x...x..x.."],
+    ["2박 a로 3박 당기기", "x......x..x....."],
+  ];
+  const sel = document.getElementById("sx-kk-pre");
+  sel.innerHTML = PRE.map((p, i) => `<option value="${i}">${p[0]}</option>`).join("");
+  const W = (i) => (i % 16 === 0 ? 5 : i % 8 === 0 ? 4 : i % 4 === 0 ? 3 : i % 2 === 0 ? 2 : 1);
+  /** 단순화한 롱게히긴스–리 싱코페이션: 음 뒤의 빈 칸 중 가장 무거운 칸이 음보다 무거우면 그 차를 더한다(마디 반복) */
+  function sync(str) {
+    const on = []; [...str].forEach((c, i) => { if (c !== ".") on.push(i); });
+    if (!on.length) return 0;
+    let s = 0;
+    on.forEach((i, k) => {
+      const n = k + 1 < on.length ? on[k + 1] : on[0] + 16;
+      let mx = 0; for (let j = i + 1; j < n; j++) mx = Math.max(mx, W(j % 16));
+      if (mx > W(i)) s += mx - W(i);
+    });
+    return s;
+  }
+  const staff = DR.staff("#sx-kk-staff", [], { counts: true });
+  const bpm = MB.range("sx-kk-bpm", (v) => v + " BPM");
+  const click = MB.check("sx-kk-click");
+  const base = (k) => ({ hat: "x.x.x.x.x.x.x.x.", snare: "....X.......X...", kick: k });
+  const grid = DR.grid("#sx-kk-grid", { rows: ["hat", "snare", "kick"], div: 4, beats: 4, spec: base(PRE[0][1]), onChange: () => { upd(); loop.restart(); } });
+  sel.addEventListener("change", () => { grid.set(base(PRE[+sel.value][1])); upd(); loop.restart(); });
+  document.getElementById("sx-kk-clear").addEventListener("click", () => { const s = grid.spec(); s.kick = "................"; grid.set(s); upd(); loop.restart(); });
+  let evs = [];
+  function upd() {
+    evs = grid.events(); staff.setEvents(evs);
+    const k = grid.spec().kick, pos = [];
+    let n = 0, off = 0;
+    [...k].forEach((c, i) => { if (c !== ".") { n++; if (i % 2) off++; pos.push((Math.floor(i / 4) + 1) + (i % 4 ? SX_CNT[i] : "")); } });
+    MB.stat("sx-kk-o-n", String(n));
+    MB.stat("sx-kk-o-off", String(off));
+    MB.stat("sx-kk-o-s", String(sync(k)));
+    MB.stat("sx-kk-o-pos", pos.length ? pos.join(" ") : "없음");
+  }
+  const loop = sxLoop("sx-kk-play", () => ({ events: evs, opts: { length: 4, staff, grid, clickOn: () => click() } }), { bpm: () => bpm() });
+  upd();
+})();
+
+/* ================================================================ 4. 고스트 노트 믹서 */
+(function () {
+  const PATS = {
+    funk: DR.GROOVES.funk.spec,
+    funkB: "HH x.x.x.x.x.x.x.x.\nSN .g..X..g.g..X..g\nBD x..x......x..x..",
+    linear: DR.GROOVES.linear.spec,
+  };
+  const staff = DR.staff("#sx-gh-staff", [], { counts: true });
+  const bpm = MB.range("sx-gh-bpm", (v) => v + " BPM");
+  const vel = MB.range("sx-gh-vel", (v) => v.toFixed(2), () => { info(); restartLater(); });
+  const restartLater = sxDebounce(() => loop.restart(), 250);
+  const sel = document.getElementById("sx-gh-pat");
+  let evs = [], abOff = false;
+  const mode = MB.seg("sx-gh-mode", () => { abOff = false; info(); });
+  sel.addEventListener("change", () => { build(); loop.restart(); });
+  function build() {
+    evs = DR.parse(PATS[sel.value], { div: 4 }).map((e) => (e.v <= 0.4 ? Object.assign({}, e, { gh: true, ghost: true }) : e));
+    staff.setEvents(evs);
+    info();
+  }
+  const ghostsOff = () => mode() === "off" || (mode() === "ab" && abOff) || vel() <= 0.001;
+  function info() {
+    const g = Math.max(0.02, vel());
+    MB.stat("sx-gh-o-bb", vel() <= 0.001 ? "무음" : sxSigned(sxDb(g, 1)) + "<small>dB</small>");
+    MB.stat("sx-gh-o-nm", vel() <= 0.001 ? "무음" : sxSigned(sxDb(g, 0.75)) + "<small>dB</small>");
+    MB.stat("sx-gh-o-layer", SX_LAYER[DR.layerOf(g)]);
+    MB.stat("sx-gh-o-n", String(evs.filter((e) => e.gh).length));
+    MB.stat("sx-gh-o-now", mode() === "solo" ? "고스트만" : ghostsOff() ? "고스트 없음" : "고스트 있음");
+    staff.unmark("ghost");
+    evs.forEach((e, i) => { if (mode() === "solo" ? !e.gh : e.gh && ghostsOff()) staff.mark(i, "ghost"); });
+  }
+  const loop = sxLoop("sx-gh-play", () => ({
+    events: evs.map((e) => (e.gh ? Object.assign({}, e, { v: Math.max(0.02, vel()) }) : e)),
+    opts: {
+      length: 4, staff,
+      mute: (p, ev) => (mode() === "solo" ? !ev.gh : ev.gh && ghostsOff()),
+      onLoop(n) { if (mode() === "ab") { abOff = n % 2 === 1; info(); } },
+    },
+  }), { bpm: () => bpm(), onStart: () => { abOff = false; info(); } });
+  build();
+})();
+
+/* ================================================================ 5. 고스트 자리 맞히기 */
+(function () {
+  const SETS = [
+    { g: [3, 11], name: "백비트 직전 a" },
+    { g: [5, 13], name: "백비트 직후 e" },
+    { g: [3, 5, 11, 13], name: "백비트 앞뒤 모두" },
+    { g: [7, 15], name: "2·4박의 a" },
+    { g: [5, 7, 13, 15], name: "2·4박의 e와 a" },
+    { g: [1, 9], name: "1·3박의 e" },
+    { g: [3, 9, 13], name: "1박 a · 3박 e · 4박 e" },
+    { g: [6, 14], name: "2·4박의 &amp;" },
+  ];
+  const optsEl = document.getElementById("sx-gq-opts");
+  const bpm = MB.range("sx-gq-bpm", (v) => v + " BPM");
+  const loud = MB.check("sx-gq-loud"), noHat = MB.check("sx-gq-hat");
+  let cur = null, answered = false, tries = 0, right = 0, streak = 0, staffs = [];
+  function events(set, o = {}) {
+    const ev = [];
+    for (let i = 0; i < 16; i++) {
+      const t = i / 4;
+      if (i % 2 === 0 && !o.noHat) ev.push({ t, p: "hat", v: 0.62 });
+      if (i === 4 || i === 12) ev.push({ t, p: "snare", v: 1 });
+      if (set.g.includes(i)) ev.push({ t, p: "snare", v: o.gv || 0.28, ghost: true });
+      if (i === 0 || i === 8 || i === 10) ev.push({ t, p: "kick", v: 0.85 });
+    }
+    return DR.sort(ev);
+  }
+  function newQ() {
+    const pool = SETS.map((s, i) => i).sort(() => Math.random() - 0.5).slice(0, 3);
+    cur = { opts: pool, ans: Math.floor(Math.random() * 3) };
+    answered = false;
+    optsEl.innerHTML = pool.map((k, j) => `<button class="sx-opt" type="button" data-j="${j}"><small>${"ABC"[j]}</small><div id="sx-gq-st${j}"></div></button>`).join("");
+    staffs = pool.map((k, j) => DR.staff("#sx-gq-st" + j, events(SETS[k]), { compact: true, showTime: j === 0 }));
+    msg("▶ 문제 듣기를 누르고, 들은 그루브와 같은 악보를 고르세요.", "");
+  }
+  function msg(h, cls) { const m = document.getElementById("sx-gq-msg"); m.innerHTML = h; m.className = "sim-msg" + (cls ? " " + cls : ""); }
+  optsEl.addEventListener("click", (e) => {
+    const b = e.target.closest(".sx-opt"); if (!b || !cur || answered) return;
+    const j = +b.dataset.j; answered = true; tries++;
+    const ok = j === cur.ans;
+    if (ok) { right++; streak++; } else streak = 0;
+    optsEl.querySelectorAll(".sx-opt").forEach((x, k) => { if (k === cur.ans) x.classList.add("ok"); else if (k === j) x.classList.add("bad"); });
+    const set = SETS[cur.opts[cur.ans]];
+    const where = set.g.map((i) => (Math.floor(i / 4) + 1) + SX_CNT[i]).join(", ");
+    msg(`${ok ? "정답!" : "아쉽습니다."} 정답은 <b>${"ABC"[cur.ans]}</b>: ${set.name} (고스트 자리 ${where}). 다시 들으며 확인하거나 '다음 문제'로 넘어가세요.`, ok ? "ok" : "bad");
+    MB.stat("sx-gq-o-score", `${right} / ${tries}`);
+    MB.stat("sx-gq-o-streak", String(streak));
+    MB.stat("sx-gq-o-pct", sxF((right / tries) * 100) + "<small>%</small>");
+  });
+  document.getElementById("sx-gq-next").addEventListener("click", () => { loop.halt(); newQ(); });
+  const loop = sxLoop("sx-gq-play", () => {
+    const one = events(SETS[cur.opts[cur.ans]], { gv: loud() ? 0.38 : 0.28, noHat: noHat() });
+    return { events: DR.concat([one, 4], [one, 4]), opts: { loop: false, length: 8, click: false } };
+  }, { bpm: () => bpm(), labels: ["▶ 문제 듣기(2마디)", "■ 정지"] });
+  newQ();
+})();
+
+/* ================================================================ 6. 하이햇 열고 닫기 */
+(function () {
+  const POS = { end: [14], "13": [2, 10], and: [2, 6, 10, 14], a: [7, 15] };
+  const staff = DR.staff("#sx-oc-staff", [], { counts: true });
+  const kv = DR.kitView("#sx-oc-kit", { kit: sxKit });
+  const bpm = MB.range("sx-oc-bpm", (v) => v + " BPM", () => info());
+  let evs = [], plan = [], now = null;
+  const pos = MB.seg("sx-oc-pos", () => { build(); loop.restart(); });
+  const close = MB.seg("sx-oc-close", () => { build(); loop.restart(); });
+  const stateEl = document.getElementById("sx-oc-state");
+  function setOpen(op) {
+    stateEl.textContent = op ? "페달: 열림" : "페달: 닫힘"; stateEl.classList.toggle("open", op);
+    ["hat", "hatFoot"].forEach((p) => { const g = kv.el.querySelector(`[data-p="${p}"]`); if (g) g.classList.toggle("open", op); });
+  }
+  function build() {
+    const opens = POS[pos()], cm = close();
+    plan = opens.map((i) => ({ o: i, c: (i % 4 === 2 ? i + 2 : i + 1) % 16 }));
+    const ev = [];
+    for (let i = 0; i < 16; i++) {
+      const t = i / 4, isOpen = opens.includes(i), isClose = plan.some((p) => p.c === i);
+      if (isOpen) ev.push({ t, p: "hatOpen", v: 0.8 });
+      else if (i % 2 === 0 && !(isClose && cm === "foot")) ev.push({ t, p: "hat", v: i % 4 === 0 ? 0.8 : 0.6 });
+      if (isClose && cm !== "hand") ev.push({ t, p: "hatFoot", v: 0.7 });
+      if (i === 4 || i === 12) ev.push({ t, p: "snare", v: 1 });
+      if (pos() === "and" ? i % 4 === 0 : i === 0 || i === 8 || i === 10) ev.push({ t, p: "kick", v: 0.85 });
+    }
+    evs = DR.sort(ev);
+    staff.setEvents(evs);
+    info(); cv.redraw();
+  }
+  function info() {
+    const len = plan.length ? ((plan[0].c - plan[0].o + 16) % 16) : 0;
+    MB.stat("sx-oc-o-len", sxF((len * 60000) / bpm() / 4) + "<small>ms</small>");
+    MB.stat("sx-oc-o-n", String(plan.length));
+    MB.stat("sx-oc-o-at", plan.map((p) => (Math.floor(p.c / 4) + 1) + "박").join(", ") + (close() === "hand" ? " (손)" : " (발)"));
+  }
+  const cv = MB.canvas("#sx-oc-cv", (ctx, w, h) => {
+    const L = 30, R = 8, x = (k) => L + (k / 16) * (w - L - R);
+    ctx.font = "600 10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    for (let k = 0; k <= 16; k++) { ctx.strokeStyle = MB.color(k % 4 ? "surface-2" : "border"); ctx.beginPath(); ctx.moveTo(x(k), 4); ctx.lineTo(x(k), h - 14); ctx.stroke(); if (k < 16 && k % 4 === 0) { ctx.fillStyle = MB.color("text-faint"); ctx.fillText(String(k / 4 + 1), x(k) + 2, h - 3); } }
+    ctx.fillStyle = MB.color("text-dim"); ctx.fillText("손", 4, 16); ctx.fillText("페달", 2, h * 0.5 + 4); ctx.fillText("발", 4, h - 20);
+    evs.forEach((e) => {
+      const k = e.t * 4;
+      if (e.p === "hat" || e.p === "hatOpen") { ctx.strokeStyle = MB.color(e.p === "hatOpen" ? "accent-2" : "text"); ctx.lineWidth = 1.6; const cx = x(k) + 6, cy = 14; if (e.p === "hatOpen") { ctx.beginPath(); ctx.arc(cx, cy, 5, 0, 7); ctx.stroke(); } else { ctx.beginPath(); ctx.moveTo(cx - 4, cy - 4); ctx.lineTo(cx + 4, cy + 4); ctx.moveTo(cx - 4, cy + 4); ctx.lineTo(cx + 4, cy - 4); ctx.stroke(); } }
+      if (e.p === "hatFoot") { ctx.fillStyle = MB.color("text"); ctx.beginPath(); ctx.arc(x(k) + 6, h - 24, 4, 0, 7); ctx.fill(); }
+    });
+    ctx.fillStyle = MB.color("accent-2-soft"); ctx.strokeStyle = MB.color("accent-2");
+    plan.forEach((p) => { const a = x(p.o), b = p.c > p.o ? x(p.c) : x(16); ctx.fillRect(a, h * 0.5 - 9, b - a, 18); ctx.strokeRect(a, h * 0.5 - 9, b - a, 18); if (p.c < p.o) { ctx.fillRect(x(0), h * 0.5 - 9, x(p.c) - x(0), 18); } });
+    if (now != null) { ctx.strokeStyle = MB.color("warn"); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x(now * 4) + 6, 2); ctx.lineTo(x(now * 4) + 6, h - 12); ctx.stroke(); }
+  }, { aspect: (w) => (w < 500 ? 0.36 : 0.22), maxHeight: 150 });
+  const loop = sxLoop("sx-oc-play", () => ({
+    events: evs,
+    opts: {
+      length: 4, staff,
+      onHit(ev, i, when) { if (ev.p === "hatOpen") DR.at(when, () => setOpen(true)); else if (ev.p === "hatFoot" || ev.p === "hat") DR.at(when, () => setOpen(false)); },
+      onNote(ev) { now = ev.t; cv.redraw(); },
+      onStop() { now = null; cv.redraw(); setTimeout(() => setOpen(false), 50); },
+    },
+  }), { bpm: () => bpm(), onStart: () => sxKit.hatPedal(0) });
+  build();
+})();
+
+/* ================================================================ 7. 셈여림 정확도 게임 */
+(function () {
+  const sim = document.getElementById("sim-sx-dyn");
+  const pad = document.getElementById("sx-dy-pad"), tgt = document.getElementById("sx-dy-target");
+  const nSeg = MB.seg("sx-dy-n"), order = MB.seg("sx-dy-order");
+  const VT = [0.28, 0.75, 1], NAMES = ["고스트", "보통", "액센트"];
+  const FUNK_L = [0, 2, 0, 1, 0, 2, 0, 0, 2, 0, 1, 2]; // 펑크 왼손 흉내: 고스트·액센트 위주에 가끔 보통
+  const layer3 = (v) => (v < 0.45 ? 0 : v < 0.88 ? 1 : 2);
+  let game = null, hist = [];
+  function show() {
+    if (!game) { tgt.className = "dr-big sx-target"; tgt.innerHTML = "—<small>▶ 새 게임을 누르세요. 게임 밖에서도 패드는 칠 수 있습니다</small>"; return; }
+    if (game.k >= game.seq.length) {
+      const ok = game.res.filter((r) => r.ok).length;
+      tgt.className = "dr-big sx-target"; tgt.innerHTML = `${ok} / ${game.seq.length}<small>${ok === game.seq.length ? "완벽합니다! 문제 수를 24로 늘려 보세요" : "틀린 층이 어디에 몰렸는지 아래 점수를 보세요"}</small>`;
+      return;
+    }
+    const L = game.seq[game.k];
+    tgt.className = "dr-big sx-target l" + L;
+    tgt.innerHTML = `${NAMES[L]}<small>${game.k + 1} / ${game.seq.length} · ${["스틱 2–3 cm, 떨어뜨리기만", "스틱 15 cm, 보통 스트로크", "스틱 30 cm, 풀 스트로크"][L]}</small>`;
+  }
+  function stats() {
+    if (!game) return;
+    const by = [0, 1, 2].map((L) => { const r = game.res.filter((x) => x.L === L); return r.length ? `${r.filter((x) => x.ok).length}/${r.length}` : "—"; });
+    MB.stat("sx-dy-o-score", `${game.res.filter((r) => r.ok).length}<small>/${game.seq.length}</small>`);
+    MB.stat("sx-dy-o-g", by[0]); MB.stat("sx-dy-o-m", by[1]); MB.stat("sx-dy-o-a", by[2]);
+  }
+  function hit(v, src) {
+    MB.ctx();
+    sxKit.hit("snare", v, null, { src });
+    pad.classList.add("hit"); clearTimeout(pad._t); pad._t = setTimeout(() => pad.classList.remove("hit"), 110);
+    MB.stat("sx-dy-o-v", v.toFixed(2) + `<small>${NAMES[layer3(v)]}</small>`);
+    let rec = { v, L: layer3(v), ok: null };
+    if (game && game.k < game.seq.length) {
+      const L = game.seq[game.k];
+      rec = { v, L, ok: layer3(v) === L };
+      game.res.push(rec); game.k++;
+      stats(); show();
+    }
+    hist.push(rec); if (hist.length > 24) hist.shift();
+    cv.redraw();
+  }
+  pad.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    const r = pad.getBoundingClientRect(), y = MB.clamp((e.clientY - r.top) / r.height, 0, 0.999);
+    const band = Math.floor(y * 3), f = y * 3 - band;
+    const v = band === 0 ? 0.12 + 0.3 * f : band === 1 ? 0.5 + 0.35 * f : 0.9 + 0.1 * f;
+    hit(v, "pointer");
+  });
+  DR.keyTarget(sim, (p, v, hand, src) => { if (p !== "snare") return; hit(v >= 0.99 ? 1 : hand === "L" ? 0.28 : 0.75, src); });
+  document.getElementById("sx-dy-start").addEventListener("click", () => {
+    MB.ctx(); DR.warm(["snare"]);
+    const n = +nSeg(), seq = [];
+    for (let i = 0; i < n; i++) seq.push(order() === "groove" ? FUNK_L[i % FUNK_L.length] : Math.floor(Math.random() * 3));
+    game = { seq, k: 0, res: [] }; hist = [];
+    stats(); show(); cv.redraw();
+    if (document.activeElement) document.activeElement.blur();
+  });
+  document.getElementById("sx-dy-demo").addEventListener("click", () => {
+    MB.ctx();
+    const L = game && game.k < game.seq.length ? game.seq[game.k] : null;
+    if (L != null) sxKit.hit("snare", VT[L]);
+    else { const t = MB.now() + 0.05; VT.forEach((v, k) => sxKit.hit("snare", v, t + k * 0.45)); }
+  });
+  const cv = MB.canvas("#sx-dy-cv", (ctx, w, h) => {
+    const L = 30, B = 6, T = 6, y = (v) => h - B - v * (h - B - T);
+    ctx.font = "600 10px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    [[0.45, "0.45"], [0.88, "0.88"]].forEach(([v, s]) => { ctx.strokeStyle = MB.color("text-faint"); ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(L, y(v)); ctx.lineTo(w - 4, y(v)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = MB.color("text-faint"); ctx.fillText(s, 2, y(v) + 4); });
+    const bw = (w - L - 4) / 24;
+    hist.forEach((r, k) => {
+      ctx.fillStyle = MB.color(r.ok == null ? "accent" : r.ok ? "ok" : "bad");
+      ctx.fillRect(L + k * bw + 1, y(r.v), Math.max(2, bw - 3), h - B - y(r.v));
+    });
+    if (!hist.length) { ctx.fillStyle = MB.color("text-faint"); ctx.fillText("타격이 여기에 막대로 쌓입니다", L + 6, h / 2); }
+  }, { aspect: (w) => (w < 500 ? 0.4 : 0.24), maxHeight: 150 });
+  show();
+})();
+
+/* ================================================================ 8. 세 층 그루브 만들기 */
+(function () {
+  const PRE = {
+    ghostA: "HH x.x.x.x.x.x.x.x.\nSN .g.gX.g..g.gX.g.\nBD x.....x.x.....",
+    funk: DR.GROOVES.funk.spec,
+    pop16: DR.GROOVES.pop16.spec,
+    linear: DR.GROOVES.linear.spec,
+    train: DR.GROOVES.train.spec,
+    flat: "HH xxxxxxxxxxxxxxxx\nSN xxxxxxxxxxxxxxxx\nBD x.......x.......",
+    empty: "",
+  };
+  const staff = DR.staff("#sx-bd-staff", [], { counts: true });
+  const bpm = MB.range("sx-bd-bpm", (v) => v + " BPM");
+  const click = MB.check("sx-bd-click");
+  const grid = DR.grid("#sx-bd-grid", { rows: ["hat", "snare", "kick"], div: 4, beats: 4, cycle: { hat: [".", "g", "x", "X", "o"], snare: [".", "g", "x", "X"], kick: [".", "g", "x", "X"] }, spec: PRE.ghostA, onChange: () => { upd(); loop.restart(); } });
+  const sel = document.getElementById("sx-bd-pre");
+  sel.addEventListener("change", () => { grid.set(PRE[sel.value]); upd(); loop.restart(); });
+  let evs = [];
+  function upd() {
+    evs = grid.events(); staff.setEvents(evs);
+    const c = [0, 0, 0];
+    evs.forEach((e) => { c[e.v >= 0.9 ? 0 : e.v <= 0.4 ? 2 : 1]++; });
+    MB.stat("sx-bd-o-n", `${c[0]} / ${c[1]} / ${c[2]}`);
+    if (evs.length) {
+      const vs = evs.map((e) => e.v);
+      MB.stat("sx-bd-o-dr", sxF(sxDb(Math.max(...vs), Math.min(...vs)), 1) + "<small>dB</small>");
+    } else MB.stat("sx-bd-o-dr", "—");
+    MB.stat("sx-bd-o-layers", String(c.filter((x) => x > 0).length) + "<small>층</small>");
+    const filled = new Set(evs.map((e) => Math.round(e.t * 4))).size;
+    MB.stat("sx-bd-o-fill", filled + "<small>/16</small>");
+  }
+  const loop = sxLoop("sx-bd-play", () => ({ events: evs, opts: { length: 4, staff, grid, clickOn: () => click() } }), { bpm: () => bpm() });
+  upd();
+})();
+</script>
+</body>
+</html>

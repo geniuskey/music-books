@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>타이밍과 그루브의 과학 · DrumBook</title>
+<meta name="description" content="ms 단위의 마이크로타이밍, 레이백과 푸시, 스윙 비율, 사람의 박 흔들림과 템포 드리프트, 휴머나이즈와 퀀타이즈, 소리의 속도와 오디오 버퍼 지연을 듣고 재고 계산한다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/timing.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="타이밍과 그루브의 과학 · DrumBook">
+<meta property="og:description" content="ms 단위의 마이크로타이밍, 레이백과 푸시, 스윙 비율, 사람의 박 흔들림과 템포 드리프트, 휴머나이즈와 퀀타이즈, 소리의 속도와 오디오 버퍼 지연을 듣고 재고 계산한다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/timing.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .tm-pad { padding: 10px; }
+  .tm-phase { font: 700 15px var(--font); text-align: center; padding: 7px 6px; border-radius: var(--radius-sm); background: var(--surface); color: var(--text-dim); margin: 6px 0; }
+  .tm-phase.a { color: var(--accent); background: var(--accent-soft); }
+  .tm-phase.b { color: var(--on-accent); background: var(--accent); }
+  .tm-phase.c { color: var(--on-accent); background: var(--accent-2); }
+  .tm-msg { font-size: 13px; color: var(--text-dim); min-height: 1.2em; margin-top: 6px; line-height: 1.5; }
+  .tm-ab { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .tm-ab .btn { width: 100%; justify-content: center; }
+  .tm-reveal { font: 600 14px var(--font); text-align: center; padding: 8px; border-radius: var(--radius-sm); background: var(--bg-elev); border: 1px dashed var(--border); margin-top: 8px; color: var(--text-dim); }
+  .tm-reveal.ok { border: 1.5px solid var(--ok); color: var(--ok); }
+  .tm-reveal.bad { border: 1.5px solid var(--bad); color: var(--bad); }
+  .tm-sl { display: grid; gap: 6px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="timing">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 13</div>
+    <h1>타이밍과 그루브의 과학</h1>
+    <p class="lead"><a href="counting.html">3장</a>에서 우리는 박에 '정확히' 맞추는 법을 배웠습니다. 그런데 녹음된 좋은 드럼 연주를 ms 단위로 재 보면, 음표들이 격자 위에 정확히 놓여 있지 않은 경우가 많습니다. 스네어가 10–20 ms 늦게 떨어지기도 하고, 하이햇의 &amp;가 조금 밀려 있기도 하고, 곡이 끝날 즈음 템포가 몇 BPM 올라가 있기도 합니다. 어떤 어긋남은 '그루브'로 들리고 어떤 어긋남은 '실수'로 들립니다. 이 장은 그 차이를 숫자로 다룹니다. <b>마이크로타이밍</b>(레이백과 푸시), <b>스윙 비율</b>, 사람의 박이 얼마나 흔들리는지에 대한 통계, 템포 드리프트, 컴퓨터의 휴머나이즈와 퀀타이즈, 그리고 소리가 공기와 오디오 장비를 지나며 생기는 <b>지연</b>까지. 마지막에는 내 연주를 녹음하고 측정하는 연습 설계로 마무리합니다.</p>
+    <ul class="objectives">
+      <li>박 위의 정확도(precision)와 그루브(groove)의 차이를 설명하고, 마이크로타이밍을 ms와 칸 비율로 나타낸다.</li>
+      <li>레이백(스네어를 늦게)과 푸시(앞서기)를 조각별 오프셋으로 만들어 듣고 비교한다.</li>
+      <li>스윙 비율을 1:1 → 2:1 → 3:1로 계산하고, 템포가 빨라질수록 비율이 작아지는 경향과 16분 스윙을 이해한다.</li>
+      <li>사람의 탭 흔들림이 박 간격에 비례하는(웨버 법칙적) 성질과 템포 드리프트를 직접 재 본다.</li>
+      <li>무작위 휴머나이즈와 체계적 편차를 블라인드로 비교하고, 퀀타이즈 강도의 효과를 듣는다.</li>
+      <li>소리의 속도(343 m/s)와 오디오 버퍼로 무대·녹음 지연을 계산하고, 녹음–측정–수정의 연습 고리를 설계한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="groove">
+    <h2>정확도와 그루브는 다른 말이다</h2>
+    <p><span class="term">타이밍 정확도</span><span class="en">(Timing precision)</span>는 음이 의도한 시각에서 얼마나 벗어나는가, 즉 3장의 편향과 흔들림입니다. <span class="term">그루브</span><span class="en">(Groove)</span>는 듣는 사람이 몸을 움직이고 싶어지는 느낌이고, 박의 위치뿐 아니라 셈여림(액센트·고스트 노트), 음색, 어떤 칸을 채우고 비우는지가 함께 만듭니다. 둘은 겹치지만 같은 것이 아닙니다. 완벽하게 퀀타이즈된 드럼 머신도 훌륭한 그루브를 만들고(전자 음악 대부분이 그렇습니다), 정확도가 떨어지는 연주는 대개 그루브도 나빠집니다. 하지만 숙련된 드러머는 격자에서 <b>일정하게, 의도적으로</b> 비켜 치기도 합니다.</p>
+    <p>이렇게 격자 기준으로 수 ms에서 수십 ms 앞뒤에 음을 놓는 것을 <span class="term">마이크로타이밍</span><span class="en">(Microtiming)</span>이라고 부릅니다. 크기가 중요합니다. 두 소리의 시작이 대략 20 ms보다 가까우면 사람은 그것을 두 개의 사건으로 또렷이 듣지 못하고, 순서도 잘 구별하지 못합니다. 그래서 10–20 ms의 늦은 스네어는 "늦다"가 아니라 "무겁다", "느긋하다"는 <b>질감</b>으로 들립니다. 반대로 40 ms를 넘어가면 대부분의 청자가 "어긋났다"고 듣습니다. 마이크로타이밍은 이 좁은 창 안의 기술입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 210" role="img" aria-label="격자 위의 기대 위치(빈 원)와 실제 연주 위치(채운 원): 킥은 앞서고 스네어는 늦다">
+        <g font-family="var(--font)">
+          <rect x="356" y="20" width="48" height="160" style="fill:var(--accent-2-soft)"/>
+          <path d="M100 20v160M380 20v160M660 20v160" class="s-axis"/>
+          <path d="M170 30v150M240 30v150M310 30v150M450 30v150M520 30v150M590 30v150" style="stroke:var(--grid)"/>
+          <text x="20" y="54" class="t" style="font-weight:700">HH</text><text x="20" y="104" class="t" style="font-weight:700">SN</text><text x="20" y="154" class="t" style="font-weight:700">BD</text>
+          <g style="fill:none;stroke:var(--text-faint);stroke-width:1.5"><circle cx="100" cy="50" r="8"/><circle cx="240" cy="50" r="8"/><circle cx="380" cy="50" r="8"/><circle cx="520" cy="50" r="8"/><circle cx="660" cy="50" r="8"/><circle cx="380" cy="100" r="9"/><circle cx="100" cy="150" r="9"/><circle cx="660" cy="150" r="9"/></g>
+          <g class="f-acc"><circle cx="100" cy="50" r="5"/><circle cx="246" cy="50" r="5"/><circle cx="380" cy="50" r="5"/><circle cx="526" cy="50" r="5"/><circle cx="660" cy="50" r="5"/></g>
+          <circle cx="398" cy="100" r="7" style="fill:var(--accent-2)"/>
+          <circle cx="92" cy="150" r="7" class="f-acc"/><circle cx="652" cy="150" r="7" class="f-acc"/>
+          <text x="410" y="96" class="t-acc" style="fill:var(--accent-2)">+18 ms(레이백)</text>
+          <text x="112" y="172" class="t-mono">−6 ms(푸시)</text>
+          <text x="254" y="40" class="t-mono">&amp; +6 ms</text>
+          <text x="100" y="200" text-anchor="middle" class="t-mono">박 1</text><text x="380" y="200" text-anchor="middle" class="t-mono">박 2</text><text x="660" y="200" text-anchor="middle" class="t-mono">박 3</text>
+          <text x="410" y="176" class="t-dim">±20 ms: '동시'로 섞여 질감으로 들리는 창</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-1.</b> 마이크로타이밍(가로 축은 실제보다 크게 확대). 빈 원은 격자(퀀타이즈된 위치), 채운 원은 실제 연주 위치다. 이 예에서 킥은 박보다 6 ms 앞서 밀고(푸시), 스네어 백비트는 18 ms 늦게 떨어지며(레이백), 하이햇의 &amp;는 6 ms 늦어 살짝 스윙한다. 푸른 띠는 대략 ±20 ms로, 이 안의 어긋남은 '틀림'보다 '무게감'으로 들린다.</figcaption>
+    </figure>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="micro">
+    <h2>레이백과 푸시: 조각별 타이밍</h2>
+    <p>가장 많이 이야기되는 마이크로타이밍은 <span class="term">레이백</span><span class="en">(Laid-back, Behind the beat)</span>입니다. 하이햇과 킥은 박 위에 두고 스네어 백비트만 조금 늦게 떨어뜨리는 것으로, 느긋하고 무거운 느낌을 줍니다. 반대가 <span class="term">푸시</span><span class="en">(Push, On top of the beat)</span>로, 하이햇이나 킥을 살짝 앞에 두어 곡이 앞으로 기울며 달리는 느낌을 냅니다. 같은 패턴이라도 이 몇 ms가 장르의 인상을 바꿉니다. 소울·R&amp;B·힙합의 느긋함, 펑크 록의 조급한 에너지가 그 예입니다.</p>
+    <p>시간의 크기는 템포와 함께 봐야 합니다. 같은 +20 ms라도 칸 간격에 대한 비율은 템포마다 다릅니다.</p>
+    <div class="formula">$$\delta_{\text{칸}} = \frac{\Delta t}{T_{\text{step}}} = \frac{\Delta t\cdot \text{BPM}\cdot d}{60\,000}$$
+      <div class="where">\(\Delta t\): 오프셋(ms), \(d\): 세분(16분이면 4). 90 BPM에서 16분 칸은 167 ms이므로 +20 ms는 칸의 12%, 140 BPM(칸 107 ms)에서는 19%다. 빠른 템포일수록 같은 ms가 리듬을 더 많이 비튼다. 그래서 빠른 곡의 레이백은 더 작게(수 ms), 느린 곡은 크게(20 ms 이상) 쓰인다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-offset">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>레이백·푸시 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <div class="tm-phase" id="tm-of-phase">▶ 재생하면 조정한 타이밍으로 그루브가 나옵니다</div>
+          <canvas id="tm-of-cv" class="dr-cv"></canvas>
+          <div class="dr-chips" id="tm-of-pre" style="margin-top:8px"><button data-v="0,0,0">정박</button><button data-v="0,22,0" class="on">레이백 스네어</button><button data-v="6,30,4">아주 느긋하게</button><button data-v="-12,-6,-10">푸시(앞으로)</button><button data-v="0,15,-12">킥 앞·스네어 뒤</button><button data-v="10,0,0">하이햇만 늦게</button></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>그루브</span><select id="tm-of-g"><option value="rock8">8비트 록</option><option value="funk" selected>펑크(고스트 노트)</option><option value="pop16">16비트 팝</option><option value="boombap">붐뱁(정박으로)</option></select></label>
+          <label class="ctrl"><span>템포 <output id="tm-of-bpm-out"></output></span><input type="range" id="tm-of-bpm" min="60" max="150" value="96" step="2"></label>
+          <div class="tm-sl">
+            <label class="ctrl"><span>하이햇 <output id="tm-of-hh-out"></output></span><input type="range" id="tm-of-hh" min="-40" max="40" value="0" step="1"></label>
+            <label class="ctrl"><span>스네어 <output id="tm-of-sn-out"></output></span><input type="range" id="tm-of-sn" min="-40" max="40" value="22" step="1"></label>
+            <label class="ctrl"><span>킥 <output id="tm-of-bd-out"></output></span><input type="range" id="tm-of-bd" min="-40" max="40" value="0" step="1"></label>
+          </div>
+          <div class="ctrl"><span>그림 확대</span><div class="seg" id="tm-of-ex"><button data-value="1">×1(실제)</button><button data-value="3" class="on">×3</button></div></div>
+          <label class="check"><input type="checkbox" id="tm-of-ab"> 한 마디씩 정박과 번갈아(A/B)</label>
+          <label class="check"><input type="checkbox" id="tm-of-click"> 클릭(정박 기준)</label>
+          <div class="btn-row"><button class="btn primary" id="tm-of-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">16분 칸</span><span class="v" id="tm-of-o-step">—</span></div>
+        <div class="stat"><span class="k">스네어 오프셋 / 칸</span><span class="v" id="tm-of-o-sn">—</span></div>
+        <div class="stat"><span class="k">백비트에서 HH→SN 간격</span><span class="v" id="tm-of-o-gap">—</span></div>
+        <div class="stat"><span class="k">1박에서 BD→HH 간격</span><span class="v" id="tm-of-o-kh">—</span></div>
+      </div>
+      <div class="sim-note">그림: 한 마디를 16분 칸으로 나눈 격자 위에 빈 원 = 격자 위치, 채운 막대 = 실제로 소리 나는 위치(확대 배율 적용)입니다. 양수 = 늦게, 음수 = 앞서. 'A/B'를 켜면 홀수 마디는 조정한 타이밍, 짝수 마디는 정박이라 차이를 바로 비교할 수 있습니다. 클릭은 언제나 정박에 울리므로, 스네어가 클릭과 겹치는지 뒤에 붙는지로 레이백을 귀로 확인할 수 있습니다. 모델: 엔진의 조각별 오프셋(<code>offsets</code>)을 그대로 쓰며 열린 하이햇·크로스 스틱도 같은 묶음으로 움직입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 레이백을 '의도'로 만들기</strong> 레이백은 늦게 치는 실수가 아니라 <b>일정하게</b> 늦게 치는 기술입니다. ① 80 BPM 8비트에서 하이햇·킥을 클릭에 정확히 겹치게(클릭이 사라지게) 칩니다. ② 스네어만 클릭 '뒤에 붙도록' 칩니다. 클릭과 스네어가 '딱–' 하고 겹쳐 들리면 아직 박 위, '딱' 다음에 아주 짧게 '딱'으로 들리면 지나치게 늦은 것입니다. ③ 녹음해서 재 보고(아래 <a href="#human">탭 프로파일</a> 또는 DAW) 스네어만 10–20 ms 뒤에 일정하게 모여 있으면 성공. 하이햇까지 같이 늦어진다면 그건 레이백이 아니라 템포가 처진 것입니다. 패드에서는 오른손 무릎 = 하이햇, 패드 = 스네어로 해도 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="swing">
+    <h2>스윙 비율</h2>
+    <p>8분음표 한 쌍을 같은 길이(1:1)로 치면 정박(스트레이트), 앞을 길게 뒤를 짧게 치면 <span class="term">스윙</span><span class="en">(Swing)</span>입니다. 스윙의 정도는 한 쌍 안에서 앞 음이 차지하는 비율 \(r\), 또는 긴 음과 짧은 음의 비 \(L{:}S\)로 나타냅니다. 셔플(<a href="shuffle.html">9장</a>)은 셋잇단의 첫째·셋째 칸을 치는 리듬이므로 정확히 \(r = 2/3\)(2:1)이고, 점8분+16분은 \(r = 3/4\)(3:1)입니다. 실제 스윙은 이 사이의 어느 값이든 될 수 있는 <b>연속량</b>입니다.</p>
+    <div class="formula">$$r = \frac{L}{L+S},\qquad \frac{L}{S} = \frac{r}{1-r},\qquad t_{\&} = r\cdot T_{\text{pair}}\quad(\text{정박이면 }0.5\,T_{\text{pair}})$$
+      <div class="where">\(T_{\text{pair}}\): 한 쌍의 길이(8분 스윙이면 한 박, 16분 스윙이면 반 박). \(r\) = 0.5(1:1), 0.6(1.5:1), 0.667(2:1, 셋잇단), 0.75(3:1, 점8분). 120 BPM 8분 스윙에서 \(r = 0.6\)이면 &amp;가 정박보다 \( (0.6-0.5)\times 500 = 50\) ms 늦게 온다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 236" role="img" aria-label="스윙 비율 0.5, 0.6, 0.667, 0.75에서 긴 음과 짧은 음의 길이 막대">
+        <g font-family="var(--font)">
+          <text x="14" y="44" class="t" style="font-weight:700">r = 0.50</text><text x="14" y="60" class="t-mono">1 : 1 정박</text>
+          <rect x="160" y="28" width="268" height="34" rx="5" class="f-acc-soft"/><rect x="432" y="28" width="268" height="34" rx="5" class="f-acc2-soft"/>
+          <text x="14" y="94" class="t" style="font-weight:700">r = 0.60</text><text x="14" y="110" class="t-mono">1.5 : 1 가벼운 스윙</text>
+          <rect x="160" y="78" width="322" height="34" rx="5" class="f-acc-soft"/><rect x="486" y="78" width="214" height="34" rx="5" class="f-acc2-soft"/>
+          <text x="14" y="144" class="t" style="font-weight:700">r = 0.667</text><text x="14" y="160" class="t-mono">2 : 1 셋잇단(셔플)</text>
+          <rect x="160" y="128" width="358" height="34" rx="5" class="f-acc-soft"/><rect x="522" y="128" width="178" height="34" rx="5" class="f-acc2-soft"/>
+          <text x="14" y="194" class="t" style="font-weight:700">r = 0.75</text><text x="14" y="210" class="t-mono">3 : 1 점8분 + 16분</text>
+          <rect x="160" y="178" width="403" height="34" rx="5" class="f-acc-soft"/><rect x="567" y="178" width="133" height="34" rx="5" class="f-acc2-soft"/>
+          <line x1="430" y1="20" x2="430" y2="220" class="s-line" style="stroke-dasharray:4 4"/><text x="430" y="232" text-anchor="middle" class="t-mono">정박 &amp; 자리</text>
+          <line x1="160" y1="20" x2="160" y2="220" class="s-axis"/><line x1="700" y1="20" x2="700" y2="220" class="s-axis"/>
+          <text x="294" y="50" text-anchor="middle" class="t-mono">1</text><text x="566" y="50" text-anchor="middle" class="t-mono">&amp;</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-2.</b> 한 쌍(한 박)의 스윙 비율. 붉은 막대 = 앞 음(박 위), 푸른 막대 = 뒤 음(&amp;). 비율이 커질수록 &amp;가 오른쪽(늦게)으로 밀리고 짧아진다. 셋잇단 셔플(2:1)은 이 연속된 눈금의 한 점일 뿐이다.</figcaption>
+    </figure>
+    <p>흥미로운 점은 <b>템포에 따라 스윙 비율이 달라진다</b>는 것입니다. 재즈 드러머들의 라이드 심벌 연주를 측정한 연구(Friberg &amp; Sundström, 2002 등)에 따르면, 느린 템포에서는 비율이 3:1을 넘을 만큼 커지고, 템포가 빨라질수록 줄어들어 매우 빠른 템포에서는 거의 1:1에 가까워집니다. 짧은 음의 길이가 템포와 상관없이 대략 100 ms 언저리에서 더 짧아지지 않는다는 해석이 있습니다. 즉 연주자는 '비율'을 지키는 것이 아니라 짧은 음의 <b>절대 시간</b>을 어느 정도 지키는 셈입니다. 아래 시뮬레이터의 '템포 따라 자동'은 이 경향을 "짧은 음 ≈ 110 ms"라는 아주 단순한 모델로 흉내 냅니다.</p>
+    <div class="formula">$$r(\text{BPM}) \approx \operatorname{clamp}\!\left(1 - \frac{S_0}{T_{\text{pair}}},\ 0.5,\ 0.75\right),\qquad S_0 \approx 110\ \text{ms},\quad T_{\text{pair}} = \frac{60\,000}{\text{BPM}}$$
+      <div class="where">이 장에서 쓰는 단순화 모델이다. 120 BPM 이하에서는 3:1(0.75)에 머물고, 200 BPM에서 약 0.63(1.7:1), 270 BPM 근처에서 1:1이 된다. 실제 값은 연주자·곡·악기(라이드, 혼 섹션)마다 다르며, 이 모델은 '빨라질수록 비율이 작아진다'는 방향만 보여 준다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-swing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스윙 비율 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <canvas id="tm-sw-cv" class="dr-cv"></canvas>
+          <div id="tm-sw-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>그루브</span><div class="seg" id="tm-sw-g"><button data-value="jazz" class="on">재즈 라이드(8분)</button><button data-value="rock">8비트 록(8분)</button><button data-value="boombap">붐뱁(16분)</button><button data-value="funk">펑크(16분)</button></div></div>
+          <label class="ctrl"><span>스윙 비율 r <output id="tm-sw-r-out"></output></span><input type="range" id="tm-sw-r" min="0.5" max="0.75" value="0.62" step="0.005"></label>
+          <div class="btn-row"><button class="btn" data-r="0.5" id="tm-sw-p50">1:1</button><button class="btn" data-r="0.6">1.5:1</button><button class="btn" data-r="0.6667">2:1</button><button class="btn" data-r="0.75">3:1</button></div>
+          <label class="ctrl"><span>템포 <output id="tm-sw-bpm-out"></output></span><input type="range" id="tm-sw-bpm" min="60" max="300" value="140" step="2"></label>
+          <label class="check"><input type="checkbox" id="tm-sw-auto"> 템포 따라 자동(모델, 8분 스윙만)</label>
+          <label class="check"><input type="checkbox" id="tm-sw-kick"> 킥은 정박 유지(손만 스윙)</label>
+          <label class="check"><input type="checkbox" id="tm-sw-click"> 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="tm-sw-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">긴 : 짧은</span><span class="v" id="tm-sw-o-ls">—</span></div>
+        <div class="stat"><span class="k">긴 음 / 짧은 음</span><span class="v" id="tm-sw-o-ms">—</span></div>
+        <div class="stat"><span class="k">뒤 음 지연(정박 대비)</span><span class="v" id="tm-sw-o-d">—</span></div>
+        <div class="stat"><span class="k">이름</span><span class="v" id="tm-sw-o-n">—</span></div>
+      </div>
+      <div class="sim-note">위 그림: 한 쌍 안에서 뒤 음이 놓이는 자리(굵은 선)를 정박(0.5)·셋잇단(0.667)·점8분(0.75) 눈금과 비교합니다. 아래 그림: 템포–스윙 비율 모델 곡선과 지금 설정(점). 재즈 라이드와 8비트 록은 8분음표 쌍을, 붐뱁·펑크는 16분음표 쌍을 스윙합니다(엔진의 <code>swingUnit</code> 0.5 / 0.25). 악보는 스윙 전의 정박 표기이며, 실제 악보에서도 스윙은 대개 "Swing" 같은 지시어로만 적습니다. 슬라이더는 재생 중에도 바로 반영됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="loose">
+    <h2>16분 스윙과 '느슨한 격자'</h2>
+    <p>힙합의 붐뱁과 네오 소울에서 자주 들리는 느낌은 16분음표 단위의 아주 약한 스윙입니다. 비율은 보통 0.54–0.60 정도로, 셔플처럼 '통통 튀는' 것이 아니라 정박도 셔플도 아닌 그 사이에서 <b>휘청이는</b> 듯한 느낌을 줍니다. 샘플러와 드럼 머신의 스윙 설정(흔히 50–75% 눈금)이 이 값을 직접 다이얼로 돌리게 해 준 덕분에 대중화된 소리이기도 합니다.</p>
+    <p>더 나아간 스타일은 <b>조각마다 다른 격자</b>를 씁니다. 하이햇은 16분 스윙, 킥은 정박이거나 살짝 앞, 스네어는 늦게. 각 층이 서로 조금씩 다른 시간 위에 놓여 있어서 '술 취한 듯 느슨하지만 매 마디 똑같이 반복되는' 독특한 그루브가 납니다. 이런 느낌을 흔히 '느슨한 16분', '드렁크 그루브'라고 부릅니다. 핵심은 마지막 말, <b>매 마디 똑같이</b>입니다. 비켜 있는 양이 무작위가 아니라 체계적이기 때문에 귀는 그것을 실수가 아니라 스타일로 학습합니다. 위의 두 시뮬레이터로 직접 만들 수 있습니다. 스윙 탐색기에서 붐뱁, r = 0.56, '킥은 정박 유지'를 켜고, 레이백 탐색기에서 붐뱁(정박)에 스네어 +18 ms, 킥 −8 ms를 넣어 비교해 보세요.</p>
+    <div class="callout tip"><strong>연습법: 스윙 눈금 기르기</strong> ① 메트로놈 80 BPM, 하이햇 16분을 오른손 하나로(또는 양손 교대로) 칩니다. ② '1 e &amp; a'의 e와 a를 아주 조금씩 늦춰 r ≈ 0.55 → 0.6 → 0.667(셋잇단)까지 네 마디마다 바꿉니다. ③ 거꾸로 셋잇단에서 정박까지 되돌아옵니다. ④ 녹음해 재 보거나, 위 탐색기 소리와 번갈아 들으며 맞춥니다. 목표는 "0.6을 치라"고 하면 칠 수 있는 손입니다. 패드나 무릎으로도 충분합니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="human">
+    <h2>사람의 박은 얼마나 흔들리나</h2>
+    <p>메트로놈에 맞춰 손가락을 두드리는 실험은 100년 넘게 이어져 왔고, 결과는 꽤 일관됩니다. 박 간격 0.4–1 s 정도에서 훈련된 음악가의 탭 오차 표준편차는 대략 10–20 ms, 일반인은 20–40 ms 수준입니다. 더 중요한 성질은 흔들림이 <b>박 간격에 대략 비례한다</b>는 것입니다. 표준편차를 박 간격으로 나눈 값(변동 계수)이 넓은 범위에서 2–5% 정도로 비슷하게 유지되는데, 이는 감각의 차이 문턱이 자극 크기에 비례한다는 <span class="term">웨버 법칙</span><span class="en">(Weber's law)</span>과 같은 꼴입니다. 그런데 박 간격이 약 1.5 s를 넘는(40 BPM 아래) 아주 느린 템포에서는 흔들림이 비례 이상으로 빨리 커집니다. 다음 박을 예측하는 내부 시계가 그렇게 긴 시간을 잘 버티지 못하기 때문입니다. "느린 곡이 더 어렵다"는 드러머들의 말에는 이런 근거가 있습니다.</p>
+    <div class="formula">$$\frac{\sigma_I}{\bar I} \approx k \ \ (k \approx 0.02\text{–}0.05),\qquad \operatorname{Var}(I_j) = \sigma_C^2 + 2\sigma_M^2,\qquad \rho_1 = \frac{-\sigma_M^2}{\sigma_C^2 + 2\sigma_M^2}$$
+      <div class="where">\(I_j\): 연속한 두 탭의 간격. 오른쪽 두 식은 윙–크리스토퍼슨 모형(Wing–Kristofferson, 1973)이다. 탭 간격의 흔들림은 내부 시계의 흔들림 \(\sigma_C\)와 손이 명령을 실행할 때의 흔들림 \(\sigma_M\)의 합이며, 운동 잡음 때문에 이웃한 간격끼리는 음의 상관(\(\rho_1 < 0\), 하나가 길면 다음은 짧음)을 보인다. 느린 템포에서 커지는 것은 주로 시계 쪽 \(\sigma_C\)다. 그래서 느린 템포의 처방은 '박 사이를 속으로 쪼개기(세분)'다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 236" role="img" aria-label="박 간격에 따른 탭 표준편차의 개념도: 대부분 구간에서 비례하고 아주 느린 템포에서 급격히 커진다">
+        <g font-family="var(--font)">
+          <rect x="542" y="16" width="178" height="164" style="fill:var(--accent-soft)"/>
+          <line x1="80" y1="180" x2="720" y2="180" class="s-axis"/><line x1="80" y1="16" x2="80" y2="180" class="s-axis"/>
+          <polyline points="80,168.8 720,68" class="s-line" style="stroke-dasharray:5 4"/>
+          <polyline points="80,164 151.1,156 222.2,146 293.3,136 364.4,124 435.6,110 542.2,80 648.9,44 720,20" class="s-acc" style="stroke-width:3"/>
+          <g text-anchor="middle"><text x="80" y="196" class="t-mono">200</text><text x="222.2" y="196" class="t-mono">600</text><text x="364.4" y="196" class="t-mono">1000</text><text x="542.2" y="196" class="t-mono">1500</text><text x="720" y="196" class="t-mono">2000 ms</text>
+          <text x="80" y="212" class="t-dim">300 BPM</text><text x="222.2" y="212" class="t-dim">100</text><text x="364.4" y="212" class="t-dim">60</text><text x="542.2" y="212" class="t-dim">40</text><text x="720" y="212" class="t-dim">30 BPM</text></g>
+          <text x="400" y="230" text-anchor="middle" class="t-dim">박 간격(위)·템포(아래)</text>
+          <g text-anchor="end"><text x="74" y="184" class="t-mono">0</text><text x="74" y="104" class="t-mono">40</text><text x="74" y="24" class="t-mono">80 ms</text></g>
+          <text x="200" y="120" class="t-dim">웨버 영역: 흔들림 ∝ 간격(약 3%)</text>
+          <text x="550" y="34" class="t-acc">느린 템포: 예측이</text><text x="550" y="50" class="t-acc">무너져 급증</text>
+          <text x="600" y="98" class="t-mono">점선 = 3% 비례선</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-3.</b> 박 간격과 탭 흔들림(표준편차)의 관계를 그린 개념도. 대부분의 템포에서 흔들림은 간격에 비례하지만(점선), 간격이 1.5 s를 넘는 느린 템포에서는 비례선보다 빨리 커진다. 실제 값은 사람과 훈련, 측정 방법에 따라 크게 다르다.</figcaption>
+    </figure>
+    <p>아래 시뮬레이터는 그루브를 틀어 놓고 16마디 동안 4분음표(또는 8분음표)를 치게 한 뒤, 내 타이밍의 '프로필'을 그립니다. 편향과 흔들림에 더해, 시간에 따라 오차가 한쪽으로 흘러가는지(드리프트)를 <b>선형 회귀</b>로, 이웃한 오차가 서로 어떤 관계인지를 <b>1차 자기상관</b>으로 봅니다.</p>
+    <div class="formula">$$\hat e(x) = a + b\,x,\qquad b = \frac{\sum (x_i-\bar x)(e_i-\bar e)}{\sum (x_i-\bar x)^2},\qquad r_1 = \frac{\sum_{i}(e_i-\bar e)(e_{i+1}-\bar e)}{\sum_i (e_i-\bar e)^2}$$
+      <div class="where">\(x_i\): 탭의 시각(마디 단위), \(e_i\): 오차(ms). 기울기 \(b\)(ms/마디)가 양수면 점점 늦어지는(처지는), 음수면 점점 앞서는(서두르는) 경향이다. \(r_1 > 0\)이면 오차가 한동안 같은 쪽에 머무는 '느린 표류', \(r_1 < 0\)이면 매번 바로잡는 '톱니' 패턴이다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-profile">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>내 타이밍 프로필</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <div class="tm-phase" id="tm-pf-phase">▶ 시작하면 예비 한 마디 뒤 그루브가 나옵니다. 칠 자리에 탭하세요</div>
+          <button class="dr-tap" id="tm-pf-pad" type="button">탭<small>여기 · F·J·스페이스 키</small></button>
+          <canvas id="tm-pf-cv" class="dr-cv" style="margin-top:10px"></canvas>
+          <div class="tm-msg" id="tm-pf-msg"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="tm-pf-bpm-out"></output></span><input type="range" id="tm-pf-bpm" min="50" max="140" value="90" step="2"></label>
+          <div class="ctrl"><span>칠 자리</span><div class="seg" id="tm-pf-tgt"><button data-value="1" class="on">4분</button><button data-value="2">8분</button></div></div>
+          <div class="ctrl"><span>마디</span><div class="seg" id="tm-pf-bars"><button data-value="8">8</button><button data-value="16" class="on">16</button></div></div>
+          <div class="ctrl"><span>반주</span><div class="seg" id="tm-pf-back"><button data-value="groove" class="on">그루브</button><button data-value="both">그루브+클릭</button><button data-value="click">클릭만</button></div></div>
+          <label class="ctrl"><span>지연 보정 <output id="tm-pf-lat-out"></output></span><input type="range" id="tm-pf-lat" min="0" max="250" value="0" step="1"></label>
+          <div class="btn-row"><button class="btn primary" id="tm-pf-play">▶ 시작</button><button class="btn" id="tm-pf-auto">지연 자동</button><button class="btn" id="tm-pf-demo">모의 드러머</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">편향</span><span class="v" id="tm-pf-o-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림(σ)</span><span class="v" id="tm-pf-o-sd">—</span></div>
+        <div class="stat"><span class="k">σ / 칸 간격</span><span class="v" id="tm-pf-o-cv">—</span></div>
+        <div class="stat"><span class="k">드리프트 기울기</span><span class="v" id="tm-pf-o-slope">—</span></div>
+        <div class="stat"><span class="k">자기상관 r₁</span><span class="v" id="tm-pf-o-r1">—</span></div>
+        <div class="stat"><span class="k">맞춘 탭</span><span class="v" id="tm-pf-o-hit">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 가로 = 마디, 세로 = 오차(위 = 늦게). 점은 탭 하나, 굵은 선은 회귀 직선(드리프트), 음영은 평균 ± σ입니다. 탭은 가장 가까운 칠 자리에 짝지어지고 칸 간격의 45%보다 멀면 버립니다. '모의 드러머'는 편향 −8 ms, σ ≈ 13 ms, 마디당 +1.2 ms 처짐, 운동 잡음(음의 r₁)을 가진 가상의 연주를 만들어 그래프 읽는 법을 보여 줍니다. 지연 보정은 출력 장치 지연을 빼는 값이며 이 장의 다른 탭 측정에도 쓰입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="drift">
+    <h2>템포 드리프트와 템포 맵</h2>
+    <p>클릭 없이 연주하는 밴드의 템포는 거의 언제나 조금씩 움직입니다. 공연 녹음을 마디마다 재서 BPM을 이어 그린 것을 <span class="term">템포 맵</span><span class="en">(Tempo map)</span>이라고 하는데, 흔히 보이는 모양은 이렇습니다. 곡이 진행될수록, 특히 후렴과 필인에서 빨라지고(<span class="term">러싱</span><span class="en">(Rushing)</span>), 조용한 절이나 어려운 패시지에서 처집니다(<span class="term">드래깅</span><span class="en">(Dragging)</span>). 흥분과 에너지는 템포를 끌어올리는 쪽으로 작용하는 경향이 있어서, 무대 위의 드러머가 "빨라지지 않기"를 가장 자주 의식하게 됩니다.</p>
+    <p>템포의 작은 변화가 곧 잘못은 아닙니다. 클릭 없이 녹음된 많은 명연주가 후렴에서 1–3% 정도 빨라지고, 그 변화는 곡의 흐름처럼 느껴집니다. 문제는 의도하지 않은 큰 변화, 그리고 마디마다 들쭉날쭉한 변화입니다. 아래 측정기는 예비 박 뒤에 클릭을 끄고 내 탭만으로 마디별 템포를 계산합니다.</p>
+    <div class="formula">$$\text{BPM}_m = \frac{60}{\overline{\Delta t}_m},\qquad \text{변화율} = \frac{\text{BPM}_{\text{끝}} - \text{BPM}_{\text{목표}}}{\text{BPM}_{\text{목표}}}\times 100\%$$
+      <div class="where">\(\overline{\Delta t}_m\): \(m\)번째 마디 안 탭 간격의 평균(초). 한두 개의 튀는 간격이 결과를 흔들지 않도록, 전체 템포는 탭 번호–시각의 회귀 직선 기울기로 따로 구한다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-drift">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>템포 드리프트 측정기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <div class="tm-phase" id="tm-dr-phase">▶ 시작하면 예비 클릭이 나온 뒤 꺼집니다. 4분음표로 계속 탭하세요</div>
+          <button class="dr-tap" id="tm-dr-pad" type="button">탭(4분음표)<small>여기 · F·J·스페이스 키</small></button>
+          <canvas id="tm-dr-cv" class="dr-cv" style="margin-top:10px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>목표 템포 <output id="tm-dr-bpm-out"></output></span><input type="range" id="tm-dr-bpm" min="50" max="180" value="100" step="2"></label>
+          <div class="ctrl"><span>측정 마디</span><div class="seg" id="tm-dr-bars"><button data-value="8" class="on">8</button><button data-value="16">16</button></div></div>
+          <div class="ctrl"><span>예비 클릭</span><div class="seg" id="tm-dr-ci"><button data-value="1">1마디</button><button data-value="2" class="on">2마디</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tm-dr-play">▶ 시작</button><button class="btn" id="tm-dr-demo">예시: 서두르는 연주</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">첫 마디</span><span class="v" id="tm-dr-o-first">—</span></div>
+        <div class="stat"><span class="k">마지막 마디</span><span class="v" id="tm-dr-o-last">—</span></div>
+        <div class="stat"><span class="k">변화율</span><span class="v" id="tm-dr-o-pct">—</span></div>
+        <div class="stat"><span class="k">전체 평균(회귀)</span><span class="v" id="tm-dr-o-avg">—</span></div>
+        <div class="stat"><span class="k">마디 간 흔들림</span><span class="v" id="tm-dr-o-sd">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 가로 = 마디, 세로 = 그 마디의 BPM, 점선 = 목표 템포, 음영 = 목표 ±2%. 마디는 탭 네 개씩 묶어 정하며(첫 탭은 예비 클릭 직후의 박), 탭을 빠뜨리면 그 뒤 마디 경계가 밀립니다. 측정 마디만큼 탭하면 자동으로 끝납니다. 탭 소리(스네어)가 나므로 자기 소리를 들으며 템포를 지키는 상황과 같습니다. 반주가 전혀 없는 것이 실제 무대보다 어렵다는 점은 감안하세요.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 템포 드리프트 줄이기</strong> ① 이 측정기로 8마디, 목표 ±2% 안에 머무는지 봅니다. 대부분은 처음에 빨라집니다. ② 빨라진다면 <b>세분을 속으로 세세요</b>. 4분음표만 세면 박 사이의 '빈 시간'을 줄이고 싶어집니다. 8분이나 16분으로 그 시간을 채우면 처지지도 서두르지도 않습니다. ③ 필인에서 빨라진다면(가장 흔합니다) 필의 마지막 음 다음 1박을 '착지 지점'으로 의식하고, 필은 같은 세분 격자 위에서만 움직입니다(<a href="fills.html">8장</a>). ④ 밴드 리허설을 휴대폰으로 녹음해 두 번째 후렴의 템포를 첫 절과 비교해 보세요. 3% 이상 차이 나면 그 구간을 클릭과 함께 다시 연습합니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="humanize">
+    <h2>휴머나이즈: 무작위 흔들림은 그루브가 아니다</h2>
+    <p>시퀀서의 <span class="term">휴머나이즈</span><span class="en">(Humanize)</span> 기능은 퀀타이즈된 음표마다 작은 무작위 시간(보통 가우스 분포, 표준편차 수 ms–수십 ms)과 셈여림 변화를 더해 "사람이 친 것처럼" 만들려고 합니다. 그런데 앞에서 본 것처럼 사람 연주의 어긋남에는 두 종류가 섞여 있습니다. 매번 같은 방향·같은 크기로 반복되는 <b>체계적 편차</b>(레이백 스네어, 스윙한 &amp;)와 매번 다른 <b>무작위 흔들림</b>입니다. 그루브의 개성은 주로 앞의 것에서 나오고, 뒤의 것은 연주를 '덜 단단하게' 들리게 합니다. 실제로 청취 실험들에서도, 마이크로타이밍을 크게 넣을수록 그루브 평가가 좋아지기보다는 오히려 나빠지는 경우가 많았고, 특히 크고 무작위적인 편차는 꾸준히 낮게 평가되었습니다.</p>
+    <div class="formula">$$t'_i = t_i + \underbrace{\mu_{c(i)}}_{\text{체계적: 역할마다 같은 값}} + \underbrace{\varepsilon_i}_{\text{무작위}},\qquad \varepsilon_i \sim \mathcal N(0, \sigma^2),\qquad \text{RMS} = \sqrt{\tfrac1N\textstyle\sum_i (t'_i - t_i)^2}$$
+      <div class="where">\(c(i)\): 음표의 역할(박 위 하이햇, &amp; 하이햇, 백비트, 고스트 노트, 킥…). 아래 블라인드 테스트에서 두 연주는 격자에서 벗어난 양의 RMS가 똑같다. 다른 것은 그 편차가 역할마다 일정한가(체계적), 매번 새로 뽑히는가(무작위)뿐이다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-human">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>휴머나이즈 블라인드 테스트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <div class="tm-phase" id="tm-hu-phase">A와 B를 번갈아 들어 보세요. 하나는 무작위 흔들림, 하나는 체계적 편차입니다</div>
+          <div class="tm-ab"><button class="btn" id="tm-hu-a">▶ A 듣기</button><button class="btn" id="tm-hu-b">▶ B 듣기</button></div>
+          <div class="tm-ab"><button class="btn" id="tm-hu-ga">A가 무작위다</button><button class="btn" id="tm-hu-gb">B가 무작위다</button></div>
+          <div class="tm-reveal" id="tm-hu-rev">답을 고르면 정체를 알려 드립니다</div>
+          <canvas id="tm-hu-cv" class="dr-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>그루브</span><select id="tm-hu-g"><option value="pop16">16비트 팝</option><option value="funk">펑크(고스트 노트)</option><option value="rock8">8비트 록</option></select></label>
+          <label class="ctrl"><span>편차 크기(RMS) <output id="tm-hu-s-out"></output></span><input type="range" id="tm-hu-s" min="4" max="30" value="14" step="1"></label>
+          <label class="ctrl"><span>템포 <output id="tm-hu-bpm-out"></output></span><input type="range" id="tm-hu-bpm" min="70" max="130" value="96" step="2"></label>
+          <div class="btn-row"><button class="btn" id="tm-hu-q">▶ 기준(퀀타이즈)</button><button class="btn primary" id="tm-hu-new">새 문제</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">정답 / 시도</span><span class="v" id="tm-hu-o-score">0 / 0</span></div>
+        <div class="stat"><span class="k">두 연주의 RMS</span><span class="v" id="tm-hu-o-rms">—</span></div>
+        <div class="stat"><span class="k">체계적 편차의 내용</span><span class="v" id="tm-hu-o-sys">—</span></div>
+      </div>
+      <div class="sim-note">무작위 쪽은 엔진의 <code>humanize</code>(음표마다 새로 뽑는 가우스 지터)를, 체계적 쪽은 역할별 고정 오프셋(박 위 하이햇 0, &amp;·e·a 하이햇 늦게, 백비트 늦게, 고스트 노트 조금 늦게, 킥 조금 앞)을 쓰고, 두 쪽의 RMS를 같게 맞췄습니다. 그림은 한 마디 동안의 오프셋(체계적 = 고정 막대, 무작위 = 한 번 뽑은 예)입니다. 정답을 고른 뒤에 그림이 공개됩니다. 편차를 6 ms 이하로 줄이면 둘을 구별하기 어려워지고, 25 ms 이상이면 무작위 쪽이 '어설프게' 들릴 것입니다.</div>
+    </div>
+    <div class="callout warn"><strong>휴머나이즈를 켜기 전에</strong> 찍어서 만든 드럼이 딱딱하게 들린다면 무작위 지터보다 먼저 ① <b>셈여림</b>(하이햇 액센트·고스트 노트, <a href="sixteenth.html">7장</a>)을 손보고, ② 필요하면 스네어 몇 ms 뒤, &amp; 하이햇 약한 스윙 같은 <b>체계적</b> 편차를 넣으세요. 무작위 타이밍은 넣더라도 3–5 ms 이하로 작게 쓰는 것이 안전합니다. 사람다움의 대부분은 시간이 아니라 소리의 세기와 음색 변화에서 옵니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="quantize">
+    <h2>퀀타이즈 강도</h2>
+    <p><span class="term">퀀타이즈</span><span class="en">(Quantize)</span>는 녹음한 음표를 가장 가까운 격자 칸으로 옮기는 기능입니다. 100% 퀀타이즈는 모든 어긋남을 지우고, 강도를 낮추면 격자 쪽으로 <b>일부만</b> 끌어당깁니다. 강도 \(s\)의 퀀타이즈는 각 음을 격자까지 거리의 \(s\)배만큼 옮기는 선형 보간이므로, 체계적 편차든 무작위 흔들림이든 같은 비율로 줄어듭니다.</p>
+    <div class="formula">$$t' = t + s\,(q(t) - t),\qquad q(t) = \frac{\operatorname{round}(t\cdot d)}{d},\qquad |t'-q| = (1-s)\,|t-q|$$
+      <div class="where">\(q(t)\): 세분 \(d\)의 격자에서 가장 가까운 칸(박 단위). \(s = 0.5\)면 30 ms 늦은 음이 15 ms 늦은 음이 된다. 격자를 잘못 고르면(16분 연주를 8분 격자로) 음이 엉뚱한 칸으로 끌려가고, 셋잇단 연주를 16분 격자로 퀀타이즈하면 스윙이 '반쯤 정박'으로 망가진다.</div>
+    </div>
+
+    <div class="sim" id="sim-tm-quant">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>녹음하고 퀀타이즈하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <div class="tm-phase" id="tm-qz-phase">● 녹음: 예비 한 마디 뒤 두 마디를 패드나 키보드로 치세요</div>
+          <div id="tm-qz-pads"></div>
+          <canvas id="tm-qz-cv" class="dr-cv" style="margin-top:8px"></canvas>
+          <div id="tm-qz-staff" style="margin-top:8px"></div>
+          <div class="tm-msg">키: <span class="dr-hint"><kbd>D</kbd>/<kbd>K</kbd> 하이햇 · <kbd>F</kbd>/<kbd>J</kbd> 스네어 · <kbd>Space</kbd>/<kbd>X</kbd> 킥</span></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>격자</span><div class="seg" id="tm-qz-div"><button data-value="2">8분</button><button data-value="4" class="on">16분</button><button data-value="3">셋잇단</button></div></div>
+          <label class="ctrl"><span>퀀타이즈 강도 <output id="tm-qz-s-out"></output></span><input type="range" id="tm-qz-s" min="0" max="100" value="50" step="5"></label>
+          <label class="ctrl"><span>템포 <output id="tm-qz-bpm-out"></output></span><input type="range" id="tm-qz-bpm" min="60" max="130" value="88" step="2"></label>
+          <label class="check"><input type="checkbox" id="tm-qz-click" checked> 재생할 때 클릭</label>
+          <div class="btn-row"><button class="btn" id="tm-qz-rec">● 녹음</button><button class="btn primary" id="tm-qz-play">▶ 재생</button><button class="btn" id="tm-qz-ex">예시 연주</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">녹음한 음</span><span class="v" id="tm-qz-o-n">—</span></div>
+        <div class="stat"><span class="k">원래 평균 |어긋남|</span><span class="v" id="tm-qz-o-raw">—</span></div>
+        <div class="stat"><span class="k">퀀타이즈 뒤</span><span class="v" id="tm-qz-o-now">—</span></div>
+        <div class="stat"><span class="k">남은 '사람 몫'</span><span class="v" id="tm-qz-o-left">—</span></div>
+      </div>
+      <div class="sim-note">녹음: 클릭 예비 한 마디 뒤 두 마디를 기록합니다(예비 마디의 탭은 버립니다). 그림의 원은 100% 퀀타이즈 위치(격자), 막대는 지금 강도에서 소리 나는 위치이고, 악보는 100% 퀀타이즈한 결과입니다. 강도를 바꾸면 다시 재생할 때 반영됩니다. '예시 연주'는 8비트 록을 무작위 흔들림 약 20 ms와 늦은 스네어 +12 ms로 친 가상의 녹음입니다. 강도 50%에서 들어 보면 단단해졌지만 레이백의 흔적은 반쯤 남아 있습니다. 녹음 기능은 엔진의 <code>DR.recorder</code>를 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="click">
+    <h2>클릭과 함께, 클릭 없이</h2>
+    <p>녹음 현장에서 클릭(메트로놈)을 쓰느냐는 오래된 논쟁입니다. 클릭을 쓰면 편집과 겹쳐 녹음이 쉬워지고, 전자 악기·루프와 맞추기 좋습니다. 대신 템포가 숨 쉬듯 움직이는 자연스러운 흐름이 사라집니다. 클릭 없이 녹음하면 밴드가 서로를 듣고 함께 움직이는 장점이 있지만, 드러머의 템포 유지력이 그대로 녹음에 남습니다. 어느 쪽이든 드러머에게 필요한 능력은 같습니다. <b>클릭이 있을 때 클릭을 '지우듯' 겹쳐 칠 수 있고, 클릭이 없을 때 템포가 2% 안에서 머무는 것</b>. 3장의 갭 클릭(<a href="counting.html#gap">3장</a>)과 이 장의 드리프트 측정기가 두 능력을 함께 기릅니다.</p>
+    <div class="callout tip"><strong>연습법: 클릭과 친해지기</strong> ① 헤드폰으로 클릭을 듣되, 드럼 소리보다 약간 작게. 클릭이 너무 크면 클릭을 쫓게 되고, 너무 작으면 놓칩니다. ② 클릭에 맞춰 칠 때 목표는 "클릭이 들리지 않는 것"입니다. 내 음이 클릭을 덮으면 맞은 것입니다. ③ 곡 템포가 정해졌다면 클릭 템포를 ±3 BPM으로 바꿔 가며 쳐 보고 그루브가 가장 자연스러운 값을 찾으세요. ④ 클릭을 2·4박이나 1박에만 두는 연습(<a href="counting.html#body">3장</a>)으로 클릭에 '기대지 않는' 습관을 들입니다.</div>
+  </section>
+
+  <!-- =============================================================== 10 -->
+  <section id="latency">
+    <h2>레이턴시: 소리가 늦게 도착하는 이유</h2>
+    <p>타이밍을 ms 단위로 다루기 시작하면 <span class="term">레이턴시</span><span class="en">(Latency)</span>, 즉 소리가 귀에 도착하기까지의 지연이 무시할 수 없는 크기가 됩니다. 원인은 두 가지입니다. 첫째, <b>공기</b>. 소리는 20 °C에서 초속 약 343 m로 가므로 1 m에 약 2.9 ms가 걸립니다. 무대에서 4 m 떨어진 베이스 앰프 소리는 12 ms 늦게 들리고, 10 m 너비 무대 반대편의 기타 앰프는 30 ms 가까이 늦습니다. 큰 무대일수록 드러머가 인이어 모니터를 선호하는 이유입니다. 둘째, <b>디지털 장비</b>. 오디오 인터페이스와 컴퓨터는 소리를 버퍼 단위로 모아 처리하므로, 버퍼 크기만큼의 시간이 입력과 출력에서 각각 더해집니다. 블루투스 이어폰은 코덱 때문에 보통 100–200 ms가 더해져, 연주용으로는 쓸 수 없습니다.</p>
+    <div class="formula">$$t_{\text{공기}} = \frac{d}{c},\quad c \approx 331.3 + 0.606\,T_{\text{°C}}\ \text{m/s},\qquad t_{\text{버퍼}} = \frac{N}{f_s},\qquad t_{\text{왕복}} \approx \frac{N_{\text{in}} + N_{\text{out}}}{f_s} + t_{\text{AD}} + t_{\text{DA}}$$
+      <div class="where">\(d\): 거리(m), \(T\): 기온. 20 °C에서 \(c\) = 343 m/s, 1 m ≈ 2.92 ms. \(N\): 버퍼 크기(샘플), \(f_s\): 표본화율. 48 kHz에서 128 샘플은 2.67 ms, 256 샘플은 5.33 ms. 전자 드럼을 컴퓨터 음원으로 연주하면 패드 → 모듈(MIDI) → 컴퓨터 → 출력 버퍼 → 헤드폰의 지연이 쌓이며, 드라이버의 안전 버퍼 때문에 실제 왕복은 계산값보다 조금 더 크다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 224" role="img" aria-label="무대에서 드러머와 각 소리 원천 사이의 거리와 지연">
+        <g font-family="var(--font)">
+          <circle cx="80" cy="112" r="30" class="f-acc"/><text x="80" y="117" text-anchor="middle" class="t" style="fill:var(--on-accent);font-weight:700">드러머</text>
+          <rect x="190" y="18" width="150" height="40" rx="8" class="f-acc2-soft"/><text x="265" y="36" text-anchor="middle" class="t" style="font-weight:700">인이어 모니터</text><text x="265" y="51" text-anchor="middle" class="t-mono">0 m + 디지털 2–6 ms</text>
+          <rect x="190" y="166" width="150" height="40" rx="8" class="f-surface"/><text x="265" y="184" text-anchor="middle" class="t" style="font-weight:700">바닥 모니터</text><text x="265" y="199" text-anchor="middle" class="t-mono">1.5 m ≈ 4.4 ms</text>
+          <rect x="400" y="92" width="150" height="40" rx="8" class="f-surface"/><text x="475" y="110" text-anchor="middle" class="t" style="font-weight:700">베이스 앰프</text><text x="475" y="125" text-anchor="middle" class="t-mono">4 m ≈ 11.7 ms</text>
+          <rect x="596" y="92" width="150" height="40" rx="8" class="f-surface"/><text x="671" y="110" text-anchor="middle" class="t" style="font-weight:700">반대편 기타 앰프</text><text x="671" y="125" text-anchor="middle" class="t-mono">10 m ≈ 29 ms</text>
+          <path d="M106 98 L190 44 M106 126 L190 182 M110 112 H400" class="s-line"/>
+          <path d="M550 112 H596" class="s-line" style="stroke-dasharray:4 4"/>
+          <text x="250" y="104" text-anchor="middle" class="t-dim">c ≈ 343 m/s → 1 m ≈ 2.9 ms</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 13-4.</b> 무대 위의 지연(20 °C). 같은 박에 친 음이라도 드러머의 귀에는 원천까지의 거리만큼 늦게 도착한다. 10 m 떨어진 앰프의 29 ms는 레이백 스네어보다 큰 어긋남이다. 그래서 큰 무대에서는 서로의 앰프가 아니라 드러머(특히 하이햇과 킥)를 기준으로 맞추는 것이 원칙이다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-tm-latency">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>지연 계산기: 거리 + 버퍼</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view tm-pad">
+          <canvas id="tm-lt-cv" class="dr-cv"></canvas>
+          <div class="tm-msg" id="tm-lt-msg"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>거리 <output id="tm-lt-d-out"></output></span><input type="range" id="tm-lt-d" min="0" max="30" value="4" step="0.1"></label>
+          <label class="ctrl"><span>기온 <output id="tm-lt-T-out"></output></span><input type="range" id="tm-lt-T" min="-10" max="40" value="20" step="1"></label>
+          <div class="ctrl"><span>버퍼(샘플)</span><div class="seg" id="tm-lt-n"><button data-value="0">없음</button><button data-value="32">32</button><button data-value="64">64</button><button data-value="128" class="on">128</button><button data-value="256">256</button><button data-value="512">512</button><button data-value="1024">1024</button></div></div>
+          <div class="ctrl"><span>표본화율</span><div class="seg" id="tm-lt-fs"><button data-value="44100">44.1 k</button><button data-value="48000" class="on">48 k</button><button data-value="96000">96 k</button></div></div>
+          <label class="check"><input type="checkbox" id="tm-lt-rt" checked> 왕복(입력 + 출력 버퍼, 변환기 각 1 ms)</label>
+          <label class="check"><input type="checkbox" id="tm-lt-bt"> 블루투스 이어폰(+150 ms)</label>
+          <div class="btn-row"><button class="btn primary" id="tm-lt-play">▶ 이 지연 들어 보기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">소리 속도</span><span class="v" id="tm-lt-o-c">—</span></div>
+        <div class="stat"><span class="k">공기 지연</span><span class="v" id="tm-lt-o-air">—</span></div>
+        <div class="stat"><span class="k">디지털 지연</span><span class="v" id="tm-lt-o-dig">—</span></div>
+        <div class="stat"><span class="k">합계</span><span class="v" id="tm-lt-o-tot">—</span></div>
+        <div class="stat"><span class="k">같은 지연의 거리</span><span class="v" id="tm-lt-o-eq">—</span></div>
+      </div>
+      <div class="sim-note">'들어 보기'는 90 BPM으로 8박을 냅니다. 앞 4박은 크로스 스틱('내가 친 순간')과 스네어('들리는 소리')가 동시에, 뒤 4박은 스네어가 계산한 합계 지연만큼 늦게 울립니다. 10 ms 아래는 거의 하나로 붙어 들리고, 20–30 ms부터 '두 번' 들리기 시작하며, 블루투스(150 ms 이상)는 메아리처럼 들립니다. 이 페이지를 듣는 지금의 출력 지연은 양쪽에 똑같이 더해지므로 비교에는 영향이 없습니다. 연구에 따르면 두 연주자 사이 지연이 약 25 ms를 넘으면 함께 연주할 때 템포가 점점 느려지는 경향이 나타납니다.</div>
+    </div>
+    <div class="callout note"><strong>전자 드럼과 컴퓨터</strong> 전자 드럼 모듈의 내장 음원은 보통 지연이 몇 ms 이하라 문제가 없지만, 컴퓨터 음원(가상 악기)으로 연주하면 오디오 인터페이스 버퍼를 64–128 샘플(48 kHz에서 1.3–2.7 ms)로 낮추고, 반드시 유선 헤드폰을 쓰세요. 연주할 때 총 지연이 10 ms를 넘으면 손이 저절로 앞당겨 치도록 '보상'하는 버릇이 생길 수 있습니다. 이 책의 탭 측정이 '지연 보정'을 두는 이유도 같습니다.</div>
+  </section>
+
+  <!-- =============================================================== 11 -->
+  <section id="practice">
+    <h2>연습 설계: 녹음하고 재기</h2>
+    <p>타이밍은 느낌으로만 판단하면 착각하기 쉽습니다. 연주하는 동안의 뇌는 자기 박을 '맞다'고 느끼도록 보정하기 때문입니다. 그래서 가장 효과적인 연습은 엔지니어의 방법과 같습니다. <b>측정 → 가설 → 수정 → 다시 측정</b>. 휴대폰 녹음과 무료 DAW만 있으면 됩니다. 녹음 파형에서 스네어의 시작점을 박 격자와 비교하면 이 장의 모든 숫자(편향, 흔들림, 레이백, 스윙 비율, 드리프트)를 직접 잴 수 있습니다.</p>
+    <div class="callout tip"><strong>주간 타이밍 루틴(하루 15분)</strong> ① <b>3분</b>: 3장 탭 게임 4분·&amp;만 각 1회, 결과 기록. ② <b>4분</b>: 갭 클릭 2–2로 8비트(실제 드럼 또는 패드), 복귀 오차 ±20 ms 목표. ③ <b>4분</b>: 레이백 연습. 클릭 80 BPM에서 하이햇·킥은 박 위, 스네어만 뒤로. 휴대폰으로 30초 녹음. ④ <b>4분</b>: 클릭 없이 8마디 → 이 장의 드리프트 측정기 또는 녹음으로 마지막 마디 템포 확인(±2%). 매주 같은 BPM에서 숫자를 비교하고, 흔들림이 칸 간격의 5% 아래로 안정되면 템포를 5 BPM 올리세요.</div>
+    <div class="callout tip"><strong>녹음을 볼 때 확인할 것</strong> ① 스네어 백비트들이 격자 기준으로 한쪽에 <b>일정하게</b> 모여 있는가(레이백) 아니면 흩어져 있는가(흔들림). ② 하이햇의 &amp;가 박 위 음과 같은 간격인가(정박) 아니면 늦게 몰려 있는가(스윙). ③ 필 직후 첫 박이 격자보다 앞서 있는가(필에서 서두름). ④ 4마디마다 박 위치를 이어 그었을 때 직선이 기울어지는가(드리프트). 하나씩만 고치고 다시 녹음하세요.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>정확도는 격자에 대한 편향과 흔들림이고, 그루브는 그것을 포함한 몸의 반응이다. 대략 20 ms 안의 어긋남은 '틀림'보다 '질감'으로 들린다.</li>
+      <li>레이백(스네어를 늦게)과 푸시(앞서)는 조각별 체계적 오프셋이다. 같은 ms라도 템포가 빠를수록 칸 비율 \(\Delta t\cdot\text{BPM}\cdot d/60000\)이 커진다.</li>
+      <li>스윙 비율 \(r = L/(L+S)\)은 0.5(1:1)–0.75(3:1)의 연속량이며 셔플은 \(r = 2/3\)이다. 템포가 빨라질수록 스윙 비율은 작아지는 경향이 있다.</li>
+      <li>16분 스윙(약 0.54–0.6)과 조각마다 다른 격자가 '느슨한' 그루브를 만든다. 핵심은 편차가 매 마디 똑같이 반복된다는 것이다.</li>
+      <li>사람의 탭 흔들림은 박 간격에 비례하고(약 2–5%), 아주 느린 템포에서는 그보다 빨리 커진다. 윙–크리스토퍼슨 모형은 이를 시계 잡음과 운동 잡음으로 나눈다.</li>
+      <li>클릭 없는 연주는 대개 빨라진다. 마디별 BPM을 이은 템포 맵으로 드리프트를 보고, 세분을 속으로 세어 막는다.</li>
+      <li>같은 RMS라도 무작위 지터는 실수처럼, 체계적 편차는 스타일처럼 들린다. 퀀타이즈 강도 \(s\)는 모든 편차를 \((1-s)\)배로 줄인다.</li>
+      <li>소리는 1 m에 약 2.9 ms, 버퍼는 \(N/f_s\)만큼 늦는다. 측정 → 수정 → 재측정의 녹음 루틴이 타이밍을 숫자로 키운다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>긴 음과 짧은 음의 비가 2:1인 스윙의 비율 \(r\)은?</p><div class="opts">
+        <button class="opt">0.5</button><button class="opt">0.6</button><button class="opt" data-correct>약 0.667</button><button class="opt">0.75</button>
+      </div><div class="quiz-exp">\(r = L/(L+S) = 2/3\). 셋잇단의 첫째·셋째 칸을 치는 셔플과 같다. 3:1이면 0.75(점8분 + 16분).</div></div>
+      <div class="quiz-q"><p>100 BPM, 8분 스윙 \(r = 0.6\)일 때 &amp;는 정박 위치보다 얼마나 늦게 오는가?</p><div class="opts">
+        <button class="opt">10 ms</button><button class="opt">30 ms</button><button class="opt" data-correct>60 ms</button><button class="opt">360 ms</button>
+      </div><div class="quiz-exp">한 쌍 = 한 박 = 600 ms. &amp;의 위치는 \(0.6\times600 = 360\) ms로, 정박 300 ms보다 60 ms 늦다.</div></div>
+      <div class="quiz-q"><p>재즈 라이드 연주 측정에서 보고된 스윙 비율과 템포의 관계로 알맞은 것은?</p><div class="opts">
+        <button class="opt">템포와 상관없이 언제나 2:1이다</button><button class="opt" data-correct>템포가 빨라질수록 비율이 작아져 1:1에 가까워진다</button><button class="opt">템포가 빨라질수록 비율이 커진다</button><button class="opt">느린 템포일수록 1:1에 가깝다</button>
+      </div><div class="quiz-exp">짧은 음이 대략 100 ms 언저리 아래로 줄지 않는 경향 때문에, 한 쌍이 짧아지는(빠른) 템포에서는 비율이 작아진다.</div></div>
+      <div class="quiz-q"><p>90 BPM 16비트에서 스네어를 +20 ms 레이백했다. 16분 칸 간격에 대한 비율은?</p><div class="opts">
+        <button class="opt">약 3%</button><button class="opt" data-correct>약 12%</button><button class="opt">약 25%</button><button class="opt">약 50%</button>
+      </div><div class="quiz-exp">16분 칸 = 60 000/90/4 ≈ 167 ms. 20/167 ≈ 0.12.</div></div>
+      <div class="quiz-q"><p>격자에서 벗어난 양의 RMS가 15 ms로 같은 두 연주 중, 대체로 '실수'처럼 들리는 쪽은?</p><div class="opts">
+        <button class="opt">역할마다 같은 오프셋을 주는 체계적 편차</button><button class="opt" data-correct>음표마다 새로 뽑는 무작위(가우스) 흔들림</button><button class="opt">둘은 RMS가 같으므로 똑같이 들린다</button><button class="opt">둘 다 퀀타이즈보다 항상 더 그루브 있다</button>
+      </div><div class="quiz-exp">체계적 편차는 매 마디 반복되어 귀가 스타일로 학습하지만, 무작위 흔들림은 예측할 수 없어 단단하지 않게 들린다. 청취 실험에서도 큰 무작위 편차는 그루브 평가를 낮췄다.</div></div>
+      <div class="quiz-q"><p>격자보다 30 ms 늦은 음에 강도 60%로 퀀타이즈하면 결과는?</p><div class="opts">
+        <button class="opt">18 ms 늦음</button><button class="opt" data-correct>12 ms 늦음</button><button class="opt">0 ms(격자 위)</button><button class="opt">18 ms 이름</button>
+      </div><div class="quiz-exp">남는 어긋남 = \((1-s)\times30 = 0.4\times30 = 12\) ms. 방향은 그대로(늦음).</div></div>
+      <div class="quiz-q"><p>20 °C에서 드러머와 6 m 떨어진 앰프의 소리는 얼마나 늦게 도착하나?</p><div class="opts">
+        <button class="opt">약 2 ms</button><button class="opt">약 6 ms</button><button class="opt" data-correct>약 17.5 ms</button><button class="opt">약 60 ms</button>
+      </div><div class="quiz-exp">\(6/343 \approx 0.0175\) s. 1 m ≈ 2.9 ms이므로 6 m ≈ 17.5 ms. 레이백 스네어와 비슷한 크기다.</div></div>
+      <div class="quiz-q"><p>탭 흔들림에 대한 설명으로 옳은 것은?</p><div class="opts">
+        <button class="opt">박 간격과 상관없이 늘 20 ms로 일정하다</button><button class="opt">느린 템포일수록 쉬워서 흔들림이 비례보다 작아진다</button><button class="opt" data-correct>대체로 박 간격에 비례하고, 아주 느린 템포에서는 비례보다 빨리 커진다</button><button class="opt">빠른 템포일수록 ms 단위 흔들림이 커진다</button>
+      </div><div class="quiz-exp">변동 계수(σ/간격)가 2–5%로 비슷한 웨버 법칙적 성질을 보이고, 간격이 1.5 s를 넘으면 예측이 어려워져 급히 커진다. 그래서 느린 곡은 세분을 속으로 세며 친다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 tm) */
+const tmSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const tmF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const tmMs = (ms, d) => (!isFinite(ms) ? "—" : Math.abs(ms) >= 1000 ? tmF(ms / 1000, 2) + " s" : tmF(ms, d != null ? d : Math.abs(ms) < 10 ? 1 : 0) + " ms");
+const tmSgn = (x, d = 0) => (isFinite(x) ? (x > 0.05 ? "+" : x < -0.05 ? "−" : "±") + Math.abs(x).toFixed(d) : "—");
+const tmMono = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const tmLat = () => { const el = document.getElementById("tm-pf-lat"); return el ? +el.value : 0; };
+const tmTapTime = (tp) => tp.when - 0.004 - tmLat() / 1000;
+function tmStats(a) {
+  const n = a.length; if (!n) return { n: 0, mean: NaN, sd: NaN };
+  const mean = a.reduce((x, y) => x + y, 0) / n;
+  return { n, mean, sd: n > 1 ? Math.sqrt(a.reduce((x, y) => x + (y - mean) ** 2, 0) / (n - 1)) : NaN };
+}
+/** 최소제곱 직선 y = a + b x */
+function tmFit(xs, ys) {
+  const n = xs.length; if (n < 2) return null;
+  const mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+  let sxy = 0, sxx = 0; for (let i = 0; i < n; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) ** 2; }
+  if (!sxx) return null;
+  const b = sxy / sxx; return { a: my - b * mx, b };
+}
+function tmR1(e) {
+  if (e.length < 4) return NaN;
+  const m = e.reduce((a, b) => a + b, 0) / e.length; let num = 0, den = 0;
+  for (let i = 0; i < e.length; i++) { den += (e[i] - m) ** 2; if (i + 1 < e.length) num += (e[i] - m) * (e[i + 1] - m); }
+  return den ? num / den : NaN;
+}
+function tmBind(id, make, labels = ["▶ 재생", "■ 정지"]) {
+  const b = document.getElementById(id);
+  let sc = null;
+  const set = (on) => { b.textContent = labels[on ? 1 : 0]; b.classList.toggle("playing", on); };
+  const halt = () => { if (sc && sc.running) sc.stop(); };
+  b.addEventListener("click", () => {
+    MB.ctx();
+    if (sc && sc.running) { sc.stop(); return; }
+    tmSolo.take(halt);
+    sc = make();
+    if (!sc) { tmSolo.drop(halt); return; }
+    const os = sc.stop;
+    sc.stop = function (n) { os.call(sc, n); set(false); tmSolo.drop(halt); };
+    sc.start(); set(true);
+  });
+  set(false);
+  return { halt, get sc() { return sc; }, get running() { return !!(sc && sc.running); }, restart() { if (sc && sc.running) { sc.stop(); b.click(); } } };
+}
+function tmPad(id, kit, piece = "snare") {
+  const el = document.getElementById(id);
+  let hand = "L";
+  el.addEventListener("pointerdown", (e) => { e.preventDefault(); MB.ctx(); hand = hand === "R" ? "L" : "R"; kit.hit(piece, 0.8, null, { src: "tap", hand }); });
+  DR.keyTarget(el, (p, v, h, src) => { MB.ctx(); kit.hit(DR.isFoot(p) ? "kick" : piece, v, null, { hand: h, src }); });
+  return el;
+}
+function tmFlash(el, dev) {
+  const a = Math.abs(dev); el.classList.remove("ok", "warn", "bad"); el.classList.add(a <= 15 ? "ok" : a <= 35 ? "warn" : "bad");
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("ok", "warn", "bad"), 260);
+}
+const tmDevColor = (d, P) => (Math.abs(d) <= 15 ? P.ok : Math.abs(d) <= 35 ? P.warn : P.bad);
+const tmRole = (p) => (p === "hat" || p === "hatOpen" || p === "hatHalf" || p === "ride" || p === "bell" ? "hat" : p === "kick" ? "kick" : "snare");
+
+/* ================================================================ 1. 레이백·푸시 탐색기 */
+(function () {
+  const sel = document.getElementById("tm-of-g"), phase = document.getElementById("tm-of-phase");
+  const fmt = (v) => (v > 0 ? "+" : v < 0 ? "−" : "±") + Math.abs(v) + " ms";
+  const hh = MB.range("tm-of-hh", fmt, () => upd()), sn = MB.range("tm-of-sn", fmt, () => upd()), bd = MB.range("tm-of-bd", fmt, () => upd());
+  const bpm = MB.range("tm-of-bpm", (v) => v + " BPM", () => upd());
+  const ex = MB.seg("tm-of-ex", () => cv.redraw()), ab = MB.check("tm-of-ab"), click = MB.check("tm-of-click");
+  const pre = document.getElementById("tm-of-pre");
+  pre.addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; const [a, s, k] = b.dataset.v.split(",").map(Number); hh.set(a, false); sn.set(s, false); bd.set(k, false); pre.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); upd(); });
+  sel.addEventListener("change", () => { bpm.set(Math.min(150, DR.GROOVES[sel.value].bpm)); cv.redraw(); pl.restart(); });
+  const off = (p) => ({ hat: hh(), snare: sn(), kick: bd() })[tmRole(p)];
+  let sc = null, nowB = null;
+  const straight = () => ab() && sc && sc.running && MB.mod(sc.loopNo, 2) === 1;
+  function upd() {
+    const T16 = 60000 / bpm() / 4;
+    MB.stat("tm-of-o-step", tmMs(T16));
+    MB.stat("tm-of-o-sn", `${tmSgn(sn())} ms · ${tmF((sn() / T16) * 100, 0)}%`);
+    MB.stat("tm-of-o-gap", tmSgn(sn() - hh()) + " ms");
+    MB.stat("tm-of-o-kh", tmSgn(hh() - bd()) + " ms");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#tm-of-cv", (ctx, W, H) => {
+    const P = MB.palette(), rows = ["hat", "snare", "kick"], L = 34, R = 10, T = 6, B = 18, rh = (H - T - B) / 3;
+    const spb = 60 / bpm(), X = (t) => L + (t / 4) * (W - L - R), k = +ex();
+    for (let s = 0; s <= 16; s++) { ctx.strokeStyle = s % 4 === 0 ? P.axis : P.grid; ctx.lineWidth = s % 4 === 0 ? 1.4 : 1; ctx.beginPath(); ctx.moveTo(X(s / 4), T); ctx.lineTo(X(s / 4), H - B); ctx.stroke(); }
+    ctx.font = "10.5px " + tmMono(); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let b = 0; b < 4; b++) ctx.fillText(String(b + 1), X(b) + 8, H - B + 3);
+    ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    const evs = DR.groove(sel.value), isStraight = straight();
+    rows.forEach((r, i) => {
+      const y = T + rh * i + rh / 2;
+      ctx.fillStyle = P.dim; ctx.fillText(DR.PIECES[r].short, 4, y);
+      evs.filter((e) => tmRole(e.p) === r).forEach((e) => {
+        const o = isStraight ? 0 : off(e.p), x = X(e.t), xs = X(e.t + (k * o) / 1000 / spb);
+        ctx.strokeStyle = P.faint; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.stroke();
+        ctx.fillStyle = r === "snare" ? P.accent2 : P.accent; ctx.globalAlpha = 0.4 + 0.6 * (e.v != null ? e.v : 0.75);
+        ctx.fillRect(xs - 2, y - rh * 0.34, 4, rh * 0.68); ctx.globalAlpha = 1;
+      });
+    });
+    if (nowB != null) { ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(nowB), T); ctx.lineTo(X(nowB), H - B); ctx.stroke(); }
+  }, { aspect: (w) => (w < 480 ? 0.5 : 0.3), minHeight: 140, maxHeight: 220 });
+  const pl = tmBind("tm-of-play", () => {
+    DR.warm(["hat", "hatOpen", "snare", "kick", "clap"]);
+    const key = sel.value;
+    sc = DR.playEvents(DR.groove(key), {
+      bpm: () => bpm(), length: 4, loop: true, clickOn: () => click(),
+      offsets: (ev) => (ev.p && !straight() ? off(ev.p) : 0),
+      onLoop() { const s = straight(); phase.className = "tm-phase " + (s ? "c" : "a"); phase.textContent = s ? "B: 정박(퀀타이즈)" : ab() ? "A: 조정한 타이밍" : "조정한 타이밍으로 재생 중"; cv.redraw(); },
+      onStop() { nowB = null; phase.className = "tm-phase"; phase.textContent = "멈춤"; cv.redraw(); },
+    });
+    const st = sc.start, s = sc;
+    sc.start = function () { st(); phase.className = "tm-phase a"; phase.textContent = ab() ? "A: 조정한 타이밍" : "조정한 타이밍으로 재생 중"; const tick = () => { if (!s.running) return; nowB = s.beat % 4; cv.redraw(); requestAnimationFrame(tick); }; requestAnimationFrame(tick); };
+    return sc;
+  });
+  upd();
+})();
+
+/* ================================================================ 2. 스윙 비율 탐색기 */
+const tmSwingModel = (bpm) => MB.clamp(1 - 0.11 / (60 / bpm), 0.5, 0.75);
+(function () {
+  const G = {
+    jazz: { spec: { ride: "x.xxx.xx", hatFoot: "..x...x.", kick: "3.3.3.3." }, div: 2, unit: 0.5, bpm: 140 },
+    rock: { spec: DR.GROOVES.rock8.spec, div: 2, unit: 0.5, bpm: 110 },
+    boombap: { spec: DR.GROOVES.boombap.spec, div: 4, unit: 0.25, bpm: 90 },
+    funk: { spec: DR.GROOVES.funk.spec, div: 4, unit: 0.25, bpm: 96 },
+  };
+  const g = MB.seg("tm-sw-g", (v) => { bpm.set(G[v].bpm, false); staff.setEvents(evs()); upd(); pl.restart(); });
+  const r = MB.range("tm-sw-r", (v) => v.toFixed(3), () => upd(true));
+  const bpm = MB.range("tm-sw-bpm", (v) => v + " BPM", () => { if (autoOn()) r.set(+tmSwingModel(bpm()).toFixed(3), false); upd(); });
+  const autoOn = MB.check("tm-sw-auto", (v) => { if (v) r.set(+tmSwingModel(bpm()).toFixed(3), false); upd(); });
+  const kickStr = MB.check("tm-sw-kick"), click = MB.check("tm-sw-click");
+  document.querySelectorAll("#sim-tm-swing [data-r]").forEach((b) => b.addEventListener("click", () => { document.getElementById("tm-sw-auto").checked = false; r.set(+b.dataset.r); }));
+  const evs = () => DR.parse(G[g()].spec, { div: G[g()].div });
+  const staff = DR.staff("#tm-sw-staff", evs(), { bars: 1 });
+  function upd(manual) {
+    if (manual && autoOn() && Math.abs(r() - tmSwingModel(bpm())) > 0.003) document.getElementById("tm-sw-auto").checked = false;
+    const v = r(), u = G[g()].unit, pair = (60000 / bpm()) * 2 * u, Lm = v * pair, Sm = (1 - v) * pair;
+    MB.stat("tm-sw-o-ls", `${tmF(v / (1 - v), 2)} : 1`);
+    MB.stat("tm-sw-o-ms", `${tmF(Lm, 0)} / ${tmF(Sm, 0)} ms`);
+    MB.stat("tm-sw-o-d", `+${tmF((v - 0.5) * pair, 1)} ms`);
+    MB.stat("tm-sw-o-n", v < 0.515 ? "정박(스트레이트)" : v < 0.58 ? "아주 가벼운 스윙" : v < 0.645 ? "가벼운 스윙" : v < 0.69 ? "셋잇단(셔플)" : v < 0.73 ? "강한 스윙" : "점8분(3:1)");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#tm-sw-cv", (ctx, W, H) => {
+    const P = MB.palette(), v = r(), L = 40, R = 12, h1 = 64;
+    // 위: 한 쌍
+    const X = (f) => L + f * (W - L - R), y = 30;
+    ctx.font = "10.5px " + tmMono(); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillStyle = P.accent; ctx.globalAlpha = 0.25; ctx.fillRect(X(0), y - 12, X(v) - X(0) - 2, 24); ctx.fillStyle = P.accent2; ctx.fillRect(X(v) + 2, y - 12, X(1) - X(v) - 2, 24); ctx.globalAlpha = 1;
+    [[0.5, "정박"], [0.6667, "셋잇단"], [0.75, "점8분"]].forEach(([f, l]) => { ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(f), y - 18); ctx.lineTo(X(f), y + 16); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.dim; ctx.fillText(l, X(f), y + 18); });
+    ctx.strokeStyle = P.text; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(v), y - 16); ctx.lineTo(X(v), y + 14); ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = P.text; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText("쌍", 6, y);
+    // 아래: 모델 곡선
+    const T = h1 + 22, B = 22, x0 = 60, x1 = 300, Xb = (b) => L + ((b - x0) / (x1 - x0)) * (W - L - R), Yr = (rr) => H - B - ((rr - 0.5) / 0.27) * (H - B - T);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(L, T); ctx.lineTo(L, H - B); ctx.lineTo(W - R, H - B); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; [0.5, 0.6, 0.667, 0.75].forEach((rr) => { ctx.fillText(rr.toFixed(2), L - 4, Yr(rr)); ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(L, Yr(rr)); ctx.lineTo(W - R, Yr(rr)); ctx.stroke(); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; [60, 120, 180, 240, 300].forEach((b) => ctx.fillText(String(b), Xb(b), H - B + 4));
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath(); for (let b = x0; b <= x1; b += 2) { const yy = Yr(tmSwingModel(b)); b === x0 ? ctx.moveTo(Xb(b), yy) : ctx.lineTo(Xb(b), yy); } ctx.stroke();
+    ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(Xb(MB.clamp(bpm(), x0, x1)), Yr(v), 5.5, 0, 7); ctx.fill();
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("템포–스윙 모델(8분 쌍)", L + 6, T + 2);
+  }, { aspect: (w) => (w < 480 ? 0.62 : 0.4), minHeight: 200, maxHeight: 280 });
+  const pl = tmBind("tm-sw-play", () => {
+    DR.warm(["ride", "hatFoot", "kick", "hat", "snare"]);
+    return DR.playEvents(evs(), {
+      bpm: () => bpm(), length: 4, loop: true, staff, clickOn: () => click(),
+      swing: (ev) => (kickStr() && ev && ev.p === "kick" ? 0.5 : r()), swingUnit: () => G[g()].unit,
+    });
+  });
+  upd();
+})();
+
+/* ================================================================ 3. 휴머나이즈 블라인드 테스트 */
+(function () {
+  const sel = document.getElementById("tm-hu-g"), rev = document.getElementById("tm-hu-rev");
+  const sig = MB.range("tm-hu-s", (v) => v + " ms", () => { prep(); });
+  const bpm = MB.range("tm-hu-bpm", (v) => v + " BPM");
+  let evs = [], sysOff = [], jit = [], randomIs = "A", answered = false, score = [0, 0];
+  function prep() {
+    evs = DR.groove(sel.value);
+    const w = evs.map((e) => {
+      const role = tmRole(e.p), pos = Math.round(MB.mod(e.t, 1) * 4);
+      if (role === "hat") return pos === 0 ? 0 : pos === 2 ? 0.8 : 1.3;
+      if (role === "kick") return -0.6;
+      return e.v >= 0.9 ? 1.2 : e.v <= 0.4 ? 0.6 : 0.9;
+    });
+    const rms = Math.sqrt(w.reduce((a, b) => a + b * b, 0) / w.length) || 1;
+    sysOff = w.map((x) => (sig() * x) / rms);
+    jit = evs.map(() => MB.randn() * sig());
+    const by = (role) => { const v = sysOff.filter((_, i) => tmRole(evs[i].p) === role); return v.length ? tmSgn(v.reduce((a, b) => a + b, 0) / v.length) : "—"; };
+    MB.stat("tm-hu-o-rms", `둘 다 ${sig()} ms`);
+    MB.stat("tm-hu-o-sys", answered ? `HH 평균 ${by("hat")} · SN ${by("snare")} · BD ${by("kick")} ms` : "답을 고른 뒤 공개");
+    cv.redraw();
+  }
+  function newQ() { randomIs = Math.random() < 0.5 ? "A" : "B"; answered = false; rev.className = "tm-reveal"; rev.textContent = "답을 고르면 정체를 알려 드립니다"; prep(); }
+  const cv = MB.canvas("#tm-hu-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 34, R = 8, mid = H / 2, X = (t) => L + (t / 4) * (W - L - R), sc = (H / 2 - 14) / 40;
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(L, mid); ctx.lineTo(W - R, mid); ctx.stroke();
+    ctx.font = "10.5px " + tmMono(); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText("+40", L - 4, mid - 40 * sc); ctx.fillText("0", L - 4, mid); ctx.fillText("−40", L - 4, mid + 40 * sc);
+    if (!answered) { ctx.textAlign = "center"; ctx.fillStyle = P.faint; ctx.fillText("정답을 고르면 두 연주의 오프셋이 공개됩니다", W / 2, mid - 16); return; }
+    evs.forEach((e, i) => {
+      const x = X(e.t);
+      ctx.fillStyle = P.accent2; ctx.fillRect(x - 4, mid, 3, -sysOff[i] * sc);
+      ctx.fillStyle = P.warn; ctx.fillRect(x + 1, mid, 3, -MB.clamp(jit[i], -40, 40) * sc);
+    });
+    ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = P.accent2; ctx.fillText("■ 체계적", L + 4, 2); ctx.fillStyle = P.warn; ctx.fillText("■ 무작위(한 예)", L + 74, 2);
+  }, { aspect: (w) => (w < 480 ? 0.45 : 0.25), minHeight: 120, maxHeight: 180 });
+  function make(kind) {
+    return () => {
+      if (!evs.length) prep();
+      DR.warm(["hat", "hatOpen", "snare", "kick"]);
+      const rnd = kind === "rand", q = kind === "q";
+      return DR.playEvents(evs, {
+        bpm: bpm(), length: 4, loop: true,
+        humanize: rnd ? { ms: sig() } : 0,
+        offsets: rnd || q ? null : (ev) => sysOff[ev.i] || 0,
+      });
+    };
+  }
+  const kindOf = (lab) => (lab === randomIs ? "rand" : "sys");
+  tmBind("tm-hu-a", () => make(kindOf("A"))(), ["▶ A 듣기", "■ A 정지"]);
+  tmBind("tm-hu-b", () => make(kindOf("B"))(), ["▶ B 듣기", "■ B 정지"]);
+  tmBind("tm-hu-q", make("q"), ["▶ 기준(퀀타이즈)", "■ 정지"]);
+  function guess(lab) {
+    if (answered) return;
+    answered = true; score[1]++;
+    const ok = lab === randomIs; if (ok) score[0]++;
+    rev.className = "tm-reveal " + (ok ? "ok" : "bad");
+    rev.textContent = `${ok ? "정답!" : "아쉽네요."} ${randomIs}가 무작위 흔들림, ${randomIs === "A" ? "B" : "A"}가 체계적 편차였습니다.`;
+    MB.stat("tm-hu-o-score", `${score[0]} / ${score[1]}`);
+    prep();
+  }
+  document.getElementById("tm-hu-ga").addEventListener("click", () => guess("A"));
+  document.getElementById("tm-hu-gb").addEventListener("click", () => guess("B"));
+  document.getElementById("tm-hu-new").addEventListener("click", () => { MB.stopAll(); newQ(); });
+  sel.addEventListener("change", () => newQ());
+  newQ();
+})();
+
+/* ================================================================ 4. 내 타이밍 프로필 */
+(function () {
+  const kit = DR.kit(), tapKit = DR.kit({ room: 0.05 }), pad = tmPad("tm-pf-pad", tapKit, "xstick");
+  const phase = document.getElementById("tm-pf-phase"), msg = document.getElementById("tm-pf-msg");
+  const bpm = MB.range("tm-pf-bpm", (v) => v + " BPM"), lat = MB.range("tm-pf-lat", (v) => v + " ms");
+  const tgt = MB.seg("tm-pf-tgt"), bars = MB.seg("tm-pf-bars"), back = MB.seg("tm-pf-back");
+  let run = null; // {T0, spb, step, n, exp:[], dev:{j:ms}, bars, live}
+  document.getElementById("tm-pf-auto").addEventListener("click", () => { const c = MB.ctx(); if (!c) return; const ms = Math.round(((c.outputLatency || 0) + (c.baseLatency || 0)) * 1000); lat.set(ms); msg.textContent = `브라우저가 알려 준 출력 지연 ${ms} ms를 넣었습니다. 블루투스라면 더 늘려야 합니다.`; });
+  DR.tapper(tapKit, { onTap(tp) {
+    if (!run || !run.live) return;
+    const t = tmTapTime(tp), x = (t - run.T0) / run.spb - 4, j = Math.round(x / run.step);
+    if (j < 0 || j >= run.n) return;
+    const d = (x - j * run.step) * run.spb * 1000;
+    if (Math.abs(d) > 0.45 * run.step * run.spb * 1000) return;
+    if (run.dev[j] == null || Math.abs(d) < Math.abs(run.dev[j])) run.dev[j] = d;
+    tmFlash(pad, d); report(); cv.redraw();
+  } });
+  function data() { if (!run) return { xs: [], es: [] }; const ks = Object.keys(run.dev).map(Number).sort((a, b) => a - b); return { ks, xs: ks.map((j) => (j * run.step) / 4), es: ks.map((j) => run.dev[j]) }; }
+  function report() {
+    const { ks, xs, es } = data(), st = tmStats(es), fit = tmFit(xs, es), stepMs = run.step * run.spb * 1000;
+    MB.stat("tm-pf-o-mean", st.n ? tmSgn(st.mean, 1) + " ms" : "—");
+    MB.stat("tm-pf-o-sd", st.n > 1 ? tmF(st.sd, 1) + " ms" : "—");
+    MB.stat("tm-pf-o-cv", st.n > 1 ? tmF((st.sd / stepMs) * 100, 1) + "%" : "—");
+    MB.stat("tm-pf-o-slope", fit ? `${tmSgn(fit.b, 2)} ms/마디` : "—");
+    const r1 = tmR1(es);
+    MB.stat("tm-pf-o-r1", isFinite(r1) ? tmF(r1, 2) : "—");
+    MB.stat("tm-pf-o-hit", `${st.n} / ${run.n}`);
+    if (!run.live && st.n > 6) {
+      const parts = [];
+      parts.push(Math.abs(st.mean) < 8 ? "평균은 박 위에 잘 있습니다" : st.mean < 0 ? `평균 ${tmF(-st.mean, 0)} ms 앞서 칩니다(조급함 또는 지연 보정 부족)` : `평균 ${tmF(st.mean, 0)} ms 늦게 칩니다`);
+      parts.push(st.sd / stepMs < 0.05 ? "흔들림은 칸 간격의 5% 미만으로 안정적" : st.sd / stepMs < 0.1 ? "흔들림은 보통" : "흔들림이 큽니다. 템포를 낮춰 보세요");
+      if (fit && Math.abs(fit.b * run.bars) > 15) parts.push(fit.b > 0 ? `점점 늦어집니다(${run.bars}마디 동안 약 ${tmF(fit.b * run.bars, 0)} ms)` : `점점 앞서 갑니다(${run.bars}마디 동안 약 ${tmF(-fit.b * run.bars, 0)} ms)`);
+      if (isFinite(r1)) parts.push(r1 < -0.15 ? "r₁ < 0: 매 박 바로잡는 운동 잡음형" : r1 > 0.3 ? "r₁ > 0: 오차가 한동안 같은 쪽에 머무는 표류형" : "r₁ ≈ 0: 오차가 서로 독립적");
+      msg.textContent = parts.join(" · ") + ".";
+    }
+  }
+  const cv = MB.canvas("#tm-pf-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 40, R = 8, T = 8, B = 18, nb = run ? run.bars : +bars();
+    const range = run ? Math.min(120, Math.max(40, Math.round(0.45 * run.step * run.spb * 1000))) : 80;
+    const X = (b) => L + (b / nb) * (W - L - R), Y = (d) => T + (H - T - B) / 2 - (d / range) * ((H - T - B) / 2);
+    const { xs, es } = data(), st = tmStats(es), fit = tmFit(xs, es);
+    if (st.n > 1) { ctx.fillStyle = P.accent2; ctx.globalAlpha = 0.12; ctx.fillRect(L, Y(st.mean + st.sd), W - L - R, Y(st.mean - st.sd) - Y(st.mean + st.sd)); ctx.globalAlpha = 1; }
+    ctx.font = "10.5px " + tmMono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-range, 0, range].forEach((d) => { ctx.strokeStyle = d ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(L, Y(d)); ctx.lineTo(W - R, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText((d > 0 ? "+" : "") + d, L - 4, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let b = 0; b <= nb; b += nb > 8 ? 2 : 1) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(b), T); ctx.lineTo(X(b), H - B); ctx.stroke(); if (b < nb) ctx.fillText(String(b + 1), X(b) + 6, H - B + 3); }
+    xs.forEach((x, i) => { ctx.fillStyle = tmDevColor(es[i], P); ctx.beginPath(); ctx.arc(X(x), Y(MB.clamp(es[i], -range, range)), 3.4, 0, 7); ctx.fill(); });
+    if (fit) { ctx.strokeStyle = P.text; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(0), Y(MB.clamp(fit.a, -range, range))); ctx.lineTo(X(nb), Y(MB.clamp(fit.a + fit.b * nb, -range, range))); ctx.stroke(); }
+  }, { aspect: (w) => (w < 480 ? 0.55 : 0.32), minHeight: 170, maxHeight: 260 });
+  function setup(live) {
+    const v = bpm(), step = 1 / +tgt(), nb = +bars();
+    run = { spb: 60 / v, step, bars: nb, n: Math.round((nb * 4) / step), dev: {}, live, T0: 0 };
+    ["mean", "sd", "cv", "slope", "r1", "hit"].forEach((k) => MB.stat("tm-pf-o-" + k, "—")); msg.textContent = "";
+  }
+  tmBind("tm-pf-play", () => {
+    setup(true); cv.redraw();
+    const g = DR.groove("rock8"), nb = run.bars;
+    let s = null;
+    DR.warm(["hat", "snare", "kick"]);
+    s = DR.playEvents(g, {
+      kit, bpm: 60 / run.spb, length: 4, loop: true,
+      clickOn: () => !s || s.loopNo === 0 || back() !== "groove",
+      mute: (p) => !!p && (!s || s.loopNo === 0 || back() === "click"),
+      onLoop(n) {
+        if (n > nb) { s.stop(true); return; }
+        phase.className = "tm-phase b"; phase.textContent = `마디 ${n} / ${nb} · ${+tgt() === 1 ? "4분" : "8분"}음표에 탭`;
+      },
+      onStop() { run.live = false; phase.className = "tm-phase"; phase.textContent = "끝 · 아래 해석을 읽어 보세요"; report(); cv.redraw(); },
+    });
+    const st = s.start; s.start = function () { st(); run.T0 = s.t0; phase.className = "tm-phase a"; phase.textContent = "예비 마디 · 1 2 3 4"; };
+    return s;
+  }, ["▶ 시작", "■ 정지"]);
+  document.getElementById("tm-pf-demo").addEventListener("click", () => {
+    setup(false);
+    let mPrev = 0;
+    for (let j = 0; j < run.n; j++) {
+      const bar = (j * run.step) / 4, m = MB.randn() * 8;
+      const d = -8 + 1.2 * bar + MB.randn() * 9 + m - 0.9 * mPrev; mPrev = m;
+      if (Math.random() < 0.96) run.dev[j] = d;
+    }
+    report(); cv.redraw();
+    msg.textContent = "모의 드러머: " + msg.textContent;
+  });
+  cv.redraw();
+})();
+
+/* ================================================================ 5. 템포 드리프트 측정기 */
+(function () {
+  const kit = DR.kit({ room: 0.08 }), pad = tmPad("tm-dr-pad", kit);
+  const phase = document.getElementById("tm-dr-phase");
+  const bpm = MB.range("tm-dr-bpm", (v) => v + " BPM"), bars = MB.seg("tm-dr-bars"), ci = MB.seg("tm-dr-ci");
+  let run = null, bd = null; // {target, start, taps:[], bars, live}
+  DR.tapper(kit, { onTap(tp) {
+    if (!run || !run.live) return;
+    const t = tp.when;
+    if (t < run.start - 0.35 * run.spb) return;
+    run.taps.push(t);
+    if (run.taps.length >= run.bars * 4 + 1) { bd.halt(); }
+    report(); cv.redraw();
+  } });
+  function perBar() {
+    const T = run.taps, out = [];
+    for (let m = 0; m < run.bars; m++) { const a = m * 4, b = Math.min(T.length - 1, a + 4); if (b - a < 2) break; out.push(60 / ((T[b] - T[a]) / (b - a))); }
+    return out;
+  }
+  function report() {
+    const pb = perBar(), tg = run.target;
+    MB.stat("tm-dr-o-first", pb.length ? tmF(pb[0], 1) + " BPM" : "—");
+    MB.stat("tm-dr-o-last", pb.length ? tmF(pb[pb.length - 1], 1) + " BPM" : "—");
+    MB.stat("tm-dr-o-pct", pb.length ? tmSgn(((pb[pb.length - 1] - tg) / tg) * 100, 1) + "%" : "—");
+    const fit = tmFit(run.taps.map((_, i) => i), run.taps);
+    MB.stat("tm-dr-o-avg", fit && fit.b > 0 ? tmF(60 / fit.b, 1) + " BPM" : "—");
+    const st = tmStats(pb);
+    MB.stat("tm-dr-o-sd", st.n > 1 ? "±" + tmF(st.sd, 1) + " BPM" : "—");
+  }
+  const cv = MB.canvas("#tm-dr-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 44, R = 8, T = 8, B = 18;
+    const tg = run ? run.target : bpm(), nb = run ? run.bars : +bars(), pb = run ? perBar() : [];
+    const span = Math.max(tg * 0.08, ...pb.map((v) => Math.abs(v - tg) * 1.15));
+    const X = (m) => L + ((m + 0.5) / nb) * (W - L - R), Y = (v) => T + (H - T - B) / 2 - ((v - tg) / span) * ((H - T - B) / 2);
+    ctx.fillStyle = P.ok; ctx.globalAlpha = 0.1; ctx.fillRect(L, Y(tg * 1.02), W - L - R, Y(tg * 0.98) - Y(tg * 1.02)); ctx.globalAlpha = 1;
+    ctx.font = "10.5px " + tmMono(); ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillStyle = P.dim;
+    [tg - span, tg, tg + span].forEach((v) => { ctx.strokeStyle = v === tg ? P.faint : P.grid; ctx.setLineDash(v === tg ? [4, 4] : []); ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(W - R, Y(v)); ctx.stroke(); ctx.setLineDash([]); ctx.fillText(tmF(v, 0), L - 4, Y(v)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; for (let m = 0; m < nb; m += nb > 8 ? 2 : 1) ctx.fillText(String(m + 1), X(m), H - B + 3);
+    if (pb.length) {
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath(); pb.forEach((v, m) => (m ? ctx.lineTo(X(m), Y(v)) : ctx.moveTo(X(m), Y(v)))); ctx.stroke();
+      pb.forEach((v, m) => { ctx.fillStyle = Math.abs(v - tg) / tg <= 0.02 ? P.ok : Math.abs(v - tg) / tg <= 0.04 ? P.warn : P.bad; ctx.beginPath(); ctx.arc(X(m), Y(v), 4.5, 0, 7); ctx.fill(); });
+    }
+  }, { aspect: (w) => (w < 480 ? 0.55 : 0.32), minHeight: 170, maxHeight: 250 });
+  bd = tmBind("tm-dr-play", () => {
+    const v = bpm(), spb = 60 / v, C = +ci(), N = +bars(), evs = [];
+    for (let k = 0; k < C * 4; k++) evs.push({ t: k, acc: k % 4 === 0 });
+    run = { target: v, spb, taps: [], bars: N, live: true, start: 0 };
+    report(); cv.redraw();
+    DR.warm(["snare"]);
+    const s = DR.scheduler(evs, {
+      bpm: v, length: C * 4 + N * 4 + 8, loop: false,
+      onStart(t0) { run.start = t0 + C * 4 * spb; },
+      onEvent(ev, when) { DR.click(when, ev.acc, { voice: "wood", vel: 0.6 }); },
+      onUI(ev) { const left = C * 4 - ev.t; phase.className = "tm-phase a"; phase.textContent = left <= 4 ? `예비 클릭 · 마지막 마디 ${ev.t % 4 + 1} · 다음 박부터 클릭 없이 탭` : `예비 클릭 · ${ev.t % 4 + 1}`; if (ev.t === C * 4 - 1) setTimeout(() => { if (run.live) { phase.className = "tm-phase b"; phase.textContent = `클릭 없음 · 4분음표로 ${N}마디 탭`; } }, spb * 1000); },
+      onStop() { run.live = false; phase.className = "tm-phase"; phase.textContent = run.taps.length > 4 ? "끝 · 템포 맵을 확인하세요" : "멈춤"; report(); cv.redraw(); },
+    });
+    return s;
+  }, ["▶ 시작", "■ 정지"]);
+  document.getElementById("tm-dr-demo").addEventListener("click", () => {
+    bd.halt();
+    const v = bpm(), N = +bars(); run = { target: v, spb: 60 / v, taps: [], bars: N, live: false, start: 0 };
+    let t = 0, cur = v;
+    for (let i = 0; i <= N * 4; i++) { run.taps.push(t); cur *= 1 + 0.0012 + (i % 16 >= 12 ? 0.004 : 0); t += (60 / cur) * (1 + MB.randn() * 0.02); }
+    phase.className = "tm-phase"; phase.textContent = "예시: 마디마다 조금씩, 마디 끝(필 자리)에서 더 서두르는 가상의 연주";
+    report(); cv.redraw();
+  });
+  cv.redraw();
+})();
+
+/* ================================================================ 6. 녹음하고 퀀타이즈하기 */
+(function () {
+  const kit = DR.kit(), rec = DR.recorder(kit), phase = document.getElementById("tm-qz-phase");
+  DR.pads("#tm-qz-pads", { kit, pieces: ["hat", "snare", "kick"] });
+  const div = MB.seg("tm-qz-div", () => build()), s = MB.range("tm-qz-s", (v) => v + "%", () => build());
+  const bpm = MB.range("tm-qz-bpm", (v) => v + " BPM"), click = MB.check("tm-qz-click");
+  let notes = [], recBpm = 88, qEv = [], sEv = [];
+  const staff = DR.staff("#tm-qz-staff", [], { bars: 2 });
+  const tl = DR.timeline(document.getElementById("tm-qz-cv"), { rows: ["hat", "snare", "kick"], beats: 8, div: 4, events: [], taps: [] });
+  function build() {
+    const d = +div(), k = s() / 100, spb = 60 / recBpm;
+    const items = notes.map((n) => { const b = n.t / spb, q = Math.round(b * d) / d; return { b, q, n }; }).filter((x) => x.q >= 0 && x.q < 8).sort((a, b) => a.q - b.q || DR.ORDER.indexOf(a.n.p) - DR.ORDER.indexOf(b.n.p));
+    qEv = items.map((x) => ({ t: x.q, p: x.n.p, v: x.n.v, hand: x.n.hand }));
+    sEv = items.map((x) => ({ t: Math.max(0, x.b + (x.q - x.b) * k), p: x.n.p, v: x.n.v, hand: x.n.hand }));
+    staff.setEvents(qEv, { bars: 2 });
+    tl.set({ events: qEv, taps: sEv.map((e) => ({ t: e.t, p: e.p })), div: d, beats: 8 });
+    const raw = items.map((x) => Math.abs(x.b - x.q) * spb * 1000), now = raw.map((r) => r * (1 - k));
+    const st = tmStats(raw), sn = tmStats(now);
+    MB.stat("tm-qz-o-n", items.length ? `${items.length}개 @ ${recBpm} BPM` : "—");
+    MB.stat("tm-qz-o-raw", st.n ? tmF(st.mean, 1) + " ms" : "—");
+    MB.stat("tm-qz-o-now", sn.n ? tmF(sn.mean, 1) + " ms" : "—");
+    MB.stat("tm-qz-o-left", st.n ? tmF((1 - k) * 100, 0) + "%" : "—");
+  }
+  const recBtn = document.getElementById("tm-qz-rec");
+  let recSc = null;
+  const haltRec = () => { if (recSc && recSc.running) recSc.stop(); };
+  recBtn.addEventListener("click", () => {
+    MB.ctx();
+    if (recSc && recSc.running) { recSc.stop(); return; }
+    tmSolo.take(haltRec);
+    recBpm = bpm(); const spb = 60 / recBpm, evs = [];
+    for (let k = 0; k < 12; k++) evs.push({ t: k, acc: k % 4 === 0 });
+    DR.warm(["hat", "snare", "kick"]);
+    recSc = DR.scheduler(evs, {
+      bpm: recBpm, length: 12, loop: false,
+      onStart(t0) { rec.start(t0 + 4 * spb); },
+      onEvent(ev, when) { DR.click(when, ev.acc, { voice: "wood", vel: 0.55 }); },
+      onUI(ev) { phase.className = "tm-phase " + (ev.t < 4 ? "a" : "b"); phase.textContent = ev.t < 4 ? `예비 마디 · ${ev.t + 1}` : `● 녹음 중 · 마디 ${Math.floor(ev.t / 4)} / 2 · 박 ${ev.t % 4 + 1}`; },
+      onStop() {
+        rec.stop();
+        const lo = -0.3 * spb, hi = 8 * spb - 0.15 * spb, arr = rec.notes;
+        for (let i = arr.length - 1; i >= 0; i--) if (arr[i].t < lo || arr[i].t >= hi) arr.splice(i, 1);
+        notes = arr.slice();
+        recBtn.textContent = "● 녹음"; recBtn.classList.remove("playing"); tmSolo.drop(haltRec);
+        phase.className = "tm-phase"; phase.textContent = notes.length ? `녹음 끝 · ${notes.length}개. 강도를 바꾸며 ▶ 재생해 보세요` : "녹음된 음이 없습니다. 예비 마디 뒤 두 마디를 치세요";
+        build();
+      },
+    });
+    recSc.start(); recBtn.textContent = "■ 녹음 중지"; recBtn.classList.add("playing");
+  });
+  document.getElementById("tm-qz-ex").addEventListener("click", () => {
+    recBpm = bpm(); const spb = 60 / recBpm;
+    const g = DR.concat([DR.groove("rock8"), 4], [DR.groove("rock8"), 4]);
+    notes = g.map((e) => ({ t: Math.max(0, e.t * spb + (MB.randn() * 20 + (e.p === "snare" ? 12 : 0)) / 1000), p: e.p, v: e.v, hand: e.hand }));
+    phase.className = "tm-phase"; phase.textContent = "예시 연주를 넣었습니다(무작위 ±20 ms + 스네어 +12 ms)";
+    build();
+  });
+  tmBind("tm-qz-play", () => {
+    if (!sEv.length) { phase.textContent = "먼저 ● 녹음하거나 '예시 연주'를 누르세요"; return null; }
+    build();
+    DR.warm(["hat", "snare", "kick"]);
+    return DR.playEvents(sEv, { kit, bpm: recBpm, length: 8, loop: true, staff, clickOn: () => click(), onStop() { tl.now(null); } });
+  });
+  build();
+})();
+
+/* ================================================================ 7. 지연 계산기 */
+(function () {
+  const d = MB.range("tm-lt-d", (v) => v.toFixed(1) + " m", () => upd()), T = MB.range("tm-lt-T", (v) => v + " °C", () => upd());
+  const N = MB.seg("tm-lt-n", () => upd()), fs = MB.seg("tm-lt-fs", () => upd());
+  const rt = MB.check("tm-lt-rt", () => upd()), bt = MB.check("tm-lt-bt", () => upd());
+  const msg = document.getElementById("tm-lt-msg");
+  function parts() {
+    const c = 331.3 + 0.606 * T(), air = (d() / c) * 1000, n = +N(), f = +fs();
+    const buf = n ? (n / f) * 1000 * (rt() ? 2 : 1) : 0, conv = n && rt() ? 2 : 0, blue = bt() ? 150 : 0;
+    return { c, air, buf, conv, blue, tot: air + buf + conv + blue };
+  }
+  function upd() {
+    const p = parts();
+    MB.stat("tm-lt-o-c", tmF(p.c, 1) + " m/s");
+    MB.stat("tm-lt-o-air", tmMs(p.air, 1));
+    MB.stat("tm-lt-o-dig", tmMs(p.buf + p.conv + p.blue, 1));
+    MB.stat("tm-lt-o-tot", tmMs(p.tot, 1));
+    MB.stat("tm-lt-o-eq", tmF((p.tot / 1000) * p.c, 1) + " m 떨어진 앰프");
+    msg.textContent = p.tot < 10 ? "10 ms 미만: 대부분 하나로 붙어 들리고 연주에 지장이 없습니다." : p.tot < 25 ? "10–25 ms: 연주는 가능하지만 '조금 무겁게' 느껴지고, 민감한 연주자는 앞당겨 치기 시작합니다." : p.tot < 60 ? "25–60 ms: 분명히 늦게 들립니다. 합주 템포가 처지기 쉬운 영역입니다." : "60 ms 이상: 메아리처럼 들려 실시간 연주에는 쓸 수 없습니다.";
+    cv.redraw();
+  }
+  const cv = MB.canvas("#tm-lt-cv", (ctx, W, H) => {
+    const P = MB.palette(), p = parts(), L = 10, R = 10, y = 34, h = 26;
+    const max = Math.max(40, p.tot * 1.1), X = (ms) => L + (ms / max) * (W - L - R);
+    const segs = [["공기", p.air, P.accent], ["버퍼", p.buf, P.accent2], ["변환기", p.conv, P.warn], ["블루투스", p.blue, P.bad]];
+    let x = 0;
+    ctx.font = "11px " + tmMono(); ctx.textBaseline = "middle";
+    segs.forEach(([l, v, col]) => { if (v <= 0) return; ctx.fillStyle = col; ctx.fillRect(X(x), y, Math.max(1, X(x + v) - X(x)), h); if (X(x + v) - X(x) > 44) { ctx.fillStyle = P.bg; ctx.textAlign = "center"; ctx.fillText(l, (X(x) + X(x + v)) / 2, y + h / 2); } x += v; });
+    ctx.fillStyle = P.text; ctx.textAlign = "left"; ctx.fillText(`합계 ${tmF(p.tot, 1)} ms`, L, 14);
+    [[10, "10"], [25, "25"], [60, "60"]].forEach(([ms, l]) => { if (ms > max) return; ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(ms), y - 6); ctx.lineTo(X(ms), y + h + 22); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText(l + " ms", X(ms), y + h + 30); });
+    let lx = L; ctx.textAlign = "left";
+    segs.forEach(([l, v, col]) => { ctx.fillStyle = col; ctx.fillRect(lx, H - 14, 9, 9); ctx.fillStyle = P.dim; const s = `${l} ${tmF(v, 1)}`; ctx.fillText(s, lx + 12, H - 9); lx += ctx.measureText(s).width + 26; });
+  }, { aspect: (w) => (w < 480 ? 0.4 : 0.22), minHeight: 120, maxHeight: 150 });
+  const kit = DR.kit({ room: 0.05 });
+  tmBind("tm-lt-play", () => {
+    const lat = parts().tot / 1000, evs = [];
+    for (let k = 0; k < 8; k++) evs.push({ t: k, late: k >= 4 });
+    DR.warm(["snare", "xstick"]);
+    return DR.scheduler(evs, {
+      bpm: 90, length: 8, loop: false,
+      onEvent(ev, when) { kit.hit("xstick", 0.7, when); kit.hit("snare", 0.8, when + (ev.late ? lat : 0)); },
+      onUI(ev) { msg.textContent = ev.late ? `지연 ${tmF(lat * 1000, 1)} ms: 스네어가 '내가 친 순간'(크로스 스틱)보다 늦게 들립니다` : "지연 없음: 크로스 스틱과 스네어가 동시에"; },
+      onStop() { kit.stop(); upd(); },
+    });
+  }, ["▶ 이 지연 들어 보기", "■ 정지"]);
+  upd();
+})();
+</script>
+</body>
+</html>

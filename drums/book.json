@@ -1,0 +1,11 @@
+{
+  "id": "drumbook",
+  "title": "DrumBook",
+  "description": "첫 박자에서 나만의 그루브까지. 막과 심벌의 물리, 그립과 스트로크, 박의 세분과 드럼 악보, 루디먼트, 록·16비트·셔플·장르 그루브, 필인과 곡의 구조, 홀수 박자와 폴리리듬, 튜닝과 타이밍의 과학을 브라우저의 가상 드럼으로 직접 두드리며 배우는 드럼 교과서.",
+  "url": "https://music.euiyun.com/drums/",
+  "repo": "https://github.com/geniuskey/music-books",
+  "field": "music",
+  "status": "published",
+  "domain": "music.euiyun.com",
+  "basePath": "/drums/"
+}

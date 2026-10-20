@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>첫 번째 록 비트 · DrumBook</title>
+<meta name="description" content="2·4박 백비트의 원리, 하이햇·스네어·킥을 한 겹씩 쌓는 8비트, 사지 협응 분석, 킥 변형의 조합론, 라이드·크로스 스틱 변형, 4마디 형식과 템포 사다리를 가상 드럼으로 치며 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/beat.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="첫 번째 록 비트 · DrumBook">
+<meta property="og:description" content="2·4박 백비트의 원리, 하이햇·스네어·킥을 한 겹씩 쌓는 8비트, 사지 협응 분석, 킥 변형의 조합론, 라이드·크로스 스틱 변형, 4마디 형식과 템포 사다리를 가상 드럼으로 치며 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/beat.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .bt-count { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px; align-items: center; margin-top: 4px; }
+  .bt-count .lab { font: 700 11px var(--mono); color: var(--text-dim); text-align: right; }
+  .bt-count .cells { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 2px; }
+  .bt-count .cells span { height: 24px; border-radius: 4px; font: 700 12px/24px var(--mono); text-align: center; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-faint); min-width: 0; overflow: hidden; }
+  .bt-count .cells span.c1 { background: color-mix(in srgb, var(--accent) 14%, var(--bg-elev)); color: var(--text); }
+  .bt-count .cells span.c2 { background: color-mix(in srgb, var(--accent) 38%, var(--bg-elev)); color: var(--text); border-color: var(--accent); }
+  .bt-count .cells span.c3 { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .bt-count .cells span.cx { background: var(--bad); color: var(--on-accent); border-color: var(--bad); }
+  .bt-count .cells span.now { outline: 2px solid var(--warn); }
+  @media (max-width: 480px) { .bt-count { grid-template-columns: 26px minmax(0, 1fr); } .bt-count .cells span { font-size: 10px; } }
+  .bt-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .bt-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; border: 1px solid var(--accent); }
+  .bt-legend i.c1 { background: color-mix(in srgb, var(--accent) 14%, var(--bg-elev)); }
+  .bt-legend i.c2 { background: color-mix(in srgb, var(--accent) 38%, var(--bg-elev)); }
+  .bt-legend i.c3 { background: var(--accent); }
+  .bt-legend i.cx { background: var(--bad); border-color: var(--bad); }
+  .bt-stage { font: 700 15px var(--font); text-align: center; padding: 6px 0; border-radius: var(--radius-sm); background: var(--surface); color: var(--text-dim); margin-top: 8px; }
+  .bt-stage.on { background: var(--accent-soft); color: var(--accent); }
+  .bt-two { display: grid; gap: 8px; }
+  .bt-two .cap { font-size: 12.5px; color: var(--text-dim); margin: 2px 0 -4px 4px; }
+  .bt-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .bt-tbl th, .bt-tbl td { padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: right; }
+  .bt-tbl th:first-child, .bt-tbl td:first-child { text-align: left; }
+  .bt-plus { font: 700 13px var(--mono); fill: var(--text); text-anchor: middle; }
+  .bt-big { font: 800 24px var(--mono); text-align: center; color: var(--accent); min-height: 32px; margin-top: 6px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="beat">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 06</div>
+    <h1>첫 번째 록 비트</h1>
+    <p class="lead">드럼을 배우는 사람이 처음으로 "음악을 치고 있다"고 느끼는 순간은 대개 이 비트를 처음 이어 칠 때입니다. 하이햇은 8분음표로 시간을 잘게 채우고, 스네어는 둘째·넷째 박에서 '딱' 하고 몸을 흔들고, 킥은 첫째·셋째 박에서 바닥을 '쿵' 하고 받칩니다. 이 단순한 세 겹이 록·팝·발라드 수많은 곡의 뼈대입니다. 이 장에서는 이 비트를 한 겹씩 쌓아 올리고, 손발이 '같이 치는' 칸과 '혼자 치는' 칸을 그리드로 분석하고, 초보자가 거의 예외 없이 저지르는 실수를 일부러 들어 봅니다. 그다음 킥의 위치를 바꾸는 변형을 조합론으로 정리하고, 하이햇을 라이드나 크로스 스틱으로 바꿔 색을 바꾸고, 크래시로 시작해 필로 끝나는 4마디 형식과 템포 사다리로 실제 연주 단계까지 갑니다. 마지막에는 내 연주를 녹음해 악보로 바꿔 목표와 비교합니다.</p>
+    <ul class="objectives">
+      <li>백비트(2·4박 스네어)가 무엇이고, 왜 몸이 그 박에 반응하는지 소리의 대비와 박의 위계로 설명한다.</li>
+      <li>하이햇 8분 → +스네어 2·4 → +킥 1·3 순서로 8비트를 쌓고, 각 단계를 60 BPM에서 안정적으로 친다.</li>
+      <li>그리드로 각 칸을 동시에 치는 사지 수(1·2·3)로 분석하고, 어려운 칸을 찾아 집중 연습한다.</li>
+      <li>스네어 칠 때 하이햇이 빠지는 실수, 킥이 늦는 실수, 템포가 서두르는 실수를 귀로 알아차린다.</li>
+      <li>킥 변형을 8분음표 위치의 조합(\(2^n\))으로 이해하고, 여덟 가지 이상을 악보로 읽고 친다.</li>
+      <li>하이햇을 4분음표·라이드·라이드 벨로, 스네어를 크로스 스틱으로 바꾸고, 열린 하이햇을 맛본다.</li>
+      <li>크래시로 시작하고 필로 끝나는 4마디 프레이즈를 템포 사다리(60 → 120 BPM)로 연습하고, 녹음으로 스스로 점검한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="backbeat">
+    <h2>백비트: 둘째·넷째 박의 '딱'</h2>
+    <p>4/4박자에서 전통적으로 강한 박은 첫째와 셋째 박입니다(강–약–중강–약, 행진곡을 떠올려 보세요). 록과 그 뿌리인 리듬 앤 블루스는 여기에 반대 방향의 힘을 하나 더 겁니다. 약박인 <b>둘째·넷째 박에 가장 날카롭고 큰 소리, 곧 스네어</b>를 놓는 것입니다. 이것을 <span class="term">백비트</span><span class="en">(Backbeat)</span>라고 합니다. 그 결과 한 마디 안에 두 종류의 강세가 공존합니다. 킥이 지키는 1·3박의 '무게'와 스네어가 만드는 2·4박의 '날카로움'입니다. 청중이 박수를 2·4박에 치는 것도, 고개가 그 박에 끄덕여지는 것도 이 때문입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 280" role="img" aria-label="한 마디 네 박에서 킥은 1·3박에 낮은 소리, 스네어는 2·4박에 높고 밝은 소리로 번갈아 나오는 모습과 소리의 밝기 변화">
+        <g id="bt-fig1"></g>
+      </svg>
+      <figcaption><b>그림 6-1.</b> 백비트의 소리 지형. 위: 박마다 친 조각(막대 높이 = 상대 음량). 가운데: 소리의 밝기(스펙트럼 무게 중심, 근삿값) — 킥(약 60–100 Hz 중심)과 스네어(1–5 kHz의 와이어 잡음)가 박마다 번갈아 '낮음–높음'의 진동을 만든다. 아래: 8분 하이햇이 그 사이를 고르게 채워 박의 위치를 촘촘히 알려 준다.</figcaption>
+    </figure>
+    <p>왜 몸이 반응할까요? 확실하게 말할 수 있는 부분과 가설인 부분을 나눠 보겠습니다. 확실한 것은 <b>대비</b>입니다. 저음의 킥과 고음의 스네어가 번갈아 나오면 귀에는 박마다 성격이 다른 두 사건이 규칙적으로 교대하는 신호가 들어오고, 이 교대는 박을 '둘씩 묶어' 듣게 하는 강력한 단서가 됩니다. 또 하이햇의 8분음표는 박 사이를 고르게 나눠 다음 박이 언제 올지 정확히 예측하게 해 줍니다. 리듬 지각 연구는 사람이 예측 가능한 박에 몸의 움직임(발 구르기, 끄덕임)을 자연스럽게 맞추며, 적당히 예측을 비트는 요소가 있을 때 '그루브'를 더 강하게 느낀다고 보고합니다. 백비트는 약박에 큰 소리를 두어 이 '적당한 비틀기'를 만드는 가장 단순한 장치라고 해석할 수 있습니다. 저음이 몸으로 직접 느껴진다는 점(킥의 진동)도 한몫한다는 가설이 있습니다. 이 주제는 <a href="timing.html">13장</a>에서 마이크로타이밍과 함께 다시 다룹니다.</p>
+    <div class="callout note"><strong>이 책의 기준 세팅</strong> 오른손잡이 표준 세팅입니다. 오른손 = 하이햇(또는 라이드), 왼손 = 스네어, 오른발 = 킥, 왼발 = 하이햇 페달. 하이햇이 왼쪽에 있으므로 오른손이 왼손 위로 넘어가 엇갈리는 <b>크로스 핸드</b> 자세가 됩니다. 왼손잡이는 킷을 거울처럼 놓고 이 장의 좌우를 모두 바꾸면 됩니다. 일부 드러머는 손을 엇갈리지 않는 '오픈 핸드'(왼손 하이햇)로 치기도 하는데, 원리는 같습니다. 세팅과 그립은 <a href="setup.html">2장</a>을 보세요.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="layers">
+    <h2>한 겹씩 쌓기: 하이햇 → 스네어 → 킥</h2>
+    <p>8비트 록 비트를 한 번에 치려고 하면 거의 반드시 실패합니다. 네 팔다리 중 세 개가 서로 다른 리듬을 동시에 해야 하기 때문입니다. 대신 한 겹씩 쌓습니다. 각 겹은 앞의 겹이 <b>생각하지 않아도 나올 때</b> 얹습니다.</p>
+    <ol>
+      <li><b>1겹 · 하이햇 8분음표</b>: 오른손으로 "1 & 2 & 3 & 4 &" 여덟 번. 모든 음을 같은 높이, 같은 세기로. 시간의 '눈금'이다.</li>
+      <li><b>2겹 · + 스네어 2·4박</b>: 왼손이 "2"와 "4"에서 스네어를 친다. 이때 오른손은 <b>멈추지 않고</b> 하이햇을 계속 친다. 2와 4에서는 두 손이 동시에 떨어진다.</li>
+      <li><b>3겹 · + 킥 1·3박</b>: 오른발이 "1"과 "3"에서 킥을 밟는다. 1과 3에서는 오른손과 오른발이 동시에.</li>
+    </ol>
+    <div class="sim" id="sim-bt-layers">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>레이어 빌더: 한 겹씩 켜며 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-ly-kit"></div>
+          <div id="bt-ly-staff" style="margin-top:8px"></div>
+          <div id="bt-ly-grid" style="margin-top:8px"></div>
+          <div class="bt-stage" id="bt-ly-stage">—</div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>단계</span><div class="seg" id="bt-ly-step"><button data-value="1">1 하이햇</button><button data-value="2">2 +스네어</button><button data-value="3" class="on">3 +킥</button><button data-value="auto">자동 쌓기</button></div></div>
+          <label class="check"><input type="checkbox" id="bt-ly-hat" checked> 하이햇 (오른손)</label>
+          <label class="check"><input type="checkbox" id="bt-ly-sn" checked> 스네어 (왼손)</label>
+          <label class="check"><input type="checkbox" id="bt-ly-bd" checked> 킥 (오른발)</label>
+          <label class="ctrl"><span>템포 <output id="bt-ly-bpm-out"></output></span><input type="range" id="bt-ly-bpm" min="50" max="140" value="72" step="2"></label>
+          <label class="check"><input type="checkbox" id="bt-ly-click" checked> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="bt-ly-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">켜진 겹</span><span class="v" id="bt-ly-o-l">—</span></div>
+        <div class="stat"><span class="k">한 마디 타수</span><span class="v" id="bt-ly-o-n">—</span></div>
+        <div class="stat"><span class="k">8분 간격</span><span class="v" id="bt-ly-o-ms">—</span></div>
+        <div class="stat"><span class="k">한 마디 시간</span><span class="v" id="bt-ly-o-bar">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '1 하이햇'으로 재생하고 무릎 위에서 오른손으로 따라 친 뒤, 재생을 멈추지 말고 단계를 '2', '3'으로 바꿔 보세요(소리 끈 겹은 악보에서 흐리게 보입니다). '자동 쌓기'는 네 마디마다 한 겹씩 더하고, 열두 마디 뒤 다시 하이햇만으로 돌아갑니다. 그리드를 눌러 직접 바꿔도 되고, 킷 그림을 눌러 함께 칠 수도 있습니다(<kbd>K</kbd> 하이햇, <kbd>F</kbd> 스네어, <kbd>Space</kbd> 킥). 표준 8비트는 <code>DR.GROOVES.rock8</code>과 같습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 겹마다 '자동이 될 때까지'</strong> 메트로놈 60 BPM. ① 하이햇만 2분. 스틱 높이를 10 cm로 일정하게, 팔이 아니라 손목으로. ② 스네어를 더해 2분. 2·4박에서 오른손 하이햇이 약해지거나 빠지지 않는지 귀로 확인합니다. ③ 킥을 더해 2분. 킥은 발뒤꿈치를 든 '힐 업'이든 바닥에 둔 '힐 다운'이든 상관없지만 매번 같은 방식으로. ④ 네 마디를 <b>한 번도 멈추지 않고</b> 다섯 번 연속 성공하면 4 BPM 올립니다. 드럼이 없으면 오른손 = 오른쪽 무릎, 왼손 = 왼쪽 무릎, 오른발 = 바닥 구르기로 똑같이 합니다. 패드 하나만 있다면 하이햇 = 패드 가장자리, 스네어 = 패드 가운데로 나눠도 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="limbs">
+    <h2>사지 협응: '같이 치는 칸'과 '혼자 치는 칸'</h2>
+    <p>8비트를 그리드로 펼치면 협응의 구조가 보입니다. 8분음표 여덟 칸 각각에서 몇 개의 팔다리가 동시에 움직이는지 세어 보면, 표준 8비트는 <b>1·3박 = 오른손 + 오른발(2사지)</b>, <b>2·4박 = 오른손 + 왼손(2사지)</b>, <b>&amp; = 오른손 혼자(1사지)</b>입니다. 초보자에게 어려운 칸은 대개 동시 타격 칸이 아니라 오히려 <b>혼자 치는 칸 바로 옆에서 다른 사지가 '끼어드는' 칸</b>입니다. 예를 들어 킥을 2&amp;에 하나 더하면, 오른발이 처음으로 오른손의 &amp;와 함께 움직여야 해서 "킥은 박에서만 밟는다"는 몸의 습관이 깨집니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="8비트 그리드와 칸마다 동시에 치는 사지 수">
+        <g id="bt-fig2"></g>
+      </svg>
+      <figcaption><b>그림 6-2.</b> 8비트(킥 1·2&amp;·3)의 협응 지도. 위 세 줄은 조각별 타격, 맨 아래는 그 칸에서 동시에 움직이는 사지 수 \(c_i\)다. 진할수록 많은 사지가 함께 떨어진다. 2&amp;는 오른손과 오른발이 '박이 아닌 곳'에서 처음 겹치는 칸이라 이 변형의 핵심 난관이다.</figcaption>
+    </figure>
+    <p>칸 \(i\)에서 사지 \(\ell\)이 치면 \(s_{\ell,i} = 1\), 아니면 0이라고 하면, 그 칸의 동시 사지 수와 마디 전체의 협응 부하는 다음처럼 셀 수 있습니다.</p>
+    <div class="formula">$$c_i = \sum_{\ell \in \{\text{RH, LH, RF, LF}\}} s_{\ell,i},\qquad \bar c = \frac{1}{n}\sum_{i=1}^{n} c_i,\qquad \text{동시율} = \frac{\#\{i : c_i \ge 2\}}{\#\{i : c_i \ge 1\}}$$
+      <div class="where">표준 8비트(8칸)는 \(c = (2,1,2,1,2,1,2,1)\), \(\bar c = 1.5\), 동시율 50%다. 한 사지가 같은 칸에 두 조각을 쳐야 하면(예: 오른손으로 하이햇과 라이드를 동시에) 물리적으로 불가능한 '충돌'이다. 이 지표는 난이도의 거친 근사일 뿐이지만, 어느 칸을 먼저 천천히 연습할지 고르는 데 쓸모가 있다.</div>
+    </div>
+
+    <div class="sim" id="sim-bt-limbs">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>사지 협응 분석기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div id="bt-lm-grid"></div>
+          <div class="bt-count"><span class="lab">사지</span><div class="cells" id="bt-lm-count"></div></div>
+          <div class="bt-legend"><span><i class="c1"></i>1사지(혼자)</span><span><i class="c2"></i>2사지</span><span><i class="c3"></i>3사지 이상</span><span><i class="cx"></i>한 사지 충돌</span></div>
+          <div id="bt-lm-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>격자</span><div class="seg" id="bt-lm-div"><button data-value="2" class="on">8분</button><button data-value="4">16분</button></div></div>
+          <div class="ctrl"><span>예제</span>
+            <div class="dr-chips" id="bt-lm-pre"><button data-k="rock8">8비트</button><button data-k="rock8b">킥 2&amp;</button><button data-k="q">4분 하이햇</button><button data-k="half">하프타임</button><button data-k="ride">라이드 + 페달 2·4</button><button data-k="four">포 온 더 플로어</button><button data-k="clash">충돌 예</button></div>
+          </div>
+          <label class="ctrl"><span>템포 <output id="bt-lm-bpm-out"></output></span><input type="range" id="bt-lm-bpm" min="50" max="140" value="76" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="bt-lm-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">칸 분포(0/1/2/3+)</span><span class="v" id="bt-lm-o-d">—</span></div>
+        <div class="stat"><span class="k">평균 \(\bar c\) · 동시율</span><span class="v" id="bt-lm-o-c">—</span></div>
+        <div class="stat"><span class="k">사지별 타수 RH·LH·RF·LF</span><span class="v" id="bt-lm-o-l">—</span></div>
+        <div class="stat"><span class="k">충돌</span><span class="v" id="bt-lm-o-x">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '8비트'에서 킥을 2&amp;(넷째 칸)에 더해 보세요. 그 칸이 1사지에서 2사지로 바뀌며 동시율이 오릅니다. '라이드 + 페달 2·4'는 왼발이 처음 리듬에 참여해 3사지 칸이 생깁니다. '충돌 예'는 오른손이 하이햇과 라이드를 같은 칸에 쳐야 해서 빨갛게 표시됩니다. 사지 배정은 오른손잡이 크로스 핸드 기준(하이햇·라이드 = 오른손, 스네어 = 왼손, 킥 = 오른발, 하이햇 페달 = 왼발)이며, 실제 연주에서는 16분 하이햇을 양손으로 나누는 등 배정이 바뀔 수 있습니다(<a href="sixteenth.html">7장</a>).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="mistakes">
+    <h2>흔한 실수 세 가지: 귀로 먼저 잡기</h2>
+    <p>거의 모든 초보 드러머가 같은 세 가지 실수를 합니다. 스스로 치고 있을 때는 알아차리기 어렵지만, 남의 연주로 들으면 금방 들립니다. 그래서 먼저 '틀린 소리'를 귀에 익혀 두는 것이 지름길입니다.</p>
+    <ol>
+      <li><b>스네어를 칠 때 하이햇이 빠진다.</b> 왼손이 스네어를 치는 순간 오른손이 '양보'해 멈추는 습관입니다. 2·4박에 하이햇의 '칙'이 사라져 시간의 눈금에 구멍이 납니다.</li>
+      <li><b>킥이 하이햇보다 늦다.</b> 발은 손보다 무겁고 신경 경로도 길어서, 같이 친다고 생각해도 킥이 10–40 ms 늦게 떨어지기 쉽습니다. 1박이 '쿠웅' 하고 퍼져 들립니다.</li>
+      <li><b>템포가 서두른다.</b> 신이 나거나 긴장하면 박 사이가 조금씩 짧아집니다. 마디마다 1–2 BPM씩 빨라지면 30초 만에 곡이 달아납니다.</li>
+    </ol>
+    <div class="sim" id="sim-bt-err">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>틀린 비트 듣고 알아차리기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-er-staff"></div>
+          <div class="bt-big" id="bt-er-bpmnow">—</div>
+        </div>
+        <div class="sim-controls">
+          <label class="check"><input type="checkbox" id="bt-er-drop"> ① 스네어 칠 때 하이햇 빠짐</label>
+          <label class="ctrl"><span>② 킥 늦음 <output id="bt-er-late-out"></output></span><input type="range" id="bt-er-late" min="0" max="80" value="0" step="5"></label>
+          <label class="check"><input type="checkbox" id="bt-er-rush"> ③ 서두르기(마디마다 +2 BPM)</label>
+          <label class="check"><input type="checkbox" id="bt-er-wob"> ④ 하이햇 셈여림·타이밍 흔들림</label>
+          <label class="check"><input type="checkbox" id="bt-er-ab" checked> 정답 마디와 번갈아(A/B)</label>
+          <label class="ctrl"><span>기준 템포 <output id="bt-er-bpm-out"></output></span><input type="range" id="bt-er-bpm" min="60" max="140" value="96" step="2"></label>
+          <label class="check"><input type="checkbox" id="bt-er-click"> 메트로놈(기준 템포)</label>
+          <div class="btn-row"><button class="btn primary" id="bt-er-play">▶ 반복 재생</button><button class="btn" id="bt-er-quiz">무작위 실수 맞히기</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="bt-er-msg">실수를 하나 켜고 들어 보세요. 'A/B'가 켜져 있으면 홀수 마디는 정답, 짝수 마디는 실수가 들어간 마디입니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 마디</span><span class="v" id="bt-er-o-bar">—</span></div>
+        <div class="stat"><span class="k">킥 지연 / 8분 간격</span><span class="v" id="bt-er-o-late">—</span></div>
+        <div class="stat"><span class="k">빠진 하이햇</span><span class="v" id="bt-er-o-drop">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ② 킥 늦음을 10 ms씩 올리며 언제부터 '퍼져' 들리는지 찾아보세요. 대부분 20–30 ms에서 알아차립니다(하이햇과 킥이 섞여 '플램'처럼 들리기 시작). ③ 서두르기는 메트로놈을 켜면 클릭과 점점 어긋나는 것이 확실히 들립니다(서두르기는 최대 +30 BPM에서 멈춥니다). '무작위 실수 맞히기'는 실수 하나를 몰래 켜고 재생하니, 무엇인지 귀로 맞혀 보세요. 오프셋은 이 장의 스크립트가 <code>DR.playEvents</code>의 <code>offsets</code>·<code>humanize</code>·<code>bpm</code> 함수로 넣은 것입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 실수별 처방</strong> ① 하이햇 빠짐: 하이햇과 스네어만 60 BPM에서 치며 2·4박에 "같이!"라고 말합니다. 오른손을 일부러 조금 더 세게. ② 킥 늦음: 하이햇과 킥만 4분음표로 '한 덩어리 소리'가 날 때까지(두 소리가 따로 들리면 실패). 휴대폰으로 녹음해 들으면 바로 압니다. ③ 서두르기: 메트로놈을 2·4박에만 울리게 하고(<a href="counting.html">3장</a>의 갭 클릭), 클릭 소리가 내 스네어에 '묻혀' 안 들리면 성공입니다. 서두를 때는 대개 &amp;를 일찍 치므로 하이햇을 의식적으로 '늦게, 넓게' 칩니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="kick">
+    <h2>킥 변형: 여덟 칸 위의 조합론</h2>
+    <p>하이햇과 스네어를 고정하고 킥만 바꾸면, 같은 8비트가 놀랄 만큼 다양한 성격을 갖습니다. 킥은 곡의 베이스 라인과 함께 움직이므로, 실제 밴드에서는 베이스 기타의 리듬에 킥을 맞추는 일이 많습니다. 킥 변형을 체계적으로 보려면 8분음표 여덟 칸을 이진수로 생각하면 됩니다. 각 칸은 '밟는다/안 밟는다'의 두 가지이므로</p>
+    <div class="formula">$$N = 2^{8} = 256,\qquad N_{1\text{박 고정}} = 2^{7} = 128,\qquad N_m = \binom{7}{m-1}$$
+      <div class="where">한 마디에서 킥을 밟을 수 있는 모든 경우는 256가지, 그루브의 기둥인 1박 킥을 반드시 둔다면 나머지 일곱 칸의 조합 128가지다. 그중 킥이 정확히 \(m\)개인 패턴의 수가 \(N_m\)이다. 킥 셋(\(m = 3\))은 \(\binom{7}{2} = 21\)가지, 넷은 35가지. 실제로 자주 쓰는 것은 스네어 자리(2·4박)를 피하고 1박을 지키는 십여 가지이며, 아래 그림과 사전이 그 핵심이다. 16분음표로 가면 \(2^{15} = 32\,768\)가지로 폭발한다(<a href="sixteenth.html">7장</a>).</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="8분음표 위치 조합으로 만든 여덟 가지 킥 변형 그리드">
+        <g id="bt-fig3"></g>
+      </svg>
+      <figcaption><b>그림 6-3.</b> 자주 쓰는 킥 변형 여덟 가지. 칸은 8분음표(1 &amp; 2 &amp; 3 &amp; 4 &amp;), 채운 칸이 킥이다. 오른쪽 숫자는 그 패턴을 이진수로 읽은 값(왼쪽 칸 = 최상위 비트)이다. 하이햇 8분과 스네어 2·4(회색 점선 칸)는 모두 같다. 앞쪽 &amp;(1&amp;, 2&amp;)의 킥은 '앞으로 미는' 느낌, 뒤쪽 &amp;(3&amp;, 4&amp;)의 킥은 다음 마디로 '넘어가는' 느낌을 준다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-bt-kicks">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>킥 변형 사전: 끊김 없이 바꿔 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-kk-staff"></div>
+          <div id="bt-kk-pads" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>킥 패턴</span><div class="dr-chips" id="bt-kk-chips"></div></div>
+          <div class="ctrl"><span>바꾸는 때</span><div class="seg" id="bt-kk-when"><button data-value="now" class="on">바로</button><button data-value="bar">다음 마디부터</button></div></div>
+          <label class="check"><input type="checkbox" id="bt-kk-cycle"> 두 마디마다 다음 패턴으로 자동 넘김</label>
+          <label class="ctrl"><span>템포 <output id="bt-kk-bpm-out"></output></span><input type="range" id="bt-kk-bpm" min="50" max="150" value="88" step="2"></label>
+          <label class="check"><input type="checkbox" id="bt-kk-click"> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="bt-kk-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">패턴</span><span class="v" id="bt-kk-o-name">—</span></div>
+        <div class="stat"><span class="k">킥 위치</span><span class="v" id="bt-kk-o-pos">—</span></div>
+        <div class="stat"><span class="k">이진수(1 &amp; … 4 &amp;)</span><span class="v" id="bt-kk-o-bin">—</span></div>
+        <div class="stat"><span class="k">킥 수 \(m\) · 같은 \(m\)의 경우 \(N_m\)</span><span class="v" id="bt-kk-o-m">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 재생 중에 패턴을 바꿔도 박이 끊기지 않습니다(여덟 칸 모두에 킥 이벤트를 두고 지금 패턴이 아닌 칸만 소리를 끄는 방식). '다음 마디부터'로 바꾸면 실제 밴드에서처럼 마디 머리에서 넘어갑니다. 아래 킥 패드(<kbd>Space</kbd>)로 함께 밟아 보고, 새 변형을 익힐 때마다 킥만 먼저 무릎 위 '쿵'으로 말하며 세어 보세요("쿵 – 딱 – 쿵쿵 딱"). 자동 넘김을 켜면 사전 전체를 두 마디씩 돌아봅니다.</div>
+    </div>
+
+    <div class="sim" id="sim-bt-chal">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>그루브 챌린지: 보이는 변형을 바로 치기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-ch-staff"></div>
+          <div class="dr-lamps" id="bt-ch-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+          <div id="bt-ch-pads"></div>
+          <canvas id="bt-ch-tl" class="dr-cv" style="margin-top:8px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>가이드 소리</span><div class="seg" id="bt-ch-guide"><button data-value="off" class="on">없음</button><button data-value="soft">작게</button></div></div>
+          <div class="ctrl"><span>문제 범위</span><div class="seg" id="bt-ch-pool"><button data-value="easy" class="on">쉬운 6개</button><button data-value="all">전체</button></div></div>
+          <label class="ctrl"><span>템포 <output id="bt-ch-bpm-out"></output></span><input type="range" id="bt-ch-bpm" min="50" max="140" value="70" step="2"></label>
+          <label class="check"><input type="checkbox" id="bt-ch-auto" checked> 85% 넘으면 자동으로 다음 변형</label>
+          <div class="btn-row"><button class="btn primary" id="bt-ch-go">▶ 시작 (예비 1마디 + 2마디)</button><button class="btn" id="bt-ch-next">다음 변형</button></div>
+          <div class="dr-hint" id="bt-ch-hint"></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="bt-ch-msg">악보의 변형을 읽고 '시작'을 누르세요. 클릭 넷 뒤에 두 마디를 칩니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">하이햇</span><span class="v" id="bt-ch-o-hat">—</span></div>
+        <div class="stat"><span class="k">스네어</span><span class="v" id="bt-ch-o-snare">—</span></div>
+        <div class="stat"><span class="k">킥</span><span class="v" id="bt-ch-o-kick">—</span></div>
+        <div class="stat"><span class="k">정확도 · 통과</span><span class="v" id="bt-ch-o-all">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 키보드 세 손가락 자세가 편합니다. 오른손 검지 <kbd>K</kbd>(하이햇), 왼손 검지 <kbd>F</kbd>(스네어), 엄지 <kbd>Space</kbd>(킥). 70 BPM에서 쉬운 여섯 개를 모두 통과하면 '전체'로, 그다음 템포를 올립니다. 조각마다 '맞힘/악보 음 수'와 평균 오차(＋ = 늦음)를 보여 줍니다. 허용 창은 ±120 ms 또는 8분 간격의 30% 중 작은 값입니다. 화면 터치·키보드에는 수십 ms의 지연이 있으므로, 평균 오차가 일정하게 +30 ms 정도라면 장치 지연일 가능성이 큽니다(흔들림이 작다면 정상).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="cymbals">
+    <h2>심벌 바꾸기: 라이드·4분 하이햇·크로스 스틱, 열린 하이햇 맛보기</h2>
+    <p>오른손이 치는 '시간 조각'을 바꾸면 같은 리듬이 전혀 다른 색을 냅니다. 곡의 단락마다 이것을 바꾸는 것이 드러머의 가장 기본적인 편곡입니다. 흔한 관습은 이렇습니다. 절(verse)은 닫힌 하이햇으로 조용하고 단단하게, 후렴(chorus)은 라이드나 반쯤 열린 하이햇으로 넓고 밝게, 발라드의 조용한 부분은 스네어 대신 크로스 스틱으로.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>변형</th><th>오른손</th><th>왼손(2·4)</th><th>느낌·쓰임</th></tr></thead>
+      <tbody>
+        <tr><td>닫힌 하이햇 8분</td><td>하이햇 xxxxxxxx</td><td>스네어</td><td>표준. 단단하고 촘촘하다</td></tr>
+        <tr><td>4분 하이햇</td><td>하이햇 x.x.x.x.</td><td>스네어</td><td>여유롭고 넓다. 빠른 템포의 록, 컨트리</td></tr>
+        <tr><td>라이드 8분</td><td>라이드 보우</td><td>스네어</td><td>울림이 길어 공간을 채운다. 후렴, 기타 솔로</td></tr>
+        <tr><td>라이드 벨</td><td>벨(박) + 보우(&amp;)</td><td>스네어</td><td>밴드 소리를 뚫고 나온다. 클라이맥스</td></tr>
+        <tr><td>크로스 스틱</td><td>하이햇 8분</td><td>크로스 스틱</td><td>조용하고 나무 같은 '똑'. 발라드, 어쿠스틱</td></tr>
+        <tr><td>라이드 + 하이햇 페달</td><td>라이드</td><td>스네어 + 왼발 2·4 '칙'</td><td>왼발이 박을 보강한다. 재즈·팝 응용</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>열린 하이햇</b>은 왼발을 살짝 들어 두 장의 심벌 사이를 벌린 채 치는 것입니다. 첫 맛보기로는 마디의 마지막 &amp;(4&amp;)에서 하이햇을 열고 치고, 다음 마디의 1에서 왼발을 밟아 닫습니다. 열린 '치이–'가 다음 마디의 크래시처럼 앞으로 끌어당기는 효과를 냅니다. 핵심은 <b>닫는 타이밍</b>입니다. 닫힘이 늦으면 '치이이–' 하고 1박을 흐리게 덮고, 너무 일찍 닫으면 열린 소리가 짧아 효과가 없습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="4앤드에서 하이햇을 열고 다음 마디 1에서 왼발로 닫을 때 페달 위치와 소리의 길이">
+        <g id="bt-fig5"></g>
+      </svg>
+      <figcaption><b>그림 6-4.</b> 열린 하이햇의 타이밍. 위: 오른손 하이햇 8분(o = 열고 치기). 가운데: 왼발 페달의 높이(위 = 열림). 4박에서 발을 들기 시작해 4&amp;에 열린 상태로 치고, 다음 마디 1에서 밟아 닫는다(+). 아래: 소리의 포락선. 닫는 순간 열린 소리가 '칙' 하고 끊긴다(초크). 악보로는 4&amp; 위 o, 다음 1 위 +와 하이햇 페달 음표로 적는다(<a href="reading.html#articulation">4장</a>).</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-bt-cym">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>심벌 스왑: A/B 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-cy-staff"></div>
+          <div id="bt-cy-kit" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>A</span><div class="dr-chips" id="bt-cy-a"></div></div>
+          <div class="ctrl"><span>B</span><div class="dr-chips" id="bt-cy-b"></div></div>
+          <div class="ctrl"><span>재생</span><div class="seg" id="bt-cy-mode"><button data-value="a">A만</button><button data-value="b">B만</button><button data-value="ab" class="on">A ↔ B 마디마다</button></div></div>
+          <label class="ctrl"><span>템포 <output id="bt-cy-bpm-out"></output></span><input type="range" id="bt-cy-bpm" min="50" max="150" value="92" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="bt-cy-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="bt-cy-o-now">—</span></div>
+        <div class="stat"><span class="k">오른손 타수(마디)</span><span class="v" id="bt-cy-o-n">—</span></div>
+        <div class="stat"><span class="k">시간 조각 울림(감쇠 τ)</span><span class="v" id="bt-cy-o-tau">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: A = 닫힌 하이햇, B = 라이드로 두고 'A ↔ B'를 들으며 공간감이 어떻게 달라지는지 비교하세요. '열린 하이햇 4&amp;'를 고르면 열린 소리가 다음 마디의 1에서 왼발에 닫혀 끊깁니다(악보의 +는 장 스크립트가 덧그린 표시). 울림 τ는 이 엔진의 심벌 모델에서 부분음 감쇠 시간 상수(<code>DR.model</code>)로, 닫힌 하이햇 약 0.05 s, 라이드 약 2.6 s입니다. 실제 심벌의 크기·무게에 따라 크게 다릅니다(<a href="sound.html">12장</a>).</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 열린 하이햇 첫걸음</strong> 하이햇만, 60 BPM. ① 왼발로 1·2·3·4박마다 페달을 밟아 '칙' 4분음표를 먼저 만듭니다(발뒤꿈치를 축으로 앞꿈치만 움직임). ② 오른손 8분을 얹습니다. ③ 4박에서 앞꿈치를 2–3 cm 들고, 4&amp;를 친 뒤 1에서 밟습니다. 열린 소리가 정확히 반 박 길이로 '치이–칙'이 되면 성공. ④ 익숙해지면 2&amp;에서도 엽니다. 너무 많이 들면 소리가 '쨍' 하고 지저분해지므로, 두 심벌이 살짝 스치는 정도가 좋습니다. 하이햇이 없다면 왼발 뒤꿈치 구르기와 입소리 "츠–"로 타이밍만 연습해도 효과가 있습니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="form">
+    <h2>4마디 프레이즈: 크래시로 시작하고 필로 맺기</h2>
+    <p>대중음악은 대부분 4마디나 8마디 단위의 <span class="term">프레이즈</span><span class="en">(Phrase)</span>로 짜여 있습니다. 드러머는 이 단위를 청중과 밴드에게 알려 주는 역할을 합니다. 가장 기본적인 방법은 두 가지입니다. 프레이즈의 <b>첫 박에 크래시</b>(킥과 함께)를 쳐서 "새 단락이 시작됐다"를 알리고, 마지막 마디의 뒤쪽 두 박에 짧은 <b>필</b><span class="en">(Fill)</span>을 넣어 "곧 바뀐다"를 예고합니다. 크래시를 칠 때 오른손은 하이햇에서 크래시로 옮겨 가므로 그 박의 하이햇은 빠집니다. 필에서는 하이햇을 멈추고 손이 스네어·탐으로 갑니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="4마디 프레이즈: 1마디 크래시, 2·3마디 기본 비트, 4마디 필">
+        <g id="bt-fig4"></g>
+      </svg>
+      <figcaption><b>그림 6-5.</b> 4마디 형식. 1마디의 1박 = 크래시 + 킥, 2·3마디 = 기본 비트, 4마디의 3·4박 = 필. 필이 끝나면 다시 1마디의 크래시로 착지한다. 이 고리를 네 번 돌면 16마디, 흔한 절·후렴 하나의 길이다. 필과 곡의 구조는 <a href="fills.html">8장</a>에서 본격적으로 다룬다.</figcaption>
+    </figure>
+    <p>템포는 한 번에 올리지 않고 <b>사다리</b>로 올립니다. 시작 템포 \(B_0\)에서 매 사이클(4마디)마다 \(\Delta B\)씩 올려 목표 \(B_\text{goal}\)에 닿기까지 필요한 사이클 수와 시간은</p>
+    <div class="formula">$$n = \left\lceil \frac{B_\text{goal}-B_0}{\Delta B} \right\rceil,\qquad T = \sum_{k=0}^{n} \frac{16 \cdot 60}{B_0 + k\,\Delta B}\ \text{s},\qquad \Delta t_{8\text{분}} = \frac{30\,000}{B}\ \text{ms}$$
+      <div class="where">60 → 120 BPM을 4 BPM씩이면 \(n = 15\) 사이클, 한 사이클은 16박이라 전체 약 3분 30초다. 8분음표 간격은 60 BPM에서 500 ms, 120 BPM에서 250 ms로, 템포를 두 배로 하면 손이 반응할 시간이 절반이 된다. 사다리의 핵심은 <b>틀리기 시작하는 템포를 찾은 뒤 그보다 8–12 BPM 낮은 곳</b>에서 정확하게 반복하는 것이다.</div>
+    </div>
+
+    <div class="sim" id="sim-bt-form">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>플레이어롱 연습 루프: 4마디 + 템포 사다리</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="bt-fm-staff"></div>
+          <div class="bt-big" id="bt-fm-now">—</div>
+          <div id="bt-fm-pads" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>4마디의 필</span><div class="seg" id="bt-fm-fill"><button data-value="snare" class="on">스네어 8분</button><button data-value="tom">탐 내려오기</button><button data-value="none">없음</button></div></div>
+          <div class="ctrl"><span>오른손</span><div class="seg" id="bt-fm-rh"><button data-value="hat" class="on">하이햇</button><button data-value="ride">라이드</button></div></div>
+          <label class="ctrl"><span>시작 템포 <output id="bt-fm-b0-out"></output></span><input type="range" id="bt-fm-b0" min="50" max="120" value="60" step="2"></label>
+          <label class="ctrl"><span>목표 템포 <output id="bt-fm-b1-out"></output></span><input type="range" id="bt-fm-b1" min="70" max="160" value="120" step="2"></label>
+          <label class="check"><input type="checkbox" id="bt-fm-ladder" checked> 사이클마다 +4 BPM(사다리)</label>
+          <label class="check"><input type="checkbox" id="bt-fm-click" checked> 메트로놈</label>
+          <label class="check"><input type="checkbox" id="bt-fm-mute"> 드럼 소리 끄고 클릭만(내가 친다)</label>
+          <div class="btn-row"><button class="btn primary" id="bt-fm-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 템포</span><span class="v" id="bt-fm-o-bpm">—</span></div>
+        <div class="stat"><span class="k">사이클 · 마디</span><span class="v" id="bt-fm-o-cyc">—</span></div>
+        <div class="stat"><span class="k">목표까지</span><span class="v" id="bt-fm-o-left">—</span></div>
+        <div class="stat"><span class="k">8분 간격</span><span class="v" id="bt-fm-o-ms">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 시작 60, 목표 120으로 두고 처음 몇 사이클은 듣기만, 그다음 무릎이나 패드로 함께 칩니다. 따라가기 힘들어지는 템포가 나오면 정지하고, 시작 템포를 그보다 8 BPM 낮게 다시 설정하세요. '드럼 소리 끄고 클릭만'을 켜면 악보만 보고 내가 치는 반주 없는 연습이 됩니다(악보 강조는 계속 움직입니다). 목표에 닿으면 그 템포를 유지합니다. 장르별 대략의 템포: 발라드 60–76, 미디엄 팝·록 90–110, 업템포 록 120–140, 펑크 록 160 이상.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 노래에 맞춰 치기</strong> 기본 비트를 메트로놈 100 BPM에서 4마디 형식으로 안정적으로 칠 수 있으면, 실제 음악과 합칩니다. ① 좋아하는 곡 중 4/4이고 드럼이 단순한 곡을 고릅니다. 발라드(약 70 BPM)와 미디엄 록(약 120 BPM)을 하나씩. ② 먼저 듣기만 하며 2·4박에 손뼉을 치고, 크래시가 나오는 마디를 세어 4·8마디 단위를 찾습니다. ③ 하이햇과 스네어만으로 따라 치고, 그다음 킥을 더합니다. 원곡의 킥 패턴이 다르면 이 장의 킥 사전에서 가장 가까운 것을 고릅니다. ④ 곡 전체를 멈추지 않고 치는 것이 목표입니다. 헤드폰으로 원곡을 들으며 연습할 때는 귀를 보호하기 위해 음량을 낮게 두고, 실제 드럼은 귀마개(차음 15–25 dB의 음악용)를 꼭 착용하세요.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="selfcheck">
+    <h2>녹음해서 스스로 점검하기</h2>
+    <p>연주하는 동안 우리는 자기 소리를 정확히 듣지 못합니다. 주의가 몸의 동작에 쏠리고, 머릿속의 '의도한 리듬'이 실제 소리를 덮어 버리기 때문입니다. 그래서 짧게 녹음하고 다시 들어 보는 것이 가장 빠른 선생님입니다. 아래 녹음기는 키보드·패드로 친 타격을 기록해 8분(또는 16분) 격자로 퀀타이즈하고, 목표 악보와 나란히 놓아 조각별로 맞힘·놓침·남는 타격·타이밍 오차를 보여 줍니다. 퀀타이즈는 각 타격의 시각 \(t\)(박)를 가장 가까운 격자점 \(\hat t = \operatorname{round}(t \cdot d)/d\)로 옮기는 것이고, 원래 시각과의 차 \((t-\hat t)\cdot 60/B\)가 그 음의 타이밍 오차입니다.</p>
+    <div class="sim" id="sim-bt-rec">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셀프 체크: 녹음 → 퀀타이즈 → 목표와 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="bt-two">
+            <p class="cap">목표</p><div id="bt-rc-target"></div>
+            <p class="cap">내가 친 것(퀀타이즈, 초록 = 맞힘, 빨강 = 목표에 없음)</p><div id="bt-rc-mine"></div>
+          </div>
+          <div class="dr-lamps" id="bt-rc-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+          <div id="bt-rc-pads"></div>
+          <table class="bt-tbl" id="bt-rc-tbl"><thead><tr><th>조각</th><th>맞힘</th><th>놓침</th><th>남음</th><th>평균 오차</th><th>흔들림</th></tr></thead><tbody></tbody></table>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>목표</span><div class="seg" id="bt-rc-tgt"><button data-value="rock8" class="on">8비트</button><button data-value="rock8b">킥 2&amp;</button><button data-value="q">4분 하이햇</button><button data-value="kick3">킥 3&amp;</button></div></div>
+          <div class="ctrl"><span>퀀타이즈 격자</span><div class="seg" id="bt-rc-q"><button data-value="2" class="on">8분</button><button data-value="4">16분</button></div></div>
+          <label class="ctrl"><span>템포 <output id="bt-rc-bpm-out"></output></span><input type="range" id="bt-rc-bpm" min="50" max="130" value="72" step="2"></label>
+          <div class="btn-row"><button class="btn primary" id="bt-rc-go">● 녹음 (예비 1마디 + 2마디)</button></div>
+          <div class="dr-hint" id="bt-rc-hint"></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="bt-rc-msg">'녹음'을 누르면 클릭 넷 뒤 두 마디 동안 기록합니다. 클릭만 들리니 목표 악보를 보고 치세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">전체 정확도</span><span class="v" id="bt-rc-o-acc">—</span></div>
+        <div class="stat"><span class="k">가장 약한 조각</span><span class="v" id="bt-rc-o-weak">—</span></div>
+        <div class="stat"><span class="k">킥 − 하이햇 (같은 칸)</span><span class="v" id="bt-rc-o-kh">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 8비트를 72 BPM에서 녹음하고 표를 보세요. '킥 − 하이햇'은 두 조각이 같은 칸에서 함께 친 경우의 평균 시차로, ＋면 킥이 늦습니다(흔한 실수 ②). 16분 격자로 퀀타이즈하면 크게 어긋난 타격이 엉뚱한 16분 자리로 옮겨져 빨갛게 보입니다. 녹음은 사람이 친 타격(키보드·패드·MIDI)만 기록하며(<code>DR.recorder</code>), 예비 마디의 타격은 버립니다. 반대로 마지막 &amp; 뒤로 크게 밀린 타격은 다음 마디로 퀀타이즈되어 버려질 수 있습니다. MIDI 전자 드럼을 연결하려면 <a href="studio.html">14장</a>을 보세요.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 일주일 계획</strong> 하루 20분. 1–2일: 레이어 빌더로 세 겹 쌓기(60–72 BPM). 3일: 흔한 실수 세 가지를 귀로 듣고, 녹음해 '킥 − 하이햇'이 ±15 ms 안에 드는지 확인. 4–5일: 킥 변형 사전의 여덟 가지를 각각 4마디씩, 챌린지에서 쉬운 여섯 개 통과. 6일: 4마디 형식을 사다리로 60 → 100. 7일: 좋아하는 곡 한 곡에 맞춰 끝까지. 매일 마지막 2분은 녹음해서 들어 봅니다. 다음 장(<a href="sixteenth.html">7장</a>)에서는 하이햇을 16분음표로 쪼개고 고스트 노트를 더합니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>백비트는 약박인 2·4박에 스네어를 두는 것이다. 1·3박 킥의 저음과 2·4박 스네어의 고음이 교대하고, 8분 하이햇이 사이를 채워 박을 예측하게 한다.</li>
+      <li>8비트는 하이햇 8분 → +스네어 2·4 → +킥 1·3 순서로, 앞 겹이 자동이 되었을 때 한 겹씩 쌓는다.</li>
+      <li>칸마다 동시 사지 수 \(c_i\)를 세면 협응의 구조가 보인다. 표준 8비트는 \(\bar c = 1.5\), 동시율 50%. 한 사지가 같은 칸에 두 조각을 치는 것은 충돌이다.</li>
+      <li>흔한 실수는 스네어 때 하이햇 빠짐, 킥이 하이햇보다 늦음(20–30 ms면 들린다), 템포 서두름이다. 녹음과 갭 클릭으로 잡는다.</li>
+      <li>킥 변형은 8분 여덟 칸의 이진 조합이다. 1박 고정이면 \(2^7 = 128\)가지, 킥 \(m\)개는 \(\binom{7}{m-1}\)가지. 실제로는 2·4박을 피한 십여 개가 핵심이다.</li>
+      <li>오른손 조각(닫힌 하이햇·4분 하이햇·라이드·벨)과 왼손(스네어·크로스 스틱)을 바꿔 단락의 색을 바꾼다. 열린 하이햇은 4&amp;에 열고 다음 1에 왼발로 닫는다.</li>
+      <li>4마디 프레이즈는 1박 크래시 + 킥으로 시작하고 마지막 마디의 필로 맺는다. 템포는 사이클마다 몇 BPM씩 올리는 사다리로, 틀리기 시작하는 템포보다 조금 낮은 곳에서 반복한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>4/4 록 비트에서 '백비트'란?</p><div class="opts">
+        <button class="opt">1·3박에 치는 킥</button><button class="opt" data-correct>2·4박에 치는 스네어</button><button class="opt">마디 끝의 필</button><button class="opt">뒤로 살짝 늦게 치는 연주 습관</button>
+      </div><div class="quiz-exp">백비트는 약박인 2·4박의 스네어 강세다. 레이백(늦게 치는 느낌)은 마이크로타이밍의 문제로 13장에서 다룬다.</div></div>
+      <div class="quiz-q"><p>표준 8비트(하이햇 8분, 스네어 2·4, 킥 1·3)에서 '오른손 혼자' 치는 칸은 한 마디에 몇 개인가?</p><div class="opts">
+        <button class="opt">0개</button><button class="opt">2개</button><button class="opt" data-correct>4개</button><button class="opt">8개</button>
+      </div><div class="quiz-exp">1·2·3·4박은 하이햇과 킥 또는 스네어가 함께이고, 네 개의 &amp;는 하이햇만이다. \(c = (2,1,2,1,2,1,2,1)\).</div></div>
+      <div class="quiz-q"><p>1박 킥을 고정하고 나머지 8분음표 일곱 칸에서 킥 위치를 고를 때, 킥이 모두 세 개인 패턴은 몇 가지인가?</p><div class="opts">
+        <button class="opt">7가지</button><button class="opt" data-correct>21가지</button><button class="opt">35가지</button><button class="opt">128가지</button>
+      </div><div class="quiz-exp">1박 외에 두 개를 일곱 칸에서 고르므로 \(\binom{7}{2} = 21\). 128은 킥 개수를 따지지 않은 전체(\(2^7\))다.</div></div>
+      <div class="quiz-q"><p>녹음해 보니 같은 칸에서 킥이 하이햇보다 평균 +28 ms 늦고, 흔들림은 작았다. 가장 알맞은 처방은?</p><div class="opts">
+        <button class="opt">템포를 올려 발을 더 빨리 움직이게 한다</button><button class="opt" data-correct>하이햇과 킥만 4분음표로 치며 두 소리가 한 덩어리로 들릴 때까지 느리게 반복한다</button><button class="opt">하이햇을 일부러 늦게 친다</button><button class="opt">킥을 빼고 연습한다</button>
+      </div><div class="quiz-exp">일정하게 늦는 것은 습관적 편향이다. 두 조각만 떼어 동시성에 집중하는 것이 가장 직접적이다. 장치 지연은 두 조각에 똑같이 더해지므로 '킥 − 하이햇' 시차에는 거의 영향이 없다.</div></div>
+      <div class="quiz-q"><p>60 BPM에서 120 BPM까지 4마디 사이클마다 4 BPM씩 올리는 사다리에 필요한 사이클 수는?</p><div class="opts">
+        <button class="opt">4</button><button class="opt">12</button><button class="opt" data-correct>15</button><button class="opt">60</button>
+      </div><div class="quiz-exp">\(n = (120-60)/4 = 15\). 시작 사이클까지 포함하면 16번 돈다.</div></div>
+      <div class="quiz-q"><p>4&amp;에서 하이햇을 열고 쳤다. 가장 일반적인 닫는 타이밍은?</p><div class="opts">
+        <button class="opt">곧바로(같은 순간)</button><button class="opt" data-correct>다음 마디의 1박에 왼발로 밟아서</button><button class="opt">다음 마디의 2박 스네어와 함께</button><button class="opt">닫지 않는다</button>
+      </div><div class="quiz-exp">열린 소리를 반 박 울린 뒤 다음 1에서 페달로 닫는다. 늦게 닫으면 1박을 흐리게 덮고, 같은 순간에 닫으면 열린 효과가 없다.</div></div>
+      <div class="quiz-q"><p>후렴에서 공간을 넓고 밝게 채우고 싶다. 오른손 조각으로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">닫힌 하이햇 4분</button><button class="opt">크로스 스틱</button><button class="opt" data-correct>라이드(또는 반쯤 열린 하이햇)</button><button class="opt">하이햇 페달만</button>
+      </div><div class="quiz-exp">라이드는 감쇠가 길어 음 사이를 울림으로 채운다. 크로스 스틱은 왼손 백비트를 부드럽게 바꾸는 선택이고, 닫힌 하이햇 4분은 오히려 공간을 비운다.</div></div>
+      <div class="quiz-q"><p>4마디 프레이즈의 첫 박에 크래시를 칠 때 일반적으로 함께 치는 것은?</p><div class="opts">
+        <button class="opt">스네어</button><button class="opt" data-correct>킥</button><button class="opt">하이햇(오른손으로 동시에)</button><button class="opt">아무것도 치지 않는다</button>
+      </div><div class="quiz-exp">크래시 + 킥이 표준이다. 오른손이 크래시로 가므로 그 박의 하이햇은 빠지고, 1박의 스네어는 백비트 구조를 흐린다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 bt) */
+const BT_EPS = 1e-6;
+const btSolo = (() => {
+  let cur = null;
+  return { take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; } };
+})();
+const btF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const btSign = (x, d = 0) => (x >= 0 ? "+" : "") + btF(x, d);
+const btBase = (p) => (p === "hatOpen" || p === "hatHalf" ? "hat" : p === "rim" || p === "xstick" ? "snare" : p === "bell" ? "ride" : p);
+const BT_LIMB = { hat: "RH", hatOpen: "RH", hatHalf: "RH", ride: "RH", bell: "RH", crash: "RH", snare: "LH", xstick: "LH", rim: "LH", tom1: "LH", tom2: "LH", floor: "RH", kick: "RF", hatFoot: "LF" };
+const btName = (p) => DR.PIECES[p].ko.replace(/\(.*\)/, "");
+function btPlayer(btn, make, labels = ["▶ 재생", "■ 정지"]) {
+  const b = typeof btn === "string" ? document.querySelector(btn) : btn;
+  let s = null;
+  const set = (on) => { b.textContent = on ? labels[1] : labels[0]; b.classList.toggle("playing", on); };
+  const api = {
+    start() {
+      MB.ctx(); api.stop();
+      const me = make(); if (!me) return;
+      s = me; btSolo.take(api.stop);
+      const os = me.stop; me.stop = function (n) { os.call(me, n); if (s === me) set(false); };
+      me.start(); set(true);
+    },
+    stop() { const x = s; s = null; if (x && x.running) x.stop(); set(false); api.onStop && api.onStop(); },
+    restart() { if (api.running) api.start(); },
+    get running() { return !!(s && s.running); },
+    get sched() { return s; },
+  };
+  b.addEventListener("click", () => (api.running ? api.stop() : api.start()));
+  return api;
+}
+/** playEvents + 악보 강조를 시각으로 맞춘다(재생 배열 ≠ 악보 배열이어도 됨) */
+function btLive(o) {
+  const st = o.staff, off = o.offset || 0;
+  const tOf = o.tOf || ((ev) => ev.t - off);
+  const sched = DR.playEvents(o.events, Object.assign({}, o, {
+    staff: null,
+    onNote(ev, i) {
+      const S = typeof st === "function" ? st() : st;
+      if (S) { const L = S.layout ? S.layout.bars * S.layout.BL : 4; let T = tOf(ev); if (o.wrap) T = ((T % L) + L) % L; const idx = []; S.events.forEach((e, k) => { if (Math.abs(e.t - T) < BT_EPS) idx.push(k); }); S.highlight(idx); }
+      o.onNote && o.onNote(ev, i);
+    },
+    onStop(n) { const S = typeof st === "function" ? st() : st; if (S) { S.highlight(-1); S.at(null); } o.onStop && o.onStop(n); },
+  }));
+  if (st) {
+    const s0 = sched.start;
+    sched.start = function () { s0.call(sched); const tick = () => { if (!sched.running) return; const S = typeof st === "function" ? st() : st; const b = sched.beat - off; S.at(b >= 0 ? b : null); requestAnimationFrame(tick); }; requestAnimationFrame(tick); };
+  }
+  return sched;
+}
+/** 예비 박 + reps번 반복하며 score 조각을 채점. guide면 작게 들려주고, 아니면 소리를 뺀다 */
+function btRun(o) {
+  const C = 4, L = o.length, reps = o.reps || 2, spb = 60 / o.bpm;
+  const all = [];
+  for (let r = 0; r < reps; r++) o.events.forEach((e, si) => all.push(Object.assign({}, e, { t: e.t + C + r * L, si, rep: r, v: o.guide ? 0.3 : e.v })));
+  const score = o.score;
+  const tap = DR.tapper(o.kit);
+  let sched = null;
+  sched = btLive({
+    events: all, length: C + reps * L, bpm: o.bpm, kit: o.kit, click: true,
+    staff: o.staff, offset: C, tOf: (ev) => ev.t - C - ev.rep * L,
+    mute: (p) => !o.guide && score.has(btBase(p)),
+    onBeat: (b) => o.onBeat && o.onBeat(b - C),
+    onStop(natural) {
+      tap.stop();
+      if (!natural) { o.onDone && o.onDone(null); return; }
+      const t0 = sched.t0, taps = tap.taps.filter((t) => t.when >= t0 + (C - 0.5) * spb);
+      const res = { pieces: {}, hitsByIdx: {}, total: 0, hits: 0, extra: 0, devs: [], tl: [] };
+      score.forEach((p) => {
+        const evs = all.filter((e) => btBase(e.p) === p), tp = taps.filter((t) => btBase(t.p) === p);
+        const sc = DR.score(evs.map((e) => t0 + e.t * spb), tp, { window: Math.min(0.12, spb * 0.5 * 0.6) });
+        sc.pairs.forEach((pr, k) => { const si = evs[k].si; res.hitsByIdx[si] = (res.hitsByIdx[si] || 0) + (pr.tap != null ? 1 : 0); if (pr.dev != null) res.devs.push(pr.dev); });
+        res.pieces[p] = { n: evs.length, hits: sc.hits, extra: sc.extra, mean: sc.mean, sd: sc.sd };
+        res.total += evs.length; res.hits += sc.hits; res.extra += sc.extra;
+        const used = new Set(sc.pairs.filter((x) => x.tap != null).map((x) => x.tap));
+        tp.forEach((t) => res.tl.push({ t: (t.when - t0) / spb - C, p, cls: used.has(t.when) ? "ok" : "bad" }));
+      });
+      res.acc = res.total ? res.hits / (res.total + res.extra) : 0;
+      o.onDone && o.onDone(res);
+    },
+  });
+  return sched;
+}
+function btPlus(staff, times) {
+  const svg = staff.el.querySelector("svg"), L = staff.layout; if (!svg || !L) return;
+  times.forEach((t) => {
+    const x = L.xOf(t), r = L.xs[Math.floor(t / L.BL + BT_EPS)]; if (x == null || !r) return;
+    const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    tx.setAttribute("x", x); tx.setAttribute("y", r.top - 46); tx.setAttribute("class", "bt-plus"); tx.textContent = "+";
+    svg.appendChild(tx);
+  });
+}
+/** 열린 하이햇 다음의 하이햇 페달 시각(+ 표시 자리) */
+function btCloseTimes(evs, L) {
+  const out = [];
+  evs.forEach((e) => { if (e.p !== "hatFoot") return; const prev = evs.filter((x) => btBase(x.p) === "hat" && x.t < e.t - BT_EPS).pop() || evs.filter((x) => btBase(x.p) === "hat").pop(); if (prev && prev.p === "hatOpen") out.push(e.t); });
+  return out;
+}
+/* 킥 변형 사전(8분 8칸) */
+const BT_KICKS = [
+  { k: "1·3", s: "x...x...", easy: 1 },
+  { k: "1·2&·3", s: "x..xx...", easy: 1 },
+  { k: "1·3·3&", s: "x...xx..", easy: 1 },
+  { k: "1·1&·3", s: "xx..x...", easy: 1 },
+  { k: "1·3·4&", s: "x...x..x", easy: 1 },
+  { k: "1·3&", s: "x....x..", easy: 1 },
+  { k: "1·1&·3·3&", s: "xx..xx.." },
+  { k: "1·2&·3·3&", s: "x..xxx.." },
+  { k: "1·2&·3&", s: "x..x.x.." },
+  { k: "1·2&·3·4&", s: "x..xx..x" },
+  { k: "4분 킥(포 온 더 플로어)", s: "x.x.x.x." },
+  { k: "1·1&·2&·3·3&", s: "xx.xxx.." },
+];
+const btKickSpec = (s, hat = "xxxxxxxx") => `HH ${hat}\nSN ..x...x.\nBD ${s}`;
+const btBin = (s) => s.split("").map((c) => (c === "x" ? 1 : 0)).join("");
+const btChoose = (n, k) => { if (k < 0 || k > n) return 0; let r = 1; for (let i = 1; i <= k; i++) r = (r * (n - k + i)) / i; return Math.round(r); };
+
+/* ================================================================ 정적 그림 */
+(function () {
+  // 그림 6-1 백비트
+  const X0 = 110, W = 660, x = (b) => X0 + (b / 4) * W;
+  let s = `<g font-family="var(--font)">`;
+  for (let b = 0; b <= 4; b++) s += `<line x1="${x(b)}" x2="${x(b)}" y1="14" y2="262" style="stroke:${b % 4 ? "var(--grid)" : "var(--text-faint)"};stroke-dasharray:${b % 4 ? "4 3" : "0"}"/>`;
+  for (let b = 0; b < 4; b++) s += `<text x="${x(b + 0.5)}" y="30" text-anchor="middle" class="t" style="font-size:15px;font-weight:700">${b + 1}</text><text x="${x(b + 0.5)}" y="48" text-anchor="middle" class="t-dim" style="font-size:12px">${b % 2 ? "약박 → 딱!" : b ? "중강박" : "강박"}</text>`;
+  s += `<text x="14" y="98" class="t" style="font-size:13px;font-weight:700">조각·음량</text>`;
+  [[0, "kick", 1], [1, "snare", 0.95], [2, "kick", 0.85], [3, "snare", 0.95]].forEach(([b, p, a]) => {
+    const h = 48 * a, cx = x(b + 0.5);
+    s += `<rect x="${cx - 32}" y="${122 - h}" width="64" height="${h}" rx="5" class="${p === "kick" ? "f-acc2-soft" : "f-acc-soft"}" style="stroke-width:1.5"/><text x="${cx}" y="${116 - h}" text-anchor="middle" class="${p === "kick" ? "t" : "t-acc"}" style="font-size:12.5px;font-weight:700">${p === "kick" ? "킥 '쿵'" : "스네어 '딱'"}</text>`;
+  });
+  s += `<text x="14" y="172" class="t" style="font-size:13px;font-weight:700">밝기</text><text x="14" y="188" class="t-dim" style="font-size:11px">높음 ↑ 낮음 ↓</text>`;
+  let d = ""; for (let k = 0; k <= 200; k++) { const b = (k / 200) * 4, ph = b % 1, lvl = Math.floor(b) % 2 ? 1 : -1, env = Math.exp(-ph * 3.5); const y = 175 - lvl * 22 * env; d += (k ? " L" : "M") + x(b).toFixed(1) + " " + y.toFixed(1); }
+  s += `<line x1="${X0}" x2="${X0 + W}" y1="175" y2="175" style="stroke:var(--border)"/><path d="${d}" style="stroke:var(--accent);stroke-width:2.2;fill:none"/>`;
+  s += `<text x="14" y="236" class="t" style="font-size:13px;font-weight:700">하이햇</text>`;
+  for (let k = 0; k < 8; k++) { const cx = x(k / 2) + W / 16; s += `<path d="M${cx - 6} 224 l12 12 m0 -12 l-12 12" style="stroke:var(--text);stroke-width:2;stroke-linecap:round"/><text x="${cx}" y="256" text-anchor="middle" class="t-mono" style="font-size:11px">${k % 2 ? "&" : k / 2 + 1}</text>`; }
+  document.getElementById("bt-fig1").innerHTML = s + "</g>";
+
+  // 그림 6-2 협응 지도
+  const rows = [["HH", "xxxxxxxx", "RH"], ["SN", "..x...x.", "LH"], ["BD", "x..xx...", "RF"]];
+  const gx = 120, cw = 80;
+  let s2 = `<g font-family="var(--font)">`;
+  rows.forEach(([nm, pat, limb], r) => {
+    const y = 14 + r * 44;
+    s2 += `<text x="14" y="${y + 24}" class="t" style="font-size:13px;font-weight:700">${nm}</text><text x="56" y="${y + 24}" class="t-mono" style="font-size:11px">${limb}</text>`;
+    for (let i = 0; i < 8; i++) s2 += `<rect x="${gx + i * cw + 2}" y="${y}" width="${cw - 4}" height="36" rx="6" class="${pat[i] === "x" ? "f-acc-soft" : "f-surface"}" style="stroke:${pat[i] === "x" ? "var(--accent)" : "var(--border)"}"/>` + (pat[i] === "x" ? `<circle cx="${gx + i * cw + cw / 2}" cy="${y + 18}" r="7" style="fill:var(--accent)"/>` : "");
+  });
+  const c = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => rows.filter((r) => r[1][i] === "x").length);
+  s2 += `<text x="14" y="${14 + 3 * 44 + 30}" class="t" style="font-size:13px;font-weight:700"> c<tspan style="font-size:10px" dy="3">i</tspan></text>`;
+  c.forEach((n, i) => { const y = 14 + 3 * 44 + 6; s2 += `<rect x="${gx + i * cw + 2}" y="${y}" width="${cw - 4}" height="38" rx="6" style="fill:${n >= 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 18%, var(--bg-elev))"};stroke:var(--accent)"/><text x="${gx + i * cw + cw / 2}" y="${y + 25}" text-anchor="middle" style="font:800 16px var(--mono);fill:${n >= 2 ? "var(--on-accent)" : "var(--text)"}">${n}</text>`; });
+  ["1", "&", "2", "&", "3", "&", "4", "&"].forEach((t, i) => { s2 += `<text x="${gx + i * cw + cw / 2}" y="236" text-anchor="middle" class="${i % 2 ? "t-dim" : "t-acc"}" style="font-size:12px;font-family:var(--mono)">${t}</text>`; });
+  s2 += `<path d="M${gx + 3 * cw + cw / 2} ${14 + 3 * 44 + 48} v8" style="stroke:var(--warn);stroke-width:2"/>`;
+  document.getElementById("bt-fig2").innerHTML = s2 + "</g>";
+
+  // 그림 6-3 킥 변형 여덟
+  let s3 = `<g font-family="var(--font)">`;
+  BT_KICKS.slice(0, 8).forEach((kv, r) => {
+    const col = r % 2, row = Math.floor(r / 2), ox = 10 + col * 395, oy = 12 + row * 72, cell = 30;
+    s3 += `<text x="${ox}" y="${oy + 14}" class="t" style="font-size:13px;font-weight:700">${String.fromCharCode(9312 + r)} ${kv.k}</text>`;
+    for (let i = 0; i < 8; i++) {
+      const on = kv.s[i] === "x", sn = i === 2 || i === 6;
+      s3 += `<rect x="${ox + i * (cell + 3)}" y="${oy + 22}" width="${cell}" height="${cell}" rx="5" style="fill:${on ? "var(--accent)" : "var(--bg-elev)"};stroke:${on ? "var(--accent)" : sn ? "var(--text-faint)" : "var(--border)"};stroke-dasharray:${sn && !on ? "3 2" : "0"}"/>`;
+      if (r === 0) s3 += "";
+    }
+    s3 += `<text x="${ox + 8 * (cell + 3) + 8}" y="${oy + 42}" class="t-mono" style="font-size:12px">${btBin(kv.s)}₂ = ${parseInt(btBin(kv.s), 2)}</text>`;
+  });
+  document.getElementById("bt-fig3").innerHTML = s3 + "</g>";
+
+  // 그림 6-5 4마디 형식
+  let s4 = `<g font-family="var(--font)">`;
+  const bw = 178, bx0 = 30;
+  const lab = [["크래시 + 킥", "기본 비트", "f-acc2-soft"], ["", "기본 비트", "f-surface"], ["", "기본 비트", "f-surface"], ["", "비트 + 필(3·4박)", "f-acc-soft"]];
+  lab.forEach(([top, mid, cls], k) => {
+    const x = bx0 + k * (bw + 8);
+    s4 += `<rect x="${x}" y="60" width="${bw}" height="70" rx="10" class="${cls}" style="stroke:var(--border)"/><text x="${x + 12}" y="52" class="t-mono" style="font-size:12px">마디 ${k + 1}</text><text x="${x + bw / 2}" y="${k ? 101 : 112}" text-anchor="middle" class="t" style="font-size:14px">${mid}</text>`;
+    if (top) s4 += `<text x="${x + bw / 2}" y="88" text-anchor="middle" class="t-acc" style="font-size:14px;font-weight:700">${top}</text>`;
+    if (k === 3) s4 += `<path d="M${x + bw / 2 + 4} 118 q 10 -8 20 0 t 20 0 t 20 0 t 20 0" style="stroke:var(--accent);stroke-width:2;fill:none"/>`;
+  });
+  s4 += `<path d="M${bx0 + 4 * (bw + 8) - 20} 136 C ${bx0 + 4 * (bw + 8) - 20} 190, ${bx0 + 20} 190, ${bx0 + 20} 136" style="stroke:var(--accent);stroke-width:2;fill:none;stroke-dasharray:6 4"/><path d="M${bx0 + 14} 146 l6 -10 l6 10" style="stroke:var(--accent);stroke-width:2;fill:none"/>`;
+  s4 += `<text x="400" y="194" text-anchor="middle" class="t-dim" style="font-size:12px">필이 끝나면 다음 프레이즈의 1박 크래시로 착지 — 4번 돌면 16마디</text>`;
+  s4 += `<text x="${bx0}" y="24" class="t" style="font-size:13px;font-weight:700">프레이즈 = 4마디 = 16박</text>`;
+  document.getElementById("bt-fig4").innerHTML = s4 + "</g>";
+
+  // 그림 6-4 열린 하이햇 타이밍
+  const X1 = 120, W1 = 640, xb = (b) => X1 + ((b - 2) / 4) * W1; // 3박 ~ 다음 마디 2박
+  let s5 = `<g font-family="var(--font)">`;
+  const labels = ["3", "&", "4", "&", "1", "&", "2", "&"];
+  for (let k = 0; k < 8; k++) { const b = 2 + k / 2, cx = xb(b); s5 += `<line x1="${cx}" x2="${cx}" y1="18" y2="214" style="stroke:${k % 2 ? "var(--grid)" : "var(--text-faint)"};stroke-dasharray:3 3"/><text x="${cx}" y="226" text-anchor="middle" class="t-mono" style="font-size:11.5px">${labels[k]}</text>`; }
+  s5 += `<line x1="${xb(4)}" x2="${xb(4)}" y1="14" y2="214" style="stroke:var(--text-dim);stroke-width:1.6"/><text x="${xb(4) + 4}" y="14" class="t-dim" style="font-size:10.5px">마디선</text>`;
+  s5 += `<text x="14" y="46" class="t" style="font-size:13px;font-weight:700">오른손</text>`;
+  for (let k = 0; k < 8; k++) { const cx = xb(2 + k / 2); s5 += `<path d="M${cx - 6} 34 l12 12 m0 -12 l-12 12" style="stroke:var(--text);stroke-width:2;stroke-linecap:round"/>`; if (k === 3) s5 += `<circle cx="${cx}" cy="22" r="5" style="stroke:var(--accent);stroke-width:2;fill:none"/>`; if (k === 4) s5 += `<path d="M${cx - 5} 22 h10 M${cx} 17 v10" style="stroke:var(--accent);stroke-width:2.2"/>`; }
+  s5 += `<text x="14" y="112" class="t" style="font-size:13px;font-weight:700">왼발 페달</text><text x="14" y="128" class="t-dim" style="font-size:11px">위 = 열림</text>`;
+  s5 += `<path d="M${xb(2)} 130 H${xb(3)} C ${xb(3.25)} 130, ${xb(3.3)} 84, ${xb(3.5)} 84 H${xb(3.92)} L${xb(4)} 130 H${xb(5.75)}" style="stroke:var(--accent-2);stroke-width:2.4;fill:none"/>`;
+  s5 += `<text x="${xb(3.5)}" y="78" text-anchor="middle" class="t-dim" style="font-size:11px">살짝 듦</text><text x="${xb(4) + 6}" y="146" class="t-dim" style="font-size:11px">밟아 닫음 '칙'</text>`;
+  s5 += `<text x="14" y="190" class="t" style="font-size:13px;font-weight:700">소리</text>`;
+  for (let k = 0; k < 8; k++) {
+    const b = 2 + k / 2, cx = xb(b), open = k === 3, len = open ? xb(4) - cx : 18;
+    let d2 = `M${cx} 204`; for (let j = 0; j <= 20; j++) { const tt = j / 20, a = (open ? Math.exp(-tt * 0.6) : Math.exp(-tt * 4)) * (open ? 30 : 22); d2 += ` L${(cx + tt * len).toFixed(1)} ${(204 - a).toFixed(1)}`; }
+    s5 += `<path d="${d2} L${cx + len} 204 z" class="${open ? "f-acc2-soft" : "f-acc-soft"}" style="stroke-width:1"/>`;
+  }
+  document.getElementById("bt-fig5").innerHTML = s5 + "</g>";
+})();
+
+/* ================================================================ 1. 레이어 빌더 */
+(function () {
+  const kit = DR.kit();
+  const step = MB.seg("bt-ly-step", (v) => { if (v !== "auto") { hat.set(true); sn.set(+v >= 2); bd.set(+v >= 3); } dim(); stats(); });
+  const hat = MB.check("bt-ly-hat", () => { dim(); stats(); }), sn = MB.check("bt-ly-sn", () => { dim(); stats(); }), bd = MB.check("bt-ly-bd", () => { dim(); stats(); });
+  const bpm = MB.range("bt-ly-bpm", (v) => v + " BPM", () => stats());
+  const click = MB.check("bt-ly-click");
+  DR.kitView("#bt-ly-kit", { kit, pieces: ["hat", "snare", "kick", "hatFoot", "crash", "ride"] });
+  const staff = DR.staff("#bt-ly-staff", [], { bars: 1, width: 520, counts: true });
+  const grid = DR.grid("#bt-ly-grid", { rows: ["hat", "snare", "kick"], div: 2, beats: 4, spec: DR.GROOVES.rock8.spec, kit, onChange: () => { evs = grid.events(); staff.setEvents(evs); dim(); stats(); play.restart(); } });
+  let evs = grid.events(); staff.setEvents(evs);
+  const stageEl = document.getElementById("bt-ly-stage");
+  let autoStage = 0;
+  const on = (p) => {
+    const b = btBase(p);
+    if (step() === "auto") return b === "hat" || (b === "snare" && autoStage >= 1) || (b === "kick" && autoStage >= 2);
+    return b === "hat" ? hat() : b === "snare" ? sn() : b === "kick" ? bd() : true;
+  };
+  function dim() {
+    staff.unmark("ghost");
+    evs.forEach((e, i) => { if (!on(e.p)) staff.mark(i, "ghost"); });
+    const names = ["hat", "snare", "kick"].filter((p) => on(p)).map(btName);
+    stageEl.textContent = step() === "auto" ? `자동 쌓기 · ${autoStage + 1}겹: ${names.join(" + ")}` : names.length ? names.join(" + ") : "모두 꺼짐";
+    stageEl.classList.toggle("on", play.running);
+  }
+  function stats() {
+    const n = evs.filter((e) => on(e.p)).length, spb = 60 / bpm();
+    MB.stat("bt-ly-o-l", ["hat", "snare", "kick"].filter((p) => on(p)).length + "겹");
+    MB.stat("bt-ly-o-n", n + "타");
+    MB.stat("bt-ly-o-ms", btF(spb * 500) + " ms");
+    MB.stat("bt-ly-o-bar", btF(spb * 4, 2) + " s");
+  }
+  const play = btPlayer("#bt-ly-play", () => {
+    autoStage = 0; dim();
+    const s = btLive({
+      events: evs, kit, staff, grid, bpm: () => bpm(), loop: true, length: 4, click: true, clickOn: () => click(),
+      mute: (p) => { if (step() === "auto") { const st = Math.floor(s.loopNo / 4) % 3; return !(btBase(p) === "hat" || (btBase(p) === "snare" && st >= 1) || (btBase(p) === "kick" && st >= 2)); } return !on(p); },
+      onLoop: (n) => { if (step() === "auto") { autoStage = Math.floor(n / 4) % 3; dim(); stats(); } },
+    });
+    return s;
+  }, ["▶ 반복 재생", "■ 정지"]);
+  play.onStop = () => { autoStage = 0; dim(); };
+  dim(); stats();
+})();
+
+/* ================================================================ 2. 사지 협응 분석기 */
+(function () {
+  const kit = DR.kit();
+  const ROWS = ["hat", "ride", "snare", "kick", "hatFoot"];
+  const PRE = {
+    rock8: [2, "HH xxxxxxxx\nSN ..x...x.\nBD x...x..."],
+    rock8b: [2, "HH xxxxxxxx\nSN ..x...x.\nBD x..xx..."],
+    q: [2, "HH x.x.x.x.\nSN ..x...x.\nBD x...x..."],
+    half: [2, "HH xxxxxxxx\nSN ....x...\nBD x.....x."],
+    ride: [2, "RD xxxxxxxx\nSN ..x...x.\nBD x...x...\nHF ..x...x."],
+    four: [4, "HH ..o...o...o...o.\nSN ....x.......x...\nBD x...x...x...x...\nHF x...x...x...x..."],
+    clash: [2, "HH xxxxxxxx\nRD x...x...\nSN ..x...x.\nBD x...x..."],
+  };
+  const div = MB.seg("bt-lm-div", (v) => { grid.setDiv(+v, 4); update(); });
+  const bpm = MB.range("bt-lm-bpm", (v) => v + " BPM");
+  const grid = DR.grid("#bt-lm-grid", { rows: ROWS, div: 2, beats: 4, kit, spec: PRE.rock8[1], cycle: { hatFoot: [".", "x"], kick: [".", "x", "X"] }, onChange: () => update() });
+  const staff = DR.staff("#bt-lm-staff", [], { bars: 1, width: 520 });
+  const cntEl = document.getElementById("bt-lm-count");
+  let evs = [], cells = [];
+  function update() {
+    evs = grid.events(); staff.setEvents(evs);
+    btPlus(staff, btCloseTimes(evs));
+    const d = grid.div, n = 4 * d, c = [], clash = [], perLimb = { RH: 0, LH: 0, RF: 0, LF: 0 };
+    for (let i = 0; i < n; i++) {
+      const at = evs.filter((e) => Math.round(e.t * d) === i), limbs = at.map((e) => BT_LIMB[e.p]);
+      const set = new Set(limbs); c.push(set.size); clash.push(limbs.length > set.size);
+      set.forEach((l) => perLimb[l]++);
+    }
+    cntEl.style.setProperty("--n", Math.min(16, n));
+    cntEl.innerHTML = c.map((v, i) => `<span class="${clash[i] ? "cx" : "c" + Math.min(3, v)}">${clash[i] ? "!" : v || ""}</span>`).join("");
+    cells = [...cntEl.children];
+    const dist = [0, 0, 0, 0]; c.forEach((v) => dist[Math.min(3, v)]++);
+    const active = c.filter((v) => v > 0).length, multi = c.filter((v) => v >= 2).length;
+    MB.stat("bt-lm-o-d", dist.join(" / "));
+    MB.stat("bt-lm-o-c", `${btF(c.reduce((a, b) => a + b, 0) / n, 2)} · ${active ? Math.round((multi / active) * 100) : 0}%`);
+    MB.stat("bt-lm-o-l", `${perLimb.RH}·${perLimb.LH}·${perLimb.RF}·${perLimb.LF}`);
+    const nc = clash.filter(Boolean).length;
+    MB.stat("bt-lm-o-x", nc ? `<span style="color:var(--bad)">${nc}칸(오른손)</span>` : "없음");
+    play.restart();
+  }
+  document.getElementById("bt-lm-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    const [d, spec] = PRE[b.dataset.k]; div.set(String(d), false); grid.setDiv(d, 4); grid.set(spec); update();
+  });
+  const play = btPlayer("#bt-lm-play", () => btLive({
+    events: evs, kit, staff, grid, bpm: () => bpm(), loop: true, length: 4,
+    onNote: (ev) => { const i = Math.round(ev.t * grid.div); cells.forEach((c, k) => c.classList.toggle("now", k === i)); },
+    onStop: () => cells.forEach((c) => c.classList.remove("now")),
+  }), ["▶ 반복 재생", "■ 정지"]);
+  update();
+})();
+
+/* ================================================================ 3. 흔한 실수 */
+(function () {
+  const kit = DR.kit();
+  const evs = DR.parse(DR.GROOVES.rock8.spec, { div: 2 });
+  const drop = MB.check("bt-er-drop", () => dim());
+  const late = MB.range("bt-er-late", (v) => v + " ms", () => stats());
+  const rush = MB.check("bt-er-rush"), wob = MB.check("bt-er-wob"), ab = MB.check("bt-er-ab", () => dim());
+  const bpm = MB.range("bt-er-bpm", (v) => v + " BPM", () => stats());
+  const click = MB.check("bt-er-click");
+  const staff = DR.staff("#bt-er-staff", evs, { bars: 1, width: 520, counts: true });
+  const msg = document.getElementById("bt-er-msg"), now = document.getElementById("bt-er-bpmnow");
+  let sched = null, quiz = null;
+  const isDrop = (e) => e.p === "hat" && (Math.abs(e.t - 1) < BT_EPS || Math.abs(e.t - 3) < BT_EPS);
+  const errBar = () => !ab() || (sched && sched.loopNo % 2 === 1);
+  function dim() { staff.unmark("ghost"); if (drop()) evs.forEach((e, i) => { if (isDrop(e)) staff.mark(i, "ghost"); }); }
+  function stats() {
+    const e8 = 30000 / bpm();
+    MB.stat("bt-er-o-late", `${late()} ms / ${btF(e8)} ms (${btF((late() / e8) * 100)}%)`);
+    MB.stat("bt-er-o-drop", drop() ? "2·4박 하이햇 2개" : "없음");
+  }
+  const curBpm = () => bpm() + (rush() && sched ? Math.min(30, 2 * (ab() ? Math.floor(sched.loopNo / 2) * 2 : sched.loopNo)) : 0);
+  const play = btPlayer("#bt-er-play", () => {
+    sched = btLive({
+      events: evs, kit, staff, wrap: true, loop: true, length: 4, bpm: () => curBpm(),
+      click: true, clickOn: () => click(),
+      mute: (p, e) => drop() && errBar() && isDrop(e),
+      offsets: (e) => (e.p === "kick" && errBar() ? late() : 0),
+      humanize: () => (wob() && errBar() ? { ms: 14, vel: 0.35 } : 0),
+      onBeat: (b) => { if (b === 0) { const bad = errBar(); MB.stat("bt-er-o-bar", ab() ? (bad ? "B · 실수" : "A · 정답") : "실수"); now.textContent = btF(curBpm()) + " BPM"; } },
+    });
+    return sched;
+  }, ["▶ 반복 재생", "■ 정지"]);
+  play.onStop = () => { now.textContent = "—"; };
+  document.getElementById("bt-er-quiz").addEventListener("click", () => {
+    if (quiz) { // 정답 공개
+      msg.className = "sim-msg ok"; msg.innerHTML = `정답: <b>${quiz}</b>. 다시 누르면 새 문제.`; quiz = null; return;
+    }
+    drop.set(false); rush.set(false); wob.set(false);
+    const el = document.getElementById("bt-er-late"); el.value = 0; el.dispatchEvent(new Event("input"));
+    ab.set(true);
+    const k = Math.floor(Math.random() * 4);
+    if (k === 0) { drop.set(true); quiz = "① 스네어 칠 때 하이햇 빠짐"; }
+    if (k === 1) { el.value = 35; el.dispatchEvent(new Event("input")); quiz = "② 킥 늦음(35 ms)"; }
+    if (k === 2) { rush.set(true); quiz = "③ 서두르기"; }
+    if (k === 3) { wob.set(true); quiz = "④ 하이햇 흔들림"; }
+    msg.className = "sim-msg"; msg.textContent = "실수 하나를 몰래 켰습니다(컨트롤은 보지 마세요!). A/B를 들으며 무엇인지 맞힌 뒤, 버튼을 다시 누르면 정답이 나옵니다.";
+    play.start();
+  });
+  stats(); dim();
+})();
+
+/* ================================================================ 4. 킥 변형 사전 */
+(function () {
+  const kit = DR.kit();
+  const chips = document.getElementById("bt-kk-chips");
+  chips.innerHTML = BT_KICKS.map((k, i) => `<button data-i="${i}"${i ? "" : ' class="on"'}>${k.k}</button>`).join("");
+  const when = MB.seg("bt-kk-when");
+  const cyc = MB.check("bt-kk-cycle");
+  const bpm = MB.range("bt-kk-bpm", (v) => v + " BPM");
+  const click = MB.check("bt-kk-click");
+  const staff = DR.staff("#bt-kk-staff", [], { bars: 1, width: 520, counts: true });
+  DR.pads("#bt-kk-pads", { kit, pieces: ["kick"] });
+  let cur = 0, pending = null;
+  // 재생용: 하이햇·스네어 + 여덟 칸 모두 킥(지금 패턴이 아닌 칸은 소리 끔)
+  const super8 = DR.parse("HH xxxxxxxx\nSN ..x...x.", { div: 2 }).concat([0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({ t: i / 2, p: "kick", v: 0.8, idx: i })));
+  DR.sort(super8);
+  function show(i) {
+    cur = i; const kv = BT_KICKS[i];
+    staff.setEvents(DR.parse(btKickSpec(kv.s), { div: 2 }));
+    [...chips.children].forEach((b, k) => b.classList.toggle("on", k === i));
+    const pos = kv.s.split("").map((c, k) => (c === "x" ? ["1", "1&", "2", "2&", "3", "3&", "4", "4&"][k] : null)).filter(Boolean);
+    const m = pos.length;
+    MB.stat("bt-kk-o-name", kv.k);
+    MB.stat("bt-kk-o-pos", pos.join(" · "));
+    MB.stat("bt-kk-o-bin", `${btBin(kv.s)}₂ = ${parseInt(btBin(kv.s), 2)}`);
+    MB.stat("bt-kk-o-m", `${m} · ${btChoose(7, m - 1)}가지`);
+  }
+  chips.addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (!b) return; MB.ctx(); if (play.running && when() === "bar") { pending = +b.dataset.i; [...chips.children].forEach((x, k) => x.style.outline = k === pending ? "2px dashed var(--accent)" : ""); } else show(+b.dataset.i); });
+  const play = btPlayer("#bt-kk-play", () => {
+    let s = null;
+    s = btLive({
+      events: super8, kit, staff, loop: true, length: 4, bpm: () => bpm(), click: true, clickOn: () => click(),
+      mute: (p, e) => p === "kick" && BT_KICKS[cur].s[e.idx] !== "x",
+      onLoop: (n) => {
+        if (pending != null) { show(pending); pending = null; [...chips.children].forEach((x) => (x.style.outline = "")); }
+        else if (cyc() && n % 2 === 0) show((cur + 1) % BT_KICKS.length);
+      },
+    });
+    return s;
+  }, ["▶ 반복 재생", "■ 정지"]);
+  show(0);
+})();
+
+/* ================================================================ 5. 그루브 챌린지 */
+(function () {
+  const kit = DR.kit();
+  const guide = MB.seg("bt-ch-guide"), pool = MB.seg("bt-ch-pool", () => next());
+  const bpm = MB.range("bt-ch-bpm", (v) => v + " BPM");
+  const auto = MB.check("bt-ch-auto");
+  const staff = DR.staff("#bt-ch-staff", [], { bars: 1, width: 520, counts: true });
+  DR.pads("#bt-ch-pads", { kit, pieces: ["hat", "snare", "kick"] });
+  const tl = DR.timeline("#bt-ch-tl", { rows: ["hat", "snare", "kick"], beats: 8, div: 2, aspect: (w) => (w < 500 ? 0.5 : 0.28) });
+  const lamps = [...document.querySelectorAll("#bt-ch-lamps i")];
+  const msg = document.getElementById("bt-ch-msg");
+  document.getElementById("bt-ch-hint").innerHTML = DR.KEY_HINT;
+  let cur = 0, evs = [], passed = new Set(), timer = 0;
+  function next() {
+    const list = BT_KICKS.map((k, i) => i).filter((i) => pool() === "all" || BT_KICKS[i].easy);
+    let n = cur; for (let g = 0; g < 20 && (n === cur || (passed.has(n) && passed.size < list.length)); g++) n = list[Math.floor(Math.random() * list.length)];
+    cur = n; evs = DR.parse(btKickSpec(BT_KICKS[cur].s), { div: 2 });
+    staff.setEvents(evs); staff.unmark();
+    msg.className = "sim-msg"; msg.textContent = `변형: 킥 ${BT_KICKS[cur].k}. 악보를 읽고 '시작'을 누르세요.`;
+    tl.set({ events: [], taps: [] });
+  }
+  const go = btPlayer("#bt-ch-go", () => {
+    clearTimeout(timer); staff.unmark();
+    return btRun({
+      events: evs, length: 4, reps: 2, bpm: bpm(), kit, staff, guide: guide() === "soft", score: new Set(["hat", "snare", "kick"]),
+      onBeat: (b) => { lamps.forEach((l, i) => l.classList.toggle("on", ((b % 4) + 4) % 4 === i)); if (b < 0) msg.textContent = `준비… ${b + 5}`; else if (b === 0) msg.textContent = "치세요!"; },
+      onDone(res) {
+        lamps.forEach((l) => l.classList.remove("on"));
+        if (!res) return;
+        Object.keys(res.hitsByIdx).forEach((si) => staff.mark(+si, res.hitsByIdx[si] === 2 ? "ok" : "bad"));
+        ["hat", "snare", "kick"].forEach((p) => { const r = res.pieces[p]; MB.stat("bt-ch-o-" + p, `${r.hits}/${r.n} · ${r.hits ? btSign(r.mean) + " ms" : "—"}${r.extra ? ` · 남음 ${r.extra}` : ""}`); });
+        const pass = res.acc >= 0.85; if (pass) passed.add(cur);
+        const total = BT_KICKS.filter((k, i) => pool() === "all" || k.easy).length;
+        MB.stat("bt-ch-o-all", `${Math.round(res.acc * 100)}% · ${passed.size}/${total}`);
+        tl.set({ events: DR.concat([evs, 4], [evs, 4]), taps: res.tl, beats: 8 });
+        msg.className = "sim-msg " + (pass ? "ok" : res.acc < 0.6 ? "bad" : "");
+        msg.textContent = pass ? `통과! (${Math.round(res.acc * 100)}%)` + (auto() ? " 다음 변형으로 넘어갑니다." : "") : `정확도 ${Math.round(res.acc * 100)}%. 빨간 음표를 확인하고 다시 해 보세요. 템포를 4–8 BPM 낮추는 것도 방법입니다.`;
+        if (pass && auto()) timer = setTimeout(() => next(), 1600);
+      },
+    });
+  }, ["▶ 시작 (예비 1마디 + 2마디)", "■ 정지"]);
+  document.getElementById("bt-ch-next").addEventListener("click", () => { go.stop(); clearTimeout(timer); next(); });
+  next();
+})();
+
+/* ================================================================ 6. 심벌 스왑 */
+(function () {
+  const kit = DR.kit();
+  const V = {
+    hat8: { n: "닫힌 하이햇 8분", spec: "HH xxxxxxxx\nSN ..x...x.\nBD x...x...", tau: "hat" },
+    hat4: { n: "4분 하이햇", spec: "HH x.x.x.x.\nSN ..x...x.\nBD x...x...", tau: "hat" },
+    ride: { n: "라이드 8분", spec: "RD xxxxxxxx\nSN ..x...x.\nBD x...x...", tau: "ride" },
+    bell: { n: "라이드 벨 + 보우", spec: "RD bxbxbxbx\nSN ..x...x.\nBD x...x...", tau: "bell" },
+    xs: { n: "크로스 스틱 백비트", spec: "HH xxxxxxxx\nXS ..x...x.\nBD x...x...", tau: "hat" },
+    open: { n: "열린 하이햇 4&", spec: "HH xxxxxxxo\nHF x.......\nSN ..x...x.\nBD x...x...", tau: "hatOpen" },
+    rideHF: { n: "라이드 + 페달 2·4", spec: "RD xxxxxxxx\nHF ..x...x.\nSN ..x...x.\nBD x...x...", tau: "ride" },
+  };
+  const keys = Object.keys(V);
+  let A = "hat8", B = "ride";
+  const mk = (id, sel, setFn) => { const el = document.getElementById(id); el.innerHTML = keys.map((k) => `<button data-k="${k}"${k === sel ? ' class="on"' : ""}>${V[k].n}</button>`).join(""); el.addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (!b) return; setFn(b.dataset.k); [...el.children].forEach((x) => x.classList.toggle("on", x === b)); build(); play.restart(); }); };
+  mk("bt-cy-a", A, (k) => (A = k)); mk("bt-cy-b", B, (k) => (B = k));
+  const mode = MB.seg("bt-cy-mode", () => { build(); play.restart(); });
+  const bpm = MB.range("bt-cy-bpm", (v) => v + " BPM");
+  const staff = DR.staff("#bt-cy-staff", [], { bars: 2, width: 720 });
+  DR.kitView("#bt-cy-kit", { kit, pieces: ["hat", "ride", "snare", "kick", "hatFoot", "crash"] });
+  let evs = [], order = [];
+  function build() {
+    const m = mode(); order = m === "a" ? [A, A] : m === "b" ? [B, B] : [A, B];
+    evs = DR.concat([DR.parse(V[order[0]].spec, { div: 2 }), 4], [DR.parse(V[order[1]].spec, { div: 2 }), 4]);
+    staff.setEvents(evs, { bars: 2 });
+    btPlus(staff, btCloseTimes(evs));
+    const tau = (k) => { const md = DR.model(V[k].tau); return md.tau != null ? btF(md.tau, md.tau < 0.1 ? 2 : 1) + " s" : "—"; };
+    const rh = (k) => DR.parse(V[k].spec, { div: 2 }).filter((e) => BT_LIMB[e.p] === "RH").length;
+    MB.stat("bt-cy-o-n", order[0] === order[1] ? `${rh(order[0])}타` : `A ${rh(A)} · B ${rh(B)}`);
+    MB.stat("bt-cy-o-tau", order[0] === order[1] ? tau(order[0]) : `A ${tau(A)} · B ${tau(B)}`);
+  }
+  const play = btPlayer("#bt-cy-play", () => { kit.hatPedal(0); return btLive({ events: evs, kit, staff, loop: true, length: 8, bpm: () => bpm(), onBeat: (b) => { if (b % 4 === 0) MB.stat("bt-cy-o-now", (b === 0 ? "1마디 " : "2마디 ") + (mode() === "ab" ? (b === 0 ? "A · " : "B · ") : "") + V[order[b / 4]].n); } }); }, ["▶ 반복 재생", "■ 정지"]);
+  build();
+})();
+
+/* ================================================================ 7. 4마디 플레이어롱 */
+(function () {
+  const kit = DR.kit();
+  const fill = MB.seg("bt-fm-fill", () => { build(); play.restart(); });
+  const rh = MB.seg("bt-fm-rh", () => { build(); play.restart(); });
+  const b0 = MB.range("bt-fm-b0", (v) => v + " BPM", () => stats(b0()));
+  const b1 = MB.range("bt-fm-b1", (v) => v + " BPM", () => stats(b0()));
+  const ladder = MB.check("bt-fm-ladder"), click = MB.check("bt-fm-click"), mute = MB.check("bt-fm-mute");
+  const staff = DR.staff("#bt-fm-staff", [], { bars: 4, width: 720, barNumbers: true });
+  DR.pads("#bt-fm-pads", { kit, pieces: ["hat", "snare", "kick", "crash"] });
+  const nowEl = document.getElementById("bt-fm-now");
+  let evs = [], sched = null;
+  function build() {
+    const T = rh() === "ride" ? "RD" : "HH";
+    const beat = `${T} xxxxxxxx\nSN ..x...x.\nBD x...x...`;
+    const first = `CR x.......\n${T} .xxxxxxx\nSN ..x...x.\nBD x...x...`;
+    const F = { snare: `${T} xxxx....\nSN ..x.xxxx\nBD x...x...`, tom: `${T} xxxx....\nSN ..x.xx..\nT1 ......x.\nFT .......x\nBD x...x...`, none: beat }[fill()];
+    evs = DR.concat(...[first, beat, beat, F].map((sp) => [DR.parse(sp, { div: 2 }), 4]));
+    staff.setEvents(evs, { bars: 4 });
+  }
+  const tempoAt = (loop) => (ladder() ? Math.min(Math.max(b1(), b0()), b0() + 4 * loop) : b0());
+  function stats(cur, loop = 0, bar = 0) {
+    MB.stat("bt-fm-o-bpm", btF(cur) + " BPM");
+    MB.stat("bt-fm-o-cyc", `${loop + 1} · ${bar + 1}/4`);
+    const goal = Math.max(b1(), b0()), n = ladder() ? Math.max(0, Math.ceil((goal - cur) / 4)) : 0;
+    let T = 0; for (let k = 0; k <= n; k++) T += (16 * 60) / Math.min(goal, cur + 4 * k);
+    MB.stat("bt-fm-o-left", ladder() ? (n ? `${n}사이클 · 약 ${Math.floor(T / 60)}분 ${btF(T % 60)}초` : "목표 도달") : "사다리 꺼짐");
+    MB.stat("bt-fm-o-ms", btF(30000 / cur) + " ms");
+  }
+  const play = btPlayer("#bt-fm-play", () => {
+    sched = btLive({
+      events: evs, kit, staff, loop: true, length: 16, bpm: () => tempoAt(sched ? sched.loopNo : 0),
+      click: true, clickOn: () => click(), mute: () => mute(),
+      onBeat: (b) => { if (b % 4 === 0) { const L = sched.loopNo, cur = tempoAt(L); nowEl.textContent = `${btF(cur)} BPM · 마디 ${b / 4 + 1}`; stats(cur, L, b / 4); } },
+    });
+    return sched;
+  }, ["▶ 시작", "■ 정지"]);
+  play.onStop = () => { nowEl.textContent = "—"; };
+  build(); stats(b0());
+})();
+
+/* ================================================================ 8. 녹음 셀프 체크 */
+(function () {
+  const kit = DR.kit();
+  const TG = {
+    rock8: "HH xxxxxxxx\nSN ..x...x.\nBD x...x...",
+    rock8b: "HH xxxxxxxx\nSN ..x...x.\nBD x..xx...",
+    q: "HH x.x.x.x.\nSN ..x...x.\nBD x...x...",
+    kick3: "HH xxxxxxxx\nSN ..x...x.\nBD x...xx..",
+  };
+  const tgt = MB.seg("bt-rc-tgt", () => showTarget());
+  const qd = MB.seg("bt-rc-q", () => { if (last) analyse(last); });
+  const bpm = MB.range("bt-rc-bpm", (v) => v + " BPM");
+  const tStaff = DR.staff("#bt-rc-target", [], { bars: 2, width: 720 });
+  const mStaff = DR.staff("#bt-rc-mine", [], { bars: 2, width: 720 });
+  DR.pads("#bt-rc-pads", { kit, pieces: ["hat", "snare", "kick"] });
+  document.getElementById("bt-rc-hint").innerHTML = DR.KEY_HINT;
+  const lamps = [...document.querySelectorAll("#bt-rc-lamps i")];
+  const msg = document.getElementById("bt-rc-msg"), tbody = document.querySelector("#bt-rc-tbl tbody");
+  const rec = DR.recorder(kit);
+  let target = [], last = null;
+  function showTarget() { const one = DR.parse(TG[tgt()], { div: 2 }); target = DR.concat([one, 4], [one, 4]); tStaff.setEvents(target, { bars: 2 }); }
+  function analyse(R) {
+    last = R;
+    const d = +qd(), spb = 60 / R.bpm, LEN = 8;
+    // 퀀타이즈(예비 마디·범위 밖 타격은 버림, 같은 칸 같은 조각은 하나로)
+    const seen = new Set(), mine = [];
+    R.notes.forEach((n) => {
+      const b = n.t / spb; if (b < -0.25) return;
+      const q = Math.round(b * d) / d; if (q < 0 || q >= LEN - 1e-6) return;
+      const p = btBase(n.p), key = p + "@" + q; if (seen.has(key)) return; seen.add(key);
+      mine.push({ t: q, p: n.p === "hatOpen" ? "hatOpen" : p, v: n.v, dev: (b - q) * spb * 1000, base: p });
+    });
+    DR.sort(mine);
+    mStaff.setEvents(mine, { bars: 2 }); mStaff.unmark();
+    const tk = new Set(target.map((e) => btBase(e.p) + "@" + e.t.toFixed(4)));
+    mine.forEach((e, i) => mStaff.mark(i, tk.has(e.base + "@" + e.t.toFixed(4)) ? "ok" : "bad"));
+    let rows = "", tot = 0, hit = 0, ext = 0, weak = null, wAcc = 2;
+    ["hat", "snare", "kick"].forEach((p) => {
+      const T = target.filter((e) => btBase(e.p) === p), M = mine.filter((e) => e.base === p);
+      const mk = new Map(M.map((e) => [e.t.toFixed(4), e]));
+      const matched = T.map((e) => mk.get(e.t.toFixed(4))).filter(Boolean);
+      const h = matched.length, miss = T.length - h, extra = M.length - h;
+      const devs = matched.map((e) => e.dev), m = devs.length ? devs.reduce((a, b) => a + b, 0) / devs.length : 0;
+      const sd = devs.length > 1 ? Math.sqrt(devs.reduce((a, b) => a + (b - m) * (b - m), 0) / (devs.length - 1)) : 0;
+      rows += `<tr><td>${btName(p)}</td><td>${h}/${T.length}</td><td>${miss}</td><td>${extra}</td><td>${h ? btSign(m) + " ms" : "—"}</td><td>${h > 1 ? btF(sd) + " ms" : "—"}</td></tr>`;
+      tot += T.length; hit += h; ext += extra;
+      const a = T.length ? h / (T.length + extra) : 1; if (a < wAcc) { wAcc = a; weak = p; }
+    });
+    tbody.innerHTML = rows;
+    const acc = tot ? hit / (tot + ext) : 0;
+    MB.stat("bt-rc-o-acc", Math.round(acc * 100) + "%");
+    MB.stat("bt-rc-o-weak", weak ? `${btName(weak)} (${Math.round(wAcc * 100)}%)` : "—");
+    const pairs = [];
+    mine.filter((e) => e.base === "kick").forEach((k) => { const h = mine.find((e) => e.base === "hat" && Math.abs(e.t - k.t) < 1e-6); if (h) pairs.push(k.dev - h.dev); });
+    MB.stat("bt-rc-o-kh", pairs.length ? `${btSign(pairs.reduce((a, b) => a + b, 0) / pairs.length)} ms (${pairs.length}쌍)` : "—");
+    msg.className = "sim-msg " + (acc >= 0.9 ? "ok" : acc < 0.6 ? "bad" : "");
+    msg.textContent = mine.length ? `정확도 ${Math.round(acc * 100)}% · 기록된 타격 ${R.notes.length}개(예비 마디 포함), 악보에 옮긴 것 ${mine.length}개.` : "기록된 타격이 없습니다. 키보드(K·F·Space)나 패드로 쳐 보세요.";
+  }
+  const go = btPlayer("#bt-rc-go", () => {
+    const B = bpm(), spb = 60 / B;
+    msg.className = "sim-msg"; msg.textContent = "준비…";
+    return DR.playEvents([], {
+      kit, bpm: B, length: 12, click: true, loop: false,
+      onStart: (t0) => rec.start(t0 + 4 * spb),
+      onBeat: (b) => { lamps.forEach((l, i) => l.classList.toggle("on", b % 4 === i)); msg.textContent = b < 4 ? `준비… ${b + 1}` : `녹음 중 · 마디 ${Math.floor(b / 4)} / 2`; },
+      onStop: (natural) => { lamps.forEach((l) => l.classList.remove("on")); const notes = rec.stop(); if (natural) analyse({ notes, bpm: B }); else msg.textContent = "녹음을 멈췄습니다."; },
+    });
+  }, ["● 녹음 (예비 1마디 + 2마디)", "■ 정지"]);
+  showTarget();
+})();
+</script>
+</body>
+</html>

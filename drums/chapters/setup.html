@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>세팅·자세·그립 · DrumBook</title>
+<meta name="description" content="스로운 높이와 다리 각도, 킷 배치, 스틱 규격, 매치드·트래디셔널 그립과 받침점, 리바운드의 물리, 네 가지 스트로크, 묄러 기법, 페달 기술을 가상 드럼으로 듣고 연습한다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/setup.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="세팅·자세·그립 · DrumBook">
+<meta property="og:description" content="스로운 높이와 다리 각도, 킷 배치, 스틱 규격, 매치드·트래디셔널 그립과 받침점, 리바운드의 물리, 네 가지 스트로크, 묄러 기법, 페달 기술을 가상 드럼으로 듣고 연습한다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/setup.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .set-svg { display: block; width: 100%; height: auto; }
+  .set-limb { stroke: var(--text); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+  .set-limb.thin { stroke-width: 3; }
+  .set-stick { stroke: var(--accent); stroke-width: 3.2; stroke-linecap: round; fill: none; }
+  .set-joint { fill: var(--bg-elev); stroke: var(--text); stroke-width: 2; }
+  .set-dash { stroke: var(--text-faint); stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
+  .set-good { fill: var(--ok); } .set-warn { fill: var(--warn); } .set-bad { fill: var(--bad); }
+  .set-ok-t { fill: var(--ok); font-weight: 700; } .set-bad-t { fill: var(--bad); font-weight: 700; } .set-warn-t { fill: var(--warn); font-weight: 700; }
+  .set-cells { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 3px; margin-top: 8px; }
+  .set-cells button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; font: 700 13px var(--mono); padding: 7px 0 5px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); min-width: 0; }
+  .set-cells button.acc { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .set-cells button.now { outline: 2px solid var(--warn); }
+  .set-cells button small { display: block; font: 600 10px var(--mono); opacity: .8; margin-top: 2px; }
+  .set-gauge { height: 14px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; position: relative; }
+  .set-gauge i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .15s, background .15s; }
+  .set-gauge b { position: absolute; top: -2px; bottom: -2px; left: 80%; width: 2px; background: var(--text-faint); }
+  .set-beater { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .07s; }
+  .set-beater.hit { transform: rotate(14deg); }
+  .set-taps { display: grid; grid-template-columns: 1fr; gap: 8px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="setup">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 02</div>
+    <h1>세팅·자세·그립</h1>
+    <p class="lead">드럼은 앉아서 두 손과 두 발로 연주하는 악기라서, 몸과 악기가 만나는 자리가 소리의 절반을 정합니다. 의자가 2 cm 낮으면 킥이 둔해지고, 스네어가 3 cm 높으면 어깨가 올라가며, 스틱을 쥐는 자리가 2 cm 앞으로 가면 스틱이 튀어 오르지 않습니다. 이 장에서는 "어떻게 앉고, 어디에 놓고, 어떻게 쥐는가"를 먼저 정한 다음, 스틱이 헤드에서 튀어 오르는 <b>리바운드</b>를 반발계수와 낙하 높이로 계산해 보고, 그 물리를 이용하는 네 가지 스트로크와 묄러 기법, 그리고 발의 기술(힐다운·힐업·하이햇 페달)까지 다룹니다. 목표는 하나입니다. <b>가장 적은 힘으로 가장 많은 소리를 내는 몸의 배치</b>를 찾는 것입니다.</p>
+    <ul class="objectives">
+      <li>스로운 높이를 다리 길이와 페달 거리로 계산하고, 허벅지가 수평보다 약간 아래가 되는 이유를 설명한다.</li>
+      <li>스네어·하이햇·탐·심벌을 몸에 맞추는 순서와 기준을 알고, 왼손잡이 배치로 뒤집을 수 있다.</li>
+      <li>스틱 규격(7A·5A·5B·2B)과 재질·팁의 차이를 알고 자기 스틱을 고른다.</li>
+      <li>매치드 그립 세 가지와 트래디셔널 그립을 구별하고, 받침점의 위치를 타격 중심으로 설명한다.</li>
+      <li>반발계수 \(e\)와 낙하 높이 \(h\)로 충돌 속도와 되튐 높이를 계산하고, 더블·버즈 스트로크가 같은 물리에서 나옴을 안다.</li>
+      <li>풀·다운·탭·업 스트로크를 시작 높이와 끝 높이로 정의하고 액센트–탭 패턴에 적용한다.</li>
+      <li>힐다운·힐업·슬라이드와 하이햇 페달의 '칙'·풋 스플래시를 연습하고, 몸을 다치지 않게 연습하는 습관을 만든다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="throne">
+    <h2>스로운 높이와 앉는 자세</h2>
+    <p>드러머의 의자를 <span class="term">스로운</span><span class="en">(Throne)</span>이라고 부릅니다. 왕좌라는 이름처럼 드러머는 이 위에서 한 시간 넘게 네 팔다리를 쉬지 않고 움직이므로, 스로운은 "앉는 곳"이 아니라 <b>몸의 받침점</b>입니다. 기준은 단순합니다. 두 발을 페달에 올렸을 때 <b>허벅지가 수평보다 약간(5–15°) 아래로 기울고</b>, 무릎 각도가 직각보다 조금 열린 100–120°가 되는 높이입니다. 키 170 cm 안팎이면 스로운 윗면이 바닥에서 대략 50–58 cm입니다.</p>
+    <p>왜 '약간 아래'일까요? 허벅지가 수평보다 올라가면(의자가 낮으면) 고관절이 90° 넘게 접혀 골반이 뒤로 말리고 허리가 굽습니다. 다리를 들어 올리는 근육(장요근)이 이미 짧아진 상태라 힐업으로 다리 무게를 싣기 어렵고, 결국 발목만으로 페달을 밟게 됩니다. 반대로 너무 높으면 허벅지가 많이 기울어 발이 페달 위에서 앞으로 미끄러지고, 몸무게가 엉덩이가 아니라 두 발에 실려 균형이 무너집니다. 두 발이 다 바쁜 순간에도 몸이 넘어지지 않으려면 <b>무게중심이 스로운 위에</b> 있어야 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="스로운 높이에 따른 옆모습 세 가지: 너무 낮음, 알맞음, 너무 높음">
+        <g font-family="var(--font)">
+          <!-- panel 1: too low -->
+          <g transform="translate(10,0)">
+            <text x="125" y="24" text-anchor="middle" class="set-bad-t" style="font-size:15px">너무 낮음</text>
+            <text x="125" y="44" text-anchor="middle" class="t-dim">무릎이 엉덩이보다 높다</text>
+            <line x1="0" y1="270" x2="250" y2="270" class="s-axis"/>
+            <rect x="30" y="208" width="60" height="8" rx="3" class="f-surface"/><line x1="60" y1="216" x2="60" y2="266" class="s-line"/><line x1="40" y1="268" x2="80" y2="268" class="s-line"/>
+            <rect x="150" y="166" width="56" height="18" rx="3" class="f-elev"/><line x1="178" y1="184" x2="178" y2="268" class="s-line"/>
+            <line x1="120" y1="262" x2="172" y2="254" class="s-line" style="stroke-width:3"/>
+            <path d="M60 202 Q62 160 80 124" class="set-limb"/>
+            <circle cx="88" cy="106" r="14" class="set-joint"/>
+            <path d="M80 128 L92 162 L136 164" class="set-limb thin"/><line x1="136" y1="164" x2="178" y2="170" class="set-stick"/>
+            <path d="M60 202 L116 188 L126 250 L160 256" class="set-limb"/>
+            <circle cx="60" cy="202" r="3.5" class="set-joint"/><circle cx="116" cy="188" r="3.5" class="set-joint"/>
+            <line x1="60" y1="202" x2="134" y2="202" class="set-dash"/>
+            <text x="125" y="292" text-anchor="middle" class="t-dim">허리가 굽고 발목만으로 밟는다</text>
+          </g>
+          <!-- panel 2: good -->
+          <g transform="translate(275,0)">
+            <text x="125" y="24" text-anchor="middle" class="set-ok-t" style="font-size:15px">알맞음</text>
+            <text x="125" y="44" text-anchor="middle" class="t-dim">허벅지 5–15° 아래 · 무릎 100–120°</text>
+            <line x1="0" y1="270" x2="250" y2="270" class="s-axis"/>
+            <rect x="30" y="184" width="60" height="8" rx="3" class="f-surface"/><line x1="60" y1="192" x2="60" y2="266" class="s-line"/><line x1="40" y1="268" x2="80" y2="268" class="s-line"/>
+            <rect x="150" y="160" width="56" height="18" rx="3" class="f-elev"/><line x1="178" y1="178" x2="178" y2="268" class="s-line"/>
+            <line x1="120" y1="262" x2="172" y2="254" class="s-line" style="stroke-width:3"/>
+            <line x1="60" y1="178" x2="70" y2="96" class="set-limb"/>
+            <circle cx="74" cy="78" r="14" class="set-joint"/>
+            <path d="M70 100 L84 140 L132 148" class="set-limb thin"/><line x1="132" y1="148" x2="176" y2="162" class="set-stick"/>
+            <path d="M60 178 L118 190 L128 250 L160 256" class="set-limb"/>
+            <circle cx="60" cy="178" r="3.5" class="set-joint"/><circle cx="118" cy="190" r="3.5" class="set-joint"/>
+            <line x1="60" y1="178" x2="134" y2="178" class="set-dash"/>
+            <path d="M100 178 A40 40 0 0 1 99 186" class="s-acc"/>
+            <text x="104" y="174" class="t-acc" style="font-size:12px">−10°</text>
+            <text x="134" y="214" class="t-mono">무릎 110°</text>
+            <text x="125" y="292" text-anchor="middle" class="t-dim">무게는 엉덩이, 발은 가볍게</text>
+          </g>
+          <!-- panel 3: too high -->
+          <g transform="translate(540,0)">
+            <text x="125" y="24" text-anchor="middle" class="set-bad-t" style="font-size:15px">너무 높음</text>
+            <text x="125" y="44" text-anchor="middle" class="t-dim">허벅지가 많이 기울고 다리가 펴진다</text>
+            <line x1="0" y1="270" x2="250" y2="270" class="s-axis"/>
+            <rect x="30" y="160" width="60" height="8" rx="3" class="f-surface"/><line x1="60" y1="168" x2="60" y2="266" class="s-line"/><line x1="40" y1="268" x2="80" y2="268" class="s-line"/>
+            <rect x="150" y="150" width="56" height="18" rx="3" class="f-elev"/><line x1="178" y1="168" x2="178" y2="268" class="s-line"/>
+            <line x1="120" y1="262" x2="172" y2="254" class="s-line" style="stroke-width:3"/>
+            <line x1="60" y1="154" x2="66" y2="84" class="set-limb"/>
+            <circle cx="70" cy="68" r="13" class="set-joint"/>
+            <path d="M66 88 L80 122 L128 134" class="set-limb thin"/><line x1="128" y1="134" x2="174" y2="152" class="set-stick"/>
+            <path d="M60 154 L114 178 L136 240 L164 256" class="set-limb"/>
+            <circle cx="60" cy="154" r="3.5" class="set-joint"/><circle cx="114" cy="178" r="3.5" class="set-joint"/>
+            <line x1="60" y1="154" x2="134" y2="154" class="set-dash"/>
+            <text x="125" y="292" text-anchor="middle" class="t-dim">발끝으로 버티고 몸이 앞으로 쏠린다</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-1.</b> 스로운 높이에 따른 옆모습. 점선은 엉덩이 관절(고관절)의 수평선이다. 가운데처럼 허벅지가 수평보다 조금 아래로 내려가면 고관절이 90°보다 열려 골반이 서고, 다리 무게를 페달에 '떨어뜨릴' 수 있다. 스네어 윗면은 허벅지보다 한 뼘(10–15 cm) 위, 팔꿈치가 자연스럽게 늘어진 높이에 둔다.</figcaption>
+    </figure>
+    <p>다리를 두 마디 링크(허벅지 \(L_1\), 정강이 \(L_2\))로 보면 무릎의 자리는 로봇 팔의 역기구학으로 정해집니다. 고관절과 발목(페달 위) 사이의 거리를 \(d\)라 하면</p>
+    <div class="formula">$$d^2 = L_1^2 + L_2^2 - 2L_1L_2\cos\theta_{\text{knee}},\qquad \theta_{\text{thigh}} = \operatorname{atan2}(\Delta y, \Delta x) + \arccos\frac{L_1^2 + d^2 - L_2^2}{2L_1 d}$$
+      <div class="where">\(\Delta x, \Delta y\): 고관절에서 발목까지의 수평·수직 거리, \(\theta_{\text{thigh}}\): 허벅지가 수평과 이루는 각(음수 = 아래로). 평균 인체 비율로 \(L_1 \approx 0.245H\), \(L_2 \approx 0.246H\)(\(H\) = 키). 스로운을 높이면 \(\Delta y\)가 커져 허벅지가 더 기울고 무릎이 펴진다. 페달을 멀리 두면 \(d\)가 커져 무릎이 펴지다가 \(d \ge L_1 + L_2\)에서 다리가 다 펴져 발끝으로만 닿는다.</div>
+    </div>
+
+    <div class="sim" id="sim-set-throne">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스로운 높이·페달 거리와 다리의 기하</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><svg class="set-svg" id="set-th-svg" viewBox="0 0 420 320" role="img" aria-label="스로운에 앉은 드러머의 옆모습"></svg></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>키 <output id="set-th-h-out"></output></span><input type="range" id="set-th-h" min="150" max="195" step="1" value="172"></label>
+          <label class="ctrl"><span>스로운 높이 <output id="set-th-seat-out"></output></span><input type="range" id="set-th-seat" min="40" max="75" step="0.5" value="48"></label>
+          <label class="ctrl"><span>고관절–발목 수평 거리 <output id="set-th-d-out"></output></span><input type="range" id="set-th-d" min="30" max="80" step="1" value="46"></label>
+          <div class="btn-row"><button class="btn primary" id="set-th-best">추천 높이로</button><button class="btn" id="set-th-test">▶ 시험 킥</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">허벅지 기울기</span><span class="v" id="set-th-o-thigh">—</span></div>
+        <div class="stat"><span class="k">무릎 각도</span><span class="v" id="set-th-o-knee">—</span></div>
+        <div class="stat"><span class="k">다리 뻗음 d/(L₁+L₂)</span><span class="v" id="set-th-o-reach">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="set-th-o-verdict">—</span></div>
+      </div>
+      <div class="sim-msg" id="set-th-msg">키와 페달 거리를 맞춘 뒤 '추천 높이로'를 눌러 보세요.</div>
+      <div class="sim-note">해볼 것: 스로운을 45 cm 아래로 내리면 무릎이 고관절보다 올라가고(허벅지 기울기 +), 70 cm 위로 올리면 다리가 거의 펴집니다. 페달 거리를 바꾸면 같은 높이에서도 판정이 달라지므로, 실제로는 <b>높이를 먼저 정하고 페달 거리로 무릎 각도를 맞춥니다</b>. '시험 킥'은 판정에 따라 세기와 타이밍이 고르지 않게 들리도록 만든 비유이며 실제 측정이 아닙니다. 모델: 고관절은 스로운 윗면 위 0.05H, 발목은 페달 발판 위(바닥에서 0.039H + 4 cm), 허벅지 0.245H, 정강이 0.246H. 사람마다 비율이 다르므로 최종 판단은 몸의 느낌과 거울로 합니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 킷 앞에 앉을 때마다 20초 점검</strong> ① 스로운 한가운데가 아니라 <b>앞쪽 2/3</b>에 앉습니다(엉덩이뼈 두 개가 느껴지는 자리). ② 두 발을 페달에 올리고 허벅지가 수평보다 살짝 내려갔는지 봅니다. ③ 발을 페달에서 들어 올린 채 2초 버텨 봅니다. 몸이 뒤로 넘어가거나 앞으로 쏠리면 무게중심이 틀린 것입니다. ④ 어깨를 한 번 귀까지 올렸다가 '툭' 떨어뜨립니다. 스로운 높이는 처음 정한 뒤 일주일쯤 쓰면서 1 cm씩 조정하고, 맞는 높이를 찾으면 기둥에 테이프로 표시해 둡니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="layout">
+    <h2>킷 배치: 몸에 맞추는 순서</h2>
+    <p>킷 배치에는 정답이 없지만 순서는 있습니다. <b>몸에 가까운 것부터, 가장 자주 치는 것부터</b> 놓습니다. 스로운 → 스네어 → 킥 페달 → 하이햇 → 탐 → 플로어 탐 → 라이드·크래시 순서로, 앞의 것을 놓은 다음 그 자리에 맞춰 다음 것을 놓습니다. 이 책은 오른손잡이 표준 세팅(오른발 킥, 왼발 하이햇, 오른손이 하이햇과 라이드를 친다)을 기준으로 씁니다. <b>왼손잡이는 그림을 좌우로 뒤집으면</b> 됩니다(왼발 킥, 오른발 하이햇, 플로어 탐과 라이드는 왼쪽). 오른손잡이 킷을 그대로 쓰면서 왼손으로 하이햇을 치는 <span class="term">오픈 핸드</span><span class="en">(Open-handed)</span> 방식도 있는데, 손이 엇갈리지 않아 왼손잡이에게 자연스럽습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 380" role="img" aria-label="위에서 본 오른손잡이 표준 킷 배치와 팔이 닿는 범위">
+        <g font-family="var(--font)">
+          <path d="M225 330 A170 170 0 0 1 375 165" class="set-dash"/>
+          <path d="M425 165 A170 170 0 0 1 575 330" class="set-dash"/>
+          <path d="M200 300 A200 200 0 0 1 400 120 A200 200 0 0 1 600 300" class="set-dash" style="stroke:var(--accent);opacity:.6"/>
+          <circle cx="270" cy="140" r="48" style="fill:var(--dr-metal);opacity:.55;stroke:var(--dr-metal-2)"/><text x="270" y="144" text-anchor="middle" class="t">크래시</text>
+          <circle cx="545" cy="175" r="56" style="fill:var(--dr-metal);opacity:.55;stroke:var(--dr-metal-2)"/><circle cx="545" cy="175" r="14" style="fill:var(--dr-metal-2);opacity:.5"/><text x="545" y="210" text-anchor="middle" class="t">라이드</text>
+          <circle cx="245" cy="250" r="34" style="fill:var(--dr-metal);opacity:.55;stroke:var(--dr-metal-2)"/><text x="245" y="254" text-anchor="middle" class="t">하이햇</text>
+          <circle cx="362" cy="168" r="28" style="fill:var(--dr-head);stroke:var(--dr-shell-2);stroke-width:3"/><text x="362" y="172" text-anchor="middle" class="t" style="fill:#333">탐1</text>
+          <circle cx="440" cy="168" r="31" style="fill:var(--dr-head);stroke:var(--dr-shell-2);stroke-width:3"/><text x="440" y="172" text-anchor="middle" class="t" style="fill:#333">탐2</text>
+          <rect x="365" y="198" width="70" height="80" rx="10" style="fill:var(--dr-shell);opacity:.85"/><text x="400" y="242" text-anchor="middle" class="t" style="fill:#fff">킥</text>
+          <circle cx="322" cy="276" r="36" style="fill:var(--dr-head);stroke:var(--dr-shell-2);stroke-width:3"/><text x="322" y="280" text-anchor="middle" class="t" style="fill:#333">스네어</text>
+          <circle cx="490" cy="290" r="42" style="fill:var(--dr-head);stroke:var(--dr-shell-2);stroke-width:3"/><text x="490" y="294" text-anchor="middle" class="t" style="fill:#333">플로어</text>
+          <rect x="230" y="300" width="24" height="34" rx="4" style="fill:var(--dr-plate)"/><rect x="388" y="296" width="24" height="34" rx="4" style="fill:var(--dr-plate)"/>
+          <circle cx="400" cy="352" r="26" class="f-surface"/><text x="400" y="356" text-anchor="middle" class="t-dim">스로운</text>
+          <circle cx="372" cy="334" r="5" class="f-acc"/><circle cx="428" cy="334" r="5" class="f-acc"/>
+          <text x="120" y="330" class="t-dim">팔이 편히</text><text x="120" y="346" class="t-dim">닿는 범위</text>
+          <g transform="translate(620,30)">
+            <text x="0" y="0" class="t" style="font-weight:700">놓는 순서</text>
+            <text x="0" y="26" class="t-dim">① 스로운: 허벅지 약간 아래</text>
+            <text x="0" y="48" class="t-dim">② 스네어: 두 무릎 사이</text>
+            <text x="0" y="70" class="t-dim">③ 킥: 오른 다리가 곧게</text>
+            <text x="0" y="92" class="t-dim">④ 하이햇: 왼발, 스네어</text>
+            <text x="18" y="110" class="t-dim">위 10–15 cm</text>
+            <text x="0" y="132" class="t-dim">⑤ 탐: 스틱과 평행하게</text>
+            <text x="0" y="154" class="t-dim">⑥ 플로어: 스네어 높이</text>
+            <text x="0" y="176" class="t-dim">⑦ 심벌: 팔을 뻗지 않고</text>
+            <text x="18" y="194" class="t-dim">스틱 어깨가 닿게</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-2.</b> 위에서 본 오른손잡이 표준 킷. 주황 점은 어깨, 회색 점선은 팔꿈치를 몸 옆에 둔 채 손이 닿는 범위, 주황 점선은 팔을 앞으로 뻗었을 때 닿는 바깥 범위다. 자주 치는 조각(스네어·하이햇·킥)은 안쪽 범위에, 가끔 치는 심벌은 바깥 범위에 둔다. 왼손잡이는 이 그림을 좌우로 뒤집는다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>조각</th><th>기준</th><th>흔한 실수</th></tr></thead>
+      <tbody>
+        <tr><td>스네어</td><td>두 무릎 사이, 윗면이 허벅지보다 한 뼘 위. 매치드 그립이면 수평 또는 앞쪽이 약간(0–10°) 내려가게</td><td>너무 높아 어깨가 올라감, 하이햇 페달과 다리가 부딪힘</td></tr>
+        <tr><td>킥 페달</td><td>오른 다리가 몸에서 곧게 뻗은 자리, 발꿈치가 무릎 바로 아래쯤</td><td>너무 멀어 다리를 뻗음(그림 2-1 오른쪽)</td></tr>
+        <tr><td>하이햇</td><td>왼발 페달, 위 심벌이 스네어보다 10–15 cm 위. 오른손이 왼손 위로 엇갈려 칠 공간</td><td>너무 낮아 두 스틱이 부딪힘</td></tr>
+        <tr><td>탐</td><td>스네어에서 손목만 들어 닿는 거리, 스틱과 헤드가 거의 평행하게 기울임</td><td>너무 높고 평평해 스틱 끝이 림을 침</td></tr>
+        <tr><td>플로어 탐</td><td>스네어와 비슷한 높이, 오른 무릎 옆</td><td>너무 멀어 몸을 돌려야 함</td></tr>
+        <tr><td>라이드·크래시</td><td>팔을 거의 뻗지 않고 스틱의 숄더(어깨)가 심벌 가장자리에 닿는 높이·각도</td><td>너무 높이 매달아 팔을 머리 위로 듦</td></tr>
+      </tbody>
+    </table></div>
+    <p>탐과 심벌의 각도는 "스틱이 헤드에 닿는 순간 헤드와 거의 평행한가"로 판단합니다. 스틱이 비스듬히 박히면 팁만 닿아 소리가 얇고, 림을 함께 쳐서 잡음이 납니다. 심벌은 가장자리를 스틱의 숄더(팁 뒤 굵어지는 부분)로 비스듬히 스치듯 쳐야 깨지지 않고 잘 울립니다. 이 부분은 <a href="sound.html">12장</a>에서 소리와 함께 다시 다룹니다.</p>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="sticks">
+    <h2>스틱: 규격·재질·팁</h2>
+    <p>스틱 이름의 숫자와 글자는 역사적인 관습입니다. 숫자는 대략 굵기의 역순(숫자가 작을수록 굵다), 글자는 원래 용도였습니다. A는 오케스트라(Orchestra), B는 밴드(Band), S는 거리 행진(Street)용이라는 설명이 흔하지만, 오늘날에는 회사마다 같은 이름도 조금씩 다른 규격일 뿐입니다. 처음 시작한다면 <b>5A</b>가 표준입니다. 손이 작거나 재즈·조용한 음악이라면 7A, 록·힘을 기르는 연습이라면 5B를 써 봅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 170" role="img" aria-label="스틱의 부위: 버트, 샤프트, 테이퍼, 숄더, 팁과 받침점, 무게중심">
+        <g font-family="var(--font)">
+          <path d="M40 72 L560 72 Q650 75 712 80 L722 80 L722 90 L712 90 Q650 95 560 98 L40 98 Z" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5"/>
+          <ellipse cx="736" cy="85" rx="17" ry="9" style="fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5"/>
+          <text x="80" y="60" class="t">버트(Butt)</text><text x="300" y="60" class="t">샤프트(Shaft)</text><text x="600" y="60" class="t">테이퍼(Taper)</text><text x="690" y="40" class="t">숄더</text><line x1="706" y1="44" x2="712" y2="76" class="s-line"/><text x="750" y="60" class="t">팁</text>
+          <polygon points="278,100 270,114 286,114" class="f-acc"/><text x="278" y="130" text-anchor="middle" class="t-acc" style="font-size:12px">받침점 ≈ 버트에서 1/3</text>
+          <circle cx="378" cy="85" r="5" style="fill:var(--accent-2)"/><text x="378" y="130" text-anchor="middle" class="t-dim" style="fill:var(--accent-2)">무게중심 ≈ 0.47</text>
+          <line x1="40" y1="150" x2="760" y2="150" class="s-axis"/><line x1="40" y1="144" x2="40" y2="156" class="s-axis"/><line x1="760" y1="144" x2="760" y2="156" class="s-axis"/>
+          <text x="400" y="166" text-anchor="middle" class="t-mono">5A: 길이 406 mm(16인치) · 지름 14.4 mm · 히코리 약 46 g</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-3.</b> 스틱의 부위. 테이퍼가 길고 가늘수록 끝이 가벼워 빠르고 잘 튀지만 약하고, 짧고 굵으면 소리가 크고 단단하다. 받침점(엄지와 검지가 쥐는 자리)은 버트에서 약 1/3, 무게중심은 가운데보다 조금 버트 쪽에 있다. 둘 사이의 간격이 4절의 '타격 중심'을 정한다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>규격</th><th>길이</th><th>지름</th><th>무게(히코리)</th><th>쓰임</th></tr></thead>
+      <tbody>
+        <tr><td>7A</td><td>394 mm (15.5″)</td><td>13.7 mm</td><td>약 40 g</td><td>재즈·어쿠스틱·작은 손, 가볍고 빠름</td></tr>
+        <tr><td>5A</td><td>406 mm (16″)</td><td>14.4 mm</td><td>약 46 g</td><td>표준, 팝·록·연습</td></tr>
+        <tr><td>5B</td><td>406 mm (16″)</td><td>15.1 mm</td><td>약 52 g</td><td>록·큰 소리, 패드 연습으로 힘 기르기</td></tr>
+        <tr><td>2B</td><td>413 mm (16.25″)</td><td>16.0 mm</td><td>약 60 g</td><td>헤비 록·행진·근력 훈련</td></tr>
+      </tbody>
+    </table></div>
+    <p class="t-dim" style="font-size:13px">수치는 대표적인 제조사 값의 대략이며 회사마다 ±1 mm, ±5 g 정도 다르다.</p>
+    <p><b>재질</b>: <span class="term">히코리</span><span class="en">(Hickory)</span>가 표준입니다. 단단하면서도 탄성이 좋아 충격을 흡수합니다. <b>메이플</b>은 같은 굵기에서 10–15% 가볍고 부드러워 빠른 연주와 조용한 음악에, <b>오크</b>는 더 무겁고 단단해 오래가지만 손에 충격이 더 옵니다. <b>팁</b>은 나무 팁과 나일론 팁이 있습니다. 나일론은 닳지 않고 심벌에서 소리가 또렷하고 밝습니다. 팁 모양(둥근 볼·배럴·도토리·물방울)은 심벌에 닿는 면적을 바꿔, 둥글고 작을수록 핑이 또렷하고 넓을수록 소리가 두껍습니다.</p>
+    <div class="callout tip"><strong>스틱 고르는 법</strong> 같은 규격 여러 짝을 골라 ① 유리 진열대 같은 평평한 면에 굴려 휘었는지 봅니다(덜컹거리면 휜 것). ② 두 짝을 같은 높이에서 책상에 톡 떨어뜨려 음높이가 비슷한지 들어 봅니다. 음높이가 비슷하면 밀도와 무게가 비슷합니다. ③ 받침점을 쥐고 패드에 떨어뜨려 두 짝이 같은 횟수로 튀는지 봅니다. 연습 패드에서는 무대보다 한 단계 굵은 스틱(5A → 5B)을 쓰면 근력이 붙지만, 손목이 아프면 바로 원래 규격으로 돌아갑니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="grip">
+    <h2>그립: 매치드와 트래디셔널, 그리고 받침점</h2>
+    <p>두 손이 같은 방법으로 스틱을 쥐는 것을 <span class="term">매치드 그립</span><span class="en">(Matched grip)</span>이라고 합니다. 오늘날 대부분의 드러머가 씁니다. 매치드 그립은 손바닥이 향하는 방향에 따라 셋으로 나눕니다. 손바닥이 바닥을 향하는 <b>저먼</b><span class="en">(German)</span>은 손목을 위아래로 크게 쓰며 큰 소리에 유리하고, 엄지가 위를 향하고 두 손바닥이 마주 보는 <b>프렌치</b><span class="en">(French)</span>는 손가락으로 스틱을 튕겨 빠르고 섬세한 연주(재즈, 라이드 심벌, 팀파니)에 유리합니다. 그 사이 약 45°의 <b>아메리칸</b><span class="en">(American)</span>은 손목과 손가락을 함께 쓰는 만능형입니다. 실제 연주에서는 한 곡 안에서도 큰 소리는 저먼 쪽으로, 빠른 라이드는 프렌치 쪽으로 손바닥을 조금씩 돌립니다.</p>
+    <p><span class="term">트래디셔널 그립</span><span class="en">(Traditional grip)</span>은 왼손만 다르게 쥡니다. 스틱을 엄지와 검지 사이의 물갈퀴에 걸치고, 약지 위에 얹어 손바닥이 위를 향하게 쥔 채 문고리를 돌리듯 아래팔을 회전해 칩니다. 행진할 때 어깨끈에 비스듬히 매단 스네어를 치기 위해 생긴 그립이라, 스네어를 오른쪽으로 기울여 놓는 경우가 많습니다. 재즈와 드럼 코어(행진 타악)에서 지금도 쓰이며, 섬세한 고스트 노트에 유리하다는 사람이 많습니다. 이 책의 연습은 매치드 그립을 기준으로 합니다.</p>
+    <p>어떤 그립이든 가장 중요한 것은 <span class="term">받침점</span><span class="en">(Fulcrum)</span>입니다. 엄지 안쪽 살과 검지(또는 중지) 첫마디 사이에서 스틱이 시소처럼 회전하는 한 점이고, 나머지 손가락은 스틱을 쥐는 것이 아니라 <b>감싸서 방향만 잡아 줍니다</b>. 받침점을 꽉 쥐면 스틱이 회전하지 못해 튀어 오르지 않고, 너무 느슨하면 스틱이 손 안에서 놀아 소리가 고르지 않습니다. 받침점을 어디에 둘지는 막대의 <b>타격 중심</b><span class="en">(Center of percussion)</span>으로 설명할 수 있습니다. 받침점에서 \(b\)만큼 떨어진 팁이 헤드에서 충격량 \(J\)를 받으면, 받침점(손)이 받는 충격량은</p>
+    <div class="formula">$$J_{\text{hand}} = J\left(1 - \frac{b}{q}\right),\qquad q = \frac{I_p}{m\,r} = \frac{k^2 + r^2}{r},\qquad I_p = m(k^2 + r^2)$$
+      <div class="where">\(m\): 스틱 질량, \(r\): 받침점에서 무게중심까지 거리, \(k\): 무게중심에 대한 회전 반지름(균일한 막대면 \(k^2 = L^2/12\)), \(I_p\): 받침점에 대한 관성 모멘트, \(q\): 타격 중심까지의 거리. \(b = q\)이면 팁의 충격이 순수한 회전으로만 바뀌어 손에 충격이 오지 않는다. 야구 배트의 '스위트 스폿'과 같은 원리다. 5A 스틱(406 mm)에서 받침점을 버트에서 1/3쯤에 두면 팁이 거의 정확히 타격 중심에 온다. 손에 전해지지 않은 에너지는 스틱의 회전으로 남아 되튐(리바운드)이 된다.</div>
+    </div>
+
+    <div class="sim" id="sim-set-grip">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>그립과 받침점: 타격 중심 찾기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><svg class="set-svg" id="set-gr-svg" viewBox="0 0 520 200" role="img" aria-label="스틱과 받침점, 무게중심, 타격 중심의 위치"></svg></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>그립</span><div class="seg" id="set-gr-grip"><button data-value="german">저먼</button><button data-value="american" class="on">아메리칸</button><button data-value="french">프렌치</button></div></div>
+          <div class="ctrl"><span>스틱</span><div class="seg" id="set-gr-stick"><button data-value="7A">7A</button><button data-value="5A" class="on">5A</button><button data-value="5B">5B</button><button data-value="2B">2B</button></div></div>
+          <label class="ctrl"><span>받침점 위치(버트에서) <output id="set-gr-f-out"></output></span><input type="range" id="set-gr-f" min="15" max="55" step="1" value="22"></label>
+          <div class="btn-row"><button class="btn primary" id="set-gr-test">▶ 떨어뜨려 듣기</button><button class="btn" id="set-gr-best">타격 중심에 맞추기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">손바닥 각도 · 주 동력</span><span class="v" id="set-gr-o-palm">—</span></div>
+        <div class="stat"><span class="k">타격 중심 q / 팁 거리 b</span><span class="v" id="set-gr-o-q">—</span></div>
+        <div class="stat"><span class="k">손에 오는 충격</span><span class="v" id="set-gr-o-shock">—</span></div>
+        <div class="stat"><span class="k">팁 속도(손목 25 rad/s)</span><span class="v" id="set-gr-o-v">—</span></div>
+        <div class="stat"><span class="k">앞쪽 무게 토크</span><span class="v" id="set-gr-o-tq">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 받침점을 버트 쪽(15%)으로 옮기면 팁이 멀어져 같은 손목 속도로 팁이 더 빨라지지만, 팁이 타격 중심을 지나쳐 손에 충격이 오고 앞쪽이 무거워집니다. 무게중심(47%) 가까이 옮기면 스틱이 가벼워지지만 타격 중심이 스틱 밖으로 멀어져 역시 손이 충격을 받습니다. '떨어뜨려 듣기'는 20 cm에서 놓은 스틱이 튀는 모습을 소리로 들려주며, 손이 흡수한 에너지만큼 되튐이 줄어든다고 놓은 모델입니다(반발계수 0.75 × (1 − 0.5 × 충격 비율)). 스틱은 길이 방향으로 균일한 막대로 근사했고, 실제 스틱은 팁 쪽이 가늘어 무게중심이 0.45–0.48 사이에 있습니다.</div>
+    </div>
+    <div class="callout warn"><strong>흔한 실수: 받침점을 쥐어짜기</strong> 긴장하면 엄지와 검지가 하얗게 될 만큼 꽉 쥐게 됩니다. 그러면 받침점이 '경첩'이 아니라 '고정점'이 되어 스틱이 튀지 못하고, 충격이 그대로 손목과 팔꿈치로 갑니다. 기준은 <b>누가 스틱 끝을 잡아당기면 쑥 빠질 정도</b>의 힘입니다. 엄지와 검지 사이에 종이 한 장이 끼어 있다고 생각하고, 그 종이를 찢지 않을 만큼만 쥡니다. 뒤의 세 손가락은 스틱에 닿아 있되 누르지 않습니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="rebound">
+    <h2>리바운드의 물리: 떨어뜨리고 받아 주기</h2>
+    <p>스틱으로 헤드를 치면 헤드가 트램펄린처럼 스틱을 되돌려 보냅니다. 이것이 <span class="term">리바운드</span><span class="en">(Rebound)</span>입니다. 좋은 드러머는 스틱을 '내리치고 다시 들어 올리는' 것이 아니라, <b>떨어뜨리고, 튀어 오르는 스틱을 받아 주는</b> 방식으로 칩니다. 들어 올리는 일을 헤드가 대신해 주므로 힘이 절반만 듭니다. 이를 계산해 봅시다. 팁이 높이 \(h\)에서 자유 낙하하면 헤드에 닿는 속도와, 튀어 나가는 속도, 되튐 높이는</p>
+    <div class="formula">$$v_0 = \sqrt{2gh},\qquad v_1 = e\,v_0,\qquad h_1 = \frac{v_1^2}{2g} = e^2 h,\qquad \Delta t_n = \frac{2 e^n v_0}{g_{\text{eff}}},\qquad T_{\text{all}} = \frac{2v_0}{g_{\text{eff}}}\cdot\frac{e}{1-e}$$
+      <div class="where">\(e\): 스틱–헤드 반발계수(튀어 나가는 속도 / 들어오는 속도, 0–1), \(\Delta t_n\): \(n\)번째 되튐에서 다음 충돌까지의 시간, \(T_{\text{all}}\): 스틱이 멈출 때까지 걸리는 전체 시간(등비급수의 합). 20 cm에서 떨어뜨리면 \(v_0 \approx 2.0\) m/s, \(e = 0.6\)이면 첫 되튐은 \(0.36 \times 20 = 7.2\) cm, 다음 충돌까지 약 240 ms다. 손가락으로 스틱을 헤드 쪽으로 눌러 주면 아래로 당기는 힘이 커져 유효 가속도 \(g_{\text{eff}}\)가 몇 배가 되고, 되튐 간격이 수십 ms로 짧아진다. 이것이 버즈(다중 바운스) 롤의 원리다.</div>
+    </div>
+    <p>실제 헤드의 반발계수는 장력, 치는 자리, 스틱 재질에 따라 대략 0.5–0.8입니다. 팽팽한 스네어 가운데가 가장 잘 튀고, 느슨한 플로어 탐이나 베개 같은 표면은 거의 튀지 않습니다. 같은 동작으로 <b>몇 번째 되튐에서 스틱을 받느냐</b>만 바꾸면 세 가지 스트로크가 나옵니다. 첫 되튐의 꼭대기에서 받으면 싱글 스트로크, 두 번째 충돌까지 놔두면 더블 스트로크, 손가락으로 누른 채 계속 놔두면 버즈 스트로크입니다(<a href="rudiments.html">5장</a>의 롤).</p>
+
+    <div class="sim" id="sim-set-rebound">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스틱 리바운드: 높이·반발계수·손가락 누름</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="set-rb-cv" class="dr-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>시작 높이 h <output id="set-rb-h-out"></output></span><input type="range" id="set-rb-h" min="2" max="40" step="1" value="20"></label>
+          <label class="ctrl"><span>반발계수 e <output id="set-rb-e-out"></output></span><input type="range" id="set-rb-e" min="0.3" max="0.9" step="0.01" value="0.6"></label>
+          <label class="ctrl"><span>손가락 누름 g<sub>eff</sub>/g <output id="set-rb-g-out"></output></span><input type="range" id="set-rb-g" min="1" max="12" step="0.5" value="1"></label>
+          <div class="ctrl"><span>손이 받는 때</span><div class="seg" id="set-rb-catch"><button data-value="1" class="on">첫 되튐(싱글)</button><button data-value="2">둘째 충돌 뒤(더블)</button><button data-value="99">놔두기(버즈)</button></div></div>
+          <label class="check"><input type="checkbox" id="set-rb-slow"> 슬로 모션 ×6(소리도 느리게)</label>
+          <div class="btn-row"><button class="btn primary" id="set-rb-play">▶ 떨어뜨리기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">충돌 속도 v₀</span><span class="v" id="set-rb-o-v">—</span></div>
+        <div class="stat"><span class="k">첫 되튐 높이 e²h</span><span class="v" id="set-rb-o-h1">—</span></div>
+        <div class="stat"><span class="k">첫 되튐 간격 Δt₁</span><span class="v" id="set-rb-o-dt">—</span></div>
+        <div class="stat"><span class="k">소리 난 타수</span><span class="v" id="set-rb-o-n">—</span></div>
+        <div class="stat"><span class="k">바운스 빠르기</span><span class="v" id="set-rb-o-f">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 기본값으로 떨어뜨려 첫 되튐만 받는 싱글 스트로크를 듣습니다. ② '둘째 충돌 뒤'로 바꾸면 두 번째 음이 훨씬 작습니다. 더블 스트로크의 둘째 음을 같은 크기로 내려면 손가락으로 한 번 더 밀어 줘야 한다는 뜻입니다. ③ '놔두기'에서 손가락 누름을 6× 이상으로 올리면 간격이 40 ms 아래로 줄어 '드르르' 버즈가 됩니다. 그래프는 팁 높이(세로, cm)와 시간(가로, ms)이며 점이 충돌입니다. 모델: 공기 저항 없는 점 질량의 낙하와 순간 충돌, 첫 낙하는 중력만(g), 이후는 손가락 누름을 포함한 g<sub>eff</sub>. 소리 세기는 충돌 속도 3 m/s를 벨로시티 1로 놓고 비례시켰습니다. 실제 스틱은 받침점을 중심으로 회전하므로 팁의 유효 가속도는 g보다 조금 큽니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 떨어뜨리고 받아 주기(드롭 캐치)</strong> 연습 패드나 스네어 위 20 cm에 스틱을 받침점으로만 쥐고, 손목을 쓰지 말고 팁을 '떨어뜨립니다'. 튀어 오른 스틱이 다시 처음 높이 가까이 올라올 때 손목을 함께 올려 받아 줍니다. ① 한 손으로 60 BPM 4분음표에 맞춰 1분, 반대 손 1분. ② 되튐이 처음 높이의 절반도 안 되면 받침점을 너무 꽉 쥔 것입니다. ③ 익숙해지면 같은 동작으로 80 → 100 BPM. 패드가 없다면 매트리스나 소파 쿠션은 너무 튀지 않으니, 두꺼운 잡지나 고무 마우스 패드를 책상에 깔고 해도 됩니다. 무릎은 리바운드가 거의 없어 <b>스틱을 들어 올리는 근력 훈련</b>에는 좋지만 이 연습에는 맞지 않습니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="strokes">
+    <h2>네 가지 스트로크</h2>
+    <p>모든 타격은 "어느 높이에서 시작해 어느 높이에서 끝나는가"로 네 가지로 나뉩니다. 이 분류는 미국의 교육자들이 정리해 널리 퍼졌고, 특히 액센트와 탭이 섞인 패턴을 칠 때 결정적입니다. 소리의 크기는 시작 높이(= 충돌 속도)가 정하고, 끝 높이는 <b>다음 음을 위한 준비</b>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="풀, 다운, 탭, 업 스트로크의 스틱 높이 궤적">
+        <g font-family="var(--font)">
+          <g transform="translate(10,0)">
+            <text x="95" y="22" text-anchor="middle" class="t" style="font-weight:700">풀 스트로크(Full)</text>
+            <line x1="10" y1="60" x2="180" y2="60" class="set-dash"/><line x1="10" y1="150" x2="180" y2="150" class="set-dash"/><line x1="10" y1="170" x2="180" y2="170" class="s-axis"/>
+            <path d="M20 60 C60 60 80 170 95 170 C110 170 130 60 175 60" class="s-acc"/><circle cx="95" cy="170" r="5" class="f-acc"/>
+            <text x="95" y="196" text-anchor="middle" class="t-dim">높게 → 높게</text><text x="95" y="212" text-anchor="middle" class="t-mono">액센트, 다음도 액센트</text>
+          </g>
+          <g transform="translate(205,0)">
+            <text x="95" y="22" text-anchor="middle" class="t" style="font-weight:700">다운 스트로크(Down)</text>
+            <line x1="10" y1="60" x2="180" y2="60" class="set-dash"/><line x1="10" y1="150" x2="180" y2="150" class="set-dash"/><line x1="10" y1="170" x2="180" y2="170" class="s-axis"/>
+            <path d="M20 60 C60 60 80 170 95 170 C110 170 130 150 175 150" class="s-acc"/><circle cx="95" cy="170" r="5" class="f-acc"/>
+            <text x="95" y="196" text-anchor="middle" class="t-dim">높게 → 낮게(멈춤)</text><text x="95" y="212" text-anchor="middle" class="t-mono">액센트, 다음은 탭</text>
+          </g>
+          <g transform="translate(400,0)">
+            <text x="95" y="22" text-anchor="middle" class="t" style="font-weight:700">탭 스트로크(Tap)</text>
+            <line x1="10" y1="60" x2="180" y2="60" class="set-dash"/><line x1="10" y1="150" x2="180" y2="150" class="set-dash"/><line x1="10" y1="170" x2="180" y2="170" class="s-axis"/>
+            <path d="M20 150 C60 150 80 170 95 170 C110 170 130 150 175 150" class="s-acc"/><circle cx="95" cy="170" r="5" class="f-acc"/>
+            <text x="95" y="196" text-anchor="middle" class="t-dim">낮게 → 낮게</text><text x="95" y="212" text-anchor="middle" class="t-mono">탭, 다음도 탭</text>
+          </g>
+          <g transform="translate(595,0)">
+            <text x="95" y="22" text-anchor="middle" class="t" style="font-weight:700">업 스트로크(Up)</text>
+            <line x1="10" y1="60" x2="180" y2="60" class="set-dash"/><line x1="10" y1="150" x2="180" y2="150" class="set-dash"/><line x1="10" y1="170" x2="180" y2="170" class="s-axis"/>
+            <path d="M20 150 C60 150 80 170 95 170 C110 170 130 60 175 60" class="s-acc"/><circle cx="95" cy="170" r="5" class="f-acc"/>
+            <text x="95" y="196" text-anchor="middle" class="t-dim">낮게 → 높게</text><text x="95" y="212" text-anchor="middle" class="t-mono">탭, 다음은 액센트</text>
+          </g>
+          <text x="14" y="56" class="t-mono">높음 ≈ 30 cm</text><text x="14" y="146" class="t-mono">낮음 ≈ 5 cm</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-4.</b> 네 가지 스트로크의 팁 높이(세로)와 시간(가로). 맨 아래 선이 헤드, 점이 충돌이다. 다운 스트로크는 리바운드를 손으로 '멈춰' 낮은 높이에 붙잡고, 업 스트로크는 낮게 친 직후 손목을 들어 다음 액센트를 준비한다. 스틱이 멈추는 높이가 곧 다음 음의 세기다.</figcaption>
+    </figure>
+    <p>규칙은 하나입니다. <b>지금 음의 세기가 시작 높이를, 같은 손의 다음 음 세기가 끝 높이를 정한다.</b> 그래서 한 손으로 "액센트–탭–탭–탭"을 반복하면 다운–탭–탭–업이 됩니다. 두 손을 번갈아 치면(RLRL) '같은 손의 다음 음'이 두 칸 뒤이므로 같은 액센트 패턴이라도 스트로크 이름이 달라집니다. 아래 시뮬레이터에서 칸을 눌러 액센트를 바꾸면 각 음의 스트로크와 두 손의 스틱 높이 궤적이 바로 계산됩니다.</p>
+
+    <div class="sim" id="sim-set-strokes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>네 가지 스트로크 트레이너</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="set-sk-staff"></div>
+          <canvas id="set-sk-cv" class="dr-cv" style="margin-top:6px"></canvas>
+          <div class="set-cells" id="set-sk-cells"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>패턴</span><div class="seg" id="set-sk-pre"><button data-value="a4" class="on">4개마다 액센트</button><button data-value="a2">2개마다</button><button data-value="shift">액센트 이동</button><button data-value="taps">모두 탭</button><button data-value="moeller">셋잇단(묄러)</button></div></div>
+          <div class="ctrl"><span>스티킹</span><div class="seg" id="set-sk-hand"><button data-value="one" class="on">오른손만</button><button data-value="alt">번갈아 RLRL</button></div></div>
+          <label class="ctrl"><span>템포 <output id="set-sk-bpm-out"></output></span><input type="range" id="set-sk-bpm" min="40" max="160" step="2" value="72"></label>
+          <label class="ctrl"><span>액센트 높이 <output id="set-sk-hi-out"></output></span><input type="range" id="set-sk-hi" min="15" max="40" step="1" value="30"></label>
+          <label class="ctrl"><span>탭 높이 <output id="set-sk-lo-out"></output></span><input type="range" id="set-sk-lo" min="2" max="10" step="0.5" value="5"></label>
+          <label class="check"><input type="checkbox" id="set-sk-click" checked> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="set-sk-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">풀 · 다운 · 탭 · 업</span><span class="v" id="set-sk-o-cnt">—</span></div>
+        <div class="stat"><span class="k">액센트/탭 음량 차</span><span class="v" id="set-sk-o-db">—</span></div>
+        <div class="stat"><span class="k">한 손의 동작 수</span><span class="v" id="set-sk-o-rate">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '4개마다 액센트'를 오른손만으로 치면 D T T U가 되풀이됩니다. '번갈아'로 바꾸면 액센트가 오른손에만 오므로 왼손은 모두 탭이 되고, 오른손은 D–U가 번갈아 나옵니다. 아래 칸을 눌러 액센트를 직접 켜고 끄세요(칸 아래 글자 F·D·T·U = 풀·다운·탭·업). 그래프의 주황 선이 오른손, 청록 선이 왼손의 팁 높이입니다. 모델: 소리 세기는 시작 높이의 제곱근에 비례(자유 낙하 속도 \(\propto\sqrt{h}\))하게 놓고 30 cm를 벨로시티 0.87로 맞췄습니다. 실제로는 손목이 던지는 속도가 더해지므로 높이와 세기의 관계는 사람마다 다릅니다(<a href="sound.html">12장</a>).</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 높이 두 개만 쓰기</strong> 연습 패드 앞에서 액센트 높이(30 cm, 스틱이 거의 수직)와 탭 높이(5 cm, 손가락 두 마디)를 거울로 확인하고, 그 사이 높이는 쓰지 않는다고 정합니다. ① 오른손만 '4개마다 액센트'를 60 BPM 8분음표로 2분. 다운 스트로크 뒤에 스틱이 5 cm에서 '딱 멈추는지'가 핵심입니다. 손가락을 조이는 것이 아니라 손목을 아래로 살짝 눌러 멈춥니다. ② 왼손 2분. ③ 번갈아(RLRL) 2분. ④ 탭이 점점 커지거나 액센트가 점점 작아지면 템포를 낮춥니다. 목표: 100 BPM 8분음표에서 액센트와 탭의 높이 차가 끝까지 유지되기.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="moeller">
+    <h2>묄러 기법: 채찍처럼 휘두르기</h2>
+    <p><span class="term">묄러 기법</span><span class="en">(Moeller technique)</span>은 20세기 초 미국의 드럼 교육자 샌퍼드 A. 묄러가 남북전쟁 시대 군악 드러머들의 동작을 관찰해 정리한 것으로, 그의 교본(1925)과 제자 짐 채핀의 지도로 널리 알려졌습니다. 핵심은 <b>채찍 동작</b>입니다. 팔이 먼저 내려가고, 손목은 힘을 뺀 채 뒤처져 따라오다가, 팔이 멈추는 순간 손목과 스틱이 채찍 끝처럼 '찰싹' 내려칩니다. 어깨 → 팔꿈치 → 손목 → 손가락 순서로 큰 관절부터 작은 관절로 움직임이 넘어가는 이 방식을 생체역학에서는 <span class="term">근위–원위 순차 운동</span><span class="en">(Proximal-to-distal sequencing)</span>이라고 하며, 공 던지기·테니스 서브와 같은 원리입니다.</p>
+    <p>왜 빨라질까요? 손목을 굳히면 팔과 스틱이 한 덩어리로 돌아 팁 속도는 팔의 각속도 × 팔꿈치–팁 거리를 넘지 못합니다. 손목을 적당히 풀면 팔이 가속하는 동안 스틱이 뒤처지며 손목 근육·힘줄에 탄성 에너지가 쌓이고, 팔이 감속하는 순간 그 에너지와 팔의 운동량이 스틱으로 넘어갑니다. 다만 손목을 <b>완전히</b> 풀면 스틱이 제때 따라오지 못해 늦고 약해집니다. 최적은 "느슨하지만 흐물거리지 않는" 중간에 있습니다. 아래 모델은 같은 팔 동작에 손목 강성만 바꿔 팁 속도를 계산합니다.</p>
+    <div class="formula">$$I_w\ddot\theta = -k(\theta - \varphi) - c(\dot\theta - \dot\varphi) - m g\,r_c\cos\theta - m\,r_c\,(\cos\theta\,\ddot y_W - \sin\theta\,\ddot x_W)$$
+      <div class="where">\(\theta\): 손+스틱의 각도, \(\varphi(t)\): 아래팔 각도(정해 준 동작), \(k\): 손목의 회전 강성(N·m/rad, 힘을 뺄수록 작다), \(c\): 감쇠, \(I_w\): 손목에 대한 관성 모멘트, \(r_c\): 손목에서 손+스틱 무게중심까지 거리, \((x_W, y_W)\): 손목의 위치. 마지막 항이 '움직이는 받침점'에서 생기는 관성 토크로, 팔이 감속할 때 스틱을 앞으로 내던지는 채찍 효과가 여기서 나온다.</div>
+    </div>
+
+    <div class="sim" id="sim-set-whip">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>채찍 동작: 손목 강성과 팁 속도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="set-wh-cv" class="dr-cv"></canvas>
+          <canvas id="set-wh-cv2" class="dr-cv" style="margin-top:6px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>손목 강성 k <output id="set-wh-k-out"></output></span><input type="range" id="set-wh-k" min="0" max="40" step="1" value="18"></label>
+          <label class="ctrl"><span>팔 동작 시간 <output id="set-wh-T-out"></output></span><input type="range" id="set-wh-T" min="120" max="250" step="5" value="170"></label>
+          <div class="btn-row"><button class="btn primary" id="set-wh-slow">▶ 슬로 모션(×8)</button><button class="btn" id="set-wh-real">▶ 굳힌 손목 → 이 손목</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">팁 속도(이 손목)</span><span class="v" id="set-wh-o-v">—</span></div>
+        <div class="stat"><span class="k">팁 속도(굳힌 손목)</span><span class="v" id="set-wh-o-v0">—</span></div>
+        <div class="stat"><span class="k">배율</span><span class="v" id="set-wh-o-gain">—</span></div>
+        <div class="stat"><span class="k">손목 고유진동수</span><span class="v" id="set-wh-o-fn">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 강성을 맨 오른쪽(굳힌 손목)에서 왼쪽으로 줄여 가며 아래 그래프의 곡선을 따라가 보세요. 팁 속도는 중간에서 가장 크고, 너무 풀면(맨 왼쪽) 스틱이 늦게 도착해 오히려 느립니다. 위 그림의 흐린 선은 굳힌 손목, 진한 선은 지금 손목이며 점은 10 ms마다의 팁 위치입니다. '굳힌 손목 → 이 손목'은 두 경우의 소리를 이어서 들려줍니다. 모델: 팔꿈치 고정, 아래팔 27 cm가 최소 저크 곡선으로 +25°에서 −15°까지 회전, 손+스틱 0.5 kg(손목–팁 35 cm, 무게중심 6.8 cm, \(I_w\) = 0.0037 kg·m²), 감쇠비 0.15, 헤드는 팔꿈치 10 cm 아래. 절대값보다 <b>곡선의 모양</b>(중간에 최댓값)을 보세요. 실제 근육은 강성을 동작 중에 바꾸며, 묄러 연주자는 팔이 내려가는 동안 풀고 치는 순간 살짝 조입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 묄러 3연음(아웃–탭–업)</strong> 묄러의 기본 연습은 셋잇단 "<b>1</b>-trip-let"을 한 번의 팔 물결로 치는 것입니다. ① 팔꿈치를 들어 올리며 손목을 늘어뜨린 채, 팔을 내리면서 손목이 따라 내려와 첫 음(액센트, 다운 스트로크)을 칩니다. ② 낮게 붙잡힌 스틱으로 둘째 음(탭)을 손가락으로, ③ 셋째 음(탭)을 치면서 손목을 다시 들어 올립니다(업 스트로크). 위 <a href="#strokes">스트로크 트레이너</a>의 '셋잇단(묄러)' 패턴이 바로 이것입니다. 처음엔 한 손씩 60 BPM 셋잇단으로 1분, 액센트가 '채찍 소리'처럼 날카롭고 탭 두 개가 고르면 8 BPM씩 올립니다. 어깨가 올라가면 실패입니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="pedals">
+    <h2>페달 기술: 힐다운·힐업·슬라이드, 하이햇의 발</h2>
+    <p>킥 페달을 밟는 방법은 크게 둘입니다. <span class="term">힐다운</span><span class="en">(Heel-down)</span>은 발꿈치를 발판에 붙인 채 발목만으로 발판 앞쪽을 누릅니다. 동작이 작아 정교하고 오래 쳐도 덜 지치지만, 발 무게가 거의 실리지 않아 소리가 작습니다. 재즈·발라드·조용한 곡에 맞습니다. <span class="term">힐업</span><span class="en">(Heel-up)</span>은 발꿈치를 들고 발볼로 밟으며, 다리 무게와 허벅지의 힘을 함께 씁니다. 큰 소리와 빠른 연타에 유리해 록·팝 드러머 대부분이 기본으로 씁니다. 힐업에서는 엄지발가락 뿌리 근처(발볼)가 발판의 위쪽 1/3에 오게 둡니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="힐다운과 힐업의 발 모양 옆모습">
+        <g font-family="var(--font)">
+          <g transform="translate(20,0)">
+            <text x="150" y="22" text-anchor="middle" class="t" style="font-weight:700">힐다운(Heel-down)</text>
+            <line x1="40" y1="200" x2="240" y2="200" class="s-axis"/>
+            <line x1="250" y1="30" x2="250" y2="200" style="stroke:var(--dr-shell);stroke-width:8"/>
+            <line x1="50" y1="194" x2="212" y2="164" class="s-line" style="stroke-width:4"/>
+            <line x1="226" y1="152" x2="214" y2="58" class="s-line" style="stroke-width:3"/><circle cx="214" cy="52" r="10" class="f-acc-soft"/>
+            <path d="M62 40 L70 172" class="set-limb"/><path d="M58 190 L70 172 L124 178 L190 166" class="set-limb"/>
+            <circle cx="56" cy="188" r="5" class="f-acc"/><text x="70" y="220" class="t-dim">발꿈치를 붙이고 발목만</text>
+          </g>
+          <g transform="translate(420,0)">
+            <text x="150" y="22" text-anchor="middle" class="t" style="font-weight:700">힐업(Heel-up)</text>
+            <line x1="40" y1="200" x2="240" y2="200" class="s-axis"/>
+            <line x1="250" y1="30" x2="250" y2="200" style="stroke:var(--dr-shell);stroke-width:8"/>
+            <line x1="50" y1="194" x2="212" y2="164" class="s-line" style="stroke-width:4"/>
+            <line x1="226" y1="152" x2="214" y2="58" class="s-line" style="stroke-width:3"/><circle cx="214" cy="52" r="10" class="f-acc-soft"/>
+            <path d="M108 40 L124 128" class="set-limb"/><path d="M98 138 L124 128 L172 172 L200 166" class="set-limb"/>
+            <circle cx="172" cy="172" r="5" class="f-acc"/><text x="70" y="220" class="t-dim">발볼로, 다리 무게를 싣는다</text>
+            <path d="M96 60 L96 100" class="s-acc"/><path d="M90 92 L96 102 L102 92" class="s-acc"/>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-5.</b> 힐다운과 힐업. 주황 점은 힘이 들어가는 자리다. 힐다운은 발꿈치가 축이 되어 발목이 '손목' 역할을 하고, 힐업은 다리 전체가 위에서 떨어지며 발목은 마지막 '스냅'만 더한다. 비터를 헤드에 붙여 두는 <b>묻기</b>(Burying, 짧고 단단한 소리)와 치고 바로 떼는 <b>떼기</b>(Open, 길게 울리는 소리)는 두 방법 모두에서 고를 수 있다.</figcaption>
+    </figure>
+    <p>16분음표 두 개를 빠르게 연달아 밟아야 할 때는 <span class="term">슬라이드</span><span class="en">(Slide)</span> 기법을 씁니다. 발볼을 발판 가운데에 두고 첫 음을 밟은 뒤, 발을 발판 위쪽으로 미끄러뜨리며 두 번째 음을 밟습니다. 다리 동작 한 번에 음이 둘이므로 발의 '왕복 횟수'가 절반으로 줄어듭니다. 이는 손의 더블 스트로크와 같은 아이디어입니다. 그 밖에 발꿈치와 발끝을 번갈아 누르는 힐–토<span class="en">(Heel-toe)</span> 기법도 있으며, 빠른 더블 베이스에서 쓰입니다.</p>
+
+    <div class="sim" id="sim-set-pedal">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>킥 기법 비교: 템포와 부하</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <svg class="set-svg" id="set-pd-svg" viewBox="0 0 360 150" role="img" aria-label="페달을 밟는 발"></svg>
+          <div class="set-gauge" id="set-pd-gauge"><i></i><b></b></div>
+          <div id="set-pd-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기법</span><div class="seg" id="set-pd-tech"><button data-value="down">힐다운</button><button data-value="up" class="on">힐업</button><button data-value="slide">힐업 + 슬라이드</button></div></div>
+          <div class="ctrl"><span>킥 패턴</span><div class="seg" id="set-pd-pat"><button data-value="q">4분</button><button data-value="e" class="on">8분</button><button data-value="dbl">16분 더블</button><button data-value="s">16분 연속</button><button data-value="rock">록 킥</button></div></div>
+          <label class="ctrl"><span>템포 <output id="set-pd-bpm-out"></output></span><input type="range" id="set-pd-bpm" min="50" max="200" step="2" value="100"></label>
+          <label class="check"><input type="checkbox" id="set-pd-ctx" checked> 하이햇·스네어 함께</label>
+          <div class="btn-row"><button class="btn primary" id="set-pd-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">킥 최소 간격</span><span class="v" id="set-pd-o-gap">—</span></div>
+        <div class="stat"><span class="k">필요한 발 동작</span><span class="v" id="set-pd-o-rate">—</span></div>
+        <div class="stat"><span class="k">기법 한계</span><span class="v" id="set-pd-o-lim">—</span></div>
+        <div class="stat"><span class="k">부하율</span><span class="v" id="set-pd-o-load">—</span></div>
+        <div class="stat"><span class="k">예상</span><span class="v" id="set-pd-o-verdict">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '16분 더블'을 100 BPM에서 힐다운으로 들으면 여유가 있지만, 160 BPM으로 올리면 부하율이 한계를 넘어 킥이 작아지고 흔들립니다. 같은 템포에서 '힐업 + 슬라이드'로 바꾸면 더블 한 쌍을 발 동작 하나로 치므로 부하가 절반 가까이 줄어듭니다. 막대의 세로선은 부하율 80%(편안한 한계)입니다. 모델(가정): 한 발이 편하게 유지하는 동작 빠르기를 힐다운 초당 6.5회, 힐업 8.5회, 슬라이드 더블의 안쪽 간격 최소 55 ms로 놓았고, 부하율이 80%를 넘으면 세기가 줄고 타이밍 흔들림이 커지게 했습니다. 실제 한계는 사람·페달·연습량에 따라 크게 다르며, 숙련자는 한 발로 초당 10회를 넘기기도 합니다.</div>
+    </div>
+    <p>왼발의 하이햇 페달은 소리를 내는 페달이자 <b>박을 세는 발</b>입니다. 페달을 밟아 두 심벌을 닫으며 내는 '칙'<span class="en">(Chick)</span>은 재즈에서 2·4박을 지키는 소리이고, 밟자마자 바로 떼어 두 심벌이 부딪친 뒤 울리게 하는 <span class="term">풋 스플래시</span><span class="en">(Foot splash)</span>는 록·펑크에서 액센트로 씁니다. 손으로 하이햇을 칠 때 페달을 조금 열면 반열림의 '치이–' 소리가 나고, 열린 하이햇을 칠 때는 다음 박에 정확히 발로 닫아야 소리가 끊깁니다(<a href="sixteenth.html">7장</a>). 발을 쉬게 두지 말고 4분음표로 발꿈치나 발끝을 가볍게 두드리며 박을 세는 습관도 시간 감각에 도움이 됩니다.</p>
+
+    <div class="sim" id="sim-set-hat">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하이햇 발 트레이너: 칙과 풋 스플래시</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="set-hf-kit"></div>
+          <div class="dr-lamps" id="set-hf-lamps"></div>
+          <button class="dr-tap" id="set-hf-tap" type="button">칙<small><kbd>Z</kbd> 키 또는 여기를 누르세요</small></button>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>발 패턴</span><div class="seg" id="set-hf-mode"><button data-value="c24" class="on">2·4박 칙</button><button data-value="q">4분 칙</button><button data-value="up">업비트(&amp;) 칙</button><button data-value="sp">2·4박 풋 스플래시</button></div></div>
+          <div class="ctrl"><span>손</span><div class="seg" id="set-hf-hands"><button data-value="none">없음</button><button data-value="ride" class="on">라이드 4분 + 킥</button><button data-value="jazz">재즈 라이드</button></div></div>
+          <label class="ctrl"><span>템포 <output id="set-hf-bpm-out"></output></span><input type="range" id="set-hf-bpm" min="50" max="180" step="2" value="96"></label>
+          <label class="check"><input type="checkbox" id="set-hf-guide" checked> 가이드 발 소리(끄고 내가 치기)</label>
+          <div class="btn-row"><button class="btn primary" id="set-hf-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">평균 오차(편향)</span><span class="v" id="set-hf-o-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림(표준편차)</span><span class="v" id="set-hf-o-sd">—</span></div>
+        <div class="stat"><span class="k">맞춘 칙 / 목표</span><span class="v" id="set-hf-o-hit">—</span></div>
+        <div class="stat"><span class="k">헛칙</span><span class="v" id="set-hf-o-extra">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 가이드를 켠 채 2·4박 칙을 듣고 위 킷 그림의 하이햇이 열렸다 닫히는 모습을 보세요. 그다음 가이드를 끄고 <kbd>Z</kbd> 키(또는 큰 버튼)로 직접 칙을 칩니다. 램프의 테두리 칸이 목표이고, 버튼 테두리 색이 방금 친 칙의 정확도(초록 ±25 ms, 노랑 ±60 ms, 빨강 그 밖)입니다. 기록은 최근 16개 목표로 계산하고 재생을 다시 시작하면 지웁니다. 풋 스플래시는 '칙' 직후 60분의 1박쯤 뒤 페달을 떼어 열린 하이햇이 울리게 만든 근사입니다. 키 입력에는 브라우저 지연(5–20 ms)이 섞입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 발 두 개를 따로 깨우기</strong> ① 하이햇 발만: 메트로놈 80 BPM, 2·4박 칙을 2분. 발꿈치를 축으로 발끝만 움직이거나(힐다운), 발 전체를 위아래로 흔들어(힐업, '발로 박 세기') 칩니다. ② 킥 4분음표 + 하이햇 2·4박: 두 발이 '쿵–칙–쿵–칙'으로 번갈아 나옵니다. ③ 그 위에 오른손 라이드 4분음표. ④ 스로운 높이가 맞지 않으면 이 단계에서 몸이 흔들립니다. 실제 킷이 없으면 의자에 앉아 바닥을 두 발로 번갈아 두드려도 되고, 발꿈치를 바닥에 붙인 채(힐다운) 발끝으로 5분간 8분음표를 밟아 정강이 앞 근육(전경골근)의 지구력을 기릅니다.</div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="health">
+    <h2>몸의 이완과 부상 예방, 연습 패드</h2>
+    <p>드럼은 반복 동작이 아주 많은 악기입니다. 16분음표 100 BPM으로 한 시간을 치면 손이 2만 번 넘게 움직입니다. 그래서 작은 긴장도 쌓이면 손목 건초염, 팔꿈치 바깥쪽 통증(테니스 엘보), 허리 통증이 됩니다. 원칙은 앞에서 다룬 것과 같습니다. <b>리바운드가 일을 하게 두고, 큰 관절(팔)은 큰 소리에, 작은 관절(손가락)은 빠른 음에 쓴다.</b> 받침점을 쥐어짜지 않고, 어깨를 내리고, 스로운 위에 무게를 둡니다.</p>
+    <div class="callout warn"><strong>통증은 신호다</strong> 연습 중 손목·팔꿈치·허리에 날카로운 통증이나 저림이 오면 그 자리에서 멈춥니다. "참고 치면 근육이 붙는다"는 잘못된 말입니다. 쉬어도 며칠 넘게 남는 통증은 전문의(정형외과·재활의학과)와 상담하세요. 또 실제 드럼은 가까이에서 100 dB를 넘기 쉬워, 귀마개(음악용 이어 플러그) 없이 오래 치면 청력이 회복되지 않게 상합니다(<a href="instrument.html">1장</a>, <a href="sound.html">12장</a>).</div>
+    <p><span class="term">연습 패드</span><span class="en">(Practice pad)</span>는 고무나 실리콘 판으로, 스네어와 비슷한 리바운드를 조용히 줍니다. 루디먼트와 스트로크 연습의 대부분은 킷보다 패드에서 더 잘 됩니다. 소리가 작아 손 하나하나의 소리를 구별해 들을 수 있기 때문입니다. 패드는 스네어 높이(허벅지 위 한 뼘)의 스탠드에 두고, 킷 앞과 같은 자세로 칩니다. 무릎에 올려놓고 치면 자세가 나빠지기 쉬우니 짧은 연습에만 씁니다.</p>
+    <div class="callout tip"><strong>연습법 · 20분 준비 루틴</strong> ① <b>2분</b>: 손목 돌리기, 손가락 쥐었다 펴기, 어깨 으쓱하고 떨어뜨리기. ② <b>4분</b>: 드롭 캐치(<a href="#rebound">5절</a>) 한 손씩 60 BPM. ③ <b>6분</b>: 스트로크 트레이너의 '4개마다 액센트'를 한 손씩, 번갈아(60 → 80 BPM). ④ <b>4분</b>: 싱글 스트로크(RLRL)를 메트로놈에 맞춰 템포 사다리로(<a href="rudiments.html">5장</a>). ⑤ <b>4분</b>: 하이햇 발 2·4박 + 킥 4분음표. 템포를 올리는 것은 '고르게, 힘 빼고' 1분을 유지할 수 있을 때만입니다. 손이 굳으면 즉시 템포를 10% 낮춥니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>스로운은 허벅지가 수평보다 5–15° 아래, 무릎이 100–120°가 되는 높이로 맞춘다. 다리를 두 링크로 보면 높이와 페달 거리가 무릎 각을 정한다. 무게는 엉덩이에 둔다.</li>
+      <li>킷은 몸에 가까운 것·자주 치는 것부터 놓는다(스로운 → 스네어 → 킥 → 하이햇 → 탐 → 플로어 → 심벌). 탐과 심벌은 스틱이 닿는 순간 거의 평행하게 기울인다. 왼손잡이는 좌우를 뒤집는다.</li>
+      <li>스틱은 5A가 표준이고, 숫자가 작을수록 굵다. 히코리가 표준 재질이며, 나일론 팁은 심벌에서 밝고 또렷하다.</li>
+      <li>매치드 그립은 손바닥 각도에 따라 저먼(손목)·아메리칸(중간)·프렌치(손가락)로 나뉜다. 받침점은 버트에서 약 1/3, 팁이 타격 중심 \(q = I_p/(mr)\) 근처에 오면 손에 충격이 오지 않고 리바운드가 산다.</li>
+      <li>낙하 높이 \(h\)의 팁은 \(\sqrt{2gh}\)로 헤드에 닿고 \(e^2h\)만큼 튀어 오른다. 받는 시점에 따라 싱글·더블·버즈가 되며, 손가락 누름은 유효 가속도를 키워 바운스를 빠르게 한다.</li>
+      <li>풀(높→높)·다운(높→낮)·탭(낮→낮)·업(낮→높) 스트로크는 지금 음과 같은 손의 다음 음 세기로 정해진다.</li>
+      <li>묄러 기법은 큰 관절에서 작은 관절로 넘어가는 채찍 동작이며, 손목은 '적당히' 풀어야 팁 속도가 가장 크다.</li>
+      <li>힐다운은 정교하고 작게, 힐업은 크고 빠르게. 슬라이드는 다리 동작 하나로 두 음을 친다. 하이햇 발은 칙과 풋 스플래시로 박을 세며, 통증이 오면 멈춘다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>스로운 높이에 대한 설명으로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">무릎이 엉덩이보다 높아야 킥에 힘이 실린다</button><button class="opt" data-correct>허벅지가 수평보다 약간 아래로 기울어 고관절이 90°보다 열리는 높이</button><button class="opt">다리가 거의 펴질 만큼 높아야 발끝으로 빠르게 밟을 수 있다</button><button class="opt">키와 상관없이 50 cm가 표준이다</button>
+      </div><div class="quiz-exp">허벅지가 약간 아래로 기울면 골반이 서고 다리 무게를 페달에 실을 수 있다. 너무 낮으면 허리가 굽고 발목만 쓰게 되고, 너무 높으면 발끝으로 버텨 균형이 무너진다. 높이는 다리 길이와 페달 거리에 따라 달라진다.</div></div>
+      <div class="quiz-q"><p>팁을 18 cm 높이에서 떨어뜨렸고 스틱–헤드 반발계수가 0.5라면 첫 되튐 높이는?</p><div class="opts">
+        <button class="opt">9 cm</button><button class="opt" data-correct>4.5 cm</button><button class="opt">2.25 cm</button><button class="opt">13.5 cm</button>
+      </div><div class="quiz-exp">되튐 높이는 \(e^2h = 0.25 \times 18 = 4.5\) cm다. 속도가 \(e\)배가 되고 높이는 속도의 제곱에 비례하기 때문이다.</div></div>
+      <div class="quiz-q"><p>버즈 롤에서 스틱이 1초에 25번 가까이 튀게 만드는 것은?</p><div class="opts">
+        <button class="opt">스틱을 더 높이 들어 낙하 속도를 키운다</button><button class="opt">반발계수가 1보다 커지도록 헤드를 조인다</button><button class="opt" data-correct>손가락으로 스틱을 헤드 쪽으로 눌러 유효 가속도를 키운다</button><button class="opt">받침점을 완전히 놓아 스틱이 자유롭게 한다</button>
+      </div><div class="quiz-exp">되튐 간격은 \(\Delta t = 2ev/g_{\text{eff}}\)다. 손가락으로 누르면 \(g_{\text{eff}}\)가 커져 간격이 수십 ms로 짧아진다. 높이를 키우면 \(v\)가 커져 오히려 간격이 길어지고, 반발계수는 1을 넘지 않는다.</div></div>
+      <div class="quiz-q"><p>오른손만으로 "액센트–탭–탭–탭"을 반복할 때 네 음의 스트로크는?</p><div class="opts">
+        <button class="opt">풀–탭–탭–탭</button><button class="opt" data-correct>다운–탭–탭–업</button><button class="opt">업–탭–탭–다운</button><button class="opt">풀–다운–탭–업</button>
+      </div><div class="quiz-exp">첫 음은 높이 시작해 다음 음(탭)을 위해 낮게 멈추므로 다운, 가운데 두 음은 낮게 시작해 낮게 끝나므로 탭, 마지막 음은 다음 마디의 액센트를 위해 들어 올리므로 업이다.</div></div>
+      <div class="quiz-q"><p>받침점을 버트에서 약 1/3에 두는 이유를 물리로 설명한 것은?</p><div class="opts">
+        <button class="opt">무게중심과 받침점이 일치해야 스틱이 가볍기 때문</button><button class="opt" data-correct>팁이 받침점에 대한 타격 중심 근처에 와서 손에 충격이 거의 오지 않고 에너지가 되튐으로 남기 때문</button><button class="opt">팁까지의 거리가 가장 길어 소리가 가장 크기 때문</button><button class="opt">스틱의 고유진동수가 헤드와 같아지기 때문</button>
+      </div><div class="quiz-exp">손이 받는 충격량은 \(J(1 - b/q)\)다. 받침점이 1/3 지점이면 팁까지의 거리 \(b\)가 타격 중심 거리 \(q\)와 거의 같아진다. 무게중심에 받침점을 두면 \(q\)가 매우 커져 오히려 손에 충격이 온다.</div></div>
+      <div class="quiz-q"><p>묄러 기법에서 손목을 '완전히' 풀면 어떻게 되는가(이 장의 모델 기준)?</p><div class="opts">
+        <button class="opt">팁 속도가 무한히 커진다</button><button class="opt">굳힌 손목과 똑같다</button><button class="opt" data-correct>스틱이 늦게 따라와 팁 속도가 오히려 줄어든다. 최적은 중간 강성이다</button><button class="opt">스틱이 헤드에 먼저 도착한다</button>
+      </div><div class="quiz-exp">손목이 적당히 풀려 있으면 팔이 감속할 때 탄성 에너지와 운동량이 스틱으로 넘어가 채찍 효과가 생긴다. 너무 풀리면 스틱이 제때 따라오지 못해 늦고 느리다.</div></div>
+      <div class="quiz-q"><p>빠른 16분음표 킥 더블(쿵쿵)을 힐업으로 칠 때 다리의 왕복 횟수를 절반으로 줄이는 기법은?</p><div class="opts">
+        <button class="opt">힐다운</button><button class="opt" data-correct>슬라이드</button><button class="opt">풋 스플래시</button><button class="opt">비터 묻기(버링)</button>
+      </div><div class="quiz-exp">슬라이드는 첫 음을 밟고 발을 발판 위쪽으로 미끄러뜨리며 둘째 음을 밟는다. 다리 동작 하나에 음이 둘이므로 손의 더블 스트로크와 같은 원리다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 set) */
+const setSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const setF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+/** 재생/정지 버튼: make()가 scheduler를 돌려준다. 한 번에 하나만 울린다. */
+function setPlay(btnId, make, labels = ["▶ 반복 재생", "■ 정지"], onHalt) {
+  const b = document.getElementById(btnId);
+  let sc = null;
+  const show = (on) => { b.textContent = labels[on ? 1 : 0]; b.classList.toggle("playing", on); };
+  const halt = () => { const s = sc; sc = null; if (s && s.running) s.stop(); show(false); setSolo.drop(halt); onHalt && onHalt(); };
+  b.addEventListener("click", () => {
+    MB.ctx();
+    if (sc && sc.running) { halt(); return; }
+    setSolo.take(halt);
+    sc = make(); if (!sc) { show(false); return; }
+    const s = sc, os = s.stop;
+    s.stop = function (n) { os.call(s, n); if (n === true && sc === s) { sc = null; show(false); setSolo.drop(halt); onHalt && onHalt(); } };
+    s.start(); show(true);
+  });
+  show(false);
+  return { halt, get running() { return !!(sc && sc.running); }, restart() { if (sc && sc.running) { halt(); b.click(); } } };
+}
+const SVGN = "http://www.w3.org/2000/svg";
+function setEl(tag, attrs, parent, text) {
+  const e = document.createElementNS(SVGN, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+/* ================================================================ 1. 스로운 기하 */
+(function () {
+  const svg = document.getElementById("set-th-svg");
+  const kit = DR.kit();
+  const draw = () => render();
+  const H = MB.range("set-th-h", (v) => v + " cm", draw);
+  const seat = MB.range("set-th-seat", (v) => v.toFixed(1) + " cm", draw);
+  const dist = MB.range("set-th-d", (v) => v + " cm", draw);
+  const msg = document.getElementById("set-th-msg");
+  function model(seatH = seat()) {
+    const h = H(), L1 = 0.245 * h, L2 = 0.246 * h;
+    const hip = [0, seatH + 0.05 * h], ank = [dist(), 0.039 * h + 4];
+    const dx = ank[0] - hip[0], dy = ank[1] - hip[1], d = Math.hypot(dx, dy), b = Math.atan2(dy, dx);
+    let thigh, kneeAng, straight = false;
+    if (d >= L1 + L2 - 1e-6) { thigh = b; kneeAng = Math.PI; straight = true; }
+    else {
+      const a = Math.acos(MB.clamp((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d), -1, 1));
+      thigh = b + a;
+      kneeAng = Math.acos(MB.clamp((L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2), -1, 1));
+    }
+    const knee = [hip[0] + L1 * Math.cos(thigh), hip[1] + L1 * Math.sin(thigh)];
+    return { h, L1, L2, hip, ank, knee, thigh: (thigh * 180) / Math.PI, knee_: (kneeAng * 180) / Math.PI, reach: d / (L1 + L2), straight, seat: seatH };
+  }
+  function verdict(m) {
+    if (m.straight) return { q: 0.2, cls: "bad", t: "다리가 다 펴짐", m: "발끝으로만 닿습니다. 페달을 당기거나 스로운을 낮추세요." };
+    if (m.knee_ < 92) return { q: 0.45, cls: "bad", t: "무릎이 너무 접힘", m: "페달이 너무 가깝습니다. 페달을 조금 밀어내세요." };
+    if (m.thigh > 2) return { q: 0.4, cls: "bad", t: "너무 낮음", m: "무릎이 엉덩이보다 높아 허리가 굽고 발목만 쓰게 됩니다. 스로운을 올리세요." };
+    if (m.thigh > -3) return { q: 0.75, cls: "warn", t: "거의 수평", m: "괜찮지만 1–3 cm 올리면 힐업에서 다리 무게를 싣기 쉬워집니다." };
+    if (m.thigh < -18) return { q: 0.45, cls: "bad", t: "너무 높음", m: "허벅지가 많이 기울어 발이 미끄러지고 몸이 앞으로 쏠립니다. 스로운을 낮추세요." };
+    if (m.knee_ > 128) return { q: 0.7, cls: "warn", t: "다리가 멀다", m: "무릎이 많이 펴졌습니다. 페달을 조금 당기면 힘이 더 잘 실립니다." };
+    return { q: 1, cls: "ok", t: "알맞음", m: "허벅지가 수평보다 조금 아래, 무릎이 직각보다 조금 열린 좋은 자세입니다." };
+  }
+  function render() {
+    const m = model(), v = verdict(m), s = 1.55, X = (x) => 70 + x * s, Y = (y) => 305 - y * s;
+    svg.innerHTML = "";
+    setEl("line", { x1: 0, x2: 420, y1: 305, y2: 305, class: "s-axis" }, svg);
+    // 스로운
+    setEl("rect", { x: X(-16), y: Y(m.seat), width: 32 * s, height: 7, rx: 3, class: "f-surface" }, svg);
+    setEl("line", { x1: X(0), x2: X(0), y1: Y(m.seat) + 7, y2: 300, class: "s-line" }, svg);
+    setEl("line", { x1: X(-14), x2: X(14), y1: 303, y2: 303, class: "s-line" }, svg);
+    // 킥 드럼과 페달
+    const toe = [m.ank[0] + 0.14 * m.h, 7.5], heel = [m.ank[0] - 4, 3.2];
+    const kx = toe[0] + 32;
+    setEl("circle", { cx: X(kx), cy: Y(28), r: 28 * s, style: "fill:var(--dr-shell);opacity:.25;stroke:var(--dr-shell-2)" }, svg);
+    setEl("line", { x1: X(heel[0] - 2), y1: Y(2), x2: X(toe[0] + 3), y2: Y(toe[1] + 0.5), class: "s-line", style: "stroke-width:3" }, svg);
+    setEl("line", { x1: X(toe[0] + 4), y1: Y(toe[1]), x2: X(toe[0] + 2), y2: Y(toe[1] + 26), class: "s-line" }, svg);
+    setEl("circle", { cx: X(toe[0] + 2), cy: Y(toe[1] + 28), r: 5, class: "f-acc-soft" }, svg);
+    // 스네어
+    const snTop = Math.max(m.knee[1], m.hip[1]) + 0.115 * m.h, snX = m.hip[0] + 0.2 * m.h;
+    setEl("rect", { x: X(snX), y: Y(snTop), width: 36 * s, height: 13 * s, rx: 3, class: "f-elev" }, svg);
+    setEl("line", { x1: X(snX + 18), x2: X(snX + 18), y1: Y(snTop - 13), y2: 303, class: "s-line" }, svg);
+    // 몸통·머리·팔
+    const sh = [m.hip[0] + 0.3 * m.h * Math.sin(0.14), m.hip[1] + 0.3 * m.h * Math.cos(0.14)];
+    const head = [sh[0] + 0.02 * m.h, sh[1] + 0.11 * m.h];
+    const hand = [snX - 0.02 * m.h, snTop + 0.035 * m.h], elbow = [sh[0] + 0.06 * m.h, sh[1] - 0.175 * m.h];
+    setEl("line", { x1: X(m.hip[0]), y1: Y(m.hip[1]), x2: X(sh[0]), y2: Y(sh[1]), class: "set-limb" }, svg);
+    setEl("circle", { cx: X(head[0]), cy: Y(head[1]), r: 0.06 * m.h * s, class: "set-joint" }, svg);
+    setEl("path", { d: `M${X(sh[0])} ${Y(sh[1])} L${X(elbow[0])} ${Y(elbow[1])} L${X(hand[0])} ${Y(hand[1])}`, class: "set-limb thin" }, svg);
+    setEl("line", { x1: X(hand[0]), y1: Y(hand[1]), x2: X(snX + 16), y2: Y(snTop + 1), class: "set-stick" }, svg);
+    // 다리
+    const col = v.cls === "ok" ? "var(--ok)" : v.cls === "warn" ? "var(--warn)" : "var(--bad)";
+    setEl("path", { d: `M${X(m.hip[0])} ${Y(m.hip[1])} L${X(m.knee[0])} ${Y(m.knee[1])} L${X(m.ank[0])} ${Y(m.ank[1])} L${X(toe[0])} ${Y(toe[1])}`, class: "set-limb", style: `stroke:${col}` }, svg);
+    setEl("line", { x1: X(m.ank[0]), y1: Y(m.ank[1]), x2: X(heel[0]), y2: Y(heel[1]), class: "set-limb", style: `stroke:${col}` }, svg);
+    [m.hip, m.knee, m.ank].forEach((p) => setEl("circle", { cx: X(p[0]), cy: Y(p[1]), r: 4, class: "set-joint" }, svg));
+    setEl("line", { x1: X(m.hip[0]), y1: Y(m.hip[1]), x2: X(m.hip[0] + 28), y2: Y(m.hip[1]), class: "set-dash" }, svg);
+    setEl("text", { x: X(m.hip[0]) - 4, y: Y(m.hip[1]) + 18, "text-anchor": "end", class: "t-mono" }, svg, "수평 ┄");
+    setEl("text", { x: X(m.knee[0]) + 8, y: Y(m.knee[1]) + 20, class: "t-acc", style: "font-size:12px" }, svg, `${setF(m.knee_)}°`);
+    setEl("text", { x: 10, y: 22, class: "t", style: "font-size:13px;font-weight:700" }, svg, `스로운 ${setF(m.seat, 1)} cm · 키 ${m.h} cm`);
+    // 판독
+    MB.stat("set-th-o-thigh", `${m.thigh > 0 ? "+" : ""}${setF(m.thigh, 1)}° ${m.thigh < 0 ? "(아래)" : "(위)"}`);
+    MB.stat("set-th-o-knee", setF(m.knee_) + "°");
+    MB.stat("set-th-o-reach", setF(m.reach * 100) + "%");
+    MB.stat("set-th-o-verdict", `<span style="color:var(--${v.cls === "ok" ? "ok" : v.cls === "warn" ? "warn" : "bad"})">${v.t}</span>`);
+    msg.textContent = v.m;
+    msg.className = "sim-msg " + (v.cls === "ok" ? "ok" : v.cls === "bad" ? "bad" : "");
+  }
+  document.getElementById("set-th-best").addEventListener("click", () => {
+    let best = seat(), bd = Infinity;
+    for (let sh = 40; sh <= 75; sh += 0.5) {
+      const m = model(sh);
+      const cost = Math.abs(m.thigh + 9) + (m.straight ? 100 : 0) + (m.knee_ < 95 ? 50 : 0);
+      if (cost < bd) { bd = cost; best = sh; }
+    }
+    seat.set(best);
+  });
+  document.getElementById("set-th-test").addEventListener("click", () => {
+    MB.ctx();
+    const q = verdict(model()).q, t0 = MB.now() + 0.08, spb = 60 / 96;
+    for (let i = 0; i < 4; i++) {
+      const jit = (1 - q) * 0.035 * (i % 2 ? 1 : -0.6), vel = MB.clamp(0.92 * q + (1 - q) * 0.3 * (i % 2), 0.2, 1);
+      kit.hit("kick", vel, t0 + i * spb + jit, { src: "api" });
+      if (i % 2) kit.hit("snare", 0.8, t0 + i * spb);
+      kit.hit("hat", 0.6, t0 + i * spb); kit.hit("hat", 0.45, t0 + (i + 0.5) * spb);
+    }
+  });
+  render();
+})();
+
+/* ================================================================ 2. 그립과 받침점 */
+(function () {
+  const svg = document.getElementById("set-gr-svg");
+  const kit = DR.kit();
+  const STICK = { "7A": { L: 39.4, D: 13.7, m: 40 }, "5A": { L: 40.6, D: 14.4, m: 46 }, "5B": { L: 40.6, D: 15.1, m: 52 }, "2B": { L: 41.3, D: 16.0, m: 60 } };
+  const GRIP = {
+    german: { palm: "0°(손바닥 아래)", drive: "손목·팔", best: 0.32 },
+    american: { palm: "약 45°", drive: "손목 + 손가락", best: 0.33 },
+    french: { palm: "약 90°(엄지 위)", drive: "손가락", best: 0.35 },
+  };
+  const grip = MB.seg("set-gr-grip", () => render());
+  const stick = MB.seg("set-gr-stick", () => render());
+  const fr = MB.range("set-gr-f", (v) => v + "%", () => render());
+  function model() {
+    const S = STICK[stick()], L = S.L / 100, m = S.m / 1000, f = fr() / 100;
+    const xp = f * L, xc = 0.47 * L, k2 = (L * L) / 12, r = xc - xp, b = L - xp;
+    const Ip = m * (k2 + r * r);
+    const q = r > 1e-4 ? Ip / (m * r) : Infinity;
+    const shock = Math.min(1.5, Math.abs(1 - (m * r * b) / Ip));
+    const e = 0.75 * (1 - 0.5 * Math.min(1, shock));
+    return { S, L, m, f, xp, xc, r, b, q, Ip, shock, e, v: 25 * b, tq: m * 9.81 * r };
+  }
+  function render() {
+    const M = model(), G = GRIP[grip()];
+    const x0 = 24, x1 = 496, sc = (x1 - x0) / M.L, X = (x) => x0 + x * sc, yc = 92, th = (M.S.D / 13.7) * 9;
+    svg.innerHTML = "";
+    const taper = 0.8 * M.L;
+    setEl("path", { d: `M${X(0)} ${yc - th} L${X(taper)} ${yc - th} Q${X(0.93 * M.L)} ${yc - th * 0.55} ${X(0.975 * M.L)} ${yc - th * 0.42} L${X(0.975 * M.L)} ${yc + th * 0.42} Q${X(0.93 * M.L)} ${yc + th * 0.55} ${X(taper)} ${yc + th} L${X(0)} ${yc + th} Z`, style: "fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4" }, svg);
+    setEl("ellipse", { cx: X(0.985 * M.L), cy: yc, rx: 9, ry: th * 0.62, style: "fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4" }, svg);
+    // 손(받침점 뒤로 감싼 손가락)
+    setEl("rect", { x: X(M.xp - 0.085), y: yc - th - 9, width: 0.1 * sc, height: 2 * th + 18, rx: 12, style: "fill:var(--text-faint);opacity:.28" }, svg);
+    setEl("polygon", { points: `${X(M.xp)},${yc + th + 2} ${X(M.xp) - 8},${yc + th + 16} ${X(M.xp) + 8},${yc + th + 16}`, class: "f-acc" }, svg);
+    setEl("text", { x: X(M.xp), y: yc + th + 32, "text-anchor": "middle", class: "t-acc", style: "font-size:12px" }, svg, `받침점 ${setF(M.xp * 100, 1)} cm`);
+    setEl("circle", { cx: X(M.xc), cy: yc, r: 5, style: "fill:var(--accent-2)" }, svg);
+    setEl("text", { x: X(M.xc), y: yc - th - 14, "text-anchor": "middle", class: "t-dim", style: "fill:var(--accent-2)" }, svg, "무게중심");
+    // 타격 중심
+    if (isFinite(M.q) && M.xp + M.q <= M.L * 1.02) {
+      const xq = X(M.xp + M.q);
+      setEl("path", { d: `M${xq} ${yc - th - 8} l6 -8 l-6 -8 l-6 8 z`, style: "fill:var(--ok)" }, svg);
+      setEl("text", { x: Math.min(xq, 470), y: yc - th - 30, "text-anchor": "middle", class: "t-dim", style: "fill:var(--ok)" }, svg, "타격 중심");
+    } else {
+      setEl("text", { x: 496, y: yc - th - 18, "text-anchor": "end", class: "t-dim", style: "fill:var(--bad)" }, svg, `타격 중심 → 스틱 밖(${isFinite(M.q) ? setF(M.q * 100) + " cm" : "∞"})`);
+    }
+    // 헤드 반발과 손 충격 화살표
+    setEl("line", { x1: X(0.985 * M.L), y1: yc + 60, x2: X(0.985 * M.L), y2: yc + th + 4, class: "s-acc" }, svg);
+    setEl("path", { d: `M${X(0.985 * M.L) - 5} ${yc + th + 12} l5 -9 l5 9`, class: "s-acc" }, svg);
+    setEl("text", { x: X(0.985 * M.L) - 6, y: yc + 74, "text-anchor": "end", class: "t-dim" }, svg, "헤드의 충격 J");
+    const sl = 8 + 46 * Math.min(1, M.shock), col = M.shock < 0.15 ? "var(--ok)" : M.shock < 0.4 ? "var(--warn)" : "var(--bad)";
+    setEl("line", { x1: X(M.xp) - 28, y1: yc - th - 6, x2: X(M.xp) - 28, y2: yc - th - 6 - sl, style: `stroke:${col};stroke-width:4;stroke-linecap:round` }, svg);
+    setEl("text", { x: X(M.xp) - 34, y: yc - th - 10 - sl / 2, "text-anchor": "end", class: "t-dim", style: `fill:${col}` }, svg, `손 충격 ${setF(M.shock * 100)}%`);
+    setEl("text", { x: 10, y: 190, class: "t-mono" }, svg, `${stick()} · ${M.S.L} cm · ${M.S.m} g · I_p = ${setF(M.Ip * 1e4, 2)}×10⁻⁴ kg·m²`);
+    MB.stat("set-gr-o-palm", `${G.palm} · ${G.drive}`);
+    MB.stat("set-gr-o-q", `${isFinite(M.q) ? setF(M.q * 100, 1) : "∞"} / ${setF(M.b * 100, 1)} cm`);
+    MB.stat("set-gr-o-shock", `<span style="color:${col}">${setF(M.shock * 100)}%</span>`);
+    MB.stat("set-gr-o-v", setF(M.v, 1) + " m/s");
+    MB.stat("set-gr-o-tq", setF(M.tq * 1000, 1) + " mN·m");
+  }
+  document.getElementById("set-gr-best").addEventListener("click", () => {
+    let best = 30, bd = Infinity;
+    for (let f = 15; f <= 55; f++) { fr.set(f, false); const s = model().shock; if (s < bd) { bd = s; best = f; } }
+    fr.set(best);
+  });
+  document.getElementById("set-gr-test").addEventListener("click", () => {
+    MB.ctx();
+    const M = model(), g = 9.81 * 1.5, v0 = Math.sqrt(2 * 9.81 * 0.2), t0 = MB.now() + 0.05;
+    let t = t0, v = v0;
+    for (let n = 0; n < 14 && v > 0.08; n++) {
+      kit.hit("snare", MB.clamp(v / 3, 0.03, 1), t, { src: "api" });
+      v *= M.e; t += (2 * v) / g;
+    }
+  });
+  render();
+})();
+
+/* ================================================================ 3. 리바운드 */
+(function () {
+  const kit = DR.kit();
+  const hR = MB.range("set-rb-h", (v) => v + " cm", () => upd());
+  const eR = MB.range("set-rb-e", (v) => v.toFixed(2), () => upd());
+  const gR = MB.range("set-rb-g", (v) => v.toFixed(1) + "×", () => upd());
+  const cat = MB.seg("set-rb-catch", () => upd());
+  const slow = MB.check("set-rb-slow");
+  let anim = null; // {t0, slow, dur}
+  function traj() {
+    const g = 9.81, h = hR() / 100, e = eR(), ge = g * gR(), maxHits = +cat();
+    const v0 = Math.sqrt(2 * g * h), t1 = Math.sqrt((2 * h) / g);
+    const hits = [{ t: t1, v: v0 }], segs = [{ t0: 0, t1, type: "fall", h }];
+    let t = t1, v = v0 * e, caught = null;
+    while (v > 0.05 && hits.length < 60) {
+      const dt = (2 * v) / ge;
+      if (hits.length >= maxHits) { segs.push({ t0: t, t1: t + v / ge, type: "up", v, ge }); caught = t + v / ge; break; }
+      segs.push({ t0: t, t1: t + dt, type: "arc", v, ge });
+      t += dt; hits.push({ t, v }); v *= e;
+    }
+    if (caught == null) caught = t + 0.02;
+    return { v0, h, e, ge, hits, segs, end: caught };
+  }
+  function heightAt(T, tt) {
+    for (const s of T.segs) if (tt >= s.t0 && tt <= s.t1) {
+      const u = tt - s.t0;
+      if (s.type === "fall") return T.h - 0.5 * 9.81 * u * u;
+      return s.v * u - 0.5 * s.ge * u * u;
+    }
+    return tt > T.end ? (T.segs[T.segs.length - 1].type === "up" ? T.segs[T.segs.length - 1].v ** 2 / (2 * T.segs[T.segs.length - 1].ge) : 0) : T.h;
+  }
+  const cv = MB.canvas("#set-rb-cv", (ctx, w, h) => {
+    const T = traj(), P = MB.palette();
+    const L = 40, R = 10, top = 14, B = 26, tmax = Math.max(0.25, T.end * 1.05), hmax = Math.max(T.h, 0.05) * 1.08;
+    const x = (t) => L + (t / tmax) * (w - L - R), y = (z) => h - B - (z / hmax) * (h - B - top);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.lineWidth = 1;
+    const tstep = tmax > 1.2 ? 0.2 : tmax > 0.5 ? 0.1 : 0.05;
+    for (let t = 0; t <= tmax + 1e-9; t += tstep) { ctx.beginPath(); ctx.moveTo(x(t), top); ctx.lineTo(x(t), h - B); ctx.stroke(); ctx.fillText(Math.round(t * 1000) + "", x(t) - 8, h - 8); }
+    const zs = hmax > 0.3 ? 0.1 : 0.05;
+    for (let z = 0; z <= hmax; z += zs) { ctx.beginPath(); ctx.moveTo(L, y(z)); ctx.lineTo(w - R, y(z)); ctx.stroke(); ctx.fillText(Math.round(z * 100) + "", 6, y(z) + 4); }
+    ctx.fillText("ms", w - R - 18, h - B - 4); ctx.fillText("cm", 6, top + 2);
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(L, y(0)); ctx.lineTo(w - R, y(0)); ctx.stroke();
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i <= 400; i++) { const t = (i / 400) * T.end; const z = Math.max(0, heightAt(T, t)); i ? ctx.lineTo(x(t), y(z)) : ctx.moveTo(x(t), y(z)); }
+    ctx.stroke();
+    T.hits.forEach((ht, i) => { ctx.fillStyle = P.accent2; ctx.globalAlpha = 0.35 + 0.65 * Math.min(1, ht.v / 3); ctx.beginPath(); ctx.arc(x(ht.t), y(0), 3 + 4 * Math.min(1, ht.v / 3), 0, 7); ctx.fill(); ctx.globalAlpha = 1; });
+    const last = T.segs[T.segs.length - 1];
+    if (last.type === "up") { ctx.fillStyle = P.ok; ctx.fillText("손이 받음", Math.min(x(T.end) - 20, w - 70), y(heightAt(T, T.end)) - 8); }
+    if (anim) {
+      const tt = ((MB.now() - anim.t0) / anim.slow);
+      if (tt >= 0 && tt <= T.end + 0.05) { const z = Math.max(0, heightAt(T, Math.min(tt, T.end))); ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(x(Math.min(tt, T.end)), y(z), 7, 0, 7); ctx.fill(); }
+    }
+  }, { aspect: (w) => (w < 500 ? 0.62 : 0.42), maxHeight: 300 });
+  function upd() {
+    const T = traj();
+    MB.stat("set-rb-o-v", setF(T.v0, 2) + " m/s");
+    MB.stat("set-rb-o-h1", setF(T.e * T.e * T.h * 100, 1) + " cm");
+    const dt1 = (2 * T.v0 * T.e) / T.ge;
+    MB.stat("set-rb-o-dt", setF(dt1 * 1000) + " ms");
+    MB.stat("set-rb-o-n", T.hits.length + "타");
+    MB.stat("set-rb-o-f", setF(1 / dt1, 1) + " Hz");
+    cv.redraw();
+  }
+  let raf = 0;
+  document.getElementById("set-rb-play").addEventListener("click", () => {
+    MB.ctx();
+    const T = traj(), sl = slow() ? 6 : 1, t0 = MB.now() + 0.08;
+    T.hits.forEach((ht) => kit.hit("snare", MB.clamp(ht.v / 3, 0.02, 1), t0 + ht.t * sl, { src: "api" }));
+    anim = { t0, slow: sl };
+    cancelAnimationFrame(raf);
+    const step = () => { cv.redraw(); if (MB.now() - t0 < (T.end + 0.1) * sl) raf = requestAnimationFrame(step); else { anim = null; cv.redraw(); } };
+    raf = requestAnimationFrame(step);
+  });
+  upd();
+})();
+
+/* ================================================================ 4. 네 가지 스트로크 */
+(function () {
+  const kit = DR.kit();
+  const PRE = {
+    a4: { div: 2, acc: "X...X..." }, a2: { div: 2, acc: "X.X.X.X." }, shift: { div: 2, acc: "X....X.." },
+    taps: { div: 2, acc: "........" }, moeller: { div: 3, acc: "X..X..X..X.." },
+  };
+  const NAME = { F: "풀", D: "다운", T: "탭", U: "업" };
+  let div = 2, acc = [];
+  const pre = MB.seg("set-sk-pre", (v) => { load(v); pb.restart(); });
+  const hand = MB.seg("set-sk-hand", () => { render(); pb.restart(); });
+  const bpm = MB.range("set-sk-bpm", (v) => v + " BPM", () => stats());
+  const hi = MB.range("set-sk-hi", (v) => v + " cm", () => { render(); pb.restart(); });
+  const lo = MB.range("set-sk-lo", (v) => v + " cm", () => { render(); pb.restart(); });
+  const click = MB.check("set-sk-click");
+  const cellsEl = document.getElementById("set-sk-cells");
+  const staff = DR.staff("#set-sk-staff", [], { sticking: true, counts: true, width: 560, compact: true, barsPerLine: 1 });
+  let now = -1;
+  const velOf = (hcm) => MB.clamp(Math.sqrt(hcm / 40), 0.05, 1);
+  function load(k) { const P = PRE[k]; div = P.div; acc = [...P.acc].map((c) => c === "X"); render(); }
+  function analyse() {
+    const n = acc.length, hands = acc.map((_, i) => (hand() === "one" ? "R" : i % 2 ? "L" : "R"));
+    const types = [];
+    for (let i = 0; i < n; i++) {
+      let j = (i + 1) % n; while (hands[j] !== hands[i]) j = (j + 1) % n;
+      const s = acc[i], e = acc[j];
+      types[i] = s && e ? "F" : s ? "D" : e ? "U" : "T";
+    }
+    return { n, hands, types };
+  }
+  function events() {
+    const A = analyse();
+    return acc.map((a, i) => ({ t: i / div, p: "snare", v: velOf(a ? hi() : lo()), hand: A.hands[i], cell: i, acc: a || undefined }));
+  }
+  function render() {
+    const A = analyse();
+    cellsEl.style.setProperty("--n", A.n);
+    cellsEl.innerHTML = acc.map((a, i) => `<button class="${a ? "acc" : ""}${i === now ? " now" : ""}" data-i="${i}" aria-label="${i + 1}번째 음 액센트">${A.hands[i]}<small>${A.types[i]}</small></button>`).join("");
+    staff.setEvents(events(), { bars: 1 });
+    cv.redraw(); stats();
+  }
+  cellsEl.addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (!b) return; acc[+b.dataset.i] = !acc[+b.dataset.i]; render(); pb.restart(); });
+  function stats() {
+    const A = analyse(), c = { F: 0, D: 0, T: 0, U: 0 };
+    A.types.forEach((t) => c[t]++);
+    MB.stat("set-sk-o-cnt", `${c.F} · ${c.D} · ${c.T} · ${c.U}`);
+    const db = 20 * Math.log10(DR.velGain(velOf(hi())) / DR.velGain(velOf(lo())));
+    MB.stat("set-sk-o-db", setF(db, 1) + " dB");
+    const perHand = hand() === "one" ? A.n : A.n / 2;
+    MB.stat("set-sk-o-rate", setF((perHand / 4) * (bpm() / 60), 1) + " 회/s");
+  }
+  const cv = MB.canvas("#set-sk-cv", (ctx, w, h) => {
+    const A = analyse(), P = MB.palette(), n = A.n;
+    const L = 44, R = 10, top = 10, B = 18;
+    const x = (c) => L + (c / n) * (w - L - R), H = Math.max(hi(), 10) * 1.08, y = (z) => h - B - (z / H) * (h - B - top);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.fillStyle = P.dim; ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    for (let i = 0; i <= n; i++) { ctx.beginPath(); ctx.moveTo(x(i), top); ctx.lineTo(x(i), h - B); ctx.stroke(); }
+    [[hi(), "액센트"], [lo(), "탭"]].forEach(([z, t]) => { ctx.setLineDash([4, 3]); ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(L, y(z)); ctx.lineTo(w - R, y(z)); ctx.stroke(); ctx.setLineDash([]); ctx.fillText(t, 4, y(z) + 4); });
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(L, y(0)); ctx.lineTo(w - R, y(0)); ctx.stroke();
+    ["R", "L"].forEach((hd) => {
+      const idx = []; for (let i = 0; i < n; i++) if (A.hands[i] === hd) idx.push(i);
+      if (!idx.length) return;
+      ctx.strokeStyle = hd === "R" ? P.accent : P.accent2; ctx.lineWidth = 2.2;
+      idx.forEach((a, j) => {
+        const nb = idx[(j + 1) % idx.length], b = nb > a ? nb : nb + n, e = acc[nb % n] ? hi() : lo();
+        const yAt = (u) => (u < 0.3 ? e * Math.sin((Math.PI / 2) * (u / 0.3)) : u < 0.7 ? e : e * Math.cos((Math.PI / 2) * ((u - 0.7) / 0.3)));
+        ctx.beginPath(); let pen = false;
+        for (let k = 0; k <= 60; k++) {
+          const u = k / 60, t = a + u * (b - a), tt = t >= n ? t - n : t;
+          if (pen && t >= n && a + ((k - 1) / 60) * (b - a) < n) { ctx.stroke(); ctx.beginPath(); pen = false; }
+          pen ? ctx.lineTo(x(tt), y(yAt(u))) : (ctx.moveTo(x(tt), y(yAt(u))), (pen = true));
+        }
+        ctx.stroke();
+      });
+    });
+    for (let i = 0; i < n; i++) {
+      ctx.fillStyle = A.hands[i] === "R" ? P.accent : P.accent2;
+      ctx.beginPath(); ctx.arc(x(i), y(0), i === now ? 6 : 4, 0, 7); ctx.fill();
+      ctx.fillStyle = P.text; ctx.fillText(A.types[i], x(i) + 4, h - 4);
+    }
+  }, { aspect: (w) => (w < 500 ? 0.5 : 0.3), maxHeight: 220 });
+  const pb = setPlay("set-sk-play", () => {
+    const evs = events();
+    staff.setEvents(evs, { bars: 1 });
+    return DR.playEvents(evs, {
+      kit, bpm: () => bpm(), loop: true, length: 4, clickOn: () => click(), staff,
+      onHit(ev, i, when) { DR.at(when, () => { now = ev.cell; cellsEl.querySelectorAll("button").forEach((b) => b.classList.toggle("now", +b.dataset.i === now)); cv.redraw(); }); },
+    });
+  }, ["▶ 반복 재생", "■ 정지"], () => { now = -1; render(); });
+  load("a4");
+})();
+
+/* ================================================================ 5. 채찍 동작(묄러) */
+(function () {
+  const kit = DR.kit();
+  const kR = MB.range("set-wh-k", (i) => setF(kOf(i), kOf(i) < 1 ? 2 : kOf(i) < 10 ? 1 : 0) + " N·m/rad" + (i >= 40 ? "(굳힘)" : ""), () => upd());
+  const TR = MB.range("set-wh-T", (v) => v + " ms", () => { curve = null; upd(); });
+  function kOf(i) { return 0.4 * Math.pow(500, i / 40); }
+  const A = 0.27, Bt = 0.35, M = 0.5, C = 0.068, I = 0.0037, G = 9.81, ZETA = 0.15, YH = -0.1;
+  const P0 = (25 * Math.PI) / 180, P1 = (-15 * Math.PI) / 180;
+  function simulate(k, T, keep) {
+    const cd = 2 * ZETA * Math.sqrt(k * I), dt = k > 60 ? 1e-5 : 2e-5;
+    const phi = (t) => { const u = MB.clamp(t / T, 0, 1); return P0 + (P1 - P0) * (10 * u ** 3 - 15 * u ** 4 + 6 * u ** 5); };
+    const W = (t) => [A * Math.cos(phi(t)), A * Math.sin(phi(t))];
+    let th = P0, w = 0, prev = null, hit = null;
+    const frames = [];
+    for (let t = 0; t < T * 2.6; t += dt) {
+      const hh = 1e-4, w0 = W(t - hh), w1 = W(t), w2 = W(t + hh);
+      const ax = (w2[0] - 2 * w1[0] + w0[0]) / (hh * hh), ay = (w2[1] - 2 * w1[1] + w0[1]) / (hh * hh);
+      const ph = phi(t), dph = (phi(t + hh) - phi(t - hh)) / (2 * hh);
+      const tau = -k * (th - ph) - cd * (w - dph) - M * G * C * Math.cos(th) - M * C * (Math.cos(th) * ay - Math.sin(th) * ax);
+      w += (tau / I) * dt; th += w * dt;
+      const tip = [w1[0] + Bt * Math.cos(th), w1[1] + Bt * Math.sin(th)];
+      if (keep && (!frames.length || t - frames[frames.length - 1].t >= 0.001)) frames.push({ t, W: w1, tip });
+      if (prev) { const sp = Math.hypot(tip[0] - prev[0], tip[1] - prev[1]) / dt; if (tip[1] <= YH) { hit = { t, sp }; break; } }
+      prev = tip;
+    }
+    return { hit, frames };
+  }
+  let curve = null, cur = null, rigid = null, anim = null;
+  function upd() {
+    const T = TR() / 1000, k = kOf(kR());
+    if (!curve) { curve = []; for (let i = 0; i <= 40; i += 2) curve.push({ i, sp: (simulate(kOf(i), T).hit || { sp: 0 }).sp }); rigid = simulate(5000, T, true); }
+    cur = simulate(k, T, true);
+    const v = cur.hit ? cur.hit.sp : 0, v0 = rigid.hit ? rigid.hit.sp : 0;
+    MB.stat("set-wh-o-v", cur.hit ? setF(v, 1) + " m/s" : "닿지 않음");
+    MB.stat("set-wh-o-v0", setF(v0, 1) + " m/s");
+    MB.stat("set-wh-o-gain", v0 > 0 && cur.hit ? "×" + setF(v / v0, 2) : "—");
+    MB.stat("set-wh-o-fn", setF(Math.sqrt(k / I) / (2 * Math.PI), 1) + " Hz");
+    cv.redraw(); cv2.redraw();
+  }
+  const cv = MB.canvas("#set-wh-cv", (ctx, w, h) => {
+    if (!cur) return;
+    const P = MB.palette(), s = Math.min(w / 0.7, h / 0.5), ox = 30, oy = h * 0.32;
+    const X = (x) => ox + x * s, Y = (y) => oy - y * s;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(0.35), Y(YH)); ctx.lineTo(X(0.68), Y(YH)); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.fillText("헤드", X(0.62), Y(YH) + 14);
+    const tNow = anim ? (MB.now() - anim.t0) / 8 : null;
+    const draw = (sim, alpha, col) => {
+      const fr = sim.frames; if (!fr.length) return;
+      ctx.globalAlpha = alpha * 0.6; ctx.fillStyle = col;
+      fr.forEach((f, i) => { if (i % 10 === 0 && (tNow == null || f.t <= tNow)) { ctx.beginPath(); ctx.arc(X(f.tip[0]), Y(f.tip[1]), 2.2, 0, 7); ctx.fill(); } });
+      let f = fr[fr.length - 1];
+      if (tNow != null) f = fr[Math.min(fr.length - 1, Math.max(0, Math.floor(tNow / 0.001)))];
+      ctx.globalAlpha = alpha; ctx.strokeStyle = P.text; ctx.lineWidth = 6; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(f.W[0]), Y(f.W[1])); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(f.W[0]), Y(f.W[1])); ctx.lineTo(X(f.tip[0]), Y(f.tip[1])); ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    draw(rigid, 0.35, P.dim); draw(cur, 1, P.accent);
+    ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(X(0), Y(0), 5, 0, 7); ctx.fill();
+    ctx.fillStyle = P.dim; ctx.fillText("팔꿈치", X(0) - 16, Y(0) - 10);
+  }, { aspect: (w) => (w < 500 ? 0.62 : 0.45), maxHeight: 280 });
+  const cv2 = MB.canvas("#set-wh-cv2", (ctx, w, h) => {
+    if (!curve) return;
+    const P = MB.palette(), L = 40, R = 10, top = 10, B = 22, vmax = Math.max(...curve.map((c) => c.sp)) * 1.12 || 1;
+    const x = (i) => L + (i / 40) * (w - L - R), y = (v) => h - B - (v / vmax) * (h - B - top);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.lineWidth = 1;
+    for (let v = 0; v <= vmax; v += vmax > 20 ? 5 : 2) { ctx.beginPath(); ctx.moveTo(L, y(v)); ctx.lineTo(w - R, y(v)); ctx.stroke(); ctx.fillText(v + "", 8, y(v) + 4); }
+    ctx.fillText("풀린 손목", L, h - 6); ctx.fillText("굳힌 손목", w - R - 56, h - 6); ctx.fillText("m/s", 8, top + 4);
+    if (rigid.hit) { ctx.setLineDash([4, 3]); ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(L, y(rigid.hit.sp)); ctx.lineTo(w - R, y(rigid.hit.sp)); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    curve.forEach((c, j) => (j ? ctx.lineTo(x(c.i), y(c.sp)) : ctx.moveTo(x(c.i), y(c.sp)))); ctx.stroke();
+    const vi = cur && cur.hit ? cur.hit.sp : 0;
+    ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(x(kR()), y(vi), 6, 0, 7); ctx.fill();
+  }, { aspect: (w) => (w < 500 ? 0.4 : 0.24), maxHeight: 160 });
+  const vel = (sp) => MB.clamp(sp / 16, 0.05, 1);
+  let raf = 0;
+  document.getElementById("set-wh-slow").addEventListener("click", () => {
+    MB.ctx();
+    const t0 = MB.now() + 0.05; anim = { t0 };
+    if (cur.hit) kit.hit("snare", vel(cur.hit.sp), t0 + cur.hit.t * 8, { src: "api" });
+    const end = Math.max(cur.frames.length ? cur.frames[cur.frames.length - 1].t : 0, rigid.frames[rigid.frames.length - 1].t);
+    cancelAnimationFrame(raf);
+    const step = () => { cv.redraw(); if ((MB.now() - t0) / 8 < end + 0.03) raf = requestAnimationFrame(step); else { anim = null; cv.redraw(); } };
+    raf = requestAnimationFrame(step);
+  });
+  document.getElementById("set-wh-real").addEventListener("click", () => {
+    MB.ctx();
+    const t0 = MB.now() + 0.05;
+    if (rigid.hit) kit.hit("snare", vel(rigid.hit.sp), t0, { src: "api" });
+    if (cur.hit) kit.hit("snare", vel(cur.hit.sp), t0 + 0.7, { src: "api" });
+  });
+  upd();
+})();
+
+/* ================================================================ 6. 킥 기법 비교 */
+(function () {
+  const kit = DR.kit();
+  const TECH = {
+    down: { f: 6.5, v: 0.62, jit: 4, pair: false, name: "힐다운" },
+    up: { f: 8.5, v: 0.95, jit: 5, pair: false, name: "힐업" },
+    slide: { f: 8.5, v: 0.92, jit: 6, pair: true, gapMin: 0.055, name: "슬라이드" },
+  };
+  const PAT = { q: "x...x...x...x...", e: "x.x.x.x.x.x.x.x.", dbl: "xx..xx..xx..xx..", s: "xxxxxxxxxxxxxxxx", rock: "x.....x.x.x....." };
+  const tech = MB.seg("set-pd-tech", () => { drawFoot(); upd(); pb.restart(); });
+  const pat = MB.seg("set-pd-pat", () => { upd(); pb.restart(); });
+  const bpm = MB.range("set-pd-bpm", (v) => v + " BPM", () => upd());
+  const ctxOn = MB.check("set-pd-ctx");
+  const svg = document.getElementById("set-pd-svg"), gauge = document.querySelector("#set-pd-gauge i");
+  const staff = DR.staff("#set-pd-staff", [], { width: 560, compact: true, barsPerLine: 1 });
+  let beater = null;
+  function kicks() { return [...PAT[pat()]].map((c, i) => (c === "x" ? i / 4 : null)).filter((t) => t != null); }
+  function analyse() {
+    const T = TECH[tech()], spb = 60 / bpm(), ks = kicks(), times = ks.map((t) => t * spb), n = times.length;
+    const gaps = times.map((t, i) => (i + 1 < n ? times[i + 1] - t : times[0] + 4 * spb - t));
+    const minGap = Math.min(...gaps);
+    // 동작 묶기: 슬라이드는 0.13 s 이하로 붙은 두 음을 동작 하나로
+    const motions = []; let i = 0;
+    while (i < n) {
+      if (T.pair && i + 1 < n && gaps[i] <= 0.13) { motions.push({ t: times[i], pair: true, inner: gaps[i] }); i += 2; }
+      else { motions.push({ t: times[i] }); i++; }
+    }
+    const m = motions.length;
+    const mg = Math.min(...motions.map((mo, j) => (j + 1 < m ? motions[j + 1].t - mo.t : motions[0].t + 4 * spb - mo.t)));
+    let rate = 1 / mg;
+    const innerBad = motions.some((mo) => mo.pair && mo.inner < T.gapMin);
+    const load = rate / T.f * (innerBad ? 1.4 : 1);
+    return { T, minGap, rate, load, motions, innerBad };
+  }
+  const vmul = (load) => (load <= 0.8 ? 1 : Math.max(0.35, 1 - 1.3 * (load - 0.8)));
+  const jitter = (A) => A.T.jit + (A.load > 0.8 ? Math.min(40, 70 * (A.load - 0.8)) : 0);
+  function events() {
+    const A = analyse(), out = [];
+    const pairSecond = new Set();
+    if (A.T.pair) { const ks = kicks(); A.motions.forEach((mo) => { if (mo.pair) { const idx = ks.findIndex((t) => Math.abs(t * 60 / bpm() - mo.t) < 1e-6); if (idx >= 0) pairSecond.add(idx + 1); } }); }
+    kicks().forEach((t, i) => out.push({ t, p: "kick", v: A.T.v * (pairSecond.has(i) ? 0.86 : 1) }));
+    for (let k = 0; k < 8; k++) out.push({ t: k / 2, p: "hat", v: k % 2 ? 0.5 : 0.7, ctx: 1 });
+    out.push({ t: 1, p: "snare", v: 0.9, ctx: 1 }, { t: 3, p: "snare", v: 0.9, ctx: 1 });
+    return DR.sort(out);
+  }
+  function drawFoot() {
+    const up = tech() !== "down";
+    svg.innerHTML = "";
+    setEl("line", { x1: 20, x2: 300, y1: 140, y2: 140, class: "s-axis" }, svg);
+    setEl("line", { x1: 300, x2: 300, y1: 10, y2: 140, style: "stroke:var(--dr-shell);stroke-width:10" }, svg);
+    setEl("line", { x1: 60, y1: 134, x2: 250, y2: 106, class: "s-line", style: "stroke-width:4" }, svg);
+    beater = setEl("g", { class: "set-beater" }, svg);
+    setEl("line", { x1: 262, y1: 98, x2: 254, y2: 26, class: "s-line", style: "stroke-width:3" }, beater);
+    setEl("circle", { cx: 254, cy: 22, r: 10, class: "f-acc-soft" }, beater);
+    if (up) setEl("path", { d: "M130 0 L148 76 L134 84 M148 76 L210 114 L240 108", class: "set-limb" }, svg);
+    else setEl("path", { d: "M72 0 L82 112 L66 128 M82 112 L222 108", class: "set-limb" }, svg);
+    setEl("text", { x: 20, y: 20, class: "t", style: "font-weight:700" }, svg, TECH[tech()].name);
+  }
+  function upd() {
+    const A = analyse(), L = A.load, col = L <= 0.8 ? "var(--ok)" : L <= 1 ? "var(--warn)" : "var(--bad)";
+    gauge.style.width = Math.min(100, L * 100) + "%"; gauge.style.background = col;
+    MB.stat("set-pd-o-gap", setF(A.minGap * 1000) + " ms");
+    MB.stat("set-pd-o-rate", setF(A.rate, 1) + " 회/s");
+    MB.stat("set-pd-o-lim", setF(A.T.f, 1) + " 회/s" + (A.T.pair ? " · 안쪽 ≥ 55 ms" : ""));
+    MB.stat("set-pd-o-load", `<span style="color:${col}">${setF(L * 100)}%</span>`);
+    MB.stat("set-pd-o-verdict", A.innerBad ? "더블이 너무 촘촘함" : L <= 0.8 ? "편안함" : L <= 1 ? "한계 근처" : "무너짐(작고 흔들림)");
+    staff.setEvents(events(), { bars: 1 });
+    kit.levels.kick = vmul(L) * vmul(L);
+  }
+  const pb = setPlay("set-pd-play", () => {
+    const evs = events(); staff.setEvents(evs, { bars: 1 });
+    return DR.playEvents(evs, {
+      kit, bpm: () => bpm(), loop: true, length: 4, staff,
+      mute: (p, ev) => !!ev.ctx && !ctxOn(),
+      offsets: (ev) => (ev.p === "kick" ? MB.randn() * jitter(analyse()) : 0),
+      onHit(ev, i, when) { if (ev.p === "kick") DR.at(when, () => { if (!beater) return; beater.classList.add("hit"); setTimeout(() => beater && beater.classList.remove("hit"), 70); }); },
+    });
+  });
+  drawFoot(); upd();
+})();
+
+/* ================================================================ 7. 하이햇 발 트레이너 */
+(function () {
+  const kit = DR.kit();
+  const root = document.getElementById("sim-set-hat");
+  const kv = DR.kitView("#set-hf-kit", { kit, pieces: ["hat", "ride", "snare", "kick", "hatFoot"], keys: false });
+  const mode = MB.seg("set-hf-mode", () => { lamps(); pb.restart(); });
+  const hands = MB.seg("set-hf-hands", () => pb.restart());
+  const bpm = MB.range("set-hf-bpm", (v) => v + " BPM");
+  const guide = MB.check("set-hf-guide");
+  const lampEl = document.getElementById("set-hf-lamps"), tapBtn = document.getElementById("set-hf-tap");
+  const TG = { c24: [1, 3], q: [0, 1, 2, 3], up: [0.5, 1.5, 2.5, 3.5], sp: [1, 3] };
+  let expected = [], taps = [];
+  function lamps(cur = -1) {
+    const tg = TG[mode()];
+    lampEl.innerHTML = Array.from({ length: 8 }, (_, k) => `<i class="${tg.some((t) => Math.abs(t - k / 2) < 1e-6) ? "a" : ""}${k === cur ? " on" : ""}${k % 2 ? " sub" : ""}"></i>`).join("");
+  }
+  function events() {
+    const out = [], tg = TG[mode()], m = mode();
+    tg.forEach((t) => {
+      out.push({ t, tgt: true });
+      out.push({ t, pedal: 0, chick: m !== "sp", guide: true });
+      if (m === "sp") { out.push({ t, p: "hatFoot", v: 0.7, guide: true }); out.push({ t: t + 1 / 16, p: "hatOpen", v: 0.62, open: 1, guide: true }); out.push({ t: t + 1 / 12, pedal: 1, guide: true }); }
+      else out.push({ t: (t + 0.5) % 4, pedal: 1, guide: true });
+    });
+    for (let k = 0; k < 8; k++) out.push({ t: k / 2, lamp: k });
+    const h = hands();
+    if (h === "ride") { [0, 1, 2, 3].forEach((t) => out.push({ t, p: "ride", v: 0.7 })); out.push({ t: 0, p: "kick", v: 0.8 }, { t: 2, p: "kick", v: 0.8 }); }
+    if (h === "jazz") DR.parse({ ride: "x..x.xx..x.x" }, { div: 3 }).forEach((e) => out.push(e));
+    return out.sort((a, b) => a.t - b.t);
+  }
+  function score() {
+    const exp = expected.slice(-16), lo = exp.length ? exp[0] - 0.15 : 0;
+    const tp = taps.filter((t) => t >= lo);
+    const s = DR.score(exp, tp, { window: Math.min(0.15, (30 / bpm()) * 0.9) });
+    MB.stat("set-hf-o-mean", s.hits ? MB.signed(s.mean, 0) + " ms" : "—");
+    MB.stat("set-hf-o-sd", s.hits > 1 ? setF(s.sd) + " ms" : "—");
+    MB.stat("set-hf-o-hit", `${s.hits} / ${exp.length}`);
+    MB.stat("set-hf-o-extra", String(s.extra));
+  }
+  DR.tapper(kit, { onTap(tp) {
+    if (tp.p !== "hatFoot") return;
+    taps.push(tp.when);
+    let best = Infinity; expected.forEach((e) => { if (Math.abs(tp.when - e) < Math.abs(best)) best = tp.when - e; });
+    const ms = Math.abs(best) * 1000;
+    tapBtn.classList.remove("ok", "warn", "bad"); tapBtn.classList.add(ms < 25 ? "ok" : ms < 60 ? "warn" : "bad");
+    score();
+  } });
+  const tap = (src) => { MB.ctx(); kit.hit("hatFoot", 0.7, null, { src }); tapBtn.classList.add("hit"); setTimeout(() => tapBtn.classList.remove("hit"), 90); };
+  tapBtn.addEventListener("pointerdown", (e) => { e.preventDefault(); tap("tap"); });
+  DR.keyTarget(root, (p, v, hand, src) => { if (p === "hatFoot") tap(src); else if (DR.PIECES[p]) { MB.ctx(); kit.hit(p, v, null, { hand, src }); } });
+  const pb = setPlay("set-hf-play", () => {
+    expected = []; taps = []; score();
+    return DR.playEvents(events(), {
+      kit, bpm: () => bpm(), loop: true, length: 4, click: true,
+      mute: (p, ev) => !!ev.guide && !guide(),
+      onHit(ev, i, when) { if (ev.tgt) { expected.push(when); if (expected.length > 64) expected.shift(); } },
+      onNote(ev) { if (ev.lamp != null) lamps(ev.lamp); if (ev.tgt) score(); },
+    });
+  }, ["▶ 반복 재생", "■ 정지"], () => { lamps(); kit.hatPedal(0); });
+  lamps();
+})();
+</script>
+</body>
+</html>

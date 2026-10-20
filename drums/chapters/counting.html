@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>박과 세분 · DrumBook</title>
+<meta name="description" content="BPM을 ms로 바꾸고, 4분·8분·셋잇단·16분·16분 셋잇단 세분과 카운팅 음절을 익히고, 세분 사다리·갭 클릭·탭 정확도 측정으로 내 박의 편향과 흔들림을 잰다.">
+<link rel="canonical" href="https://music.euiyun.com/drums/chapters/counting.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DrumBook">
+<meta property="og:title" content="박과 세분 · DrumBook">
+<meta property="og:description" content="BPM을 ms로 바꾸고, 4분·8분·셋잇단·16분·16분 셋잇단 세분과 카운팅 음절을 익히고, 세분 사다리·갭 클릭·탭 정확도 측정으로 내 박의 편향과 흔들림을 잰다.">
+<meta property="og:url" content="https://music.euiyun.com/drums/chapters/counting.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/drums.css">
+<script src="../js/common.js"></script>
+<script src="../js/drums.js"></script>
+<style>
+  .cnt-pad { padding: 10px; }
+  .cnt-phase { font: 700 15px var(--font); text-align: center; padding: 7px 6px; border-radius: var(--radius-sm); background: var(--surface); color: var(--text-dim); margin-top: 8px; }
+  .cnt-phase.listen { color: var(--accent); background: var(--accent-soft); }
+  .cnt-phase.you { color: var(--on-accent); background: var(--accent); }
+  .cnt-phase.quiet { color: var(--on-accent); background: var(--accent-2); }
+  .dr-lamps i.cnt-s { width: 12px; height: 12px; align-self: center; }
+  .dr-lamps i.cnt-gap { margin-left: 8px; }
+  .cnt-syl { display: flex; flex-wrap: wrap; gap: 8px 10px; justify-content: center; margin: 10px 0 4px; }
+  .cnt-syl .g { display: flex; gap: 3px; }
+  .cnt-syl span { min-width: 30px; padding: 6px 3px; text-align: center; font: 700 14px var(--mono); border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-faint); transition: background .05s; }
+  .cnt-syl span.b { color: var(--text-dim); border-width: 2px; }
+  .cnt-syl span.hit { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .cnt-syl span.now { background: var(--warn); border-color: var(--warn); color: var(--on-accent); }
+  @media (max-width: 480px) { .cnt-syl span { min-width: 24px; font-size: 12px; padding: 5px 2px; } .cnt-syl { gap: 6px; } }
+  .cnt-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .cnt-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+  .cnt-res { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .cnt-res span { font: 600 12px var(--mono); padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+  .cnt-res span.ok { border-color: var(--ok); color: var(--ok); }
+  .cnt-res span.warn { border-color: var(--warn); color: var(--warn); }
+  .cnt-res span.bad { border-color: var(--bad); color: var(--bad); }
+  .cnt-res span.now { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .cnt-rx { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; font: 500 12.5px var(--mono); }
+  .cnt-rx > div { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; min-height: 64px; }
+  .cnt-rx b { display: block; font: 700 12.5px var(--font); color: var(--text); margin-bottom: 4px; }
+  .cnt-rx span { display: inline-block; margin: 0 6px 2px 0; color: var(--text-dim); }
+  .cnt-msg { font-size: 12.5px; color: var(--text-dim); min-height: 1em; margin-top: 4px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="drums"></script>
+</head>
+<body data-chapter="counting">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 03</div>
+    <h1>박과 세분</h1>
+    <p class="lead">밴드에서 드러머는 <b>시간을 맡은 사람</b>입니다. 기타가 코드를 틀리면 한 사람의 실수지만, 드럼의 박이 흔들리면 모두가 함께 흔들립니다. 그래서 드럼 공부의 첫 과제는 손이 아니라 <b>시간 감각</b>입니다. 이 장에서는 박을 숫자로 다룹니다. BPM을 밀리초로 바꾸고(\(60\,000/\text{BPM}\)), 한 박을 2·3·4·6칸으로 나누는 <b>세분</b>을 "1 & 2 &", "1 trip let", "1 e & a"처럼 입으로 세며 몸에 넣고, 같은 템포에서도 세분이 바뀌면 손이 얼마나 빨라지는지 계산합니다. 그다음에는 측정입니다. 메트로놈에 맞춰 두드린 탭을 ms 단위로 재서 내 박이 평균적으로 앞서는지 늦는지(편향), 얼마나 들쭉날쭉한지(흔들림)를 숫자로 확인하고, 클릭을 2·4박이나 업비트로 옮기거나 몇 마디 꺼 버려서 <b>클릭 없이도 유지되는 박</b>을 기릅니다.</p>
+    <ul class="objectives">
+      <li>BPM을 박·세분 간격(ms)과 초당 음 수로 바꾸고, 같은 템포에서 세분이 바뀌면 손 속도가 어떻게 달라지는지 계산한다.</li>
+      <li>4/4의 강박·약박과 드럼의 백비트(2·4박 스네어)가 어떻게 맞물리는지 설명한다.</li>
+      <li>4분·8분·셋잇단·16분·16분 셋잇단을 카운팅 음절로 소리 내어 세고, 세분 사다리를 끊김 없이 오르내린다.</li>
+      <li>다운비트와 업비트를 구별하고, 업비트만 치는 연습과 클릭을 2·4박·&에 두는 연습을 한다.</li>
+      <li>탭 정확도를 편향(평균 오차)과 흔들림(표준편차)으로 재고, 반응과 예측의 차이를 체험한다.</li>
+      <li>갭 클릭과 세분 섞기 연습으로 클릭 없이 템포를 유지하고 세분을 즉석에서 바꾼다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="pulse">
+    <h2>박과 템포: 60 000 ÷ BPM</h2>
+    <p>음악을 들으며 저절로 발을 구르게 되는 규칙적인 시점을 <span class="term">박</span><span class="en">(Beat, Pulse)</span>이라고 합니다. 박이 얼마나 빨리 오는지가 <span class="term">템포</span><span class="en">(Tempo)</span>이고, 드럼에서는 거의 언제나 1분에 4분음표가 몇 번 오는지, 즉 <span class="term">BPM</span><span class="en">(Beats per minute)</span>으로 적습니다. 엔지니어에게 BPM은 주파수입니다. 120 BPM은 2 Hz이고, 박의 주기는 그 역수인 0.5초입니다. 드러머는 이 주기를 다시 잘게 쪼개 손과 발을 배치하므로, 실제로 필요한 것은 "한 칸이 몇 ms인가"입니다.</p>
+    <div class="formula">$$T_{\text{beat}} = \frac{60\,000}{\text{BPM}}\ \text{ms},\qquad T_{\text{step}} = \frac{T_{\text{beat}}}{d},\qquad r = \frac{\text{BPM}\cdot d}{60}\ \text{음/초}$$
+      <div class="where">\(d\): 한 박을 몇 칸으로 나눴는가(8분 2, 셋잇단 3, 16분 4, 16분 셋잇단 6). \(r\)은 한 손(또는 두 손을 합친) 타격의 초당 횟수. 100 BPM이면 박 600 ms, 8분 300 ms, 16분 150 ms이고 16분음표를 계속 치면 초당 6.7타다. 4/4 한 마디는 \(4\,T_{\text{beat}}\)이므로 100 BPM에서 2.4 s.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 210" role="img" aria-label="60, 90, 120 BPM의 박과 120 BPM 16분음표를 같은 2초 시간축에 그린 그림">
+        <g font-family="var(--font)">
+          <text x="14" y="44" class="t" style="font-weight:700">60 BPM</text><text x="14" y="60" class="t-mono">박 1000 ms</text>
+          <text x="14" y="88" class="t" style="font-weight:700">90 BPM</text><text x="14" y="104" class="t-mono">박 667 ms</text>
+          <text x="14" y="132" class="t" style="font-weight:700">120 BPM</text><text x="14" y="148" class="t-mono">박 500 ms</text>
+          <text x="14" y="174" class="t" style="font-weight:700">120 BPM 16분</text><text x="14" y="190" class="t-mono">칸 125 ms</text>
+          <line x1="170" y1="44" x2="740" y2="44" class="s-axis" style="stroke-dasharray:2 4"/>
+          <line x1="170" y1="88" x2="740" y2="88" class="s-axis" style="stroke-dasharray:2 4"/>
+          <line x1="170" y1="132" x2="740" y2="132" class="s-axis" style="stroke-dasharray:2 4"/>
+          <line x1="170" y1="174" x2="740" y2="174" class="s-axis" style="stroke-dasharray:2 4"/>
+          <g class="f-acc"><circle cx="170" cy="44" r="7"/><circle cx="455" cy="44" r="7"/><circle cx="740" cy="44" r="7"/></g>
+          <g class="f-acc"><circle cx="170" cy="88" r="7"/><circle cx="360" cy="88" r="7"/><circle cx="550" cy="88" r="7"/><circle cx="740" cy="88" r="7"/></g>
+          <g class="f-acc"><circle cx="170" cy="132" r="7"/><circle cx="312.5" cy="132" r="7"/><circle cx="455" cy="132" r="7"/><circle cx="597.5" cy="132" r="7"/><circle cx="740" cy="132" r="7"/></g>
+          <path d="M170 166v16M205.6 168v12M241.3 168v12M276.9 168v12M312.5 166v16M348.1 168v12M383.8 168v12M419.4 168v12M455 166v16M490.6 168v12M526.3 168v12M561.9 168v12M597.5 166v16M633.1 168v12M668.8 168v12M704.4 168v12M740 166v16" class="s-acc"/>
+          <path d="M170 24 v-6 H455 v6" class="s-line"/><text x="312" y="14" text-anchor="middle" class="t-mono">1000 ms</text>
+          <line x1="170" y1="200" x2="740" y2="200" class="s-axis"/>
+          <text x="170" y="210" text-anchor="middle" class="t-mono">0</text><text x="312.5" y="210" text-anchor="middle" class="t-mono">0.5 s</text><text x="455" y="210" text-anchor="middle" class="t-mono">1 s</text><text x="597.5" y="210" text-anchor="middle" class="t-mono">1.5 s</text><text x="740" y="210" text-anchor="end" class="t-mono">2 s</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-1.</b> 같은 2초 동안의 박. 템포가 두 배(60 → 120 BPM)가 되면 박 간격은 절반(1000 → 500 ms)이 된다. 맨 아래 줄은 120 BPM에서 한 박을 넷으로 나눈 16분음표로, 칸 간격이 125 ms(초당 8타)다. 드러머의 손 속도를 정하는 것은 템포가 아니라 이 <b>칸 간격</b>이다.</figcaption>
+    </figure>
+    <p>사람이 박으로 느낄 수 있는 범위는 생각보다 좁습니다. 박 간격이 약 200 ms(300 BPM)보다 짧으면 박이 아니라 "빠른 떨림"으로 들려서 둘씩 묶어 느끼게 되고, 약 1.5–2 s(30–40 BPM)보다 길면 다음 박을 예측하기 어려워 박 사이를 속으로 쪼개야 합니다. 사람이 가장 편하게 느끼는 박 간격은 대략 500–700 ms(85–120 BPM)로 알려져 있고, 대중음악 템포가 이 근처에 몰려 있는 것도 우연이 아닙니다. 장르별 대략의 템포는 아래와 같습니다(곡마다 크게 다릅니다).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>장르·느낌</th><th>대략의 BPM</th><th>박 간격</th><th>주로 쓰는 세분</th></tr></thead>
+      <tbody>
+        <tr><td>발라드</td><td>60–76</td><td>790–1000 ms</td><td>8분·16분 하이햇</td></tr>
+        <tr><td>힙합(붐뱁)·네오 소울</td><td>80–96</td><td>625–750 ms</td><td>16분(약간 스윙)</td></tr>
+        <tr><td>펑크·R&amp;B</td><td>90–110</td><td>545–667 ms</td><td>16분, 고스트 노트</td></tr>
+        <tr><td>록·팝</td><td>100–130</td><td>460–600 ms</td><td>8분</td></tr>
+        <tr><td>하우스·디스코</td><td>118–128</td><td>470–510 ms</td><td>4분 킥 + 8분 업비트 하이햇</td></tr>
+        <tr><td>펑크 록·하드코어</td><td>160–200</td><td>300–375 ms</td><td>8분</td></tr>
+        <tr><td>드럼 앤 베이스</td><td>170–176</td><td>340–353 ms</td><td>16분(하프타임으로 느낌)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-cnt-metro">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>BPM 계산기와 세분 메트로놈</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-big" id="cnt-mt-big">♩ = 96<small>Andante</small></div>
+          <div class="dr-lamps" id="cnt-mt-lamps"></div>
+          <canvas id="cnt-mt-cv" class="dr-cv"></canvas>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="cnt-mt-bpm-out"></output></span><input type="range" id="cnt-mt-bpm" min="30" max="240" value="96" step="1"></label>
+          <div class="btn-row"><button class="btn" id="cnt-mt-m5">−5</button><button class="btn" id="cnt-mt-m1">−1</button><button class="btn" id="cnt-mt-p1">+1</button><button class="btn" id="cnt-mt-p5">+5</button><button class="btn" id="cnt-mt-tap">탭 템포</button></div>
+          <div class="ctrl"><span>한 마디 박 수</span><div class="seg" id="cnt-mt-beats"><button data-value="2">2</button><button data-value="3">3</button><button data-value="4" class="on">4</button><button data-value="5">5</button><button data-value="6">6</button><button data-value="7">7</button></div></div>
+          <div class="ctrl"><span>세분</span><div class="seg" id="cnt-mt-sub"><button data-value="1" class="on">4분</button><button data-value="2">8분</button><button data-value="3">셋잇단</button><button data-value="4">16분</button><button data-value="6">6잇단</button></div></div>
+          <div class="ctrl"><span>클릭 소리</span><div class="seg" id="cnt-mt-voice"><button data-value="beep" class="on">삑</button><button data-value="wood">우드블록</button><button data-value="cowbell">카우벨</button></div></div>
+          <label class="check"><input type="checkbox" id="cnt-mt-acc" checked> 첫 박 강세</label>
+          <label class="check"><input type="checkbox" id="cnt-mt-subon" checked> 세분도 소리 내기</label>
+          <div class="btn-row"><button class="btn primary" id="cnt-mt-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">박 간격</span><span class="v" id="cnt-mt-o-beat">—</span></div>
+        <div class="stat"><span class="k">세분 간격</span><span class="v" id="cnt-mt-o-step">—</span></div>
+        <div class="stat"><span class="k">초당 음 수</span><span class="v" id="cnt-mt-o-rate">—</span></div>
+        <div class="stat"><span class="k">마디 길이</span><span class="v" id="cnt-mt-o-bar">—</span></div>
+        <div class="stat"><span class="k">탭 템포</span><span class="v" id="cnt-mt-o-tap">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 템포를 그대로 두고 세분만 4분 → 8분 → 셋잇단 → 16분으로 바꿔 '초당 음 수'가 어떻게 늘어나는지 보세요. 템포를 바꾸지 않아도 손은 두 배, 세 배 빨라집니다. 아래 그림의 위 줄은 한 마디, 아래 줄은 한 박을 확대해 세분 칸마다 시작 시각(ms)을 적은 것입니다. 큰 램프는 박, 작은 램프는 세분입니다. '탭 템포'는 마지막 네 번 이상의 탭 간격을 평균해 BPM을 구하고, 2초 넘게 쉬면 새로 잽니다. 클릭은 오디오 시계로 미리 예약하므로 화면이 버벅여도 박은 흔들리지 않습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 메트로놈을 잘 쓰는 법</strong> ① <b>소리 고르기</b>: 하이햇·심벌과 주파수가 겹치는 높은 '삑'은 드럼 소리에 묻힙니다. 우드블록이나 카우벨 소리가 더 잘 들리고, 헤드폰으로 듣는 것이 가장 좋습니다. ② <b>시작 템포</b>: 새 패턴은 "틀리지 않고 네 마디를 칠 수 있는 가장 빠른 템포"보다 10 BPM 느리게 시작합니다. 처음이라면 60–70 BPM. ③ <b>통과 기준</b>: 같은 템포에서 4마디를 세 번 연속 깔끔하게 치면 4–5 BPM씩 올립니다. ④ 드럼이 없다면 연습 패드나 두꺼운 책, 허벅지(무릎 위)를 스틱 대신 손가락으로 두드려도 같은 연습이 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="meter">
+    <h2>박자와 마디: 강박, 약박, 백비트</h2>
+    <p>박은 저절로 묶여 들립니다. 4/4 <span class="term">박자</span><span class="en">(Meter)</span>에서 넷씩 묶은 한 덩어리가 <span class="term">마디</span><span class="en">(Bar, Measure)</span>이고, 마디의 첫 박(1)이 가장 강하고 셋째 박(3)이 그다음, 둘째·넷째 박이 약하다는 것이 서양 음악의 기본 감각입니다(<a href="../../fundamentals/chapters/rhythm.html">MusicBook 리듬 장</a>). 드럼은 이 위계를 그대로 따르지 않습니다. 킥은 강박인 1·3박을 받치지만, 스네어는 약박인 <b>2·4박</b>을 세게 칩니다. 이것이 <span class="term">백비트</span><span class="en">(Backbeat)</span>이고, 록·팝·R&amp;B·힙합의 거의 모든 그루브가 이 '강박의 저음 + 약박의 강세'라는 긴장 위에 서 있습니다. 관객이 손뼉을 2·4박에 치느냐 1·3박에 치느냐로 장르의 느낌이 갈리는 이유도 여기에 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 230" role="img" aria-label="4/4 한 마디의 박별 강약과 킥·스네어 위치">
+        <g font-family="var(--font)">
+          <text x="14" y="70" class="t" style="font-weight:700">박의 무게</text>
+          <text x="14" y="86" class="t-dim">(박자의 위계)</text>
+          <rect x="120" y="30" width="44" height="80" rx="4" class="f-acc"/>
+          <rect x="280" y="80" width="44" height="30" rx="4" class="f-acc-soft"/>
+          <rect x="440" y="55" width="44" height="55" rx="4" class="f-acc-soft" style="stroke-width:2"/>
+          <rect x="600" y="80" width="44" height="30" rx="4" class="f-acc-soft"/>
+          <line x1="100" y1="110" x2="700" y2="110" class="s-axis"/>
+          <text x="142" y="128" text-anchor="middle" class="t" style="font-weight:700">1 강</text>
+          <text x="302" y="128" text-anchor="middle" class="t">2 약</text>
+          <text x="462" y="128" text-anchor="middle" class="t" style="font-weight:700">3 중강</text>
+          <text x="622" y="128" text-anchor="middle" class="t">4 약</text>
+          <text x="14" y="168" class="t" style="font-weight:700">킥</text>
+          <circle cx="142" cy="164" r="10" class="f-acc"/><circle cx="462" cy="164" r="10" class="f-acc"/>
+          <text x="14" y="208" class="t" style="font-weight:700">스네어</text><text x="64" y="208" class="t-dim">백비트</text>
+          <circle cx="302" cy="204" r="10" style="fill:var(--accent-2)"/><circle cx="622" cy="204" r="10" style="fill:var(--accent-2)"/>
+          <path d="M292 182 L314 187 L292 192" class="s-line" style="stroke:var(--accent-2);stroke-width:2"/>
+          <path d="M612 182 L634 187 L612 192" class="s-line" style="stroke:var(--accent-2);stroke-width:2"/>
+          <line x1="100" y1="150" x2="100" y2="220" class="s-axis"/><line x1="700" y1="20" x2="700" y2="220" class="s-axis"/>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-2.</b> 4/4 한 마디의 위계와 드럼의 역할. 위: 박자가 정하는 무게(1 강, 3 중강, 2·4 약). 아래: 기본 록 비트에서 킥은 무거운 박(1·3)에, 스네어는 가벼운 박(2·4)에 액센트(&gt;)로 떨어진다. 무게가 서로 다른 두 층이 맞물리며 '쿵–딱–쿵–딱'의 추진력이 생긴다.</figcaption>
+    </figure>
+    <p>드러머에게는 마디도 셈의 단위입니다. 노래는 대개 4마디·8마디 단위로 구절이 바뀌고, 필인(<a href="fills.html">8장</a>)은 그 경계 직전에 들어갑니다. 그래서 박만 세지 말고 <b>몇 번째 마디인지</b>도 세야 합니다. 가장 흔한 방법은 마디 번호를 박 1 자리에 넣는 것입니다. "<b>1</b> 2 3 4, <b>2</b> 2 3 4, <b>3</b> 2 3 4, <b>4</b> 2 3 4". 4/4가 아닌 3/4·6/8·7/8 같은 박자는 <a href="shuffle.html">9장</a>과 <a href="odd.html">11장</a>에서 다룹니다.</p>
+    <div class="callout note"><strong>왼손잡이라면</strong> 이 책은 오른손잡이 표준 세팅(오른발 킥, 왼발 하이햇, 오른손 하이햇·라이드)을 기준으로 적습니다. 왼손잡이 세팅이라면 좌우를 모두 뒤집어 읽으면 됩니다. 이 장의 박·세분 연습은 손을 바꿔도 내용이 같습니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="subdivision">
+    <h2>세분: 한 박을 나누는 다섯 가지 방법</h2>
+    <p>박 하나를 몇 칸으로 나누느냐가 <span class="term">세분</span><span class="en">(Subdivision)</span>입니다. 드럼 연주의 대부분은 다섯 가지 세분으로 설명됩니다. 둘로 나누는 <b>8분음표</b>, 넷으로 나누는 <b>16분음표</b>는 2의 거듭제곱 계열이고, 셋으로 나누는 <b>셋잇단</b><span class="en">(Triplet)</span>과 여섯으로 나누는 <b>16분 셋잇단</b>(6잇단, Sextuplet)은 3 계열입니다. 두 계열은 박 위(첫 칸)에서만 만나고 그 사이에서는 한 번도 겹치지 않습니다. 8분의 '&'은 박의 정확히 1/2 지점이지만 셋잇단의 칸은 1/3, 2/3 지점이기 때문입니다. 셔플과 스윙(<a href="shuffle.html">9장</a>)은 이 3 계열 위에 지은 리듬입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>세분 \(d\)</th><th>이름</th><th>셈(한 박)</th><th>4/4 한 마디에</th><th>100 BPM에서 칸 간격</th><th>초당 음 수</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>4분음표</td><td>1</td><td>4</td><td>600 ms</td><td>1.67</td></tr>
+        <tr><td>2</td><td>8분음표</td><td>1 &amp;</td><td>8</td><td>300 ms</td><td>3.33</td></tr>
+        <tr><td>3</td><td>셋잇단 8분음표</td><td>1 trip let</td><td>12</td><td>200 ms</td><td>5</td></tr>
+        <tr><td>4</td><td>16분음표</td><td>1 e &amp; a</td><td>16</td><td>150 ms</td><td>6.67</td></tr>
+        <tr><td>6</td><td>16분 셋잇단</td><td>1 la li &amp; la li</td><td>24</td><td>100 ms</td><td>10</td></tr>
+      </tbody>
+    </table></div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 290" role="img" aria-label="한 박을 1, 2, 3, 4, 6칸으로 나눈 세분 사다리와 카운팅 음절">
+        <g font-family="var(--font)">
+          <line x1="150" y1="18" x2="150" y2="270" class="s-axis"/>
+          <line x1="710" y1="18" x2="710" y2="270" class="s-axis" style="stroke-dasharray:4 4"/>
+          <text x="150" y="286" text-anchor="middle" class="t-mono">박 1</text><text x="710" y="286" text-anchor="middle" class="t-mono">박 2</text>
+          <line x1="430" y1="18" x2="430" y2="270" style="stroke:var(--grid)"/>
+          <text x="14" y="38" class="t" style="font-weight:700">4분</text><text x="14" y="54" class="t-mono">600 ms</text>
+          <circle cx="150" cy="40" r="9" class="f-acc"/><text x="150" y="68" text-anchor="middle" class="t" style="font-weight:700">1</text>
+          <text x="14" y="88" class="t" style="font-weight:700">8분</text><text x="14" y="104" class="t-mono">300 ms</text>
+          <circle cx="150" cy="90" r="9" class="f-acc"/><circle cx="430" cy="90" r="8" class="f-acc-soft"/>
+          <text x="150" y="118" text-anchor="middle" class="t" style="font-weight:700">1</text><text x="430" y="118" text-anchor="middle" class="t">&amp;</text>
+          <text x="14" y="138" class="t" style="font-weight:700">셋잇단</text><text x="14" y="154" class="t-mono">200 ms</text>
+          <circle cx="150" cy="140" r="9" class="f-acc"/><circle cx="336.7" cy="140" r="8" class="f-acc2-soft"/><circle cx="523.3" cy="140" r="8" class="f-acc2-soft"/>
+          <text x="150" y="168" text-anchor="middle" class="t" style="font-weight:700">1</text><text x="336.7" y="168" text-anchor="middle" class="t">trip</text><text x="523.3" y="168" text-anchor="middle" class="t">let</text>
+          <text x="14" y="188" class="t" style="font-weight:700">16분</text><text x="14" y="204" class="t-mono">150 ms</text>
+          <circle cx="150" cy="190" r="9" class="f-acc"/><circle cx="290" cy="190" r="8" class="f-acc-soft"/><circle cx="430" cy="190" r="8" class="f-acc-soft"/><circle cx="570" cy="190" r="8" class="f-acc-soft"/>
+          <text x="150" y="218" text-anchor="middle" class="t" style="font-weight:700">1</text><text x="290" y="218" text-anchor="middle" class="t">e</text><text x="430" y="218" text-anchor="middle" class="t">&amp;</text><text x="570" y="218" text-anchor="middle" class="t">a</text>
+          <text x="14" y="238" class="t" style="font-weight:700">16분 셋잇단</text><text x="14" y="254" class="t-mono">100 ms</text>
+          <circle cx="150" cy="240" r="9" class="f-acc"/><circle cx="243.3" cy="240" r="7" class="f-acc2-soft"/><circle cx="336.7" cy="240" r="7" class="f-acc2-soft"/><circle cx="430" cy="240" r="7" class="f-acc2-soft"/><circle cx="523.3" cy="240" r="7" class="f-acc2-soft"/><circle cx="616.7" cy="240" r="7" class="f-acc2-soft"/>
+          <text x="150" y="268" text-anchor="middle" class="t" style="font-weight:700">1</text><text x="243.3" y="268" text-anchor="middle" class="t">la</text><text x="336.7" y="268" text-anchor="middle" class="t">li</text><text x="430" y="268" text-anchor="middle" class="t">&amp;</text><text x="523.3" y="268" text-anchor="middle" class="t">la</text><text x="616.7" y="268" text-anchor="middle" class="t">li</text>
+          <text x="440" y="30" class="t-dim">½ 지점</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-3.</b> 세분 사다리(100 BPM 기준 칸 간격). 붉은 칸은 2 계열(8분·16분), 푸른 칸은 3 계열(셋잇단·16분 셋잇단)이다. 가운데 세로선(박의 ½ 지점)에는 8분의 &amp;, 16분의 &amp;, 16분 셋잇단의 &amp;가 모두 놓이지만 셋잇단(1 trip let)에는 그 자리가 없다. 16분 셋잇단은 셋잇단의 각 칸을 다시 둘로 나눈 것이므로 셋잇단의 trip·let 자리도 모두 포함한다.</figcaption>
+    </figure>
+    <p>여기서 중요한 사실 하나. <b>같은 템포라도 세분이 바뀌면 손의 속도가 바뀝니다.</b> 120 BPM의 16분음표는 초당 8타로, 240 BPM의 8분음표와 손 동작이 똑같습니다. 160 BPM 셋잇단도 초당 8타입니다. 반대로 "빠른 곡"이라도 하이햇이 8분이면 손은 느긋할 수 있습니다. 템포는 음악이 '얼마나 빨리 흘러가느냐'이고, 세분은 '얼마나 촘촘히 채우느냐'입니다. 드럼 앤 베이스(약 174 BPM)를 87 BPM의 하프타임처럼 느끼는 것도 같은 원리입니다. 그러니 연습 기록에는 BPM만 적지 말고 세분을 함께 적어야(예: "16분 @ 96") 진전을 비교할 수 있습니다.</p>
+
+    <div class="sim" id="sim-cnt-ladder">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>세분 사다리 플레이어</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-big" id="cnt-ld-big">4분음표<small>1 2 3 4</small></div>
+          <div id="cnt-ld-staff"></div>
+          <div id="cnt-ld-grid" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>사다리 칸(눌러서 빼기·넣기)</span><div class="dr-chips" id="cnt-ld-rungs"></div></div>
+          <label class="ctrl"><span>템포 <output id="cnt-ld-bpm-out"></output></span><input type="range" id="cnt-ld-bpm" min="40" max="160" value="70" step="2"></label>
+          <div class="ctrl"><span>한 칸에 머무는 마디</span><div class="seg" id="cnt-ld-bars"><button data-value="1">1</button><button data-value="2" class="on">2</button><button data-value="4">4</button></div></div>
+          <div class="ctrl"><span>방향</span><div class="seg" id="cnt-ld-dir"><button data-value="up" class="on">올라가기</button><button data-value="ud">오르내리기</button></div></div>
+          <div class="ctrl"><span>손</span><div class="seg" id="cnt-ld-pc"><button data-value="snare" class="on">스네어</button><button data-value="hat">하이햇</button></div></div>
+          <label class="check"><input type="checkbox" id="cnt-ld-acc" checked> 박 첫 음 액센트</label>
+          <label class="check"><input type="checkbox" id="cnt-ld-kick" checked> 킥 4분음표</label>
+          <label class="check"><input type="checkbox" id="cnt-ld-click"> 메트로놈 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="cnt-ld-play">▶ 사다리 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="cnt-ld-o-now">—</span></div>
+        <div class="stat"><span class="k">칸 간격</span><span class="v" id="cnt-ld-o-step">—</span></div>
+        <div class="stat"><span class="k">초당 음 수</span><span class="v" id="cnt-ld-o-rate">—</span></div>
+        <div class="stat"><span class="k">다음 칸</span><span class="v" id="cnt-ld-o-next">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 킥(발)은 사다리 내내 4분음표로 박을 지키고, 손만 1 → 2 → 3 → 4 → 6칸으로 촘촘해집니다. 칸이 바뀌는 순간에도 박 위의 음(액센트)과 킥이 정확히 겹쳐야 합니다. 스티킹은 R L을 계속 번갈아 치는 싱글 스트로크라서, 홀수 세분인 셋잇단에서는 박마다 시작 손이 바뀝니다(R L R | L R L). 악보와 그리드는 지금 칸만 보여 줍니다. 칩을 눌러 어려운 칸만 남겨 연습할 수도 있습니다(예: 4와 3만 → 16분 ↔ 셋잇단 전환).</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 세분 사다리</strong> ① 60 BPM, 한 칸에 4마디. 오른발은 킥(또는 바닥)을 4분음표로 밟고, 손은 스네어나 패드에 싱글 스트로크(R L)로 칩니다. ② 셈을 소리 내어 말하세요. "1 2 3 4 → 1 & 2 & → 1 trip let → 1 e & a → 1 la li & la li". ③ 흔한 실수: 셋잇단에 들어갈 때 박이 밀리거나, 16분 셋잇단에서 손이 급해져 킥보다 앞서 나가는 것입니다. 칸이 바뀌는 첫 박에 액센트를 주면 정렬을 확인하기 쉽습니다. ④ 60 BPM에서 오르내리기를 3번 연속 성공하면 70 → 80 → 90 BPM. 100 BPM의 16분 셋잇단은 초당 10타로, 손목만으로는 힘들어지는 경계입니다(<a href="setup.html">2장 그립과 리바운드</a>).</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="syllables">
+    <h2>카운팅 음절: 입으로 세는 리듬</h2>
+    <p>세분의 칸마다 이름을 붙이면 리듬을 말로 할 수 있습니다. 영어권 드럼 교육에서 가장 널리 쓰는 음절은 다음과 같습니다. 박 위는 숫자, 8분의 중간은 <b>&amp;</b>(앤), 16분의 둘째·넷째 칸은 <b>e</b>(이)와 <b>a</b>(어), 셋잇단은 <b>trip–let</b>(트립–렛), 16분 셋잇단은 <b>la–li</b>(라–리)입니다. 숫자 말고는 모두 '짧고 가벼운' 소리라서 박 위의 숫자가 귀에 도드라지는 것이 장점입니다. 학교 음악 교육에서 쓰는 <span class="term">타카디미</span><span class="en">(Takadimi)</span>(ta ka di mi / ta ki da)처럼 다른 체계도 있지만, 원리는 같습니다. 칸의 이름이 그 칸의 <b>박 안 위치</b>를 알려 주는 것입니다.</p>
+    <p>소리 내어 세는 데는 과학적인 이유가 있습니다. 말소리를 내는 운동은 손보다 훨씬 오래 훈련된 리듬 운동이고, 입으로 박을 세면 손이 그 시간 틀에 붙어서 갑니다. 또 셈은 <b>쉬는 칸</b>을 채워 줍니다. 16분 리듬에서 "1 (e) & a"처럼 치지 않는 칸도 입으로는 말하고 있어야, 다음 음이 몇 칸 뒤에 오는지를 머리로 계산하지 않고 몸이 압니다.</p>
+
+    <div class="sim" id="sim-cnt-karaoke">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>카운팅 노래방</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-big" id="cnt-kr-big">1<small>재생하면 지금 말할 음절이 여기에 나타납니다</small></div>
+          <div class="cnt-syl" id="cnt-kr-syl"></div>
+          <div id="cnt-kr-staff" style="margin-top:6px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>세분</span><div class="seg" id="cnt-kr-div"><button data-value="2">8분</button><button data-value="3">셋잇단</button><button data-value="4" class="on">16분</button><button data-value="6">6잇단</button><button data-value="mix">섞기</button></div></div>
+          <label class="ctrl"><span>리듬</span><select id="cnt-kr-pat"></select></label>
+          <label class="ctrl"><span>템포 <output id="cnt-kr-bpm-out"></output></span><input type="range" id="cnt-kr-bpm" min="40" max="130" value="66" step="2"></label>
+          <label class="check"><input type="checkbox" id="cnt-kr-snd" checked> 리듬 소리(스네어)</label>
+          <label class="check"><input type="checkbox" id="cnt-kr-guide"> 세분 가이드(하이햇, 모든 칸)</label>
+          <label class="check"><input type="checkbox" id="cnt-kr-foot" checked> 발 4분음표(킥)</label>
+          <label class="check"><input type="checkbox" id="cnt-kr-click"> 메트로놈 클릭</label>
+          <div class="btn-row"><button class="btn primary" id="cnt-kr-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">셈(친 칸만)</span><span class="v" id="cnt-kr-o-count">—</span></div>
+        <div class="stat"><span class="k">한 마디 음절 수</span><span class="v" id="cnt-kr-o-n">—</span></div>
+        <div class="stat"><span class="k">칸 간격</span><span class="v" id="cnt-kr-o-step">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 화면의 음절을 <b>모두</b> 소리 내어 말하세요. 노란 칸이 지금 말할 음절이고, 붉은 테두리 칸이 스네어가 치는 자리입니다. 리듬을 몇 번 듣고 나면 '리듬 소리'를 끄고 입으로만 세면서 같은 리듬을 무릎에 쳐 보세요. '섞기'는 한 마디 안에서 박마다 세분이 8분 → 셋잇단 → 16분 → 6잇단으로 바뀝니다. 박 위의 숫자를 말하는 순간 킥이 함께 울리는지 확인하세요.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 입이 먼저, 손은 나중</strong> ① 새 리듬은 먼저 음절로만 4번 말합니다(손은 쉬고). ② 다음 4번은 말하면서 친 칸에서만 손뼉. ③ 그다음 말하면서 스틱으로. ④ 마지막으로 입을 다물고 속으로 세며 칩니다. 이 순서를 건너뛰면 어려운 리듬일수록 "대충 비슷한" 리듬이 손에 굳습니다. 목표 템포는 셋잇단·16분은 60–80 BPM, 16분 셋잇단은 50–66 BPM에서 시작합니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="upbeat">
+    <h2>다운비트와 업비트</h2>
+    <p>박 위의 칸을 <span class="term">다운비트</span><span class="en">(Downbeat)</span>, 박과 박 사이 한가운데인 &amp;를 <span class="term">업비트</span><span class="en">(Upbeat)</span> 또는 <span class="term">오프비트</span><span class="en">(Offbeat)</span>라고 부릅니다. 이름은 지휘봉과 발의 움직임에서 왔습니다. 박에서 손(발)이 <b>내려오고</b>, 다음 박을 준비하며 <b>올라가는</b> 한가운데가 &amp;입니다. (마디의 첫 박만을 '다운비트'라고 부르기도 하니 문맥을 보세요.) 업비트는 드럼에서 아주 중요합니다. 디스코의 '치–' 하고 열리는 하이햇, 레게의 기타 스캥크, 스카의 업비트 하이햇이 모두 &amp; 위에 있습니다. 그런데 처음 배우는 사람에게 &amp;만 치는 리듬은 이상하게 어렵습니다. 귀가 &amp;를 자꾸 박으로 착각해 박을 반 칸 밀어 버리기 때문입니다.</p>
+    <p>해결책은 <b>동작을 끊지 않는 것</b>입니다. 8분음표를 칠 때와 똑같이 손을 계속 왕복하되, 숫자에서는 헤드 바로 위에서 멈추는 <b>허공 동작</b>을 하고 &amp;에서만 닿게 합니다. 몸이 박의 위치를 계속 '연주'하고 있으니 &amp;가 박으로 둔갑하지 않습니다. 같은 원리로 16분의 e·a만 치는 리듬도 16분 동작 위에서 고릅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 210" role="img" aria-label="업비트만 칠 때의 스틱 높이: 숫자에서는 허공 동작, 앤드에서만 헤드에 닿는다">
+        <g font-family="var(--font)">
+          <line x1="70" y1="152" x2="750" y2="152" class="s-axis"/><text x="752" y="168" text-anchor="end" class="t-dim">헤드</text>
+          <text x="14" y="70" class="t-dim">스틱</text><text x="14" y="86" class="t-dim">높이</text>
+          <path d="M90 135 C105 50,155 50,170 150 C185 50,235 50,250 135 C265 50,315 50,330 150 C345 50,395 50,410 135 C425 50,475 50,490 150 C505 50,555 50,570 135 C585 50,635 50,650 150 C665 50,715 50,730 135" class="s-acc"/>
+          <g style="fill:var(--bg-elev);stroke:var(--accent);stroke-width:2"><circle cx="90" cy="135" r="7"/><circle cx="250" cy="135" r="7"/><circle cx="410" cy="135" r="7"/><circle cx="570" cy="135" r="7"/><circle cx="730" cy="135" r="7"/></g>
+          <g class="f-acc"><circle cx="170" cy="150" r="8"/><circle cx="330" cy="150" r="8"/><circle cx="490" cy="150" r="8"/><circle cx="650" cy="150" r="8"/></g>
+          <g text-anchor="middle"><text x="90" y="186" class="t" style="font-weight:700">1</text><text x="170" y="186" class="t-acc">&amp;</text><text x="250" y="186" class="t" style="font-weight:700">2</text><text x="330" y="186" class="t-acc">&amp;</text><text x="410" y="186" class="t" style="font-weight:700">3</text><text x="490" y="186" class="t-acc">&amp;</text><text x="570" y="186" class="t" style="font-weight:700">4</text><text x="650" y="186" class="t-acc">&amp;</text><text x="730" y="186" class="t" style="font-weight:700">1</text></g>
+          <text x="90" y="32" class="t-dim">○ 허공 동작(박 위, 소리 없음)</text><text x="380" y="32" class="t-acc">● 친다(업비트)</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-4.</b> 업비트만 치는 법. 손은 8분음표 내내 같은 크기로 왕복하고, 숫자(박 위)에서는 헤드 몇 cm 위에서 멈추는 '허공 동작', &amp;에서만 헤드에 닿는다. 동작이 박을 계속 표시하므로 &amp;가 박으로 뒤집히지 않는다. 발은 숫자에서 바닥을 밟아 박을 확인한다.</figcaption>
+    </figure>
+    <p>업비트와 세분에 얼마나 정확히 맞추는지는 직접 재 볼 수 있습니다. 클릭에 맞춰 탭을 하고, 탭 하나하나가 목표 시각에서 몇 ms 벗어났는지 \(e_i\)를 모으면 두 숫자로 요약됩니다.</p>
+    <div class="formula">$$e_i = t_i^{\text{tap}} - t_i^{\text{target}},\qquad \bar e = \frac1N\sum_{i=1}^{N} e_i\ \ (\text{편향}),\qquad s = \sqrt{\frac{1}{N-1}\sum_{i=1}^{N}(e_i-\bar e)^2}\ \ (\text{흔들림}),\qquad \rho = \frac{s}{T_{\text{step}}}$$
+      <div class="where">\(\bar e < 0\)이면 일찍(앞서), \(> 0\)이면 늦게 치는 습관이다. \(s\)는 탭마다 얼마나 들쭉날쭉한지를 나타낸다. 같은 20 ms라도 4분음표(600 ms)에서는 3%지만 16분 셋잇단(100 ms)에서는 20%라 리듬이 무너져 들린다. 그래서 흔들림을 칸 간격으로 나눈 비율 \(\rho\)를 함께 본다. 측정값에는 스피커·블루투스·터치스크린의 지연이 더해지므로 '지연 보정'으로 장치 몫을 빼고 본다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 236" role="img" aria-label="탭 오차의 분포: 평균은 편향, 폭은 흔들림">
+        <g font-family="var(--font)">
+          <rect x="260" y="40" width="144" height="150" style="fill:var(--accent-soft)"/>
+          <polyline points="60,190 116,188.4 152,183.9 188,171.1 206,159.7 224,144.5 242,125.9 260,105.1 278,84.3 296,66.4 314,54.3 332,50 350,54.3 368,66.4 386,84.3 404,105.1 422,125.9 440,144.5 458,159.7 476,171.1 512,183.9 548,188.4 700,190" class="s-acc" style="stroke-width:2.5"/>
+          <line x1="60" y1="190" x2="700" y2="190" class="s-axis"/>
+          <line x1="380" y1="24" x2="380" y2="190" class="s-line" style="stroke-dasharray:4 4"/><text x="384" y="22" class="t-dim">목표(0 ms)</text>
+          <line x1="332" y1="40" x2="332" y2="190" style="stroke:var(--accent);stroke-width:2"/><text x="328" y="36" text-anchor="end" class="t-acc">평균 = 편향 −12 ms</text>
+          <path d="M260 120 H404 M260 114 v12 M404 114 v12" class="s-line"/><text x="410" y="124" class="t">±1 표준편차 = 흔들림 18 ms</text>
+          <g text-anchor="middle"><text x="60" y="208" class="t-mono">−80</text><text x="220" y="208" class="t-mono">−40</text><text x="380" y="208" class="t-mono">0</text><text x="540" y="208" class="t-mono">+40</text><text x="700" y="208" class="t-mono">+80 ms</text></g>
+          <path d="M60 204 v-6 M220 204 v-6 M380 204 v-6 M540 204 v-6 M700 204 v-6" class="s-axis"/>
+          <text x="60" y="228" class="t-dim">← 일찍 친 탭</text><text x="700" y="228" text-anchor="end" class="t-dim">늦게 친 탭 →</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-5.</b> 탭 오차의 분포(예시). 분포의 중심이 0에서 얼마나 벗어났는지가 편향(여기서는 12 ms 일찍), 분포의 폭이 흔들림(표준편차 18 ms)이다. 편향은 의식하면 비교적 빨리 고칠 수 있지만, 흔들림은 오랜 반복으로만 줄어든다. 탭의 약 68%가 음영 구간(평균 ± 1 표준편차) 안에 떨어진다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-cnt-tap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>탭 정확도 게임</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="cnt-phase" id="cnt-tp-phase">▶ 시작을 누르면 한 마디 예비 박 뒤에 측정이 시작됩니다</div>
+          <button class="dr-tap" id="cnt-tp-pad" type="button">탭<small>여기를 누르거나 F·J·스페이스 키 · MIDI 패드</small></button>
+          <canvas id="cnt-tp-cv" class="dr-cv" style="margin-top:10px"></canvas>
+          <div class="cnt-legend"><span><i style="background:var(--ok)"></i>±15 ms 이내</span><span><i style="background:var(--warn)"></i>±35 ms 이내</span><span><i style="background:var(--bad)"></i>그 밖</span></div>
+          <div class="cnt-msg" id="cnt-tp-msg"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>칠 자리</span><div class="seg" id="cnt-tp-tgt"><button data-value="q" class="on">4분</button><button data-value="e">8분</button><button data-value="t">셋잇단</button><button data-value="s">16분</button><button data-value="up">&amp;만</button><button data-value="bb">2·4박</button></div></div>
+          <label class="ctrl"><span>템포 <output id="cnt-tp-bpm-out"></output></span><input type="range" id="cnt-tp-bpm" min="50" max="160" value="80" step="2"></label>
+          <div class="ctrl"><span>측정 마디</span><div class="seg" id="cnt-tp-bars"><button data-value="2">2</button><button data-value="4" class="on">4</button><button data-value="8">8</button></div></div>
+          <div class="ctrl"><span>클릭</span><div class="seg" id="cnt-tp-clk"><button data-value="beat" class="on">박마다</button><button data-value="sub">칠 자리마다</button><button data-value="none">예비 박만</button></div></div>
+          <label class="ctrl"><span>지연 보정 <output id="cnt-tp-lat-out"></output></span><input type="range" id="cnt-tp-lat" min="0" max="250" value="0" step="1"></label>
+          <label class="check"><input type="checkbox" id="cnt-tp-snd" checked> 탭할 때 스네어 소리</label>
+          <div class="btn-row"><button class="btn primary" id="cnt-tp-play">▶ 시작</button><button class="btn" id="cnt-tp-auto">지연 자동</button><button class="btn" id="cnt-tp-midi">MIDI 켜기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">편향(평균 오차)</span><span class="v" id="cnt-tp-o-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림(표준편차)</span><span class="v" id="cnt-tp-o-sd">—</span></div>
+        <div class="stat"><span class="k">칸 간격 대비</span><span class="v" id="cnt-tp-o-rho">—</span></div>
+        <div class="stat"><span class="k">맞춘 음 / 전체</span><span class="v" id="cnt-tp-o-hit">—</span></div>
+        <div class="stat"><span class="k">헛탭</span><span class="v" id="cnt-tp-o-extra">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="cnt-tp-o-grade">—</span></div>
+      </div>
+      <div class="sim-note">진행: 예비 한 마디(클릭 넷) → 측정 마디. 위 그래프는 칠 자리마다의 오차(가로 = 순서, 세로 = ms, 점선 = 헛탭 판정 경계), 아래는 오차의 분포(5 ms 간격)이고 세로선이 평균입니다. 각 탭은 가장 가까운 목표에 짝지어지며, 다른 칠 자리와의 간격 절반쯤(최대 150 ms)보다 멀면 헛탭입니다. '&amp;만'을 고르면 박에 친 탭은 헛탭이 됩니다. 시각은 오디오 시계 기준이며 입력 이벤트 지연(5–20 ms)과 출력 지연이 섞입니다. '지연 자동'은 브라우저가 알려 주는 출력 지연을 넣을 뿐이니, 블루투스 이어폰이라면 직접 늘려 보세요(편향이 0 근처가 되는 값). 이 보정값은 이 장의 다른 탭 시뮬레이터에도 쓰입니다.</div>
+    </div>
+    <div class="callout tip"><strong>측정 결과 읽기</strong> <b>편향</b>이 −20 ms보다 크게 앞선다면 클릭을 '쫓아가지 않으려다' 조급해진 것입니다. 클릭 소리를 키우고 내 탭이 클릭을 <b>덮어서 지우도록</b> 치세요. 클릭이 또렷이 들리면 어긋난 것입니다. <b>흔들림</b>이 칸 간격의 10%를 넘으면 그 세분은 아직 몸에 없는 것이니 템포를 10–20% 내리고 셈을 소리 내어 다시 재 보세요. 4분은 좋은데 &amp;만 무너진다면 그림 3-4의 허공 동작부터. 결과를 날짜·세분·BPM과 함께 적어 두면 진전이 숫자로 보입니다. 좋은 드러머의 4분음표 탭은 흔들림이 대략 10–20 ms 안팎입니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="reaction">
+    <h2>반응이 아니라 예측</h2>
+    <p>탭 게임의 오차는 수십 ms 정도인데, 사람의 <span class="term">반응 시간</span><span class="en">(Reaction time)</span>은 소리 자극에 대해서도 보통 150–200 ms입니다. 클릭을 <b>듣고 나서</b> 친다면 언제나 0.15초 이상 늦어야 합니다. 그런데도 오차가 그보다 훨씬 작다는 것은, 우리가 클릭에 반응하는 것이 아니라 다음 클릭이 언제 올지 <b>예측</b>하고 그 순간에 맞춰 미리 손을 출발시킨다는 뜻입니다. 뇌는 박 간격을 재는 내부 시계를 돌리고, 지난 박에서 생긴 오차만큼 다음 박을 살짝 고쳐 갑니다. 박에 맞추는 이 능력을 심리학에서는 <span class="term">감각운동 동기화</span><span class="en">(Sensorimotor synchronization)</span>라고 부릅니다.</p>
+    <p>잘 알려진 결과 하나는 사람이 클릭보다 평균 수십 ms <b>먼저</b> 치는 경향이 있다는 것입니다(<span class="term">음의 평균 비동기</span><span class="en">(Negative mean asynchrony)</span>). 손끝의 촉감이 뇌에 도착하는 데 귀보다 시간이 더 걸리기 때문이라는 설명이 유력하고, 음악 훈련을 받을수록 이 값은 작아집니다. 아래 시뮬레이터로 두 가지를 비교해 보세요. 언제 올지 모르는 소리에 '반응'할 때와, 박을 세다가 다음 박에 '예측'으로 칠 때입니다.</p>
+
+    <div class="sim" id="sim-cnt-react">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>반응 vs 예측</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-big" id="cnt-rx-big">준비<small>시작을 누르세요</small></div>
+          <button class="dr-tap" id="cnt-rx-pad" type="button">탭<small>소리가 나면(또는 다섯째 박에) 누르세요 · F·J·스페이스</small></button>
+          <div class="cnt-rx"><div id="cnt-rx-l1"><b>반응(예고 없음)</b></div><div id="cnt-rx-l2"><b>예측(박을 세고)</b></div></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>방식</span><div class="seg" id="cnt-rx-mode"><button data-value="react" class="on">반응: 무작위 시각</button><button data-value="pred">예측: 4박 세고 5박째</button></div></div>
+          <div class="ctrl"><span>시행 횟수</span><div class="seg" id="cnt-rx-n"><button data-value="5" class="on">5</button><button data-value="10">10</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="cnt-rx-play">▶ 시작</button><button class="btn" id="cnt-rx-clear">기록 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">반응 평균</span><span class="v" id="cnt-rx-o-rt">—</span></div>
+        <div class="stat"><span class="k">예측 |오차| 평균</span><span class="v" id="cnt-rx-o-pe">—</span></div>
+        <div class="stat"><span class="k">예측 편향</span><span class="v" id="cnt-rx-o-pb">—</span></div>
+        <div class="stat"><span class="k">차이</span><span class="v" id="cnt-rx-o-x">—</span></div>
+      </div>
+      <div class="sim-note">반응: 1.2–3.5초 사이 무작위 시각에 스네어가 한 번 울리면 최대한 빨리 누르세요. 소리보다 먼저 누르면 그 시행은 다시 합니다. 예측: 100 BPM 클릭 네 번 뒤 다섯째 박에 스네어가 울립니다. 클릭을 세다가 다섯째 박에 '같이' 누르세요. 두 값은 위 탭 게임의 지연 보정을 뺀 값입니다. 탭 소리는 헷갈리지 않도록 끄고 측정합니다.</div>
+    </div>
+    <div class="callout note"><strong>클릭은 '듣고 따라가는' 대상이 아니다</strong> 반응 시간을 생각하면, 클릭을 들은 뒤에 치는 사람은 구조적으로 늦을 수밖에 없습니다. 좋은 연습은 클릭이 오기 전에 박을 예상하고, 다음 박을 향해 스틱을 미리 들어 올려 '떨어뜨리는' 것입니다. 스틱을 올리는 동작(업 스트로크)이 박 사이에 끝나 있어야 다음 박이 정시에 떨어집니다(<a href="setup.html">2장 네 가지 스트로크</a>).</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="body">
+    <h2>몸으로 박 느끼기: 발, 셈, 클릭 옮기기</h2>
+    <p>박을 머리로만 세면 손이 바빠질 때 셈이 무너집니다. 그래서 드러머는 박을 <b>몸의 한 부분에 맡깁니다</b>. 가장 흔한 것이 왼발입니다. 하이햇 페달을 4분음표(또는 2·4박)로 밟거나, 발꿈치를 바닥에 구르면 손이 무엇을 하든 박이 몸 아래에서 계속 흐릅니다. 발이 익숙하지 않다면 상체를 박에 맞춰 살짝 흔들거나 고개를 까딱이는 것도 효과가 있습니다. 중요한 것은 '셈하는 몸'이 연주하는 손과 <b>독립</b>되는 것입니다.</p>
+    <p>박이 몸에 붙었는지 시험하는 좋은 방법은 클릭의 자리를 옮기는 것입니다. 메트로놈을 <b>2·4박에만</b> 두면 클릭이 백비트가 됩니다. 재즈 연주자들이 오래 써 온 방법으로, 클릭을 1·3박이 아니라 2·4박으로 들으면 그루브가 앞으로 기울지 않고 '뒤에서 미는' 느낌이 납니다. 템포를 절반으로 내려 클릭을 2·4박으로 듣는 것과 같으니 한 번 비교해 보세요. 더 어려운 것은 클릭을 <b>&amp;에만</b> 두는 것입니다. 처음에는 거의 반드시 클릭이 박으로 '뒤집혀' 들리고, 손이 반 박 밀린 채로 편안해집니다. 이것을 <span class="term">박 뒤집힘</span><span class="en">(Beat displacement, Flip)</span>이라고 부릅니다. 아래 시뮬레이터는 내 탭이 박 안의 어느 <b>위상</b>에 모여 있는지를 시계 모양 다이얼로 보여 주므로, 뒤집혔는지가 바로 드러납니다.</p>
+    <div class="formula">$$\varphi_i = \left(\frac{t_i - t_0}{T_{\text{beat}}}\right) \bmod 1,\qquad R\,e^{i2\pi\bar\varphi} = \frac1N\sum_{i=1}^{N} e^{i2\pi\varphi_i}$$
+      <div class="where">\(\varphi\): 탭의 박 안 위상(0 = 박 위, 0.5 = &amp;). 위상은 0과 1이 같은 자리인 원 위의 값이라 그냥 평균하면 안 되고, 원 위의 단위 벡터로 바꿔 평균한다(원형 평균). \(\bar\varphi\)가 탭이 모인 위상, \(R\)(0–1)이 모인 정도다. \(R\)이 1에 가까우면 일정하고, 0.5 근처의 \(\bar\varphi\)는 박이 뒤집혔다는 뜻이다.</div>
+    </div>
+
+    <div class="sim" id="sim-cnt-place">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>클릭 자리 옮기기 트레이너</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-lamps" id="cnt-pl-lamps"></div>
+          <div class="cnt-phase" id="cnt-pl-phase">가이드 그루브와 클릭이 함께 나옵니다. 4분음표(박)에 탭하세요</div>
+          <canvas id="cnt-pl-cv" class="dr-cv"></canvas>
+          <button class="dr-tap" id="cnt-pl-pad" type="button">탭(박마다)<small>F·J·스페이스 또는 여기</small></button>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>클릭 자리</span><div class="seg" id="cnt-pl-mode"><button data-value="all" class="on">1 2 3 4</button><button data-value="24">2·4박</button><button data-value="1">1박만</button><button data-value="and">&amp;만</button><button data-value="a">a만(16분)</button></div></div>
+          <div class="ctrl"><span>가이드 그루브(8비트)</span><div class="seg" id="cnt-pl-guide"><button data-value="on">항상</button><button data-value="fade" class="on">2마디 켜고 2마디 끄기</button><button data-value="off">없음</button></div></div>
+          <label class="ctrl"><span>템포 <output id="cnt-pl-bpm-out"></output></span><input type="range" id="cnt-pl-bpm" min="60" max="140" value="88" step="2"></label>
+          <div class="ctrl"><span>클릭 소리</span><div class="seg" id="cnt-pl-voice"><button data-value="wood" class="on">우드블록</button><button data-value="cowbell">카우벨</button><button data-value="beep">삑</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="cnt-pl-play">▶ 시작</button><button class="btn" id="cnt-pl-reset">탭 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">탭 위상 \(\bar\varphi\)</span><span class="v" id="cnt-pl-o-ph">—</span></div>
+        <div class="stat"><span class="k">일관성 R</span><span class="v" id="cnt-pl-o-r">—</span></div>
+        <div class="stat"><span class="k">박 대비 평균 오차</span><span class="v" id="cnt-pl-o-dev">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="cnt-pl-o-st">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '1 2 3 4'에서 탭이 다이얼 꼭대기(박)에 모이는지 확인한 뒤 '2·4박' → '&amp;만' 순서로 클릭을 옮기세요. 가이드 그루브가 꺼진 2마디 동안 클릭만 듣고도 박을 지키면 탭이 계속 꼭대기에 모입니다. 탭이 바닥(&amp;) 쪽으로 몰리면 박이 뒤집힌 것입니다. 위 램프는 8분음표 자리이고, 테두리가 진한 칸이 클릭 자리입니다. 다이얼에는 최근 32개 탭이 보이며 화살표의 길이가 R입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 클릭을 조금씩 멀리</strong> 순서는 ① 모든 박 → ② 2·4박(템포 그대로) → ③ 같은 곡을 템포 절반으로 놓고 클릭을 '2·4박'으로 듣기 → ④ 1박만(마디마다 한 번) → ⑤ &amp;만. 단계마다 8비트를 4분 킥 + 2·4 스네어 + 8분 하이햇으로 치며 2분씩 유지하고, 넘어갈 기준은 '한 번도 뒤집히지 않기'입니다. &amp;만 단계에서는 처음 한 마디를 발로 숫자를 세며 클릭을 &amp;로 '배치'한 다음 손을 얹으세요. 드럼이 없으면 발은 바닥, 손은 무릎으로 같은 연습을 합니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="gap">
+    <h2>갭 클릭: 클릭을 끄고 템포 지키기</h2>
+    <p>메트로놈 연습의 함정은 클릭이 템포를 '대신' 지켜 준다는 것입니다. 무대에서 클릭이 없으면 템포를 지키는 것은 결국 내 몸의 시계입니다. <span class="term">갭 클릭</span><span class="en">(Gap click)</span>은 메트로놈을 몇 마디 울리고 몇 마디 쉬게 하는 연습입니다. 쉬는 동안에도 계속 연주하다가 클릭이 다시 들어오는 순간, 내 박과 클릭이 겹치는지 어긋나는지로 템포 유지력을 확인합니다.</p>
+    <p>템포 오차가 작아도 시간이 지나면 어긋남은 쌓입니다. 무음 구간에서 내 박 간격이 비율 \(\varepsilon\)만큼 길어졌다면(느려졌다면), \(n\)박 뒤의 어긋남은</p>
+    <div class="formula">$$\Delta(n) \approx n\,T_{\text{beat}}\,\varepsilon \qquad\Longrightarrow\qquad 100\ \text{BPM},\ \varepsilon = 1\%,\ n = 8\ \Rightarrow\ \Delta \approx 8 \times 600 \times 0.01 = 48\ \text{ms}$$
+      <div class="where">1%(100 → 99 BPM)라는 귀로 거의 구별되지 않는 템포 차이도 무음 2마디 뒤에는 48 ms, 귀에 분명한 어긋남이 된다. 실제로는 박마다 무작위 흔들림도 더해져 어긋남이 '술 취한 걸음'처럼 퍼진다. 갭이 길수록 내부 시계의 작은 치우침이 드러난다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 186" role="img" aria-label="갭 클릭: 두 마디 울리고 두 마디 쉬는 동안의 어긋남">
+        <g font-family="var(--font)">
+          <rect x="230" y="20" width="170" height="96" class="f-surface"/><rect x="570" y="20" width="170" height="96" class="f-surface"/>
+          <text x="145" y="36" text-anchor="middle" class="t" style="font-weight:700">클릭 2마디</text><text x="315" y="36" text-anchor="middle" class="t" style="font-weight:700">무음 2마디</text>
+          <text x="485" y="36" text-anchor="middle" class="t" style="font-weight:700">클릭 2마디</text><text x="655" y="36" text-anchor="middle" class="t" style="font-weight:700">무음 2마디</text>
+          <path d="M60 50v26M81 56v20M102 56v20M124 56v20M145 50v26M166 56v20M187 56v20M209 56v20M400 50v26M421 56v20M442 56v20M464 56v20M485 50v26M506 56v20M527 56v20M549 56v20" class="s-acc"/>
+          <path d="M230 52v24M251 58v18M272 58v18M294 58v18M315 52v24M336 58v18M357 58v18M379 58v18M570 52v24M591 58v18M612 58v18M634 58v18M655 52v24M676 58v18M697 58v18M719 58v18" class="s-line" style="stroke-dasharray:3 3"/>
+          <line x1="60" y1="150" x2="740" y2="150" class="s-axis"/><text x="56" y="154" text-anchor="end" class="t-mono">0</text>
+          <polyline points="60,150 145,148 230,151 272,146 315,141 357,136 400,128 421,146 442,150 485,149 570,151 612,156 655,160 697,166 740,172" class="s-acc" style="stroke:var(--accent-2);stroke-width:2.5"/>
+          <circle cx="400" cy="128" r="5" style="fill:var(--warn)"/><text x="404" y="122" class="t-dim">복귀: 22 ms 일찍</text>
+          <text x="740" y="182" text-anchor="end" class="t-dim">내 탭의 어긋남(위 = 일찍, 아래 = 늦게)</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-6.</b> 갭 클릭 [2, 2]. 클릭이 울리는 동안(흰 칸)은 매 박 클릭에 맞춰 오차가 0 근처로 붙들리지만, 무음 구간(회색 칸, 점선 = 속으로 세는 박)에서는 내부 시계의 치우침이 쌓여 점점 앞서거나(서두름) 뒤처진다(처짐). 클릭이 다시 들어오는 첫 박의 오차가 템포 유지력의 성적표다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-cnt-gap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>갭 클릭 템포 유지 테스트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="cnt-phase" id="cnt-gp-phase">▶ 시작하면 클릭이 울립니다. 4분음표마다 탭하고, 클릭이 꺼져도 계속 치세요</div>
+          <div class="dr-lamps" id="cnt-gp-lamps"><i class="a"></i><i></i><i></i><i></i></div>
+          <button class="dr-tap" id="cnt-gp-pad" type="button">탭(박마다)<small>F·J·스페이스 또는 여기</small></button>
+          <canvas id="cnt-gp-cv" class="dr-cv" style="margin-top:10px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>울림–쉼(마디)</span><div class="seg" id="cnt-gp-gap"><button data-value="2,2" class="on">2–2</button><button data-value="1,1">1–1</button><button data-value="2,4">2–4</button><button data-value="1,3">1–3</button><button data-value="4,4">4–4</button></div></div>
+          <label class="ctrl"><span>템포 <output id="cnt-gp-bpm-out"></output></span><input type="range" id="cnt-gp-bpm" min="50" max="160" value="90" step="2"></label>
+          <div class="ctrl"><span>반복 횟수</span><div class="seg" id="cnt-gp-cyc"><button data-value="3">3</button><button data-value="4" class="on">4</button><button data-value="8">8</button></div></div>
+          <div class="ctrl"><span>클릭 소리</span><div class="seg" id="cnt-gp-voice"><button data-value="wood" class="on">우드블록</button><button data-value="cowbell">카우벨</button><button data-value="beep">삑</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="cnt-gp-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">클릭 구간 편향 / 흔들림</span><span class="v" id="cnt-gp-o-on">—</span></div>
+        <div class="stat"><span class="k">무음 구간 편향 / 흔들림</span><span class="v" id="cnt-gp-o-off">—</span></div>
+        <div class="stat"><span class="k">복귀 첫 박 오차(평균)</span><span class="v" id="cnt-gp-o-back">—</span></div>
+        <div class="stat"><span class="k">무음 구간 템포</span><span class="v" id="cnt-gp-o-bpm">—</span></div>
+        <div class="stat"><span class="k">놓친 박</span><span class="v" id="cnt-gp-o-miss">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 가로 = 박 순서, 세로 = 오차(위 = 늦게, 아래 = 일찍), 회색 띠 = 무음 마디, 노란 점 = 클릭이 다시 들어온 첫 박. 탭은 가장 가까운 박에 배정하고 박 간격의 40%보다 멀면 버립니다. '무음 구간 템포'는 무음 구간 안에서 연속한 탭 간격의 평균으로 구한 BPM입니다. 끝까지 반복하면 마지막 마디 첫 박에 클릭이 한 번 더 울리고 멈춥니다. 오차는 위 탭 게임의 지연 보정을 뺀 값입니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 갭 클릭 단계</strong> 2–2(울림 2마디, 쉼 2마디)에서 시작해 복귀 첫 박 오차가 ±20 ms 안에 세 번 연속 들어오면 2–4 → 1–3 → 4–4로 늘립니다. 무음 구간에서 빨라진다면(복귀 박이 일찍) 쉬는 동안 셈을 소리 내어 말하고, 느려진다면 손이 아니라 발(4분)에 박을 맡기세요. 실제 드럼에서는 단순한 8비트로 시작해 16분 하이햇, 필인 포함 순서로 어렵게 합니다. 템포는 느린 쪽(60–70 BPM)이 더 어렵다는 것도 직접 확인해 보세요. 박 사이가 길수록 내부 시계가 퍼지므로, 느린 템포에서는 8분이나 16분을 속으로 세는 것이 핵심입니다.</div>
+  </section>
+
+  <!-- =============================================================== 9 -->
+  <section id="mixing">
+    <h2>세분 섞기: 읽고 바로 바꾸기</h2>
+    <p>실제 연주에서는 세분이 마디마다, 때로는 박마다 바뀝니다. 8분 그루브에서 16분 필로, 16분에서 셋잇단 필로 넘어가는 순간이 바로 그렇습니다(<a href="fills.html">8장</a>). 이때 바뀌는 것은 <b>박을 나누는 격자</b>뿐이고 박 자체는 1 ms도 움직이면 안 됩니다. 흔한 실수는 세분이 촘촘해질 때 템포가 빨라지고(서두름), 성겨질 때 느려지는 것입니다. 특히 16분 ↔ 셋잇단 전환이 어려운데, 두 격자가 박 위 말고는 겹치지 않아서 '중간 지점'이 없기 때문입니다(그림 3-3). 아래 시뮬레이터는 마디마다 무작위 세분을 내고, 내가 친 탭을 마디별로 채점합니다. 악보 읽기 연습도 겸합니다(<a href="reading.html">4장 악보 읽기</a>).</p>
+
+    <div class="sim" id="sim-cnt-mix">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>세분 섞기: 무작위 마디 읽고 치기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view cnt-pad">
+          <div class="dr-big" id="cnt-mx-big">준비<small>'▶ 시작'을 누르면 한 마디 예비 박 뒤에 시작합니다</small></div>
+          <div id="cnt-mx-staff"></div>
+          <div class="cnt-res" id="cnt-mx-res"></div>
+          <button class="dr-tap" id="cnt-mx-pad" type="button">탭(악보의 스네어)<small>F·J 키를 번갈아 · 여기</small></button>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>나올 세분(눌러서 고르기)</span><div class="dr-chips" id="cnt-mx-divs"></div></div>
+          <div class="ctrl"><span>마디 수</span><div class="seg" id="cnt-mx-bars"><button data-value="4" class="on">4</button><button data-value="8">8</button></div></div>
+          <label class="ctrl"><span>템포 <output id="cnt-mx-bpm-out"></output></span><input type="range" id="cnt-mx-bpm" min="40" max="120" value="66" step="2"></label>
+          <label class="check"><input type="checkbox" id="cnt-mx-demo"> 시범 소리(스네어로 정답 연주)</label>
+          <label class="check"><input type="checkbox" id="cnt-mx-kick" checked> 킥 4분음표</label>
+          <div class="btn-row"><button class="btn" id="cnt-mx-new">새 문제</button><button class="btn primary" id="cnt-mx-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞춘 음 / 전체</span><span class="v" id="cnt-mx-o-hit">—</span></div>
+        <div class="stat"><span class="k">평균 |오차|</span><span class="v" id="cnt-mx-o-abs">—</span></div>
+        <div class="stat"><span class="k">가장 약한 세분</span><span class="v" id="cnt-mx-o-weak">—</span></div>
+        <div class="stat"><span class="k">점수</span><span class="v" id="cnt-mx-o-score">—</span></div>
+      </div>
+      <div class="sim-note">악보는 스네어(위)와 킥(아래, 4분음표)입니다. 마디가 끝날 때마다 아래 칩에 그 마디의 결과(맞춘 수/전체, 평균 |오차|)가 나타나고, 악보의 음표가 맞으면 초록, 놓치면 빨강으로 바뀝니다. 각 탭은 그 마디 안에서 가장 가까운 음에 짝지어지며 칸 간격의 45%보다 멀면 놓친 것으로 칩니다. 같은 세분이 연달아 나오지 않게 뽑습니다. '시범 소리'를 켜면 스네어가 정답을 연주하므로 처음에는 듣고 셈을 따라 하다가 끄고 치세요. 점수 = 맞춘 비율 × (1 − 평균 |오차| / 50 ms), 0–100.</div>
+    </div>
+    <div class="callout tip"><strong>연습법: 세분 바꾸기</strong> ① 처음에는 2와 4(8분·16분)만, 그다음 1·2·3, 마지막에 3·4·6을 섞습니다. ② 마디가 바뀌기 한 박 전에 다음 세분의 음절을 속으로 미리 말합니다("4 e & a → <b>1 trip let</b>"). 입이 먼저 바뀌어야 손이 따라옵니다. ③ 목표: 66 BPM에서 8마디를 점수 80 이상 → 76 → 86 BPM. ④ 드럼에서는 오른발 킥 4분, 왼발 하이햇 2·4박을 밟으면서 손으로 칩니다. 발이 흔들리면 그 세분 전환에서 박이 움직였다는 뜻입니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>박 간격은 \(60\,000/\text{BPM}\) ms, 세분 칸은 그것을 \(d\)로 나눈 값, 초당 음 수는 \(\text{BPM}\cdot d/60\)이다. 손 속도를 정하는 것은 템포가 아니라 칸 간격이다(120 BPM 16분 = 240 BPM 8분 = 초당 8타).</li>
+      <li>4/4는 1 강, 3 중강, 2·4 약의 위계를 가진다. 드럼은 킥으로 강박을, 스네어 백비트로 약박을 쳐서 두 층의 긴장을 만든다.</li>
+      <li>세분은 2 계열(8분·16분)과 3 계열(셋잇단·16분 셋잇단)로 나뉘며 두 계열은 박 위에서만 만난다. 카운팅 음절 "1 &", "1 trip let", "1 e & a", "1 la li & la li"로 칸에 이름을 붙인다.</li>
+      <li>&amp;는 업비트다. 업비트만 칠 때는 8분 동작을 끊지 않고 숫자에서 허공 동작을 해 박이 뒤집히지 않게 한다.</li>
+      <li>타이밍은 편향(평균 오차)과 흔들림(표준편차)으로 재고, 흔들림은 칸 간격에 대한 비율로 해석한다. 장치 지연은 편향에 더해진다.</li>
+      <li>반응 시간(150–200 ms)보다 박 맞추기 오차가 훨씬 작은 것은 예측 덕분이다. 사람은 대개 클릭보다 조금 일찍 친다.</li>
+      <li>클릭을 2·4박·1박·&amp;로 옮기고, 갭 클릭으로 몇 마디 끄고, 세분을 마디마다 바꾸는 연습이 클릭 없이도 서 있는 박을 만든다. 1%의 템포 차이도 8박 뒤에는 수십 ms가 된다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>150 BPM에서 16분음표 한 칸의 길이는?</p><div class="opts">
+        <button class="opt">50 ms</button><button class="opt" data-correct>100 ms</button><button class="opt">150 ms</button><button class="opt">400 ms</button>
+      </div><div class="quiz-exp">박 = 60 000 / 150 = 400 ms, 16분은 그 1/4인 100 ms다. 초당 10타.</div></div>
+      <div class="quiz-q"><p>손이 움직이는 속도(초당 타수)가 나머지와 <b>다른</b> 것은?</p><div class="opts">
+        <button class="opt">120 BPM 16분음표</button><button class="opt">160 BPM 셋잇단</button><button class="opt">240 BPM 8분음표</button><button class="opt" data-correct>100 BPM 16분 셋잇단</button>
+      </div><div class="quiz-exp">초당 음 수 = BPM·d/60. 120·4/60 = 160·3/60 = 240·2/60 = 8타/초. 100·6/60 = 10타/초로 더 빠르다.</div></div>
+      <div class="quiz-q"><p>"1 e &amp; a"로 셀 때 'a'는 박의 어느 위치인가(박 = 1)?</p><div class="opts">
+        <button class="opt">1/4 지점</button><button class="opt">1/2 지점</button><button class="opt">2/3 지점</button><button class="opt" data-correct>3/4 지점</button>
+      </div><div class="quiz-exp">16분의 네 칸은 0(숫자), 1/4(e), 1/2(&amp;), 3/4(a)이다. 2/3 지점은 셋잇단의 'let'이다.</div></div>
+      <div class="quiz-q"><p>셋잇단(1 trip let)과 16분음표(1 e &amp; a)가 같은 시각에 놓이는 칸은?</p><div class="opts">
+        <button class="opt" data-correct>박 위(1)뿐이다</button><button class="opt">박 위와 &amp;</button><button class="opt">trip과 e</button><button class="opt">모든 칸이 조금씩 겹친다</button>
+      </div><div class="quiz-exp">셋잇단은 0, 1/3, 2/3, 16분은 0, 1/4, 1/2, 3/4. 공통은 0뿐이라 두 세분 사이를 오갈 때 '중간 다리'가 없어 어렵다.</div></div>
+      <div class="quiz-q"><p>탭 게임 결과가 편향 −28 ms, 흔들림 9 ms였다. 가장 알맞은 해석은?</p><div class="opts">
+        <button class="opt">들쭉날쭉하므로 템포를 크게 낮춰야 한다</button><button class="opt" data-correct>매우 일정하지만 습관적으로 앞서 친다. 클릭을 덮도록 조금 기다렸다 친다</button><button class="opt">늦게 치는 습관이다</button><button class="opt">거의 완벽하므로 고칠 것이 없다</button>
+      </div><div class="quiz-exp">흔들림 9 ms는 아주 안정적이다. 문제는 편향으로, 음수는 일찍 친다는 뜻이다. 단, 장치 지연을 빼지 않았다면 실제 편향은 더 클 수도 작을 수도 있으니 보정부터 확인한다.</div></div>
+      <div class="quiz-q"><p>박에 맞춰 칠 때의 오차(수십 ms)가 소리 반응 시간(150–200 ms)보다 훨씬 작은 이유는?</p><div class="opts">
+        <button class="opt">귀가 손보다 빠르기 때문에</button><button class="opt">클릭이 커서 빨리 들리기 때문에</button><button class="opt" data-correct>클릭을 듣고 반응하는 것이 아니라 다음 박을 예측해 미리 동작을 시작하기 때문에</button><button class="opt">메트로놈이 사람에 맞춰 주기 때문에</button>
+      </div><div class="quiz-exp">박이 규칙적이면 뇌가 다음 시각을 예측하고 그에 맞춰 운동을 계획한다. 그래서 사람은 오히려 클릭보다 조금 일찍 치는 경향(음의 평균 비동기)을 보인다.</div></div>
+      <div class="quiz-q"><p>100 BPM 갭 클릭에서 무음 구간 동안 내 템포가 1% 느려졌다(박 606 ms). 무음 2마디(8박) 뒤 클릭이 돌아올 때 어긋남은 대략?</p><div class="opts">
+        <button class="opt">6 ms 늦게</button><button class="opt" data-correct>48 ms 늦게</button><button class="opt">48 ms 일찍</button><button class="opt">600 ms 늦게</button>
+      </div><div class="quiz-exp">\(\Delta \approx n\,T\,\varepsilon = 8 \times 600 \times 0.01 = 48\) ms. 느려졌으므로 내 박이 클릭보다 늦다. 귀로 거의 구별 못 할 1%도 쌓이면 분명한 어긋남이 된다.</div></div>
+      <div class="quiz-q"><p>클릭을 &amp;에만 두고 4분음표를 치는데, 다이얼의 탭 위상이 0.5 근처에 모였다(R = 0.9). 무슨 뜻인가?</p><div class="opts">
+        <button class="opt">박에 정확히 맞게 치고 있다</button><button class="opt">탭이 들쭉날쭉하다</button><button class="opt" data-correct>탭은 일정하지만 클릭을 박으로 착각해 반 박 밀린 채 치고 있다(박 뒤집힘)</button><button class="opt">템포가 두 배로 빨라졌다</button>
+      </div><div class="quiz-exp">위상 0.5는 &amp; 자리이고 R이 크면 그 자리에 일정하게 모였다는 뜻이다. 즉 &amp;의 클릭에 '맞춰' 치고 있다. 발로 숫자를 세며 클릭을 &amp;에 배치하는 연습부터 다시 한다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 cnt) */
+const cntSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const cntF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const cntMs = (ms) => (!isFinite(ms) ? "—" : Math.abs(ms) >= 1000 ? cntF(ms / 1000, 2) + " s" : cntF(ms, Math.abs(ms) < 10 ? 1 : 0) + " ms");
+const cntSgn = (x, d = 0) => (isFinite(x) ? (x > 0.05 ? "+" : x < -0.05 ? "−" : "±") + Math.abs(x).toFixed(d) : "—");
+const CNT_DIV = { 1: "4분음표", 2: "8분음표", 3: "셋잇단", 4: "16분음표", 6: "16분 셋잇단" };
+const CNT_SHORT = { 1: "4분", 2: "8분", 3: "셋잇단", 4: "16분", 6: "6잇단" };
+const cntSyl = (d, k, beat) => (k === 0 ? String(beat + 1) : DR.SYLLABLES[d][k]);
+const cntSylLine = (d) => Array.from({ length: d }, (_, k) => cntSyl(d, k, 0)).join(" ");
+const cntTerm = (bpm) => { const t = DR.TEMPI.find((x) => bpm >= x.lo && bpm <= x.hi) || (bpm < 40 ? DR.TEMPI[0] : bpm > 200 ? DR.TEMPI[DR.TEMPI.length - 1] : DR.TEMPI.reduce((a, b) => (Math.abs((a.lo + a.hi) / 2 - bpm) < Math.abs((b.lo + b.hi) / 2 - bpm) ? a : b))); return t.name + " · " + t.ko; };
+const cntMono = () => getComputedStyle(document.body).getPropertyValue("--mono");
+/** 이 장의 모든 탭 측정에 쓰는 지연 보정(ms). 탭 게임의 슬라이더 값 */
+const cntLat = () => { const el = document.getElementById("cnt-tp-lat"); return el ? +el.value : 0; };
+/** 탭 시각(오디오 시계, 초)을 보정: kit.hit의 4 ms 예약 몫과 출력 지연을 뺀다 */
+const cntTapTime = (tp) => tp.when - 0.004 - cntLat() / 1000;
+/** 재생/정지 토글 + 한 번에 하나만 */
+function cntBind(id, make, labels = ["▶ 재생", "■ 정지"]) {
+  const b = document.getElementById(id);
+  let sc = null;
+  const set = (on) => { b.textContent = labels[on ? 1 : 0]; b.classList.toggle("playing", on); };
+  const halt = () => { if (sc && sc.running) sc.stop(); };
+  b.addEventListener("click", () => {
+    MB.ctx();
+    if (sc && sc.running) { sc.stop(); return; }
+    cntSolo.take(halt);
+    sc = make();
+    if (!sc) { cntSolo.drop(halt); return; }
+    const os = sc.stop;
+    sc.stop = function (n) { os.call(sc, n); set(false); cntSolo.drop(halt); };
+    sc.start(); set(true);
+  });
+  set(false);
+  return { halt, get sc() { return sc; }, get running() { return !!(sc && sc.running); }, restart() { if (sc && sc.running) { sc.stop(); b.click(); } } };
+}
+/** 큰 탭 버튼 + 키 입력 대상. 누를 때마다 손을 번갈아 기록 */
+function cntPad(id, kit, piece = "snare") {
+  const el = document.getElementById(id);
+  let hand = "L";
+  el.addEventListener("pointerdown", (e) => { e.preventDefault(); MB.ctx(); hand = hand === "R" ? "L" : "R"; kit.hit(piece, 0.8, null, { src: "tap", hand }); });
+  DR.keyTarget(el, (p, v, h, src) => { MB.ctx(); kit.hit(DR.isFoot(p) ? "kick" : piece, v, null, { hand: h, src }); });
+  return el;
+}
+function cntFlash(el, dev) {
+  const a = Math.abs(dev);
+  el.classList.remove("ok", "warn", "bad");
+  el.classList.add(a <= 15 ? "ok" : a <= 35 ? "warn" : "bad");
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("ok", "warn", "bad"), 260);
+}
+const cntDevColor = (d, P) => (Math.abs(d) <= 15 ? P.ok : Math.abs(d) <= 35 ? P.warn : P.bad);
+function cntStats(devs) {
+  const n = devs.length; if (!n) return { n: 0, mean: NaN, sd: NaN };
+  const mean = devs.reduce((a, b) => a + b, 0) / n;
+  const sd = n > 1 ? Math.sqrt(devs.reduce((a, b) => a + (b - mean) ** 2, 0) / (n - 1)) : NaN;
+  return { n, mean, sd };
+}
+
+/* ================================================================ 1. BPM 계산기와 세분 메트로놈 */
+(function () {
+  const lampsEl = document.getElementById("cnt-mt-lamps");
+  const big = document.getElementById("cnt-mt-big");
+  let bd = null, nowIdx = -1;
+  const bpm = MB.range("cnt-mt-bpm", (v) => v + " BPM", () => upd());
+  const beats = MB.seg("cnt-mt-beats", () => { lamps(); upd(); if (bd && bd.running) bd.sc.rebuild(); });
+  const sub = MB.seg("cnt-mt-sub", () => { lamps(); upd(); if (bd && bd.running) bd.sc.rebuild(); });
+  const voice = MB.seg("cnt-mt-voice");
+  const acc = MB.check("cnt-mt-acc", () => bd && bd.restart());
+  const subOn = MB.check("cnt-mt-subon");
+  function lamps() {
+    const B = +beats(), S = +sub();
+    let h = "";
+    for (let b = 0; b < B; b++) for (let s = 0; s < S; s++) h += `<i class="${s ? "sub cnt-s" : b === 0 ? "a" : ""}${b > 0 && s === 0 ? " cnt-gap" : ""}"></i>`;
+    lampsEl.innerHTML = h;
+  }
+  function light(i) {
+    const L = lampsEl.children;
+    if (nowIdx >= 0 && L[nowIdx]) L[nowIdx].classList.remove("on");
+    nowIdx = i; if (i >= 0 && L[i]) L[i].classList.add("on");
+  }
+  function upd() {
+    const v = bpm(), S = +sub(), B = +beats(), T = 60000 / v;
+    big.innerHTML = `♩ = ${v}<small>${cntTerm(v)}</small>`;
+    MB.stat("cnt-mt-o-beat", cntMs(T));
+    MB.stat("cnt-mt-o-step", S > 1 ? cntMs(T / S) + ` (${CNT_SHORT[S]})` : "—");
+    MB.stat("cnt-mt-o-rate", cntF((v * S) / 60, 2) + " 타/초");
+    MB.stat("cnt-mt-o-bar", cntMs(T * B));
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cnt-mt-cv", (ctx, W, H) => {
+    const P = MB.palette(), B = +beats(), S = +sub(), T = 60000 / bpm();
+    const x0 = 14, x1 = W - 14;
+    ctx.font = "11px " + cntMono(); ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    // 위: 한 마디
+    const y1 = 34;
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText(`한 마디 = ${cntMs(T * B)}`, x0, 14);
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x1, y1); ctx.stroke();
+    ctx.textAlign = "center";
+    for (let k = 0; k <= B * S; k++) {
+      const x = x0 + ((x1 - x0) * k) / (B * S), beat = k % S === 0;
+      const lit = k === nowIdx;
+      ctx.strokeStyle = lit ? P.warn : beat ? P.accent : P.accent2; ctx.lineWidth = beat ? 2 : 1;
+      ctx.beginPath(); ctx.moveTo(x, y1 - (beat ? 12 : 6)); ctx.lineTo(x, y1 + (beat ? 4 : 2)); ctx.stroke();
+      if (beat && k < B * S) { ctx.fillStyle = P.text; ctx.fillText(String(k / S + 1), x + 0, y1 + 16); }
+    }
+    // 아래: 한 박 확대
+    const y2 = H - 30, bx0 = x0 + 4, bx1 = x1 - 4;
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText(`한 박 확대 = ${cntMs(T)} · ${CNT_SHORT[S]} 칸 ${cntMs(T / S)}`, x0, y1 + 40);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(bx0, y2); ctx.lineTo(bx1, y2); ctx.stroke();
+    ctx.textAlign = "center";
+    for (let k = 0; k <= S; k++) {
+      const x = bx0 + ((bx1 - bx0) * k) / S;
+      ctx.fillStyle = k === 0 || k === S ? P.accent : P.accent2;
+      ctx.beginPath(); ctx.arc(x, y2, k === 0 || k === S ? 6 : 5, 0, 7); ctx.fill();
+      ctx.fillStyle = P.text; ctx.font = "700 12px " + cntMono();
+      ctx.fillText(k === S ? "2" : cntSyl(S === 1 ? 1 : S, k, 0) || "", x, y2 - 12);
+      ctx.fillStyle = P.dim; ctx.font = "10.5px " + cntMono();
+      if (S <= 4 || k % 2 === 0 || W > 520) ctx.fillText(cntF((T * k) / S, 0), x, y2 + 18);
+    }
+  }, { aspect: (w) => (w < 480 ? 0.42 : 0.3), minHeight: 140, maxHeight: 190 });
+  bd = cntBind("cnt-mt-play", () => DR.metronome({
+    bpm: () => bpm(), beats: () => +beats(), sub: () => +sub(), accent: acc(), voice: () => voice(), subOn: () => subOn(),
+    onBeat(b, bar, when, on, s) { light(b * +sub() + (s || 0)); cv.redraw(); },
+    onStop() { light(-1); cv.redraw(); },
+  }), ["▶ 시작", "■ 정지"]);
+  const nudge = (d) => () => bpm.set(MB.clamp(bpm() + d, 30, 240));
+  [["m5", -5], ["m1", -1], ["p1", 1], ["p5", 5]].forEach(([id, d]) => document.getElementById("cnt-mt-" + id).addEventListener("click", nudge(d)));
+  let taps = [];
+  document.getElementById("cnt-mt-tap").addEventListener("click", () => {
+    const t = performance.now();
+    if (taps.length && t - taps[taps.length - 1] > 2000) taps = [];
+    taps.push(t); if (taps.length > 9) taps.shift();
+    if (taps.length < 2) { MB.stat("cnt-mt-o-tap", "1번 · 계속"); return; }
+    const iv = []; for (let i = 1; i < taps.length; i++) iv.push(taps[i] - taps[i - 1]);
+    const st = cntStats(iv), v = 60000 / st.mean;
+    MB.stat("cnt-mt-o-tap", `${cntF(v, 1)} BPM · ±${cntF(st.sd || 0, 0)} ms`);
+    if (taps.length >= 4) bpm.set(MB.clamp(Math.round(v), 30, 240));
+  });
+  lamps(); upd();
+})();
+
+/* ================================================================ 2. 세분 사다리 */
+(function () {
+  const RUNGS = [1, 2, 3, 4, 6];
+  const on = new Set(RUNGS);
+  const chips = document.getElementById("cnt-ld-rungs");
+  chips.innerHTML = RUNGS.map((d) => `<button data-d="${d}" class="on">${CNT_SHORT[d]}</button>`).join("");
+  chips.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-d]"); if (!b) return;
+    const d = +b.dataset.d;
+    if (on.has(d) && on.size > 1) on.delete(d); else on.add(d);
+    chips.querySelectorAll("button").forEach((x) => x.classList.toggle("on", on.has(+x.dataset.d)));
+    bd.restart(); if (!bd.running) show(0);
+  });
+  const bpm = MB.range("cnt-ld-bpm", (v) => v + " BPM", () => show(cur));
+  const bars = MB.seg("cnt-ld-bars", () => bd.restart());
+  const dir = MB.seg("cnt-ld-dir", () => { bd.restart(); if (!bd.running) show(0); });
+  const pc = MB.seg("cnt-ld-pc", () => { bd.restart(); if (!bd.running) show(0); });
+  const acc = MB.check("cnt-ld-acc", () => { bd.restart(); if (!bd.running) show(cur); });
+  const kick = MB.check("cnt-ld-kick", () => { bd.restart(); if (!bd.running) show(cur); });
+  const click = MB.check("cnt-ld-click");
+  const list = () => { const r = RUNGS.filter((d) => on.has(d)); return dir() === "ud" && r.length > 2 ? r.concat(r.slice(1, -1).reverse()) : r; };
+  function rungEvents(d) {
+    const out = [], p = pc();
+    for (let k = 0; k < 4 * d; k++) out.push({ t: k / d, p, v: acc() && k % d === 0 ? 0.95 : 0.6, hand: k % 2 ? "L" : "R" });
+    if (kick()) for (let b = 0; b < 4; b++) out.push({ t: b, p: "kick", v: 0.8 });
+    return DR.sort(out);
+  }
+  const staff = DR.staff("#cnt-ld-staff", rungEvents(1), { bars: 1, sticking: true, counts: true });
+  const gOpts = { rows: ["snare", "kick"], div: 1, beats: 4, play: false, counts: true };
+  const grid = DR.grid("#cnt-ld-grid", gOpts);
+  let cur = 0, curEv = [];
+  function show(ri) {
+    const L = list(); cur = Math.min(ri, L.length - 1);
+    const d = L[cur], next = L[(cur + 1) % L.length];
+    curEv = rungEvents(d);
+    staff.setEvents(curEv);
+    gOpts.perLine = d === 3 || d === 6 ? 12 : 16;
+    if (grid.rows[0] !== pc()) grid.setRows([pc(), "kick"]);
+    grid.setDiv(d, 4); grid.set(DR.toSpec(curEv, { div: d, length: 4, rows: [pc(), "kick"] }));
+    document.getElementById("cnt-ld-big").innerHTML = `${CNT_DIV[d]}<small>${cntSylLine(d)} · 칸 ${cur + 1}/${L.length}</small>`;
+    const T = 60000 / bpm();
+    MB.stat("cnt-ld-o-now", `${CNT_SHORT[d]} (${d}칸/박)`);
+    MB.stat("cnt-ld-o-step", cntMs(T / d));
+    MB.stat("cnt-ld-o-rate", cntF((bpm() * d) / 60, 2) + " 타/초");
+    MB.stat("cnt-ld-o-next", CNT_SHORT[next]);
+  }
+  let sched = null;
+  const bd = cntBind("cnt-ld-play", () => {
+    const L = list(), nb = +bars(), all = [];
+    L.forEach((d, ri) => { for (let b = 0; b < nb; b++) rungEvents(d).forEach((e) => all.push(Object.assign({}, e, { t: e.t + (ri * nb + b) * 4, ri, lt: e.t }))); });
+    DR.warm([pc(), "kick"]);
+    show(0);
+    sched = DR.playEvents(all, {
+      bpm: () => bpm(), length: L.length * nb * 4, loop: true, clickOn: () => click(),
+      onNote(ev) {
+        if (ev.ri !== cur) show(ev.ri);
+        staff.highlight(curEv.map((e, i) => (Math.abs(e.t - ev.lt) < 1e-6 ? i : -1)).filter((i) => i >= 0));
+        grid.now(Math.round(ev.lt * L[cur]));
+      },
+      onStop() { staff.highlight(-1); staff.at(null); grid.now(-1); },
+    });
+    const st = sched.start;
+    sched.start = function () { st(); const tick = () => { if (!sched.running) return; staff.at(sched.beat % 4); requestAnimationFrame(tick); }; requestAnimationFrame(tick); };
+    return sched;
+  }, ["▶ 사다리 재생", "■ 정지"]);
+  show(0);
+})();
+
+/* ================================================================ 3. 카운팅 노래방 */
+(function () {
+  const U = (d, s) => [[d, s.slice(0, d)], [d, s.slice(d, 2 * d)], [d, s.slice(2 * d, 3 * d)], [d, s.slice(3 * d, 4 * d)]];
+  const PATS = {
+    2: [["8분 전부", "xxxxxxxx"], ["&만(업비트)", ".x.x.x.x"], ["3+3+2", "x..x..x."], ["1 & (2) & 3 (&) 4 &", "xx.xx.xx"]],
+    3: [["셋잇단 전부", "xxxxxxxxxxxx"], ["셔플(1 · let)", "x.xx.xx.xx.x"], ["trip만", ".x..x..x..x."], ["let만", "..x..x..x..x"]],
+    4: [["16분 전부", "xxxxxxxxxxxxxxxx"], ["갤럽(1 · & a)", "x.xxx.xxx.xxx.xx"], ["역갤럽(1 e & ·)", "xxx.xxx.xxx.xxx."], ["e·a만", ".x.x.x.x.x.x.x.x"], ["점8분 + 16분", "x..xx..xx..xx..x"], ["1 · · a  2 · & ·", "x..xx.x.x..xx.x."]],
+    6: [["16분 셋잇단 전부", "xxxxxxxxxxxxxxxxxxxxxxxx"], ["1 · li & · li", "x.xx.xx.xx.xx.xx.xx.xx.x"], ["1 la li & · ·", "xxxx..xxxx..xxxx..xxxx.."], ["둘씩(= 셋잇단)", "x.x.x.x.x.x.x.x.x.x.x.x."]],
+    mix: [["8분 → 셋잇단 → 16분 → 6잇단", [[2, "xx"], [3, "xxx"], [4, "xxxx"], [6, "xxxxxx"]]], ["16분 → 셋잇단 왕복", [[4, "xxxx"], [3, "xxx"], [4, "xxxx"], [3, "xxx"]]], ["6잇단 → 16분 → 셋잇단 → 4분", [[6, "xxxxxx"], [4, "xxxx"], [3, "xxx"], [1, "x"]]], ["1 & · 1 trip · 1 e & · 1 la li &", [[2, "xx"], [3, "xx."], [4, "xxx."], [6, "xxxx.."]]]],
+  };
+  const sel = document.getElementById("cnt-kr-pat"), sylEl = document.getElementById("cnt-kr-syl"), big = document.getElementById("cnt-kr-big");
+  const div = MB.seg("cnt-kr-div", () => { fill(); load(); bd.restart(); });
+  const bpm = MB.range("cnt-kr-bpm", (v) => v + " BPM", () => stats());
+  const snd = MB.check("cnt-kr-snd"), guide = MB.check("cnt-kr-guide"), foot = MB.check("cnt-kr-foot"), click = MB.check("cnt-kr-click");
+  sel.addEventListener("change", () => { load(); bd.restart(); });
+  let cells = [];
+  function fill() { const d = div(); sel.innerHTML = PATS[d].map((p, i) => `<option value="${i}">${p[0]}</option>`).join(""); }
+  function beatsOf() { const d = div(), p = PATS[d][+sel.value || 0]; return d === "mix" ? p[1] : U(+d, p[1]); }
+  function load() {
+    cells = [];
+    beatsOf().forEach(([d, s], b) => { for (let k = 0; k < d; k++) cells.push({ t: b + k / d, label: cntSyl(d, k, b), hit: s[k] === "x", b: k === 0, beat: b }); });
+    let h = "", b = -1;
+    cells.forEach((c, i) => { if (c.beat !== b) { if (b >= 0) h += "</div>"; h += '<div class="g">'; b = c.beat; } h += `<span class="${c.b ? "b " : ""}${c.hit ? "hit" : ""}" data-i="${i}">${c.label}</span>`; });
+    sylEl.innerHTML = h + "</div>";
+    staff.setEvents(staffEvents());
+    stats();
+  }
+  function staffEvents() {
+    const out = cells.filter((c) => c.hit).map((c) => ({ t: c.t, p: "snare", v: c.b ? 0.85 : 0.65 }));
+    for (let b = 0; b < 4; b++) out.push({ t: b, p: "kick", v: 0.75 });
+    return DR.sort(out);
+  }
+  function stats() {
+    const T = 60000 / bpm(), ds = [...new Set(beatsOf().map((x) => x[0]))];
+    MB.stat("cnt-kr-o-count", cells.map((c) => (c.hit ? c.label : "·")).join(" "));
+    MB.stat("cnt-kr-o-n", `${cells.length}개 · 치는 음 ${cells.filter((c) => c.hit).length}`);
+    MB.stat("cnt-kr-o-step", ds.map((d) => cntMs(T / d)).join(" / "));
+  }
+  const staff = DR.staff("#cnt-kr-staff", [], { bars: 1, counts: true });
+  let lastSpan = null;
+  const bd = cntBind("cnt-kr-play", () => {
+    const st = staffEvents();
+    const guideEv = cells.map((c) => ({ t: c.t, p: "hat", v: c.b ? 0.5 : 0.32 }));
+    const marks = cells.map((c, i) => ({ t: c.t, cell: i }));
+    DR.warm(["snare", "kick", "hat"]);
+    return DR.playEvents(st.concat(guideEv, marks), {
+      bpm: () => bpm(), length: 4, loop: true, staff, clickOn: () => click(),
+      mute: (p) => (p === "snare" && !snd()) || (p === "hat" && !guide()) || (p === "kick" && !foot()),
+      onNote(ev) {
+        if (ev.cell == null) return;
+        const c = cells[ev.cell];
+        if (lastSpan) lastSpan.classList.remove("now");
+        lastSpan = sylEl.querySelector(`span[data-i="${ev.cell}"]`); if (lastSpan) lastSpan.classList.add("now");
+        big.innerHTML = `${c.label}<small>${c.hit ? "● 스네어가 친다" : "(치지 않음 · 그래도 말하기)"}</small>`;
+      },
+      onStop() { if (lastSpan) lastSpan.classList.remove("now"); lastSpan = null; big.innerHTML = `1<small>재생하면 지금 말할 음절이 여기에 나타납니다</small>`; },
+    });
+  }, ["▶ 반복 재생", "■ 정지"]);
+  fill(); load();
+})();
+
+/* ================================================================ 4. 탭 정확도 게임 */
+(function () {
+  const TG = {
+    q: { pos: [0, 1, 2, 3], gap: 1, name: "4분" }, e: { pos: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], gap: 0.5, name: "8분" },
+    t: { pos: Array.from({ length: 12 }, (_, k) => k / 3), gap: 1 / 3, name: "셋잇단" }, s: { pos: Array.from({ length: 16 }, (_, k) => k / 4), gap: 0.25, name: "16분" },
+    up: { pos: [0.5, 1.5, 2.5, 3.5], gap: 0.5, name: "&만" }, bb: { pos: [1, 3], gap: 1, name: "2·4박" },
+  };
+  const kit = DR.kit({ room: 0.08 }), tapper = DR.tapper(kit, { onTap }), pad = cntPad("cnt-tp-pad", kit);
+  const phase = document.getElementById("cnt-tp-phase"), msg = document.getElementById("cnt-tp-msg");
+  const tgt = MB.seg("cnt-tp-tgt", () => draw()), bars = MB.seg("cnt-tp-bars"), clk = MB.seg("cnt-tp-clk");
+  const bpm = MB.range("cnt-tp-bpm", (v) => v + " BPM");
+  const lat = MB.range("cnt-tp-lat", (v) => v + " ms");
+  const snd = MB.check("cnt-tp-snd", (v) => (kit.mute = v ? null : { snare: true, kick: true }));
+  let run = null; // {exp:[], T0, spb, win, taps:[], target, step}
+  document.getElementById("cnt-tp-auto").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const ms = Math.round(((ctx.outputLatency || 0) + (ctx.baseLatency || 0)) * 1000);
+    lat.set(ms);
+    msg.textContent = `브라우저가 알려 준 출력 지연: ${ms} ms${ctx.outputLatency ? "" : " (outputLatency를 지원하지 않는 브라우저라 baseLatency만 반영)"}. 블루투스라면 더 늘려 보세요.`;
+  });
+  let midi = null;
+  document.getElementById("cnt-tp-midi").addEventListener("click", async (e) => {
+    const b = e.currentTarget;
+    if (midi) { midi.stop(); midi = null; b.textContent = "MIDI 켜기"; msg.textContent = "MIDI를 껐습니다."; return; }
+    try { MB.ctx(); midi = await DR.connectMidi(kit); b.textContent = "MIDI 끄기"; msg.textContent = midi.names.length ? "MIDI 연결: " + midi.names.join(", ") + " (어느 패드든 탭으로 셉니다)" : "MIDI 장치를 찾지 못했습니다. 연결 후 다시 눌러 보세요."; }
+    catch (err) { msg.textContent = err.message || "MIDI를 켤 수 없습니다."; }
+  });
+  function result() {
+    if (!run) return null;
+    const taps = run.taps.slice();
+    return DR.score(run.exp.filter((t) => t < MB.now() + 0.02 || !run.live), taps, { window: run.win });
+  }
+  function onTap(tp) {
+    if (!run || !run.live) return;
+    const t = cntTapTime(tp);
+    run.taps.push(t);
+    let best = Infinity; run.exp.forEach((e) => { if (Math.abs(t - e) < Math.abs(best)) best = t - e; });
+    if (Math.abs(best) <= run.win) cntFlash(pad, best * 1000);
+    report(); draw();
+  }
+  function report() {
+    const r = result(); if (!r) return;
+    const devs = r.pairs.filter((p) => p.dev != null).map((p) => p.dev), st = cntStats(devs);
+    const stepMs = run.step * run.spb * 1000;
+    MB.stat("cnt-tp-o-mean", st.n ? cntSgn(st.mean) + " ms" : "—");
+    MB.stat("cnt-tp-o-sd", st.n > 1 ? cntF(st.sd, 1) + " ms" : "—");
+    MB.stat("cnt-tp-o-rho", st.n > 1 ? cntF((st.sd / stepMs) * 100, 1) + "%" : "—");
+    MB.stat("cnt-tp-o-hit", `${r.hits} / ${r.pairs.length}`);
+    MB.stat("cnt-tp-o-extra", String(r.extra));
+    if (st.n > 3) {
+      const g = st.sd < 10 ? "아주 안정" : st.sd < 20 ? "안정" : st.sd < 35 ? "보통" : "흔들림 큼";
+      const b = st.mean < -15 ? " · 앞서는 편" : st.mean > 15 ? " · 늦는 편" : "";
+      MB.stat("cnt-tp-o-grade", g + b);
+    }
+  }
+  const cv = MB.canvas("#cnt-tp-cv", (ctx, W, H) => {
+    const P = MB.palette(), r = result();
+    const range = run ? Math.min(150, Math.max(40, run.win * 1000)) : 100;
+    const L = 40, R = 10, h1 = Math.round(H * 0.52), top = 8;
+    const Y = (d) => top + (h1 - top) / 2 - (d / range) * ((h1 - top) / 2 - 4);
+    ctx.font = "10.5px " + cntMono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-range, 0, range].forEach((d) => { ctx.strokeStyle = d ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(L, Y(d)); ctx.lineTo(W - R, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText((d > 0 ? "+" : "") + Math.round(d), L - 4, Y(d)); });
+    ctx.textAlign = "left"; ctx.fillStyle = P.faint; ctx.fillText("늦게 ↑", L + 4, top + 6); ctx.fillText("일찍 ↓", L + 4, h1 - 6);
+    if (r) {
+      const n = r.pairs.length, X = (i) => L + 8 + ((W - R - L - 16) * i) / Math.max(1, n - 1);
+      r.pairs.forEach((p, i) => {
+        if (p.dev == null) { if (p.exp < MB.now() - run.win) { ctx.strokeStyle = P.faint; ctx.beginPath(); ctx.moveTo(X(i) - 3, Y(0) - 3); ctx.lineTo(X(i) + 3, Y(0) + 3); ctx.moveTo(X(i) + 3, Y(0) - 3); ctx.lineTo(X(i) - 3, Y(0) + 3); ctx.stroke(); } return; }
+        ctx.fillStyle = cntDevColor(p.dev, P); ctx.beginPath(); ctx.arc(X(i), Y(MB.clamp(p.dev, -range, range)), 3.6, 0, 7); ctx.fill();
+      });
+    }
+    // 아래: 분포
+    const y0 = H - 18, hy = H - h1 - 34, bw = 5, xs = (d) => L + ((d + range) / (2 * range)) * (W - L - R);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(L, y0); ctx.lineTo(W - R, y0); ctx.stroke();
+    ctx.textAlign = "center"; ctx.fillStyle = P.dim; ctx.textBaseline = "top";
+    [-range, -range / 2, 0, range / 2, range].forEach((d) => ctx.fillText((d > 0 ? "+" : "") + Math.round(d), xs(d), y0 + 3));
+    if (r) {
+      const devs = r.pairs.filter((p) => p.dev != null).map((p) => p.dev), bins = {};
+      devs.forEach((d) => { const k = Math.floor(MB.clamp(d, -range, range - 0.01) / bw); bins[k] = (bins[k] || 0) + 1; });
+      const mx = Math.max(1, ...Object.values(bins));
+      Object.keys(bins).forEach((k) => { const d0 = k * bw, x = xs(d0), w = xs(d0 + bw) - x; ctx.fillStyle = cntDevColor(d0 + bw / 2, P); const hh = (bins[k] / mx) * hy; ctx.fillRect(x + 0.5, y0 - hh, Math.max(1, w - 1), hh); });
+      const st = cntStats(devs);
+      if (st.n) { ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(xs(MB.clamp(st.mean, -range, range)), y0 - hy - 4); ctx.lineTo(xs(MB.clamp(st.mean, -range, range)), y0); ctx.stroke(); }
+    }
+    ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xs(0), y0 - hy - 4); ctx.lineTo(xs(0), y0); ctx.stroke(); ctx.setLineDash([]);
+  }, { aspect: (w) => (w < 480 ? 0.7 : 0.45), minHeight: 220, maxHeight: 320 });
+  function draw() { cv.redraw(); }
+  cntBind("cnt-tp-play", () => {
+    const T = TG[tgt()], N = +bars(), v = bpm(), spb = 60 / v, evs = [];
+    for (let b = 0; b < 4; b++) evs.push({ t: b, c: true, acc: b === 0 });
+    for (let bar = 1; bar <= N; bar++) {
+      const t0 = bar * 4;
+      evs.push({ t: t0, bar });
+      if (clk() === "beat") for (let b = 0; b < 4; b++) evs.push({ t: t0 + b, c: true, acc: b === 0 });
+      else if (clk() === "sub") T.pos.forEach((p) => evs.push({ t: t0 + p, c: true, acc: p === 0, sub: p % 1 !== 0 }));
+    }
+    run = { exp: [], taps: [], spb, step: T.gap, win: Math.min(0.15, 0.45 * T.gap * spb), live: true };
+    tapper.clear();
+    phase.className = "cnt-phase listen"; phase.textContent = "예비 마디 · 1 2 3 4 · 다음 마디부터 " + T.name + " 자리에 탭";
+    ["mean", "sd", "rho", "hit", "extra", "grade"].forEach((k) => MB.stat("cnt-tp-o-" + k, "—"));
+    DR.warm(["snare"]);
+    const sc = DR.scheduler(evs, {
+      bpm: v, length: (N + 1) * 4 + 1, loop: false,
+      onStart(t0) { run.T0 = t0; for (let bar = 1; bar <= N; bar++) T.pos.forEach((p) => run.exp.push(t0 + (bar * 4 + p) * spb)); },
+      onEvent(ev, when) { if (ev.c) DR.click(when, ev.sub ? "sub" : ev.acc, { voice: "wood", vel: 0.6 }); },
+      onUI(ev) { if (ev.bar) { phase.className = "cnt-phase you"; phase.textContent = `치세요 · ${T.name} · 마디 ${ev.bar} / ${N}`; } draw(); },
+      onStop() { run.live = false; phase.className = "cnt-phase"; phase.textContent = "끝 · 결과를 확인하고 다시 시작하세요"; report(); draw(); },
+    });
+    return sc;
+  }, ["▶ 시작", "■ 정지"]);
+})();
+
+/* ================================================================ 5. 반응 vs 예측 */
+(function () {
+  const kit = DR.kit({ room: 0.1 }), stim = DR.kit({ room: 0.1 });
+  kit.mute = { snare: true, kick: true };
+  const big = document.getElementById("cnt-rx-big"), pad = cntPad("cnt-rx-pad", kit);
+  const mode = MB.seg("cnt-rx-mode"), nSeg = MB.seg("cnt-rx-n");
+  const res = { react: [], pred: [] };
+  let st = null; // {mode, target, timer, n, done, waiting}
+  DR.tapper(kit, { onTap(tp) {
+    if (!st || !st.waiting) return;
+    const t = cntTapTime(tp), d = (t - st.target) * 1000;
+    if (st.mode === "react") {
+      if (d < 60) { big.innerHTML = `너무 빨라요<small>소리가 나기 전에 눌렀습니다 · 다시</small>`; st.waiting = false; clearTimeout(st.timer); st.timer = setTimeout(trial, 900); return; }
+      if (d > 1500) return;
+    } else if (Math.abs(d) > 400) return;
+    st.waiting = false; res[st.mode].push(d); st.done++;
+    big.innerHTML = `${st.mode === "react" ? cntF(d, 0) + " ms" : cntSgn(d) + " ms"}<small>${st.done} / ${st.n}</small>`;
+    list(); stats();
+    clearTimeout(st.timer);
+    if (st.done >= st.n) { st.timer = setTimeout(() => stopBtn(), 600); return; }
+    st.timer = setTimeout(trial, 700);
+  } });
+  function list() {
+    document.getElementById("cnt-rx-l1").innerHTML = "<b>반응(예고 없음)</b>" + res.react.map((d) => `<span>${cntF(d, 0)}</span>`).join("");
+    document.getElementById("cnt-rx-l2").innerHTML = "<b>예측(박을 세고)</b>" + res.pred.map((d) => `<span>${cntSgn(d)}</span>`).join("");
+  }
+  function stats() {
+    const a = cntStats(res.react), b = cntStats(res.pred), ab = cntStats(res.pred.map(Math.abs));
+    MB.stat("cnt-rx-o-rt", a.n ? cntF(a.mean, 0) + " ms" : "—");
+    MB.stat("cnt-rx-o-pe", ab.n ? cntF(ab.mean, 0) + " ms" : "—");
+    MB.stat("cnt-rx-o-pb", b.n ? cntSgn(b.mean) + " ms" : "—");
+    MB.stat("cnt-rx-o-x", a.n && ab.n ? `예측이 ${cntF(a.mean / Math.max(1, ab.mean), 1)}배 정확` : "—");
+  }
+  function trial() {
+    if (!st) return;
+    const now = MB.now();
+    if (st.mode === "react") {
+      const delay = 1.2 + Math.random() * 2.3;
+      st.target = now + delay;
+      big.innerHTML = `기다리세요…<small>소리가 나면 바로 탭</small>`;
+      stim.hit("snare", 0.9, st.target);
+      st.waiting = true;
+      st.timer = setTimeout(() => { if (st && st.waiting) big.innerHTML = `지금!<small>탭</small>`; }, delay * 1000);
+    } else {
+      const spb = 0.6, t0 = now + 0.3;
+      for (let k = 0; k < 4; k++) DR.click(t0 + k * spb, k === 0, { voice: "wood", vel: 0.6 });
+      st.target = t0 + 4 * spb;
+      stim.hit("snare", 0.9, st.target);
+      st.waiting = true;
+      [0, 1, 2, 3].forEach((k) => setTimeout(() => { if (st && st.waiting) big.innerHTML = `${k + 1}<small>다섯째 박에 탭</small>`; }, (0.3 + k * spb) * 1000));
+      setTimeout(() => { if (st && st.waiting) big.innerHTML = `5<small>탭!</small>`; }, (0.3 + 4 * spb) * 1000);
+      st.timer = setTimeout(() => { if (st && st.waiting) { st.waiting = false; big.innerHTML = `놓쳤어요<small>다시</small>`; st.timer = setTimeout(trial, 800); } }, (0.3 + 4 * spb + 0.6) * 1000);
+    }
+  }
+  const btn = document.getElementById("cnt-rx-play");
+  const halt = () => { if (st) clearTimeout(st.timer); st = null; btn.textContent = "▶ 시작"; btn.classList.remove("playing"); stim.stop(); cntSolo.drop(halt); };
+  function stopBtn() { halt(); big.innerHTML = `끝<small>다른 방식으로도 해 보세요</small>`; }
+  btn.addEventListener("click", () => {
+    MB.ctx();
+    if (st) { halt(); big.innerHTML = `준비<small>시작을 누르세요</small>`; return; }
+    cntSolo.take(halt);
+    DR.warm(["snare"]);
+    st = { mode: mode(), n: +nSeg(), done: 0, waiting: false };
+    btn.textContent = "■ 정지"; btn.classList.add("playing");
+    big.innerHTML = `시작합니다<small>${st.mode === "react" ? "소리가 나면 탭" : "클릭 넷 뒤 다섯째 박에 탭"}</small>`;
+    st.timer = setTimeout(trial, 600);
+  });
+  document.getElementById("cnt-rx-clear").addEventListener("click", () => { res.react = []; res.pred = []; list(); stats(); });
+  list();
+})();
+
+/* ================================================================ 6. 클릭 자리 옮기기 */
+(function () {
+  const MODES = { all: [0, 1, 2, 3], 24: [1, 3], 1: [0], and: [0.5, 1.5, 2.5, 3.5], a: [0.75, 1.75, 2.75, 3.75] };
+  const grooveKit = DR.kit(), tapKit = DR.kit({ room: 0.06 });
+  const pad = cntPad("cnt-pl-pad", tapKit, "xstick");
+  const lampsEl = document.getElementById("cnt-pl-lamps"), phase = document.getElementById("cnt-pl-phase");
+  const mode = MB.seg("cnt-pl-mode", () => { lamps(); bd.restart(); });
+  const guide = MB.seg("cnt-pl-guide"), voice = MB.seg("cnt-pl-voice");
+  const bpm = MB.range("cnt-pl-bpm", (v) => v + " BPM", () => bd.restart());
+  let taps = [], sc = null, T0 = 0, spb = 0.6, lit = -1;
+  function lamps() { const m = MODES[mode()]; lampsEl.innerHTML = Array.from({ length: 8 }, (_, k) => `<i class="${m.some((p) => Math.abs(p - k / 2) < 1e-6) ? "a" : k % 2 ? "sub cnt-s" : ""}${k && k % 2 === 0 ? " cnt-gap" : ""}"></i>`).join(""); lit = -1; }
+  function light(k) { const L = lampsEl.children; if (lit >= 0 && L[lit]) L[lit].classList.remove("on"); lit = k; if (k >= 0 && L[k]) L[k].classList.add("on"); }
+  DR.tapper(tapKit, { onTap(tp) {
+    if (!sc || !sc.running) return;
+    const t = cntTapTime(tp), ph = MB.mod((t - T0) / spb, 1);
+    taps.push(ph); if (taps.length > 32) taps.shift();
+    const d = (ph > 0.5 ? ph - 1 : ph) * spb * 1000; cntFlash(pad, d);
+    report(); cv.redraw();
+  } });
+  function circ() {
+    if (!taps.length) return null;
+    let c = 0, s = 0; taps.forEach((p) => { c += Math.cos(2 * Math.PI * p); s += Math.sin(2 * Math.PI * p); });
+    c /= taps.length; s /= taps.length;
+    return { R: Math.hypot(c, s), ph: MB.mod(Math.atan2(s, c) / (2 * Math.PI), 1) };
+  }
+  function report() {
+    const c = circ(); if (!c) { ["ph", "r", "dev", "st"].forEach((k) => MB.stat("cnt-pl-o-" + k, "—")); return; }
+    const devs = taps.map((p) => (p > 0.5 ? p - 1 : p) * spb * 1000), st = cntStats(devs);
+    MB.stat("cnt-pl-o-ph", cntF(c.ph, 2) + " 박");
+    MB.stat("cnt-pl-o-r", cntF(c.R, 2));
+    MB.stat("cnt-pl-o-dev", cntSgn(st.mean) + " ms · ±" + cntF(st.sd || 0, 0));
+    const off = Math.min(c.ph, 1 - c.ph);
+    MB.stat("cnt-pl-o-st", taps.length < 4 ? "탭을 더…" : c.R < 0.6 ? "흔들림(위상이 퍼짐)" : off < 0.12 ? "박 위 ✓" : Math.abs(c.ph - 0.5) < 0.15 ? "뒤집힘(&에 치는 중)" : c.ph < 0.5 ? "늦게 밀림" : "일찍 당겨짐");
+  }
+  const cv = MB.canvas("#cnt-pl-cv", (ctx, W, H) => {
+    const P = MB.palette(), cx = W / 2, cy = H / 2, r = Math.min(W, H) / 2 - 22;
+    ctx.strokeStyle = P.border; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke();
+    ctx.font = "700 12px " + cntMono(); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    [[0, "박"], [0.25, "e"], [0.5, "&"], [0.75, "a"]].forEach(([p, l]) => {
+      const a = 2 * Math.PI * p - Math.PI / 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+      ctx.fillStyle = p === 0 ? P.accent : P.dim; ctx.beginPath(); ctx.arc(x, y, p === 0 ? 5 : 3, 0, 7); ctx.fill();
+      ctx.fillText(l, cx + Math.cos(a) * (r + 13), cy + Math.sin(a) * (r + 13));
+    });
+    MODES[mode()].forEach((p) => { const a = 2 * Math.PI * MB.mod(p, 1) - Math.PI / 2; ctx.strokeStyle = P.accent2; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(cx, cy, r + 4, a - 0.08, a + 0.08); ctx.stroke(); });
+    taps.forEach((p, i) => { const a = 2 * Math.PI * p - Math.PI / 2, rr = r - 10 - (i % 4) * 4; ctx.fillStyle = P.warn; ctx.globalAlpha = 0.35 + (0.65 * (i + 1)) / taps.length; ctx.beginPath(); ctx.arc(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, 4, 0, 7); ctx.fill(); });
+    ctx.globalAlpha = 1;
+    const c = circ();
+    if (c) { const a = 2 * Math.PI * c.ph - Math.PI / 2, L = c.R * (r - 18); ctx.strokeStyle = P.text; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a) * L, cy + Math.sin(a) * L); ctx.stroke(); ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(cx + Math.cos(a) * L, cy + Math.sin(a) * L, 4, 0, 7); ctx.fill(); }
+    ctx.fillStyle = P.faint; ctx.font = "11px " + cntMono(); ctx.fillText("탭 위상 다이얼", cx, cy + r * 0.45);
+  }, { aspect: 0.62, minHeight: 200, maxHeight: 260 });
+  const bd = cntBind("cnt-pl-play", () => {
+    const v = bpm(); spb = 60 / v; taps = []; report(); cv.redraw();
+    const g = DR.groove("rock8");
+    const m = MODES[mode()], clicks = m.map((p) => ({ t: p, clk: true, acc: p === 0 && mode() === "all" }));
+    const pos = Array.from({ length: 8 }, (_, k) => ({ t: k / 2, pos: k }));
+    let s = null;
+    const muted = () => { const gd = guide(); return gd === "off" || (gd === "fade" && s && MB.mod(s.loopNo, 4) >= 2); };
+    DR.warm(["hat", "snare", "kick"]);
+    s = DR.playEvents(g.concat(clicks, pos), {
+      kit: grooveKit, bpm: v, length: 4, loop: true,
+      mute: (p) => !!p && muted(),
+      onHit(ev, i, w) { if (ev.clk) DR.click(w, ev.acc, { voice: voice(), vel: 0.65 }); },
+      onNote(ev) { if (ev.pos != null) light(ev.pos); },
+      onLoop(n) { const gd = guide(); phase.className = "cnt-phase " + (gd === "on" || (gd === "fade" && MB.mod(n, 4) < 2) ? "listen" : "quiet"); phase.textContent = gd === "off" ? "클릭만 · 박에 탭" : gd === "fade" && MB.mod(n, 4) >= 2 ? "그루브 꺼짐 · 클릭만 듣고 박을 지키세요" : "가이드 그루브 + 클릭 · 박에 탭"; },
+      onStop() { light(-1); phase.className = "cnt-phase"; phase.textContent = "멈춤 · 클릭 자리를 바꿔 다시 해 보세요"; },
+    });
+    const st = s.start; s.start = function () { st(); T0 = s.t0; phase.className = "cnt-phase listen"; phase.textContent = "가이드 그루브 + 클릭 · 박에 탭"; };
+    sc = s;
+    return s;
+  }, ["▶ 시작", "■ 정지"]);
+  document.getElementById("cnt-pl-reset").addEventListener("click", () => { taps = []; report(); cv.redraw(); });
+  lamps(); report();
+})();
+
+/* ================================================================ 7. 갭 클릭 */
+(function () {
+  const kit = DR.kit({ room: 0.06 }), pad = cntPad("cnt-gp-pad", kit);
+  const phase = document.getElementById("cnt-gp-phase"), lampsEl = document.getElementById("cnt-gp-lamps");
+  const gap = MB.seg("cnt-gp-gap"), cyc = MB.seg("cnt-gp-cyc"), voice = MB.seg("cnt-gp-voice");
+  const bpm = MB.range("cnt-gp-bpm", (v) => v + " BPM");
+  let run = null; // {T0, spb, g:[a,b], beats:{k:{dev, t}}, total}
+  const silent = (k) => { const g = run.g, bar = Math.floor(k / 4); return MB.mod(bar, g[0] + g[1]) >= g[0]; };
+  DR.tapper(kit, { onTap(tp) {
+    if (!run || !run.live) return;
+    const t = cntTapTime(tp), k = Math.round((t - run.T0) / run.spb), d = t - (run.T0 + k * run.spb);
+    if (k < 0 || k > run.total || Math.abs(d) > 0.4 * run.spb) return;
+    const prev = run.beats[k];
+    if (!prev || Math.abs(d) < Math.abs(prev.dev / 1000)) run.beats[k] = { dev: d * 1000, t };
+    cntFlash(pad, d * 1000);
+    report(); cv.redraw();
+  } });
+  function report() {
+    if (!run) return;
+    const ks = Object.keys(run.beats).map(Number).sort((a, b) => a - b);
+    const on = cntStats(ks.filter((k) => !silent(k)).map((k) => run.beats[k].dev)), off = cntStats(ks.filter((k) => silent(k)).map((k) => run.beats[k].dev));
+    const cyc4 = (run.g[0] + run.g[1]) * 4;
+    const back = cntStats(ks.filter((k) => k > 0 && k % cyc4 === 0).map((k) => run.beats[k].dev));
+    const iv = []; for (let i = 1; i < ks.length; i++) { const a = ks[i - 1], b = ks[i]; if (b === a + 1 && silent(a) && silent(b)) iv.push(run.beats[b].t - run.beats[a].t); }
+    const ivs = cntStats(iv);
+    MB.stat("cnt-gp-o-on", on.n ? `${cntSgn(on.mean)} / ±${cntF(on.sd || 0, 0)} ms` : "—");
+    MB.stat("cnt-gp-o-off", off.n ? `${cntSgn(off.mean)} / ±${cntF(off.sd || 0, 0)} ms` : "—");
+    MB.stat("cnt-gp-o-back", back.n ? cntSgn(back.mean) + " ms" : "—");
+    MB.stat("cnt-gp-o-bpm", ivs.n ? `${cntF(60 / ivs.mean, 1)} (목표 ${cntF(60 / run.spb, 0)})` : "—");
+    const elapsed = Math.min(run.total, Math.floor((MB.now() - run.T0) / run.spb - 0.4));
+    let miss = 0; for (let k = 0; k <= elapsed; k++) if (!run.beats[k]) miss++;
+    MB.stat("cnt-gp-o-miss", String(Math.max(0, miss)));
+  }
+  const cv = MB.canvas("#cnt-gp-cv", (ctx, W, H) => {
+    const P = MB.palette(), L = 40, R = 8, T = 8, B = 18;
+    const total = run ? run.total : 32, range = run ? Math.round(0.4 * run.spb * 1000) : 150;
+    const X = (k) => L + ((W - L - R) * k) / Math.max(1, total), Y = (d) => T + (H - T - B) / 2 - (d / range) * ((H - T - B) / 2);
+    if (run) for (let bar = 0; bar < total / 4; bar++) if (silent(bar * 4)) { ctx.fillStyle = P.surface; ctx.fillRect(X(bar * 4 - 0.5), T, X(4) - X(0), H - T - B); }
+    ctx.font = "10.5px " + cntMono(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-range, 0, range].forEach((d) => { ctx.strokeStyle = d ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(L, Y(d)); ctx.lineTo(W - R, Y(d)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText((d > 0 ? "+" : "") + d, L - 4, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let bar = 0; bar <= total / 4; bar += Math.max(1, Math.round(total / 4 / 8))) ctx.fillText(String(bar + 1), X(bar * 4), H - B + 4);
+    if (!run) return;
+    const ks = Object.keys(run.beats).map(Number).sort((a, b) => a - b), cyc4 = (run.g[0] + run.g[1]) * 4;
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 1.5; ctx.beginPath();
+    ks.forEach((k, i) => { const x = X(k), y = Y(MB.clamp(run.beats[k].dev, -range, range)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
+    ks.forEach((k) => { const d = run.beats[k].dev, back = k > 0 && k % cyc4 === 0; ctx.fillStyle = back ? P.warn : cntDevColor(d, P); ctx.beginPath(); ctx.arc(X(k), Y(MB.clamp(d, -range, range)), back ? 5 : 3.2, 0, 7); ctx.fill(); });
+  }, { aspect: (w) => (w < 480 ? 0.5 : 0.3), minHeight: 160, maxHeight: 240 });
+  cntBind("cnt-gp-play", () => {
+    const g = gap().split(",").map(Number), v = bpm(), n = +cyc();
+    run = { spb: 60 / v, g, beats: {}, total: n * (g[0] + g[1]) * 4, live: true };
+    report(); cv.redraw();
+    const m = DR.metronome({
+      bpm: v, beats: 4, sub: 1, gap: g, voice: () => voice(),
+      onBeat(b, bar, when, sounding) {
+        [...lampsEl.children].forEach((el, i) => { el.classList.toggle("on", i === b); el.classList.toggle("off", !sounding); });
+        phase.className = "cnt-phase " + (sounding ? "listen" : "quiet");
+        phase.textContent = sounding ? `클릭 · 마디 ${bar + 1}` : `무음 · 마디 ${bar + 1} · 속으로 세며 계속 치세요`;
+        if (bar * 4 + b >= run.total) setTimeout(() => m.stop(), 250);
+        cv.redraw();
+      },
+      onStop() { run.live = false; [...lampsEl.children].forEach((el) => el.classList.remove("on", "off")); phase.className = "cnt-phase"; phase.textContent = "끝 · 그래프와 '복귀 첫 박 오차'를 보세요"; report(); cv.redraw(); },
+    });
+    const st = m.start; m.start = function () { st(); run.T0 = m.t0; };
+    return m;
+  }, ["▶ 시작", "■ 정지"]);
+})();
+
+/* ================================================================ 8. 세분 섞기 */
+(function () {
+  const ALL = [1, 2, 3, 4, 6], on = new Set([2, 3, 4]);
+  const chips = document.getElementById("cnt-mx-divs");
+  chips.innerHTML = ALL.map((d) => `<button data-d="${d}" class="${on.has(d) ? "on" : ""}">${CNT_SHORT[d]}</button>`).join("");
+  chips.addEventListener("click", (e) => { const b = e.target.closest("button[data-d]"); if (!b) return; const d = +b.dataset.d; if (on.has(d) && on.size > 2) on.delete(d); else on.add(d); chips.querySelectorAll("button").forEach((x) => x.classList.toggle("on", on.has(+x.dataset.d))); newSeq(); });
+  const kit = DR.kit(), tapKit = DR.kit({ room: 0.06 }), pad = cntPad("cnt-mx-pad", tapKit);
+  const nBars = MB.seg("cnt-mx-bars", () => newSeq());
+  const bpm = MB.range("cnt-mx-bpm", (v) => v + " BPM");
+  const demo = MB.check("cnt-mx-demo"), kick = MB.check("cnt-mx-kick");
+  const big = document.getElementById("cnt-mx-big"), resEl = document.getElementById("cnt-mx-res");
+  const narrow = () => (document.getElementById("cnt-mx-staff").clientWidth || 600) < 520;
+  const staff = DR.staff("#cnt-mx-staff", [], { counts: true, barNumbers: true, barsPerLine: 2 });
+  let seq = [], sEv = [], run = null, bd = null;
+  function newSeq() {
+    if (bd && bd.running) bd.halt();
+    const pool = ALL.filter((d) => on.has(d)), N = +nBars();
+    seq = []; for (let i = 0; i < N; i++) { let d; do d = pool[Math.floor(Math.random() * pool.length)]; while (i && d === seq[i - 1] && pool.length > 1); seq.push(d); }
+    sEv = [];
+    seq.forEach((d, bar) => { for (let k = 0; k < 4 * d; k++) sEv.push({ t: bar * 4 + k / d, p: "snare", v: k % d === 0 ? 0.9 : 0.6, hand: k % 2 ? "L" : "R", bar }); for (let b = 0; b < 4; b++) sEv.push({ t: bar * 4 + b, p: "kick", v: 0.75, bar }); });
+    sEv = DR.sort(sEv);
+    staff.setEvents(sEv, { bars: N, barsPerLine: narrow() ? 1 : 2 });
+    resEl.innerHTML = seq.map((d, i) => `<span data-b="${i}">${i + 1}: ${CNT_SHORT[d]}</span>`).join("");
+    big.innerHTML = `준비<small>${seq.map((d) => CNT_SHORT[d]).join(" → ")}</small>`;
+    ["hit", "abs", "weak", "score"].forEach((k) => MB.stat("cnt-mx-o-" + k, "—"));
+    run = null;
+  }
+  DR.tapper(tapKit, { onTap(tp) { if (run && run.live) run.taps.push(cntTapTime(tp)); } });
+  function scoreBar(bar) {
+    const d = seq[bar], step = run.spb / d, b0 = run.T0 + (bar + 1) * 4 * run.spb;
+    const idx = [], exp = [];
+    sEv.forEach((e, i) => { if (e.bar === bar && e.p === "snare") { idx.push(i); exp.push(run.T0 + (e.t + 4) * run.spb); } });
+    const taps = run.taps.filter((t) => t >= b0 - step / 2 && t < b0 + 4 * run.spb - step / 2);
+    const r = DR.score(exp, taps, { window: 0.45 * step });
+    r.pairs.forEach((p, j) => staff.mark(idx[j], p.dev != null ? "ok" : "bad"));
+    const devs = r.pairs.filter((p) => p.dev != null).map((p) => Math.abs(p.dev)), am = devs.length ? devs.reduce((a, b) => a + b, 0) / devs.length : NaN;
+    run.res[bar] = { d, hits: r.hits, n: exp.length, abs: am, extra: r.extra };
+    const el = resEl.querySelector(`span[data-b="${bar}"]`);
+    if (el) { el.className = r.hits === exp.length && am < 25 ? "ok" : r.hits >= 0.75 * exp.length ? "warn" : "bad"; el.textContent = `${bar + 1}: ${CNT_SHORT[d]} ${r.hits}/${exp.length}${isFinite(am) ? " · " + cntF(am, 0) + "ms" : ""}`; }
+    summary();
+  }
+  function summary() {
+    const rs = run.res.filter(Boolean); if (!rs.length) return;
+    const hits = rs.reduce((a, r) => a + r.hits, 0), n = rs.reduce((a, r) => a + r.n, 0);
+    const w = rs.filter((r) => isFinite(r.abs)), am = w.length ? w.reduce((a, r) => a + r.abs * r.hits, 0) / Math.max(1, w.reduce((a, r) => a + r.hits, 0)) : NaN;
+    const byD = {}; rs.forEach((r) => { (byD[r.d] = byD[r.d] || []).push(r.hits / r.n - (isFinite(r.abs) ? r.abs / 200 : 0.5)); });
+    const weak = Object.keys(byD).sort((a, b) => byD[a].reduce((x, y) => x + y, 0) / byD[a].length - byD[b].reduce((x, y) => x + y, 0) / byD[b].length)[0];
+    MB.stat("cnt-mx-o-hit", `${hits} / ${n}`);
+    MB.stat("cnt-mx-o-abs", isFinite(am) ? cntF(am, 1) + " ms" : "—");
+    MB.stat("cnt-mx-o-weak", weak ? CNT_SHORT[weak] : "—");
+    MB.stat("cnt-mx-o-score", String(Math.round(Math.max(0, (hits / n) * (1 - (isFinite(am) ? am : 50) / 50)) * 100)));
+  }
+  bd = cntBind("cnt-mx-play", () => {
+    if (!seq.length) newSeq();
+    staff.unmark();
+    resEl.querySelectorAll("span").forEach((el, i) => { el.className = ""; el.textContent = `${i + 1}: ${CNT_SHORT[seq[i]]}`; });
+    const v = bpm(), N = seq.length;
+    run = { spb: 60 / v, taps: [], res: [], live: true, T0: 0 };
+    const all = sEv.map((e, i) => Object.assign({}, e, { t: e.t + 4, si: i }));
+    DR.warm(["snare", "kick"]);
+    let lastBar = -1;
+    const s = DR.playEvents(all, {
+      kit, bpm: v, length: (N + 1) * 4 + 1, loop: false, click: true,
+      mute: (p) => (p === "snare" && !demo()) || (p === "kick" && !kick()),
+      onBeat(b) {
+        const bar = Math.floor(b / 4) - 1;
+        if (bar !== lastBar) {
+          if (lastBar >= 0) scoreBar(lastBar);
+          lastBar = bar;
+          resEl.querySelectorAll("span").forEach((el, i) => el.classList.toggle("now", i === bar));
+          if (bar < 0) big.innerHTML = `예비 마디<small>첫 마디: ${CNT_DIV[seq[0]]} · ${cntSylLine(seq[0])}</small>`;
+          else if (bar < N) big.innerHTML = `${CNT_DIV[seq[bar]]}<small>${cntSylLine(seq[bar])}${bar + 1 < N ? " · 다음: " + CNT_SHORT[seq[bar + 1]] : " · 마지막 마디"}</small>`;
+        }
+        if (bar >= 0 && bar < N && b % 4 === 3 && bar + 1 < N) big.innerHTML = `${CNT_DIV[seq[bar]]}<small>곧 → ${CNT_DIV[seq[bar + 1]]} (${cntSylLine(seq[bar + 1])})</small>`;
+      },
+      onNote(ev) { if (ev.si != null) staff.highlight(all.filter((e) => Math.abs(e.t - ev.t) < 1e-6).map((e) => e.si)); },
+      onStop() {
+        run.live = false; staff.highlight(-1); staff.at(null);
+        for (let b = 0; b < N; b++) if (!run.res[b]) scoreBar(b);
+        resEl.querySelectorAll("span").forEach((el) => el.classList.remove("now"));
+        big.innerHTML = `끝<small>점수 ${document.getElementById("cnt-mx-o-score").textContent} · '새 문제'로 다시</small>`;
+      },
+    });
+    const st = s.start;
+    s.start = function () { st(); run.T0 = s.t0; const tick = () => { if (!s.running) return; const b = s.beat - 4; staff.at(b >= 0 ? b : null); requestAnimationFrame(tick); }; requestAnimationFrame(tick); };
+    return s;
+  }, ["▶ 시작", "■ 정지"]);
+  document.getElementById("cnt-mx-new").addEventListener("click", () => newSeq());
+  newSeq();
+})();
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@
   "books": [
     "fundamentals/book.json",
     "guitar/book.json",
-    "piano/book.json"
+    "piano/book.json",
+    "drums/book.json"
   ]
 }

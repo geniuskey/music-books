@@ -21,6 +21,14 @@ LOCAL_BOOKS = [{
     'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'piano', 'legacyUrl': None,
     'color': '#7256a6', 'colorDark': '#b49cf0', 'motif': 'piano',
     'topics': ['건반·악보', '운지·터치', '음계·화음', '반주 패턴', '재즈 보이싱', '페달·표현'],
+}, {
+    'id': 'drumbook', 'code': 'DRM', 'title': 'DrumBook', 'subtitle': '드럼 교과서',
+    'headline': '첫 박자에서 나만의 그루브까지',
+    'description': '막과 심벌의 물리, 그립과 스트로크, 박의 세분과 드럼 악보, 루디먼트, 록·16비트·셔플·장르 그루브, 필인과 곡의 구조, 홀수 박자와 폴리리듬, 튜닝과 타이밍의 과학까지 — 브라우저의 가상 드럼으로 직접 두드리며 배우는 드럼 교과서.',
+    'url': 'https://music.euiyun.com/drums/', 'repo': 'https://github.com/geniuskey/music-books', 'field': 'music',
+    'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'drums', 'legacyUrl': None,
+    'color': '#ae4954', 'colorDark': '#f0848e', 'motif': 'drums',
+    'topics': ['리듬·악보', '루디먼트', '그루브', '필인', '장르', '타이밍'],
 }]
 books = books + LOCAL_BOOKS
 catalog = []

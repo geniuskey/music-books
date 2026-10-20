@@ -20,7 +20,7 @@
 
   const chapters = books.reduce((n, b) => n + (b.chapters || 0), 0);
   const simulators = books.reduce((n, b) => n + (b.simulators || 0), 0);
-  document.getElementById("stats").innerHTML = `<span><b>${books.filter(b => b.status !== "planned").length}</b>권 공개</span><span><b>${chapters}</b>개 장</span><span><b>${books.filter(b => b.status === "planned").length}</b>권 준비 예정</span>${simulators >= 100 ? `<span><b>${(Math.floor(simulators / 100) * 100).toLocaleString("ko-KR")}+</b> 시뮬레이터</span>` : ""}`;
+  document.getElementById("stats").innerHTML = `<span><b>${books.filter(b => b.status !== "planned").length}</b>권 공개</span><span><b>${chapters}</b>개 장</span>${books.some(b => b.status === "planned") ? `<span><b>${books.filter(b => b.status === "planned").length}</b>권 준비 예정</span>` : ""}${simulators >= 100 ? `<span><b>${(Math.floor(simulators / 100) * 100).toLocaleString("ko-KR")}+</b> 시뮬레이터</span>` : ""}`;
   // 분야 버튼은 소자에서 산업까지 가치 사슬 순서로 화살표를 잇는다.
   document.getElementById("filters").innerHTML = groups.map((g, i) => (i === 1 ? '<span class="sep" aria-hidden="true"></span>' : i > 1 ? '<span class="chain" aria-hidden="true">→</span>' : "")
     + `<button type="button" data-filter="${g.id}" aria-pressed="${g.id === selected}">${g.label}<span>${count(g)}</span></button>`).join("");

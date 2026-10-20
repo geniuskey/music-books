@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://music.euiyun.com/</loc></url>
+  <url><loc>https://music.euiyun.com/drums/</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/beat.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/counting.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/fills.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/glossary.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/instrument.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/odd.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/reading.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/rudiments.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/setup.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/shuffle.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/sixteenth.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/sound.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/studio.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/styles.html</loc></url>
+  <url><loc>https://music.euiyun.com/drums/chapters/timing.html</loc></url>
   <url><loc>https://music.euiyun.com/fundamentals/</loc></url>
   <url><loc>https://music.euiyun.com/fundamentals/chapters/chords.html</loc></url>
   <url><loc>https://music.euiyun.com/fundamentals/chapters/consonance.html</loc></url>

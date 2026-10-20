@@ -80,20 +80,28 @@ window.MUSIC_BOOKS = [
   },
   {
     "id": "drumbook",
-    "slug": "drums",
     "title": "DrumBook",
     "subtitle": "드럼 교과서",
-    "code": "DRM",
-    "color": "#ae4954",
     "headline": "첫 박자에서 나만의 그루브까지",
-    "topics": [
-      "드럼",
-      "리듬",
-      "그루브",
-      "필인"
-    ],
+    "description": "막과 심벌의 물리, 그립과 스트로크, 박의 세분과 드럼 악보, 루디먼트, 록·16비트·셔플·장르 그루브, 필인과 곡의 구조, 홀수 박자와 폴리리듬, 튜닝과 타이밍의 과학까지 — 브라우저의 가상 드럼으로 직접 두드리며 배우는 드럼 교과서.",
     "stage": "instruments",
-    "status": "planned",
-    "motif": "drums"
+    "status": "published",
+    "color": "#ae4954",
+    "colorDark": "#f0848e",
+    "topics": [
+      "리듬·악보",
+      "루디먼트",
+      "그루브",
+      "필인",
+      "장르",
+      "타이밍"
+    ],
+    "motif": "drums",
+    "code": "DRM",
+    "legacyUrl": null,
+    "slug": "drums",
+    "url": "drums/",
+    "chapters": 15,
+    "simulators": 111
   }
 ];
