@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>페달과 표현 · PianoBook</title>
+<meta name="description" content="세 페달의 구조, 댐퍼 페달의 지속과 공명, 음 다음에 밟는 레가토 페달링, 하프 페달·소스테누토·우나 코르다, 셈여림 곡선과 프레이징, 아티큘레이션을 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/pedal.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="페달과 표현 · PianoBook">
+<meta property="og:description" content="세 페달의 구조, 댐퍼 페달의 지속과 공명, 음 다음에 밟는 레가토 페달링, 하프 페달·소스테누토·우나 코르다, 셈여림 곡선과 프레이징, 아티큘레이션을 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/pedal.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .ctrl > .seg { justify-self: start; }
+  .pd-mech { display: block; width: 100%; max-width: 520px; margin: 0 auto; height: auto; touch-action: manipulation; }
+  .pd-mech .str { stroke: var(--text-dim); stroke-width: 2.2; }
+  .pd-mech .str.hit { stroke: var(--accent); }
+  .pd-mech .wood { fill: var(--surface-2); stroke: var(--border); }
+  .pd-mech .felt { fill: var(--accent-2); }
+  .pd-mech .wire { stroke: var(--text-faint); stroke-width: 1.4; stroke-dasharray: 3 3; }
+  .pd-mech .damper { transition: transform .14s ease-out; }
+  .pd-mech.lift .damper { transform: translateY(-14px); }
+  .pd-mech .ham { transition: transform .05s ease-in; transform-box: view-box; transform-origin: 60px 160px; }
+  .pd-mech.strike .ham { transform: rotate(-11deg); }
+  .pd-mech .hamtop { transition: transform .18s ease-out; }
+  .pd-mech.soft .hamtop { transform: translateX(15px); }
+  .pd-mech .pd-ped { cursor: pointer; transition: transform .1s; }
+  .pd-mech .pd-ped rect { fill: var(--surface-2); stroke: var(--text-faint); stroke-width: 1.4; }
+  .pd-mech .pd-ped.on { transform: translateY(5px); }
+  .pd-mech .pd-ped.on rect { fill: var(--accent); stroke: var(--accent); }
+  .pd-mech .pd-ped:focus-visible rect { stroke: var(--accent); stroke-width: 3; }
+  .pd-mech .sostcap { fill: var(--accent-2); opacity: 0; transition: opacity .15s; }
+  .pd-mech.sostcap .sostcap { opacity: 1; }
+  .pd-chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px 10px; border-top: 1px solid var(--border); min-height: 20px; }
+  .pd-chips span { font: 600 12px var(--mono); padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); }
+  .pd-chips span.ok { border-color: var(--ok); color: var(--ok); }
+  .pd-chips span.blur { border-color: var(--bad); color: var(--bad); }
+  .pd-chips span.gap { border-color: var(--warn); color: var(--warn); }
+  .pd-bigbtn { width: 100%; padding: 16px 10px !important; font-size: 16px !important; user-select: none; -webkit-user-select: none; touch-action: none; }
+  .pd-bigbtn.down { background: var(--accent) !important; color: var(--on-accent) !important; border-color: var(--accent) !important; }
+  .pd-pad { padding: 8px 10px; }
+  .pd-canvas-edit { cursor: crosshair; touch-action: none; }
+  .pd-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 3px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="pedal">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 11</div>
+    <h1>페달과 표현</h1>
+    <p class="lead">같은 건반을 같은 순서로 눌러도 어떤 연주는 노래하고 어떤 연주는 타자기처럼 들립니다. 차이의 절반은 발에서, 나머지 절반은 음 하나하나의 크기와 길이를 다루는 손에서 나옵니다. 이 장에서는 피아노 아래의 세 페달이 실제로 무엇을 움직이는지, 댐퍼 페달을 밟으면 왜 소리가 '길어질' 뿐 아니라 '넓어지는지', 레가토 페달링을 왜 화음 <b>다음에</b> 밟아야 하는지를 소리와 타이밍 게임으로 익힙니다. 이어서 하프 페달·소스테누토·우나 코르다를 듣고, 셈여림 곡선을 직접 그려 프레이즈를 만들고, 스타카토·테누토·악센트가 음의 길이와 무게를 어떻게 바꾸는지 확인합니다.</p>
+    <ul class="objectives">
+      <li>그랜드 피아노의 세 페달(댐퍼·소스테누토·우나 코르다)과 업라이트 페달의 기계적 차이를 설명한다.</li>
+      <li>댐퍼를 모두 들면 다른 현들이 배음 일치에 따라 함께 울리는 교감 공명을 \(n f_e \approx j f_k\) 조건으로 설명한다.</li>
+      <li>'음 다음에 페달' 규칙으로 레가토 페달링을 하고, 번짐(앞 화음이 남음)과 끊김(소리 공백)을 구분한다.</li>
+      <li>하프 페달과 플러터 페달로 여운의 양을 조절하고, 소스테누토로 베이스 하나만 붙잡는다.</li>
+      <li>Ped.·✱·괄호선, u.c.·t.c., 헤어핀, 스타카토·테누토·악센트 같은 표현 기호를 읽고 연주로 옮긴다.</li>
+      <li>벨로시티와 데시벨의 관계를 알고, 프레이즈의 셈여림 곡선을 의도적으로 설계한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="three">
+    <h2>세 개의 페달: 발이 움직이는 것</h2>
+    <p>그랜드 피아노 아래에는 보통 페달이 세 개 있습니다. 오른쪽은 <b>댐퍼 페달</b><span class="en">(Damper pedal, Sustain pedal)</span>, 가운데는 <b>소스테누토 페달</b><span class="en">(Sostenuto pedal)</span>, 왼쪽은 <b>우나 코르다</b><span class="en">(Una corda, Soft pedal)</span>입니다. 셋은 모두 지레와 막대(트랩워크)로 액션에 이어져 있지만 움직이는 부품이 전혀 다릅니다.</p>
+    <p><a href="instrument.html">1장</a>에서 보았듯이 건반을 누르면 해머가 현을 때리고, 동시에 건반 뒤끝이 그 음의 <b>댐퍼</b>(펠트 덩어리)를 현에서 들어 올립니다. 건반을 놓으면 댐퍼가 내려와 현을 멈춥니다. 오른쪽 페달은 <b>모든 댐퍼를 한꺼번에</b> 들어 올리는 리프트 레일을 밀어 올립니다. 그래서 손을 떼도 소리가 이어지고, 친 적 없는 현들까지 자유롭게 풀려납니다. 가운데 페달은 페달을 밟는 순간 <b>이미 올라가 있던 댐퍼만</b> 붙잡아 둡니다. 왼쪽 페달은 댐퍼와 무관하게 액션 전체(건반과 해머)를 옆으로 2–3 mm 밀어, 한 음에 세 줄씩 걸린 현(트리코드) 가운데 두 줄만 치게 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 330" role="img" aria-label="그랜드 피아노 페달 기구">
+        <text class="t" x="20" y="22">옆에서 본 액션(한 음)</text>
+        <line x1="150" y1="80" x2="470" y2="80" class="s-line" style="stroke-width:2.4"/>
+        <text class="t-dim" x="474" y="84">현</text>
+        <!-- hammer -->
+        <line x1="250" y1="180" x2="322" y2="112" class="s-line" style="stroke-width:3"/>
+        <rect x="310" y="94" width="28" height="20" rx="6" class="f-acc2-soft"/>
+        <text class="t-dim" x="344" y="112">해머</text>
+        <circle cx="250" cy="180" r="4" class="f-acc"/>
+        <!-- key -->
+        <rect x="40" y="226" width="320" height="12" rx="3" class="f-surface"/>
+        <path d="M190 238 l-9 16 h18z" class="f-elev"/>
+        <text class="t-dim" x="46" y="220">건반</text>
+        <rect x="210" y="186" width="80" height="34" rx="4" class="f-elev"/>
+        <text class="t-mono" x="216" y="207">잭·렙티션</text>
+        <!-- damper -->
+        <rect x="392" y="60" width="30" height="19" rx="4" class="f-acc-soft"/>
+        <line x1="407" y1="80" x2="407" y2="196" class="s-line" style="stroke-dasharray:3 3"/>
+        <text class="t-dim" x="428" y="70">댐퍼</text>
+        <rect x="360" y="196" width="100" height="9" rx="3" class="f-surface"/>
+        <text class="t-mono" x="466" y="204">댐퍼 레버</text>
+        <path d="M352 226 q20 -6 32 -21" class="s-axis"/>
+        <text class="t-mono" x="300" y="268">건반 뒤끝이 자기 댐퍼만 올림</text>
+        <rect x="350" y="214" width="120" height="7" rx="3" class="f-acc-soft"/>
+        <text class="t-acc" x="476" y="224">리프트 레일</text>
+        <circle cx="440" cy="176" r="6" class="f-acc2-soft"/>
+        <text class="t-mono" x="452" y="168">소스테누토 봉</text>
+        <!-- pedals -->
+        <line x1="130" y1="292" x2="130" y2="250" class="s-axis"/>
+        <line x1="170" y1="292" x2="170" y2="250" class="s-axis"/>
+        <line x1="210" y1="292" x2="210" y2="250" class="s-axis"/>
+        <path d="M210 250 C 300 250 400 240 410 222" class="s-acc"/>
+        <path d="M170 250 C 260 246 420 210 440 182" class="s-axis" style="stroke-dasharray:4 3"/>
+        <path d="M130 250 C 100 250 70 240 60 238" class="s-axis" style="stroke-dasharray:2 3"/>
+        <rect x="116" y="292" width="28" height="18" rx="5" class="f-surface"/>
+        <rect x="156" y="292" width="28" height="18" rx="5" class="f-surface"/>
+        <rect x="196" y="292" width="28" height="18" rx="5" class="f-acc-soft"/>
+        <text class="t-mono" x="102" y="326">왼(소프트)</text>
+        <text class="t-mono" x="158" y="326">가운데</text>
+        <text class="t-mono" x="200" y="326">오른(댐퍼)</text>
+        <text class="t-mono" x="14" y="300">액션 전체를</text>
+        <text class="t-mono" x="14" y="314">옆으로 민다 →</text>
+        <!-- top view -->
+        <text class="t" x="560" y="22">위에서 본 트리코드</text>
+        <line x1="620" y1="40" x2="620" y2="240" class="s-line"/>
+        <line x1="640" y1="40" x2="640" y2="240" class="s-line"/>
+        <line x1="660" y1="40" x2="660" y2="240" class="s-line"/>
+        <text class="t-mono" x="606" y="258">한 음 = 현 3줄</text>
+        <rect x="608" y="110" width="64" height="22" rx="5" class="f-acc2-soft"/>
+        <text class="t-dim" x="684" y="125">평소: 3줄</text>
+        <rect x="628" y="160" width="64" height="22" rx="5" class="f-acc-soft" style="stroke-dasharray:4 3"/>
+        <text class="t-dim" x="700" y="175">우나 코르다:</text>
+        <text class="t-dim" x="700" y="191">2줄 + 펠트의</text>
+        <text class="t-dim" x="700" y="207">덜 다져진 자리</text>
+        <path d="M640 146 l14 0" class="s-acc"/><path d="M654 146 l-5 -4 m5 4 l-5 4" class="s-acc"/>
+        <text class="t-mono" x="560" y="290">업라이트: 왼 = 해머를 현 가까이(하프 블로)</text>
+        <text class="t-mono" x="560" y="306">가운데 = 연습용 펠트(머플러) 또는 저음 지속</text>
+      </svg>
+      <figcaption><b>그림 11-1.</b> 그랜드 피아노의 페달 기구(개념도). 오른쪽 페달은 리프트 레일로 모든 댐퍼 레버를 들어 올린다. 가운데 페달은 소스테누토 봉을 돌려, 그 순간 올라가 있던 댐퍼의 탭만 걸어 둔다. 왼쪽 페달은 건반과 액션 전체를 오른쪽으로 밀어 해머가 세 줄 중 두 줄만 치게 한다(현이 두 줄인 중저음은 한 줄). 업라이트는 구조가 달라 왼쪽 페달이 해머를 현에 가까이 옮겨 타격 거리를 줄인다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>페달</th><th>그랜드</th><th>업라이트</th><th>디지털 피아노</th><th>MIDI</th></tr></thead>
+      <tbody>
+        <tr><td>오른쪽</td><td>댐퍼 전체 들기</td><td>댐퍼 전체 들기</td><td>여운 지속·공명 시뮬레이션(하프 페달 지원 여부는 기종마다)</td><td>CC 64</td></tr>
+        <tr><td>가운데</td><td>소스테누토</td><td>연습용 펠트(머플러) 또는 저음 댐퍼만 들기</td><td>소스테누토 흉내</td><td>CC 66</td></tr>
+        <tr><td>왼쪽</td><td>우나 코르다(액션 옆 이동)</td><td>하프 블로(해머 앞당기기)</td><td>음량·밝기 낮추기</td><td>CC 67</td></tr>
+      </tbody>
+    </table></div>
+    <p>가운데 페달은 역사가 가장 짧습니다. 19세기 중엽 프랑스에서 처음 시도되었고, 1874년 스타인웨이가 특허를 받아 그랜드의 표준 장치로 자리 잡았습니다. 그래서 그 이전 작곡가(바흐·모차르트·베토벤·쇼팽)의 악보에는 소스테누토 지시가 없습니다. 반대로 '한 줄'이라는 뜻의 우나 코르다는 18세기 피아노가 정말로 현 한 줄만 치도록 옮겨 갈 수 있던 데서 나온 이름이고, 해제는 <i>tre corde</i>(세 줄)로 적습니다.</p>
+
+    <div class="sim" id="sim-pd-mech">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>세 페달을 밟아 보기: 댐퍼와 해머가 어떻게 움직이나</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <svg class="pd-mech" id="pd-mc-svg" viewBox="0 0 400 300" role="img" aria-label="페달 상태 그림">
+            <text class="t" x="14" y="18">옆에서 (<tspan id="pd-mc-note">C4</tspan>의 현)</text>
+            <line class="str" id="pd-mc-str" x1="20" y1="70" x2="232" y2="70"/>
+            <g class="damper"><rect class="felt" x="150" y="52" width="28" height="17" rx="4"/><line class="wire" x1="164" y1="69" x2="164" y2="150"/><rect class="sostcap" x="158" y="128" width="12" height="7" rx="2"/></g>
+            <rect class="wood" x="120" y="150" width="90" height="7" rx="3"/>
+            <g class="ham"><line x1="60" y1="160" x2="116" y2="96" style="stroke:var(--text-dim);stroke-width:3"/><rect class="felt" x="104" y="80" width="26" height="19" rx="6"/></g>
+            <circle cx="60" cy="160" r="4" style="fill:var(--accent)"/>
+            <rect class="wood" x="20" y="186" width="210" height="10" rx="3"/>
+            <path d="M118 196 l-8 13 h16z" class="wood"/>
+            <text class="t-dim" x="182" y="64">댐퍼</text><text class="t-dim" x="132" y="104">해머</text>
+            <text class="t-dim" x="14" y="228" id="pd-mc-dtxt">댐퍼가 현 위에 있음 → 건반을 떼면 멈춤</text>
+            <text class="t" x="262" y="18">위에서</text>
+            <line class="str" x1="300" y1="34" x2="300" y2="168"/><line class="str" x1="318" y1="34" x2="318" y2="168"/><line class="str" x1="336" y1="34" x2="336" y2="168"/>
+            <g class="hamtop"><rect class="felt" x="290" y="96" width="56" height="18" rx="5" opacity=".85"/></g>
+            <text class="t-dim" x="262" y="190" id="pd-mc-stxt">3줄을 침</text>
+            <g class="pd-ped" data-ped="soft" tabindex="0" role="button" aria-label="왼쪽 소프트 페달"><rect x="122" y="242" width="40" height="30" rx="7"/></g>
+            <g class="pd-ped" data-ped="sost" tabindex="0" role="button" aria-label="가운데 소스테누토 페달"><rect x="180" y="242" width="40" height="30" rx="7"/></g>
+            <g class="pd-ped" data-ped="damper" tabindex="0" role="button" aria-label="오른쪽 댐퍼 페달"><rect x="238" y="242" width="40" height="30" rx="7"/></g>
+            <text class="t-mono" x="120" y="292">소프트</text><text class="t-mono" x="172" y="292">소스테누토</text><text class="t-mono" x="242" y="292">댐퍼</text>
+          </svg>
+          <div id="pd-mc-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="pd-mc-phrase">▶ 펼침화음 악구</button><button class="btn" id="pd-mc-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="pd-mc-hold">C3 누른 채 가운데 페달</button></div>
+          <div class="btn-row"><button class="btn" id="pd-mc-reset">페달 모두 떼기</button></div>
+          <p class="pn-hint">그림의 페달을 클릭하면 밟기/떼기. <kbd>스페이스</kbd> = 댐퍼 페달. 건반은 클릭 또는 <kbd>A</kbd>–<kbd>K</kbd>.</p>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">댐퍼 페달</span><span class="v" id="pd-mc-o-d">뗌</span></div>
+        <div class="stat"><span class="k">소스테누토가 잡은 음</span><span class="v" id="pd-mc-o-s">없음</span></div>
+        <div class="stat"><span class="k">우나 코르다</span><span class="v" id="pd-mc-o-u">뗌</span></div>
+        <div class="stat"><span class="k">지금 울리는 건반</span><span class="v" id="pd-mc-o-n">0</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 페달 없이 건반을 짧게 눌러 댐퍼가 바로 내려오는 것을 보고, ② 댐퍼 페달을 밟고 같은 건반을 눌렀다 떼서 댐퍼가 올라간 채로 남는 것을 보세요. ③ 'C3 누른 채 가운데 페달'을 누른 뒤 위쪽 건반을 짧게 쳐 보면 C3만 계속 울립니다. ④ 소프트 페달을 밟으면 해머가 오른쪽으로 옮겨 가고 소리가 부드럽고 작아집니다. 모델: 그림은 개념도이며 소리는 비조화 배음·2단 감쇠·유니즌 맥놀이 합성 피아노. 우나 코르다는 '한 단계 여린 해머 + 약 −3 dB'로 근사합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="damper">
+    <h2>댐퍼 페달: 길어지는 소리, 넓어지는 소리</h2>
+    <p>댐퍼 페달의 첫 번째 효과는 누구나 압니다. 손을 떼도 소리가 이어집니다. 손이 다음 화음으로 옮겨 가는 동안 소리를 이어 주므로, 손가락만으로는 불가능한 넓은 펼침화음과 도약이 이어진 선율처럼 들립니다. 두 번째 효과는 덜 알려졌지만 '피아노다운 소리'의 핵심입니다. 모든 댐퍼가 들리면 230여 개의 현이 전부 풀려나고, 친 음의 배음과 주파수가 맞는 현들이 브리지와 향판을 통해 전해진 진동을 받아 <b>함께 울립니다</b>. 이것을 교감 공명<span class="en">(Sympathetic resonance)</span>이라고 합니다. 페달을 밟고 친 음이 더 풍성하고 공간감 있게 들리는 것은 그 때문입니다.</p>
+    <p>어떤 현이 잘 따라 울릴까요? 친 음 \(e\)의 \(n\)번 배음과 다른 현 \(k\)의 \(j\)번 배음의 주파수가 거의 같으면 에너지가 잘 건너갑니다(<a href="../../fundamentals/chapters/harmonics.html">배음</a>을 떠올리세요).</p>
+    <div class="formula">$$n\,f_e\sqrt{1+B_e n^2}\;\approx\; j\,f_k\sqrt{1+B_k j^2} \quad\Longrightarrow\quad \frac{f_k}{f_e}\approx\frac{n}{j}\ \ (B\to 0)$$
+      <div class="where">\(f_e, f_k\)는 두 현의 기본 주파수, \(B\)는 비조화 계수(1장). 작은 정수비 \(n/j\)일수록 낮은(=센) 배음끼리 맞으므로 공명이 크다. 그래서 C2를 치면 옥타브 위 C3(2:1), 12도 위 G3(3:1), 두 옥타브 위 C4(4:1), 5도 위 G2(3:2)가 먼저 울리고, 반음 옆 C♯2 같은 현은 거의 울리지 않는다. 높은 배음일수록 \(\sqrt{1+Bn^2}\) 때문에 조금씩 어긋나 공명이 약해진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="교감 공명의 배음 일치"><g id="pd-fig-res"></g></svg>
+      <figcaption><b>그림 11-2.</b> C2를 쳤을 때 배음(맨 윗줄)과 다른 현들의 배음(아래 줄)을 로그 주파수 축에 그렸다. 점선으로 이어진 곳이 주파수가 거의 겹치는 자리다. C3·G3·C4·E4는 여러 배음이 겹쳐 잘 따라 울리고, C♯3은 겹치는 곳이 거의 없다. 막대 길이는 엔진 음원 모델의 배음 세기.</figcaption>
+    </figure>
+    <p>공명을 가장 또렷하게 듣는 고전적인 실험이 있습니다. 오른손으로 C4–E4–G4를 <b>소리 나지 않게 천천히</b> 눌러 댐퍼만 들어 놓고, 왼손으로 C2를 세게 짧게 칩니다. C2는 바로 멈추지만 C4·G4(그리고 약하게 E4)가 유령처럼 남아 울립니다. C2의 4번·6번·5번 배음이 그 현들을 흔들었기 때문입니다. 반대로 C♯4–F4–G♯4를 눌러 놓으면 거의 아무것도 남지 않습니다. 맨 위 약 한 옥타브 반(이 엔진에서는 F♯6 위)에는 원래 댐퍼가 없어서, 페달을 밟지 않아도 그 현들이 늘 조금씩 공명에 참여합니다.</p>
+
+    <div class="sim" id="sim-pd-resonance">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>교감 공명: 페달을 밟으면 누가 따라 울리나</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-pd-res"></canvas><div id="pd-rs-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>댐퍼 페달</span><div class="seg" id="pd-rs-ped"><button data-value="up" class="on">뗌</button><button data-value="down">밟음</button></div></div>
+          <div class="ctrl"><span>소리 없이 눌러 둔 건반</span><div class="seg" id="pd-rs-sil"><button data-value="none" class="on">없음</button><button data-value="ceg">C4·E4·G4</button><button data-value="far">C♯4·F4·G♯4</button></div></div>
+          <label class="ctrl"><span>공명 크기(과장) <output id="pd-rs-amt-out"></output></span><input type="range" id="pd-rs-amt" min="0" max="3" step="0.1" value="1"></label>
+          <label class="check"><input type="checkbox" id="pd-rs-on" checked> 공명 모델 켜기</label>
+          <div class="btn-row"><button class="btn primary" id="pd-rs-c2">C2 세게, 짧게</button><button class="btn" id="pd-rs-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">풀려 있는 현</span><span class="v" id="pd-rs-o-free">—</span></div>
+        <div class="stat"><span class="k">가장 센 공명</span><span class="v" id="pd-rs-o-top">—</span></div>
+        <div class="stat"><span class="k">공명 현 수</span><span class="v" id="pd-rs-o-n">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '소리 없이 눌러 둔 건반 = C4·E4·G4'로 두고 'C2 세게, 짧게'를 눌러 C2가 멈춘 뒤 남는 소리를 들으세요. C♯4·F4·G♯4로 바꾸면 거의 남지 않습니다. 이어서 댐퍼 페달을 밟고 아무 건반이나 짧게 쳐 보세요. 캔버스의 막대는 88현 각각의 공명 세기(로그), 색이 찬 막대는 실제로 풀려 있어 울린 현, 테두리만 있는 막대는 '댐퍼에 막혀 울지 못한' 현입니다. 공명 모델 체크를 끄고 켜며 비교하세요. 모델: 두 현의 배음 쌍마다 주파수 차가 약 7센트 폭의 가우스 창 안이면 그 현의 배음을 천천히 키운 사인파로 더한다(향판 결합·위상·현 사이 에너지 교환은 생략, 기본값도 실제보다 약간 크게). 건반: 클릭 또는 <kbd>A</kbd>–<kbd>K</kbd>, <kbd>Z</kbd>/<kbd>X</kbd> 옥타브.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 실제 피아노로 공명 듣기 (5분)</strong>
+      <p>① 오른손으로 C4–E4–G4를 해머가 현에 닿지 않을 만큼 천천히 눌러 그대로 유지합니다. ② 왼손으로 C2(또는 C3)를 <i>f</i>로 짧게 칩니다. ③ 남는 소리를 10초 동안 듣습니다. 같은 실험을 D♭4–F4–A♭4로 반복해 비교하세요. 그다음 댐퍼 페달을 밟은 채 C4 하나를 짧게 치고, 페달 없이 친 C4와 비교합니다. 페달을 밟은 소리가 '길다'가 아니라 '넓다'고 느껴지면 성공입니다. 페달을 밟기 전에 먼저 깨끗한 손가락 레가토를 만들어야 한다는 사실도 기억하세요. 페달은 손의 실수를 가리는 도구가 아니라 공명을 더하는 도구입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="legato">
+    <h2>레가토 페달링: 음 <i>다음에</i> 밟는다</h2>
+    <p>화음이 바뀔 때마다 페달을 갈아 주어야 앞 화음이 새 화음에 섞이지 않습니다. 초보자가 가장 먼저 시도하는 방법은 건반과 페달을 <b>동시에</b> 누르는 것입니다. 그러면 두 가지 중 하나가 일어납니다. 페달을 화음보다 먼저 떼면 앞 소리가 끊긴 뒤 새 화음이 나오기까지 공백이 생기고(끊김), 새 화음을 친 뒤 한참 있다 떼면 두 화음이 겹쳐 탁해집니다(번짐). 해결책은 19세기에 정착한 <b>레가토(싱코페이션) 페달링</b><span class="en">(Legato pedaling, Syncopated pedaling)</span>입니다.</p>
+    <ol>
+      <li>새 화음을 <b>친다</b>. 손가락이 새 화음을 붙잡고 있는 동안 소리는 이어진다.</li>
+      <li>바로 그 순간(또는 직후) 페달을 <b>뗀다</b>. 댐퍼가 내려와 앞 화음만 지운다. 새 화음은 손가락이 들고 있으니 살아남는다.</li>
+      <li>짧게(0.1초 남짓) 뒤 페달을 다시 <b>밟는다</b>. 이제 새 화음이 페달에 붙잡힌다.</li>
+      <li>손은 자유롭게 다음 화음으로 옮겨 가도 된다.</li>
+    </ol>
+    <p>발은 손보다 반 박자 늦게, 박 사이에서 움직이므로 '싱코페이션'이라는 이름이 붙었습니다. 핵심은 <b>페달을 떼는 순간 = 새 음이 나는 순간</b>, <b>밟는 순간 = 손가락이 아직 건반에 있을 때</b>입니다. 댐퍼가 현을 멈추는 데 수십–수백 밀리초가 걸리므로(굵은 저음 현일수록 오래), 아주 짧은 번짐은 귀에 거의 들리지 않습니다. 하지만 페달을 너무 짧게 떼면 댐퍼가 현에 충분히 닿지 못해 앞 화음이 남고, 너무 늦게 밟으면 손을 이미 뗀 새 화음이 끊깁니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="레가토 페달링 타이밍">
+        <text class="t-dim" x="10" y="52">손(건반)</text>
+        <text class="t-dim" x="10" y="122">페달</text>
+        <text class="t-dim" x="10" y="192">소리</text>
+        <line x1="150" y1="20" x2="150" y2="230" class="s-axis" style="stroke-dasharray:3 4"/>
+        <line x1="380" y1="20" x2="380" y2="230" class="s-axis" style="stroke-dasharray:3 4"/>
+        <line x1="610" y1="20" x2="610" y2="230" class="s-axis" style="stroke-dasharray:3 4"/>
+        <text class="t-mono" x="140" y="16">화음 1</text><text class="t-mono" x="370" y="16">화음 2</text><text class="t-mono" x="600" y="16">화음 3</text>
+        <rect x="150" y="36" width="190" height="24" rx="5" class="f-acc-soft"/>
+        <rect x="380" y="36" width="190" height="24" rx="5" class="f-acc2-soft"/>
+        <rect x="610" y="36" width="170" height="24" rx="5" class="f-acc-soft"/>
+        <text class="t-mono" x="296" y="78">손이 떠남</text>
+        <path d="M100 136 H180 V104 H380 V136 H410 V104 H610 V136 H640 V104 H780" class="s-acc"/>
+        <text class="t-mono" x="384" y="152">뗌</text><text class="t-mono" x="404" y="98">밟음</text>
+        <text class="t-mono" x="150" y="152">음 다음에 밟음</text>
+        <rect x="150" y="176" width="232" height="24" rx="5" class="f-acc-soft"/>
+        <rect x="380" y="176" width="232" height="24" rx="5" class="f-acc2-soft"/>
+        <rect x="610" y="176" width="170" height="24" rx="5" class="f-acc-soft"/>
+        <text class="t-mono" x="250" y="222">손을 떼도 페달이 이어 줌 · 겹침은 댐퍼가 멈추는 수십 ms뿐</text>
+      </svg>
+      <figcaption><b>그림 11-3.</b> 레가토 페달링의 타이밍. 페달은 새 화음이 울리는 순간 떼고(앞 화음 지우기), 아주 조금 뒤 다시 밟는다(새 화음 붙잡기). 손은 다음 화음으로 미리 떠나도 소리는 끊기지 않는다.</figcaption>
+    </figure>
+
+    <h3>페달 기호 읽기</h3>
+    <p>전통적인 표기는 <i>Ped.</i>(밟기)와 ✱(떼기)입니다. 정확한 위치를 나타내기 어렵기 때문에 현대 악보는 보표 아래에 <b>괄호선</b>을 많이 씁니다. 선이 내려가는 곳에서 밟고, 위로 꺾이는 곳에서 떼며, 가운데의 뾰족한 'ㅅ' 모양은 '떼었다가 바로 다시 밟기'(페달 바꾸기)입니다. 하프 페달은 ½ Ped. 같은 표기를 쓰기도 하지만 대부분 연주자의 판단에 맡깁니다. 우나 코르다는 <i>u.c.</i>(una corda), 해제는 <i>t.c.</i>(tre corde), 소스테누토는 <i>Sost. Ped.</i> 또는 <i>S.P.</i>로 적습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 170" role="img" aria-label="페달 기호">
+        <text x="30" y="40" class="t" style="font-family:Georgia,serif;font-style:italic;font-size:22px">Ped.</text>
+        <text x="190" y="40" class="t" style="font-size:22px">✱</text>
+        <text x="30" y="70" class="t-dim">밟기</text><text x="190" y="70" class="t-dim">떼기</text>
+        <path d="M300 20 V44 H460 L475 30 L490 44 H640 L655 30 L670 44 H770 V20" class="s-acc"/>
+        <text x="298" y="70" class="t-dim">밟기</text>
+        <text x="440" y="70" class="t-dim">바꾸기(떼고 바로 밟기)</text>
+        <text x="740" y="70" class="t-dim">떼기</text>
+        <text x="30" y="128" class="t" style="font-family:Georgia,serif;font-style:italic;font-size:18px">u.c.</text>
+        <text x="100" y="128" class="t-dim">우나 코르다(왼쪽 페달)</text>
+        <text x="300" y="128" class="t" style="font-family:Georgia,serif;font-style:italic;font-size:18px">t.c.</text>
+        <text x="350" y="128" class="t-dim">트레 코르데(왼쪽 페달 뗌)</text>
+        <text x="560" y="128" class="t" style="font-family:Georgia,serif;font-style:italic;font-size:18px">Sost. Ped.</text>
+        <text x="670" y="128" class="t-dim">소스테누토</text>
+        <text x="30" y="158" class="t-mono">괄호선의 꺾임은 새 음표 바로 뒤에 온다 → '음 다음에 페달'을 눈으로 보여 주는 표기</text>
+      </svg>
+      <figcaption><b>그림 11-4.</b> 페달 기호. 전통 표기(Ped. ✱)와 현대의 괄호선. 괄호선의 'ㅅ' 꺾임이 레가토 페달링의 '떼고–바로 밟기'다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-pd-legato">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>레가토 페달 타이밍 게임: 번짐도 끊김도 없이</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="pd-lg-staff"></div><canvas id="cv-pd-lg"></canvas><div class="pd-chips" id="pd-lg-chips"><span>시작을 누르면 4번 클릭 뒤 화음이 나옵니다</span></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>누가 밟나</span><div class="seg" id="pd-lg-mode"><button data-value="user" class="on">내가(스페이스)</button><button data-value="good">모범</button><button data-value="blur">안 바꿈</button><button data-value="gap">손과 같이</button></div></div>
+          <label class="ctrl"><span>템포 <output id="pd-lg-bpm-out"></output></span><input type="range" id="pd-lg-bpm" min="40" max="100" step="2" value="60"></label>
+          <div class="btn-row"><button class="btn primary" id="pd-lg-start">▶ 시작</button><button class="btn" id="pd-lg-stop">■ 정지</button></div>
+          <button class="btn pd-bigbtn" id="pd-lg-pedal">페달 (누르고 있기)</button>
+          <p class="pn-hint"><kbd>스페이스</kbd>를 누르고 있으면 페달을 밟은 상태입니다. 화면 버튼을 손가락으로 눌러도 됩니다.</p>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">깨끗한 바꿈</span><span class="v" id="pd-lg-o-ok">—</span></div>
+        <div class="stat"><span class="k">번짐 합계</span><span class="v" id="pd-lg-o-blur">—</span></div>
+        <div class="stat"><span class="k">끊김 합계</span><span class="v" id="pd-lg-o-gap">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="pd-lg-o-g">—</span></div>
+      </div>
+      <div class="sim-note">진행 C–Am–Dm–G–C–F–G7–C가 화음마다 2박씩 나옵니다. 가상 손은 화음 끝 약 0.2초 전에 건반을 떠나 다음 화음으로 이동하므로, 페달로 이어 주지 않으면 공백이 생깁니다. 새 화음이 울리는 순간 <kbd>스페이스</kbd>를 떼었다가 곧바로 다시 누르세요. 먼저 '모범'을 듣고 보세요. 타임라인: 진한 막대 = 손가락이 누른 구간, 옅은 막대 = 페달로 이어진 구간, 빨강 = 앞 화음이 새 화음과 겹친 번짐, 주황 = 소리 공백, 아래 선 = 페달. 판정 기준: 번짐 0.12초 초과 또는 공백 0.04초 초과면 실패. 모델: 댐퍼가 멈추는 시간(수십–수백 ms)을 판정에서는 0으로 본다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 발 하나로 하는 레가토 페달 (하루 5분, 2주)</strong>
+      <p>뒤꿈치는 바닥에 붙이고 발볼로 페달 끝에서 5–7 cm 안쪽을 밟습니다. 처음에는 손 없이 메트로놈(♩ = 60)에 맞춰 '박에서 떼고, "앤"에서 밟기'를 소리 내어 세며 발만 움직입니다(“하나–<b>앤</b>, 둘–<b>앤</b>”). 다음에는 C 화음 하나를 박마다 다시 치며 같은 동작을 합니다. 화음과 화음 사이에 공백이 들리면 밟는 것이 늦은 것이고, 앞 화음이 남으면 떼는 것이 늦거나 너무 짧은 것입니다. 마지막으로 위 시뮬레이터의 진행을 실제 피아노로, 왼손은 근음만, 오른손은 3화음으로 연주합니다. 목표: ♩ = 80에서 8번 바꿈이 모두 깨끗할 것.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="half">
+    <h2>하프 페달과 플러터 페달: 여운의 양 조절</h2>
+    <p>댐퍼 페달은 켜고 끄는 스위치가 아니라 연속적인 조절기입니다. 페달을 끝까지 밟으면 댐퍼가 현에서 완전히 떨어지지만, 반쯤만 밟으면 댐퍼 펠트가 진동하는 현에 <b>살짝 닿아</b> 소리를 멈추지는 않고 빨리 줄입니다. 이것이 하프 페달<span class="en">(Half pedal)</span>입니다. 굵고 진폭이 큰 저음 현은 살짝 닿는 댐퍼로 잘 멈추지 않고, 가는 고음 현은 금방 멈추므로, 하프 페달로 베이스 음은 남기고 위 선율만 정리하는 효과를 얻을 수 있습니다(이 엔진은 그 음높이 차이를 모델링하지 않습니다). 페달을 빠르게 반쯤 떼었다 밟기를 반복하는 <b>플러터 페달</b><span class="en">(Flutter pedal)</span>은 여운을 조금씩 깎아 내며 선율을 맑게 유지합니다.</p>
+    <div class="formula">$$A(t) = A_0\, e^{-t/\tau}, \qquad L(t) = 20\log_{10}\frac{A(t)}{A_0} = -8.69\,\frac{t}{\tau}\ \text{dB}, \qquad T_{60} = \tau\ln 1000 \approx 6.91\,\tau$$
+      <div class="where">\(\tau\)는 시간 상수. 댐퍼가 완전히 닿으면 \(\tau\)는 수십–수백 ms, 페달을 끝까지 밟으면 현 자체의 여운(가온 다 부근에서 수 초)이 된다. 하프 페달은 그 사이 값을 만든다. \(T_{60}\)은 소리가 60 dB 줄어드는 데 걸리는 시간이다.</div>
+    </div>
+
+    <div class="sim" id="sim-pd-half">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>페달 깊이와 감쇠 곡선</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-pd-hf"></canvas><div id="pd-hf-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>페달 깊이 <output id="pd-hf-d-out"></output></span><input type="range" id="pd-hf-d" min="0" max="1" step="0.05" value="0.45"></label>
+          <div class="ctrl"><span>곡선을 볼 음</span><div class="seg" id="pd-hf-m"><button data-value="36">C2</button><button data-value="60" class="on">C4</button><button data-value="84">C6</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pd-hf-run">▶ 음계 달리기</button><button class="btn" id="pd-hf-cmp">세 깊이 비교</button></div>
+          <div class="btn-row"><button class="btn" id="pd-hf-flut">플러터 페달 시범</button><button class="btn" id="pd-hf-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">상태</span><span class="v" id="pd-hf-o-st">—</span></div>
+        <div class="stat"><span class="k">건반을 뗀 뒤 τ</span><span class="v" id="pd-hf-o-tau">—</span></div>
+        <div class="stat"><span class="k">T₆₀</span><span class="v" id="pd-hf-o-t60">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 깊이를 0, 0.45, 1로 바꾸며 '음계 달리기'(C4–C5 오르내림, 8분음표)를 들으세요. 0은 건조하고, 1은 음계 전체가 한 덩어리로 뭉개지고, 0.45는 음마다 짧은 후광만 남습니다. '세 깊이 비교'는 세 깊이를 연달아 들려줍니다. 건반을 직접 치면서 슬라이더를 움직여도 됩니다. 곡선: 건반을 뗀 순간부터의 음량(dB). 회색 = 페달 없음(댐퍼), 주색 = 현재 깊이, 점선 = 끝까지 밟음(현 자체의 여운). 모델: 이 엔진은 0.15 이하를 '뗌', 0.7 이상을 '끝까지'로 보고, 그 사이는 깊이에 비례하는 하나의 시간 상수 \(\tau = (0.6+4d)/5\)초로 줄인다(실제로는 음역마다 다르고 댐퍼 펠트가 닿는 위치에 따라 비선형).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="sostenuto">
+    <h2>소스테누토와 우나 코르다</h2>
+    <p>소스테누토 페달은 '선택적인 댐퍼 페달'입니다. 베이스 음을 길게 유지하면서 그 위의 화음은 스타카토로, 또는 페달 없이 맑게 치고 싶을 때 씁니다. 순서가 중요합니다. <b>먼저 베이스 건반을 누르고, 누른 채로 가운데 페달을 밟고, 그다음 손을 뗍니다.</b> 페달을 밟는 순간 올라가 있던 댐퍼만 걸리므로, 건반을 누르기 전에 밟으면 아무 음도 잡히지 않습니다. 소스테누토를 밟은 채로 댐퍼 페달도 함께 쓸 수 있습니다. 댐퍼 페달을 떼면 소스테누토가 잡은 음만 남습니다. 드뷔시·라벨 이후의 음악과 현대곡에서, 또는 바흐 오르간 곡을 피아노로 옮긴 편곡에서 긴 페달 음(지속 베이스)을 표현할 때 특히 유용합니다.</p>
+
+    <div class="sim" id="sim-pd-sost">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>소스테누토: 베이스만 붙잡고 위는 스타카토</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="pd-so-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>시범에서 쓸 페달</span><div class="seg" id="pd-so-mode"><button data-value="sost" class="on">소스테누토</button><button data-value="damper">댐퍼</button><button data-value="none">없음</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pd-so-demo">▶ 시범</button><button class="btn" id="pd-so-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="pd-so-grab">C2+C3 누르고 잡기</button><button class="btn" id="pd-so-tog">가운데 페달 밟기</button></div>
+          <p class="pn-hint">직접 해 보기: <kbd>A</kbd>–<kbd>K</kbd>로 건반을 누른 채 '가운데 페달 밟기'를 클릭하고 키를 떼 보세요. <kbd>스페이스</kbd> = 댐퍼 페달.</p>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">가운데 페달</span><span class="v" id="pd-so-o-p">뗌</span></div>
+        <div class="stat"><span class="k">붙잡힌 음</span><span class="v" id="pd-so-o-c">없음</span></div>
+        <div class="stat"><span class="k">지금 울리는 건반</span><span class="v" id="pd-so-o-n">0</span></div>
+      </div>
+      <div class="sim-note">시범: C2+C3를 누르고 → (소스테누토면) 가운데 페달을 밟고 → 손을 뗀 뒤 → 오른손이 8분음표 화음을 스타카토로 칩니다. '소스테누토'는 베이스만 길게 남고 화음은 짧게, '댐퍼'는 모든 화음이 겹쳐 뭉개지고, '없음'은 베이스가 곧 끊깁니다. 건반 위 점(주황)이 지금 소스테누토에 잡힌 음입니다. 모델: 잡힌 음은 페달을 뗄 때까지 댐퍼 페달과 같은 방식으로 지속.</div>
+    </div>
+
+    <p>왼쪽의 <b>우나 코르다</b>는 소리를 '작게'라기보다 '다른 색으로' 만듭니다. 액션 전체가 옆으로 옮겨 가면 해머가 세 줄 중 두 줄만 칩니다. 맞지 않은 세 번째 줄은 브리지를 통해 공명으로 조금 늦게 울기 시작해 여운의 결이 달라집니다. 동시에 해머 펠트에서 평소 현이 닿아 단단하게 다져진 홈이 아닌, 옆의 부드러운 자리가 현에 닿습니다. 부드러운 펠트는 현과 접촉하는 시간이 길어 높은 배음을 덜 만들므로 소리가 둥글어집니다(1장의 해머 경도와 같은 원리). 음량만 줄이고 싶다면 손으로 여리게 치면 됩니다. 우나 코르다는 <i>pp</i>에서 '멀리서 들리는' 음색이 필요할 때 씁니다. 업라이트의 왼쪽 페달은 해머를 현에 가까이 옮겨 타격 거리를 줄이는 하프 블로<span class="en">(Half-blow)</span> 방식이라 음색 변화는 적고 음량이 주로 줄어듭니다.</p>
+
+    <div class="sim" id="sim-pd-soft">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>우나 코르다: 배음 스펙트럼 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-pd-soft"></canvas><div id="pd-sf-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="pd-sf-m-out"></output></span><input type="range" id="pd-sf-m" min="36" max="84" step="1" value="60"></label>
+          <label class="ctrl"><span>세기(벨로시티) <output id="pd-sf-v-out"></output></span><input type="range" id="pd-sf-v" min="0.2" max="1" step="0.02" value="0.6"></label>
+          <label class="check"><input type="checkbox" id="pd-sf-on"> 건반 연주에 우나 코르다</label>
+          <div class="btn-row"><button class="btn" id="pd-sf-n">보통으로</button><button class="btn" id="pd-sf-s">우나 코르다로</button></div>
+          <div class="btn-row"><button class="btn primary" id="pd-sf-ab">▶ 번갈아 4번</button><button class="btn" id="pd-sf-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음량 차이</span><span class="v" id="pd-sf-o-db">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게중심</span><span class="v" id="pd-sf-o-c">—</span></div>
+        <div class="stat"><span class="k">해머 층</span><span class="v" id="pd-sf-o-l">—</span></div>
+      </div>
+      <div class="sim-note">막대: 배음 번호별 상대 세기(dB). 주색 = 보통, 주황 = 우나 코르다. 높은 배음일수록 차이가 커져 무게중심(밝기)이 내려가는 것을 보세요. 세기 슬라이더를 경계(약 0.42, 0.78) 근처로 옮기면 해머 층이 바뀌어 스펙트럼이 계단처럼 달라집니다. 모델: 엔진의 우나 코르다는 해머 층을 한 단계 낮추고 음량을 0.72배(약 −2.9 dB)로 하는 근사이며, 세 번째 현의 늦은 공명과 펠트 자리 차이는 따로 계산하지 않는다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 소스테누토와 소프트 페달</strong>
+      <p>소스테누토는 '건반 먼저, 페달 나중'을 몸에 익히는 것이 전부입니다. 왼손으로 C2+C3 옥타브를 누르고, 누른 채로 왼발이 아닌 <b>오른발을 가운데 페달로 옮겨</b> 밟는 것이 보통입니다(왼발은 우나 코르다 담당이므로). 그 상태에서 오른손으로 C–F–G 화음을 스타카토로 치며 베이스만 남는지 들으세요. 우나 코르다는 밟는 순간 액션이 움직이므로 음을 치기 직전이 아니라 쉼표나 긴 음 동안 미리 밟아 둡니다. 우나 코르다로 '작게' 치려 하지 말고, 손으로 먼저 <i>pp</i>를 만든 뒤 음색만 바꾼다고 생각하세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="dynamics">
+    <h2>셈여림 곡선과 프레이징</h2>
+    <p><a href="touch.html">3장</a>에서 보았듯이 피아노에서 음량을 정하는 것은 해머가 현에 닿는 순간의 속도, 곧 건반을 누르는 속도뿐입니다. 한 번 친 음은 줄어들기만 하므로, 피아노의 '크레셴도'는 실제로는 <b>다음 음을 앞 음보다 조금씩 세게</b> 치는 것입니다. 이때 귀는 음량을 대략 로그로 느낍니다. 같은 비율(데시벨 차)로 커질 때 고르게 커진다고 느끼고, 약 10 dB가 커지면 '두 배쯤 크게' 들립니다(<a href="../../fundamentals/chapters/psychoacoustics.html">음향 심리</a>).</p>
+    <div class="formula">$$g(v) = 0.015 + 0.985\,v^{1.9}, \qquad \Delta L = 20\log_{10}\frac{g(v_2)}{g(v_1)}\ \text{dB}$$
+      <div class="where">이 엔진의 벨로시티 \(v\in[0,1]\) → 진폭 배율 \(g\). <i>ppp</i>(\(v\)=0.16)에서 <i>fff</i>(0.97)까지 약 26 dB. 실제 피아노는 세게 칠수록 음량뿐 아니라 고배음도 늘어(해머 펠트가 단단하게 작용) 음색이 밝아진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 160" role="img" aria-label="헤어핀과 셈여림">
+        <text x="20" y="62" class="t" style="font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:20px">p</text>
+        <path d="M50 56 L250 40 M50 56 L250 72" class="s-acc"/>
+        <text x="262" y="62" class="t" style="font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:20px">f</text>
+        <text x="60" y="100" class="t-dim">크레셴도 &lt; (cresc.) 점점 세게</text>
+        <text x="330" y="62" class="t" style="font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:20px">f</text>
+        <path d="M356 40 L556 56 M356 72 L556 56" class="s-acc"/>
+        <text x="566" y="62" class="t" style="font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:20px">pp</text>
+        <text x="370" y="100" class="t-dim">디미누엔도 &gt; (dim., decresc.) 점점 여리게</text>
+        <path d="M630 72 Q 690 20 770 66" class="s-line"/>
+        <text x="640" y="100" class="t-dim">프레이즈 아치: 정점을 향해</text>
+        <text x="640" y="116" class="t-dim">커졌다가 끝에서 내려놓기</text>
+        <text x="20" y="146" class="t-mono">헤어핀의 길이 = 변화가 일어나는 시간, 벌어진 폭 ≠ 정확한 데시벨. 시작·끝 셈여림으로 범위를 정한다.</text>
+      </svg>
+      <figcaption><b>그림 11-5.</b> 헤어핀(크레셴도·디미누엔도)과 프레이즈 아치. 악보에 아무 표시가 없어도 프레이즈에는 보통 정점이 있고, 연주자는 그곳을 향해 셈여림(과 템포)을 조금씩 움직인다.</figcaption>
+    </figure>
+    <p>프레이즈<span class="en">(Phrase)</span>는 음악의 '문장'입니다. 문장을 읽을 때 낱말마다 똑같은 크기로 읽지 않듯이, 좋은 프레이징은 정점(대개 가장 높은 음이나 화성적 긴장이 큰 곳)을 향해 조금씩 커졌다가 끝에서 내려놓습니다. 흔한 실수 두 가지는 모든 음을 같은 세기로 치는 것(평평함)과, 마디 첫 박마다 무의식적으로 세게 치는 것(타자기 같은 박 강세)입니다. 같은 셈여림 <i>mf</i> 안에서도 음 하나하나의 벨로시티 차이가 2–4 dB만 있어도 선율은 살아납니다.</p>
+
+    <div class="sim" id="sim-pd-shape">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셈여림 곡선 그리기: 환희의 송가</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-pd-sh" class="pd-canvas-edit"></canvas><div id="pd-sh-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>미리 만든 곡선</span><div class="seg" id="pd-sh-pre"><button data-value="flat">평평</button><button data-value="cresc">크레셴도</button><button data-value="arch" class="on">프레이즈 아치</button><button data-value="beat">박 강세</button><button data-value="rand">무작위</button></div></div>
+          <label class="ctrl"><span>템포 <output id="pd-sh-bpm-out"></output></span><input type="range" id="pd-sh-bpm" min="60" max="140" step="2" value="100"></label>
+          <label class="check"><input type="checkbox" id="pd-sh-lh" checked> 왼손 화음(<i>p</i>)</label>
+          <div class="btn-row"><button class="btn primary" id="pd-sh-play">▶ 재생</button><button class="btn" id="pd-sh-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">셈여림 범위</span><span class="v" id="pd-sh-o-r">—</span></div>
+        <div class="stat"><span class="k">음량 폭</span><span class="v" id="pd-sh-o-db">—</span></div>
+        <div class="stat"><span class="k">정점</span><span class="v" id="pd-sh-o-pk">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 캔버스를 누른 채 끌어 음마다 세기를 그리세요(위 = 세게). '평평'과 '박 강세'를 먼저 듣고, '프레이즈 아치'와 비교합니다. 두 프레이즈(각 4마디)의 정점을 서로 다른 곳에 두거나, 두 번째 프레이즈를 조금 더 크게 해 보세요. 악보 아래의 셈여림 기호는 마디 평균 세기에서 가장 가까운 기호를 고른 것입니다. 모델: 세기는 벨로시티 → 진폭(약 26 dB 폭)과 해머 층(밝기)에 반영. 선율: 베토벤 교향곡 9번 '환희의 송가'(공유 저작물) 주제를 다장조로.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 셈여림을 의도로 만들기</strong>
+      <p>① 프레이즈마다 정점 음 하나에 연필로 동그라미를 칩니다. ② 그 음을 향해 '조금씩 커지고' 그 뒤로 '조금씩 작아지게' 노래하듯 소리 내어 불러 봅니다. ③ 피아노로 같은 곡선을 따라 치고, 녹음해서 들어 봅니다(14장 스튜디오의 피아노 롤로 벨로시티를 확인할 수 있습니다). ④ 반대로 정점을 다른 음에 두고 쳐서 차이를 비교합니다. 첫 박이 저절로 세지는 버릇이 있으면 마디선을 무시하고 2마디를 한 호흡으로 묶어 치는 연습을 하세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="articulation">
+    <h2>아티큘레이션: 음의 길이와 무게</h2>
+    <p>아티큘레이션<span class="en">(Articulation)</span>은 음과 음을 어떻게 잇고 떼는지, 각 음에 얼마나 무게를 싣는지입니다. 음높이와 박은 같아도 아티큘레이션이 바뀌면 같은 선율이 노래가 되기도, 춤이 되기도, 행진이 되기도 합니다. 피아노에서 조절할 수 있는 것은 결국 <b>건반을 누르고 있는 시간(소리 비율)</b>과 <b>누르는 속도(세기)</b> 둘뿐이고, 모든 기호는 이 두 변수의 조합입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>기호</th><th>이름</th><th>길이(대략)</th><th>세기</th><th>손의 느낌</th></tr></thead>
+      <tbody>
+        <tr><td>⌒ (이음줄)</td><td>슬러·레가토</td><td>100%, 다음 음과 아주 조금 겹침</td><td>선의 흐름대로</td><td>손가락에서 손가락으로 무게를 넘김. 이음줄 끝 음은 가볍게 들어 올림</td></tr>
+        <tr><td>(없음)</td><td>논 레가토</td><td>약 75–85%</td><td>보통</td><td>음마다 살짝 떨어짐. 바로크 건반 음악의 기본 터치로 자주 쓰인다</td></tr>
+        <tr><td>• (점)</td><td>스타카토</td><td>약 30–50%</td><td>보통</td><td>건반 위에서 튕기듯 짧게. '음 길이의 반'은 출발점일 뿐, 템포와 성격에 따라 다르다</td></tr>
+        <tr><td>▾ (쐐기)</td><td>스타카티시모</td><td>더 짧게</td><td>날카롭게</td><td>아주 짧고 또렷하게</td></tr>
+        <tr><td>– (가로선)</td><td>테누토</td><td>100%</td><td>약간 무겁게</td><td>음 길이를 끝까지 채우고 조금 기대어</td></tr>
+        <tr><td>&gt;</td><td>악센트</td><td>보통</td><td>주위보다 세게</td><td>그 음만 더 빠르게 누름. 앞뒤 음은 그대로</td></tr>
+        <tr><td>^</td><td>마르카토</td><td>보통–짧게</td><td>강한 악센트</td><td>무겁고 또렷하게</td></tr>
+      </tbody>
+    </table></div>
+    <p>두 음 이음줄<span class="en">(Two-note slur)</span>은 고전파 음악의 대표적인 몸짓입니다. 첫 음을 무게를 실어 치고, 둘째 음은 손목을 들어 올리며 가볍고 짧게 칩니다. '내리고–올리고'의 손목 동작 하나가 두 음을 묶으므로, 손가락만이 아니라 팔과 손목 전체가 아티큘레이션을 만든다는 것을 알 수 있습니다. 댐퍼 페달은 아티큘레이션을 지워 버리므로, 스타카토가 많은 악구에서는 페달을 쓰지 않거나 아주 얕게 씁니다.</p>
+
+    <div class="sim" id="sim-pd-artic">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 선율, 다른 아티큘레이션: 작은 별</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="pd-ar-staff"></div><canvas id="cv-pd-ar"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>아티큘레이션</span><div class="seg" id="pd-ar-a"><button data-value="legato" class="on">레가토</button><button data-value="non">논 레가토</button><button data-value="stacc">스타카토</button><button data-value="ten">테누토</button><button data-value="acc">첫 박 악센트</button><button data-value="pair">두 음 이음줄</button></div></div>
+          <label class="ctrl"><span>템포 <output id="pd-ar-bpm-out"></output></span><input type="range" id="pd-ar-bpm" min="60" max="160" step="2" value="100"></label>
+          <label class="check"><input type="checkbox" id="pd-ar-ped"> 댐퍼 페달 밟은 채로</label>
+          <div class="btn-row"><button class="btn primary" id="pd-ar-play">▶ 재생</button><button class="btn" id="pd-ar-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">평균 소리 비율</span><span class="v" id="pd-ar-o-duty">—</span></div>
+        <div class="stat"><span class="k">음 사이 간격</span><span class="v" id="pd-ar-o-gap">—</span></div>
+        <div class="stat"><span class="k">세기 범위</span><span class="v" id="pd-ar-o-v">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 여섯 아티큘레이션을 차례로 들으며 피아노 롤(막대 길이 = 건반을 누른 시간, 진하기 = 세기)을 비교하세요. '스타카토'에 '댐퍼 페달 밟은 채로'를 켜면 짧게 친 효과가 거의 사라집니다. 같은 음이 반복되는 곳(C C, G G)은 레가토라도 건반을 다시 올려야 하므로 아주 짧은 틈이 생깁니다. 모델: 레가토는 다음 음과 약 30 ms 겹치게, 논 레가토 80%, 스타카토 40%, 테누토 100%(같은 음 반복은 92%)와 세기 +0.06, 악센트 +0.25, 두 음 이음줄은 첫 음 세게·길게, 둘째 음 여리게·50%. 선율: 프랑스 민요 '작은 별'(공유 저작물).</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 한 음계를 다섯 가지로</strong>
+      <p>다장조 음계 한 옥타브를 ♩ = 80, 8분음표로 ① 레가토 ② 논 레가토 ③ 스타카토 ④ 두 음 이음줄(1–2, 3–4 … 손목 내리고–올리고) ⑤ 세 번째 음마다 악센트로 칩니다. 손가락이 아니라 '소리의 길이'를 듣는 연습입니다. 스타카토는 손가락 끝으로 건반을 '튕기는' 것이지 팔을 들썩이는 것이 아닙니다. 악센트 다음 음이 덩달아 세지면, 악센트 음 직후 손의 힘을 빼는 데 집중하세요. 이 다섯 가지를 자유롭게 바꿀 수 있으면 <a href="technique.html">12장</a>의 테크닉 연습이 훨씬 음악적으로 됩니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>그랜드의 오른쪽 페달은 모든 댐퍼를 들고, 가운데(소스테누토)는 밟는 순간 올라가 있던 댐퍼만 붙잡고, 왼쪽(우나 코르다)은 액션을 옆으로 밀어 3줄 중 2줄을 치게 한다. 업라이트의 왼쪽은 하프 블로, 가운데는 흔히 연습용 머플러다.</li>
+      <li>댐퍼 페달은 소리를 길게 할 뿐 아니라 모든 현을 풀어 교감 공명을 만든다. \(f_k/f_e \approx n/j\)(작은 정수비)인 현이 잘 따라 울린다: C2 → C3·G3·C4·E4.</li>
+      <li>레가토 페달링: 새 음(화음)을 친 순간 페달을 떼고, 손가락이 건반에 있는 동안 다시 밟는다. 늦게 떼면 번짐, 일찍 떼거나 늦게 밟으면 끊김.</li>
+      <li>Ped.–✱ 또는 괄호선으로 적고, 괄호선의 'ㅅ' 꺾임이 페달 바꾸기다. u.c./t.c. = 우나 코르다/해제, Sost. Ped. = 소스테누토.</li>
+      <li>하프 페달은 댐퍼를 현에 살짝 닿게 해 여운의 시간 상수 \(\tau\)를 줄인다. \(T_{60} \approx 6.91\tau\). 플러터 페달은 여운을 조금씩 깎는다.</li>
+      <li>소스테누토는 '건반 먼저, 페달 나중'. 우나 코르다는 음량보다 음색(부드러운 펠트, 고배음 감소)을 바꾼다.</li>
+      <li>피아노의 크레셴도는 다음 음을 조금씩 세게 치는 것이다. 귀는 데시벨(로그)로 느끼며 약 10 dB ≈ 두 배 크게. 프레이즈는 정점을 향해 모양을 만든다.</li>
+      <li>아티큘레이션 = 소리 비율(누르는 시간) × 세기. 레가토·논 레가토·스타카토·테누토·악센트·두 음 이음줄은 이 두 변수의 조합이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>레가토 페달링에서 화음이 바뀔 때 페달을 떼는 가장 좋은 순간은?</p><div class="opts">
+        <button class="opt">새 화음을 치기 직전, 손이 건반을 떠날 때</button><button class="opt" data-correct>새 화음이 울리는 순간(또는 직후), 그리고 곧바로 다시 밟는다</button><button class="opt">새 화음을 치고 한 박 뒤</button><button class="opt">화음과 상관없이 마디마다</button>
+      </div><div class="quiz-exp">새 화음은 손가락이 붙잡고 있으므로 이때 페달을 떼면 앞 화음만 지워진다. 직전에 떼면 공백(끊김), 한참 뒤에 떼면 두 화음이 겹친다(번짐).</div></div>
+      <div class="quiz-q"><p>댐퍼 페달을 밟고 C2를 세게 쳤을 때, 다음 중 가장 잘 따라 울리는 현은?</p><div class="opts">
+        <button class="opt">C♯2</button><button class="opt">F♯2</button><button class="opt" data-correct>C3</button><button class="opt">B2</button>
+      </div><div class="quiz-exp">C3는 C2의 정확히 두 배 주파수(2:1)라서 C2의 2·4·6…번 배음이 C3의 1·2·3…번 배음과 겹친다. 반음 관계(C♯2, B2)나 3온음(F♯2)은 겹치는 배음이 거의 없다.</div></div>
+      <div class="quiz-q"><p>소스테누토 페달로 베이스 음 하나만 길게 유지하려면?</p><div class="opts">
+        <button class="opt">페달을 먼저 밟고 베이스 건반을 친다</button><button class="opt" data-correct>베이스 건반을 누른 채로 페달을 밟고, 그다음 손을 뗀다</button><button class="opt">댐퍼 페달과 동시에 밟는다</button><button class="opt">베이스를 치고 손을 뗀 뒤 페달을 밟는다</button>
+      </div><div class="quiz-exp">소스테누토는 밟는 순간 이미 올라가 있는 댐퍼만 걸어 둔다. 건반을 누르기 전이나 손을 뗀 뒤(댐퍼가 이미 내려온 뒤)에 밟으면 아무 음도 잡히지 않는다.</div></div>
+      <div class="quiz-q"><p>현대 그랜드 피아노의 우나 코르다 페달이 하는 일은?</p><div class="opts">
+        <button class="opt">해머와 현 사이에 펠트 천을 내린다</button><button class="opt">모든 댐퍼를 절반만 들어 올린다</button><button class="opt" data-correct>액션 전체를 옆으로 밀어 해머가 세 줄 중 두 줄만 치게 한다</button><button class="opt">해머를 현 쪽으로 가까이 옮긴다</button>
+      </div><div class="quiz-exp">펠트 천은 업라이트의 연습용(가운데) 페달, 해머를 앞당기는 것은 업라이트의 왼쪽 페달(하프 블로)이다. 그랜드의 우나 코르다는 액션을 옮겨 친 줄 수와 해머 펠트의 닿는 자리를 바꾼다.</div></div>
+      <div class="quiz-q"><p>건반을 뗀 뒤 소리의 시간 상수가 \(\tau\) = 0.5초라면 60 dB 줄어드는 데 걸리는 시간은 대략?</p><div class="opts">
+        <button class="opt">0.5초</button><button class="opt">1.2초</button><button class="opt" data-correct>3.5초</button><button class="opt">30초</button>
+      </div><div class="quiz-exp">\(T_{60} = \tau\ln 1000 \approx 6.91 \times 0.5 \approx 3.5\)초. 하프 페달은 이 \(\tau\)를 '뗌'과 '끝까지' 사이에서 조절한다.</div></div>
+      <div class="quiz-q"><p>같은 선율을 테누토와 스타카토로 칠 때 주로 달라지는 것은?</p><div class="opts">
+        <button class="opt">음높이</button><button class="opt" data-correct>건반을 누르고 있는 시간(소리 비율)</button><button class="opt">조성</button><button class="opt">박자표</button>
+      </div><div class="quiz-exp">테누토는 음 길이를 끝까지 채우고(약간의 무게와 함께), 스타카토는 짧게 끊는다. 피아노의 아티큘레이션은 결국 누르는 시간과 누르는 속도의 조합이다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ---------------------------------------------------------------- 공용 도우미 (이 장 전용, pd 접두사) */
+/* 엔진 보정: 하프 페달(release rr > 0.05)을 여러 번 불러도 소리가 다시 커지지 않도록, 음마다 별도 게인에서 현재 값부터 감쇠시킨다. */
+(function () {
+  const orig = MB.INSTRUMENTS.grand;
+  if (!orig || orig._pdHalfFix) return;
+  const wrapped = function (ctx, f, t0, vel, dest, o) {
+    const hg = ctx.createGain(); hg.connect(dest);
+    const v = orig(ctx, f, t0, vel, hg, o);
+    const rel = v.release;
+    v.release = function (t, rr) {
+      t = Math.max(t != null ? t : ctx.currentTime, t0 + 0.004);
+      if (rr != null && rr > 0.05) {
+        const tau = rr / 5, gp = hg.gain;
+        if (gp.cancelAndHoldAtTime) gp.cancelAndHoldAtTime(t); else { gp.cancelScheduledValues(t); gp.setValueAtTime(gp.value, t); }
+        gp.setTargetAtTime(0, t, tau);
+        return Math.min(v.end, t + tau * 6);
+      }
+      return rel.call(v, t, rr);
+    };
+    return v;
+  };
+  wrapped._pdHalfFix = true;
+  MB.INSTRUMENTS.grand = wrapped;
+})();
+const PD_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono") || "monospace";
+const PD_FONT = () => getComputedStyle(document.body).getPropertyValue("--font") || "sans-serif";
+const pdName = (m) => PN.name(m, 0);
+/**
+ * 실시간 재생 도우미: noteOn은 60 ms 앞서 예약(정확한 시각), noteOff·페달은 그 순간에 부른다(엔진의 페달 판정 규칙).
+ * notes: [{t(초), d(초), m | ms, vel}] · o.pedals: [{t, v}] · o.sost: [{t, v}] · o.onNote(n, i) · o.onEnd · o.tail(초)
+ */
+function pdPlay(p, notes, o = {}) {
+  MB.ctx();
+  const t0 = MB.now() + 0.15, timers = [], lastOn = new Map();
+  const at = (sec, fn, lead = 0) => timers.push(setTimeout(fn, Math.max(0, (t0 + sec - lead - MB.now()) * 1000)));
+  let end = 0;
+  notes.forEach((n, i) => {
+    const ms = n.ms || [n.m];
+    end = Math.max(end, n.t + n.d);
+    at(n.t, () => { ms.forEach((m) => { lastOn.set(m, i); p.noteOn(m, n.vel != null ? n.vel : 0.6, t0 + n.t); }); if (o.onNote) PN.at(t0 + n.t, () => o.onNote(n, i)); }, 0.06);
+    at(n.t + n.d, () => ms.forEach((m) => { if (lastOn.get(m) === i) p.noteOff(m); }));
+  });
+  (o.pedals || []).forEach((e) => { end = Math.max(end, e.t); at(e.t, () => p.pedal(e.v)); });
+  (o.sost || []).forEach((e) => { end = Math.max(end, e.t); at(e.t, () => p.sostenuto(e.v)); });
+  const api = { t0, running: true,
+    stop(silent) { if (!api.running) return; api.running = false; timers.forEach(clearTimeout); p.pedal(false); p.sostenuto(false); p.stop(); o.onStop && o.onStop(); } };
+  at(end + (o.tail != null ? o.tail : 0.4), () => { api.running = false; o.onEnd && o.onEnd(); });
+  return api;
+}
+
+/* ---------------------------------------------------------------- 1. 세 페달 기구 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#pd-mc-kb", { from: 48, to: 72, labels: "c", piano: p, spacePedal: true });
+  const svg = document.getElementById("pd-mc-svg");
+  let shown = 60, sost = false, cap = new Set(), seq = null, strikeT = 0;
+  function update() {
+    const sus = p.sustain > 0.15, held = p.held.includes(shown), c = sost && cap.has(shown);
+    const lifted = sus || held || c || shown >= PN.NO_DAMPER;
+    svg.classList.toggle("lift", lifted);
+    svg.classList.toggle("soft", !!p.soft);
+    svg.classList.toggle("sostcap", c);
+    document.getElementById("pd-mc-note").textContent = pdName(shown);
+    document.getElementById("pd-mc-dtxt").textContent = lifted
+      ? (held ? "건반이 자기 댐퍼를 들고 있음 → 울림" : sus ? "댐퍼 페달이 모든 댐퍼를 듦 → 계속 울림" : c ? "소스테누토가 이 댐퍼를 붙잡음 → 울림" : "댐퍼 없는 최고음역 → 울림")
+      : "댐퍼가 현 위에 있음 → 건반을 떼면 멈춤";
+    document.getElementById("pd-mc-stxt").textContent = p.soft ? "2줄만 침 (우나 코르다)" : "3줄을 침";
+    svg.querySelector('[data-ped="damper"]').classList.toggle("on", sus);
+    svg.querySelector('[data-ped="sost"]').classList.toggle("on", sost);
+    svg.querySelector('[data-ped="soft"]').classList.toggle("on", !!p.soft);
+    MB.stat("pd-mc-o-d", sus ? "밟음" : "뗌");
+    MB.stat("pd-mc-o-s", sost ? (cap.size ? [...cap].sort((a, b) => a - b).map(pdName).join(" ") : "없음 <small>(누른 건반 없이 밟음)</small>") : "뗌");
+    MB.stat("pd-mc-o-u", p.soft ? "밟음" : "뗌");
+    MB.stat("pd-mc-o-n", String(p.sounding.length));
+  }
+  function strike() {
+    svg.classList.add("strike"); clearTimeout(strikeT);
+    strikeT = setTimeout(() => svg.classList.remove("strike"), 70);
+    const s = document.getElementById("pd-mc-str"); s.classList.add("hit"); setTimeout(() => s.classList.remove("hit"), 260);
+  }
+  p.on((ev) => {
+    if (ev.type === "on") { const m = ev.m; PN.at(ev.when, () => { shown = m; strike(); update(); }); }
+    else PN.at(ev.when, update);
+  });
+  function setSost(on) {
+    MB.ctx();
+    sost = on; cap = on ? new Set(p.held) : new Set();
+    p.sostenuto(on); update();
+  }
+  function toggle(which) {
+    MB.ctx();
+    if (which === "damper") p.pedal(p.sustain > 0.15 ? false : true);
+    else if (which === "sost") setSost(!sost);
+    else { p.soft = !p.soft; }
+    update();
+  }
+  svg.querySelectorAll(".pd-ped").forEach((g) => {
+    g.addEventListener("click", () => toggle(g.dataset.ped));
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter") { toggle(g.dataset.ped); e.preventDefault(); } });
+  });
+  document.getElementById("pd-mc-phrase").addEventListener("click", () => {
+    if (seq) seq.stop();
+    // C–G–E–C 펼침화음과 선율 한 줄(페달 상태는 지금 그림의 상태 그대로)
+    const ms = [48, 55, 64, 67, 72, 67, 64, 55, 53, 57, 65, 69, 72, 69, 65, 57];
+    const notes = ms.map((m, i) => ({ t: i * 0.25, d: 0.22, m, vel: 0.5 + (i % 4 === 0 ? 0.12 : 0) }));
+    const keepSust = p.sustain, keepSost = sost, keepCap = cap;
+    seq = pdPlay(p, notes, { tail: 1.5, onEnd: () => { seq = null; } });
+    // pdPlay.stop은 페달을 떼므로, 재생 중에는 사용자의 페달 상태를 유지한다
+    seq.stopKeep = () => { seq && seq.stop(); };
+    void keepSust; void keepSost; void keepCap;
+  });
+  document.getElementById("pd-mc-stop").addEventListener("click", () => { if (seq) seq.stop(); seq = null; p.stop(); sost = false; cap = new Set(); update(); });
+  document.getElementById("pd-mc-hold").addEventListener("click", () => {
+    MB.ctx(); if (sost) setSost(false);
+    p.noteOn(48, 0.6);
+    setTimeout(() => { setSost(true); setTimeout(() => { p.noteOff(48); update(); }, 250); }, 200);
+  });
+  document.getElementById("pd-mc-reset").addEventListener("click", () => { MB.ctx(); p.pedal(false); setSost(false); p.soft = false; update(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 그림 11-2: 배음 일치 */
+(function () {
+  const g = document.getElementById("pd-fig-res");
+  const X = (f) => 70 + (Math.log2(f / 60) / Math.log2(1400 / 60)) * 710;
+  const rows = [{ m: 36, lab: "C2 (침)", acc: true }, { m: 48, lab: "C3" }, { m: 55, lab: "G3" }, { m: 60, lab: "C4" }, { m: 64, lab: "E4" }, { m: 49, lab: "C♯3" }];
+  const parts = (m) => { const md = PN.noteModel(m, 1); const mx = Math.max(...md.partials.map((p) => p.a)); return md.partials.filter((p) => p.f < 1400).map((p) => ({ f: p.f, a: p.a / mx })); };
+  const e = parts(36);
+  let s = "";
+  [100, 200, 400, 800].forEach((f) => { s += `<line x1="${X(f)}" y1="20" x2="${X(f)}" y2="270" class="s-axis" style="opacity:.25"/><text class="t-mono" x="${X(f) - 12}" y="292">${f} Hz</text>`; });
+  rows.forEach((r, i) => {
+    const y = 40 + i * 44, ps = r.acc ? e : parts(r.m);
+    s += `<text class="${r.acc ? "t-acc" : "t-dim"}" x="6" y="${y + 4}">${r.lab}</text><line x1="70" y1="${y}" x2="780" y2="${y}" class="s-axis" style="opacity:.4"/>`;
+    ps.forEach((p) => {
+      const x = X(p.f), hit = !r.acc && e.some((q) => Math.abs(1200 * Math.log2(p.f / q.f)) < 12);
+      s += `<line x1="${x}" y1="${y}" x2="${x}" y2="${y - 4 - 16 * Math.sqrt(p.a)}" style="stroke:var(${r.acc ? "--accent-2" : hit ? "--accent" : "--text-faint"});stroke-width:${hit || r.acc ? 2.4 : 1.4}"/>`;
+      if (hit) s += `<line x1="${x}" y1="${y}" x2="${x}" y2="40" style="stroke:var(--accent);stroke-width:1;stroke-dasharray:2 3;opacity:.6"/>`;
+    });
+  });
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 2. 교감 공명 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#pd-rs-kb", { from: 36, to: 72, labels: "c", piano: p, spacePedal: true });
+  const SIL = { none: [], ceg: [60, 64, 67], far: [61, 65, 68] };
+  const ped = MB.seg("pd-rs-ped", (v) => { MB.ctx(); p.pedal(v === "down"); });
+  const sil = MB.seg("pd-rs-sil", () => { kb.set(SIL[sil()].map((m) => ({ m, cls: "ghost" })), "ghost"); dampNotFree(); update(); });
+  const amt = MB.range("pd-rs-amt", (v) => "×" + v.toFixed(1), () => {});
+  const on = MB.check("pd-rs-on", (v) => { if (!v) killAll(0.05); });
+  const PC = new Map();
+  const parts = (m, layer) => {
+    const key = m + "|" + layer; if (PC.has(key)) return PC.get(key);
+    const md = PN.noteModel(m, layer), mx = Math.max(...md.partials.map((q) => q.a));
+    const r = md.partials.slice(0, 20).map((q) => ({ n: q.n, f: q.f, a: q.a / mx, tau: q.tau }));
+    PC.set(key, r); return r;
+  };
+  let RES = [], last = null;
+  const freeSet = () => {
+    const s = new Set(SIL[sil()]);
+    for (let k = PN.NO_DAMPER; k <= 108; k++) s.add(k);
+    if (p.sustain > 0.15) for (let k = 21; k <= 108; k++) s.add(k);
+    return s;
+  };
+  function killAll(tc) { const t = MB.now(); RES.forEach((r) => { try { r.g.gain.cancelScheduledValues(t); r.g.gain.setTargetAtTime(0, t, tc); r.o.stop(t + tc * 8); } catch (e) {} }); RES = []; }
+  function dampNotFree() {
+    const fr = freeSet(), t = MB.now();
+    RES = RES.filter((r) => { if (fr.has(r.k)) return true; try { r.g.gain.cancelScheduledValues(t); r.g.gain.setTargetAtTime(0, t, PN.dampTime(r.k) * 0.6); r.o.stop(t + 2); } catch (e) {} return false; });
+  }
+  function resonate(e, vel, when) {
+    const pe = parts(e, PN.layerOf(vel)), fr = freeSet();
+    const S = new Float32Array(109), best = [], tones = [];
+    for (let k = 21; k <= 108; k++) {
+      if (k === e) continue;
+      const pk = parts(k, 0); let sum = 0, bw = 0, bp = null;
+      pk.forEach((bj) => {
+        let w = 0, bn = 0;
+        pe.forEach((an) => { const dc = 1200 * Math.log2(bj.f / an.f); if (Math.abs(dc) < 30) { const ww = an.a * Math.exp(-Math.pow(dc / 7, 2)); w += ww; if (ww > bn) bn = an.n; } });
+        if (w > 0.004) { const amp = w * Math.sqrt(bj.a); sum += amp; if (amp > bw) { bw = amp; bp = [bn, bj.n]; } if (fr.has(k)) tones.push({ k, f: bj.f, amp, tau: bj.tau }); }
+      });
+      S[k] = sum; if (sum > 0) best.push({ k, s: sum, pair: bp });
+    }
+    best.sort((a, b) => b.s - a.s);
+    last = { e, S, free: fr, best };
+    if (on()) {
+      const ctx = MB.ctx(), t = Math.max(when, ctx.currentTime);
+      tones.sort((a, b) => b.amp - a.amp);
+      const sc = amt() * 0.05 * PN.velGain(vel);
+      tones.slice(0, 36).forEach((tn) => {
+        const g = ctx.createGain(), o = ctx.createOscillator();
+        o.type = "sine"; o.frequency.value = tn.f;
+        const lv = Math.min(0.03, sc * tn.amp), tau = Math.min(5, tn.tau);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(lv, t + 0.12); g.gain.setTargetAtTime(0, t + 0.12, tau);
+        o.connect(g); g.connect(MB.out); o.start(t); o.stop(t + 0.12 + tau * 6);
+        RES.push({ k: tn.k, g, o, end: t + 0.12 + tau * 6 });
+      });
+      const now = ctx.currentTime; RES = RES.filter((r) => r.end > now);
+      if (RES.length > 120) { const old = RES.splice(0, RES.length - 120); old.forEach((r) => { try { r.g.gain.setTargetAtTime(0, now, 0.05); r.o.stop(now + 0.4); } catch (er) {} }); }
+    }
+    update(); cv.redraw();
+  }
+  p.on((ev) => {
+    if (ev.type === "on") resonate(ev.m, ev.vel, ev.when);
+    else if (ev.type === "pedal") { PN.at(ev.when, () => { ped.set(ev.value > 0.15 ? "down" : "up", false); dampNotFree(); update(); cv.redraw(); }); }
+  });
+  function update() {
+    const fr = freeSet(), sus = p.sustain > 0.15;
+    MB.stat("pd-rs-o-free", sus ? "88현 전부" : `${fr.size}현 <small>(최고음역 ${109 - PN.NO_DAMPER} + 눌러 둔 ${SIL[sil()].length})</small>`);
+    if (!last) return;
+    const real = last.best.filter((b) => last.free.has(b.k));
+    const top = real[0];
+    MB.stat("pd-rs-o-top", top ? `${pdName(top.k)} <small>${pdName(last.e)}의 ${top.pair[0]}번 = ${top.pair[1]}번 배음</small>` : "없음");
+    const thr = last.best.length ? last.best[0].s * 0.05 : 1;
+    MB.stat("pd-rs-o-n", `${real.filter((b) => b.s > thr).length} <small>/ 가능 ${last.best.filter((b) => b.s > thr).length}</small>`);
+  }
+  const cv = MB.canvas("#cv-pd-res", (ctx, w, h) => {
+    const P = MB.palette(), L = 8, R = 8, top = 22, bot = h - 22, bw = (w - L - R) / 88;
+    ctx.font = "10px " + PD_MONO(); ctx.textBaseline = "top"; ctx.fillStyle = P.dim;
+    ctx.fillText(last ? `${pdName(last.e)}을(를) 쳤을 때 각 현의 공명 세기` : "건반을 치거나 'C2 세게, 짧게'를 누르세요", L, 4);
+    const mx = last ? Math.max(1e-6, ...last.best.slice(0, 1).map((b) => b.s)) : 1;
+    for (let k = 21; k <= 108; k++) {
+      const x = L + (k - 21) * bw;
+      if (MB.mod(k, 12) === 0) { ctx.fillStyle = P.dim; ctx.fillText("C" + (k / 12 - 1), x - 2, bot + 6); ctx.fillStyle = P.grid; ctx.fillRect(x, top, 1, bot - top); }
+      if (!last) continue;
+      if (k === last.e) { ctx.fillStyle = P.accent2; ctx.fillRect(x + 0.5, top, Math.max(1, bw - 1), bot - top); continue; }
+      const s = last.S[k]; if (s <= 0) continue;
+      const hh = MB.clamp((Math.log10(s / mx) + 2.5) / 2.5, 0, 1) * (bot - top);
+      if (hh <= 0) continue;
+      if (last.free.has(k)) { ctx.fillStyle = P.accent; ctx.fillRect(x + 0.5, bot - hh, Math.max(1, bw - 1), hh); }
+      else { ctx.strokeStyle = P.faint; ctx.lineWidth = 1; ctx.strokeRect(x + 0.5, bot - hh, Math.max(1, bw - 1), hh); }
+    }
+    SIL[sil()].forEach((k) => { const x = L + (k - 21 + 0.5) * bw; ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(x, bot + 2, 2.5, 0, 7); ctx.fill(); });
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(L, bot); ctx.lineTo(w - R, bot); ctx.stroke();
+  }, { aspect: 0.32, minHeight: 150, maxHeight: 220 });
+  document.getElementById("pd-rs-c2").addEventListener("click", () => {
+    MB.ctx(); p.noteOn(36, 0.92); kb.flash(36, 300);
+    setTimeout(() => p.noteOff(36), 220);
+  });
+  document.getElementById("pd-rs-stop").addEventListener("click", () => { killAll(0.05); p.stop(); ped.set("up"); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 3. 레가토 페달 게임 */
+(function () {
+  const CH = [
+    { n: "C", lh: 48, rh: [64, 67, 72] }, { n: "Am", lh: 45, rh: [64, 69, 72] }, { n: "Dm", lh: 50, rh: [65, 69, 74] }, { n: "G", lh: 43, rh: [62, 67, 71] },
+    { n: "C", lh: 48, rh: [64, 67, 72] }, { n: "F", lh: 41, rh: [65, 69, 72] }, { n: "G7", lh: 43, rh: [62, 65, 71] }, { n: "C", lh: 48, rh: [64, 67, 72] },
+  ];
+  const p = PN.piano();
+  const mode = MB.seg("pd-lg-mode", () => {});
+  const bpm = MB.range("pd-lg-bpm", (v) => "♩ = " + v, () => {});
+  const sn = [];
+  CH.forEach((c, k) => { sn.push({ t: 2 * k, d: 2, ms: c.rh, hand: "R" }); sn.push({ t: 2 * k, d: 2, m: c.lh, hand: "L" }); });
+  const staff = PN.staff("#pd-lg-staff", sn, { clef: "grand", chords: CH.map((c, k) => ({ t: 2 * k, name: c.n })), pedal: CH.map((c, k) => ({ t0: 2 * k + 0.3, t1: k < CH.length - 1 ? 2 * k + 2.3 : 16 })), barsPerLine: 4, compact: true });
+  let G = null, raf = 0;
+  const btn = document.getElementById("pd-lg-pedal");
+  function pedal(down) {
+    if (!G || !G.running) return;
+    const last = G.ped.length ? G.ped[G.ped.length - 1].down : false;
+    if (last === down) return;
+    p.pedal(down); G.ped.push({ t: MB.now(), down });
+    btn.classList.toggle("down", down);
+  }
+  function stateAt(t) { let s = false; for (const e of G.ped) { if (e.t <= t) s = e.down; else break; } return s; }
+  function firstUpAfter(t) { for (const e of G.ped) if (e.t > t && !e.down) return e.t; return null; }
+  function analyse(now) {
+    const out = [];
+    for (let k = 0; k < CH.length; k++) {
+      const r = G.lift[k], t = G.ch[k];
+      const down = stateAt(r);
+      let endK = r;
+      if (down) { const u = firstUpAfter(r); endK = u != null ? u : Math.max(now, r); }
+      out.push({ t, r, end: endK, sustained: down });
+    }
+    const res = [];
+    for (let k = 1; k < CH.length; k++) {
+      const tk = G.ch[k]; if (now < tk + 0.02) break;
+      const prev = out[k - 1];
+      const gap = Math.max(0, tk - prev.end), blur = Math.max(0, Math.min(prev.end, now) - tk);
+      res.push({ k, gap, blur, cls: blur > 0.12 ? "blur" : gap > 0.04 ? "gap" : "ok" });
+    }
+    return { spans: out, res };
+  }
+  function grade(final) {
+    const now = MB.now(), A = analyse(now);
+    const ok = A.res.filter((r) => r.cls === "ok").length, bl = A.res.reduce((a, r) => a + (r.cls === "blur" ? r.blur : 0), 0), gp = A.res.reduce((a, r) => a + (r.cls === "gap" ? r.gap : 0), 0);
+    MB.stat("pd-lg-o-ok", `${ok} / ${A.res.length || 0}`);
+    MB.stat("pd-lg-o-blur", bl.toFixed(2) + " s");
+    MB.stat("pd-lg-o-gap", gp.toFixed(2) + " s");
+    document.getElementById("pd-lg-chips").innerHTML = A.res.length ? A.res.map((r) => `<span class="${r.cls}">${CH[r.k - 1].n}→${CH[r.k].n} ${r.cls === "ok" ? "깨끗" : r.cls === "blur" ? "번짐 " + r.blur.toFixed(2) + "s" : "끊김 " + r.gap.toFixed(2) + "s"}</span>`).join("") : "<span>첫 바꿈을 기다리는 중…</span>";
+    if (final) MB.stat("pd-lg-o-g", ok === CH.length - 1 ? '<span style="color:var(--ok)">완벽!</span>' : ok >= 5 ? "좋음" : "다시");
+    return A;
+  }
+  const cv = MB.canvas("#cv-pd-lg", (ctx, w, h) => {
+    const P = MB.palette(), L = 52, R = 8;
+    ctx.font = "11px " + PD_FONT(); ctx.textBaseline = "middle"; ctx.fillStyle = P.dim;
+    const rowY = [30, 58], pedY = [118, 92], sndY = 76;
+    ctx.fillText("손·소리", 4, 44); ctx.fillText("페달", 4, 80);
+    if (!G) { ctx.fillText("▶ 시작을 누르면 타임라인이 그려집니다", L, 140); return; }
+    const t0 = G.ch[0] - 0.5, t1 = G.end, X = (t) => L + ((t - t0) / (t1 - t0)) * (w - L - R);
+    const now = G.running ? MB.now() : G.stopAt;
+    const A = analyse(now);
+    for (let k = 0; k < CH.length; k++) {
+      const s = A.spans[k], y = rowY[k % 2]; if (s.t > now) break;
+      const col = k % 2 ? P.accent2 : P.accent;
+      ctx.fillStyle = col; ctx.globalAlpha = 0.85; ctx.fillRect(X(s.t), y - 9, Math.max(1, X(Math.min(s.r, now)) - X(s.t)), 18);
+      if (s.r < now && s.end > s.r) { ctx.globalAlpha = 0.3; ctx.fillRect(X(s.r), y - 9, Math.max(1, X(Math.min(s.end, now)) - X(s.r)), 18); }
+      ctx.globalAlpha = 1; ctx.fillStyle = P.bg; ctx.font = "600 10px " + PD_MONO(); ctx.fillText(CH[k].n, X(s.t) + 3, y);
+    }
+    A.res.forEach((r) => {
+      const tk = G.ch[r.k];
+      if (r.blur > 0.005) { ctx.fillStyle = P.bad; ctx.globalAlpha = r.cls === "blur" ? 0.75 : 0.35; ctx.fillRect(X(tk), sndY - 4, Math.max(2, X(tk + r.blur) - X(tk)), 8); }
+      if (r.gap > 0.005) { ctx.fillStyle = P.warn; ctx.globalAlpha = r.cls === "gap" ? 0.85 : 0.4; ctx.fillRect(X(tk - r.gap), sndY - 4, Math.max(2, X(tk) - X(tk - r.gap)), 8); }
+      ctx.globalAlpha = 1;
+    });
+    // 바꿈 위치
+    G.ch.forEach((t) => { ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(t), 16); ctx.lineTo(X(t), 128); ctx.stroke(); });
+    // 페달 선
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    let st = false, x = X(t0); ctx.moveTo(x, pedY[0]);
+    G.ped.forEach((e) => { if (e.t > now) return; const xx = X(e.t); ctx.lineTo(xx, st ? pedY[1] : pedY[0]); st = e.down; ctx.lineTo(xx, st ? pedY[1] : pedY[0]); });
+    ctx.lineTo(X(Math.min(now, t1)), st ? pedY[1] : pedY[0]); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.font = "10px " + PD_MONO(); ctx.fillText("밟음", L - 30 + 0, pedY[1]); ctx.fillText("뗌", L - 22, pedY[0]);
+    if (G.running) { ctx.strokeStyle = P.bad; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(X(now), 12); ctx.lineTo(X(now), 132); ctx.stroke(); }
+    ctx.fillStyle = P.dim; ctx.textBaseline = "top"; ctx.font = "10px " + PD_FONT();
+    ctx.fillText("빨강 = 번짐, 주황 = 소리 공백", L, 136);
+  }, { height: 154 });
+  function frame() { raf = 0; if (!G) return; cv.redraw(); grade(false); if (G.running) raf = requestAnimationFrame(frame); }
+  function stop(final) {
+    if (!G) return;
+    if (G.seq) G.seq.stop();
+    G.timers.forEach(clearTimeout);
+    if (G.running) { G.running = false; G.stopAt = MB.now(); }
+    btn.classList.remove("down"); staff.highlight(-1);
+    grade(final); cv.redraw();
+  }
+  document.getElementById("pd-lg-start").addEventListener("click", () => {
+    if (G && G.running) stop(false);
+    MB.ctx(); p.stop(); p.pedal(false);
+    PN.warm([...new Set(CH.flatMap((c) => [c.lh, ...c.rh]))]);
+    const spb = 60 / bpm(), dur = 2 * spb, lift = Math.min(0.22, dur * 0.18), pre = 4 * spb;
+    const notes = CH.map((c, k) => ({ t: pre + k * dur, d: k < CH.length - 1 ? dur - lift : dur * 1.2, ms: [c.lh, ...c.rh], vel: 0.55 }));
+    const md = mode();
+    const seq = pdPlay(p, notes, { tail: 0.6, onNote: (n, i) => staff.highlight([2 * i, 2 * i + 1]), onEnd: () => { stop(true); } });
+    G = { running: true, ped: [], timers: [], seq, ch: notes.map((n) => seq.t0 + n.t), lift: notes.map((n) => seq.t0 + n.t + n.d), mode: md };
+    G.end = G.lift[G.lift.length - 1] + 0.6;
+    for (let i = 0; i < 4; i++) PN.click(seq.t0 + i * spb, i === 0);
+    // 시범 모드: 같은 입력 함수로 페달을 밟는다
+    const plan = [];
+    if (md === "good") CH.forEach((c, k) => { if (k) plan.push([G.ch[k] + 0.02, false]); plan.push([G.ch[k] + 0.14, true]); });
+    if (md === "blur") plan.push([G.ch[0] + 0.1, true]);
+    if (md === "gap") CH.forEach((c, k) => { plan.push([G.ch[k] + 0.3, true]); plan.push([G.lift[k] - 0.01, false]); });
+    plan.forEach(([t, d]) => G.timers.push(setTimeout(() => pedal(d), Math.max(0, (t - MB.now()) * 1000))));
+    MB.stat("pd-lg-o-g", md === "user" ? "4박 세고 시작" : "시범 중");
+    if (!raf) raf = requestAnimationFrame(frame);
+  });
+  document.getElementById("pd-lg-stop").addEventListener("click", () => stop(false));
+  const userMode = () => G && G.running && G.mode === "user";
+  document.addEventListener("keydown", (e) => { if (e.key !== " " || !userMode() || e.repeat) { if (e.key === " " && userMode()) e.preventDefault(); return; } e.preventDefault(); pedal(true); });
+  document.addEventListener("keyup", (e) => { if (e.key !== " " || !userMode()) return; e.preventDefault(); pedal(false); });
+  btn.addEventListener("pointerdown", (e) => { e.preventDefault(); if (userMode()) pedal(true); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach((t) => btn.addEventListener(t, () => { if (userMode()) pedal(false); }));
+})();
+
+/* ---------------------------------------------------------------- 4. 하프 페달 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#pd-hf-kb", { from: 48, to: 84, labels: "c", piano: p });
+  let seq = null, cmpLabel = null;
+  const state = (d) => (d <= 0.15 ? "뗌" : d < 0.7 ? "하프 페달" : "끝까지");
+  const tauOf = (m, d) => (d <= 0.15 ? PN.dampTime(m) : d < 0.7 ? (0.6 + 4 * d) / 5 : PN.noteModel(m, 1).tau1);
+  const D = MB.range("pd-hf-d", (v) => v.toFixed(2) + " · " + state(v), (v) => { MB.ctx(); p.pedal(v); update(); });
+  const M = MB.seg("pd-hf-m", () => update());
+  function update() {
+    const m = +M(), d = cmpLabel != null ? cmpLabel : D(), tau = tauOf(m, d);
+    MB.stat("pd-hf-o-st", state(d) + (cmpLabel != null ? " <small>(비교 중)</small>" : ""));
+    MB.stat("pd-hf-o-tau", tau < 1 ? (tau * 1000).toFixed(0) + " ms" : tau.toFixed(2) + " s");
+    MB.stat("pd-hf-o-t60", (6.91 * tau).toFixed(2) + " s");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-pd-hf", (ctx, w, h) => {
+    const P = MB.palette(), m = +M(), d = cmpLabel != null ? cmpLabel : D();
+    const box = { x: 40, y: 20, w: w - 52, h: h - 46 }, T = 4, dbMin = -60;
+    const X = (t) => box.x + (t / T) * box.w, Y = (db) => box.y + (db / dbMin) * box.h;
+    ctx.font = "10px " + PD_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -20, -40, -60].forEach((db) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(db)); ctx.lineTo(box.x + box.w, Y(db)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(db + "dB", box.x - 4, Y(db)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let t = 0; t <= T; t++) ctx.fillText(t + "s", X(t), box.y + box.h + 5);
+    const curve = (tau, color, dash, wdt) => { ctx.strokeStyle = color; ctx.lineWidth = wdt || 2; ctx.setLineDash(dash || []); ctx.beginPath(); for (let i = 0; i <= 200; i++) { const t = (i / 200) * T, db = Math.max(dbMin, -8.686 * t / tau); i ? ctx.lineTo(X(t), Y(db)) : ctx.moveTo(X(t), Y(db)); } ctx.stroke(); ctx.setLineDash([]); };
+    curve(tauOf(m, 0), P.faint, null, 2);
+    curve(tauOf(m, 1), P.accent2, [5, 4], 2);
+    curve(tauOf(m, d), P.accent, null, 3);
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.font = "11px " + PD_FONT();
+    ctx.fillText(`${pdName(m)}: 건반을 뗀 뒤의 음량 (깊이 ${d.toFixed(2)})`, box.x, 3);
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 250 });
+  const RUN = [60, 62, 64, 65, 67, 69, 71, 72, 74, 72, 71, 69, 67, 65, 64, 62, 60];
+  const runNotes = (t0) => RUN.map((m, i) => ({ t: t0 + i * 0.25, d: 0.23, m, vel: 0.55 }));
+  function stop() { if (seq) seq.stop(); seq = null; cmpLabel = null; p.pedal(D()); update(); }
+  document.getElementById("pd-hf-run").addEventListener("click", () => {
+    if (seq) seq.stop();
+    const d = D();
+    seq = pdPlay(p, [{ t: 0, d: 0.3, m: 48, vel: 0.5 }].concat(runNotes(0)), { pedals: [{ t: 0, v: d }], tail: 2.2, onEnd: () => { seq = null; } });
+  });
+  document.getElementById("pd-hf-cmp").addEventListener("click", () => {
+    if (seq) seq.stop();
+    const L = RUN.length * 0.25 + 1.6, ds = [0, 0.45, 1];
+    let notes = [];
+    const pedals = [];
+    ds.forEach((d, j) => { notes = notes.concat([{ t: j * L, d: 0.3, m: 48, vel: 0.5 }], runNotes(j * L)); pedals.push({ t: j * L - 0.05 < 0 ? 0 : j * L - 0.05, v: d }); });
+    const timers = ds.map((d, j) => setTimeout(() => { cmpLabel = d; update(); }, 150 + j * L * 1000));
+    seq = pdPlay(p, notes, { pedals, tail: 2, onEnd: () => { seq = null; cmpLabel = null; update(); }, onStop: () => timers.forEach(clearTimeout) });
+  });
+  document.getElementById("pd-hf-flut").addEventListener("click", () => {
+    if (seq) seq.stop();
+    // 베이스 위로 선율, 페달을 박마다 끝까지 → 0.3 → 끝까지로 빠르게 흔든다
+    const mel = [72, 74, 76, 74, 72, 71, 72, 79, 77, 76, 74, 72];
+    const notes = [{ t: 0, d: 0.4, m: 36, vel: 0.65 }, { t: 0, d: 0.4, m: 48, vel: 0.5 }].concat(mel.map((m, i) => ({ t: 0.1 + i * 0.4, d: 0.36, m, vel: 0.55 })));
+    const pedals = [{ t: 0.05, v: 1 }];
+    for (let i = 1; i < mel.length; i++) { pedals.push({ t: 0.1 + i * 0.4 + 0.01, v: 0.3 }); pedals.push({ t: 0.1 + i * 0.4 + 0.12, v: 1 }); }
+    pedals.push({ t: 0.1 + mel.length * 0.4 + 1.5, v: 0 });
+    seq = pdPlay(p, notes, { pedals, tail: 0.5, onEnd: () => { seq = null; p.pedal(D()); } });
+  });
+  document.getElementById("pd-hf-stop").addEventListener("click", stop);
+  update();
+})();
+
+/* ---------------------------------------------------------------- 5. 소스테누토 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#pd-so-kb", { from: 36, to: 84, labels: "c", piano: p, spacePedal: true });
+  const mode = MB.seg("pd-so-mode", () => {});
+  let sost = false, cap = [], seq = null;
+  const tog = document.getElementById("pd-so-tog");
+  function setSost(on) { MB.ctx(); sost = on; cap = on ? p.held.slice().sort((a, b) => a - b) : []; p.sostenuto(on); show(); }
+  function show() {
+    tog.textContent = sost ? "가운데 페달 떼기" : "가운데 페달 밟기";
+    MB.stat("pd-so-o-p", sost ? "밟음" : "뗌");
+    MB.stat("pd-so-o-c", sost ? (cap.length ? cap.map(pdName).join(" ") : "없음 <small>(누른 건반이 없었음)</small>") : "없음");
+    kb.set(cap.map((m) => ({ m, cls: "alt" })), "alt");
+    MB.stat("pd-so-o-n", String(p.sounding.length));
+  }
+  p.on((ev) => PN.at(ev.when, () => MB.stat("pd-so-o-n", String(p.sounding.length))));
+  tog.addEventListener("click", () => setSost(!sost));
+  document.getElementById("pd-so-grab").addEventListener("click", () => {
+    MB.ctx(); if (sost) setSost(false);
+    p.noteOn(36, 0.65); p.noteOn(48, 0.55);
+    setTimeout(() => { setSost(true); setTimeout(() => { p.noteOff(36); p.noteOff(48); show(); }, 250); }, 200);
+  });
+  document.getElementById("pd-so-demo").addEventListener("click", () => {
+    if (seq) seq.stop(); if (sost) setSost(false);
+    const md = mode();
+    const CH = [[64, 67, 72], [65, 69, 72], [64, 67, 72], [65, 69, 74], [64, 67, 72], [62, 67, 71], [64, 67, 72], [67, 72, 76]];
+    const notes = [{ t: 0, d: 0.55, ms: [36, 48], vel: 0.62 }].concat(CH.map((c, i) => ({ t: 0.9 + i * 0.3, d: 0.1, ms: c, vel: 0.5 })));
+    const o = { tail: 2.5, onEnd: () => { seq = null; if (sost) setSost(false); p.pedal(false); } };
+    if (md === "sost") o.sost = [{ t: 0.3, v: true }];
+    if (md === "damper") o.pedals = [{ t: 0.15, v: 1 }];
+    seq = pdPlay(p, notes, o);
+    if (md === "sost") setTimeout(() => { sost = true; cap = [36, 48]; show(); }, 460);
+  });
+  document.getElementById("pd-so-stop").addEventListener("click", () => { if (seq) seq.stop(); seq = null; p.stop(); sost = false; cap = []; show(); });
+  show();
+})();
+
+/* ---------------------------------------------------------------- 6. 우나 코르다 스펙트럼 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#pd-sf-kb", { from: 48, to: 72, labels: "c", piano: p });
+  const M = MB.range("pd-sf-m", (v) => pdName(v) + " · " + PN.freq(v).toFixed(0) + " Hz", () => update());
+  const V = MB.range("pd-sf-v", (v) => v.toFixed(2), () => update());
+  const S = MB.check("pd-sf-on", (v) => { p.soft = v; });
+  let timers = [];
+  function spec(m, vel, soft) {
+    let layer = PN.layerOf(vel); if (soft) layer = Math.max(0, layer - 1);
+    const md = PN.noteModel(m, layer), norm = md.partials.reduce((a, q) => a + q.a, 0);
+    const lvl = 0.55 * PN.velGain(vel) * (soft ? 0.72 : 1);
+    return { layer, parts: md.partials.slice(0, 20).map((q) => ({ n: q.n, f: q.f, a: (lvl * q.a) / norm })) };
+  }
+  const centroid = (s) => { let a = 0, b = 0; s.parts.forEach((q) => { a += q.f * q.a * q.a; b += q.a * q.a; }); return a / b; };
+  const energy = (s) => s.parts.reduce((a, q) => a + q.a * q.a, 0);
+  function update() {
+    const m = M(), v = V(), A = spec(m, v, false), B = spec(m, v, true);
+    MB.stat("pd-sf-o-db", (10 * Math.log10(energy(B) / energy(A))).toFixed(1) + " dB");
+    MB.stat("pd-sf-o-c", `${centroid(A).toFixed(0)} → ${centroid(B).toFixed(0)} Hz`);
+    MB.stat("pd-sf-o-l", `${["여린", "보통", "센"][A.layer]} → ${["여린", "보통", "센"][B.layer]}`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-pd-soft", (ctx, w, h) => {
+    const P = MB.palette(), m = M(), v = V(), A = spec(m, v, false), B = spec(m, v, true);
+    const box = { x: 36, y: 22, w: w - 46, h: h - 46 }, n = 20, gw = box.w / n, ref = Math.max(...A.parts.map((q) => q.a)), dbMin = -60;
+    const Y = (a) => box.y + MB.clamp((20 * Math.log10(a / ref)) / dbMin, 0, 1) * box.h;
+    ctx.font = "10px " + PD_MONO(); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -20, -40, -60].forEach((db) => { const y = box.y + (db / dbMin) * box.h; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, y); ctx.lineTo(box.x + box.w, y); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(db, box.x - 4, y); });
+    const bars = (s, col, off) => s.parts.forEach((q) => { if (q.n > n) return; const x = box.x + (q.n - 1) * gw + off * gw * 0.42 + gw * 0.08, y = Y(q.a); ctx.fillStyle = col; ctx.fillRect(x, y, gw * 0.38, box.y + box.h - y); });
+    bars(A, P.accent, 0); bars(B, P.accent2, 1);
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = P.dim;
+    for (let k = 1; k <= n; k += k < 10 ? 1 : 2) ctx.fillText(k, box.x + (k - 0.5) * gw, box.y + box.h + 5);
+    ctx.textAlign = "left"; ctx.font = "11px " + PD_FONT(); ctx.fillText(`${pdName(m)} 배음별 세기(dB) · 주색 보통 · 주황 우나 코르다`, box.x, 4);
+  }, { aspect: 0.4, minHeight: 170, maxHeight: 250 });
+  function hit(soft) { MB.ctx(); const keep = p.soft; p.soft = soft; p.play(M(), { vel: V(), dur: 1.4 }); p.soft = keep; }
+  document.getElementById("pd-sf-n").addEventListener("click", () => hit(false));
+  document.getElementById("pd-sf-s").addEventListener("click", () => hit(true));
+  document.getElementById("pd-sf-ab").addEventListener("click", () => {
+    timers.forEach(clearTimeout); timers = [];
+    for (let i = 0; i < 4; i++) timers.push(setTimeout(() => { hit(i % 2 === 1); MB.stat("pd-sf-o-l", i % 2 ? "우나 코르다" : "보통"); if (i === 3) setTimeout(update, 1500); }, i * 1500));
+  });
+  document.getElementById("pd-sf-stop").addEventListener("click", () => { timers.forEach(clearTimeout); timers = []; p.stop(); update(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 7. 셈여림 곡선 */
+(function () {
+  const p = PN.piano();
+  const MEL = PN.parseNotes("E4/1 E4/1 F4/1 G4/1 G4/1 F4/1 E4/1 D4/1 C4/1 C4/1 D4/1 E4/1 E4/1.5 D4/.5 D4/2 E4/1 E4/1 F4/1 G4/1 G4/1 F4/1 E4/1 D4/1 C4/1 C4/1 D4/1 E4/1 D4/1.5 C4/.5 C4/2");
+  const LH = [[48, 52, 55], [43, 47, 50], [48, 52, 55], [43, 47, 50], [48, 52, 55], [43, 47, 50], [48, 52, 55], [43, 47, 53]];
+  const TOT = 32, vel = MEL.map(() => 0.6);
+  let seq = null, now = -1;
+  const PRE = {
+    flat: () => 0.6,
+    cresc: (n) => 0.3 + 0.58 * (n.t / TOT),
+    arch: (n) => { const ph = Math.floor(n.t / 16), x = (n.t % 16) / 16; return 0.36 + (ph ? 0.4 : 0.32) * Math.sin(Math.PI * Math.pow(Math.min(1, x * 1.05), 0.85)); },
+    beat: (n) => (Math.abs(n.t % 4) < 1e-6 ? 0.86 : 0.45),
+    rand: () => 0.3 + 0.55 * Math.random(),
+  };
+  const pre = MB.seg("pd-sh-pre", (v) => apply(v));
+  const bpm = MB.range("pd-sh-bpm", (v) => "♩ = " + v, () => {});
+  const lh = MB.check("pd-sh-lh", () => {});
+  const staff = PN.staff("#pd-sh-staff", MEL, { clef: "treble", barsPerLine: 4, compact: true, below: 6 });
+  function apply(k) { MEL.forEach((n, i) => (vel[i] = MB.clamp(PRE[k](n, i), 0.15, 1))); refresh(); }
+  const nearestDyn = (v) => PN.DYNAMICS.reduce((a, d) => (Math.abs(d.vel - v) < Math.abs(a.vel - v) ? d : a));
+  function refresh() {
+    const marks = []; let prev = null;
+    for (let b = 0; b < 8; b++) {
+      const idx = MEL.map((n, i) => i).filter((i) => MEL[i].t >= b * 4 && MEL[i].t < b * 4 + 4);
+      const avg = idx.reduce((a, i) => a + vel[i], 0) / idx.length, d = nearestDyn(avg).sym;
+      if (d !== prev) marks.push({ t: b * 4, text: d, where: "below" });
+      else if (b > 0) { const pv = idx.length ? vel[idx[idx.length - 1]] - vel[idx[0]] : 0; if (Math.abs(pv) > 0.12) marks.push({ t: b * 4 + 1, text: pv > 0 ? "cresc." : "dim.", where: "below" }); }
+      prev = d;
+    }
+    staff.setOptions({ marks });
+    const mn = Math.min(...vel), mx = Math.max(...vel), ip = vel.indexOf(mx);
+    MB.stat("pd-sh-o-r", `<i>${nearestDyn(mn).sym}</i> – <i>${nearestDyn(mx).sym}</i>`);
+    MB.stat("pd-sh-o-db", (20 * Math.log10(PN.velGain(mx) / PN.velGain(mn))).toFixed(1) + " dB");
+    MB.stat("pd-sh-o-pk", `${Math.floor(MEL[ip].t / 4) + 1}마디 ${pdName(MEL[ip].m)}`);
+    cv.redraw();
+  }
+  const L = 34, R = 10, T = 18, B = 22;
+  const cv = MB.canvas("#cv-pd-sh", (ctx, w, h) => {
+    const P = MB.palette(), X = (t) => L + (t / TOT) * (w - L - R), Y = (v) => T + (1 - v) * (h - T - B);
+    ctx.font = "10px " + PD_MONO(); ctx.textBaseline = "middle"; ctx.textAlign = "right";
+    PN.DYNAMICS.forEach((d, i) => { if (i % 2 === 0 || d.sym === "f") { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(L, Y(d.vel)); ctx.lineTo(w - R, Y(d.vel)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText(d.sym, L - 4, Y(d.vel)); } });
+    for (let b = 0; b <= 8; b++) { ctx.strokeStyle = b % 4 === 0 ? P.axis : P.grid; ctx.beginPath(); ctx.moveTo(X(b * 4), T); ctx.lineTo(X(b * 4), h - B); ctx.stroke(); }
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath();
+    MEL.forEach((n, i) => { const x = X(n.t + 0.15), y = Y(vel[i]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
+    MEL.forEach((n, i) => {
+      const x = X(n.t + 0.15), y = Y(vel[i]);
+      ctx.fillStyle = i === now ? P.warn : P.accent; ctx.globalAlpha = 0.18; ctx.fillRect(x - 3, y, 6, h - B - y); ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(x, y, i === now ? 6 : 4, 0, 7); ctx.fill();
+    });
+    ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = P.dim; ctx.font = "11px " + PD_FONT();
+    ctx.fillText("음마다 세기 — 누른 채 끌어서 그리기", L, 2);
+    ctx.textBaseline = "bottom"; ctx.font = "10px " + PD_MONO();
+    for (let b = 0; b < 8; b++) ctx.fillText(String(b + 1), X(b * 4) + 3, h - 6);
+  }, { aspect: 0.34, minHeight: 170, maxHeight: 240 });
+  const el = cv.canvas; let drag = false;
+  function pick(e) {
+    const r = el.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    const t = ((x - L) / (r.width - L - R)) * TOT, v = MB.clamp(1 - (y - T) / (r.height - T - B), 0.15, 1);
+    let bi = 0, bd = 1e9; MEL.forEach((n, i) => { const d = Math.abs(n.t + 0.15 - t); if (d < bd) { bd = d; bi = i; } });
+    vel[bi] = v; pre.set("", false); document.querySelectorAll("#pd-sh-pre button").forEach((b) => b.classList.remove("on"));
+    refresh();
+  }
+  el.addEventListener("pointerdown", (e) => { drag = true; try { el.setPointerCapture(e.pointerId); } catch (er) {} pick(e); e.preventDefault(); });
+  el.addEventListener("pointermove", (e) => { if (drag) pick(e); });
+  ["pointerup", "pointercancel"].forEach((t) => el.addEventListener(t, () => (drag = false)));
+  function stop() { if (seq) seq.stop(); seq = null; now = -1; staff.highlight(-1); cv.redraw(); }
+  document.getElementById("pd-sh-play").addEventListener("click", () => {
+    if (seq) seq.stop();
+    const spb = 60 / bpm();
+    const notes = MEL.map((n, i) => ({ t: n.t * spb, d: n.d * spb * 0.97, m: n.m, vel: vel[i], i }));
+    if (lh()) LH.forEach((c, b) => notes.push({ t: b * 4 * spb, d: 4 * spb * 0.95, ms: c, vel: 0.3, lh: true }));
+    seq = pdPlay(p, notes, { tail: 1, onNote: (n) => { if (n.lh) return; now = n.i; staff.highlight(n.i); cv.redraw(); }, onEnd: () => { seq = null; now = -1; staff.highlight(-1); cv.redraw(); } });
+  });
+  document.getElementById("pd-sh-stop").addEventListener("click", stop);
+  apply("arch");
+})();
+
+/* ---------------------------------------------------------------- 8. 아티큘레이션 */
+(function () {
+  const p = PN.piano();
+  const MEL = PN.parseNotes("C4/1 C4/1 G4/1 G4/1 A4/1 A4/1 G4/2 F4/1 F4/1 E4/1 E4/1 D4/1 D4/1 C4/2");
+  const A = MB.seg("pd-ar-a", () => refresh());
+  const bpm = MB.range("pd-ar-bpm", (v) => "♩ = " + v, () => refresh());
+  const ped = MB.check("pd-ar-ped", () => {});
+  const staff = PN.staff("#pd-ar-staff", MEL, { clef: "treble", compact: true, barsPerLine: 4 });
+  let seq = null, raf = 0;
+  const cvEl = document.getElementById("cv-pd-ar");
+  const roll = PN.roll(cvEl, { from: 58, to: 71, beats: 16, aspect: 0.3, maxHeight: 200 });
+  function perf() {
+    const a = A(), spb = 60 / bpm();
+    return MEL.map((n, i) => {
+      const next = MEL[i + 1], same = next && next.m === n.m;
+      let ratio = 1, v = 0.55, mark = null;
+      if (a === "legato") ratio = same ? 0.9 : 1 + 0.03 / (n.d * spb);
+      if (a === "non") ratio = 0.8;
+      if (a === "stacc") { ratio = 0.4; mark = "•"; }
+      if (a === "ten") { ratio = same ? 0.92 : 1; v = 0.61; mark = "–"; }
+      if (a === "acc") { ratio = 0.9; if (Math.abs(n.t % 4) < 1e-6) { v = 0.8; mark = ">"; } }
+      if (a === "pair") { if (i % 2 === 0 && i < 12) { v = 0.66; ratio = same ? 0.92 : 1 + 0.03 / (n.d * spb); mark = "⌒"; } else if (i < 12) { v = 0.42; ratio = 0.5; } else ratio = 0.95; }
+      return { n, i, ratio, v, mark, dsec: n.d * spb * ratio };
+    });
+  }
+  function refresh() {
+    const pf = perf(), spb = 60 / bpm();
+    staff.setOptions({ marks: pf.filter((q) => q.mark).map((q) => ({ t: q.n.t, text: q.mark, where: "above" })) });
+    roll.set(pf.map((q) => ({ t: q.n.t, d: Math.min(q.n.d * q.ratio, q.n.d + 0.3), m: q.n.m, vel: q.v })));
+    const duty = pf.reduce((a, q) => a + Math.min(1, q.ratio), 0) / pf.length;
+    const gaps = pf.slice(0, -1).map((q) => (q.n.d * spb - q.dsec) * 1000);
+    const mg = gaps.reduce((a, g) => a + g, 0) / gaps.length;
+    MB.stat("pd-ar-o-duty", (duty * 100).toFixed(0) + "%");
+    MB.stat("pd-ar-o-gap", mg < 0 ? `겹침 ${(-mg).toFixed(0)} ms` : `${mg.toFixed(0)} ms`);
+    const vs = pf.map((q) => q.v);
+    MB.stat("pd-ar-o-v", `${Math.min(...vs).toFixed(2)}–${Math.max(...vs).toFixed(2)} <small>${(20 * Math.log10(PN.velGain(Math.max(...vs)) / PN.velGain(Math.min(...vs)))).toFixed(1)} dB</small>`);
+  }
+  function stop() { if (seq) seq.stop(); seq = null; staff.highlight(-1); roll.now(null); }
+  function tick() { raf = 0; if (!seq || !seq.running) { roll.now(null); return; } const b = (MB.now() - seq.t0) / (60 / bpm()); roll.now(b >= 0 && b <= 16 ? b : null); raf = requestAnimationFrame(tick); }
+  document.getElementById("pd-ar-play").addEventListener("click", () => {
+    if (seq) seq.stop();
+    const spb = 60 / bpm(), pf = perf();
+    const notes = pf.map((q) => ({ t: q.n.t * spb, d: q.dsec, m: q.n.m, vel: q.v, i: q.i }));
+    const o = { tail: 0.8, onNote: (n) => staff.highlight(n.i), onEnd: () => { seq = null; staff.highlight(-1); roll.now(null); } };
+    if (ped()) o.pedals = [{ t: 0, v: 1 }, { t: 16 * spb + 0.6, v: 0 }];
+    seq = pdPlay(p, notes, o);
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+  document.getElementById("pd-ar-stop").addEventListener("click", stop);
+  refresh();
+})();
+</script>
+</body>
+</html>

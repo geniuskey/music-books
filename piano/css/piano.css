@@ -1,0 +1,122 @@
+/* ==========================================================================
+   PianoBook 피아노 위젯 스타일 — 건반(.pn-kb), 악보(.pn-staff), 공용 카드
+   ========================================================================== */
+:root {
+  --pn-white: #fbfaf7;
+  --pn-white-edge: #c9c4bb;
+  --pn-black: #1f1d22;
+  --pn-black-top: #3a3640;
+  --pn-felt: #8b2c3b;
+  --pn-ink: #26232b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pn-white: #e9e6e0;
+    --pn-white-edge: #7d7870;
+    --pn-black: #0d0c10;
+    --pn-black-top: #2a2730;
+    --pn-felt: #7a2533;
+    --pn-ink: #e8e4ee;
+  }
+}
+:root[data-theme="dark"] {
+  --pn-white: #e9e6e0;
+  --pn-white-edge: #7d7870;
+  --pn-black: #0d0c10;
+  --pn-black-top: #2a2730;
+  --pn-felt: #7a2533;
+  --pn-ink: #e8e4ee;
+}
+
+/* ---------------------------------------------------------------- keyboard */
+.pn-kb { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; max-width: 100%; padding: 2px 0 4px; }
+.pn-kb svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; touch-action: pan-y; }
+.pn-kb .felt { fill: var(--pn-felt); }
+.pn-kb .k { cursor: pointer; }
+.pn-kb .wk rect { fill: var(--pn-white); stroke: var(--pn-white-edge); stroke-width: 1; transition: fill .06s; }
+.pn-kb .bk rect { fill: var(--pn-black); stroke: var(--pn-black-top); stroke-width: 1; transition: fill .06s; }
+.pn-kb .wk:hover rect { fill: color-mix(in srgb, var(--accent) 10%, var(--pn-white)); }
+.pn-kb .bk:hover rect { fill: color-mix(in srgb, var(--accent) 35%, var(--pn-black)); }
+.pn-kb .wk.mid rect { fill: color-mix(in srgb, var(--warn) 9%, var(--pn-white)); }
+.pn-kb .wk.down rect { fill: color-mix(in srgb, var(--accent) 42%, var(--pn-white)); }
+.pn-kb .bk.down rect { fill: var(--accent); }
+.pn-kb .kl { font: 600 9.5px var(--mono); text-anchor: middle; fill: #5d5866; pointer-events: none; }
+.pn-kb .bk .kl { fill: #d8d3e0; font-size: 7.5px; }
+.pn-kb .dots { pointer-events: none; }
+.pn-kb .dot circle { fill: var(--accent); stroke: var(--pn-white); stroke-width: 1.4; }
+.pn-kb .dot text { font: 700 9px var(--mono); fill: var(--on-accent); text-anchor: middle; }
+.pn-kb .dot.alt circle { fill: var(--accent-2); }
+.pn-kb .dot.alt text { fill: #fff; }
+.pn-kb .dot.root circle { fill: var(--bad); }
+.pn-kb .dot.root text, .pn-kb .dot.ok text, .pn-kb .dot.bad text { fill: #fff; }
+.pn-kb .dot.ok circle { fill: var(--ok); }
+.pn-kb .dot.bad circle { fill: var(--bad); }
+.pn-kb .dot.ghost circle { fill: transparent; stroke: var(--accent); stroke-width: 1.8; }
+.pn-kb .dot.ghost text { fill: var(--accent); }
+.pn-kb .dot.dim circle { fill: #9a95a3; }
+.pn-kb .dot.finger circle { fill: var(--pn-white); stroke: var(--accent); stroke-width: 1.6; }
+.pn-kb .dot.finger text { fill: var(--accent); }
+.pn-kb .dot.on circle { fill: var(--warn); animation: pn-pop .4s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+@keyframes pn-pop { 0% { transform: scale(.5); } 40% { transform: scale(1.2); } 100% { transform: scale(1); opacity: .85; } }
+.pn-kb.compact svg { max-height: 120px; }
+.pn-kb.pedal .felt { fill: var(--accent); }
+.sim-view .pn-kb { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 8px 6px 6px; }
+
+/* ---------------------------------------------------------------- staff */
+.pn-staff { width: 100%; overflow: hidden; }
+.pn-staff svg { display: block; width: 100%; height: auto; }
+.pn-staff .sl { stroke: var(--text-dim); stroke-width: 1; }
+.pn-staff .bar { stroke: var(--text-dim); stroke-width: 1.2; }
+.pn-staff .bar.end { stroke-width: 3.2; stroke: var(--text); }
+.pn-staff .bar.thin { stroke-width: 1.1; }
+.pn-staff .brace { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+.pn-staff .clef { fill: none; stroke: var(--text); stroke-width: 2.1; stroke-linecap: round; }
+.pn-staff .clefdot { fill: var(--text); }
+.pn-staff .acc { font: 15px var(--font); fill: var(--text); text-anchor: middle; }
+.pn-staff .acc.ks { font-size: 14px; }
+.pn-staff .tsig { font: 800 19px var(--font); fill: var(--text); text-anchor: middle; }
+.pn-staff .head { fill: var(--text); }
+.pn-staff .head.open { fill: var(--bg-elev); stroke: var(--text); stroke-width: 1.6; }
+.pn-staff .stem { stroke: var(--text); stroke-width: 1.3; }
+.pn-staff .flag { fill: var(--text); stroke: var(--text); stroke-width: 0.6; }
+.pn-staff .beam { fill: var(--text); }
+.pn-staff .ledger { stroke: var(--text-dim); stroke-width: 1.2; }
+.pn-staff .ndot, .pn-staff .rest-d { fill: var(--text); }
+.pn-staff .rest { fill: var(--text); }
+.pn-staff .rest-s { stroke: var(--text); stroke-width: 1.5; fill: none; }
+.pn-staff .tie { fill: none; stroke: var(--text); stroke-width: 1.3; }
+.pn-staff .fing { font: 700 10.5px var(--mono); fill: var(--accent); text-anchor: middle; }
+.pn-staff .nname { font: 600 10.5px var(--mono); fill: var(--text-dim); text-anchor: middle; }
+.pn-staff .nlabel { font: 11px var(--font); fill: var(--accent-2); text-anchor: middle; }
+.pn-staff .chname { font: 700 13.5px var(--font); fill: var(--accent); }
+.pn-staff .barno { font: 9.5px var(--mono); fill: var(--text-faint); }
+.pn-staff .mark-t { font: italic 600 12.5px var(--font); fill: var(--text-dim); text-anchor: middle; }
+.pn-staff .mark-t.dyn { font: italic 800 15px Georgia, "Times New Roman", serif; fill: var(--text); }
+.pn-staff .pedal { fill: none; stroke: var(--accent-2); stroke-width: 1.5; }
+.pn-staff .nhit { fill: transparent; }
+.pn-staff .pick { fill: transparent; cursor: crosshair; }
+.pn-staff .playhead { stroke: var(--accent); stroke-width: 2; opacity: .6; }
+.pn-staff .pn-n.now .head, .pn-staff .pn-n.now .stem, .pn-staff .pn-n.now .flag { fill: var(--accent); stroke: var(--accent); }
+.pn-staff .pn-n.now .head.open { fill: var(--accent-soft); }
+.pn-staff .pn-n.ok .head { fill: var(--ok); stroke: var(--ok); }
+.pn-staff .pn-n.bad .head { fill: var(--bad); stroke: var(--bad); }
+.pn-staff .pn-n.ghost { opacity: .35; }
+.pn-staff .pn-n.alt .head { fill: var(--accent-2); stroke: var(--accent-2); }
+.sim-view .pn-staff { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 6px 4px; }
+
+/* ---------------------------------------------------------------- misc */
+.pn-chords { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.pn-chords > button { all: unset; box-sizing: border-box; cursor: pointer; padding: 8px 4px 6px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-elev); text-align: center; font: 700 15px var(--font); color: var(--text); transition: border-color .15s, background .15s; }
+.pn-chords > button small { display: block; font: 500 11px var(--mono); color: var(--text-dim); margin-top: 2px; }
+.pn-chords > button:hover { border-color: var(--accent); }
+.pn-chords > button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pn-chords > button.on { border-color: var(--accent); background: var(--accent-soft); }
+.pn-big { font: 700 clamp(30px, 7vw, 46px) var(--mono); letter-spacing: -0.02em; text-align: center; line-height: 1.15; }
+.pn-big small { display: block; font: 500 13px var(--font); color: var(--text-dim); letter-spacing: 0; }
+.pn-hint { font-size: 12.5px; color: var(--text-dim); }
+.pn-hint kbd { font: 600 11px var(--mono); padding: 1px 5px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; background: var(--bg-elev); color: var(--text); }
+.pn-steps { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 4px; }
+.pn-steps button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 7px 0 5px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 13px var(--mono); color: var(--text); }
+.pn-steps button.beat { background: var(--surface); }
+.pn-steps button.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.pn-steps button.now { outline: 2px solid var(--warn); outline-offset: 1px; }

@@ -13,6 +13,14 @@ LOCAL_BOOKS = [{
     'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'guitar', 'legacyUrl': None,
     'color': '#9a6237', 'colorDark': '#d9a066', 'motif': 'guitar',
     'topics': ['지판·TAB', '코드·CAGED', '스트로크', '스케일·솔로', '핑거스타일', '일렉 톤'],
+}, {
+    'id': 'pianobook', 'code': 'PNO', 'title': 'PianoBook', 'subtitle': '피아노 교과서',
+    'headline': '건반 위에서 만나는 화성과 선율',
+    'description': '해머와 현의 물리, 건반과 악보 읽기, 운지와 터치, 음계와 화음, 왼손 반주와 코드 진행, 재즈 보이싱, 페달과 표현, 블루스와 스타일 반주까지 — 브라우저의 가상 피아노로 직접 누르고 들으며 배우는 피아노 교과서.',
+    'url': 'https://music.euiyun.com/piano/', 'repo': 'https://github.com/geniuskey/music-books', 'field': 'music',
+    'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'piano', 'legacyUrl': None,
+    'color': '#7256a6', 'colorDark': '#b49cf0', 'motif': 'piano',
+    'topics': ['건반·악보', '운지·터치', '음계·화음', '반주 패턴', '재즈 보이싱', '페달·표현'],
 }]
 books = books + LOCAL_BOOKS
 catalog = []

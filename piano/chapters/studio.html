@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>연주 스튜디오 · PianoBook</title>
+<meta name="description" content="MIDI 건반을 연결하고 지연을 이해한 뒤, 카운트인 녹음 → 피아노 롤 → 양자화 → 악보 → MIDI·WAV 내보내기, 반주 루프 위의 잼 스테이션과 연습 기록까지 갖춘 종합 작업실.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/studio.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="연주 스튜디오 · PianoBook">
+<meta property="og:description" content="MIDI 건반을 연결하고 지연을 이해한 뒤, 카운트인 녹음 → 피아노 롤 → 양자화 → 악보 → MIDI·WAV 내보내기, 반주 루프 위의 잼 스테이션과 연습 기록까지 갖춘 종합 작업실.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/studio.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .std-top { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--canvas-bg); }
+  .std-top .grow { flex: 1; min-width: 150px; }
+  .std-big { font: 700 26px/1.1 var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
+  .std-big small { font-size: 12.5px; color: var(--text-dim); font-weight: 400; margin-left: 4px; }
+  .std-msg { font-size: 14px; color: var(--text-dim); min-height: 1.4em; }
+  .std-msg.bad { color: var(--bad); }
+  .std-msg.ok { color: var(--ok); }
+  .std-msg b { color: var(--text); }
+  .std-log { font: 12px/1.55 var(--mono); color: var(--text-dim); background: var(--surface); border-radius: var(--radius-sm); padding: 8px 10px; min-height: 9.5em; max-height: 13em; overflow: auto; margin-top: 8px; white-space: pre-wrap; word-break: break-all; }
+  .std-log b { color: var(--accent); font-weight: 700; }
+  .std-log i { color: var(--accent-2); font-style: normal; }
+  .std-hex { font: 12px/1.6 var(--mono); background: var(--surface); border-radius: var(--radius-sm); padding: 8px 10px; overflow-x: auto; white-space: pre; color: var(--text-dim); margin: 0; }
+  .std-hex .h1 { color: var(--accent); font-weight: 700; } .std-hex .h2 { color: var(--accent-2); font-weight: 700; } .std-hex .h3 { color: var(--ok); } .std-hex .h4 { color: var(--text); font-weight: 600; }
+  .std-chart { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; padding: 12px 16px; background: var(--canvas-bg); }
+  .std-cell { font: inherit; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); padding: 5px 3px; text-align: center; min-width: 0; cursor: pointer; }
+  .std-cell b { display: block; font: 700 14.5px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .std-cell small { font-size: 10.5px; color: var(--text-dim); }
+  .std-cell.now { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent) inset; }
+  .std-input { font: 14px var(--font); padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); width: 100%; box-sizing: border-box; }
+  .std-form { display: grid; gap: 10px 14px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .std-list { list-style: none; padding: 0; margin: 8px 0 0; font-size: 13.5px; }
+  .std-list li { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px dashed var(--border); margin: 0 !important; }
+  .std-list li .d { font: 600 12px var(--mono); color: var(--text-dim); white-space: nowrap; }
+  .std-list li .m { font: 700 13px var(--mono); color: var(--accent); white-space: nowrap; }
+  .std-list li .n { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .std-list li button { all: unset; cursor: pointer; color: var(--text-faint); font-size: 12px; padding: 0 4px; }
+  .std-list li button:hover { color: var(--bad); }
+  .std-pad { padding: 10px 16px; background: var(--canvas-bg); }
+  .std-journey { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 18px 0; }
+  .std-journey a { display: block; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: var(--bg-elev); color: var(--text); font-size: 14px; }
+  .std-journey a:hover { border-color: var(--accent); text-decoration: none; }
+  .std-journey a b { display: block; font-size: 12.5px; color: var(--accent); font-family: var(--mono); }
+  svg .std-s { font-size: 11px; fill: var(--text-dim); font-family: var(--font); }
+  svg .std-mono { font: 600 13px var(--mono); fill: var(--text); }
+  svg .std-box { fill: var(--surface); stroke: var(--border); }
+  svg .std-b1 { fill: color-mix(in srgb, var(--accent) 16%, var(--bg-elev)); stroke: var(--accent); }
+  svg .std-b2 { fill: color-mix(in srgb, var(--accent-2) 16%, var(--bg-elev)); stroke: var(--accent-2); }
+  svg .std-b3 { fill: color-mix(in srgb, var(--ok) 16%, var(--bg-elev)); stroke: var(--ok); }
+  svg .std-b4 { fill: color-mix(in srgb, var(--warn) 18%, var(--bg-elev)); stroke: var(--warn); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="studio">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 14</div>
+    <h1>연주 스튜디오</h1>
+    <p class="lead">마지막 장은 작업실입니다. 지금까지는 책이 들려주고 여러분이 따라 쳤다면, 이제는 여러분이 치고 컴퓨터가 듣습니다. 디지털 피아노나 MIDI 건반을 브라우저에 연결하고, 손과 귀 사이의 지연이 어디서 생기는지 이해한 다음, 카운트인과 메트로놈에 맞춰 <b>녹음</b>하고, 피아노 롤에서 타이밍을 들여다보고, <b>양자화</b>해서 <b>악보</b>로 옮기고, MIDI 파일과 WAV 파일로 <b>내보냅니다</b>. 마지막으로 드럼·베이스·왼손 반주가 도는 <b>잼 스테이션</b>에서 이 책의 모든 것을 한꺼번에 쓰고, 그 연습을 기록으로 남기는 법까지 다룹니다.</p>
+    <ul class="objectives">
+      <li>MIDI 메시지(노트 온·오프, 벨로시티, CC64 서스테인)의 구조를 읽고 Web MIDI로 건반을 연결한다.</li>
+      <li>MIDI 전송·오디오 버퍼·출력 장치가 만드는 지연을 계산하고, 몸으로 느껴 본다.</li>
+      <li>카운트인 녹음 → 피아노 롤 → 양자화(격자·강도) → 악보 변환의 과정을 이해하고 직접 해 본다.</li>
+      <li>양자화의 득과 실을 알고, 사람다운 타이밍·셈여림이 무엇인지 설명한다.</li>
+      <li>표준 MIDI 파일(SMF)과 WAV의 구조를 알고 녹음을 파일로 저장한다.</li>
+      <li>잼 스테이션에서 키·진행·스타일·템포를 골라 즉흥 연주하고 테이크를 녹음하며, 연습 기록으로 목표를 관리한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="midi">
+    <h2>MIDI 건반 연결하기</h2>
+    <p><span class="term">MIDI</span><span class="en">(Musical Instrument Digital Interface)</span>는 1983년에 나온 전자 악기 사이의 통신 규약입니다. 중요한 점은 MIDI가 <b>소리가 아니라 동작</b>을 보낸다는 것입니다. 디지털 피아노의 건반을 누르면 "60번 건반을 세기 100으로 눌렀다"는 3바이트 메시지가 나가고, 소리는 받는 쪽(여기서는 이 책의 가상 피아노)이 만듭니다. 그래서 같은 MIDI 연주를 다른 음색으로 다시 들을 수 있고, 박자를 바꾸거나 틀린 음만 고칠 수도 있습니다. MIDI의 원리와 역사는 <a href="../../fundamentals/chapters/midi.html">MusicBook의 MIDI 장</a>에 자세히 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="MIDI 메시지의 바이트 구조">
+        <g id="std-fig-msg"></g>
+      </svg>
+      <figcaption><b>그림 14-1.</b> 피아노에서 쓰는 세 가지 MIDI 메시지. 첫 바이트(상태, 최상위 비트 1)의 위 4비트가 종류(9 = 노트 온, 8 = 노트 오프, B = 컨트롤 체인지), 아래 4비트가 채널(0–15)이다. 뒤따르는 데이터 바이트는 최상위 비트가 0이라 0–127만 쓴다. 벨로시티 0인 노트 온은 노트 오프로 취급한다. 댐퍼 페달은 CC 64번이고 값 64 이상이면 '밟음'이다.</figcaption>
+    </figure>
+    <p><b>벨로시티</b>는 건반이 눌리는 속도를 0–127로 잰 값입니다. 건반 안의 두 접점(또는 광센서)이 차례로 닿는 시간 간격으로 측정하므로, 엄밀히는 '힘'이 아니라 '속도'입니다(<a href="touch.html">3장</a>의 해머 속도와 같은 개념). 사람마다, 건반마다 손의 무게가 달라서 같은 \(f\)로 쳐도 나오는 숫자가 다릅니다. 그래서 대부분의 디지털 피아노와 소프트웨어에는 <span class="term">벨로시티 곡선</span><span class="en">(Velocity curve)</span>이 있습니다. 입력 \(v_\text{in}\in[0,1]\)을 \(v_\text{out} = v_\text{in}^{\gamma}\)로 바꾸면 \(\gamma<1\)은 가볍게(약하게 쳐도 크게), \(\gamma>1\)은 무겁게(세게 쳐야 크게) 만듭니다.</p>
+    <div class="formula">$$t_\text{전송} = \frac{3 \times 10\ \text{비트}}{31\,250\ \text{비트/초}} \approx 0.96\ \text{ms}, \qquad v_\text{out} = v_\text{in}^{\gamma}, \qquad \text{CC64} \ge 64 \Rightarrow \text{페달 밟음}$$
+      <div class="where">전통적인 5핀 DIN MIDI는 초당 31,250비트로, 1바이트를 시작·정지 비트 포함 10비트로 보낸다. 열 손가락으로 화음을 동시에 치면 메시지 열 개가 차례로 나가므로 마지막 음은 약 10 ms 늦는다. USB MIDI는 이보다 훨씬 빠르다. 하프 페달을 지원하는 건반은 CC64를 0–127 사이의 연속값으로 보낸다.</div>
+    </div>
+    <p>브라우저는 <span class="term">Web MIDI</span><span class="en">(Web MIDI API)</span>로 USB에 꽂힌 건반을 읽을 수 있습니다. Chrome·Edge 같은 Chromium 계열 브라우저와 최근의 Firefox에서 동작하고, Safari(아이폰·아이패드 포함)는 지원하지 않습니다. 또 보안상 https 페이지에서만, 사용자가 허락했을 때만 열립니다. 아래 모니터는 건반에서 들어오는 메시지를 16진수 그대로 보여 줍니다. MIDI 건반이 없어도 화면 건반을 누르면 똑같은 형식의 메시지를 만들어 보여 주니, 구조를 익히는 데는 충분합니다.</p>
+
+    <div class="sim" id="sim-std-midi">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>MIDI 모니터: 메시지 · 벨로시티 곡선 · 서스테인 페달</h3></div>
+      <div class="std-top">
+        <button class="btn primary" id="std-mi-con">MIDI 연결</button>
+        <button class="btn" id="std-mi-off">연결 끊기</button>
+        <div class="grow std-msg" id="std-mi-msg">MIDI 건반을 USB로 연결한 뒤 'MIDI 연결'을 누르세요. 없으면 화면 건반으로 해 보세요.</div>
+      </div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="std-mi-cv"></canvas><div class="std-log" id="std-mi-log" aria-live="polite"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>벨로시티 곡선</span><div class="seg" id="std-mi-curve"><button data-value="0.6">가볍게 γ=0.6</button><button data-value="1" class="on">선형</button><button data-value="1.6">무겁게 γ=1.6</button><button data-value="fixed">고정 0.7</button></div></div>
+          <label class="check"><input type="checkbox" id="std-mi-show" checked> 화면 건반 입력도 메시지로 표시</label>
+          <div class="pn-hint">화면 건반: 건반 앞쪽(아래)을 누를수록 셉니다. <kbd>Space</kbd> = 서스테인 페달(CC64).</div>
+          <div class="btn-row"><button class="btn" id="std-mi-clear">기록 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-view" style="padding-top:0"><div id="std-mi-kb"></div></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">입력 장치</span><span class="v" id="std-mi-r1">없음</span></div>
+        <div class="stat"><span class="k">마지막 벨로시티(입력 → 출력)</span><span class="v" id="std-mi-r2">—</span></div>
+        <div class="stat"><span class="k">서스테인 CC64</span><span class="v" id="std-mi-r3">0 <small>뗌</small></span></div>
+      </div>
+      <div class="sim-note">'MIDI 연결'은 브라우저의 허락 창을 띄웁니다. 연결된 건반은 이 장의 모든 시뮬레이터 중 <b>마지막으로 연결 버튼을 누른 곳</b>으로 소리가 갑니다(벨로시티 곡선은 모두에 적용). 지원하지 않는 브라우저에서는 안내 문구만 나오고 나머지는 화면 건반으로 동작합니다. 해볼 것: ① 같은 세기로 치면서 곡선을 바꿔 출력 점이 어디로 가는지 보기 ② 페달을 밟고 뗄 때 CC64 값이 0/127로만 오는지, 중간값(하프 페달)도 오는지 확인 ③ 건반을 '쿵' 하고 칠 때 노트 온과 노트 오프 사이 시간을 로그로 보기. 모델: 그래프의 곡선은 \(v^\gamma\), 점은 최근 입력.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 내 손에 맞는 곡선 찾기</strong> 디지털 피아노의 곡선 설정은 '손가락 힘 기르기'와 '소리 내기 편함' 사이의 선택입니다. 어쿠스틱 피아노로 옮겨 갈 계획이라면 너무 가벼운 곡선은 피하세요. 테스트: 눈을 감고 \(pp\)–\(mf\)–\(ff\)를 다섯 번씩 친 뒤 로그의 벨로시티를 봅니다. 세 무리가 겹치지 않고 각각 ±10 안쪽에 모이면 곡선이 손에 맞는 것이고, \(ff\)가 127에 몰려 붙으면 너무 가볍습니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="latency">
+    <h2>지연: 손과 귀 사이의 몇 밀리초</h2>
+    <p>어쿠스틱 피아노에서 건반을 누른 뒤 해머가 현을 치기까지는 수 ms–수십 ms가 걸리고(여리게 칠수록 늦습니다), 소리가 1 m를 날아가는 데 약 2.9 ms가 걸립니다. 피아니스트는 이 지연에 평생 적응해 있어서 느끼지 못합니다. 디지털 환경에서는 여기에 새로운 지연이 더해집니다. MIDI 전송, 운영체제의 입력 처리, 소리를 합성하는 <b>오디오 버퍼</b>, 출력 장치(특히 블루투스 이어폰은 100–200 ms에 이르기도 합니다)가 차례로 시간을 잡아먹습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="건반에서 귀까지의 지연 사슬">
+        <g id="std-fig-chain"></g>
+      </svg>
+      <figcaption><b>그림 14-2.</b> 건반에서 귀까지의 지연 사슬(대략의 값). 막대 길이는 ms에 비례. 유선 헤드폰과 작은 버퍼를 쓰면 전체가 10 ms 안팎에 들어오지만, 블루투스 출력 하나가 나머지를 모두 합친 것보다 길 수 있다. 연주용으로는 유선 출력이 거의 필수다.</figcaption>
+    </figure>
+    <div class="formula">$$t_\text{버퍼} = \frac{N}{f_s}, \qquad 128/48\,000 \approx 2.7\ \text{ms}, \qquad 1024/44\,100 \approx 23\ \text{ms}, \qquad d_\text{환산} = 343\ \text{m/s} \times t$$
+      <div class="where">\(N\): 버퍼 크기(샘플), \(f_s\): 샘플링 주파수. 오디오 장치는 버퍼 하나를 채우는 동안 다음 버퍼를 재생하므로 실제 지연은 보통 버퍼 2–3개 분량이다. 마지막 식은 지연을 '스피커에서 그만큼 떨어져 앉은 것'으로 바꿔 본 거리.</div>
+    </div>
+    <p>얼마나 늦어야 느껴질까요? 흔히 10 ms 안쪽은 대부분 눈치채지 못하고, 20–30 ms를 넘으면 '건반이 무겁다', '소리가 따라온다'는 느낌이 들기 시작한다고 합니다. 빠른 패시지나 스타카토일수록 민감합니다. 흥미로운 사실은 사람이 메트로놈에 맞춰 손가락을 두드릴 때 보통 클릭보다 <b>수십 ms 먼저</b> 두드린다는 것입니다(음의 비동기, negative mean asynchrony). 뇌가 손끝의 촉각과 귀의 소리가 도착하는 시간 차이를 미리 보정하기 때문으로 설명됩니다. 아래 실험에서 지연을 일부러 늘려 이 보정이 어떻게 무너지는지 느껴 보세요.</p>
+
+    <div class="sim" id="sim-std-latency">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>지연 체험기와 탭 테스트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="std-la-cv"></canvas><div id="std-la-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>추가 지연 <output id="std-la-d-out"></output></span><input type="range" id="std-la-d" min="0" max="300" value="0"></label>
+          <label class="ctrl"><span>흔들림(지터) ± <output id="std-la-j-out"></output></span><input type="range" id="std-la-j" min="0" max="40" value="0"></label>
+          <label class="ctrl"><span>오디오 버퍼 <output id="std-la-n-out"></output></span><input type="range" id="std-la-n" min="0" max="5" value="1"></label>
+          <div class="ctrl"><span>샘플링 주파수</span><div class="seg" id="std-la-fs"><button data-value="44100">44.1 kHz</button><button data-value="48000" class="on">48 kHz</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="std-la-tap">▶ 탭 테스트(16박)</button></div>
+          <div class="std-msg" id="std-la-msg">탭 테스트: 클릭에 맞춰 아무 건반(또는 <kbd>A</kbd> 키)을 누르세요.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">버퍼 하나 · 장치 보고값</span><span class="v" id="std-la-r1">—</span></div>
+        <div class="stat"><span class="k">추정 총 지연(거리 환산)</span><span class="v" id="std-la-r2">—</span></div>
+        <div class="stat"><span class="k">탭 평균 ± 표준편차</span><span class="v" id="std-la-r3">—</span></div>
+      </div>
+      <div class="sim-note">건반을 누르면 눌림 표시는 바로, 소리는 '추가 지연'만큼 늦게 납니다. 버퍼·샘플링 주파수 손잡이는 계산용이며 실제 장치 설정은 바꾸지 않습니다('장치 보고값'은 브라우저가 알려 주는 출력 지연, 지원하지 않으면 —). 탭 테스트는 90 BPM 클릭 16번(처음 4번은 준비)에 맞춰 누른 시각과 클릭의 차이를 그래프로 그립니다(음수 = 먼저 누름). 해볼 것: ① 지연 0에서 탭 테스트 → 평균이 음수인지 확인 ② 지연 100 ms로 다시 → 손이 자동으로 더 일찍 누르는지 ③ 지터 30 ms에서 빠른 음계를 쳐 보고 일정한 지연보다 더 거슬리는지. 모델: 지연은 오디오 시계에 음을 늦게 예약해 흉내 낸 것.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="record">
+    <h2>녹음: 카운트인에서 악보까지</h2>
+    <p>자기 연주를 녹음해 듣는 것은 가장 강력한 피드백입니다. 연주하는 동안 뇌는 손을 움직이는 데 바빠서 귀가 들은 것을 절반쯤 흘려 버립니다. MIDI 녹음은 여기에 '보는' 피드백을 더합니다. 음 하나하나의 시작 시각, 길이, 세기가 숫자로 남기 때문입니다. 녹음의 흐름은 다음과 같습니다. ① <b>카운트인</b>: 녹음 전에 한두 마디 클릭을 들려주어 템포를 몸에 넣습니다. ② <b>녹음</b>: 메트로놈에 맞춰 칩니다. ③ <span class="term">피아노 롤</span><span class="en">(Piano roll)</span>: 가로 = 시간, 세로 = 음높이인 그림으로 결과를 봅니다. 자동 피아노의 구멍 뚫린 종이 두루마리에서 온 이름입니다. ④ <span class="term">양자화</span><span class="en">(Quantization)</span>: 음의 시작을 가장 가까운 격자(8분음표, 16분음표 …)로 옮깁니다. ⑤ <b>악보 변환</b>: 양자화된 음을 음표로 적습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="양자화 강도에 따른 음 시작 위치">
+        <g id="std-fig-quant"></g>
+      </svg>
+      <figcaption><b>그림 14-3.</b> 8분음표 격자에 대한 양자화. 위 = 녹음된 그대로(사람의 흔들림), 가운데 = 강도 50%(격자 쪽으로 반만), 아래 = 강도 100%(격자에 딱). 점선은 격자, 화살표는 각 음이 움직인 거리. 강도를 100% 미만으로 두면 '틀린' 흔들림은 줄이면서 사람다운 결은 남길 수 있다.</figcaption>
+    </figure>
+    <div class="formula">$$t' = t + s\,\big(g\cdot\operatorname{round}(t/g) - t\big), \qquad e_\text{rms} = \sqrt{\frac{1}{n}\sum_i \big(t_i - g\cdot\operatorname{round}(t_i/g)\big)^2}$$
+      <div class="where">\(t\): 음의 시작(박), \(g\): 격자(1/2박 = 8분음표, 1/4박 = 16분음표), \(s\in[0,1]\): 강도. \(e_\text{rms}\): 격자에서 벗어난 정도(타이밍 오차의 제곱평균제곱근). 격자를 너무 굵게 잡으면 16분음표가 8분음표로 뭉개지고, 너무 잘게 잡으면 흔들림이 그대로 남는다. 격자 선택이 곧 "이 곡에서 가장 짧은 음표가 무엇인가"에 대한 가정이다.</div>
+    </div>
+
+    <div class="sim" id="sim-std-rec">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>녹음기: 카운트인 → 피아노 롤 → 양자화 → 악보 → 재생</h3></div>
+      <div class="std-top">
+        <button class="btn primary" id="std-rc-rec">● 녹음</button>
+        <button class="btn" id="std-rc-play">▶ 재생</button>
+        <button class="btn" id="std-rc-demo">예시 연주 불러오기</button>
+        <button class="btn" id="std-rc-midi">MIDI 연결</button>
+        <div class="std-big" id="std-rc-pos">—</div>
+        <div class="grow std-msg" id="std-rc-msg">녹음을 누르면 카운트인 뒤에 녹음이 시작됩니다.</div>
+      </div>
+      <div class="sim-view"><div id="std-rc-kb"></div><canvas id="std-rc-roll"></canvas><div id="std-rc-staff"></div></div>
+      <div class="sim-controls">
+        <label class="ctrl"><span>템포 <output id="std-rc-bpm-out"></output></span><input type="range" id="std-rc-bpm" min="50" max="160" value="90"></label>
+        <div class="ctrl"><span>카운트인</span><div class="seg" id="std-rc-ci"><button data-value="0">없음</button><button data-value="1" class="on">1마디</button><button data-value="2">2마디</button></div></div>
+        <div class="ctrl"><span>녹음 길이</span><div class="seg" id="std-rc-len"><button data-value="2">2마디</button><button data-value="4" class="on">4마디</button><button data-value="8">8마디</button></div></div>
+        <label class="check"><input type="checkbox" id="std-rc-click" checked> 녹음·재생 중 메트로놈</label>
+        <div class="ctrl"><span>양자화 격자</span><div class="seg" id="std-rc-grid"><button data-value="0">없음</button><button data-value="1">♩ 1/4</button><button data-value="0.5" class="on">♪ 1/8</button><button data-value="0.25">1/16</button><button data-value="0.3333333">1/8 셋잇단</button></div></div>
+        <label class="ctrl"><span>양자화 강도 <output id="std-rc-str-out"></output></span><input type="range" id="std-rc-str" min="0" max="100" value="100"></label>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 수</span><span class="v" id="std-rc-r1">0</span></div>
+        <div class="stat"><span class="k">타이밍 오차 rms (원본 → 양자화)</span><span class="v" id="std-rc-r2">—</span></div>
+        <div class="stat"><span class="k">벨로시티 범위</span><span class="v" id="std-rc-r3">—</span></div>
+      </div>
+      <div class="sim-note">녹음: 화면 건반(C4–C6), 컴퓨터 키보드 <kbd>A</kbd>–<kbd>K</kbd>(<kbd>Z</kbd>/<kbd>X</kbd> 옥타브, <kbd>Space</kbd> 페달) 또는 MIDI 건반. 녹음은 정한 길이가 지나면 저절로 끝나고, 도중에 ■ 버튼으로 멈출 수도 있습니다. 피아노 롤의 흐린 막대 = 녹음 원본, 진한 막대 = 양자화 결과. 격자·강도를 바꾸면 롤·악보·재생이 곧바로 바뀝니다. 녹음이 없으면 「환희의 송가」(베토벤) 첫 네 마디를 일부러 흔들리게 친 예시를 불러와 보세요. 악보 변환은 단순화한 것입니다: 가온 다 이상은 높은음자리표, 아래는 낮은음자리표, 같은 시각의 음은 화음으로 묶고, 마디를 넘는 음은 마디 끝에서 자르며, 셋잇단 격자는 16분음표로 근사해 적습니다. 이 녹음은 아래 '파일로 남기기'에서 저장할 수 있습니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 녹음은 '들을 거리'를 정하고</strong> 무작정 녹음하고 들으면 "별로네"로 끝납니다. 듣기 전에 하나만 정하세요: ① 박 — 피아노 롤에서 음 시작이 격자 앞에 몰리는지(서두름) 뒤에 몰리는지(끌림) ② 셈여림 — 벨로시티 범위가 20 이하라면 표정이 없다는 뜻 ③ 레가토 — 롤에서 막대 사이에 틈이 보이는지. 같은 4마디를 하루 세 번, 일주일 녹음해 rms 오차가 줄어드는지 기록해 보세요(아래 연습 기록).</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="humanize">
+    <h2>양자화의 득과 실: 기계 같은 연주, 사람 같은 연주</h2>
+    <p>양자화를 100%로 걸면 박은 완벽해지지만 음악은 대개 더 나빠집니다. 사람의 연주가 격자에서 벗어나는 방식은 무작위 잡음만이 아니기 때문입니다. 숙련된 피아니스트도 음 시작이 수 ms–수십 ms씩 흔들리지만, 그 상당 부분은 <b>의도된 구조</b>입니다. 프레이즈 끝에서 느려지고(프레이즈 끝 늘이기), 마디의 첫 박을 조금 세게 치고, 선율의 정점을 향해 점점 세졌다가 풀립니다. 연주 표현을 측정한 연구들(예: 레프<span class="en">(B. H. Repp)</span>의 피아노 연주 분석)은 서로 다른 연주자들도 이런 타이밍 곡선의 큰 모양을 놀랄 만큼 비슷하게 공유한다는 것을 보여 주었습니다.</p>
+    <p>그래서 음악 소프트웨어의 <b>휴머나이즈</b><span class="en">(Humanize)</span> 기능, 즉 양자화한 음에 무작위 흔들림을 더하는 기능은 반쪽짜리 해법입니다. 무작위 흔들림은 '기계 같음'을 줄여 줄 뿐 '음악다움'을 만들지는 못합니다. 아래 실험에서 바흐 시대의 「미뉴에트 G장조」(페촐트 작, 공유 저작물) 첫 네 마디로 두 종류의 차이를 비교해 보세요. 무작위 흔들림 \(\sigma\)만 올린 소리와, 흔들림은 0으로 두고 박 강세·프레이즈 셈여림·끝 늘이기 같은 구조만 넣은 소리 가운데 어느 쪽이 더 사람 같은가요?</p>
+    <div class="formula">$$t_i^{\text{연주}} = t_i^{\text{악보}} + \underbrace{\delta_\text{구조}(t_i)}_{\text{끝 늘이기 등}} + \underbrace{\sigma z_i}_{\text{무작위}}, \qquad z_i \sim \mathcal{N}(0,1)$$
+      <div class="where">\(\delta_\text{구조}\): 프레이즈를 따라 매끄럽게 변하는 의도된 어긋남, \(\sigma\): 무작위 흔들림의 크기(ms). 양자화는 둘을 구별하지 못하고 함께 지운다.</div>
+    </div>
+
+    <div class="sim" id="sim-std-human">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>휴머나이즈 비교기: 무작위 흔들림 vs 구조적 표현</h3></div>
+      <div class="sim-view"><div id="std-hu-staff"></div><canvas id="std-hu-cv"></canvas><div id="std-hu-kb"></div></div>
+      <div class="sim-controls">
+        <label class="ctrl"><span>무작위 타이밍 σ <output id="std-hu-sig-out"></output></span><input type="range" id="std-hu-sig" min="0" max="50" value="0"></label>
+        <label class="ctrl"><span>무작위 셈여림 <output id="std-hu-vv-out"></output></span><input type="range" id="std-hu-vv" min="0" max="40" value="0"></label>
+        <label class="check"><input type="checkbox" id="std-hu-acc"> 박 강세(1박을 조금 세게)</label>
+        <label class="check"><input type="checkbox" id="std-hu-dyn"> 프레이즈 셈여림(3마디로 점점 세게, 끝에서 여리게)</label>
+        <label class="check"><input type="checkbox" id="std-hu-rit"> 프레이즈 끝 늘이기(마지막 마디)</label>
+        <label class="ctrl"><span>템포 <output id="std-hu-bpm-out"></output></span><input type="range" id="std-hu-bpm" min="60" max="150" value="108"></label>
+        <div class="btn-row"><button class="btn primary" id="std-hu-play">▶ 재생</button><button class="btn" id="std-hu-roll">🎲 새로 흔들기</button><button class="btn" id="std-hu-mech">기계(모두 끄기)</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">타이밍 어긋남 rms</span><span class="v" id="std-hu-r1">—</span></div>
+        <div class="stat"><span class="k">벨로시티 범위</span><span class="v" id="std-hu-r2">—</span></div>
+        <div class="stat"><span class="k">마지막 마디 늘어남</span><span class="v" id="std-hu-r3">—</span></div>
+      </div>
+      <div class="sim-note">그래프: 막대 = 음마다 악보 시각에서 어긋난 정도(ms, 위 = 늦게), 점 = 벨로시티(위 = 세게). 오른손은 원곡 선율, 왼손은 이 책이 단순화한 반주(점2분음표)입니다. 재생 중에도 설정이 다음 음부터 반영됩니다. 해볼 것: ① '기계'로 듣기 ② σ = 30 ms만 올려 듣기(서툰 느낌) ③ σ = 0으로 두고 세 가지 구조를 모두 켜기(음악적인 느낌) ④ 구조 + σ = 8 ms. 모델: 정규분포 흔들림(시드 고정), 끝 늘이기는 마지막 마디에서 박 간격이 점점 길어지는 2차 곡선.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="export">
+    <h2>파일로 남기기: MIDI와 WAV</h2>
+    <p>녹음은 두 가지 파일로 남길 수 있습니다. <span class="term">표준 MIDI 파일</span><span class="en">(Standard MIDI File, SMF, .mid)</span>은 연주 '동작'의 기록입니다. 수 KB로 아주 작고, 악보 프로그램이나 DAW에서 열어 음을 고치거나 다른 악기로 바꿀 수 있습니다. <b>WAV</b>는 소리 그 자체, 즉 1초에 44,100번 잰 공기 압력의 숫자 열입니다. 어디서나 재생되지만 크고(16비트 모노 1분 ≈ 5.3 MB), 녹음된 소리를 '음 단위로' 고칠 수는 없습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="표준 MIDI 파일의 구조">
+        <g id="std-fig-smf"></g>
+      </svg>
+      <figcaption><b>그림 14-4.</b> 형식 0 표준 MIDI 파일의 구조. 머리 청크 MThd(형식, 트랙 수, 4분음표당 틱 수) 뒤에 트랙 청크 MTrk가 오고, 트랙은 '델타 시간 + 이벤트'의 연속이다. 델타 시간은 앞 이벤트로부터의 틱 수를 가변 길이 수(VLQ)로 적는다. 템포(메타 이벤트 FF 51)는 4분음표 하나의 길이를 마이크로초로 준다.</figcaption>
+    </figure>
+    <div class="formula">$$\text{VLQ}(n): n = \sum_k c_k\,128^k,\ \ \text{각 바이트} = c_k\ (+128\ \text{뒤에 더 있으면}), \qquad 480 \to \texttt{83 60}, \qquad \text{템포} = \frac{60\,000\,000}{\text{BPM}}\ \mu\text{s}$$
+      <div class="where">480 = 3·128 + 96 → 첫 바이트 3 + 128 = 0x83, 둘째 96 = 0x60. 작은 델타(127 이하)는 1바이트로 끝나므로 촘촘한 연주도 파일이 작다. 120 BPM의 템포 값은 500,000 µs = 0x07A120.</div>
+    </div>
+    <p>아래 내보내기 도구는 이 장에서 마지막으로 만든 테이크(녹음기 또는 잼 스테이션)를 받아, 페이지 안에서 직접 SMF 바이트를 쓰고(작은 SMF 작성기), WAV는 <code>OfflineAudioContext</code>로 같은 가상 피아노 소리를 실시간보다 빠르게 '오프라인 렌더링'해서 만듭니다. 파일은 여러분의 컴퓨터로만 저장되고 어디에도 올라가지 않습니다.</p>
+
+    <div class="sim" id="sim-std-export">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>내보내기: SMF 작성기와 WAV 오프라인 렌더러</h3></div>
+      <div class="std-top">
+        <div class="grow std-msg" id="std-ex-src">아직 테이크가 없습니다. 위 녹음기나 아래 잼 스테이션에서 녹음하거나, '예시 테이크'를 넣으세요.</div>
+      </div>
+      <div class="sim-view">
+        <pre class="std-hex" id="std-ex-hex">—</pre>
+        <canvas id="std-ex-cv"></canvas>
+      </div>
+      <div class="sim-controls">
+        <div class="btn-row">
+          <button class="btn" id="std-ex-demo">예시 테이크 넣기</button>
+          <button class="btn primary" id="std-ex-mid">⬇ MIDI(.mid) 저장</button>
+          <button class="btn" id="std-ex-render">WAV 렌더링 + 듣기</button>
+          <button class="btn" id="std-ex-wav">⬇ WAV(.wav) 저장</button>
+          <button class="btn" id="std-ex-stop">■ 정지</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">SMF 크기</span><span class="v" id="std-ex-r1">—</span></div>
+        <div class="stat"><span class="k">WAV 크기(16비트 모노 44.1 kHz)</span><span class="v" id="std-ex-r2">—</span></div>
+        <div class="stat"><span class="k">렌더링 시간 · 길이</span><span class="v" id="std-ex-r3">—</span></div>
+      </div>
+      <div class="sim-note">16진수 덤프 색: 주색 = 청크 이름(MThd·MTrk), 주황 = 길이·머리 정보, 초록 = 델타 시간, 진한 글자 = 이벤트(9n 노트 온, 8n 노트 오프, FF 메타). 처음 120바이트만 보여 줍니다. 저장한 .mid는 MuseScore 같은 악보 프로그램에서 열어 악보로 볼 수 있습니다. 렌더링은 음마다 피아노 소리를 합성하므로 몇 초 걸릴 수 있습니다. 모델: 형식 0, 채널 1, 4분음표당 480틱, WAV는 최대 진폭을 0.9로 맞춘 16비트 PCM.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="jam">
+    <h2>잼 스테이션: 반주 루프 위에서 연주하기</h2>
+    <p>이제 모든 것을 한곳에 모읍니다. 잼 스테이션은 여러분이 고른 <b>키·진행·스타일·템포</b>로 드럼·베이스·왼손 반주를 돌리고, 여러분은 오른손으로 선율을 즉흥 연주합니다. 건반에는 지금 코드의 구성음(빨강 = 근음, 청록 = 3·5·7도, 숫자는 코드 근음에서의 도수)과 고른 스케일의 음(테두리 원)이 표시되어, 어떤 음이 '착지하기 좋은 음'인지 보입니다. <a href="styles.html">13장</a>에서 배운 질문–대답, 코드톤 착지, <a href="progressions.html">9장</a>의 진행, <a href="scales.html">6장</a>의 음계를 모두 여기서 씁니다.</p>
+    <p>즉흥 연습에도 <a href="styles.html#blues-scale">제약</a>이 필요합니다. 한 번에 하나만 정하세요. (1) 코드톤만 써서 각 마디 첫 박에 근음 또는 3도 놓기 (2) 2마디 연주 + 2마디 쉼 (3) 4분음표 리듬만 (4) 한 음에서 시작해 반음 위·아래로만 움직이기. 그리고 <b>● 테이크 녹음</b>으로 남기세요. 테이크의 '코드톤 적중률'은 친 음 가운데 그 순간 코드의 구성음 비율입니다. 높다고 좋은 연주는 아니지만, 코드를 듣고 있는지에 대한 좋은 지표입니다.</p>
+
+    <div class="sim" id="sim-std-jam">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>잼 스테이션: 키 · 진행 · 스타일 · 템포 · 테이크 녹음</h3></div>
+      <div class="std-top">
+        <button class="btn primary" id="std-jm-play">▶ 반주</button>
+        <button class="btn" id="std-jm-rec">● 테이크 녹음</button>
+        <button class="btn" id="std-jm-take">▶ 테이크 듣기</button>
+        <button class="btn" id="std-jm-midi">MIDI 연결</button>
+        <div class="std-big" id="std-jm-pos">1 · 1</div>
+        <div><div class="std-big" id="std-jm-chord" style="font-size:22px">—</div><div class="std-msg" id="std-jm-sub">마디 · 박 / 지금 코드</div></div>
+      </div>
+      <div class="std-chart" id="std-jm-chart"></div>
+      <div class="sim-view"><div id="std-jm-kb"></div><canvas id="std-jm-roll"></canvas></div>
+      <div class="sim-controls">
+        <label class="ctrl"><span>진행</span><select id="std-jm-preset"></select></label>
+        <label class="ctrl"><span>키(으뜸음)</span><select id="std-jm-key"></select></label>
+        <div class="ctrl"><span>스타일</span><div class="seg" id="std-jm-style"><button data-value="ballad" class="on">발라드</button><button data-value="pop">8비트 팝</button><button data-value="shuffle">셔플 블루스</button><button data-value="bossa">보사노바</button><button data-value="swing">스윙</button></div></div>
+        <div class="ctrl"><span>건반에 표시할 스케일</span><div class="seg" id="std-jm-sc"><button data-value="auto" class="on">자동</button><button data-value="tones">코드톤만</button><button data-value="pent">펜타토닉</button><button data-value="full">음계</button><button data-value="blues">블루스</button></div></div>
+        <label class="ctrl"><span>템포 <output id="std-jm-bpm-out"></output></span><input type="range" id="std-jm-bpm" min="50" max="200" value="80"></label>
+        <div class="ctrl"><span>믹스</span><div class="ctrl-row"><label class="check"><input type="checkbox" id="std-jm-md" checked> 드럼</label><label class="check"><input type="checkbox" id="std-jm-mb" checked> 베이스</label><label class="check"><input type="checkbox" id="std-jm-ml" checked> 왼손 반주</label></div></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 코드 구성음 · 스케일</span><span class="v" id="std-jm-r1">—</span></div>
+        <div class="stat"><span class="k">테이크</span><span class="v" id="std-jm-r2">없음</span></div>
+        <div class="stat"><span class="k">코드톤 적중률</span><span class="v" id="std-jm-r3">—</span></div>
+      </div>
+      <div class="sim-note">▶ 반주로 진행이 반복되고 ■로 멈춥니다. 재생 중에도 키·진행·스타일·템포·믹스를 바꾸면 곧 반영됩니다(진행 길이가 바뀌면 처음부터). ● 테이크 녹음은 반주를 처음부터 다시 시작하며 녹음하고, 다시 누르면(또는 16바퀴 뒤) 끝납니다. 테이크는 피아노 롤에 그려지고 위의 '파일로 남기기'에서 MIDI·WAV로 저장할 수 있습니다. 오른손 연주: 화면 건반(C4–C6), 컴퓨터 키보드 <kbd>A</kbd>–<kbd>K</kbd>(<kbd>Z</kbd>/<kbd>X</kbd> 옥타브, <kbd>Space</kbd> 페달), MIDI 건반. 모델: 반주 피아노·사용자 피아노는 따로 울리는 두 대의 가상 피아노, 베이스는 <code>MB.play</code> 신스 베이스, 드럼은 <code>MB.drum</code>. 녹음 중에 템포를 바꾸면 테이크의 박 위치가 어긋납니다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 잼 15분 루틴</strong> ① 3분: 반주 없이 오늘의 키 스케일과 코드톤(1–3–5–7) 오르내리기. ② 4분: 반주를 켜고 코드톤만, 마디 첫 박에 착지. ③ 4분: 스케일 전체로 질문–대답(2마디씩). ④ 4분: 테이크 녹음 한 번, 그리고 듣기. 들을 때는 "좋았던 2마디"를 하나 찾아 다음 날 그 2마디로 시작하세요. 자기 연주에서 출발하는 것이 가장 빠르게 '자기 소리'를 만드는 길입니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="log">
+    <h2>연습 기록과 목표</h2>
+    <p>연습은 측정할 때 늘어납니다. <a href="../../guitar/chapters/jam.html">GuitarBook 14장</a>에서 다룬 의도적 연습의 네 요소(구체적 목표, 집중, 즉각적 피드백, 능력보다 조금 위)는 피아노에서도 똑같습니다. 연습 일지는 그중 '피드백'을 몇 주 단위로 늘려 줍니다. 무엇을 몇 분, 몇 BPM으로 했는지 한 줄씩 남기면, 정체된 곳과 늘어난 곳이 숫자로 드러납니다. 또 학습 연구는 한 번에 몰아서 하는 연습보다 <b>나눠서 자주</b> 하는 연습(간격 효과)이 오래 남는다는 것을 반복해서 보여 주었습니다. 주 2회 2시간보다 매일 20분이 낫다는 뜻입니다. 아래 일지의 '연속 연습일'은 이 규칙성을 재는 숫자입니다.</p>
+
+    <div class="sim" id="sim-std-log">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>연습 일지: 기록 · 타이머 · 주간 목표</h3></div>
+      <div class="std-top">
+        <button class="btn primary" id="std-lg-timer">⏱ 타이머 시작</button>
+        <div class="std-big" id="std-lg-clock">00:00</div>
+        <div class="grow std-msg" id="std-lg-msg">기록은 이 브라우저에만 저장됩니다(서버로 보내지 않음).</div>
+      </div>
+      <div class="std-pad">
+        <div class="std-form">
+          <label class="ctrl"><span>날짜</span><input class="std-input" type="date" id="std-lg-date"></label>
+          <label class="ctrl"><span>시간(분)</span><input class="std-input" type="number" id="std-lg-min" min="1" max="600" value="20"></label>
+          <label class="ctrl"><span>항목</span><select class="std-input" id="std-lg-cat"><option>스케일·아르페지오</option><option>코드·반주</option><option>곡 연습</option><option>즉흥·잼</option><option>악보 읽기</option><option>테크닉</option><option>기타</option></select></label>
+          <label class="ctrl"><span>템포(BPM, 선택)</span><input class="std-input" type="number" id="std-lg-bpm" min="20" max="300" placeholder="예: 84"></label>
+          <label class="ctrl" style="grid-column:1/-1"><span>메모(무엇을, 어떤 기준으로, 결과는)</span><input class="std-input" type="text" id="std-lg-note" maxlength="140" placeholder="예: C 장음계 양손 2옥타브, 84에서 3번 연속 성공"></label>
+        </div>
+        <div class="btn-row" style="margin-top:10px"><button class="btn primary" id="std-lg-add">+ 기록 추가</button><button class="btn" id="std-lg-export">⬇ JSON 내보내기</button><button class="btn" id="std-lg-clear">모두 지우기</button></div>
+      </div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="std-lg-cv"></canvas><ul class="std-list" id="std-lg-list"></ul></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>주간 목표(분) <output id="std-lg-goal-out"></output></span><input type="range" id="std-lg-goal" min="30" max="900" step="15" value="150"></label>
+          <div class="pn-hint">막대 = 날마다 연습한 분, 점선 = 주간 목표 ÷ 7. 오늘은 진하게 표시됩니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">최근 7일 / 목표</span><span class="v" id="std-lg-r1">—</span></div>
+        <div class="stat"><span class="k">연속 연습일</span><span class="v" id="std-lg-r2">—</span></div>
+        <div class="stat"><span class="k">총 기록 · 총 시간</span><span class="v" id="std-lg-r3">—</span></div>
+      </div>
+      <div class="sim-note">타이머를 멈추면 흐른 시간(분, 올림)이 '시간' 칸에 들어갑니다. 기록 옆의 × 로 하나씩 지울 수 있고, '모두 지우기'는 한 번 더 눌러야 실행됩니다. 기록은 브라우저 저장소(localStorage)에 남으며, 사생활 보호 모드처럼 저장소를 쓸 수 없는 환경에서는 이 탭을 닫으면 사라집니다(안내 문구가 표시됨). 다른 기기로 옮기려면 JSON으로 내보내 보관하세요.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 목표는 '과정'으로</strong> "이번 달에 쇼팽 녹턴 완성"은 결과 목표라 매일의 행동을 알려 주지 않습니다. 대신 과정 목표를 쓰세요: "주 5일, 하루 25분, 그중 10분은 왼손만". 주간 목표는 지킬 수 있는 수준의 80%로 잡고, 3주 연속 달성하면 10–15% 올립니다. 템포 사다리(<a href="technique.html">12장</a>)와 같은 원리입니다.</div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="next">
+    <h2>다음 단계</h2>
+    <p>이 책을 끝까지 왔다면 여러분은 피아노가 어떻게 소리를 내는지(현·해머·향판·비조화성), 악보를 어떻게 읽는지, 손가락을 어떻게 쓰는지, 화음과 진행이 어떻게 엮이는지, 그리고 그것을 여러 스타일로 어떻게 반주하는지를 알게 되었습니다. 다음은 순전히 연습의 몫입니다. 막히는 곳이 생기면 해당 장으로 돌아가세요.</p>
+    <div class="std-journey">
+      <a href="instrument.html"><b>01 피아노라는 악기</b>해머·댐퍼·비조화성: 녹음한 소리가 왜 그렇게 들리는지</a>
+      <a href="keyboard.html"><b>02 건반과 음 이름</b>MIDI 번호와 88건반 지도</a>
+      <a href="touch.html"><b>03 자세·손가락 번호·터치</b>벨로시티 곡선의 반대편, 손의 무게</a>
+      <a href="reading.html"><b>04 악보 읽기: 큰보표</b>녹음기가 만든 악보를 읽는 법</a>
+      <a href="rhythm.html"><b>05 리듬과 박자 읽기</b>양자화 격자를 고르는 기준</a>
+      <a href="scales.html"><b>06 장음계와 운지</b>잼 스테이션의 음계를 손에</a>
+      <a href="chords.html"><b>07 3화음과 자리바꿈</b>코드톤 착지의 재료</a>
+      <a href="accompaniment.html"><b>08 왼손 반주 패턴</b>잼의 왼손을 직접 치기</a>
+      <a href="progressions.html"><b>09 코드 진행과 리드시트</b>새 진행을 만들어 잼에 넣기</a>
+      <a href="voicings.html"><b>10 7화음과 재즈 보이싱</b>스윙 스타일의 루트리스 보이싱</a>
+      <a href="pedal.html"><b>11 페달과 표현</b>CC64 뒤에 숨은 댐퍼의 물리</a>
+      <a href="technique.html"><b>12 테크닉과 연습곡</b>템포 사다리와 연습 설계</a>
+      <a href="styles.html"><b>13 블루스와 스타일 반주</b>스윙·부기·컴핑</a>
+      <a href="glossary.html"><b>15 용어집 &amp; 종합 퀴즈</b>배운 것을 점검하기</a>
+    </div>
+    <p>소리와 음악 이론을 더 깊이 알고 싶다면 <a href="../../fundamentals/chapters/sequencer.html">MusicBook의 시퀀서</a>와 <a href="../../fundamentals/chapters/studio.html">스튜디오</a> 장에서 MIDI와 녹음을 신호 처리 관점으로, <a href="../../fundamentals/chapters/reharm.html">리하모니제이션</a> 장에서 진행을 바꾸는 법을 볼 수 있습니다. 기타도 함께 배우고 있다면 <a href="../../guitar/chapters/jam.html">GuitarBook의 잼 스테이션</a>에서 같은 진행을 기타로 반주해 보세요. 두 악기로 같은 화성을 보면 이해가 한 겹 더 깊어집니다.</p>
+    <p>마지막으로 한 가지. 원리를 아는 것은 연습을 대신하지 못하지만, 연습을 덜 막막하게 만듭니다. 막혔을 때 무엇을 바꿔 볼지 가설을 세울 수 있기 때문입니다. 측정하고, 조금 고치고, 다시 측정하세요. 오늘 15분이라도 건반 앞에 앉으세요. 그리고 내일 다시 앉으세요.</p>
+  </section>
+
+  <!-- =============================================================== summary -->
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>MIDI는 소리가 아니라 동작을 보낸다. 노트 온 <code>9n 음 세기</code>, 노트 오프 <code>8n</code>(또는 세기 0인 노트 온), 서스테인 <code>Bn 40 값</code>(64 이상 = 밟음). 데이터 바이트는 0–127.</li>
+      <li>벨로시티는 건반이 눌리는 속도이고, 곡선 \(v^\gamma\)로 손에 맞춘다(\(\gamma<1\) 가볍게, \(\gamma>1\) 무겁게). Web MIDI는 Chromium 계열·Firefox에서, https와 사용자 허락 아래 동작한다.</li>
+      <li>지연 = MIDI 전송(DIN 3바이트 ≈ 1 ms) + 입력 처리 + 오디오 버퍼(\(N/f_s\), 보통 2–3개) + 출력 장치. 10 ms 안쪽이면 대개 느끼지 못하고, 블루투스 출력은 연주에 부적합하다.</li>
+      <li>녹음 흐름: 카운트인 → 녹음 → 피아노 롤 → 양자화 \(t' = t + s(g\,\mathrm{round}(t/g) - t)\) → 악보. 격자는 '가장 짧은 음표'에 대한 가정이고, 강도를 100% 미만으로 두면 사람다운 결이 남는다.</li>
+      <li>사람의 어긋남은 무작위 잡음 + 구조적 표현(박 강세, 프레이즈 셈여림, 끝 늘이기)이다. 무작위 휴머나이즈는 기계 같음을 줄일 뿐 음악다움을 만들지 못한다.</li>
+      <li>SMF = MThd(형식·트랙 수·4분음표당 틱) + MTrk(VLQ 델타 시간 + 이벤트). 템포 = 60,000,000/BPM µs. WAV는 소리 그 자체(16비트 모노 44.1 kHz ≈ 88 KB/초).</li>
+      <li>잼 스테이션에서는 한 번에 하나의 제약을 걸어 즉흥하고, 테이크를 녹음해 들으며 코드톤 착지를 확인한다.</li>
+      <li>연습은 기록할 때 는다. 몰아서보다 나눠서 자주, 결과 목표보다 과정 목표, 지킬 수 있는 수준의 80%에서 시작해 조금씩 올린다.</li>
+    </ol>
+  </section>
+
+  <!-- =============================================================== quiz -->
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>MIDI 메시지 <code>90 3C 00</code>의 뜻은?</p><div class="opts">
+        <button class="opt">채널 1에서 C4를 세기 0으로 누름(무음으로 울림)</button><button class="opt" data-correct>채널 1에서 C4를 뗌(세기 0인 노트 온 = 노트 오프)</button><button class="opt">채널 9에서 C4를 누름</button><button class="opt">서스테인 페달을 뗌</button>
+      </div><div class="quiz-exp">상태 0x90 = 노트 온, 채널 0(사람 표기로 1). 0x3C = 60 = C4. 벨로시티 0인 노트 온은 노트 오프로 취급하는 것이 MIDI 규약이다(전송량을 줄이는 '러닝 스테이터스'와 함께 자주 쓰인다).</div></div>
+      <div class="quiz-q"><p>샘플링 주파수 48 kHz에서 버퍼 512샘플 두 개 분량의 지연은?</p><div class="opts">
+        <button class="opt">약 5.3 ms</button><button class="opt" data-correct>약 21 ms</button><button class="opt">약 10.7 ms</button><button class="opt">약 48 ms</button>
+      </div><div class="quiz-exp">512/48,000 = 10.67 ms, 두 개면 21.3 ms. 이 정도면 많은 사람이 '무겁다'고 느끼기 시작한다. 128샘플로 줄이면 버퍼 두 개가 5.3 ms.</div></div>
+      <div class="quiz-q"><p>박 단위 시각 1.62에서 시작한 음을 8분음표 격자(g = 0.5), 강도 50%로 양자화하면?</p><div class="opts">
+        <button class="opt">1.5</button><button class="opt" data-correct>1.56</button><button class="opt">1.62</button><button class="opt">1.81</button>
+      </div><div class="quiz-exp">가장 가까운 격자는 1.5. \(t' = 1.62 + 0.5 \times (1.5 - 1.62) = 1.56\). 강도 100%면 1.5, 0%면 그대로 1.62.</div></div>
+      <div class="quiz-q"><p>16분음표가 많은 곡을 8분음표 격자로 100% 양자화했을 때 생기기 쉬운 문제는?</p><div class="opts">
+        <button class="opt">음높이가 반음씩 틀어진다</button><button class="opt">벨로시티가 모두 같아진다</button><button class="opt" data-correct>16분음표 두 개가 같은 격자로 끌려가 겹치거나 리듬이 뭉개진다</button><button class="opt">아무 문제 없다</button>
+      </div><div class="quiz-exp">격자는 곡의 가장 짧은 음표 이하여야 한다. 격자보다 짧은 음 둘은 같은 칸이나 엉뚱한 칸으로 옮겨진다. 양자화는 타이밍만 바꾸고 음높이·세기는 건드리지 않는다.</div></div>
+      <div class="quiz-q"><p>120 BPM을 표준 MIDI 파일의 템포 메타 이벤트(FF 51 03 tt tt tt)로 적으면 tt tt tt는?</p><div class="opts">
+        <button class="opt">00 00 78</button><button class="opt" data-correct>07 A1 20</button><button class="opt">01 E0 00</button><button class="opt">0F 42 40</button>
+      </div><div class="quiz-exp">템포는 4분음표 하나의 마이크로초: 60,000,000 / 120 = 500,000 = 0x07A120. 0x0F4240 = 1,000,000(60 BPM).</div></div>
+      <div class="quiz-q"><p>자기 연주를 '사람답게' 만드는 데 가장 효과가 적은 것은?</p><div class="opts">
+        <button class="opt">프레이즈 끝에서 조금 느려지기</button><button class="opt">선율의 정점을 향해 점점 세게</button><button class="opt">마디 첫 박을 살짝 강조</button><button class="opt" data-correct>모든 음에 ±30 ms 무작위 흔들림 더하기</button>
+      </div><div class="quiz-exp">무작위 흔들림은 기계 같은 느낌을 줄이지만 크면 서툴게 들린다. 사람다운 표현의 핵심은 음악의 구조(프레이즈, 박, 정점)를 따르는 체계적인 어긋남이다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ===================================================================== 공용(std) */
+const STD = (function () {
+  const S = { take: null, takeCbs: [], midi: null, target: null, gamma: 1, monitor: [] };
+  S.$ = (id) => document.getElementById(id);
+  S.curve = (v) => (S.gamma === "fixed" ? 0.7 : Math.max(0.01, Math.min(1, Math.pow(v, S.gamma))));
+  S.hex = (n) => n.toString(16).toUpperCase().padStart(2, "0");
+  /** MIDI 하나로 연결하고, 마지막으로 연결을 누른 시뮬레이터의 피아노로 보낸다 */
+  S.connect = async function (piano, msgEl) {
+    S.target = piano;
+    if (S.midi) { if (msgEl) { msgEl.textContent = "연결됨: " + (S.midi.names.join(", ") || "(장치 없음 — 건반을 꽂으면 자동으로 잡힙니다)") + " → 이 시뮬레이터로"; msgEl.className = "std-msg ok"; } return S.midi; }
+    try {
+      S.midi = await PN.midiIn(S.onMidi);
+      if (msgEl) { msgEl.textContent = "연결됨: " + (S.midi.names.join(", ") || "(입력 장치가 아직 없음 — 건반을 꽂으면 자동으로 잡힙니다)"); msgEl.className = "std-msg ok"; }
+      S.monitor.forEach((cb) => cb({ type: "status" }));
+      return S.midi;
+    } catch (e) {
+      if (msgEl) { msgEl.textContent = "MIDI를 열 수 없습니다: " + (e && e.message ? e.message : e) + " 화면 건반과 컴퓨터 키보드는 그대로 쓸 수 있습니다."; msgEl.className = "std-msg bad"; }
+      return null;
+    }
+  };
+  S.disconnect = function () { if (S.midi) { try { S.midi.stop(); } catch (e) {} S.midi = null; } S.monitor.forEach((cb) => cb({ type: "status" })); };
+  S.onMidi = function (ev) {
+    S.monitor.forEach((cb) => { try { cb(ev, true); } catch (e) { console.error(e); } });
+    const p = S.target; if (!p) return;
+    if (ev.type === "on") p.noteOn(ev.m, S.curve(ev.vel));
+    else if (ev.type === "off") p.noteOff(ev.m);
+    else if (ev.type === "pedal") p.pedal(ev.value >= 0.5 ? 1 : ev.value > 0.2 ? ev.value : 0);
+  };
+  S.setTake = function (take) { S.take = take; S.takeCbs.forEach((cb) => { try { cb(take); } catch (e) { console.error(e); } }); };
+  S.download = function (bytes, name, type) {
+    const blob = new Blob([bytes], { type }), url = URL.createObjectURL(blob), a = document.createElement("a");
+    a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  };
+  /** 「환희의 송가」 첫 4마디(공유 저작물)를 일부러 흔들리게 친 예시(박 단위) */
+  S.demoTake = function () {
+    const r = MB.rng(7), z = () => { let u = r() || 1e-9, v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+    const mel = PN.parseNotes("E4/1 E4/1 F4/1 G4/1 G4/1 F4/1 E4/1 D4/1 C4/1 C4/1 D4/1 E4/1 E4/1.5 D4/.5 D4/2");
+    const bpm = 90, spb = 60 / bpm;
+    return { bpm, source: "예시: 환희의 송가(흔들리게 연주)", length: 16, notes: mel.map((n, i) => ({ t: Math.max(0, n.t + (0.045 * z()) / spb + (i % 4 === 3 ? 0.04 : 0)), d: n.d * (0.82 + 0.1 * r()), m: n.m, vel: Math.max(0.2, Math.min(1, 0.55 + 0.12 * z() + (n.t % 4 === 0 ? 0.08 : 0))) })) };
+  };
+  S.ms = (x) => Math.round(x) + " ms";
+  /** 정지 뒤 남은 건반 눌림 표시 정리(미리 예약된 음의 표시 타이머가 정지 뒤에 도착하는 경우) */
+  S.unstick = (kb) => setTimeout(() => { const [a, b] = kb.range; for (let m = a; m <= b; m++) if (!kb.piano.held.includes(m)) kb.up(m); }, 350);
+  return S;
+})();
+
+/* ===================================================================== 그림 14-1: MIDI 메시지 */
+(function () {
+  const g = STD.$("std-fig-msg"); if (!g) return;
+  const rows = [["노트 온", ["90", "3C", "64"], ["9 = 노트 온 · 0 = 채널 1", "음 번호 60 = C4", "벨로시티 100"]], ["노트 오프", ["80", "3C", "40"], ["8 = 노트 오프", "음 번호 60", "떼는 속도(대개 무시)"]], ["댐퍼 페달", ["B0", "40", "7F"], ["B = 컨트롤 체인지", "컨트롤 64 = 서스테인", "127 = 밟음(≥64)"]]];
+  const P = [];
+  rows.forEach(([nm, bytes, notes], r) => {
+    const y = 18 + r * 76;
+    P.push(`<text class="t" x="12" y="${y + 28}" style="font-weight:700">${nm}</text>`);
+    bytes.forEach((b, i) => {
+      const x = 120 + i * 220;
+      P.push(`<rect x="${x}" y="${y}" width="200" height="44" rx="8" class="${i === 0 ? "std-b1" : "std-b2"}" stroke-width="1.5"/>`);
+      P.push(`<text class="std-mono" x="${x + 14}" y="${y + 27}">0x${b}</text><text class="std-s" x="${x + 70}" y="${y + 20}">${parseInt(b, 16).toString(2).padStart(8, "0")}</text><text class="std-s" x="${x + 70}" y="${y + 36}">${notes[i]}</text>`);
+    });
+  });
+  P.push(`<text class="std-s" x="120" y="246">상태 바이트(최상위 비트 1)</text><text class="std-s" x="340" y="246">데이터 바이트(최상위 비트 0, 값 0–127)</text>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 14-2: 지연 사슬 */
+(function () {
+  const g = STD.$("std-fig-chain"); if (!g) return;
+  const items = [["건반 감지·스캔", 1.5, "std-b1"], ["MIDI 전송(USB)", 1, "std-b1"], ["OS·브라우저 입력", 3, "std-b2"], ["오디오 버퍼 ×2 (128샘플)", 5.3, "std-b3"], ["유선 출력·DAC", 1.5, "std-b4"], ["공기 1 m", 2.9, "std-b4"]];
+  const P = [], x0 = 200, k = 22;
+  let x = x0;
+  items.forEach(([nm, ms, cls], i) => {
+    const w = ms * k;
+    P.push(`<rect x="${x}" y="30" width="${w - 2}" height="34" rx="5" class="${cls}" stroke-width="1.3"/>`);
+    P.push(`<text class="std-s" x="${x + w / 2}" y="${i % 2 ? 92 : 22}" text-anchor="middle">${nm}</text><text class="std-s" x="${x + w / 2}" y="52" text-anchor="middle" style="font-weight:700">${ms}</text>`);
+    x += w;
+  });
+  const tot = items.reduce((a, b) => a + b[1], 0);
+  P.push(`<text class="t" x="12" y="52" style="font-weight:700">유선 · 작은 버퍼</text><text class="std-s" x="${x + 8}" y="52">≈ ${tot.toFixed(0)} ms</text>`);
+  P.push(`<text class="t" x="12" y="150" style="font-weight:700">블루투스 출력</text><rect x="${x0}" y="128" width="${Math.min(560, 150 * k / 6)}" height="34" rx="5" class="std-b4" stroke-width="1.3"/><text class="std-s" x="${x0 + 10}" y="150" style="font-weight:700">출력 하나만 100–200 ms (막대는 1/6로 줄여 그림)</text>`);
+  P.push(`<line x1="${x0}" y1="190" x2="${x0 + 10 * k}" y2="190" class="s-axis"/><text class="std-s" x="${x0}" y="205">0</text><text class="std-s" x="${x0 + 10 * k}" y="205" text-anchor="middle">10 ms</text>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 14-3: 양자화 */
+(function () {
+  const g = STD.$("std-fig-quant"); if (!g) return;
+  const raw = [0.06, 0.47, 1.12, 1.41, 2.05, 2.62, 3.0, 3.44], X = (b) => 150 + (b / 4) * 620, P = [];
+  for (let k = 0; k <= 8; k++) P.push(`<line x1="${X(k / 2)}" y1="20" x2="${X(k / 2)}" y2="205" stroke="var(--text-faint)" stroke-dasharray="${k % 2 ? "2 4" : "5 3"}"/>`);
+  [["원본", 0], ["강도 50%", 0.5], ["강도 100%", 1]].forEach(([nm, s], r) => {
+    const y = 48 + r * 64;
+    P.push(`<text class="t" x="12" y="${y + 5}" style="font-weight:700">${nm}</text>`);
+    raw.forEach((t) => {
+      const q = Math.round(t / 0.5) * 0.5, t2 = t + s * (q - t);
+      if (s > 0) P.push(`<line x1="${X(t)}" y1="${y}" x2="${X(t2)}" y2="${y}" stroke="var(--accent-2)" stroke-width="1.4"/>`);
+      P.push(`<rect x="${X(t2)}" y="${y - 8}" width="${(0.4 / 4) * 620}" height="16" rx="3" class="${s === 1 ? "std-b1" : s ? "std-b2" : "std-box"}" stroke-width="1.2"/>`);
+      if (s > 0) P.push(`<circle cx="${X(t)}" cy="${y}" r="3" fill="var(--text-faint)"/>`);
+    });
+  });
+  ["1", "2", "3", "4"].forEach((l, i) => P.push(`<text class="std-s" x="${X(i) + 3}" y="16">${l}박</text>`));
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 14-4: SMF 구조 */
+(function () {
+  const g = STD.$("std-fig-smf"); if (!g) return;
+  const P = [];
+  const box = (x, y, w, h, cls, t1, t2) => P.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="7" class="${cls}" stroke-width="1.4"/><text class="std-mono" x="${x + 10}" y="${y + 22}">${t1}</text><text class="std-s" x="${x + 10}" y="${y + 40}">${t2}</text>`);
+  box(10, 14, 250, 54, "std-b1", "MThd 00000006", "머리 청크 · 길이 6");
+  box(270, 14, 250, 54, "std-b2", "0000 0001 01E0", "형식 0 · 트랙 1 · 480틱/4분음표");
+  box(10, 86, 250, 54, "std-b1", "MTrk 0000xxxx", "트랙 청크 · 바이트 수");
+  box(270, 86, 250, 54, "std-b4", "00 FF 51 03 07A120", "델타 0 · 템포 500,000 µs");
+  box(530, 86, 260, 54, "std-b3", "00 90 3C 50", "델타 0 · 노트 온 C4 세기 80");
+  box(10, 158, 250, 54, "std-b3", "83 60 80 3C 40", "델타 480(VLQ) · 노트 오프 C4");
+  box(270, 158, 250, 54, "std-b3", "00 90 3E 50 …", "다음 음 D4 …");
+  box(530, 158, 260, 54, "std-b4", "00 FF 2F 00", "트랙의 끝");
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 14-1 MIDI 모니터 */
+(function () {
+  const $ = STD.$;
+  const p = PN.piano();
+  const logEl = $("std-mi-log"), lines = [], pts = [];
+  let lastIn = null, lastOut = null;
+  function log(bytes, src, desc) {
+    const t = (MB.now() || performance.now() / 1000).toFixed(3);
+    lines.unshift(`<i>${t}</i> <b>${bytes.map(STD.hex).join(" ")}</b>  ${src} · ${desc}`);
+    if (lines.length > 40) lines.pop();
+    logEl.innerHTML = lines.join("\n");
+  }
+  const cv = MB.canvas("#std-mi-cv", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 40, y: 12, w: w - 56, h: h - 40 };
+    const X = (v) => box.x + v * box.w, Y = (v) => box.y + box.h - v * box.h;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.strokeRect(box.x, box.y, box.w, box.h);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.fillText("입력 벨로시티 →", box.x + box.w - 100, h - 8); ctx.save(); ctx.translate(12, box.y + box.h / 2 + 30); ctx.rotate(-Math.PI / 2); ctx.fillText("출력 →", 0, 0); ctx.restore();
+    ctx.strokeStyle = P.grid; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(1)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i <= 64; i++) { const v = i / 64, o = STD.curve(v); i ? ctx.lineTo(X(v), Y(o)) : ctx.moveTo(X(v), Y(o)); }
+    ctx.stroke();
+    pts.forEach((q, i) => { ctx.globalAlpha = 0.25 + 0.75 * (i + 1) / pts.length; ctx.fillStyle = i === pts.length - 1 ? P.warn : P.accent2; ctx.beginPath(); ctx.arc(X(q[0]), Y(q[1]), i === pts.length - 1 ? 6 : 4, 0, 7); ctx.fill(); });
+    ctx.globalAlpha = 1;
+  }, { aspect: 0.62, minHeight: 170, maxHeight: 260 });
+  function noteIn(vin) { const vout = STD.curve(vin); pts.push([vin, vout]); if (pts.length > 16) pts.shift(); lastIn = vin; lastOut = vout; MB.stat("std-mi-r2", Math.round(vin * 127) + " → " + Math.round(vout * 127)); cv.redraw(); return vout; }
+  const kb = PN.keyboard("#std-mi-kb", {
+    from: 48, to: 84, piano: p, labels: "c", spacePedal: true,
+    onDown(m, vel) { const vo = noteIn(vel); if ($("std-mi-show").checked) log([0x90, m, Math.max(1, Math.round(vel * 127))], "화면", `노트 온 ${MB.noteName(m)} 세기 ${Math.round(vel * 127)} → 곡선 ${Math.round(vo * 127)}`); p.noteOn(m, vo); return false; },
+    onUp(m) { if ($("std-mi-show").checked) log([0x80, m, 0x40], "화면", "노트 오프 " + MB.noteName(m)); },
+  });
+  let inMidi = false;
+  p.on((ev) => { if (ev.type === "pedal" && !inMidi) { const v = Math.round(ev.value * 127); MB.stat("std-mi-r3", v + (v >= 64 ? " <small>밟음</small>" : " <small>뗌</small>")); if ($("std-mi-show").checked) log([0xb0, 64, v], "화면", "CC64 서스테인 " + (v >= 64 ? "밟음" : "뗌")); } });
+  STD.monitor.push((ev, fromMidi) => {
+    if (ev.type === "status") { MB.stat("std-mi-r1", STD.midi ? (STD.midi.names.join(", ") || "연결됨(장치 대기)") : "없음"); return; }
+    if (STD.target !== p) return; // 다른 시뮬레이터로 연결 중이면 로그만 생략
+    inMidi = true;
+    if (ev.type === "on") { const vo = noteIn(ev.vel); log([0x90, ev.m, Math.round(ev.vel * 127)], "MIDI", `노트 온 ${MB.noteName(ev.m)} 세기 ${Math.round(ev.vel * 127)} → ${Math.round(vo * 127)}`); }
+    else if (ev.type === "off") log([0x80, ev.m, 0], "MIDI", "노트 오프 " + MB.noteName(ev.m));
+    else if (ev.type === "pedal") { const v = Math.round(ev.value * 127); MB.stat("std-mi-r3", v + (v >= 64 ? " <small>밟음</small>" : " <small>뗌</small>")); log([0xb0, 64, v], "MIDI", "CC64 " + v); }
+    else if (ev.type === "cc") log([0xb0, ev.cc, Math.round(ev.value * 127)], "MIDI", "컨트롤 " + ev.cc);
+    setTimeout(() => (inMidi = false), 0);
+  });
+  $("std-mi-con").addEventListener("click", () => { MB.ctx(); STD.connect(p, $("std-mi-msg")); });
+  $("std-mi-off").addEventListener("click", () => { STD.disconnect(); $("std-mi-msg").textContent = "연결을 끊었습니다."; $("std-mi-msg").className = "std-msg"; });
+  $("std-mi-clear").addEventListener("click", () => { lines.length = 0; pts.length = 0; logEl.innerHTML = ""; cv.redraw(); });
+  MB.seg("std-mi-curve", (v) => { STD.gamma = v === "fixed" ? "fixed" : +v; if (lastIn != null) noteIn(lastIn); cv.redraw(); });
+  if (!navigator.requestMIDIAccess) { $("std-mi-msg").textContent = "이 브라우저는 Web MIDI를 지원하지 않습니다(Chrome·Edge·Firefox 권장). 화면 건반으로 메시지 구조를 확인해 보세요."; $("std-mi-msg").className = "std-msg bad"; }
+  logEl.innerHTML = "<i>여기에 메시지가 표시됩니다.</i>";
+})();
+
+/* ===================================================================== 14-2 지연 체험기 */
+(function () {
+  const $ = STD.$;
+  const p = PN.piano();
+  const BUFS = [64, 128, 256, 512, 1024, 2048];
+  const taps = [], clicks = [];
+  let tapping = false, sched = null;
+  const kb = PN.keyboard("#std-la-kb", {
+    from: 60, to: 84, piano: p, labels: "c",
+    onDown(m, vel) {
+      const ctx = MB.ctx(); if (!ctx) return false;
+      const d = +$("std-la-d").value / 1000, j = (+$("std-la-j").value / 1000) * (Math.random() * 2 - 1);
+      const t = ctx.currentTime + Math.max(0, d + j);
+      p.noteOn(m, vel, t);
+      if (tapping) taps.push(ctx.currentTime);
+      kb._pending = kb._pending || new Map(); kb._pending.set(m, t);
+      return false;
+    },
+    onUp(m) {
+      const ctx = MB.ctx(); const t0 = (kb._pending && kb._pending.get(m)) || 0;
+      const d = +$("std-la-d").value / 1000;
+      p.noteOff(m, Math.max(t0 + 0.03, ctx.currentTime + d));
+      setTimeout(() => kb.up(m), Math.max(0, (Math.max(t0 + 0.03, ctx.currentTime + d) - ctx.currentTime) * 1000) + 30);
+    },
+  });
+  const offs = [];
+  const cv = MB.canvas("#std-la-cv", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 44, y: 10, w: w - 56, h: h - 34 }, R = 150;
+    const Y = (ms) => box.y + box.h / 2 - (ms / R) * (box.h / 2), X = (i) => box.x + ((i + 0.5) / 12) * box.w;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    [-150, -75, 0, 75, 150].forEach((v) => { ctx.strokeStyle = v ? P.grid : P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(box.x, Y(v)); ctx.lineTo(box.x + box.w, Y(v)); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText((v > 0 ? "+" : "") + v, 4, Y(v) + 4); });
+    ctx.fillText("탭 − 클릭 (ms) · 음수 = 먼저 누름", box.x, h - 6);
+    offs.forEach((o, i) => { const y = Y(Math.max(-R, Math.min(R, o))); ctx.strokeStyle = P.accent; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(i), Y(0)); ctx.lineTo(X(i), y); ctx.stroke(); ctx.fillStyle = o < 0 ? P.accent : P.accent2; ctx.beginPath(); ctx.arc(X(i), y, 5, 0, 7); ctx.fill(); });
+    if (!offs.length) { ctx.fillStyle = P.faint; ctx.fillText("탭 테스트를 하면 여기에 결과가 그려집니다", box.x + 10, Y(0) - 10); }
+  }, { aspect: 0.5, minHeight: 160, maxHeight: 240 });
+  function stats() {
+    const n = BUFS[+$("std-la-n").value], fs = +MB.seg("std-la-fs")(), bm = (n / fs) * 1000;
+    const ctx = window._stdCtxReady ? MB.ctx() : null;
+    const dev = ctx && (ctx.outputLatency || ctx.baseLatency) ? ((ctx.outputLatency || 0) + (ctx.baseLatency || 0)) * 1000 : null;
+    MB.stat("std-la-r1", bm.toFixed(1) + " ms · " + (dev != null ? dev.toFixed(1) + " ms" : "—"));
+    const tot = 1 + 3 + 2 * bm + 1.5 + +$("std-la-d").value;
+    MB.stat("std-la-r2", tot.toFixed(0) + " ms <small>(" + ((343 * tot) / 1000).toFixed(1) + " m)</small>");
+  }
+  const segFs = MB.seg("std-la-fs", stats);
+  MB.range("std-la-d", (v) => v + " ms", stats);
+  MB.range("std-la-j", (v) => v + " ms");
+  MB.range("std-la-n", (i) => BUFS[i] + " 샘플", stats);
+  const btn = $("std-la-tap");
+  btn.addEventListener("click", () => {
+    if (sched && sched.running) { sched.stop(); return; }
+    const ctx = MB.ctx(); window._stdCtxReady = true; stats();
+    taps.length = 0; clicks.length = 0; offs.length = 0; cv.redraw();
+    const evs = [...Array(16)].map((_, b) => ({ t: b, b }));
+    sched = PN.scheduler(evs, {
+      bpm: 90, length: 17, loop: false,
+      onStart() { tapping = true; btn.textContent = "■ 멈춤"; $("std-la-msg").textContent = "처음 4번은 듣기만, 5번째 클릭부터 함께 누르세요."; },
+      onEvent(ev, when) { PN.click(when, ev.b % 4 === 0); clicks.push({ t: when, b: ev.b }); },
+      onUI(ev) { $("std-la-msg").textContent = ev.b < 4 ? "준비 " + (4 - ev.b) : "탭! " + (ev.b - 3) + " / 12"; },
+      onEnd() {},
+      onStop() {
+        tapping = false; btn.textContent = "▶ 탭 테스트(16박)";
+        const cs = clicks.filter((c) => c.b >= 4);
+        offs.length = 0;
+        taps.forEach((t) => { let best = null; cs.forEach((c) => { const d = (t - c.t) * 1000; if (Math.abs(d) < 330 && (best == null || Math.abs(d) < Math.abs(best))) best = d; }); if (best != null && offs.length < 12) offs.push(best); });
+        if (offs.length >= 3) {
+          const mu = offs.reduce((a, b) => a + b, 0) / offs.length, sd = Math.sqrt(offs.reduce((a, b) => a + (b - mu) ** 2, 0) / (offs.length - 1));
+          MB.stat("std-la-r3", MB.signed(mu, 0) + " ± " + sd.toFixed(0) + " ms");
+          $("std-la-msg").textContent = `${offs.length}번 측정. 평균 ${MB.signed(mu, 0)} ms (${mu < 0 ? "클릭보다 먼저" : "클릭보다 늦게"}) · 추가 지연 ${$("std-la-d").value} ms에서.`;
+        } else { MB.stat("std-la-r3", "—"); $("std-la-msg").textContent = "탭이 너무 적습니다(3번 이상 필요). 다시 해 보세요."; }
+        cv.redraw();
+      },
+    });
+    sched.start();
+  });
+  stats();
+})();
+
+/* ===================================================================== 14-3 녹음기 */
+(function () {
+  const $ = STD.$;
+  const p = PN.piano();
+  const kb = PN.keyboard("#std-rc-kb", { from: 60, to: 84, piano: p, labels: "c", spacePedal: true, compact: true });
+  const rec = PN.recorder(p);
+  const roll = PN.roll("#std-rc-roll", { from: 55, to: 86, beats: 16, aspect: 0.32, maxHeight: 220 });
+  const staff = PN.staff("#std-rc-staff", [], { clef: "grand", compact: true, minBeat: 26 });
+  let raw = [], proc = [], bpmRec = 90, Lbeats = 16, sched = null, player = null, raf = 0, source = "";
+  const grid = MB.seg("std-rc-grid", () => process());
+  const strR = MB.range("std-rc-str", (v) => v + "%", () => process());
+  const bpmR = MB.range("std-rc-bpm", (v) => v + " BPM");
+  const ci = MB.seg("std-rc-ci"), len = MB.seg("std-rc-len");
+  const rms = (ns, g) => { if (!ns.length) return 0; const s = ns.reduce((a, n) => { const e = n.t - g * Math.round(n.t / g); return a + e * e; }, 0); return Math.sqrt(s / ns.length); };
+  function process() {
+    const g = +grid(), s = strR() / 100;
+    const q = (t) => (g ? t + s * (g * Math.round(t / g) - t) : t);
+    proc = raw.map((n) => { const t = Math.max(0, q(n.t)), e = q(n.t + n.d); return { t, d: Math.max(g ? Math.min(g, 0.25) : 0.1, e - t), m: n.m, vel: n.vel }; });
+    const G = g || 0.25, spb = 60 / bpmRec;
+    MB.stat("std-rc-r1", String(raw.length));
+    MB.stat("std-rc-r2", raw.length ? STD.ms(rms(raw, G) * spb * 1000) + " → " + STD.ms(rms(proc, G) * spb * 1000) : "—");
+    if (raw.length) { const v = raw.map((n) => Math.round(n.vel * 127)); MB.stat("std-rc-r3", Math.min(...v) + "–" + Math.max(...v)); } else MB.stat("std-rc-r3", "—");
+    drawRoll(); transcribe();
+    if (raw.length) STD.setTake({ bpm: bpmRec, notes: proc.map((n) => Object.assign({}, n)), length: Lbeats, source: source + (g ? ` · 양자화 ${$("std-rc-grid").querySelector(".on").textContent} ${strR()}%` : "") });
+  }
+  function drawRoll(now) {
+    const faint = MB.color("text-faint");
+    roll.set(raw.map((n) => Object.assign({}, n, { color: faint, vel: 0.3 })).concat(proc), { beats: Lbeats });
+    if (now != null) roll.now(now);
+  }
+  MB.onTheme(() => drawRoll());
+  const STDS = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25];
+  function transcribe() {
+    const bars = Math.max(1, Math.ceil(Lbeats / 4));
+    const q4 = (t) => Math.round(t * 4) / 4;
+    const byStaff = { R: [], L: [] };
+    proc.forEach((n) => { const t = q4(n.t); if (t >= bars * 4) return; (n.m >= 60 ? byStaff.R : byStaff.L).push({ t, e: Math.max(t + 0.25, q4(n.t + n.d)), m: n.m }); });
+    const out = [];
+    Object.entries(byStaff).forEach(([hand, arr]) => {
+      const groups = new Map();
+      arr.forEach((n) => { const k = n.t.toFixed(2); if (!groups.has(k)) groups.set(k, { t: n.t, e: n.e, ms: [] }); const g = groups.get(k); if (!g.ms.includes(n.m)) g.ms.push(n.m); g.e = Math.max(g.e, n.e); });
+      const list = [...groups.values()].sort((a, b) => a.t - b.t);
+      list.forEach((g, i) => {
+        const barEnd = Math.floor(g.t / 4 + 1e-9) * 4 + 4, nx = list[i + 1];
+        const gap = Math.min(barEnd, nx ? nx.t : Infinity) - g.t;
+        const lim = g.e - g.t >= 0.6 * gap ? gap : Math.min(g.e - g.t, gap); // 거의 이어지면 다음 음까지(레가토로 적기)
+        const d = STDS.find((s) => s <= lim + 1e-6) || 0.25;
+        const ms = g.ms.sort((a, b) => a - b);
+        out.push(Object.assign({ t: g.t, d, hand }, ms.length > 1 ? { ms } : { m: ms[0] }));
+      });
+    });
+    out.sort((a, b) => a.t - b.t);
+    staff.setNotes(out, { bars, barsPerLine: 4 });
+  }
+  function setPos(txt) { $("std-rc-pos").textContent = txt; }
+  function stopAll() { if (sched && sched.running) sched.stop(); if (player && player.running) player.stop(); }
+  const recBtn = $("std-rc-rec"), playBtn = $("std-rc-play");
+  function finish() {
+    const notes = rec.stop(), spb = 60 / bpmRec, off = sched ? sched._ci : 0;
+    raw = notes.map((n) => ({ t: (n.t - 0.08) / spb - off, d: n.d / spb, m: n.m, vel: n.vel })).filter((n) => n.t > -0.5 && n.t < Lbeats).map((n) => Object.assign(n, { t: Math.max(0, n.t) }));
+    source = "녹음기 테이크";
+    recBtn.textContent = "● 녹음"; cancelAnimationFrame(raf);
+    $("std-rc-msg").textContent = raw.length ? `녹음 완료: ${raw.length}음. 격자와 강도를 바꿔 보세요.` : "녹음된 음이 없습니다. 다시 해 보세요.";
+    setPos("—"); process();
+  }
+  recBtn.addEventListener("click", () => {
+    if (rec.recording) { stopAll(); return; }
+    stopAll();
+    const ctx = MB.ctx(); if (!ctx) return;
+    bpmRec = bpmR(); Lbeats = +len() * 4;
+    const cib = +ci() * 4, spb = 60 / bpmRec;
+    const evs = []; for (let b = 0; b < cib + Lbeats; b++) evs.push({ t: b, b });
+    sched = PN.scheduler(evs, {
+      bpm: bpmRec, length: cib + Lbeats, loop: false,
+      onEvent(ev, when) { if (ev.b < cib || $("std-rc-click").checked) PN.click(when, (ev.b - cib) % 4 === 0); },
+      onUI(ev) { const b = ev.b - cib; if (b < 0) { setPos("카운트 " + (cib - ev.b)); $("std-rc-msg").textContent = "카운트인… 첫 박에 맞춰 시작하세요."; } else { setPos((Math.floor(b / 4) + 1) + " · " + ((b % 4) + 1)); $("std-rc-msg").innerHTML = "<b>● 녹음 중</b>"; } },
+      onStop() { finish(); },
+    });
+    sched._ci = cib;
+    raw = []; proc = []; drawRoll(); kb.clear();
+    rec.start(); sched.start(); recBtn.textContent = "■ 녹음 끝";
+    const t0 = ctx.currentTime + 0.08;
+    const loop = () => { if (!rec.recording) return; const beat = (ctx.currentTime - t0) / spb - cib; const live = rec.notes.map((n) => ({ t: (n.t - 0.08) / spb - cib, d: n.d / spb, m: n.m, vel: n.vel })); roll.set(live, { beats: Lbeats }); roll.now(Math.max(0, beat)); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+  });
+  playBtn.addEventListener("click", () => {
+    if (player && player.running) { player.stop(); return; }
+    if (rec.recording) return;
+    if (!proc.length) { $("std-rc-msg").textContent = "재생할 녹음이 없습니다."; return; }
+    MB.ctx();
+    player = PN.playEvents(proc.map((n) => ({ t: n.t, d: n.d, m: n.m, vel: n.vel, legato: 1 })), {
+      bpm: () => bpmRec, piano: p, length: Lbeats, click: true, clickOn: () => $("std-rc-click").checked,
+      onEnd() {}, onStop() { playBtn.textContent = "▶ 재생"; cancelAnimationFrame(raf); drawRoll(); setPos("—"); staff.at(null); STD.unstick(kb); },
+    });
+    player.start(); playBtn.textContent = "■ 정지";
+    const loop = () => { if (!player.running) return; const b = player.beat; roll.now(b); staff.at(b); setPos((Math.floor(b / 4) + 1) + " · " + (Math.floor(b % 4) + 1)); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+  });
+  $("std-rc-demo").addEventListener("click", () => {
+    stopAll();
+    const d = STD.demoTake(); bpmRec = d.bpm; bpmR.set(d.bpm, false); Lbeats = d.length; len.set("4", false);
+    raw = d.notes; source = d.source; $("std-rc-msg").textContent = "예시 연주를 불러왔습니다. ▶ 재생으로 들어 보고 격자·강도를 바꿔 보세요.";
+    process();
+  });
+  $("std-rc-midi").addEventListener("click", () => { MB.ctx(); STD.connect(p, $("std-rc-msg")); });
+  process();
+})();
+
+/* ===================================================================== 14-4 휴머나이즈 비교기 */
+(function () {
+  const $ = STD.$;
+  const p = PN.piano();
+  const kb = PN.keyboard("#std-hu-kb", { from: 55, to: 81, piano: p, labels: "c", compact: true });
+  // 미뉴에트 G장조(페촐트) 첫 4마디 오른손 + 단순화한 왼손, 3/4박자
+  const RH = PN.parseNotes("D5/1 G4/.5 A4/.5 B4/.5 C5/.5 D5/1 G4/1 G4/1 E5/1 C5/.5 D5/.5 E5/.5 F#5/.5 G5/1 G4/1 G4/1", { hand: "R" });
+  const LH = PN.parseNotes("G3/3 B3/3 C4/3 B3/3", { hand: "L" });
+  const notes = RH.concat(LH).sort((a, b) => a.t - b.t || a.m - b.m);
+  const staff = PN.staff("#std-hu-staff", notes, { clef: "grand", key: 1, time: [3, 4], compact: true });
+  let seed = 3, Z = [];
+  function reroll() { const r = MB.rng(seed++); Z = notes.map(() => { const u = r() || 1e-9, v = r(); const a = Math.sqrt(-2 * Math.log(u)); return [a * Math.cos(2 * Math.PI * v), a * Math.sin(2 * Math.PI * v)]; }); }
+  reroll();
+  const spb = () => 60 / +$("std-hu-bpm").value;
+  /** 음 i의 (어긋남 초, 벨로시티) */
+  function perf(i) {
+    const n = notes[i], sig = +$("std-hu-sig").value / 1000, vv = +$("std-hu-vv").value / 100;
+    let dt = sig * Z[i][0], vel = n.hand === "L" ? 0.42 : 0.56;
+    if ($("std-hu-acc").checked && Math.abs(n.t % 3) < 1e-6) vel += 0.1;
+    if ($("std-hu-dyn").checked) { const x = n.t / 12; vel *= 0.82 + 0.38 * Math.sin(Math.PI * Math.min(1, x * 1.15)) - (n.t >= 9 ? 0.12 : 0); }
+    if ($("std-hu-rit").checked && n.t > 9) { const u = (n.t - 9) / 3; dt += spb() * 1.1 * u * u; }
+    vel *= 1 + vv * Z[i][1];
+    return [dt, Math.max(0.12, Math.min(1, vel))];
+  }
+  const cv = MB.canvas("#std-hu-cv", (ctx, w, h) => {
+    const P = MB.palette(), box = { x: 40, y: 10, w: w - 50, h: h - 30 }, R = 120;
+    const X = (t) => box.x + (t / 12) * box.w, Y = (ms) => box.y + box.h * 0.5 - (ms / R) * box.h * 0.45;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, Y(0)); ctx.lineTo(box.x + box.w, Y(0)); ctx.stroke();
+    for (let b = 0; b <= 4; b++) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(b * 3), box.y); ctx.lineTo(X(b * 3), box.y + box.h); ctx.stroke(); }
+    ctx.fillStyle = P.dim; ctx.fillText("+" + R + " ms", 2, Y(R) + 4); ctx.fillText("−" + R, 2, Y(-R) + 4); ctx.fillText("막대 = 어긋남(ms) · 점 = 벨로시티", box.x, h - 6);
+    notes.forEach((n, i) => {
+      const [dt, vel] = perf(i), x = X(n.t) + (n.hand === "L" ? 4 : 0), y = Y(Math.max(-R, Math.min(R, dt * 1000)));
+      ctx.strokeStyle = n.hand === "L" ? P.accent2 : P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x, Y(0)); ctx.lineTo(x, y); ctx.stroke();
+      ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(x, box.y + box.h - vel * box.h * 0.9, 3.2, 0, 7); ctx.fill();
+    });
+  }, { aspect: 0.3, minHeight: 140, maxHeight: 210 });
+  function stats() {
+    const ds = notes.map((_, i) => perf(i)), rms = Math.sqrt(ds.reduce((a, d) => a + d[0] * d[0], 0) / ds.length) * 1000;
+    const vs = ds.map((d) => Math.round(d[1] * 127));
+    MB.stat("std-hu-r1", STD.ms(rms));
+    MB.stat("std-hu-r2", Math.min(...vs) + "–" + Math.max(...vs));
+    MB.stat("std-hu-r3", $("std-hu-rit").checked ? "+" + Math.round((100 * 1.1) / 3) + "% <small>(마디 길이)</small>" : "0%");
+    cv.redraw();
+  }
+  const btn = $("std-hu-play");
+  const evs = notes.map((n, i) => Object.assign({ i }, n));
+  const sch = PN.scheduler(evs, {
+    bpm: () => +$("std-hu-bpm").value, length: 12.6, loop: false,
+    onEvent(ev, when, sp) { const [dt, vel] = perf(ev.i), w = when + Math.max(-0.04, dt); const end = w + ev.d * sp * (ev.hand === "L" ? 0.98 : 0.9) + (ev.t + ev.d > 9 && $("std-hu-rit").checked ? 0.15 : 0); p.noteOn(ev.m, vel, w); p.noteOff(ev.m, end); },
+    onUI(ev) { staff.highlight(ev.i); },
+    onStop() { p.stop(); staff.highlight(-1); btn.textContent = "▶ 재생"; STD.unstick(kb); },
+  });
+  btn.addEventListener("click", () => { if (sch.running) sch.stop(); else { MB.ctx(); PN.warm(notes.map((n) => n.m)); sch.start(); btn.textContent = "■ 정지"; } });
+  $("std-hu-roll").addEventListener("click", () => { reroll(); stats(); });
+  $("std-hu-mech").addEventListener("click", () => { sigR.set(0, false); vvR.set(0, false); ["std-hu-acc", "std-hu-dyn", "std-hu-rit"].forEach((id) => ($(id).checked = false)); stats(); });
+  const sigR = MB.range("std-hu-sig", (v) => v + " ms", stats);
+  const vvR = MB.range("std-hu-vv", (v) => "±" + v + "%", stats);
+  MB.range("std-hu-bpm", (v) => v + " BPM", stats);
+  ["std-hu-acc", "std-hu-dyn", "std-hu-rit"].forEach((id) => $(id).addEventListener("change", stats));
+  stats();
+})();
+
+/* ===================================================================== 14-5 내보내기 */
+(function () {
+  const $ = STD.$;
+  let smf = null, wav = null, pcm = null, voice = null;
+  const vlq = (n) => { const b = [n & 0x7f]; n >>= 7; while (n > 0) { b.unshift((n & 0x7f) | 0x80); n >>= 7; } return b; };
+  const u32 = (n) => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255];
+  /** 표준 MIDI 파일(형식 0) 작성: [{t(박), d(박), m, vel}] */
+  function writeSMF(take) {
+    const TPQ = 480, ev = [];
+    take.notes.forEach((n) => { const on = Math.round(n.t * TPQ), off = Math.max(on + 1, Math.round((n.t + n.d) * TPQ)), v = Math.max(1, Math.min(127, Math.round((n.vel || 0.7) * 127))); ev.push({ tk: on, b: [0x90, n.m, v], o: 1 }, { tk: off, b: [0x80, n.m, 0x40], o: 0 }); });
+    ev.sort((a, b) => a.tk - b.tk || a.o - b.o);
+    const tempo = Math.round(60000000 / take.bpm), name = Array.from(new TextEncoder().encode("PianoBook take"));
+    const trk = [0x00, 0xff, 0x03, name.length, ...name, 0x00, 0xff, 0x51, 0x03, (tempo >> 16) & 255, (tempo >> 8) & 255, tempo & 255, 0x00, 0xff, 0x58, 0x04, 4, 2, 24, 8];
+    let last = 0;
+    ev.forEach((e) => { trk.push(...vlq(e.tk - last), ...e.b); last = e.tk; });
+    trk.push(0x00, 0xff, 0x2f, 0x00);
+    const head = [0x4d, 0x54, 0x68, 0x64, ...u32(6), 0, 0, 0, 1, (TPQ >> 8) & 255, TPQ & 255];
+    return new Uint8Array([...head, 0x4d, 0x54, 0x72, 0x6b, ...u32(trk.length), ...trk]);
+  }
+  function hexDump(b) {
+    const n = Math.min(120, b.length), cls = new Array(n).fill("");
+    for (let i = 0; i < 4; i++) { cls[i] = "h1"; cls[14 + i] = "h1"; }
+    for (let i = 4; i < 14; i++) cls[i] = "h2"; for (let i = 18; i < 22; i++) cls[i] = "h2";
+    // 트랙 안: 델타(VLQ)와 이벤트를 차례로 칠한다
+    let i = 22;
+    while (i < n) {
+      let j = i; while (j < b.length && b[j] & 0x80) j++; for (let k = i; k <= j && k < n; k++) cls[k] = "h3"; i = j + 1;
+      if (i >= b.length) break;
+      const st = b[i]; let L = st === 0xff ? 3 + b[i + 2] : 3;
+      for (let k = i; k < i + L && k < n; k++) cls[k] = "h4"; i += L;
+    }
+    const rows = [];
+    for (let r = 0; r < n; r += 12) { let s = r.toString(16).padStart(4, "0") + "  "; for (let k = r; k < Math.min(n, r + 12); k++) s += `<span class="${cls[k]}">${STD.hex(b[k])}</span> `; rows.push(s); }
+    return rows.join("\n") + (b.length > n ? `\n… (전체 ${b.length}바이트)` : "");
+  }
+  function show(take) {
+    if (!take || !take.notes.length) { $("std-ex-src").textContent = "아직 테이크가 없습니다. 위 녹음기나 아래 잼 스테이션에서 녹음하거나, '예시 테이크'를 넣으세요."; $("std-ex-hex").textContent = "—"; smf = null; MB.stat("std-ex-r1", "—"); MB.stat("std-ex-r2", "—"); return; }
+    smf = writeSMF(take); wav = null; pcm = null;
+    const end = Math.max(...take.notes.map((n) => n.t + n.d)), sec = (end * 60) / take.bpm + 1.5;
+    $("std-ex-src").innerHTML = `<b>${take.source || "테이크"}</b> · ${take.notes.length}음 · ${take.bpm} BPM · ${sec.toFixed(1)}초`;
+    $("std-ex-hex").innerHTML = hexDump(smf);
+    MB.stat("std-ex-r1", smf.length + " <small>바이트</small>");
+    MB.stat("std-ex-r2", ((44 + Math.ceil(sec * 44100) * 2) / 1024).toFixed(0) + " <small>KB (예상)</small>");
+    MB.stat("std-ex-r3", "—");
+    cv.redraw();
+  }
+  const cv = MB.canvas("#std-ex-cv", (ctx, w, h) => {
+    const P = MB.palette();
+    if (!pcm) { ctx.fillStyle = P.faint; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.fillText("WAV 렌더링을 하면 파형이 여기에 그려집니다", 12, h / 2); return; }
+    const step = Math.max(1, Math.floor(pcm.length / w)); ctx.fillStyle = P.accent;
+    for (let x = 0; x < w; x++) { let mn = 0, mx = 0; for (let k = x * step; k < Math.min(pcm.length, (x + 1) * step); k++) { const v = pcm[k]; if (v < mn) mn = v; if (v > mx) mx = v; } ctx.fillRect(x, h / 2 - mx * h * 0.48, 1, Math.max(1, (mx - mn) * h * 0.48)); }
+  }, { aspect: 0.18, minHeight: 70, maxHeight: 130 });
+  STD.takeCbs.push(show);
+  function writeWAV(f, sr) {
+    let peak = 0; for (let i = 0; i < f.length; i++) peak = Math.max(peak, Math.abs(f[i]));
+    const g = peak > 0 ? 0.9 / peak : 1, n = f.length, buf = new ArrayBuffer(44 + n * 2), dv = new DataView(buf);
+    const str = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+    str(0, "RIFF"); dv.setUint32(4, 36 + n * 2, true); str(8, "WAVE"); str(12, "fmt "); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true);
+    dv.setUint32(24, sr, true); dv.setUint32(28, sr * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); str(36, "data"); dv.setUint32(40, n * 2, true);
+    for (let i = 0; i < n; i++) { const v = Math.max(-1, Math.min(1, f[i] * g)); dv.setInt16(44 + i * 2, v < 0 ? v * 32768 : v * 32767, true); }
+    for (let i = 0; i < n; i++) f[i] *= g;
+    return new Uint8Array(buf);
+  }
+  async function render() {
+    const take = STD.take; if (!take || !take.notes.length) { $("std-ex-src").textContent = "렌더링할 테이크가 없습니다."; return null; }
+    MB.ctx();
+    const spb = 60 / take.bpm, end = Math.max(...take.notes.map((n) => n.t + n.d)), sec = end * spb + 1.5, t0 = performance.now();
+    $("std-ex-render").textContent = "렌더링 중…"; $("std-ex-render").disabled = true;
+    try {
+      const f = await MB.render(sec, (ctx, dest) => { take.notes.forEach((n) => MB.play(n.m, { ctx, dest, inst: "grand", when: 0.02 + n.t * spb, dur: Math.max(0.05, n.d * spb), vel: n.vel || 0.7 })); });
+      wav = writeWAV(f, 44100); pcm = f;
+      MB.stat("std-ex-r2", (wav.length / 1024).toFixed(0) + " <small>KB</small>");
+      MB.stat("std-ex-r3", ((performance.now() - t0) / 1000).toFixed(2) + " s · " + sec.toFixed(1) + " s");
+      cv.redraw();
+      return f;
+    } catch (e) { $("std-ex-src").textContent = "렌더링 실패: " + e.message; return null; }
+    finally { $("std-ex-render").textContent = "WAV 렌더링 + 듣기"; $("std-ex-render").disabled = false; }
+  }
+  $("std-ex-demo").addEventListener("click", () => STD.setTake(STD.demoTake()));
+  $("std-ex-mid").addEventListener("click", () => { if (!smf) { $("std-ex-src").textContent = "저장할 테이크가 없습니다. 먼저 '예시 테이크 넣기'를 눌러 보세요."; return; } STD.download(smf, "pianobook-take.mid", "audio/midi"); });
+  $("std-ex-render").addEventListener("click", async () => { const f = await render(); if (f) { if (voice) voice.release(); voice = MB.playBuffer(f, 44100, { gain: 0.6 }); } });
+  $("std-ex-wav").addEventListener("click", async () => { if (!wav) await render(); if (wav) STD.download(wav, "pianobook-take.wav", "audio/wav"); });
+  $("std-ex-stop").addEventListener("click", () => { if (voice) { voice.release(); voice = null; } MB.stopAll(); });
+  show(null);
+})();
+
+/* ===================================================================== 14-6 잼 스테이션 */
+(function () {
+  const $ = STD.$;
+  const PRESETS = [
+    { n: "I–V–vi–IV (팝)", m: "major", p: "I V vi IV" },
+    { n: "I–vi–IV–V (50년대)", m: "major", p: "I vi IV V" },
+    { n: "캐논 진행 I–V–vi–iii–IV–I–IV–V", m: "major", p: "I V vi iii IV I IV V" },
+    { n: "ii–V–I–I (재즈)", m: "major", p: "ii V I I", style: "swing" },
+    { n: "12마디 블루스", m: "major", p: "I7 I7 I7 I7 IV7 IV7 I7 I7 V7 IV7 I7 V7", style: "shuffle" },
+    { n: "i–♭VI–♭III–♭VII (단조 팝)", m: "minor", p: "i bVI bIII bVII" },
+    { n: "i–iv–V–i (단조)", m: "minor", p: "i iv V i" },
+  ];
+  const DEG = { i: 0, ii: 2, iii: 4, iv: 5, v: 7, vi: 9, vii: 11 };
+  const DR = {
+    ballad: { kick: "X.........x.....", rim: "........X.......", hat: "o.o.o.o.o.o.o.o." },
+    pop: { kick: "X.......x.x.....", snare: "....X.......X...", hat: "x.x.x.x.x.x.x.x." },
+    shuffle: { kick: "X.......X.......", snare: "....X.......X...", hat: "x.x.x.x.x.x.x.x." },
+    bossa: { kick: "X..xX..xX..xX..x", rim: "x..x..x...x..x..", shaker: "xoxoxoxoxoxoxoxo" },
+    swing: { ride: "X...x.x.X...x.x.", hat: "....x.......x..." },
+  };
+  const DG = { kick: 1, snare: 0.7, rim: 0.55, hat: 0.42, shaker: 0.3, ride: 0.4 };
+  const STY = { ballad: { swing: 0.5, sev: false, sc: "pent", bpm: 72 }, pop: { swing: 0.5, sev: false, sc: "pent", bpm: 100 }, shuffle: { swing: 2 / 3, sev: false, sc: "blues", bpm: 92 }, bossa: { swing: 0.5, sev: true, sc: "full", bpm: 128 }, swing: { swing: 0.64, sev: true, sc: "full", bpm: 140 } };
+  const st = { preset: 0, key: 0, style: "ballad", sc: "auto", prog: [], chords: [], bar: 0 };
+  const back = PN.piano(), user = PN.piano();
+  const kb = PN.keyboard("#std-jm-kb", { from: 60, to: 84, piano: user, spacePedal: true, onDown(m) { if (rec.recording) tally(m); } });
+  const rec = PN.recorder(user);
+  const roll = PN.roll("#std-jm-roll", { from: 58, to: 86, beats: 16, aspect: 0.25, maxHeight: 180 });
+  $("std-jm-preset").innerHTML = PRESETS.map((p, i) => `<option value="${i}">${p.n}</option>`).join("");
+  $("std-jm-key").innerHTML = [...Array(12)].map((_, pc) => `<option value="${pc}">${MB.SHARP_NAMES[pc]}${MB.SHARP_NAMES[pc] !== MB.FLAT_NAMES[pc] ? " / " + MB.FLAT_NAMES[pc] : ""}</option>`).join("");
+  const minor = () => PRESETS[st.preset].m === "minor";
+  const flat = () => MB.prefersFlats(st.key, minor());
+  function parse() {
+    return PRESETS[st.preset].p.split(" ").map((tk) => {
+      const m = tk.match(/^(b?)(vii|vi|iv|v|iii|ii|i|VII|VI|IV|V|III|II|I)(7?)$/);
+      const semi = MB.mod(DEG[m[2].toLowerCase()] + (m[1] ? -1 : 0), 12), up = m[2] === m[2].toUpperCase();
+      let q = up ? "maj" : "min";
+      if (m[3]) q = up ? "dom7" : "min7";
+      else if (STY[st.style].sev) q = up ? (semi === 7 || semi === 10 ? "dom7" : "maj7") : "min7";
+      return { roman: tk.replace(/^b/, "♭"), semi, q };
+    });
+  }
+  function realize() {
+    st.chords = parse().map((c) => { const root = MB.mod(st.key + c.semi, 12), name = MB.chordSymbol(root, c.q, flat()); return Object.assign(c, { root, name, c: PN.parseChord(name), tones: MB.CHORDS[c.q].iv.map((x) => MB.mod(root + x, 12)) }); });
+  }
+  function scalePcs() {
+    const mode = st.sc === "auto" ? STY[st.style].sc : st.sc, mn = minor();
+    const steps = mode === "pent" ? MB.SCALES[mn ? "minorPent" : "majorPent"].steps : mode === "blues" ? (mn ? MB.SCALES.blues.steps : [0, 2, 3, 4, 7, 9]) : mode === "full" ? MB.SCALES[mn ? "minor" : "major"].steps : [];
+    return { pcs: steps.map((s) => MB.mod(st.key + s, 12)), name: { pent: mn ? "단조 펜타토닉" : "장조 펜타토닉", blues: mn ? "블루스" : "장조 블루스", full: mn ? "자연단음계" : "장음계", tones: "코드톤만" }[mode] };
+  }
+  function show(i) {
+    const c = st.chords[i]; if (!c) return; st.bar = i;
+    const sc = scalePcs(), list = [];
+    for (let m = 60; m <= 84; m++) { const pc = MB.mod(m, 12), k = c.tones.indexOf(pc); if (k >= 0) list.push({ m, cls: k === 0 ? "root" : "alt", label: PN.intervalLabel(pc - c.root) }); else if (sc.pcs.includes(pc)) list.push({ m, cls: "ghost" }); }
+    kb.set(list);
+    $("std-jm-chord").textContent = c.name; $("std-jm-sub").textContent = c.roman + " · " + sc.name;
+    MB.stat("std-jm-r1", c.tones.map((p) => MB.pcName(p, flat())).join(" ") + " <small>" + sc.name + "</small>");
+    $("std-jm-chart").querySelectorAll(".std-cell").forEach((b, k) => b.classList.toggle("now", k === i));
+  }
+  function renderChart() { $("std-jm-chart").innerHTML = st.chords.map((c, i) => `<button class="std-cell" data-i="${i}"><small>${i + 1} · ${c.roman}</small><b>${c.name}</b></button>`).join(""); }
+  /** 한 바퀴(또는 여러 바퀴)의 반주 이벤트 */
+  function backing(passes = 1) {
+    const E = [], n = st.chords.length, S = st.style;
+    let prev = null;
+    for (let ps = 0; ps < passes; ps++) st.chords.forEach((ch, b) => {
+      const t0 = (ps * n + b) * 4, c = ch.c, nx = st.chords[(b + 1) % n].c, R = PN.above(c.root, 36);
+      E.push({ t: t0, k: "bar", b });
+      for (let q = 1; q < 4; q++) E.push({ t: t0 + q, k: "beat", b, q });
+      let lh = [];
+      if (S === "ballad") { lh = PN.accomp(c, "ballad", { t0, beats: 4, vel: 0.42 }).events.filter((e) => e.hand === "L"); E.push({ t: t0, k: "pedal", v: false }, { t: t0 + 0.06, k: "pedal", v: true }); }
+      else if (S === "pop") { const r = PN.accomp(c, "pulse", { t0, beats: 4, center: 57, prev, vel: 0.4 }); prev = r.rh; lh = r.events.filter((e) => e.hand === "R"); for (let i = 0; i < 8; i++) E.push({ t: t0 + i / 2, k: "bass", m: R, d: 0.45, vel: i % 2 ? 0.55 : 0.7 }); }
+      else if (S === "shuffle") { [7, 9, 7, 9].forEach((iv, q) => [0, 0.5].forEach((h) => lh.push({ t: t0 + q + h, d: 0.5, ms: [R, R + iv], vel: h ? 0.36 : 0.46 }))); }
+      else if (S === "bossa") { const r = PN.accomp(c, "bossa", { t0, beats: 4, center: 57, prev, vel: 0.42 }); prev = r.rh; lh = r.events.filter((e) => e.hand === "R"); [[0, 1.5, R], [1.5, 0.5, R + 7], [2, 1.5, R + 7], [3.5, 0.5, R]].forEach(([t, d, m]) => E.push({ t: t0 + t, k: "bass", m: m > 50 ? m - 12 : m, d, vel: 0.68 })); }
+      else if (S === "swing") {
+        const v = PN.voicing(c, b % 2 === 0 ? "rootlessA" : "rootlessB", { low: 50 }).lh;
+        lh = [{ t: t0, d: 1.5, ms: v, vel: 0.4 }, { t: t0 + 1.5, d: 0.5, ms: v, vel: 0.46 }];
+        const third = PN.above(MB.mod(c.root + c.iv[1], 12), R + 1), fifth = PN.above(MB.mod(c.root + c.iv[2], 12), R + 1), nR = PN.above(nx.root, 36);
+        const ap = Math.abs(nR - 1 - fifth) <= Math.abs(nR + 1 - fifth) ? nR - 1 : nR + 1;
+        [R, third, fifth, ap].forEach((m, q) => E.push({ t: t0 + q, k: "bass", m, d: 1, vel: 0.72 }));
+      }
+      lh.forEach((e) => E.push({ t: e.t, k: "lh", ms: e.ms || [e.m], d: e.d, vel: e.vel }));
+      Object.entries(DR[S]).forEach(([nm, pat]) => { for (let i = 0; i < 16; i++) { const ch2 = pat[i]; if (ch2 === ".") continue; E.push({ t: t0 + i / 4, k: "drum", nm, vel: (ch2 === "X" ? 1 : ch2 === "x" ? 0.72 : 0.42) * DG[nm] }); } });
+      if (ps === 0 && b === 0 && S !== "ballad") E.push({ t: 0, k: "drum", nm: "crash", vel: 0.3 });
+    });
+    return E;
+  }
+  const warp = (t, s) => { if (Math.abs(s - 0.5) < 1e-6) return t; const b = Math.floor(t + 1e-9), f = t - b; return b + (f < 0.5 ? f * 2 * s : s + (f - 0.5) * 2 * (1 - s)); };
+  let bus = null, bassV = null;
+  function buses() {
+    const ctx = MB.ctx(); if (!ctx) return null; if (bus) return bus;
+    bus = { l: ctx.createGain(), b: ctx.createGain(), d: ctx.createGain() };
+    bus.l.connect(MB.out); bus.b.connect(MB.out); bus.d.connect(MB.out); back.dest = bus.l; mix(); return bus;
+  }
+  function mix() { if (!bus) return; bus.l.gain.value = $("std-jm-ml").checked ? 0.85 : 0; bus.b.gain.value = $("std-jm-mb").checked ? 0.7 : 0; bus.d.gain.value = $("std-jm-md").checked ? 0.7 : 0; }
+  ["std-jm-md", "std-jm-mb", "std-jm-ml"].forEach((id) => $(id).addEventListener("change", mix));
+  const bpmR = MB.range("std-jm-bpm", (v) => v + " BPM");
+  function makeSched(loop, extra) {
+    return PN.scheduler([], {
+      bpm: () => bpmR(), loop, length: () => (loop ? st.chords.length * 4 : extra.length),
+      onEvent(e, when, spb) {
+        const s = STY[st.style].swing, w = when + (warp(e.t, s) - e.t) * spb, end = when + (warp(e.t + (e.d || 1), s) - e.t) * spb;
+        if (e.k === "drum") MB.drum(e.nm, w, { vel: e.vel, dest: bus.d });
+        else if (e.k === "bass") { if (bassV) { try { bassV.release(w, 0.02); } catch (er) {} } bassV = MB.play(e.m, { inst: "bass", when: w, dur: Math.max(0.05, (end - w) * 0.9), vel: e.vel, dest: bus.b }); }
+        else if (e.k === "lh") e.ms.forEach((m) => { const v = back.noteOn(m, e.vel, w); back.noteOff(m, w + Math.max(0.05, (end - w) * 0.9), v); });
+        else if (e.k === "pedal") back.pedal(e.v, w);
+        else if (e.k === "take") { user.noteOn(e.m, e.vel, w); user.noteOff(e.m, w + e.d * spb); }
+      },
+      onUI(e) {
+        if (e.k === "bar") { show(e.b); $("std-jm-pos").textContent = (e.b + 1) + " · 1"; }
+        else if (e.k === "beat") $("std-jm-pos").textContent = (e.b + 1) + " · " + (e.q + 1);
+      },
+      onStop() { back.pedal(false); back.stop(); if (bassV) { try { bassV.release(MB.now(), 0.03); } catch (er) {} bassV = null; } extra.onStop && extra.onStop(); },
+    });
+  }
+  const playBtn = $("std-jm-play"), recBtn = $("std-jm-rec"), takeBtn = $("std-jm-take");
+  let loops = 0;
+  const sch = makeSched(true, { onStop() { playBtn.textContent = "▶ 반주"; $("std-jm-pos").textContent = "1 · 1"; if (rec.recording) endTake(); } });
+  let takeSch = null, take = null, hits = { n: 0, ct: 0 }, raf = 0;
+  function tally(m) { const c = st.chords[st.bar]; hits.n++; if (c && c.tones.includes(MB.mod(m, 12))) hits.ct++; MB.stat("std-jm-r3", Math.round((100 * hits.ct) / hits.n) + "% <small>(" + hits.n + "음)</small>"); }
+  function start() { if (!st.chords.length || !buses()) return; PN.warm(st.chords.flatMap((c) => c.tones.map((p) => 48 + p))); sch.setEvents(backing(1)); sch.start(); playBtn.textContent = "■ 정지"; }
+  playBtn.addEventListener("click", () => { if (takeSch && takeSch.running) takeSch.stop(); if (sch.running) sch.stop(); else start(); });
+  function endTake() {
+    cancelAnimationFrame(raf);
+    const notes = rec.stop(), spb = 60 / take.bpm;
+    take.notes = notes.map((n) => ({ t: Math.max(0, (n.t - 0.08) / spb), d: n.d / spb, m: n.m, vel: n.vel }));
+    const n = st.chords.length * 4; take.length = Math.max(n, Math.ceil(Math.max(0, ...take.notes.map((x) => x.t + x.d)) / n) * n);
+    recBtn.textContent = "● 테이크 녹음";
+    roll.set(take.notes, { beats: take.length }); roll.now(null);
+    MB.stat("std-jm-r2", take.notes.length + "음 <small>" + (take.length / 4) + "마디</small>");
+    if (take.notes.length) STD.setTake({ bpm: take.bpm, notes: take.notes.map((x) => Object.assign({}, x)), length: take.length, source: "잼 스테이션 테이크 · " + st.chords.map((c) => c.name).join("–") });
+  }
+  recBtn.addEventListener("click", () => {
+    if (rec.recording) { sch.stop(); return; }
+    if (takeSch && takeSch.running) takeSch.stop();
+    if (sch.running) sch.stop();
+    if (!buses()) return;
+    take = { bpm: bpmR(), chords: st.chords.map((c) => c.name), notes: [] }; hits = { n: 0, ct: 0 };
+    rec.start(); start(); recBtn.textContent = "■ 녹음 끝";
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.08, spb = 60 / take.bpm, L = st.chords.length * 4;
+    const loop = () => {
+      if (!rec.recording) return;
+      const beat = (ctx.currentTime - t0) / spb;
+      if (beat > L * 16) { sch.stop(); return; }
+      const pass = Math.max(0, Math.floor(beat / L));
+      roll.set(rec.notes.map((n) => ({ t: (n.t - 0.08) / spb - pass * L, d: n.d / spb, m: n.m, vel: n.vel })).filter((n) => n.t > -L * 0.5), { beats: L }); roll.now(Math.max(0, beat - pass * L));
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+  });
+  takeBtn.addEventListener("click", () => {
+    if (takeSch && takeSch.running) { takeSch.stop(); return; }
+    if (!take || !take.notes.length) { $("std-jm-sub").textContent = "들을 테이크가 없습니다. ● 테이크 녹음으로 먼저 녹음하세요."; return; }
+    if (rec.recording || sch.running) sch.stop();
+    if (!buses()) return;
+    const L = st.chords.length * 4, passes = Math.ceil(take.length / L);
+    const evs = backing(passes).concat(take.notes.map((n) => ({ t: n.t, k: "take", m: n.m, d: n.d, vel: n.vel })));
+    takeSch = makeSched(false, { length: passes * L, onStop() { takeBtn.textContent = "▶ 테이크 듣기"; cancelAnimationFrame(raf); roll.now(null); user.stop(); STD.unstick(kb); } });
+    takeSch.setEvents(evs); takeSch.start(); takeBtn.textContent = "■ 정지";
+    const ctx = MB.ctx(), t0 = ctx.currentTime + 0.08, spb = 60 / bpmR();
+    const loop = () => { if (!takeSch.running) return; roll.now((ctx.currentTime - t0) / spb); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+  });
+  $("std-jm-midi").addEventListener("click", () => { MB.ctx(); STD.connect(user, $("std-jm-sub")); });
+  $("std-jm-chart").addEventListener("click", (e) => { const b = e.target.closest(".std-cell"); if (!b) return; const i = +b.dataset.i; show(i); if (!sch.running && buses()) { const c = st.chords[i]; const v = PN.voicing(c.c, "close", { center: 58 }); back.chord(v.all, { dur: 1.2, vel: 0.5 }); } });
+  function refresh(rebuild = true) {
+    const oldLen = sch.running ? st.chords.length : 0;
+    realize(); renderChart(); if (st.bar >= st.chords.length) st.bar = 0; show(st.bar);
+    if (rebuild && sch.running) { if (oldLen !== st.chords.length && !rec.recording) { sch.stop(); start(); } else sch.setEvents(backing(1)); }
+  }
+  $("std-jm-preset").addEventListener("change", (e) => {
+    st.preset = +e.target.value; const p = PRESETS[st.preset];
+    if (p.style) { st.style = p.style; styleSeg.set(p.style, false); bpmR.set(STY[p.style].bpm, false); }
+    refresh();
+  });
+  $("std-jm-key").addEventListener("change", (e) => { st.key = +e.target.value; refresh(); });
+  const styleSeg = MB.seg("std-jm-style", (v) => { st.style = v; bpmR.set(STY[v].bpm, false); refresh(); });
+  MB.seg("std-jm-sc", (v) => { st.sc = v; show(st.bar); });
+  bpmR.set(STY.ballad.bpm, false);
+  roll.set([], { beats: 16 });
+  refresh();
+})();
+
+/* ===================================================================== 14-7 연습 일지 */
+(function () {
+  const $ = STD.$, KEY = "pianobook-practice-v1";
+  let data = { entries: [], goal: 150 }, storageOk = true;
+  try { const s = localStorage.getItem(KEY); if (s) { const d = JSON.parse(s); if (d && Array.isArray(d.entries)) data = Object.assign({ goal: 150 }, d); } } catch (e) { storageOk = false; }
+  const msg = $("std-lg-msg");
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(data)); storageOk = true; }
+    catch (e) { storageOk = false; }
+    if (!storageOk) { msg.textContent = "이 브라우저에서는 저장소를 쓸 수 없어, 기록은 이 탭을 닫으면 사라집니다. JSON으로 내보내 보관하세요."; msg.className = "grow std-msg bad"; }
+  }
+  if (!storageOk) save();
+  const pad = (n) => String(n).padStart(2, "0");
+  const ymd = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  const today = () => ymd(new Date());
+  const dayOffset = (k) => { const d = new Date(); d.setDate(d.getDate() - k); return ymd(d); };
+  $("std-lg-date").value = today();
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const minsOn = (day) => data.entries.filter((e) => e.date === day).reduce((a, e) => a + (+e.min || 0), 0);
+  const cv = MB.canvas("#std-lg-cv", (ctx, w, h) => {
+    const P = MB.palette(), days = [...Array(14)].map((_, i) => dayOffset(13 - i)), vals = days.map(minsOn), goalD = data.goal / 7;
+    const box = { x: 30, y: 12, w: w - 40, h: h - 34 }, mx = Math.max(goalD * 1.4, ...vals, 10), bw = box.w / 14;
+    const Y = (v) => box.y + box.h - (v / mx) * box.h;
+    ctx.font = "10.5px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(box.x, box.y + box.h); ctx.lineTo(box.x + box.w, box.y + box.h); ctx.stroke();
+    vals.forEach((v, i) => {
+      ctx.fillStyle = i === 13 ? P.accent : P.accent2; ctx.globalAlpha = i === 13 ? 1 : 0.55;
+      ctx.fillRect(box.x + i * bw + 2, Y(v), bw - 4, box.y + box.h - Y(v)); ctx.globalAlpha = 1;
+      if (i % 2 === 1 || i === 13) { ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText(days[i].slice(8), box.x + i * bw + bw / 2, h - 8); }
+    });
+    ctx.textAlign = "left";
+    ctx.strokeStyle = P.warn; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(box.x, Y(goalD)); ctx.lineTo(box.x + box.w, Y(goalD)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.fillText(Math.round(goalD) + "분/일", 2, Y(goalD) - 3);
+  }, { aspect: 0.4, minHeight: 150, maxHeight: 230 });
+  function render() {
+    const list = data.entries.slice().sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.id - a.id)).slice(0, 12);
+    $("std-lg-list").innerHTML = list.length ? list.map((e) => `<li><span class="d">${esc(e.date.slice(5))}</span><span class="m">${e.min}분</span><span class="n">${esc(e.cat)}${e.bpm ? " · " + e.bpm + " BPM" : ""}${e.note ? " — " + esc(e.note) : ""}</span><button data-id="${e.id}" aria-label="이 기록 지우기">×</button></li>`).join("") : `<li><span class="n" style="color:var(--text-faint)">아직 기록이 없습니다. 오늘 한 연습을 한 줄로 남겨 보세요.</span></li>`;
+    let w7 = 0; for (let k = 0; k < 7; k++) w7 += minsOn(dayOffset(k));
+    MB.stat("std-lg-r1", w7 + " / " + data.goal + "분 <small>" + Math.round((100 * w7) / Math.max(1, data.goal)) + "%</small>");
+    let streak = 0; for (let k = minsOn(today()) > 0 ? 0 : 1; k < 400; k++) { if (minsOn(dayOffset(k)) > 0) streak++; else break; }
+    MB.stat("std-lg-r2", streak + "일");
+    const tot = data.entries.reduce((a, e) => a + (+e.min || 0), 0);
+    MB.stat("std-lg-r3", data.entries.length + "개 · " + (tot >= 60 ? Math.floor(tot / 60) + "시간 " + (tot % 60) + "분" : tot + "분"));
+    cv.redraw();
+  }
+  $("std-lg-list").addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (!b) return; data.entries = data.entries.filter((x) => String(x.id) !== b.dataset.id); save(); render(); });
+  $("std-lg-add").addEventListener("click", () => {
+    const min = Math.round(+$("std-lg-min").value), date = $("std-lg-date").value || today();
+    if (!(min > 0 && min <= 600)) { msg.textContent = "시간은 1–600분 사이로 적어 주세요."; msg.className = "grow std-msg bad"; return; }
+    const bpm = Math.round(+$("std-lg-bpm").value) || null;
+    data.entries.push({ id: Date.now(), date, min, cat: $("std-lg-cat").value, bpm: bpm && bpm >= 20 && bpm <= 300 ? bpm : null, note: $("std-lg-note").value.trim().slice(0, 140) });
+    save(); render();
+    if (storageOk) { msg.textContent = `기록했습니다: ${date} ${min}분.`; msg.className = "grow std-msg ok"; }
+    $("std-lg-note").value = "";
+  });
+  let armed = 0;
+  $("std-lg-clear").addEventListener("click", () => {
+    if (Date.now() - armed > 4000) { armed = Date.now(); msg.textContent = "정말 모든 기록을 지우려면 4초 안에 한 번 더 누르세요."; msg.className = "grow std-msg bad"; return; }
+    armed = 0; data.entries = []; save(); render(); msg.textContent = "모든 기록을 지웠습니다."; msg.className = "grow std-msg";
+  });
+  $("std-lg-export").addEventListener("click", () => STD.download(new TextEncoder().encode(JSON.stringify(data, null, 2)), "pianobook-practice.json", "application/json"));
+  const goalR = MB.range("std-lg-goal", (v) => v + "분", (v) => { data.goal = v; save(); render(); });
+  goalR.set(data.goal, false);
+  // 타이머
+  let tStart = 0, tInt = 0;
+  const tBtn = $("std-lg-timer");
+  const fmt = (s) => pad(Math.floor(s / 60)) + ":" + pad(Math.floor(s % 60));
+  tBtn.addEventListener("click", () => {
+    if (tInt) { clearInterval(tInt); tInt = 0; const s = (Date.now() - tStart) / 1000; $("std-lg-min").value = Math.max(1, Math.ceil(s / 60)); tBtn.textContent = "⏱ 타이머 시작"; msg.textContent = `${fmt(s)} 연습했습니다. 메모를 쓰고 '기록 추가'를 누르세요.`; msg.className = "grow std-msg ok"; return; }
+    tStart = Date.now(); tBtn.textContent = "■ 타이머 멈춤";
+    tInt = setInterval(() => { $("std-lg-clock").textContent = fmt((Date.now() - tStart) / 1000); }, 500);
+  });
+  render();
+})();
+</script>
+</body>
+</html>

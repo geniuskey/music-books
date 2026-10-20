@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>PianoBook · 피아노 교과서</title>
+<meta name="description" content="듣고 누르며 배우는 인터랙티브 피아노 교과서. 해머와 현의 물리, 건반과 큰보표 읽기, 운지와 터치, 음계와 화음, 왼손 반주와 코드 진행, 재즈 보이싱, 페달과 표현, 블루스와 스타일 반주까지 브라우저의 가상 피아노로 직접 연주하며 배운다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="PianoBook · 피아노 교과서">
+<meta property="og:description" content="듣고 누르며 배우는 인터랙티브 피아노 교과서. 건반·악보·운지·화음·반주·페달을 브라우저의 가상 피아노로 연주하며 배운다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/piano.css">
+<script src="js/common.js"></script>
+<script src="js/piano.js"></script>
+<style>
+  .paths { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .path { padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); }
+  .path h3 { margin: 0 0 6px; font-size: 17px; }
+  .path p { margin: 0 0 10px; color: var(--text-dim); font-size: 14.5px; }
+  .path .steps { display: flex; flex-wrap: wrap; gap: 6px; }
+  .path .steps a { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .path .steps a:hover { text-decoration: none; filter: brightness(1.1); }
+  .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .hero-badges span { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-elev); }
+  .hero-inst { border-radius: 20px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); overflow: hidden; min-width: 0; }
+  .hero-inst .pn-staff { padding: 6px 10px 0; background: var(--canvas-bg); }
+  .hero-inst .pn-kb { padding: 4px 10px 6px; background: var(--canvas-bg); }
+  .hero-inst .pads { padding: 12px 14px 4px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero-inst .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 14px 14px; font-size: 13px; color: var(--text-dim); }
+  .hero-inst .foot b { color: var(--text); }
+  .hero-inst .seg button { font-size: 12.5px; }
+  .feat { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .feat a { display: block; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .feat a:hover { border-color: var(--accent); text-decoration: none; }
+  .feat a b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat a span { color: var(--text-dim); font-size: 14px; }
+  .feat a small { display: block; font-family: var(--mono); color: var(--accent); font-size: 11.5px; margin-bottom: 6px; letter-spacing: .06em; }
+  .myth { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .myth div { padding: 16px 18px; border-radius: var(--radius); background: var(--bg-elev); border: 1px solid var(--border); font-size: 14.5px; color: var(--text-dim); }
+  .myth div b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 6px; }
+  .myth div b::before { content: "오해 · "; color: var(--bad); }
+  .myth div a { font-size: 13px; }
+  .chain { overflow-x: auto; }
+  .chain svg { min-width: 760px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../shared/css/book-shell.css">
+<script defer src="../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-root="">
+
+<section class="home-hero">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">Interactive Piano Textbook</div>
+      <h1>건반 위에서 만나는<br><span class="grad">화성과 선율</span></h1>
+      <p>건반을 누르면 무엇이 현을 때릴까? 왜 피아노의 옥타브는 2:1보다 조금 넓게 조율할까? 왜 C장조는 엄지를 세 번째 음 다음에 넘길까? PianoBook은 피아노를 <b>해머와 현의 물리·건반의 격자·손가락의 운지·화음의 구조·시간 위의 반주</b>로 풀어 봅니다. 모든 장에 <b>직접 누르고 들으며 조작하는</b> 가상 피아노가 있고, 컴퓨터 키보드와 MIDI 건반으로도 연주할 수 있습니다.</p>
+      <div class="cta">
+        <a class="primary" href="chapters/instrument.html">1장부터 시작하기 →</a>
+        <a class="ghost" href="chapters/keyboard.html">건반과 음 이름</a>
+        <a class="ghost" href="chapters/studio.html">연주 스튜디오</a>
+      </div>
+      <div class="hero-badges">
+        <span>15개 챕터</span><span>가상 피아노 · 건반 · 큰보표 악보</span><span>컴퓨터 키보드 · MIDI 연주</span><span>입문~중급</span>
+      </div>
+    </div>
+    <div class="hero-inst" id="hero">
+      <div id="hero-staff"></div>
+      <div id="hero-kb"></div>
+      <div class="pads" id="hero-pads"></div>
+      <div class="foot">
+        <div class="seg" id="hero-mode"><button data-value="once" class="on">한 번 치기</button><button data-value="ballad">발라드</button><button data-value="alberti">알베르티</button></div>
+        <span id="hero-msg">코드를 누르거나 건반을 쳐 보세요 · <span class="pn-hint"><kbd>A</kbd>–<kbd>K</kbd></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section">
+  <h2>피아노를 이루는 층</h2>
+  <p class="sub">피아노 연주는 층층이 쌓인 기술입니다. <b>해머가 현을 때리는</b> 물리에서 출발해, <b>건반</b>이라는 격자에서 음을 찾고, <b>악보</b>를 읽어 손가락에 옮기고, <b>음계와 화음</b>으로 화성의 재료를 익힌 뒤, 왼손 <b>반주</b>와 <b>코드 진행</b>으로 시간 위에 펼치고, <b>페달과 셈여림</b>으로 표현을 입힙니다. 목차가 바로 이 층입니다.</p>
+  <figure class="diagram chain">
+    <svg viewBox="0 0 1100 230" role="img" aria-label="피아노를 이루는 층">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g transform="translate(15,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <line x1="14" y1="40" x2="106" y2="40" class="s-line"/><path d="M60 92 L60 56" stroke="var(--text-dim)" stroke-width="3"/><ellipse cx="60" cy="50" rx="13" ry="7" fill="var(--accent)"/>
+        <path d="M24 40 Q42 30 60 40 T96 40" fill="none" stroke="var(--accent-2)" stroke-width="2"/>
+        <text x="60" y="146" text-anchor="middle" class="t">해머와 현</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.01</text></g>
+      <path d="M140 90 H170" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(178,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)" fill="var(--bg-elev)"><rect x="16" y="30" width="16" height="62" rx="2"/><rect x="32" y="30" width="16" height="62" rx="2"/><rect x="48" y="30" width="16" height="62" rx="2"/><rect x="64" y="30" width="16" height="62" rx="2"/><rect x="80" y="30" width="16" height="62" rx="2"/></g>
+        <g fill="var(--text)"><rect x="27" y="30" width="10" height="38" rx="1.5"/><rect x="43" y="30" width="10" height="38" rx="1.5"/><rect x="75" y="30" width="10" height="38" rx="1.5"/></g>
+        <circle cx="24" cy="82" r="5" fill="var(--accent)"/>
+        <text x="60" y="146" text-anchor="middle" class="t">건반 · 손</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.02·03</text></g>
+      <path d="M303 90 H333" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(341,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)"><line x1="12" y1="34" x2="108" y2="34"/><line x1="12" y1="44" x2="108" y2="44"/><line x1="12" y1="54" x2="108" y2="54"/><line x1="12" y1="64" x2="108" y2="64"/><line x1="12" y1="74" x2="108" y2="74"/></g>
+        <g fill="var(--text)"><ellipse cx="40" cy="69" rx="5.5" ry="4" transform="rotate(-18 40 69)"/><ellipse cx="62" cy="59" rx="5.5" ry="4" transform="rotate(-18 62 59)"/><ellipse cx="84" cy="49" rx="5.5" ry="4" transform="rotate(-18 84 49)"/></g>
+        <g stroke="var(--text)" stroke-width="1.3"><line x1="45" y1="69" x2="45" y2="40"/><line x1="67" y1="59" x2="67" y2="30"/><line x1="89" y1="49" x2="89" y2="22"/></g>
+        <text x="60" y="146" text-anchor="middle" class="t">악보 · 리듬</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.04·05</text></g>
+      <path d="M466 90 H496" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(504,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g fill="var(--accent)"><circle cx="30" cy="80" r="6"/><circle cx="46" cy="70" r="6"/><circle cx="62" cy="60" r="6"/></g>
+        <g fill="var(--accent-2)"><circle cx="82" cy="72" r="6"/><circle cx="82" cy="56" r="6"/><circle cx="82" cy="40" r="6"/></g>
+        <text x="60" y="146" text-anchor="middle" class="t">음계 · 화음</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.06·07·10</text></g>
+      <path d="M629 90 H659" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(667,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g font-family="var(--mono)" font-weight="700" font-size="15" fill="var(--accent)"><text x="16" y="54">C</text><text x="40" y="54">Am</text><text x="70" y="54">F</text><text x="92" y="54">G</text></g>
+        <path d="M18 80 L30 70 L42 80 L54 70 L66 80 L78 70 L90 80 L102 70" fill="none" stroke="var(--accent-2)" stroke-width="2"/>
+        <text x="60" y="146" text-anchor="middle" class="t">반주 · 진행</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.08·09</text></g>
+      <path d="M792 90 H822" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(830,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M18 76 L102 58 L102 94 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+        <rect x="40" y="26" width="40" height="14" rx="4" fill="var(--text-dim)"/>
+        <text x="60" y="146" text-anchor="middle" class="t">페달 · 표현</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.11·12</text></g>
+      <path d="M955 90 H985" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(990,30)"><rect width="100" height="120" rx="12" class="f-acc2-soft"/>
+        <text x="50" y="52" text-anchor="middle" class="t-mono">블루스</text><text x="50" y="72" text-anchor="middle" class="t-mono">스튜디오</text><text x="50" y="92" text-anchor="middle" class="t-mono">퀴즈</text>
+        <text x="50" y="146" text-anchor="middle" class="t">연주</text><text x="50" y="164" text-anchor="middle" class="t-mono">Ch.13·14·15</text></g>
+      <text x="550" y="222" text-anchor="middle" class="t-dim">해머가 현을 때리고 → 건반에서 음을 찾고 → 악보를 읽고 → 음을 쌓아 화음을 만들고 → 왼손이 시간을 채우고 → 페달이 소리를 잇는다</text>
+    </svg>
+    <figcaption><b>그림 0-1.</b> 피아노를 이루는 층. 각 블록이 해당 챕터와 연결됩니다.</figcaption>
+  </figure>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>대표 실험</h2>
+  <p class="sub">책 곳곳에 직접 소리를 내는 시뮬레이터가 있습니다. 먼저 이것들부터 만져 보세요.</p>
+  <div class="feat" id="feat">
+    <a href="chapters/instrument.html#sim-ins-action"><small>CH.01 · 악기</small><b>해머 액션</b><span>건반을 누르면 해머가 날아가 현을 때리고 댐퍼가 들리는 과정을 느리게 봅니다.</span></a>
+    <a href="chapters/reading.html#sim-rd-flash"><small>CH.04 · 악보</small><b>음표 읽기 게임</b><span>큰보표에 나타난 음을 건반에서 찾아 누르며 독보 속도를 기릅니다.</span></a>
+    <a href="chapters/scales.html#sim-sc-player"><small>CH.06 · 음계</small><b>12조 스케일 운지</b><span>모든 장조의 운지를 악보·건반과 함께 듣고 손가락 넘기기를 익힙니다.</span></a>
+    <a href="chapters/accompaniment.html#sim-ac-explorer"><small>CH.08 · 반주</small><b>왼손 반주 패턴</b><span>블록·알베르티·아르페지오·왈츠·스트라이드를 같은 진행 위에서 바꿔 들어 봅니다.</span></a>
+    <a href="chapters/pedal.html#sim-pd-legato"><small>CH.11 · 페달</small><b>레가토 페달링 훈련</b><span>코드가 바뀌는 순간 페달을 떼고 다시 밟는 타이밍을 귀와 그래프로 맞춥니다.</span></a>
+    <a href="chapters/studio.html#sim-std-jam"><small>CH.14 · 종합</small><b>연주 스튜디오</b><span>MIDI 건반을 연결하고, 반주 루프 위에서 연주를 녹음해 피아노 롤과 악보로 봅니다.</span></a>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>이런 오해, 한 번쯤 해 보셨죠?</h2>
+  <p class="sub">이 책을 다 읽고 나면 아래 문장들이 왜 틀렸는지 설명할 수 있게 됩니다.</p>
+  <div class="myth">
+    <div><b>피아노는 건반악기라 현과는 상관없다</b>피아노는 해머로 현을 때리는 타현악기입니다. 소리의 성격은 현의 장력·굵기와 향판이 정합니다. <a href="chapters/instrument.html">1장 →</a></div>
+    <div><b>조율이 완벽하면 옥타브는 정확히 2:1이다</b>피아노 현은 뻣뻣해서 배음이 정수배보다 조금 높습니다. 그래서 조율사는 옥타브를 일부러 넓게 맞춥니다. <a href="chapters/instrument.html">1장 →</a></div>
+    <div><b>세게 치면 소리만 커진다</b>해머가 빠를수록 펠트가 단단하게 작용해 고배음이 늘어납니다. 셈여림은 음량이자 음색입니다. <a href="chapters/touch.html">3장 →</a></div>
+    <div><b>운지는 편한 대로 하면 된다</b>스케일 운지는 엄지가 검은 건반을 피하고 손 이동을 최소로 하도록 정해진 최적해에 가깝습니다. <a href="chapters/scales.html">6장 →</a></div>
+    <div><b>코드는 근음 위치로만 친다</b>자리바꿈과 보이스 리딩을 쓰면 손은 거의 움직이지 않고 소리는 더 매끄러워집니다. <a href="chapters/chords.html">7장 →</a></div>
+    <div><b>페달은 밟고 있으면 그만이다</b>화음이 바뀔 때마다 떼고 다시 밟아야 소리가 섞이지 않습니다. 타이밍은 건반보다 조금 늦게입니다. <a href="chapters/pedal.html">11장 →</a></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>챕터</h2>
+  <p class="sub">앞에서부터 차례로 읽어도 좋고, 궁금한 장만 골라 읽어도 됩니다. 모든 장에 소리 나는 시뮬레이터와 확인 퀴즈가 있습니다. 상단 스피커 버튼으로 언제든 소리를 끌 수 있습니다.</p>
+  <div class="ch-grid" id="ch-grid"></div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>추천 학습 경로</h2>
+  <p class="sub">목적에 맞게 골라 읽으세요.</p>
+  <div class="paths">
+    <div class="path"><h3>🎹 피아노가 처음이에요</h3><p>건반 이름을 익히고, 바른 손 모양으로, 악보와 리듬을 읽어 첫 곡을 치기까지.</p><div class="steps"><a href="chapters/keyboard.html">02</a><a href="chapters/touch.html">03</a><a href="chapters/reading.html">04</a><a href="chapters/rhythm.html">05</a><a href="chapters/scales.html">06</a></div></div>
+    <div class="path"><h3>🎤 노래 반주를 하고 싶어요</h3><p>3화음과 자리바꿈, 왼손 반주 패턴, 코드 진행과 리드시트.</p><div class="steps"><a href="chapters/chords.html">07</a><a href="chapters/accompaniment.html">08</a><a href="chapters/progressions.html">09</a><a href="chapters/pedal.html">11</a></div></div>
+    <div class="path"><h3>🎷 재즈·블루스가 궁금해요</h3><p>7화음과 루트리스 보이싱, ii–V–I, 12마디 블루스와 부기우기, 스윙.</p><div class="steps"><a href="chapters/voicings.html">10</a><a href="chapters/styles.html">13</a><a href="chapters/studio.html">14</a></div></div>
+    <div class="path"><h3>📐 피아노의 과학이 궁금해요</h3><p>해머 액션, 현의 비조화성과 스트레치 튜닝, 벨로시티와 음색, 댐퍼와 공명.</p><div class="steps"><a href="chapters/instrument.html">01</a><a href="chapters/touch.html">03</a><a href="chapters/pedal.html">11</a></div></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>함께 읽으면 좋은 책</h2>
+  <p class="sub">음정·화음·조율의 원리를 더 깊이 알고 싶다면 음악 기초 교과서를 옆에 펴 두세요. 이 책의 소리 엔진도 MusicBook과 같습니다.</p>
+  <div class="paths">
+    <div class="path"><h3>MusicBook — 음악 기초</h3><p>배음과 음색, 조율의 수학, 음계와 화음, 코드 진행, 리듬. 피아노 이론의 바탕.</p><div class="steps"><a href="../fundamentals/">음악 기초 →</a><a href="../fundamentals/chapters/instruments.html">악기의 물리</a><a href="../fundamentals/chapters/tuning.html">조율의 수학</a></div></div>
+    <div class="path"><h3>GuitarBook — 기타</h3><p>같은 화성 이론을 지판 위에서. 코드 모양과 보이싱을 기타로 비교해 보세요.</p><div class="steps"><a href="../guitar/">기타 →</a><a href="../">음악 서가 →</a></div></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  document.getElementById("ch-grid").innerHTML = MB.CHAPTERS.map((c) =>
+    `<a class="ch-card" href="chapters/${c.slug}.html"><span class="num">CHAPTER ${c.num}</span><h3>${c.title}</h3><p>${c.desc}</p><div class="tags">${c.tags.map((t) => t === "sim" ? '<span class="t-sim">시뮬레이터</span>' : `<span>${t}</span>`).join("")}</div></a>`).join("");
+
+  // 히어로: 큰보표 + 건반 + 코드 패드(C–G–Am–F)
+  const PROG = [{ n: "C", rn: "I", fn: "t" }, { n: "G", rn: "V", fn: "d" }, { n: "Am", rn: "vi", fn: "t" }, { n: "F", rn: "IV", fn: "s" }];
+  const piano = PN.piano();
+  const kb = PN.keyboard("#hero-kb", { from: 48, to: 79, piano, labels: "c", compact: true });
+  const staff = PN.staff("#hero-staff", [], { clef: "grand", bars: 1, width: 640, compact: true, showTime: false, rests: false });
+  const pads = document.getElementById("hero-pads");
+  pads.innerHTML = PROG.map((p, i) => `<button class="pad ${p.fn}" data-i="${i}"><b>${p.n}</b><small>${p.rn}</small></button>`).join("");
+  let mode = "once", prev = null;
+  function voiced(i) { const v = PN.voicing(PROG[i].n, "close", { center: 67, bass: 48, prev }); prev = v.rh; return v; }
+  function show(i, v) {
+    pads.querySelectorAll(".pad").forEach((p, k) => p.classList.toggle("on", k === i));
+    kb.set(v.all.map((m) => ({ m, cls: MB.mod(m, 12) === v.chord.root ? "root" : "mark" })));
+    staff.setNotes([{ t: 1.7, d: 4, ms: v.rh, hand: "R" }, { t: 1.7, d: 4, m: v.lh[0], hand: "L" }]);
+    document.getElementById("hero-msg").innerHTML = `<b>${v.chord.sym}</b> · ${v.all.map((m) => MB.noteName(m)).join(" ")}`;
+  }
+  // 반주 모드: 한 마디(4박)씩 코드를 바꾸며 반복
+  let sched = null;
+  function startLoop() {
+    const pr = PN.progEvents(PROG.map((p) => p.n), mode, { center: 67, bass: 48 });
+    const marks = pr.chords.map((c) => c.t);
+    const evs = pr.events.slice();
+    marks.forEach((t, i) => evs.push({ t, d: 0, ui: i }));
+    sched = PN.scheduler(evs, {
+      bpm: () => (mode === "alberti" ? 100 : 76), loop: true, length: pr.length,
+      onEvent(ev, when, spb) {
+        if (ev.ui != null) { piano.pedal(false, when - 0.01); piano.pedal(true, when + 0.06); return; }
+        (ev.ms || [ev.m]).forEach((m) => { piano.noteOn(m, ev.vel, when); piano.noteOff(m, when + ev.d * spb * 0.95); });
+      },
+      onUI(ev) { if (ev.ui != null) { prev = null; const v = PN.voicing(PROG[ev.ui].n, "close", { center: 67, bass: 48 }); const r = pr.events.filter((e) => e.hand === "R" && Math.abs(e.t - marks[ev.ui]) < 1e-6)[0]; if (r) v.rh = r.ms; v.all = [...v.lh, ...v.rh].sort((a, b) => a - b); show(ev.ui, v); } },
+      onStop() { piano.pedal(false); piano.stop(); },
+    });
+    sched.start();
+  }
+  pads.addEventListener("click", (e) => {
+    const b = e.target.closest(".pad"); if (!b) return;
+    const i = +b.dataset.i, v = voiced(i); show(i, v);
+    if (mode === "once") { piano.stop(); piano.chord(v.lh, { dur: 1.6, vel: 0.62 }); piano.chord(v.rh, { dur: 1.6, vel: 0.66, roll: 0.012 }); }
+  });
+  MB.seg("hero-mode", (v) => {
+    mode = v; if (sched) { sched.stop(); sched = null; }
+    if (v !== "once") startLoop();
+  });
+  show(0, voiced(0));
+})();
+</script>
+</body>
+</html>

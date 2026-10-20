@@ -54,21 +54,29 @@ window.MUSIC_BOOKS = [
   },
   {
     "id": "pianobook",
-    "slug": "piano",
     "title": "PianoBook",
     "subtitle": "피아노 교과서",
-    "code": "PNO",
-    "color": "#7256a6",
     "headline": "건반 위에서 만나는 화성과 선율",
-    "topics": [
-      "피아노",
-      "건반",
-      "보이싱",
-      "반주"
-    ],
+    "description": "해머와 현의 물리, 건반과 악보 읽기, 운지와 터치, 음계와 화음, 왼손 반주와 코드 진행, 재즈 보이싱, 페달과 표현, 블루스와 스타일 반주까지 — 브라우저의 가상 피아노로 직접 누르고 들으며 배우는 피아노 교과서.",
     "stage": "instruments",
-    "status": "planned",
-    "motif": "piano"
+    "status": "published",
+    "color": "#7256a6",
+    "colorDark": "#b49cf0",
+    "topics": [
+      "건반·악보",
+      "운지·터치",
+      "음계·화음",
+      "반주 패턴",
+      "재즈 보이싱",
+      "페달·표현"
+    ],
+    "motif": "piano",
+    "code": "PNO",
+    "legacyUrl": null,
+    "slug": "piano",
+    "url": "piano/",
+    "chapters": 15,
+    "simulators": 108
   },
   {
     "id": "drumbook",

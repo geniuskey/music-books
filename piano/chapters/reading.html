@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>악보 읽기: 큰보표 · PianoBook</title>
+<meta name="description" content="오선과 줄·칸, 높은음·낮은음자리표가 정하는 기준음, 가온 다를 사이에 둔 큰보표, 기준음과 음정으로 읽기, 덧줄과 8va, 조표 적용, 음표 읽기 게임과 양손 초견을 건반과 함께 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/reading.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="악보 읽기: 큰보표 · PianoBook">
+<meta property="og:description" content="오선과 줄·칸, 높은음·낮은음자리표가 정하는 기준음, 가온 다를 사이에 둔 큰보표, 기준음과 음정으로 읽기, 덧줄과 8va, 조표 적용, 음표 읽기 게임과 양손 초견을 건반과 함께 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/reading.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .ctrl > .seg { justify-self: start; }
+  .rd-svg { display: block; width: 100%; height: auto; }
+  .rd-svg .sl { stroke: var(--text-dim); stroke-width: 1.2; }
+  .rd-svg .lg { stroke: var(--text-dim); stroke-width: 1.4; }
+  .rd-svg .hd { fill: var(--text); }
+  .rd-svg .hd.acc { fill: var(--accent); }
+  .rd-svg .hd.alt { fill: var(--accent-2); }
+  .rd-svg .hl { stroke: var(--accent); stroke-width: 3; opacity: .55; }
+  .rd-svg .hl2 { stroke: var(--accent-2); stroke-width: 3; opacity: .55; }
+  .rd-svg .wk { fill: var(--pn-white); stroke: var(--pn-white-edge); }
+  .rd-svg .bk { fill: var(--pn-black); }
+  .rd-svg .wk.c { fill: color-mix(in srgb, var(--warn) 14%, var(--pn-white)); }
+  .rd-svg .wk.lm { fill: color-mix(in srgb, var(--accent) 22%, var(--pn-white)); }
+  .rd-svg .kn { font: 600 10px var(--mono); fill: #5d5866; text-anchor: middle; }
+  .rd-svg .conn { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 3; opacity: .7; }
+  .rd-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .rd-pair > div { min-width: 0; }
+  .rd-pair small { display: block; text-align: center; font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+  .rd-figgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 14px; }
+  .rd-figgrid > div { min-width: 0; }
+  .rd-figgrid small { display: block; text-align: center; font-size: 12.5px; color: var(--text-dim); }
+  .rd-ivbtns { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .rd-ivbtns button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 7px 0; border-radius: 7px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 14px var(--mono); color: var(--text); }
+  .rd-ivbtns button:hover { border-color: var(--accent); }
+  .rd-ivbtns button.ok { background: color-mix(in srgb, var(--ok) 18%, var(--bg-elev)); border-color: var(--ok); }
+  .rd-ivbtns button.bad { background: color-mix(in srgb, var(--bad) 14%, var(--bg-elev)); border-color: var(--bad); }
+  .rd-card { max-width: 320px; margin: 0 auto; }
+  .rd-pad { padding: 8px 12px; }
+  #rd-fl-cv { display: block; width: 100%; }
+  @media (max-width: 520px) { .rd-pair, .rd-figgrid { grid-template-columns: 1fr; } }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="reading">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 04</div>
+    <h1>악보 읽기: 큰보표</h1>
+    <p class="lead">피아노 악보는 두 손을 위한 두 개의 오선을 중괄호로 묶은 큰보표에 씁니다. 처음 보면 점과 줄의 숲 같지만, 오선은 사실 아주 단순한 좌표계입니다. 세로 위치 한 칸이 흰 건반 하나, 음자리표는 원점이 어디인지 알려 주는 표지, 조표는 어떤 흰 건반을 검은 건반으로 바꿀지 정하는 규칙입니다. 이 장에서는 그 좌표계를 건반과 나란히 놓고, 모든 음을 외우는 대신 몇 개의 기준음과 음정으로 빠르게 읽는 방법을 익힌 뒤, 게임과 양손 초견으로 눈–손 연결을 훈련합니다.</p>
+    <ul class="objectives">
+      <li>오선의 줄과 칸이 흰 건반 하나씩(온음계 한 단계)에 대응한다는 것을 알고, 줄·칸 번호로 위치를 말한다.</li>
+      <li>높은음자리표(G4를 감는다)와 낮은음자리표(두 점이 F3를 끼운다)가 기준음을 정한다는 것을 설명하고, 같은 자리라도 음자리표에 따라 음이 다름을 확인한다.</li>
+      <li>가온 다(C4)를 두 오선 사이의 덧줄 하나로 두는 큰보표를 건반과 대응시킨다.</li>
+      <li>기준음(낮은 C·베이스 F·가온 다·트레블 G·높은 C)과 음정 모양(줄→줄 = 3도, 줄→칸 = 2도)으로 음을 빠르게 읽는다.</li>
+      <li>덧줄과 옥타브 기호(8va·8vb·15ma)를 읽고, 조표의 올림 순서 F C G D A E B와 내림 순서 B E A D G C F를 적용한다.</li>
+      <li>음표 읽기 게임으로 음역별 정확도·반응 시간을 재고, 「환희의 송가」 양손 악보를 초견으로 따라 친다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="staff">
+    <h2>오선: 줄과 칸이 흰 건반 하나씩</h2>
+    <p>오선<span class="en">(Staff, Stave)</span>은 가로줄 다섯 개입니다. 음표 머리는 <b>줄 위</b>(줄이 머리 가운데를 지나감)나 <b>칸 안</b>(두 줄 사이)에 놓이고, 줄 → 바로 위 칸 → 다음 줄로 한 단계 올라갈 때마다 음 이름이 C → D → E …로 하나씩 올라갑니다. 즉 세로 한 단계 = <b>흰 건반 하나</b>(온음계 한 단계)입니다. 검은 건반은 따로 자리가 없고, 같은 자리에 올림표(♯)·내림표(♭)를 붙여 나타냅니다(<a href="keyboard.html">2장</a>). 줄과 칸은 아래에서부터 셉니다. 맨 아래가 첫째 줄, 첫째 줄과 둘째 줄 사이가 첫째 칸입니다.</p>
+    <p>엔지니어의 눈으로 보면 오선은 로그 주파수 축을 <b>온음계로 양자화</b>한 좌표입니다. 보표 위치를 정수 \(s\)(이 책에서는 C4 = 28, 한 옥타브 = 7)로 두면, 위치와 건반 번호의 관계는 다음과 같습니다.</p>
+    <div class="formula">$$s = 7\,(\text{옥타브}) + \ell,\quad \ell \in \{0,\dots,6\} \leftrightarrow \{C, D, E, F, G, A, B\},\qquad m(s) = 12\Big(\big\lfloor \tfrac{s}{7}\big\rfloor + 1\Big) + \mathrm{pc}(\ell) + a$$
+      <div class="where">\(\mathrm{pc}(\ell)\) = 0, 2, 4, 5, 7, 9, 11(흰 건반의 반음 번호), \(a\) = 변화표(♯ +1, ♭ −1, 조표 포함). 세로 거리는 온음과 반음을 구별하지 않는다: E→F(반음)도 C→D(온음)도 똑같이 한 단계다. 그래서 정확한 음정을 알려면 반음 자리(E–F, B–C)를 기억해야 한다.</div>
+    </div>
+    <p>그러면 어떤 줄이 어떤 음인지는 누가 정할까요? 다섯 줄만으로는 원점이 없습니다. 그 원점을 정하는 기호가 <b>음자리표</b><span class="en">(Clef)</span>입니다. 이름 그대로 '음의 자리를 정하는 표'이며, 중세 필사본에서 기준 줄 앞에 써 넣던 글자 G, F, C가 변해서 지금의 모양이 되었습니다.</p>
+    <ul>
+      <li><b>높은음자리표</b><span class="en">(Treble clef, G clef)</span>: 글자 G가 변한 모양. 소용돌이가 <b>둘째 줄을 감아</b> 그 줄이 G4(가온 다 위 사)임을 알린다. 줄은 아래부터 E4 G4 B4 D5 F5, 칸은 F4 A4 C5 E5.</li>
+      <li><b>낮은음자리표</b><span class="en">(Bass clef, F clef)</span>: 글자 F가 변한 모양. 머리가 넷째 줄에서 시작하고 <b>두 점이 넷째 줄을 위아래로 끼워</b> 그 줄이 F3(가온 다 아래 바)임을 알린다. 줄은 G2 B2 D3 F3 A3, 칸은 A2 C3 E3 G3.</li>
+      <li><b>가온음자리표</b><span class="en">(C clef)</span>: 가운데가 가리키는 줄이 C4. 비올라(알토 자리, 셋째 줄)와 첼로·바순의 높은 음역(테너 자리, 넷째 줄)에서 쓰며 피아노 악보에는 나오지 않는다.</li>
+    </ul>
+    <figure class="diagram">
+      <svg class="rd-svg" viewBox="0 0 800 250" role="img" aria-label="높은음자리표와 낮은음자리표의 줄과 칸 이름"><g id="rd-fig-lines"></g></svg>
+      <figcaption><b>그림 4-1.</b> 높은음자리표(위)와 낮은음자리표(아래)의 줄(보라)과 칸(주황) 이름. 진한 선이 각 음자리표의 기준 줄: 높은음자리표는 둘째 줄 G4, 낮은음자리표는 넷째 줄 F3. 외우는 요령은 3절의 기준음을 참고하자. 세 줄 건너뛰기(줄→줄)는 모두 3도다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-clef">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 자리, 다른 음: 음자리표가 원점을 정한다</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="rd-pair"><div><div id="rd-cl-tr"></div><small>높은음자리표</small></div><div><div id="rd-cl-bs"></div><small>낮은음자리표</small></div></div>
+          <div id="rd-cl-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="rd-cl-g">G 줄 찾기 (G4)</button><button class="btn" id="rd-cl-f">F 줄 찾기 (F3)</button></div>
+          <div class="btn-row"><button class="btn" id="rd-cl-lines">▶ 줄 다섯 개 듣기</button><button class="btn" id="rd-cl-stop">■ 정지</button></div>
+          <label class="check"><input type="checkbox" id="rd-cl-names" checked> 음 이름 표시</label>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">자리</span><span class="v" id="rd-cl-o-p">—</span></div>
+        <div class="stat"><span class="k">높은음자리표로</span><span class="v" id="rd-cl-o-t">—</span></div>
+        <div class="stat"><span class="k">낮은음자리표로</span><span class="v" id="rd-cl-o-b">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 두 오선 중 아무 곳이나 줄이나 칸을 눌러 보세요. <b>같은 높이의 자리</b>에 두 오선 모두 음표가 생기고, 높은음자리표로 읽은 음과 낮은음자리표로 읽은 음이 차례로 울립니다. 두 음은 언제나 1옥타브 + 6도(13도, 12단계) 차이입니다. 건반의 보라 점 = 높은음자리표 해석, 주황 점 = 낮은음자리표 해석. 'G 줄 찾기'는 높은음자리표 소용돌이가 감는 둘째 줄, 'F 줄 찾기'는 두 점 사이 넷째 줄을 보여 줍니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="grand">
+    <h2>큰보표: 가온 다를 사이에 둔 두 오선</h2>
+    <p>피아노는 약 7옥타브를 두 손으로 치므로 오선 하나로는 부족합니다. 그래서 높은음자리표 오선(주로 오른손)과 낮은음자리표 오선(주로 왼손)을 위아래로 놓고 왼쪽 끝을 중괄호<span class="en">(Brace)</span>로 묶은 <b>큰보표</b><span class="en">(Grand staff)</span>를 씁니다. 두 오선 사이의 빈 공간에는 정확히 <b>한 음, 가온 다 C4</b>가 숨어 있습니다. 높은음자리표 첫째 줄 E4에서 두 단계 내려간 덧줄 하나가 C4이고, 낮은음자리표 다섯째 줄 A3에서 두 단계 올라간 덧줄 하나도 C4입니다. 같은 건반을 두 오선 어느 쪽에서나 쓸 수 있고, 보통 그 음을 치는 손의 오선에 씁니다.</p>
+    <p>이 구조 덕분에 큰보표는 가운데 C를 대칭축으로 하는 거의 대칭인 좌표가 됩니다. 높은음자리표의 위 끝(F5)과 낮은음자리표의 아래 끝(G2)은 C4에서 각각 6단계·8단계 떨어져 있고, 두 오선은 합쳐서 G2–F5, 약 3옥타브 반을 덧줄 없이 덮습니다. 건반 88개 가운데 가장 자주 쓰는 영역이 바로 여기입니다.</p>
+    <figure class="diagram">
+      <svg class="rd-svg" viewBox="0 0 800 300" role="img" aria-label="큰보표의 음 위치와 건반 대응"><g id="rd-fig-grand"></g></svg>
+      <figcaption><b>그림 4-2.</b> C2부터 C6까지 흰 건반 29개를 차례로 큰보표에 놓은 '계단'. 각 음표 바로 아래가 그 건반이다. 노란 건반이 C, 보라 건반이 3절의 기준음. 가온 다 C4는 두 오선 사이 덧줄 하나, C2·C6는 덧줄 두 개다. 세로 한 단계가 흰 건반 하나라는 것이 그대로 보인다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-grand">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>큰보표 ↔ 건반: 누르면 적히고, 적으면 울린다</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-gr-staff"></div><div id="rd-gr-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>검은 건반 표기</span><div class="seg" id="rd-gr-acc"><button data-value="s" class="on">올림 ♯</button><button data-value="f">내림 ♭</button></div></div>
+          <div class="ctrl"><span>건반 이름</span><div class="seg" id="rd-gr-lab"><button data-value="c" class="on">C만</button><button data-value="white">흰 건반</button><button data-value="none">없음</button></div></div>
+          <label class="check"><input type="checkbox" id="rd-gr-names"> 악보에 음 이름</label>
+          <div class="btn-row"><button class="btn" id="rd-gr-clear">지우기</button><button class="btn" id="rd-gr-replay">▶ 적은 음 다시 듣기</button><button class="btn" id="rd-gr-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 이름</span><span class="v" id="rd-gr-o-n">—</span></div>
+        <div class="stat"><span class="k">보표 위치</span><span class="v" id="rd-gr-o-p">—</span></div>
+        <div class="stat"><span class="k">건반 / 주파수</span><span class="v" id="rd-gr-o-f">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 건반을 왼쪽 끝 C2부터 흰 건반만 차례로 눌러 음표가 낮은음자리표에서 높은음자리표로 계단처럼 올라가는 것을 보세요(최근 8음이 남음). 반대로 오선 위를 누르면 그 자리의 음이 울리고 건반이 빛납니다(오선을 누르면 흰 건반 음만 나옵니다). 가온 다 C4는 높은음자리표 아래 덧줄로 적히지만 낮은음자리표 위 덧줄 자리를 눌러도 같은 건반입니다. 컴퓨터 키보드 <kbd>A</kbd>–<kbd>K</kbd>, <kbd>Z</kbd>/<kbd>X</kbd>로 옥타브 이동. 건반이 화면보다 넓으면 건반을 옆으로 밀어 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="landmarks">
+    <h2>기준음과 음정으로 읽기</h2>
+    <p>모든 줄과 칸을 문장(“EGBDF”)으로 외워 하나씩 세는 방식은 처음에는 쉽지만 곧 한계가 옵니다. 덧줄 음이나 낮은음자리표에서 느려지고, 무엇보다 <b>음과 음 사이의 모양</b>을 보지 못하게 됩니다. 숙련된 연주자는 음표 하나하나의 이름보다 몇 개의 <b>기준음</b><span class="en">(Landmark notes, Guide notes)</span>과, 거기서 몇 단계 떨어졌는지(음정)를 봅니다. 큰보표에서 기억할 기준음은 일곱 개면 충분합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>기준음</th><th>위치</th><th>찾는 법</th></tr></thead>
+      <tbody>
+        <tr><td>낮은 C (C2)</td><td>낮은음자리표 아래 덧줄 둘</td><td>아래로 거울: 높은 C6와 대칭</td></tr>
+        <tr><td>베이스 C (C3)</td><td>낮은음자리표 둘째 칸</td><td>오선 한가운데 칸 바로 아래</td></tr>
+        <tr><td>베이스 F (F3)</td><td>낮은음자리표 넷째 줄</td><td>음자리표의 두 점 사이</td></tr>
+        <tr><td>가온 다 (C4)</td><td>두 오선 사이 덧줄 하나</td><td>큰보표의 대칭축</td></tr>
+        <tr><td>트레블 G (G4)</td><td>높은음자리표 둘째 줄</td><td>음자리표 소용돌이의 중심</td></tr>
+        <tr><td>트레블 C (C5)</td><td>높은음자리표 셋째 칸</td><td>베이스 C와 대칭(가온 다에서 위·아래 7단계)</td></tr>
+        <tr><td>높은 C (C6)</td><td>높은음자리표 위 덧줄 둘</td><td>낮은 C와 대칭</td></tr>
+      </tbody>
+    </table></div>
+    <p>기준음에서 목표 음까지는 <b>음정 모양</b>으로 셉니다. 보표 위치 차이를 \(\Delta s\)라 하면 음정의 '도수'는 \(n = |\Delta s| + 1\)입니다(같은 자리 = 1도, 한 단계 = 2도). 그리고 줄과 칸에 규칙이 있습니다.</p>
+    <ul>
+      <li><b>줄 → 바로 옆 칸</b>(또는 칸 → 줄) = 2도: 이웃한 흰 건반.</li>
+      <li><b>줄 → 다음 줄</b>, <b>칸 → 다음 칸</b> = 3도: 흰 건반 하나 건너뛰기. 화음(C–E–G)은 세 줄이나 세 칸에 눈사람처럼 쌓인다.</li>
+      <li>줄 → 줄 하나 건너 = 5도, 줄 → 칸 = 짝수 도(2·4·6·8도), 줄 → 줄 = 홀수 도(3·5·7도).</li>
+    </ul>
+    <figure class="diagram">
+      <svg class="rd-svg" viewBox="0 0 800 170" role="img" aria-label="음정 모양: 2도, 3도, 4도, 5도, 6도, 옥타브"><g id="rd-fig-iv"></g></svg>
+      <figcaption><b>그림 4-3.</b> 음정의 모양. 2도는 줄과 칸이 붙어 있고(화음으로 쓰면 머리가 옆으로 비켜 선다), 3도는 줄–줄(또는 칸–칸), 5도는 줄 하나를 건너뛴 줄–줄, 옥타브는 줄–칸이다. 홀수 도는 같은 종류(줄–줄·칸–칸), 짝수 도는 다른 종류(줄–칸)다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-landmark">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기준음에서 세어 읽기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-lm-staff"></div><div id="rd-lm-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>쓸 기준음</span><div class="seg" id="rd-lm-set"><button data-value="7" class="on">7개 모두</button><button data-value="3">3개 (F3·C4·G4)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="rd-lm-new">새 문제</button><button class="btn" id="rd-lm-hint">힌트: 기준음 보기</button></div>
+          <div class="btn-row"><button class="btn" id="rd-lm-play">▶ 기준음 → 정답 듣기</button><button class="btn" id="rd-lm-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-lm-msg">'새 문제'를 누르고, 악보의 음을 건반에서 찾아 누르세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힘 / 문제</span><span class="v" id="rd-lm-o-s">0 / 0</span></div>
+        <div class="stat"><span class="k">가장 가까운 기준음</span><span class="v" id="rd-lm-o-l">—</span></div>
+        <div class="stat"><span class="k">세는 길</span><span class="v" id="rd-lm-o-w">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 음표를 보면 먼저 가장 가까운 기준음을 찾고, "F3에서 줄–줄 하나 위 = 3도 → A3"처럼 세어 건반을 누르세요. 힌트를 누르면 첫째 마디에 기준음(주황)이 나타납니다. 건반의 보라 점은 기준음 일곱 개입니다(문제를 풀 때는 감춤). 기준음 3개 모드는 더 멀리서 세게 하므로 3도·5도 건너뛰기 연습이 됩니다. 정답 판정은 옥타브까지 정확해야 합니다.</div>
+    </div>
+
+    <div class="sim" id="sim-rd-interval">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음정 모양 읽기: 몇 도인가?</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="rd-card" id="rd-iv-staff"></div><div class="rd-pad"><div class="rd-ivbtns" id="rd-iv-btns"></div></div><div id="rd-iv-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음자리표</span><div class="seg" id="rd-iv-clef"><button data-value="treble" class="on">높은음</button><button data-value="bass">낮은음</button></div></div>
+          <div class="ctrl"><span>제시</span><div class="seg" id="rd-iv-how"><button data-value="mel" class="on">차례로(선율)</button><button data-value="harm">동시에(화음)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="rd-iv-new">새 문제</button><button class="btn" id="rd-iv-play">▶ 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-iv-msg">두 음 사이가 몇 도인지 2–8 버튼에서 고르세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힘 / 문제</span><span class="v" id="rd-iv-o-s">0 / 0</span></div>
+        <div class="stat"><span class="k">모양</span><span class="v" id="rd-iv-o-k">—</span></div>
+        <div class="stat"><span class="k">반음 수</span><span class="v" id="rd-iv-o-h">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 이름을 읽지 말고 모양만 보세요. 먼저 "줄–줄인가, 줄–칸인가"로 홀짝을 정하고, 그 사이에 줄이 몇 개 있는지로 도수를 정합니다. 답을 고르면 두 음이 울리고 건반에 표시되며, 같은 도수라도 반음 수가 다를 수 있다(예: 3도 = 반음 3개 또는 4개)는 것이 보입니다. 장·단의 구별은 <a href="scales.html">6장</a>·<a href="chords.html">7장</a>에서 다룹니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 기준음 지도 만들기 (1주)</strong>
+      <p>첫날은 기준음 일곱 개를 피아노에서 눈 감고 짚을 수 있을 때까지(C2 → C3 → F3 → C4 → G4 → C5 → C6, 왼손에서 오른손으로). 둘째 날부터는 기준음마다 2도·3도 위아래 음을 소리 내어 말하며 친다: "G4, 위로 3도 B4, 아래로 3도 E4". 악보를 볼 때는 손가락으로 음표를 짚지 말고, 눈을 한 박 앞에 두는 습관을 지금부터 들입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="ledger">
+    <h2>덧줄과 옥타브 기호</h2>
+    <p>오선 밖의 음은 짧은 덧줄<span class="en">(Ledger line)</span>을 그어 오선을 잠시 연장합니다. 덧줄은 음표가 있는 곳에만 짧게 긋고, 오선과 같은 간격이라 줄–칸 규칙이 그대로 이어집니다. 높은음자리표 위 덧줄 하나 = A5, 둘 = C6, 셋 = E6. 낮은음자리표 아래 덧줄 하나 = E2, 둘 = C2, 셋 = A1입니다. 덧줄이 셋을 넘으면 읽기가 급격히 어려워지므로, 그 대신 <b>옥타브 기호</b><span class="en">(Ottava)</span>를 씁니다.</p>
+    <ul>
+      <li><b>8va</b>(ottava alta) ‒ ‒ ‒ ┐: 점선 구간을 적힌 것보다 한 옥타브 <b>위</b>에서 친다. 오선 위에 쓴다.</li>
+      <li><b>8vb</b>(ottava bassa, 8va 기호를 오선 아래에 쓰기도 함): 한 옥타브 <b>아래</b>.</li>
+      <li><b>15ma</b>·<b>15mb</b>(quindicesima): 두 옥타브 위·아래. 이름이 15인 것은 음정 도수가 1도부터 세기 때문이다(1옥타브 = 8도, 2옥타브 = 15도).</li>
+      <li>점선이 끝나거나 <i>loco</i>라고 쓰면 원래 자리로 돌아간다. 낮은 음에 붙는 <b>8</b>이 달린 음자리표(𝄢 아래 8)는 그 오선 전체가 한 옥타브 아래라는 뜻이다.</li>
+    </ul>
+    <figure class="diagram">
+      <div id="rd-fig-8va"></div>
+      <figcaption><b>그림 4-4.</b> 같은 소리를 두 가지로 적기. 왼쪽 마디: C6–E6–G6–C7을 덧줄로(최대 다섯 개). 오른쪽 마디: 한 옥타브 낮게 적고 8va를 붙여 같은 소리를 덧줄 하나 이내로. 읽기 쉬운 쪽이 맞는 표기다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-ledger">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>88건반 끝에서 끝까지: 덧줄과 8va</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="rd-card" id="rd-lg-staff"></div><div id="rd-lg-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 (흰 건반) <output id="rd-lg-s-out"></output></span><input type="range" id="rd-lg-s" min="5" max="56" step="1" value="35"></label>
+          <label class="check"><input type="checkbox" id="rd-lg-8va" checked> 덧줄이 셋을 넘으면 옥타브 기호</label>
+          <label class="check"><input type="checkbox" id="rd-lg-snd" checked> 움직일 때 소리</label>
+          <div class="btn-row"><button class="btn primary" id="rd-lg-play">▶ 듣기</button><button class="btn" id="rd-lg-sweep">▶ 낮은 끝 → 높은 끝</button><button class="btn" id="rd-lg-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">실제 음</span><span class="v" id="rd-lg-o-n">—</span></div>
+        <div class="stat"><span class="k">적은 모양</span><span class="v" id="rd-lg-o-w">—</span></div>
+        <div class="stat"><span class="k">덧줄</span><span class="v" id="rd-lg-o-l">—</span></div>
+        <div class="stat"><span class="k">건반 번호 / 주파수</span><span class="v" id="rd-lg-o-f">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 슬라이더를 오른쪽 끝(C8)까지 밀어 덧줄이 늘어나다가 8va, 15ma로 바뀌는 지점을 보세요. 옥타브 기호를 끄면 C8은 덧줄 일곱 개로 적힙니다. 왼쪽 끝 A0(건반 1번, 27.5 Hz)도 마찬가지로 8vb·15mb가 붙습니다. 이 책은 위 덧줄 셋(E6)·아래 덧줄 셋(A1)을 넘으면 기호를 쓰지만, 실제 악보에서는 곡의 흐름에 따라 출판사마다 다르게 정합니다. 아래 미니 건반은 88건반 전체이며, 점이 현재 음입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="flash">
+    <h2>음표 읽기 게임: 정확도와 반응 시간</h2>
+    <p>읽기 속도는 지식이 아니라 <b>자동화</b>의 문제입니다. 음표를 보고 건반을 누르기까지의 반응 시간은 연습 초기에 2–3초에서, 매일 몇 분씩의 반복으로 1초 아래까지 줄어듭니다. 이때 평균만 보면 안 됩니다. 대부분의 학습자는 높은음자리표 오선 안은 빠르지만 <b>낮은음자리표와 덧줄, 특히 가온 다 주변</b>(두 오선 사이를 오가는 음)에서 느립니다. 아래 게임은 음역별 정확도와 반응 시간을 따로 기록해 약한 곳을 보여 줍니다. 반응 시간의 분포는 오른쪽으로 꼬리가 길어 평균보다 중앙값이 대표값으로 적절하므로, 영역별로는 중앙값을 함께 표시합니다.</p>
+
+    <div class="sim" id="sim-rd-flash">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>플래시카드: 음표를 보고 건반 누르기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="rd-card" id="rd-fl-staff"></div><div id="rd-fl-kb"></div><canvas id="rd-fl-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음자리표</span><div class="seg" id="rd-fl-clef"><button data-value="treble">높은음</button><button data-value="bass">낮은음</button><button data-value="grand" class="on">큰보표</button></div></div>
+          <div class="ctrl"><span>음역</span><div class="seg" id="rd-fl-range"><button data-value="in" class="on">오선 안</button><button data-value="ledger">덧줄 셋까지</button></div></div>
+          <label class="check"><input type="checkbox" id="rd-fl-acc"> 임시표(♯·♭) 섞기</label>
+          <label class="check"><input type="checkbox" id="rd-fl-oct" checked> 옥타브까지 정확히</label>
+          <div class="btn-row"><button class="btn primary" id="rd-fl-start">▶ 시작 (20장)</button><button class="btn" id="rd-fl-stop">■ 그만</button></div>
+          <div class="btn-row"><button class="btn" id="rd-fl-reset">기록 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-fl-msg">'시작'을 누르면 음표가 나옵니다. 그 건반을 누르세요.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">남은 카드</span><span class="v" id="rd-fl-o-n">—</span></div>
+        <div class="stat"><span class="k">정답률</span><span class="v" id="rd-fl-o-a">—</span></div>
+        <div class="stat"><span class="k">반응 시간(중앙값)</span><span class="v" id="rd-fl-o-t">—</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="rd-fl-o-c">0</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 큰보표·오선 안으로 시작해 정답률 90%, 중앙값 1.5초 아래가 되면 '덧줄 셋까지'로 넘어가세요. 아래 막대는 음역별 정답률(막대 높이)과 반응 시간 중앙값(숫자)이며, 기록은 이 페이지를 닫을 때까지 쌓입니다. '옥타브까지 정확히'를 끄면 같은 이름의 음(C3·C4·C5 …)은 모두 정답입니다. 컴퓨터 키보드는 한 옥타브 반만 덮으므로(<kbd>Z</kbd>/<kbd>X</kbd>로 이동) 마우스·터치가 편합니다. 반응 시간에는 화면·입력 지연(수십 ms)이 포함됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="keysig">
+    <h2>조표를 붙여 읽기</h2>
+    <p>악보 맨 앞, 음자리표 바로 뒤에 모아 쓴 ♯·♭이 <b>조표</b><span class="en">(Key signature)</span>입니다. 조표의 ♯·♭은 그 줄이나 칸의 음뿐 아니라 <b>모든 옥타브의 같은 이름 음</b>에 곡 전체에 걸쳐 적용됩니다. F에 ♯이 붙은 조표라면 F2든 F5든 모두 F♯으로 칩니다. 곡 중간의 임시표<span class="en">(Accidental)</span>는 <b>그 마디 안에서, 그 자리(같은 옥타브)에만</b> 유효하고, 마디선을 넘으면 조표로 돌아갑니다. 조표가 붙은 음을 원래 흰 건반으로 치라는 표시가 제자리표(♮)입니다.</p>
+    <p>올림표는 언제나 <b>F C G D A E B</b> 순서로, 내림표는 그 반대인 <b>B E A D G C F</b> 순서로 붙습니다. 이웃한 두 조표가 완전5도(올림)·완전4도(내림) 간격이라, 조표 하나가 늘 때마다 으뜸음이 5도씩 움직이는 5도권과 같은 구조입니다(<a href="scales.html">6장</a>). 읽을 때 쓰는 요령 두 가지는 이렇습니다.</p>
+    <ul>
+      <li><b>올림 조</b>: 마지막 ♯의 반음 위가 장조 으뜸음. ♯ 셋(F♯ C♯ G♯) → G♯의 반음 위 = A 장조.</li>
+      <li><b>내림 조</b>: 끝에서 둘째 ♭이 장조 으뜸음. ♭ 셋(B♭ E♭ A♭) → E♭ 장조. ♭ 하나만 있으면 F 장조(외워 둔다).</li>
+    </ul>
+    <figure class="diagram">
+      <div class="rd-figgrid">
+        <div><div id="rd-fig-ks1"></div><small>올림표 7개: F C G D A E B (C♯ 장조)</small></div>
+        <div><div id="rd-fig-ks2"></div><small>내림표 7개: B E A D G C F (C♭ 장조)</small></div>
+      </div>
+      <figcaption><b>그림 4-5.</b> 조표가 오선에 놓이는 자리. 순서는 항상 같고, 조표가 적을 때는 앞에서부터 그 개수만큼만 쓴다(예: ♯ 둘 = F♯ C♯ = D 장조·B 단조). 높은음자리표와 낮은음자리표는 같은 음 이름에 같은 모양으로 붙는다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-keysig">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>조표 적용: 같은 모양, 다른 조</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-ks-staff"></div><div id="rd-ks-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>조표 <output id="rd-ks-k-out"></output></span><input type="range" id="rd-ks-k" min="-7" max="7" step="1" value="2"></label>
+          <div class="btn-row"><button class="btn primary" id="rd-ks-play">▶ 조표대로</button><button class="btn" id="rd-ks-wrong">▶ 조표를 잊고 치면</button></div>
+          <div class="btn-row"><button class="btn" id="rd-ks-stop">■ 정지</button></div>
+          <label class="check"><input type="checkbox" id="rd-ks-names" checked> 음 이름 표시</label>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">조</span><span class="v" id="rd-ks-o-k">—</span></div>
+        <div class="stat"><span class="k">바뀌는 음</span><span class="v" id="rd-ks-o-a">—</span></div>
+        <div class="stat"><span class="k">이 곡에서 영향받는 음</span><span class="v" id="rd-ks-o-n">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 조표를 −7에서 +7까지 움직이며 같은 선율(「작은 별」 첫 두 줄, 프랑스 민요)이 어떤 조로 옮겨지고 조표가 어떤 순서로 늘어나는지 보세요. 건반의 주황 점은 조표 때문에 검은 건반(또는 E♯·C♭ 같은 다른 흰 건반)으로 바뀌는 음입니다. '조표를 잊고 치면'은 적힌 자리를 조표 없이 흰 건반으로 친 소리로, 초견에서 가장 흔한 실수가 어떻게 들리는지 알려 줍니다. ±6·±7 조는 같은 건반을 다른 이름으로 부르는 이명동조(F♯ = G♭, C♯ = D♭, B = C♭)입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="sight">
+    <h2>초견: 양손 악보를 처음 보고 치기</h2>
+    <p>초견<span class="en">(Sight-reading)</span>은 처음 보는 악보를 멈추지 않고 치는 기술입니다. 핵심은 정확한 음 하나하나보다 <b>박을 지키며 흐름을 이어 가는 것</b>입니다. 틀려도 멈추지 않고, 리듬을 맞추고, 눈은 손보다 한두 박 앞을 읽습니다. 치기 전 30초 동안 확인할 것은 다섯 가지입니다.</p>
+    <ol>
+      <li><b>음자리표와 조표</b>: 두 오선의 음자리표, ♯·♭의 개수(조), 바뀌는 음 이름.</li>
+      <li><b>박자표와 템포</b>: 한 마디가 몇 박인지(<a href="rhythm.html">5장</a>), 처음 템포는 '가장 어려운 마디를 칠 수 있는 속도'.</li>
+      <li><b>손 자리</b>: 첫 음의 손가락 번호로 5손가락 자세를 잡는다(<a href="touch.html#positions">3장</a>).</li>
+      <li><b>모양</b>: 같은 마디의 반복, 음계처럼 이어지는 부분(2도), 뛰는 부분(3도 이상), 손 자리 이동.</li>
+      <li><b>어려운 곳</b>: 덧줄, 임시표, 양손 리듬이 엇갈리는 곳에 미리 눈도장을 찍는다.</li>
+    </ol>
+    <p>아래 곡은 베토벤 교향곡 9번(1824년 초연) 4악장 「환희의 송가」 주제를 다장조로 옮기고 왼손에 화음 두 개(C와 G7)만 붙인 것입니다. 오른손은 C 자세(C–D–E–F–G)에서 손을 옮기지 않고 칠 수 있고, 왼손은 C3–G3(C 화음)과 B2–F3(G7 화음) 두 모양만 오갑니다. 오른손 선율이 거의 모두 2도로 움직이므로, 이름을 읽기보다 "올라간다·내려간다·같다"를 보는 연습에 알맞습니다.</p>
+
+    <div class="sim" id="sim-rd-sight">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>초견 연습: 환희의 송가 (양손)</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-sr-staff"></div><div id="rd-sr-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모드</span><div class="seg" id="rd-sr-mode"><button data-value="listen" class="on">듣고 따라 보기</button><button data-value="wait">기다리기(직접 치기)</button></div></div>
+          <div class="ctrl"><span>소리 낼 손</span><div class="seg" id="rd-sr-hand"><button data-value="B" class="on">양손</button><button data-value="R">오른손</button><button data-value="L">왼손</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-sr-bpm-out"></output></span><input type="range" id="rd-sr-bpm" min="40" max="140" step="1" value="72"></label>
+          <label class="check"><input type="checkbox" id="rd-sr-click" checked> 메트로놈</label>
+          <label class="check"><input type="checkbox" id="rd-sr-names"> 음 이름</label>
+          <label class="check"><input type="checkbox" id="rd-sr-fing" checked> 손가락 번호</label>
+          <div class="btn-row"><button class="btn primary" id="rd-sr-play">▶ 시작</button><button class="btn" id="rd-sr-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-msg" id="rd-sr-msg">듣고 따라 보기: 재생되는 음표가 강조되고 건반이 따라 움직입니다.</div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마디</span><span class="v" id="rd-sr-o-b">—</span></div>
+        <div class="stat"><span class="k">다음 음</span><span class="v" id="rd-sr-o-n">—</span></div>
+        <div class="stat"><span class="k">틀린 횟수 / 걸린 시간</span><span class="v" id="rd-sr-o-e">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 먼저 '듣고 따라 보기'로 한 번 듣고, '오른손'만 소리 내며 왼손 오선을 눈으로 따라가 보세요(소리 내지 않는 손의 음표는 흐리게). '기다리기'는 정해진 박이 없이, 다음 오른손 음(강조)을 건반에서 누르면 넘어갑니다. 소리 낼 손이 '양손'이면 같은 박의 왼손 화음이 자동으로 함께 울립니다('왼손'을 고르면 왼손 화음의 가장 낮은 음을 누르세요). 틀린 건반은 빨갛게 표시됩니다. 실제 피아노에서는 기다리기 모드로 음을 익힌 뒤, 메트로놈 60에서 멈추지 않고 끝까지 치는 것을 목표로 하세요.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 초견 하루 10분</strong>
+      <p>매일 <b>처음 보는</b> 아주 쉬운 악보 한두 쪽(자기 실력보다 두 단계 쉬운 것)을 메트로놈에 맞춰 한 번에 끝까지 친다. 틀려도 박은 멈추지 않는다. 어려우면 템포를 낮추거나 한 손만, 그래도 어려우면 각 마디 첫 박만 친다. 같은 곡을 여러 번 치면 그것은 초견이 아니라 연습이 되므로, 새 악보를 계속 공급하는 것이 핵심이다(공유 저작물 초급 곡집, 찬송가, 민요 편곡 등). 3개월이면 읽는 속도가 눈에 띄게 달라진다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>오선의 줄·칸 한 단계 = 흰 건반 하나(온음계 한 단계). 세로 거리는 온음과 반음을 구별하지 않으므로 E–F, B–C의 반음 자리를 기억한다.</li>
+      <li>높은음자리표는 둘째 줄 G4를 감고(줄 E G B D F, 칸 F A C E), 낮은음자리표는 두 점으로 넷째 줄 F3를 끼운다(줄 G B D F A, 칸 A C E G). 같은 자리를 두 음자리표로 읽으면 12단계(13도) 차이.</li>
+      <li>큰보표는 두 오선 사이 덧줄 하나에 가온 다 C4를 두고, 덧줄 없이 G2–F5를 덮는다.</li>
+      <li>기준음 C2·C3·F3·C4·G4·C5·C6에서 음정으로 센다. 도수 \(n = |\Delta s| + 1\), 줄–줄·칸–칸은 홀수 도(3·5·7), 줄–칸은 짝수 도.</li>
+      <li>덧줄이 셋을 넘으면 8va(한 옥타브 위)·8vb(아래)·15ma(두 옥타브)를 쓴다.</li>
+      <li>조표는 모든 옥타브의 같은 이름 음에 곡 전체로, 임시표는 그 마디 그 자리에만 적용된다. 올림 순서 F C G D A E B, 내림 순서 B E A D G C F.</li>
+      <li>읽기 속도는 자동화의 문제: 음역별 정확도·반응 시간을 재어 약한 곳(낮은음자리표·덧줄·가온 다 부근)을 집중 연습한다.</li>
+      <li>초견은 박을 지키며 흐름을 잇는 기술: 음자리표·조표·박자·손 자리·모양을 30초 안에 확인하고, 틀려도 멈추지 않는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>높은음자리표 셋째 칸의 음은?</p><div class="opts">
+        <button class="opt">A4</button><button class="opt" data-correct>C5</button><button class="opt">E5</button><button class="opt">B4</button>
+      </div><div class="quiz-exp">칸은 아래부터 F4 A4 C5 E5(“FACE”). 셋째 칸 = C5, 기준음 '트레블 C'다.</div></div>
+      <div class="quiz-q"><p>낮은음자리표 둘째 줄에 있는 음표를 높은음자리표 둘째 줄로 옮기면 음은 어떻게 되는가?</p><div class="opts">
+        <button class="opt">같은 음이다</button><button class="opt">정확히 한 옥타브 위</button><button class="opt" data-correct>B2에서 G4로, 1옥타브 + 6도(13도) 위</button><button class="opt">두 옥타브 위</button>
+      </div><div class="quiz-exp">낮은음자리표 둘째 줄은 B2(s = 20), 높은음자리표 둘째 줄은 G4(s = 32). 12단계 차이 = 13도(1옥타브 + 6도), 반음으로는 20개다.</div></div>
+      <div class="quiz-q"><p>큰보표에서 두 오선 사이의 덧줄 하나에 놓인 음은?</p><div class="opts">
+        <button class="opt">B3</button><button class="opt" data-correct>C4 (가온 다)</button><button class="opt">D4</button><button class="opt">높은음자리표로 쓰면 C4, 낮은음자리표로 쓰면 C3</button>
+      </div><div class="quiz-exp">높은음자리표 아래 덧줄 하나도, 낮은음자리표 위 덧줄 하나도 C4다. 같은 건반을 어느 쪽에서나 쓸 수 있다.</div></div>
+      <div class="quiz-q"><p>두 음표가 각각 줄 위에 있고 그 사이에 줄이 하나 더 있다(줄–줄 하나 건너). 몇 도인가?</p><div class="opts">
+        <button class="opt">3도</button><button class="opt">4도</button><button class="opt" data-correct>5도</button><button class="opt">6도</button>
+      </div><div class="quiz-exp">줄–줄 바로 위는 3도(2단계). 줄 하나를 더 건너면 4단계, \(n = 4 + 1 = 5\)도. 예: E4–B4, G4–D5.</div></div>
+      <div class="quiz-q"><p>조표에 ♭이 넷 있다. 장조 이름과 내림표가 붙는 음은?</p><div class="opts">
+        <button class="opt">E♭ 장조: B♭ E♭ A♭ D♭</button><button class="opt" data-correct>A♭ 장조: B♭ E♭ A♭ D♭</button><button class="opt">D♭ 장조: B♭ E♭ A♭ D♭</button><button class="opt">A♭ 장조: B♭ E♭ A♭ G♭</button>
+      </div><div class="quiz-exp">내림 순서 B E A D G C F의 앞 넷 = B♭ E♭ A♭ D♭. 끝에서 둘째 ♭(A♭)이 장조 으뜸음이다.</div></div>
+      <div class="quiz-q"><p>높은음자리표 위 덧줄 둘 자리(C6)에 음표가 있고 그 위에 8va가 붙어 있다. 실제로 치는 건반은?</p><div class="opts">
+        <button class="opt">C5</button><button class="opt">C6</button><button class="opt" data-correct>C7</button><button class="opt">C8</button>
+      </div><div class="quiz-exp">8va(ottava alta)는 적힌 것보다 한 옥타브 위. C6 → C7. 두 옥타브 위라면 15ma라고 쓴다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------- 공용 도우미 */
+const RD_TOP = { treble: 38, bass: 26 };
+const RD_BOT = { treble: 30, bass: 18 };
+const rdStep = (m, k = 0, spell) => PN.spell(m, k, spell).step;
+/** 보표 위치 설명: "둘째 줄", "셋째 칸", "아래 덧줄 1개" … */
+function rdPosDesc(step, staff) {
+  const ord = ["첫째", "둘째", "셋째", "넷째", "다섯째"];
+  const rel = step - RD_BOT[staff];
+  if (rel >= 0 && rel <= 8) return rel % 2 === 0 ? `${ord[rel / 2]} 줄` : `${ord[(rel - 1) / 2]} 칸`;
+  if (rel === -1) return "오선 바로 아래 칸";
+  if (rel === 9) return "오선 바로 위 칸";
+  if (rel < 0) { const n = Math.floor(-rel / 2); return rel % 2 === 0 ? `아래 덧줄 ${n}개 (줄)` : `아래 덧줄 ${n}개 아래 칸`; }
+  const r2 = rel - 8, n = Math.floor(r2 / 2);
+  return r2 % 2 === 0 ? `위 덧줄 ${n}개 (줄)` : `위 덧줄 ${n}개 위 칸`;
+}
+const rdStaffName = (s) => (s === "treble" ? "높은음자리표" : "낮은음자리표");
+const rdLetterName = (step) => PN.LETTERS[MB.mod(step, 7)] + Math.floor(step / 7);
+
+/* ---------------------------------------------------------------- 그림용 오선 그리기 */
+function rdDrawStaff(P, x0, x1, yTop) { for (let i = 0; i < 5; i++) P.push(`<line class="sl" x1="${x0}" y1="${yTop + i * 10}" x2="${x1}" y2="${yTop + i * 10}"/>`); }
+function rdHead(P, x, y, cls, ledgerFrom) { P.push(`<ellipse class="hd ${cls || ""}" cx="${x}" cy="${y}" rx="6.2" ry="4.5" transform="rotate(-18 ${x} ${y})"/>`); }
+function rdLedgers(P, x, step, staff, yTop) {
+  const top = RD_TOP[staff], bot = top - 8, y = (s) => yTop + (top - s) * 5;
+  for (let s = bot - 2; s >= step; s -= 2) P.push(`<line class="lg" x1="${x - 10}" y1="${y(s)}" x2="${x + 10}" y2="${y(s)}"/>`);
+  for (let s = top + 2; s <= step; s += 2) P.push(`<line class="lg" x1="${x - 10}" y1="${y(s)}" x2="${x + 10}" y2="${y(s)}"/>`);
+}
+
+/* ---------------------------------------------------------------- 그림 4-1 */
+(function () {
+  const g = document.getElementById("rd-fig-lines"); if (!g) return;
+  const P = [];
+  const draw = (staff, yTop, lineCls) => {
+    rdDrawStaff(P, 30, 780, yTop);
+    const top = RD_TOP[staff], y = (s) => yTop + (top - s) * 5;
+    const ref = staff === "treble" ? 32 : 24;
+    P.push(`<line class="${lineCls}" x1="30" y1="${y(ref)}" x2="780" y2="${y(ref)}"/>`);
+    P.push(`<text class="t-acc" x="34" y="${yTop - 10}">${staff === "treble" ? "높은음자리표 (G4를 감는다)" : "낮은음자리표 (두 점이 F3를 끼운다)"}</text>`);
+    const bot = RD_BOT[staff];
+    let x = 70;
+    for (let s = bot; s <= top; s += 2) { rdHead(P, x, y(s), "acc"); P.push(`<text class="t-mono" x="${x}" y="${yTop + 62}" text-anchor="middle">${rdLetterName(s)}</text>`); x += 52; }
+    P.push(`<text class="t-dim" x="${x - 20}" y="${yTop + 24}">줄</text>`);
+    x += 70;
+    for (let s = bot + 1; s < top; s += 2) { rdHead(P, x, y(s), "alt"); P.push(`<text class="t-mono" x="${x}" y="${yTop + 62}" text-anchor="middle">${rdLetterName(s)}</text>`); x += 52; }
+    P.push(`<text class="t-dim" x="${x - 20}" y="${yTop + 24}">칸</text>`);
+    P.push(`<text class="t-mono" x="770" y="${y(ref) - 4}" text-anchor="end">${staff === "treble" ? "G4" : "F3"}</text>`);
+  };
+  draw("treble", 34, "hl");
+  draw("bass", 160, "hl2");
+  g.innerHTML = P.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 4-2: 계단 */
+(function () {
+  const g = document.getElementById("rd-fig-grand"); if (!g) return;
+  const P = [], kw = 26, x0 = 23, yT = 40, yB = 110;
+  const yOf = (s, staff) => (staff === "treble" ? yT + (38 - s) * 5 : yB + (26 - s) * 5);
+  rdDrawStaff(P, 10, 790, yT); rdDrawStaff(P, 10, 790, yB);
+  P.push(`<line class="hl" x1="10" y1="${yOf(32, "treble")}" x2="790" y2="${yOf(32, "treble")}" style="opacity:.3"/><line class="hl2" x1="10" y1="${yOf(24, "bass")}" x2="790" y2="${yOf(24, "bass")}" style="opacity:.3"/>`);
+  const LM = [14, 21, 24, 28, 32, 35, 42];
+  const kTop = 196, kH = 92;
+  for (let s = 14; s <= 42; s++) {
+    const i = s - 14, x = x0 + i * kw, cx = x + kw / 2, staff = s >= 28 ? "treble" : "bass", y = yOf(s, staff);
+    rdLedgers(P, cx, s, staff, staff === "treble" ? yT : yB);
+    rdHead(P, cx, y, LM.includes(s) ? "acc" : "");
+    P.push(`<line class="conn" x1="${cx}" y1="${y + 8}" x2="${cx}" y2="${kTop - 2}"/>`);
+    const L = MB.mod(s, 7);
+    P.push(`<rect class="wk${L === 0 ? " c" : ""}${LM.includes(s) ? " lm" : ""}" x="${x}" y="${kTop}" width="${kw}" height="${kH}" rx="2"/>`);
+    P.push(`<text class="kn" x="${cx}" y="${kTop + kH - 8}">${PN.LETTERS[L]}${L === 0 ? Math.floor(s / 7) : ""}</text>`);
+  }
+  for (let s = 14; s < 42; s++) { const L = MB.mod(s, 7); if (L === 2 || L === 6) continue; const x = x0 + (s - 14 + 1) * kw - 8; P.push(`<rect class="bk" x="${x}" y="${kTop}" width="16" height="${kH * 0.6}" rx="2"/>`); }
+  P.push(`<text class="t-mono" x="${x0 + 14 * kw + 13}" y="${yOf(28, "treble") + 4}" dx="12">C4</text>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 4-3: 음정 모양 */
+(function () {
+  const g = document.getElementById("rd-fig-iv"); if (!g) return;
+  const P = [], yTop = 50, y = (s) => yTop + (38 - s) * 5;
+  rdDrawStaff(P, 10, 790, yTop);
+  const items = [[30, 31, "2도", "줄–칸"], [30, 32, "3도", "줄–줄"], [31, 33, "3도", "칸–칸"], [30, 33, "4도", "줄–칸"], [30, 34, "5도", "줄–(줄)–줄"], [30, 35, "6도", "줄–칸"], [30, 37, "8도", "줄–칸"]];
+  items.forEach(([a, b, name, kind], i) => {
+    const x = 60 + i * 108;
+    rdHead(P, x, y(a), "acc"); rdHead(P, x + 26, y(b), "acc");
+    P.push(`<text class="t" x="${x + 13}" y="${yTop - 18}" text-anchor="middle" font-weight="700">${name}</text>`);
+    P.push(`<text class="t-mono" x="${x + 13}" y="${yTop + 70}" text-anchor="middle">${kind}</text>`);
+    P.push(`<text class="t-mono" x="${x + 13}" y="${yTop + 86}" text-anchor="middle">${rdLetterName(a)}–${rdLetterName(b)}</text>`);
+  });
+  g.innerHTML = P.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 4-4, 4-5 (PN.staff) */
+(function () {
+  const a = [84, 88, 91, 96].map((m, i) => ({ t: i, d: 1, m }));
+  const b = [72, 76, 79, 84].map((m, i) => ({ t: 4 + i, d: 1, m }));
+  PN.staff("#rd-fig-8va", a.concat(b), { clef: "treble", width: 620, above: 26, marks: [{ t: 4, text: "8va - - - - - - - - ┐", where: "above" }] });
+  PN.staff("#rd-fig-ks1", [], { clef: "treble", key: 7, bars: 1, width: 300, showTime: false });
+  PN.staff("#rd-fig-ks2", [], { clef: "treble", key: -7, bars: 1, width: 300, showTime: false });
+})();
+
+/* ---------------------------------------------------------------- 1. 음자리표 */
+(function () {
+  const kb = PN.keyboard("#rd-cl-kb", { from: 40, to: 84, labels: "c", minKey: 12 });
+  const p = kb.piano;
+  let cur = null; // treble step
+  const names = MB.check("rd-cl-names", () => render());
+  const tr = PN.staff("#rd-cl-tr", [], { clef: "treble", bars: 1, width: 260, showTime: false, onPick: (e) => pick(e.step) });
+  const bs = PN.staff("#rd-cl-bs", [], { clef: "bass", bars: 1, width: 260, showTime: false, onPick: (e) => pick(e.step + 12) });
+  function render() {
+    const nm = names() ? true : false;
+    if (cur == null) { tr.setNotes([], { names: nm }); bs.setNotes([], { names: nm }); return; }
+    tr.setNotes([{ t: 0, d: 4, m: PN.stepToMidi(cur) }], { names: nm });
+    bs.setNotes([{ t: 0, d: 4, m: PN.stepToMidi(cur - 12), cls: "alt" }], { names: nm });
+  }
+  function pick(step, silent) {
+    step = MB.clamp(step, 24, 44); cur = step; render();
+    const mt = PN.stepToMidi(step), mb = PN.stepToMidi(step - 12);
+    kb.set([{ m: mt, cls: "mark" }, { m: mb, cls: "alt" }]);
+    MB.stat("rd-cl-o-p", rdPosDesc(step, "treble"));
+    MB.stat("rd-cl-o-t", `${MB.noteName(mt)} <small>${PN.spell(mt).ko}</small>`);
+    MB.stat("rd-cl-o-b", `${MB.noteName(mb)} <small>${PN.spell(mb).ko}</small>`);
+    if (!silent) { MB.ctx(); const t = MB.now() + 0.02; p.play(mt, { when: t, dur: 0.7 }); p.play(mb, { when: t + 0.75, dur: 0.9 }); }
+  }
+  document.getElementById("rd-cl-g").addEventListener("click", () => pick(32));
+  document.getElementById("rd-cl-f").addEventListener("click", () => pick(24 + 12));
+  let player = null;
+  document.getElementById("rd-cl-lines").addEventListener("click", () => {
+    MB.ctx(); if (player) player.stop();
+    const ev = []; [30, 32, 34, 36, 38].forEach((s, i) => { ev.push({ t: i, d: 1, m: PN.stepToMidi(s) }); ev.push({ t: 5 + i, d: 1, m: PN.stepToMidi(s - 12) }); });
+    const steps = [30, 32, 34, 36, 38, 30, 32, 34, 36, 38];
+    player = PN.playEvents(ev, { bpm: 110, piano: p, onNote: (e, i) => { const s = steps[i]; if (i < 5) pick(s, true); else pick(s, true); }, onStop: () => { player = null; } });
+    player.start();
+  });
+  document.getElementById("rd-cl-stop").addEventListener("click", () => { if (player) player.stop(); p.stop(); });
+  pick(32, true);
+})();
+
+/* ---------------------------------------------------------------- 2. 큰보표 ↔ 건반 */
+(function () {
+  let hist = [];
+  const acc = MB.seg("rd-gr-acc", () => render());
+  const lab = MB.seg("rd-gr-lab", (v) => kb.setLabels(v));
+  const names = MB.check("rd-gr-names", () => render());
+  const kb = PN.keyboard("#rd-gr-kb", { from: 36, to: 84, labels: "c", minKey: 13, onDown: (m) => { add(m); } });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-gr-staff", [], { clef: "grand", bars: 2, width: 620, onPick: (e) => { MB.ctx(); p.play(e.m, { dur: 0.8 }); kb.flash(e.m, 600, "on"); add(e.m, e.staff); } });
+  const spellOf = (m) => (PN.isBlack(m) ? MB.pcName(MB.mod(m, 12), acc() === "f") : undefined);
+  function render() {
+    const notes = hist.map((h, i) => Object.assign({ t: i, d: 1, m: h.m, spell: spellOf(h.m) }, h.staff ? { staff: h.staff } : {}));
+    staff.setNotes(notes, { names: names() });
+    if (notes.length) staff.highlight(notes.length - 1);
+  }
+  function add(m, st) {
+    hist.push({ m, staff: st }); if (hist.length > 8) hist.shift();
+    render();
+    const sp = PN.spell(m, 0, spellOf(m)), sname = st || (m >= 60 ? "treble" : "bass");
+    MB.stat("rd-gr-o-n", `${sp.name} <small>${sp.ko} · ${sp.solfege}</small>`);
+    MB.stat("rd-gr-o-p", `<small>${rdStaffName(sname)}</small> ${rdPosDesc(sp.step, sname)}`);
+    MB.stat("rd-gr-o-f", `${PN.keyNumber(m)}번 <small>${PN.freq(m).toFixed(1)} Hz</small>`);
+  }
+  let player = null;
+  document.getElementById("rd-gr-clear").addEventListener("click", () => { hist = []; render(); });
+  document.getElementById("rd-gr-replay").addEventListener("click", () => {
+    if (!hist.length) return; MB.ctx(); if (player) player.stop();
+    player = PN.playEvents(hist.map((h, i) => ({ t: i, d: 1, m: h.m })), { bpm: 100, piano: p, staff, onStop: () => { player = null; render(); } });
+    player.start();
+  });
+  document.getElementById("rd-gr-stop").addEventListener("click", () => { if (player) player.stop(); p.stop(); });
+  render();
+})();
+
+/* ---------------------------------------------------------------- 3. 기준음 */
+(function () {
+  const LM = { 14: "낮은 C", 21: "베이스 C", 24: "베이스 F", 28: "가온 다", 32: "트레블 G", 35: "트레블 C", 42: "높은 C" };
+  const kb = PN.keyboard("#rd-lm-kb", { from: 36, to: 84, labels: "none", minKey: 13, onDown: (m) => answer(m) });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-lm-staff", [], { clef: "grand", bars: 2, width: 520, showTime: false });
+  const set = MB.seg("rd-lm-set", () => { showLm(); });
+  const msg = document.getElementById("rd-lm-msg");
+  const st = { target: null, hint: false, n: 0, ok: 0, done: false };
+  const lmList = () => (set() === "7" ? [14, 21, 24, 28, 32, 35, 42] : [24, 28, 32]);
+  const nearest = (s) => lmList().reduce((a, b) => (Math.abs(b - s) < Math.abs(a - s) ? b : a));
+  const stf = (s) => (s >= 28 ? "treble" : "bass");
+  function showLm() { if (st.target == null) kb.set(lmList().map((s) => ({ m: PN.stepToMidi(s), cls: "mark" }))); else kb.clear(); }
+  function render() {
+    const notes = [];
+    if (st.target != null) {
+      if (st.hint) { const l = nearest(st.target); notes.push({ t: 0, d: 4, m: PN.stepToMidi(l), staff: stf(l), cls: "alt", label: "기준" }); }
+      notes.push({ t: 4, d: 4, m: PN.stepToMidi(st.target), staff: stf(st.target) });
+    }
+    staff.setNotes(notes);
+  }
+  function way(s) {
+    const l = nearest(s), d = s - l;
+    if (d === 0) return `${rdLetterName(l)} 자체가 기준음`;
+    return `${rdLetterName(l)}(${LM[l]})에서 ${d > 0 ? "위" : "아래"}로 ${Math.abs(d)}단계 = ${Math.abs(d) + 1}도 → ${rdLetterName(s)}`;
+  }
+  function newQ() {
+    let s; do { s = 14 + Math.floor(Math.random() * 29); } while ((lmList().includes(s) && Math.random() < 0.8) || s === st.target);
+    Object.assign(st, { target: s, hint: false, done: false });
+    render(); kb.clear();
+    msg.className = "sim-msg"; msg.textContent = "이 음을 건반에서 누르세요.";
+    MB.stat("rd-lm-o-l", "—"); MB.stat("rd-lm-o-w", "—");
+  }
+  function answer(m) {
+    if (st.target == null || st.done) return;
+    const want = PN.stepToMidi(st.target); st.n++; st.done = true;
+    const ok = m === want; if (ok) st.ok++;
+    kb.set([{ m: want, cls: "ok", label: "" }].concat(ok ? [] : [{ m, cls: "bad" }]));
+    st.hint = true; render();
+    const l = nearest(st.target);
+    MB.stat("rd-lm-o-s", `${st.ok} / ${st.n}`);
+    MB.stat("rd-lm-o-l", `${rdLetterName(l)} <small>${LM[l]}</small>`);
+    MB.stat("rd-lm-o-w", `<small>${way(st.target)}</small>`);
+    msg.className = "sim-msg " + (ok ? "ok" : "bad");
+    msg.innerHTML = ok ? `정답! <b>${MB.noteName(want)}</b>. 다음 문제가 곧 나옵니다.` : `정답은 <b>${MB.noteName(want)}</b>(누른 음 ${MB.noteName(m)}). ${way(st.target)}`;
+    setTimeout(() => { if (st.done) newQ(); }, ok ? 1200 : 2600);
+  }
+  document.getElementById("rd-lm-new").addEventListener("click", () => { MB.ctx(); newQ(); });
+  document.getElementById("rd-lm-hint").addEventListener("click", () => {
+    if (st.target == null) return; st.hint = true; render();
+    const l = nearest(st.target); MB.stat("rd-lm-o-l", `${rdLetterName(l)} <small>${LM[l]}</small>`);
+  });
+  document.getElementById("rd-lm-play").addEventListener("click", () => {
+    if (st.target == null) return; MB.ctx(); const t = MB.now() + 0.02, l = nearest(st.target);
+    p.play(PN.stepToMidi(l), { when: t, dur: 0.6 }); p.play(PN.stepToMidi(st.target), { when: t + 0.7, dur: 0.9 });
+    st.hint = true; render();
+  });
+  document.getElementById("rd-lm-stop").addEventListener("click", () => p.stop());
+  showLm(); render();
+})();
+
+/* ---------------------------------------------------------------- 3b. 음정 모양 */
+(function () {
+  const kb = PN.keyboard("#rd-iv-kb", { from: 40, to: 84, labels: "c", minKey: 12, compact: true });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-iv-staff", [], { clef: "treble", bars: 1, width: 300, showTime: false });
+  const clef = MB.seg("rd-iv-clef", () => newQ());
+  const how = MB.seg("rd-iv-how", () => render());
+  const btns = document.getElementById("rd-iv-btns"), msg = document.getElementById("rd-iv-msg");
+  btns.innerHTML = [2, 3, 4, 5, 6, 7, 8].map((n) => `<button data-n="${n}">${n}도</button>`).join("");
+  const st = { a: null, b: null, n: 0, ok: 0, done: false };
+  function render() {
+    if (st.a == null) { staff.setNotes([], { clef: clef() }); return; }
+    const ma = PN.stepToMidi(st.a), mb = PN.stepToMidi(st.b);
+    const notes = how() === "harm" ? [{ t: 0, d: 4, ms: [ma, mb] }] : [{ t: 0, d: 2, m: ma }, { t: 2, d: 2, m: mb }];
+    staff.setNotes(notes, { clef: clef() });
+  }
+  function play() {
+    if (st.a == null) return; MB.ctx();
+    const ma = PN.stepToMidi(st.a), mb = PN.stepToMidi(st.b), t = MB.now() + 0.02;
+    if (how() === "harm") { p.play(ma, { when: t, dur: 1.2 }); p.play(mb, { when: t, dur: 1.2 }); }
+    else { p.play(ma, { when: t, dur: 0.6 }); p.play(mb, { when: t + 0.65, dur: 0.9 }); }
+  }
+  function newQ() {
+    const bot = RD_BOT[clef()];
+    const a = bot - 1 + Math.floor(Math.random() * 10), d = (1 + Math.floor(Math.random() * 7)) * (Math.random() < 0.5 ? -1 : 1);
+    let b = a + d; if (b < bot - 2 || b > bot + 10) b = a - d;
+    Object.assign(st, { a, b, done: false });
+    btns.querySelectorAll("button").forEach((x) => x.classList.remove("ok", "bad"));
+    kb.clear(); render();
+    MB.stat("rd-iv-o-k", "—"); MB.stat("rd-iv-o-h", "—");
+    msg.className = "sim-msg"; msg.textContent = "두 음 사이가 몇 도인가요?";
+  }
+  btns.addEventListener("click", (e) => {
+    const bt = e.target.closest("button"); if (!bt || st.a == null) return;
+    if (st.done) { newQ(); return; }
+    const n = +bt.dataset.n, want = Math.abs(st.b - st.a) + 1, ok = n === want;
+    st.n++; if (ok) st.ok++; st.done = true;
+    bt.classList.add(ok ? "ok" : "bad"); if (!ok) btns.querySelector(`button[data-n="${want}"]`).classList.add("ok");
+    const la = (st.a - RD_BOT[clef()]) % 2 === 0, lb = (st.b - RD_BOT[clef()]) % 2 === 0;
+    const kind = `${la ? "줄" : "칸"}–${lb ? "줄" : "칸"}`;
+    const ma = PN.stepToMidi(st.a), mb = PN.stepToMidi(st.b);
+    kb.set([{ m: ma, cls: "mark" }, { m: mb, cls: "alt" }]);
+    MB.stat("rd-iv-o-s", `${st.ok} / ${st.n}`);
+    MB.stat("rd-iv-o-k", kind);
+    MB.stat("rd-iv-o-h", `${Math.abs(mb - ma)}개 <small>${MB.intervalName ? MB.intervalName(Math.abs(mb - ma)) : ""}</small>`);
+    msg.className = "sim-msg " + (ok ? "ok" : "bad");
+    msg.innerHTML = `${ok ? "정답!" : "아니에요."} ${rdLetterName(st.a)} → ${rdLetterName(st.b)}: ${Math.abs(st.b - st.a)}단계 = <b>${want}도</b> (${kind}, ${want % 2 ? "홀수 도" : "짝수 도"}). 아무 버튼이나 누르면 다음 문제.`;
+    play();
+  });
+  document.getElementById("rd-iv-new").addEventListener("click", () => { MB.ctx(); newQ(); play(); });
+  document.getElementById("rd-iv-play").addEventListener("click", play);
+  render();
+})();
+
+/* ---------------------------------------------------------------- 4. 덧줄과 8va */
+(function () {
+  const kb = PN.keyboard("#rd-lg-kb", { from: 21, to: 108, labels: "c", minKey: 7, height: 70, compact: true, qwerty: false });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-lg-staff", [], { clef: "grand", bars: 1, width: 300, showTime: false, above: 30, below: 26 });
+  const use8 = MB.check("rd-lg-8va", () => update());
+  const snd = MB.check("rd-lg-snd");
+  let last = 0;
+  const S = MB.range("rd-lg-s", (s) => rdLetterName(s), () => { update(); if (snd() && performance.now() - last > 90) { last = performance.now(); MB.ctx(); p.play(PN.stepToMidi(S()), { dur: 0.5, vel: 0.6 }); } });
+  function written(s) {
+    if (!use8()) return { ws: s, mark: null, shift: 0 };
+    if (s >= 52) return { ws: s - 14, mark: "15ma", shift: 2 };
+    if (s >= 45) return { ws: s - 7, mark: "8va", shift: 1 };
+    if (s <= 4) return { ws: s + 14, mark: "15mb", shift: -2 };
+    if (s <= 11) return { ws: s + 7, mark: "8vb", shift: -1 };
+    return { ws: s, mark: null, shift: 0 };
+  }
+  function ledgers(ws, staffName) { const top = RD_TOP[staffName], bot = top - 8; if (ws > top) return Math.floor((ws - top) / 2); if (ws < bot) return Math.floor((bot - ws) / 2); return 0; }
+  function update() {
+    const s = S(), m = PN.stepToMidi(s), w = written(s), sname = w.ws >= 28 ? "treble" : "bass";
+    staff.setNotes([{ t: 0, d: 4, m: PN.stepToMidi(w.ws), staff: sname }], { above: use8() ? 30 : 80, below: use8() ? 26 : 52 });
+    if (w.mark) {
+      // 옥타브 기호는 덧줄 바깥에 직접 그린다(엔진의 marks는 오선 기준 고정 위치라 덧줄과 겹친다)
+      const lay = staff.layout, it = lay.items[0], si = it.si;
+      const y = w.shift > 0 ? lay.yOf(sname, Math.max(w.ws, 38), si) - 14 : lay.yOf(sname, Math.min(w.ws, 18), si) + 20;
+      const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      tx.setAttribute("class", "mark-t"); tx.setAttribute("x", it.x); tx.setAttribute("y", y); tx.textContent = w.mark;
+      staff.el.querySelector("svg").appendChild(tx);
+    }
+    kb.set([{ m, cls: "root" }]);
+    MB.stat("rd-lg-o-n", `${MB.noteName(m)} <small>${PN.spell(m).ko}</small>`);
+    MB.stat("rd-lg-o-w", `${rdLetterName(w.ws)}${w.mark ? " + " + w.mark : ""}`);
+    MB.stat("rd-lg-o-l", `${ledgers(w.ws, sname)}개 <small>${rdStaffName(sname)}</small>`);
+    MB.stat("rd-lg-o-f", `${PN.keyNumber(m)}번 <small>${PN.freq(m) < 100 ? PN.freq(m).toFixed(1) : Math.round(PN.freq(m))} Hz</small>`);
+  }
+  let player = null;
+  document.getElementById("rd-lg-play").addEventListener("click", () => { MB.ctx(); p.play(PN.stepToMidi(S()), { dur: 1.2 }); });
+  document.getElementById("rd-lg-sweep").addEventListener("click", () => {
+    MB.ctx(); if (player) player.stop();
+    const steps = []; for (let s = 5; s <= 56; s += 2) steps.push(s);
+    player = PN.playEvents(steps.map((s, i) => ({ t: i * 0.5, d: 0.5, m: PN.stepToMidi(s), vel: 0.6 })), { bpm: 120, piano: p, onNote: (e, i) => { S.set(steps[i], false); update(); }, onStop: () => { player = null; } });
+    player.start();
+  });
+  document.getElementById("rd-lg-stop").addEventListener("click", () => { if (player) player.stop(); p.stop(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 5. 플래시카드 */
+(function () {
+  const REG = [["낮은 덧줄", (s, st) => st === "bass" && s < 18], ["낮은음 오선", (s, st) => st === "bass" && s >= 18 && s <= 26], ["가온 다 부근", (s, st) => (st === "bass" && s > 26) || (st === "treble" && s < 30)], ["높은음 오선", (s, st) => st === "treble" && s >= 30 && s <= 38], ["높은 덧줄", (s, st) => st === "treble" && s > 38]];
+  const stats = REG.map(() => ({ n: 0, ok: 0, rts: [] }));
+  const kb = PN.keyboard("#rd-fl-kb", { from: 36, to: 84, labels: "c", minKey: 13, onDown: (m) => answer(m) });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-fl-staff", [], { clef: "grand", bars: 1, width: 300, showTime: false });
+  const clef = MB.seg("rd-fl-clef", () => { if (!game.on) staff.setNotes([], { clef: clef() }); });
+  const range = MB.seg("rd-fl-range");
+  const useAcc = MB.check("rd-fl-acc"), exact = MB.check("rd-fl-oct");
+  const msg = document.getElementById("rd-fl-msg");
+  const game = { on: false, left: 0, card: null, t0: 0, streak: 0, n: 0, ok: 0, rts: [], lock: false };
+  const median = (a) => { if (!a.length) return null; const b = a.slice().sort((x, y) => x - y), k = b.length >> 1; return b.length % 2 ? b[k] : (b[k - 1] + b[k]) / 2; };
+  function randCard() {
+    const c = clef() === "grand" ? (Math.random() < 0.5 ? "treble" : "bass") : clef();
+    const bot = RD_BOT[c], lo = range() === "in" ? bot - 1 : bot - 7, hi = range() === "in" ? bot + 9 : bot + 14;
+    let s, guard = 0;
+    do { s = lo + Math.floor(Math.random() * (hi - lo + 1)); guard++; } while (guard < 20 && game.card && s === game.card.step && c === game.card.staff);
+    let acc = 0; if (useAcc() && Math.random() < 0.35) acc = Math.random() < 0.5 ? 1 : -1;
+    const base = PN.stepToMidi(s), m = MB.clamp(base + acc, 36, 84);
+    const spell = PN.LETTERS[MB.mod(s, 7)] + PN.accStr(m - base);
+    return { staff: c, step: s, m, spell };
+  }
+  function show() {
+    game.card = randCard();
+    staff.setNotes([{ t: 0, d: 4, m: game.card.m, staff: game.card.staff, spell: game.card.spell }], { clef: clef() });
+    game.t0 = performance.now(); game.lock = false;
+    MB.stat("rd-fl-o-n", String(game.left));
+  }
+  function regionOf(card) { return REG.findIndex(([, f]) => f(card.step, card.staff)); }
+  function answer(m) {
+    if (!game.on || !game.card || game.lock) return;
+    const rt = performance.now() - game.t0, c = game.card;
+    const ok = exact() ? m === c.m : MB.mod(m, 12) === MB.mod(c.m, 12);
+    const r = regionOf(c); if (r >= 0) { stats[r].n++; if (ok) { stats[r].ok++; stats[r].rts.push(rt); } }
+    game.n++; game.left--; if (ok) { game.ok++; game.streak++; game.rts.push(rt); } else game.streak = 0;
+    MB.stat("rd-fl-o-a", `${Math.round((game.ok / game.n) * 100)}% <small>${game.ok}/${game.n}</small>`);
+    const md = median(game.rts); MB.stat("rd-fl-o-t", md == null ? "—" : (md / 1000).toFixed(2) + " 초");
+    MB.stat("rd-fl-o-c", String(game.streak));
+    staff.mark(0, ok ? "ok" : "bad");
+    if (!ok) { kb.flash(c.m, 900, "ok"); msg.className = "sim-msg bad"; msg.innerHTML = `정답은 <b>${PN.spell(c.m, 0, c.spell).name}</b> — ${rdStaffName(c.staff)} ${rdPosDesc(c.step, c.staff)}`; }
+    else { msg.className = "sim-msg ok"; msg.innerHTML = `${PN.spell(c.m, 0, c.spell).name} ✓ ${(rt / 1000).toFixed(2)}초`; }
+    cv.redraw();
+    game.lock = true;
+    if (game.left <= 0) { setTimeout(finish, 600); return; }
+    setTimeout(show, ok ? 260 : 1100);
+  }
+  function finish() {
+    game.on = false; game.card = null; staff.setNotes([], { clef: clef() });
+    const md = median(game.rts);
+    let worst = -1, wv = 2; stats.forEach((s, i) => { if (s.n >= 2) { const a = s.ok / s.n; if (a < wv) { wv = a; worst = i; } } });
+    msg.className = "sim-msg ok";
+    msg.innerHTML = `끝! 정답률 <b>${Math.round((game.ok / Math.max(1, game.n)) * 100)}%</b>, 반응 시간 중앙값 <b>${md == null ? "—" : (md / 1000).toFixed(2) + "초"}</b>.${worst >= 0 ? ` 가장 약한 음역: <b>${REG[worst][0]}</b>.` : ""}`;
+    MB.stat("rd-fl-o-n", "끝");
+  }
+  const cv = MB.canvas("#rd-fl-cv", (ctx, w, h) => {
+    const P = MB.palette(), n = REG.length, gap = 10, bw = (w - 20 - gap * (n - 1)) / n, base = h - 30, top = 22;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center";
+    ctx.strokeStyle = P.grid; [0, 0.5, 1].forEach((f) => { const y = base - f * (base - top); ctx.beginPath(); ctx.moveTo(10, y); ctx.lineTo(w - 10, y); ctx.stroke(); });
+    stats.forEach((s, i) => {
+      const x = 10 + i * (bw + gap), a = s.n ? s.ok / s.n : 0, y = base - a * (base - top);
+      ctx.fillStyle = s.n ? (a >= 0.9 ? P.ok : a >= 0.7 ? P.warn : P.bad) : P.faint; ctx.globalAlpha = s.n ? 0.85 : 0.3;
+      ctx.fillRect(x, s.n ? y : base - 2, bw, s.n ? base - y : 2); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.dim; ctx.fillText(REG[i][0], x + bw / 2, h - 12);
+      const md = median(s.rts);
+      ctx.fillStyle = P.text; ctx.fillText(s.n ? `${Math.round(a * 100)}% · ${md == null ? "—" : (md / 1000).toFixed(1) + "s"}` : "—", x + bw / 2, Math.max(top - 6, (s.n ? y : base) - 6));
+    });
+  }, { aspect: 0.3, minHeight: 140, maxHeight: 190 });
+  document.getElementById("rd-fl-start").addEventListener("click", () => {
+    MB.ctx(); Object.assign(game, { on: true, left: 20, n: 0, ok: 0, rts: [], streak: 0, card: null });
+    MB.stat("rd-fl-o-a", "—"); MB.stat("rd-fl-o-t", "—"); MB.stat("rd-fl-o-c", "0");
+    msg.className = "sim-msg"; msg.textContent = "음표의 건반을 누르세요."; show();
+  });
+  document.getElementById("rd-fl-stop").addEventListener("click", () => { if (game.on) finish(); p.stop(); });
+  document.getElementById("rd-fl-reset").addEventListener("click", () => { stats.forEach((s) => Object.assign(s, { n: 0, ok: 0, rts: [] })); cv.redraw(); });
+})();
+
+/* ---------------------------------------------------------------- 6. 조표 */
+(function () {
+  const kb = PN.keyboard("#rd-ks-kb", { from: 55, to: 84, labels: "none" });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-ks-staff", [], { clef: "treble", width: 640, minBeat: 22 });
+  const names = MB.check("rd-ks-names", () => update());
+  const DEG = [0, 0, 7, 7, 9, 9, 7, 5, 5, 4, 4, 2, 2, 0];
+  const DUR = [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2];
+  const K = MB.range("rd-ks-k", (k) => (k > 0 ? "♯" + k : k < 0 ? "♭" + -k : "없음") + " · " + PN.MAJOR_BY_FIFTHS[k] + " 장조", () => update());
+  let notes = [], player = null;
+  function build() {
+    const k = K(), pc = MB.mod(7 * k, 12), tonic = 60 + pc;
+    let t = 0;
+    notes = DEG.map((d, i) => { const n = { t, d: DUR[i], m: tonic + d, hand: "R" }; t += DUR[i]; return n; });
+    return k;
+  }
+  function update() {
+    const k = build();
+    staff.setNotes(notes, { key: k, names: names() });
+    const ka = PN.keyAccidentals(k), L = Object.keys(ka).filter((x) => ka[x]);
+    const order = k > 0 ? PN.SHARP_ORDER.slice(0, k) : PN.FLAT_ORDER.slice(0, -k);
+    MB.stat("rd-ks-o-k", `${PN.MAJOR_BY_FIFTHS[k]} 장조 <small>/ ${PN.MINOR_BY_FIFTHS[k]} 단조</small>`);
+    MB.stat("rd-ks-o-a", order.length ? order.map((x) => x + (k > 0 ? "♯" : "♭")).join(" ") : "없음");
+    const affected = notes.filter((n) => ka[PN.spell(n.m, k).letter] !== 0);
+    MB.stat("rd-ks-o-n", `${affected.length} / ${notes.length}음`);
+    const marks = [];
+    for (let m = 55; m <= 84; m++) { const s = PN.spell(m, k); if (ka[s.letter] !== 0 && s.acc === ka[s.letter]) marks.push({ m, cls: "alt" }); }
+    kb.set(marks);
+  }
+  function play(wrong) {
+    MB.ctx(); if (player) player.stop();
+    const k = K();
+    const ev = notes.map((n) => Object.assign({}, n, { m: wrong ? PN.stepToMidi(PN.spell(n.m, k).step, 0) : n.m }));
+    player = PN.playEvents(ev, { bpm: 108, piano: p, staff, onStop: () => { player = null; } });
+    player.start();
+  }
+  document.getElementById("rd-ks-play").addEventListener("click", () => play(false));
+  document.getElementById("rd-ks-wrong").addEventListener("click", () => play(true));
+  document.getElementById("rd-ks-stop").addEventListener("click", () => { if (player) player.stop(); p.stop(); });
+  update();
+})();
+
+/* ---------------------------------------------------------------- 7. 초견: 환희의 송가 */
+(function () {
+  const FG = { 60: 1, 62: 2, 64: 3, 65: 4, 67: 5 };
+  const rh = PN.parseNotes("E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4/1.5 D4/.5 D4/2 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4/1.5 C4/.5 C4/2", { hand: "R" });
+  rh.forEach((n) => (n.finger = FG[n.m]));
+  const Cc = { ms: [48, 55], finger: [1, 5] }, G7 = { ms: [47, 53], finger: [2, 5] };
+  const lhPlan = [Cc, G7, Cc, G7, Cc, G7, Cc];
+  const lh = lhPlan.map((c, i) => Object.assign({ t: i * 4, d: 4, hand: "L" }, c));
+  lh.push(Object.assign({ t: 28, d: 2, hand: "L" }, G7), Object.assign({ t: 30, d: 2, hand: "L" }, Cc));
+  const all = rh.concat(lh).sort((a, b) => a.t - b.t || (a.hand === "R" ? -1 : 1));
+  all.forEach((n, i) => (n.si = i));
+  const kb = PN.keyboard("#rd-sr-kb", { from: 45, to: 72, labels: "c", onDown: (m) => onKey(m) });
+  const p = kb.piano;
+  const staff = PN.staff("#rd-sr-staff", [], { clef: "grand", width: 720, barsPerLine: 4 });
+  const mode = MB.seg("rd-sr-mode", () => { stop(); msgReset(); });
+  const hand = MB.seg("rd-sr-hand", () => { stop(); render(); });
+  const bpm = MB.range("rd-sr-bpm", (v) => v + " BPM");
+  const click = MB.check("rd-sr-click");
+  const names = MB.check("rd-sr-names", () => render());
+  const fing = MB.check("rd-sr-fing", () => render());
+  const msg = document.getElementById("rd-sr-msg");
+  let player = null;
+  const wait = { on: false, idx: 0, seq: [], errs: 0, t0: 0 };
+  const sounding = (n) => hand() === "B" || n.hand === hand();
+  function render() {
+    staff.setNotes(all.map((n) => Object.assign({}, n, { cls: sounding(n) ? "" : "ghost" })), { names: names(), fingering: fing() });
+  }
+  function msgReset() {
+    msg.className = "sim-msg";
+    msg.textContent = mode() === "listen" ? "듣고 따라 보기: 재생되는 음표가 강조되고 건반이 따라 움직입니다." : "기다리기: '시작'을 누르고, 강조된 음을 건반에서 누르세요.";
+    MB.stat("rd-sr-o-e", "—"); MB.stat("rd-sr-o-n", "—"); MB.stat("rd-sr-o-b", "—");
+  }
+  function stop() { if (player) player.stop(); wait.on = false; staff.highlight(-1); kb.clear(); p.stop(); }
+  function startListen() {
+    const ev = all.filter(sounding).map((n) => Object.assign({}, n, { vel: n.hand === "R" ? 0.68 : 0.45 }));
+    player = PN.playEvents(ev, { bpm: () => bpm(), piano: p, click: true, clickOn: () => click(), legato: 0.94,
+      onNote: (e) => { staff.highlight(e.si); MB.stat("rd-sr-o-b", `${Math.floor(e.t / 4) + 1} / 8`); const nm = (e.ms || [e.m]).map((m) => MB.noteName(m)).join("+"); MB.stat("rd-sr-o-n", `${nm} <small>${e.hand === "R" ? "오른손" : "왼손"}</small>`); },
+      onStop: () => { player = null; staff.highlight(-1); }, onEnd: () => { msg.className = "sim-msg ok"; msg.textContent = "끝까지 들었습니다. 이번에는 '기다리기'로 직접 쳐 보세요."; } });
+    player.start();
+  }
+  function startWait() {
+    const h = hand() === "L" ? "L" : "R";
+    Object.assign(wait, { on: true, idx: 0, errs: 0, t0: performance.now(), seq: all.filter((n) => n.hand === h) });
+    showNext();
+  }
+  const targetOf = (n) => (n.ms ? Math.min(...n.ms) : n.m);
+  function showNext() {
+    const n = wait.seq[wait.idx];
+    if (!n) {
+      wait.on = false; staff.highlight(-1); kb.clear();
+      const sec = (performance.now() - wait.t0) / 1000;
+      msg.className = "sim-msg ok"; msg.innerHTML = `완주! 틀린 횟수 <b>${wait.errs}</b>, 걸린 시간 <b>${sec.toFixed(1)}초</b>. 다음엔 메트로놈 60으로 멈추지 않고 쳐 보세요.`;
+      MB.stat("rd-sr-o-e", `${wait.errs} / ${sec.toFixed(1)}초`); return;
+    }
+    staff.highlight(n.si);
+    kb.set([{ m: targetOf(n), cls: "ghost" }]);
+    MB.stat("rd-sr-o-b", `${Math.floor(n.t / 4) + 1} / 8`);
+    MB.stat("rd-sr-o-n", `${n.ms ? n.ms.map((m) => MB.noteName(m)).join("+") : MB.noteName(n.m)} <small>${n.finger != null ? "손가락 " + [].concat(n.finger).join("·") : ""}</small>`);
+    MB.stat("rd-sr-o-e", `${wait.errs} / ${((performance.now() - wait.t0) / 1000).toFixed(0)}초`);
+  }
+  function onKey(m) {
+    if (!wait.on || mode() !== "wait") return;
+    const n = wait.seq[wait.idx]; if (!n) return;
+    if (m === targetOf(n)) {
+      if (n.ms) n.ms.forEach((x) => { if (x !== m) p.play(x, { vel: 0.5, dur: 0.9 }); });
+      if (hand() === "B") all.filter((x) => x.hand === "L" && Math.abs(x.t - n.t) < 1e-6).forEach((x) => x.ms.forEach((q) => p.play(q, { vel: 0.42, dur: 1.2 })));
+      wait.idx++; showNext();
+    } else { wait.errs++; kb.flash(m, 500, "bad"); MB.stat("rd-sr-o-e", `${wait.errs} / ${((performance.now() - wait.t0) / 1000).toFixed(0)}초`); }
+  }
+  document.getElementById("rd-sr-play").addEventListener("click", () => { MB.ctx(); stop(); if (mode() === "listen") startListen(); else startWait(); });
+  document.getElementById("rd-sr-stop").addEventListener("click", () => stop());
+  render(); msgReset();
+})();
+</script>
+</body>
+</html>

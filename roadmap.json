@@ -1,23 +1,5 @@
 [
   {
-    "id": "pianobook",
-    "slug": "piano",
-    "title": "PianoBook",
-    "subtitle": "피아노 교과서",
-    "code": "PNO",
-    "color": "#7256a6",
-    "headline": "건반 위에서 만나는 화성과 선율",
-    "topics": [
-      "피아노",
-      "건반",
-      "보이싱",
-      "반주"
-    ],
-    "stage": "instruments",
-    "status": "planned",
-    "motif": "piano"
-  },
-  {
     "id": "drumbook",
     "slug": "drums",
     "title": "DrumBook",

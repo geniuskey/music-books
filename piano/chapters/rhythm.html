@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>리듬과 박자 읽기 · PianoBook</title>
+<meta name="description" content="음표·쉼표 길이의 이진 트리, 박자표와 강약, 점음표와 붙임줄, 1 &amp; 2 &amp; 셈 세기, BPM과 메트로놈, 탭 정확도 측정, 양손 리듬 맞추기를 가상 피아노로 듣고 연습한다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/rhythm.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="리듬과 박자 읽기 · PianoBook">
+<meta property="og:description" content="음표·쉼표 길이의 이진 트리, 박자표와 강약, 점음표와 붙임줄, 1 &amp; 2 &amp; 셈 세기, BPM과 메트로놈, 탭 정확도 측정, 양손 리듬 맞추기를 가상 피아노로 듣고 연습한다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/rhythm.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .rh-cv { display: block; width: 100%; }
+  .rh-steps { margin-top: 8px; }
+  .rh-steps button small { display: block; font: 500 10px var(--mono); color: var(--text-faint); margin-top: 1px; }
+  .rh-steps button.rh-hold { background: color-mix(in srgb, var(--accent) 7%, var(--bg-elev)); color: var(--accent); border-style: dashed; }
+  .rh-steps button.rh-acc2 { border-width: 2px; border-color: var(--accent); }
+  .rh-steps button.rh-acc1 { border-width: 2px; border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+  @media (max-width: 560px) { .rh-steps.n16 { --n: 8 !important; } }
+  .rh-blocks { display: flex; gap: 3px; margin-top: 8px; height: 26px; }
+  .rh-blocks span { flex: 1 1 0; border-radius: 5px; background: var(--accent-soft); border: 1px solid var(--accent); min-width: 0; transition: background .08s; }
+  .rh-blocks span.rest { background: transparent; border-style: dashed; border-color: var(--text-faint); }
+  .rh-blocks span.now { background: var(--accent); }
+  .rh-blocks span.rest.now { background: var(--surface); border-color: var(--warn); }
+  .rh-phase { font: 700 15px var(--font); text-align: center; padding: 6px 0; border-radius: var(--radius-sm); background: var(--surface); color: var(--text-dim); margin-top: 8px; }
+  .rh-phase.listen { color: var(--accent); background: var(--accent-soft); }
+  .rh-phase.you { color: var(--on-accent); background: var(--accent); }
+  .rh-tap { all: unset; box-sizing: border-box; display: block; width: 100%; margin-top: 10px; text-align: center; font: 700 20px var(--font); padding: 22px 0; border-radius: 12px; border: 2px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+  .rh-tap small { display: block; font: 500 12px var(--font); color: var(--text-dim); margin-top: 3px; }
+  .rh-tap.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg-elev)); }
+  .rh-tap.warn { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, var(--bg-elev)); }
+  .rh-tap.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--bg-elev)); }
+  .rh-terms { display: flex; flex-wrap: wrap; gap: 4px; }
+  .rh-terms button { font-size: 12px; }
+  .rh-lamps { display: flex; gap: 6px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+  .rh-lamps i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--bg-elev); display: inline-block; }
+  .rh-lamps i.a2 { border-color: var(--accent); }
+  .rh-lamps i.a1 { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+  .rh-lamps i.on { background: var(--accent); }
+  .rh-lamps i.a0.on { background: var(--accent-2); }
+  .rh-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .rh-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="rhythm">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>리듬과 박자 읽기</h1>
+    <p class="lead">앞 장에서 오선 위의 <b>높이</b>를 읽었다면, 이번에는 <b>길이</b>를 읽습니다. 음표 머리가 어느 줄에 있는지는 어떤 건반을 누를지 알려 주고, 머리가 비었는지, 기둥과 꼬리가 몇 개인지, 점이 붙었는지는 그 건반을 언제 누르고 얼마나 오래 누르고 있을지를 알려 줍니다. 리듬 표기는 놀랄 만큼 단순한 수학 위에 서 있습니다. 온음표를 둘로, 다시 둘로 나누는 2의 거듭제곱, 점 하나가 더하는 절반, 그리고 박을 초 단위로 바꾸는 \(60/\text{BPM}\)입니다. 이 장에서는 그 규칙을 귀와 손으로 확인하고, 박자표와 강약을 지휘 동작으로 느끼고, 입으로 "1 & 2 &"를 세며 리듬을 읽고, 메트로놈에 맞춰 손가락으로 두드려 내 박이 몇 ms 어긋나는지 재 봅니다. 마지막에는 피아노만의 숙제인 <b>두 손이 서로 다른 리듬을 동시에</b> 치는 연습을 합니다.</p>
+    <ul class="objectives">
+      <li>온음표부터 16분음표까지의 길이를 2의 거듭제곱으로 설명하고, 같은 길이의 쉼표를 알아본다.</li>
+      <li>박자표 2/4·3/4·4/4·6/8을 읽고 마디 안의 강약과 지휘 모양을 안다. 홑박자와 겹박자를 구별한다.</li>
+      <li>점음표(×1.5)와 겹점음표(×1.75), 붙임줄의 뜻을 알고, 같은 리듬을 두 가지로 적을 수 있다.</li>
+      <li>"1 & 2 &"와 "1 e & a"로 리듬을 소리 내어 세며 읽는다.</li>
+      <li>BPM을 박·마디·분할 길이(ms)로 바꾸고, 빠르기말(Largo … Presto)의 대략적 범위를 안다.</li>
+      <li>탭 게임으로 자신의 타이밍 편향과 흔들림을 재고, 그 결과로 연습 계획을 세운다.</li>
+      <li>왼손 4분음표 위에 오른손 8분·점리듬을 얹는 양손 협응을 한 손씩 지워 가며 연습한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="values">
+    <h2>음표와 쉼표: 길이의 이진 트리</h2>
+    <p>음표의 길이는 <b>상대적</b>입니다. 악보는 "이 음은 0.5초"라고 쓰지 않고 "이 음은 저 음의 절반"이라고 씁니다. 기준은 <span class="term">온음표</span><span class="en">(Whole note)</span>이고, 이를 반으로 나누면 <span class="term">2분음표</span><span class="en">(Half note)</span>, 다시 반으로 나누면 <span class="term">4분음표</span><span class="en">(Quarter note)</span>, 그다음이 8분음표, 16분음표입니다. 이름의 숫자가 곧 "온음표를 몇 조각으로 나눈 것인가"이므로, 모든 음표의 길이는 2의 거듭제곱 분의 1입니다. 생김새도 규칙적입니다. 머리가 비면 길고(온·2분), 머리가 차면 짧고(4분 이하), 기둥에 꼬리가 하나 붙을 때마다 길이가 절반이 됩니다. 이웃한 8분·16분음표는 꼬리 대신 <span class="term">빔</span><span class="en">(Beam)</span>으로 묶어 박 단위가 한눈에 보이게 씁니다.</p>
+    <p>소리를 내지 않는 시간도 똑같은 체계로 적습니다. 이것이 <span class="term">쉼표</span><span class="en">(Rest)</span>입니다. 온쉼표는 넷째 줄에 매달린 네모, 2분쉼표는 셋째 줄 위에 얹힌 네모(모자처럼 '앉아 있다'고 외웁니다), 4분쉼표는 번개 모양, 8분·16분쉼표는 꼬리 개수가 음표와 같습니다. 피아노에서 쉼표는 "건반에서 손을 뗀다"는 뜻이고, 쉬는 동안에도 박은 계속 흘러간다는 점이 중요합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 352" role="img" aria-label="온음표에서 16분음표까지 둘씩 나뉘는 음표 길이 트리와 같은 길이의 쉼표">
+        <g id="rh-fig1"></g>
+      </svg>
+      <figcaption><b>그림 5-1.</b> 음표 길이의 이진 트리. 위에서 아래로 내려갈 때마다 한 음표가 같은 길이의 두 음표로 나뉜다. 왼쪽 열은 이름, 4분음표를 한 박으로 셀 때의 박 수, 같은 길이의 쉼표다. 어느 층을 잘라도 길이의 합은 온음표 하나(4박)로 같다.</figcaption>
+    </figure>
+    <p>4분음표를 한 박으로 세면 \(k\)번째 층의 음표(온음표 \(k=0\), 2분 \(k=1\), …)의 길이는</p>
+    <div class="formula">$$L_k = \frac{4}{2^{k}}\ \text{박},\qquad T_k\,[\text{ms}] = L_k\cdot\frac{60\,000}{\text{BPM}}$$
+      <div class="where">80 BPM이면 한 박이 750 ms이므로 온음표 3 s, 2분 1.5 s, 4분 750 ms, 8분 375 ms, 16분 187.5 ms. 층을 하나 내려갈 때마다 길이는 절반, 같은 시간에 치는 음의 수는 두 배가 된다. 이진수로 생각하면 한 마디(4박)를 \(1, 2, 4, 8, 16\)등분하는 격자이고, 리듬은 이 격자 위의 어느 칸에서 음이 시작하는지를 적은 것이다.</div>
+    </div>
+
+    <div class="sim" id="sim-rh-values">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음표 길이 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rh-vl-staff"></div>
+          <div class="rh-blocks" id="rh-vl-blocks"></div>
+          <div id="rh-vl-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음표</span><div class="seg" id="rh-vl-val"><button data-value="4">온</button><button data-value="2">2분</button><button data-value="1" class="on">4분</button><button data-value="0.5">8분</button><button data-value="0.25">16분</button></div></div>
+          <div class="ctrl"><span>종류</span><div class="seg" id="rh-vl-kind"><button data-value="note" class="on">음표</button><button data-value="rest">쉼표</button><button data-value="mix">음표·쉼표 번갈아</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rh-vl-bpm-out"></output></span><input type="range" id="rh-vl-bpm" min="40" max="160" value="80" step="2"></label>
+          <label class="check"><input type="checkbox" id="rh-vl-click" checked> 메트로놈(4분음표마다)</label>
+          <div class="btn-row"><button class="btn primary" id="rh-vl-play">▶ 한 마디 반복</button><button class="btn" id="rh-vl-tree">▶ 트리 전체(온→16분)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">길이</span><span class="v" id="rh-vl-o-len">—</span></div>
+        <div class="stat"><span class="k">한 개의 시간</span><span class="v" id="rh-vl-o-ms">—</span></div>
+        <div class="stat"><span class="k">4/4 한 마디에</span><span class="v" id="rh-vl-o-n">—</span></div>
+        <div class="stat"><span class="k">초당 음 수</span><span class="v" id="rh-vl-o-rate">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 메트로놈을 켠 채 4분 → 8분 → 16분을 차례로 들으며 클릭 하나 사이에 음이 1·2·4개 들어가는지 세어 보세요. '트리 전체'는 온음표 한 마디부터 16분음표 한 마디까지 다섯 마디를 이어서 들려줍니다. 쉼표를 고르면 소리 없이 클릭만 나며, 아래 막대(채움 = 소리, 점선 = 쉼)가 시간의 흐름을 보여 줍니다. 가상 피아노는 음 길이의 92%만 누르고 떼므로 같은 음이 이어져도 끊어 들립니다. 모델: 비조화 배음 + 2단 감쇠로 만든 피아노 근사음, 클릭은 사인파 펄스입니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 길이를 손으로 재기</strong> ① 메트로놈 60 BPM을 켜고 가온 다(C4)를 오른손 3번 손가락으로 칩니다. ② 온음표: 누른 채 클릭 네 번을 세고 다섯 번째 클릭에 정확히 뗍니다. 떼는 순간도 박 위에 있어야 합니다. ③ 2분음표 둘, 4분음표 넷, 8분음표 여덟을 같은 방법으로 한 마디씩 칩니다. ④ 흔한 실수는 긴 음을 일찍 떼는 것입니다. 피아노 소리는 저절로 작아지므로 다 울린 것 같아도 손가락은 끝까지 누르고 있어야 합니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="meter">
+    <h2>박자표·마디·강약</h2>
+    <p>박이 일정하게 흐르면 사람의 귀는 저절로 박을 묶어서 듣습니다. 시계의 똑딱 소리도 "똑–딱, 똑–딱"으로 들리듯, 박에는 강한 박과 약한 박이 생깁니다. 악보는 이 묶음을 <span class="term">마디</span><span class="en">(Measure, Bar)</span>로 나누고 세로줄(마디선)로 구분합니다. 마디의 크기를 정하는 것이 곡 첫머리의 <span class="term">박자표</span><span class="en">(Time signature)</span>입니다. 위 숫자는 한 마디의 박 수, 아래 숫자는 한 박이 되는 음표(4 = 4분음표, 8 = 8분음표, 2 = 2분음표)입니다. 4/4는 \(\mathbf{C}\)로, 2/2는 세로줄이 그어진 C(알라 브레베)로 쓰기도 합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>박자표</th><th>분류</th><th>한 마디</th><th>강약(박마다)</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>2/4</td><td>홑2박자</td><td>4분음표 2개</td><td>강 – 약</td><td>행진곡, 폴카</td></tr>
+        <tr><td>3/4</td><td>홑3박자</td><td>4분음표 3개</td><td>강 – 약 – 약</td><td>왈츠, 미뉴에트</td></tr>
+        <tr><td>4/4</td><td>홑4박자</td><td>4분음표 4개</td><td>강 – 약 – 중강 – 약</td><td>대부분의 대중음악, 찬송가</td></tr>
+        <tr><td>6/8</td><td>겹2박자</td><td>8분음표 6개 = 점4분 2박</td><td>강 – 약 – 약 – 중강 – 약 – 약</td><td>뱃노래(바르카롤레), 지그, 자장가</td></tr>
+      </tbody>
+    </table></div>
+    <p>6/8이 특별합니다. 숫자만 보면 "8분음표를 한 박으로 여섯 박"이지만, 실제로는 8분음표 셋을 한 덩어리(점4분음표)로 느끼는 <b>2박자</b>입니다. 이렇게 박 하나가 셋으로 나뉘는 박자를 <span class="term">겹박자</span><span class="en">(Compound meter)</span>, 둘로 나뉘는 2/4·3/4·4/4를 <span class="term">홑박자</span><span class="en">(Simple meter)</span>라고 합니다. 같은 8분음표 여섯 개라도 3/4는 "<b>둘</b>씩 세 묶음", 6/8은 "<b>셋</b>씩 두 묶음"이라 느낌이 완전히 다릅니다. 악보에서도 6/8의 빔은 셋씩 묶어 써서 차이를 드러냅니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="2박, 3박, 4박 지휘 도형">
+        <g id="rh-fig2"></g>
+      </svg>
+      <figcaption><b>그림 5-2.</b> 지휘 도형. 첫 박(1)은 언제나 아래로 내리치고 마지막 박은 위로 올려 다음 마디의 1을 준비한다. 4박에서는 1 아래 → 2 안쪽(왼쪽) → 3 바깥쪽(오른쪽) → 4 위. 점은 박이 떨어지는 지점(익투스)이다. 6/8은 보통 빠르기에서 2박 도형으로, 아주 느리면 박마다 세 번씩 잘게 젓는다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rh-meter">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>박자표와 강약: 지휘하며 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="rh-mt-cv" class="rh-cv"></canvas>
+          <div class="pn-steps rh-steps" id="rh-mt-grid" style="--n:4"></div>
+          <div id="rh-mt-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>박자표</span><div class="seg" id="rh-mt-sig"><button data-value="2/4">2/4</button><button data-value="3/4">3/4</button><button data-value="4/4" class="on">4/4</button><button data-value="6/8">6/8</button></div></div>
+          <label class="ctrl"><span>템포(느끼는 박) <output id="rh-mt-bpm-out"></output></span><input type="range" id="rh-mt-bpm" min="40" max="140" value="84" step="2"></label>
+          <label class="check"><input type="checkbox" id="rh-mt-acc" checked> 강약 살리기(벨로시티)</label>
+          <label class="check"><input type="checkbox" id="rh-mt-click" checked> 메트로놈</label>
+          <label class="check"><input type="checkbox" id="rh-mt-bass" checked> 왼손 반주(쿵–짝)</label>
+          <div class="btn-row"><button class="btn primary" id="rh-mt-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">한 박(느끼는 박)</span><span class="v" id="rh-mt-o-beat">—</span></div>
+        <div class="stat"><span class="k">한 마디</span><span class="v" id="rh-mt-o-bar">—</span></div>
+        <div class="stat"><span class="k">박의 분할</span><span class="v" id="rh-mt-o-div">—</span></div>
+        <div class="stat"><span class="k">지금</span><span class="v" id="rh-mt-o-now">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 4/4에서 '강약 살리기'를 껐다 켜 보세요. 모든 음을 같은 세기로 치면 박자표가 귀에 들리지 않습니다. 3/4와 6/8을 번갈아 들으면 같은 8분 여섯 개가 '둘×셋'과 '셋×둘'로 다르게 묶이는 것이 들립니다. 6/8의 템포는 점4분음표(느끼는 박) 기준입니다. 위 그림의 점이 지휘봉 끝이며, 박마다 아래로 떨어지는 지점에 소리가 납니다. 모델: 강 0.82, 중강 0.62, 약 0.42 벨로시티. 실제 연주의 강약은 이보다 훨씬 미묘하고 선율의 모양에 따라 바뀝니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 박자를 손에 넣기</strong> 왼손으로 다–솔(C3·G3) 같은 쉬운 음을 반주처럼 치면서, 오른손은 무릎을 두드려 지휘 도형을 대신합니다. 3/4는 "<b>쿵</b>–짝–짝", 6/8은 "<b>쿵</b>–짝–짝–<b>쿵</b>–짝–짝"처럼 첫 음만 무게를 실어 칩니다. 무게는 손가락 힘이 아니라 팔의 무게를 건반에 '떨어뜨리는' 느낌으로 만들고, 약박은 손목을 가볍게 들어 올리며 칩니다(<a href="touch.html">3장 터치</a> 참고).</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="dots">
+    <h2>점음표와 붙임줄</h2>
+    <p>2의 거듭제곱만으로는 박 하나 반(1.5박) 같은 길이를 적을 수 없습니다. 그래서 음표 머리 오른쪽에 <span class="term">점</span><span class="en">(Dot)</span>을 찍어 "<b>그 음표 길이의 절반을 더한다</b>"고 약속합니다. 점4분음표는 \(1 + \tfrac12 = 1.5\)박, 점2분음표는 \(2 + 1 = 3\)박입니다. 점을 하나 더 찍은 <span class="term">겹점음표</span><span class="en">(Double-dotted note)</span>는 첫 점의 절반을 또 더합니다. 일반식은 등비급수입니다.</p>
+    <div class="formula">$$L(b, n) = b\left(1 + \tfrac12 + \tfrac14 + \cdots + \tfrac1{2^n}\right) = b\left(2 - 2^{-n}\right)$$
+      <div class="where">\(b\): 점이 없는 음표의 길이(박), \(n\): 점의 개수. 점 하나 ×1.5, 점 둘 ×1.75. 점을 무한히 찍어도 원래 길이의 두 배를 넘지 못한다. 실제 악보에서는 점 둘까지 쓴다.</div>
+    </div>
+    <p>또 다른 방법은 <span class="term">붙임줄</span><span class="en">(Tie)</span>입니다. <b>같은 높이</b>의 두 음표를 곡선으로 이으면 둘째 음은 다시 치지 않고 첫 음을 이어서 누른다는 뜻이고, 길이는 두 음표의 합입니다. 점4분음표는 4분음표 + 8분음표를 붙임줄로 이은 것과 소리가 똑같습니다. 붙임줄이 꼭 필요한 곳은 <b>마디선을 넘는 음</b>입니다. 한 음표는 마디 밖으로 나갈 수 없으므로, 마디 끝에서 시작해 다음 마디까지 울리는 음은 두 마디에 나눠 적고 붙임줄로 잇습니다. 또 박의 경계가 보이도록 일부러 점음표 대신 붙임줄을 쓰기도 합니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="점음표와 붙임줄의 길이 비교 막대">
+        <g id="rh-fig3"></g>
+      </svg>
+      <figcaption><b>그림 5-3.</b> 점과 붙임줄은 길이를 더하는 두 가지 표기다. 위에서부터 4분음표(1박), 점4분음표(1 + ½), 겹점4분음표(1 + ½ + ¼), 그리고 4분음표와 8분음표를 붙임줄로 이은 것(점4분음표와 같은 1.5박). 붙임줄과 모양이 비슷한 <b>이음줄</b>(Slur)은 <b>다른 높이</b>의 음들을 잇고 '끊지 말고 레가토로'라는 뜻이라 길이를 바꾸지 않는다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rh-dots">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>점음표 = 붙임줄: 두 가지로 적은 같은 리듬</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rh-dt-staff"></div>
+          <canvas id="rh-dt-cv" class="rh-cv" style="margin-top:6px"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>바탕 음표</span><div class="seg" id="rh-dt-base"><button data-value="2">2분</button><button data-value="1" class="on">4분</button><button data-value="0.5">8분</button></div></div>
+          <div class="ctrl"><span>점</span><div class="seg" id="rh-dt-dots"><button data-value="0">없음</button><button data-value="1" class="on">점 1</button><button data-value="2">점 2</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rh-dt-bpm-out"></output></span><input type="range" id="rh-dt-bpm" min="40" max="140" value="72" step="2"></label>
+          <label class="check"><input type="checkbox" id="rh-dt-click" checked> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="rh-dt-play">▶ 두 마디</button><button class="btn" id="rh-dt-a">▶ 1마디(점)</button><button class="btn" id="rh-dt-b">▶ 2마디(붙임줄)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점음표 길이</span><span class="v" id="rh-dt-o-len">—</span></div>
+        <div class="stat"><span class="k">시간</span><span class="v" id="rh-dt-o-ms">—</span></div>
+        <div class="stat"><span class="k">짝이 되는 짧은 음</span><span class="v" id="rh-dt-o-pair">—</span></div>
+        <div class="stat"><span class="k">붙임줄로 쓰면</span><span class="v" id="rh-dt-o-tie">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 첫 마디는 점음표로, 둘째 마디는 같은 리듬을 붙임줄로 적었습니다. 두 마디가 똑같이 들리는지 확인하세요. 점음표 뒤에는 '남은 조각'(바탕 음표에서 점만큼 모자란 길이)을 채워 박을 맞췄습니다. 점4분+8분은 '환희의 송가' 넷째 마디 같은 선율에서, 점8분+16분은 행진곡의 '따–단' 리듬에서 흔히 나옵니다. 아래 막대는 박 격자(세로선) 위의 실제 길이입니다. 8분음표에 겹점을 찍으면 32분음표가 필요해서 이 시뮬레이터는 점 하나로 바꿉니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 점리듬은 '짧은 음'을 정확히</strong> 점4분+8분을 칠 때 흔한 실수는 8분음표를 일찍 쳐서 점4분을 4분음표처럼 짧게 만드는 것입니다. 해결책은 짧은 음을 <b>뒷박 '&'에 정확히</b> 떨어뜨리는 것입니다. "1 – 2 <b>&</b>"처럼 소리 내어 세며, 점4분음표 동안 손가락은 건반을 꾹 누르고 있다가 '&'에서만 다음 손가락을 내립니다. 점8분+16분은 반대로 짧은 16분음표가 다음 박에 붙도록 "1 – – <b>a</b> 2"로 셉니다.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="counting">
+    <h2>소리 내어 세기: 1 & 2 &, 1 e & a</h2>
+    <p>리듬을 읽는 가장 확실한 방법은 <b>입으로 세는 것</b>입니다. 박마다 숫자를 붙이고(1 2 3 4), 박을 둘로 나누면 사이에 '&'(앤드, 우리말로 '그리고' 또는 '앤')를, 넷으로 나누면 "1 e & a"(원–이–앤–어)를 넣습니다. 그러면 마디 안의 모든 위치에 이름이 생깁니다. "2박의 &에서 친다", "3박의 a에서 친다"처럼요. 긴 음은 세는 소리를 이어서 끌고("1–2–"), 쉼표 자리는 속으로 셉니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="한 마디를 4분, 8분, 16분 격자로 나누고 각 칸에 셈 이름을 붙인 그림">
+        <g id="rh-fig4"></g>
+      </svg>
+      <figcaption><b>그림 5-4.</b> 셈 격자. 한 마디(4/4)를 4·8·16칸으로 나누고 칸마다 셈 이름을 붙였다. 굵은 칸이 박(숫자)이고, 아래 층의 칸은 위 층의 칸을 모두 포함한다. 리듬은 이 격자의 어느 칸에서 음이 '시작'하는지로 읽는다.</figcaption>
+    </figure>
+    <p>셈을 붙이면 리듬은 '시작 칸의 목록'이 됩니다. 점4분+8분은 "1 (2) & | 3 (4) &"이고, 당김음 8–4–8은 "1 & (2) & | …"입니다. 괄호는 소리 없이 세기만 하는 자리입니다. 아래 시뮬레이터는 미리 준비한 리듬을 셈과 함께 들려주고, 칸을 눌러 나만의 리듬을 만들 수도 있습니다. 칸은 누를 때마다 <b>시작(●) → 이어짐(–) → 쉼(빈칸)</b>으로 바뀌고, 악보는 그 리듬을 박 경계에 맞춰 점음표·붙임줄로 자동으로 적습니다.</p>
+
+    <div class="sim" id="sim-rh-count">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셈 세기 리듬 읽기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="pn-big" id="rh-ct-big">1<small>재생하면 셈이 여기에 나타납니다</small></div>
+          <div class="pn-steps rh-steps" id="rh-ct-grid" style="--n:8"></div>
+          <div id="rh-ct-staff" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>리듬</span><select id="rh-ct-pat"></select></label>
+          <div class="ctrl"><span>격자</span><div class="seg" id="rh-ct-div"><button data-value="1">4분(4칸)</button><button data-value="2" class="on">8분(8칸)</button><button data-value="4">16분(16칸)</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rh-ct-bpm-out"></output></span><input type="range" id="rh-ct-bpm" min="40" max="140" value="72" step="2"></label>
+          <label class="check"><input type="checkbox" id="rh-ct-click" checked> 메트로놈(박)</label>
+          <label class="check"><input type="checkbox" id="rh-ct-sub"> 분할 클릭(모든 칸)</label>
+          <div class="btn-row"><button class="btn primary" id="rh-ct-play">▶ 반복 재생</button><button class="btn" id="rh-ct-clear">칸 비우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">셈(시작 칸)</span><span class="v" id="rh-ct-o-count">—</span></div>
+        <div class="stat"><span class="k">음 개수</span><span class="v" id="rh-ct-o-n">—</span></div>
+        <div class="stat"><span class="k">칸 간격</span><span class="v" id="rh-ct-o-cell">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '점4분+8분'과 '당김음'을 골라 큰 글자의 셈을 따라 소리 내어 세어 보세요. 리듬이 박 위에 떨어지지 않는 칸(&, e, a)에서 시작할 때 몸이 어떻게 반응하는지 느껴 보세요. 칸을 직접 눌러 리듬을 만들고 악보가 어떻게 적히는지 보세요. 한 박을 넘어 이어지는 음은 박 경계에서 붙임줄로 나뉘어 적힙니다(악보 관습에 따른 단순 규칙이며, 실제 악보는 읽기 쉬운 쪽으로 조금 다르게 적기도 합니다). 격자를 바꾸면 지금 리듬을 새 격자에 맞춰 옮기고, 맞지 않는 칸은 가까운 칸으로 반올림합니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 리듬만 먼저 읽기</strong> 새 곡을 펼치면 음 높이는 잠시 잊고 리듬만 읽으세요. ① 두 손을 무릎 위에 두고 박마다 발로 바닥을 두드립니다. ② 셈을 소리 내어 말하며 오른손 리듬을 오른 무릎에 칩니다. ③ 같은 방법으로 왼손. ④ 둘 다 되면 건반에서 한 음(예: C4)만으로 리듬을 칩니다. ⑤ 그다음에 비로소 실제 음을 붙입니다. 음과 리듬을 한꺼번에 읽으려 하면 둘 다 틀립니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="tempo">
+    <h2>템포·BPM·메트로놈</h2>
+    <p>음표의 길이가 상대적이라면, 실제 시간은 <span class="term">템포</span><span class="en">(Tempo)</span>가 정합니다. 현대 악보는 첫머리에 ♩ = 96처럼 1분에 박이 몇 번 오는지(<span class="term">BPM</span><span class="en">(Beats per minute)</span>)를 적거나, 이탈리아어 <span class="term">빠르기말</span>로 대략의 빠르기와 성격을 적습니다. ♩ = 96 옆의 M.M.은 1815년 무렵 특허를 낸 요한 네포무크 멜첼의 메트로놈(Mälzel's Metronome)에서 온 약자이고, 베토벤은 1817년 무렵부터 자기 교향곡에 메트로놈 수치를 붙였습니다.</p>
+    <div class="formula">$$T_{\text{beat}} = \frac{60}{\text{BPM}}\ \text{s},\qquad T_{\text{bar}} = N_{\text{beats}}\cdot T_{\text{beat}},\qquad T_{\text{sub}} = \frac{T_{\text{beat}}}{d},\qquad \text{BPM} = \frac{60}{\overline{\Delta t}}$$
+      <div class="where">\(N_{\text{beats}}\): 한 마디의 박 수, \(d\): 박을 몇으로 나눴는가(8분 2, 셋잇단 3, 16분 4), \(\overline{\Delta t}\): 손으로 두드린 간격의 평균(초) — 탭 템포의 원리. 120 BPM의 4/4는 박 0.5 s, 마디 2 s, 16분 125 ms. 60 BPM은 박이 정확히 1초라서 시계 초침과 같다. 같은 리듬을 더 느린 템포에서 정확히 치는 것이 빠른 템포의 지름길인 이유는, 템포를 낮추면 \(T_{\text{sub}}\)가 길어져 손가락 하나하나를 준비할 시간이 생기기 때문이다.</div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>빠르기말</th><th>뜻</th><th>대략의 BPM</th></tr></thead>
+      <tbody id="rh-tempo-table"></tbody>
+    </table></div>
+    <p>빠르기말의 BPM 범위는 메트로놈 눈금에 흔히 새겨진 값이며, 시대와 곡, 출판사에 따라 꽤 다릅니다. 빠르기말은 속도만이 아니라 성격(Allegro는 원래 '쾌활하게', Andante는 '걸어가듯이')을 담은 말이라 같은 Allegro도 곡에 따라 120에서 160까지 다양하게 연주됩니다.</p>
+
+    <div class="sim" id="sim-rh-metro">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>메트로놈과 탭 템포</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="rh-mn-cv" class="rh-cv"></canvas>
+          <div class="rh-lamps" id="rh-mn-lamps"></div>
+          <div class="rh-terms seg" id="rh-mn-terms" style="margin-top:10px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="rh-mn-bpm-out"></output></span><input type="range" id="rh-mn-bpm" min="30" max="220" value="96" step="1"></label>
+          <div class="ctrl"><span>한 마디 박 수</span><div class="seg" id="rh-mn-beats"><button data-value="1">1</button><button data-value="2">2</button><button data-value="3">3</button><button data-value="4" class="on">4</button><button data-value="6">6</button></div></div>
+          <div class="ctrl"><span>분할 클릭</span><div class="seg" id="rh-mn-sub"><button data-value="1" class="on">없음</button><button data-value="2">8분</button><button data-value="3">셋잇단</button><button data-value="4">16분</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="rh-mn-play">▶ 시작</button><button class="btn" id="rh-mn-tap">탭 템포</button></div>
+          <div class="btn-row"><button class="btn" id="rh-mn-m4">−4</button><button class="btn" id="rh-mn-p4">+4</button><button class="btn" id="rh-mn-half">½ 템포</button><button class="btn" id="rh-mn-dbl">×2</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">빠르기말</span><span class="v" id="rh-mn-o-term">—</span></div>
+        <div class="stat"><span class="k">박 간격</span><span class="v" id="rh-mn-o-beat">—</span></div>
+        <div class="stat"><span class="k">마디 길이</span><span class="v" id="rh-mn-o-bar">—</span></div>
+        <div class="stat"><span class="k">분할 간격</span><span class="v" id="rh-mn-o-sub">—</span></div>
+        <div class="stat"><span class="k">탭</span><span class="v" id="rh-mn-o-tap">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 좋아하는 노래를 머릿속으로 부르며 '탭 템포'를 네 번 이상 두드려 그 곡의 BPM을 재 보세요(2초 넘게 쉬면 새로 잽니다). 같은 템포에서 분할 클릭을 8분 → 셋잇단 → 16분으로 바꾸면 박은 그대로인데 촘촘함이 달라집니다. 빠르기말 버튼은 그 범위의 가운데 값으로 맞춥니다. 위 막대는 박마다 좌우 끝에 닿는 시각 메트로놈입니다(기계식 추의 물리를 흉내 낸 것은 아닙니다). 클릭은 오디오 시계로 미리 예약하므로 화면이 버벅여도 박은 흔들리지 않습니다.</div>
+    </div>
+    <div class="callout note"><strong>메트로놈은 '맞추는' 도구가 아니라 '듣는' 도구</strong> 메트로놈을 켜고 연습할 때 클릭을 쫓아가면 늘 반 박 늦습니다. 클릭이 오기 <b>전에</b> 다음 박을 예상하고, 내 음이 클릭과 '겹쳐서 클릭이 사라지게' 치는 것이 목표입니다. 클릭이 또렷하게 들리면 어긋난 것입니다. 익숙해지면 클릭을 2·4박에만 두거나(재즈), 마디의 첫 박에만 두어 박을 스스로 유지하는 연습으로 넘어갑니다.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="tapping">
+    <h2>리듬 정확도 재기: 듣고 두드리기</h2>
+    <p>박에 맞춰 손가락을 두드리는 일을 심리학에서는 <span class="term">감각운동 동기화</span><span class="en">(Sensorimotor synchronization)</span>라 부르고 오래 연구해 왔습니다. 잘 알려진 결과가 두 가지 있습니다. 첫째, 사람은 클릭보다 평균 수십 ms <b>먼저</b> 두드리는 경향이 있습니다(음의 평균 비동기, Negative mean asynchrony). 음악 훈련을 받을수록 이 값은 작아집니다. 둘째, 같은 사람의 탭도 매번 조금씩 흔들리며, 그 흔들림(표준편차)은 박 간격에 비례해 커지는 편입니다. 그러니 리듬 실력은 두 숫자로 나눠 볼 수 있습니다.</p>
+    <div class="formula">$$e_i = t_i^{\text{tap}} - t_i^{\text{target}},\qquad \text{편향}\ \bar e = \frac1N\sum_i e_i,\qquad \text{흔들림}\ s = \sqrt{\frac{1}{N-1}\sum_i (e_i-\bar e)^2}$$
+      <div class="where">\(\bar e\)가 음수면 일찍, 양수면 늦게 치는 습관이다. \(s\)가 작을수록 '일정'하다. 편향은 의식하면 고칠 수 있지만 흔들림은 반복 연습으로만 줄어든다. 측정값에는 브라우저·스피커·터치스크린의 지연이 섞이므로(블루투스 스피커는 100 ms를 넘기도 한다), 아래 '지연 보정'으로 장치 몫을 빼고 보자.</div>
+    </div>
+
+    <div class="sim" id="sim-rh-tap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>리듬 따라 치기 게임</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rh-tp-staff"></div>
+          <div class="rh-phase" id="rh-tp-phase">▶ 시작을 누르면 한 마디 예비 박 뒤에 '듣기'와 '따라 치기'가 번갈아 나옵니다</div>
+          <button class="rh-tap" id="rh-tp-pad" type="button">탭<small>스페이스 바 또는 여기를 누르세요</small></button>
+          <canvas id="rh-tp-cv" class="rh-cv" style="margin-top:10px"></canvas>
+          <div class="rh-legend"><span><i style="background:var(--ok)"></i>±30 ms 이내</span><span><i style="background:var(--warn)"></i>±70 ms 이내</span><span><i style="background:var(--bad)"></i>그 밖</span><span><i style="background:var(--text-faint)"></i>목표 위치</span></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>리듬</span><select id="rh-tp-pat"></select></label>
+          <label class="ctrl"><span>템포 <output id="rh-tp-bpm-out"></output></span><input type="range" id="rh-tp-bpm" min="50" max="130" value="76" step="2"></label>
+          <div class="ctrl"><span>따라 치기 횟수</span><div class="seg" id="rh-tp-rounds"><button data-value="2">2</button><button data-value="4" class="on">4</button><button data-value="8">8</button></div></div>
+          <label class="ctrl"><span>지연 보정 <output id="rh-tp-lat-out"></output></span><input type="range" id="rh-tp-lat" min="0" max="200" value="0" step="5"></label>
+          <label class="check"><input type="checkbox" id="rh-tp-snd" checked> 탭할 때 피아노 소리</label>
+          <div class="btn-row"><button class="btn primary" id="rh-tp-play">▶ 시작</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">편향(평균 오차)</span><span class="v" id="rh-tp-o-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림(표준편차)</span><span class="v" id="rh-tp-o-sd">—</span></div>
+        <div class="stat"><span class="k">맞춘 음 / 전체</span><span class="v" id="rh-tp-o-hit">—</span></div>
+        <div class="stat"><span class="k">±30 ms 이내</span><span class="v" id="rh-tp-o-tight">—</span></div>
+        <div class="stat"><span class="k">헛탭</span><span class="v" id="rh-tp-o-extra">—</span></div>
+      </div>
+      <div class="sim-note">진행: 예비 한 마디(클릭만) → '듣기' 한 마디(피아노가 리듬을 연주) → '따라 치기' 한 마디(클릭만, 내가 탭) → 다시 듣기 … 위 그래프의 줄 하나가 따라 치기 한 마디이고, 회색 선이 목표, 점이 내 탭입니다. 아래는 오차 분포(10 ms 간격)이며 세로 점선이 평균입니다. 각 탭은 가장 가까운 목표 음에 짝지어지고, 칸 간격의 절반(최대 250 ms)보다 멀면 헛탭으로 셉니다. 측정 시각은 오디오 시계 기준이고 입력 이벤트가 화면에 전달되는 지연(보통 5–20 ms)이 섞여 있습니다. 탭 소리를 켜면 내 소리가 늦게 들려 헷갈릴 수 있으니 익숙해지면 꺼 보세요.</div>
+    </div>
+    <div class="callout tip"><strong>측정 결과로 연습 계획 세우기</strong> 편향이 −40 ms처럼 크게 앞선다면 '조급함'입니다. 박 직전에 숨을 내쉬듯 기다렸다가 치고, 메트로놈 볼륨을 키워 클릭을 덮는 연습을 하세요. 흔들림이 30 ms를 넘으면 템포를 10–20% 낮추고 셈을 소리 내어 말하며 다시 재 보세요. 8분음표에서는 정확한데 점리듬이나 당김음에서만 무너진다면, 그 리듬을 <a href="#counting">셈 세기</a>로 돌아가 칸 이름으로 외우는 것이 먼저입니다. 결과는 날짜와 함께 적어 두면 진전이 숫자로 보입니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="hands">
+    <h2>양손 리듬 맞추기</h2>
+    <p>피아노가 다른 악기보다 어려운 점은 두 손이 <b>서로 다른 리듬</b>을 동시에 친다는 것입니다. 왼손은 4분음표로 박을 지키고 오른손은 8분음표나 점리듬으로 선율을 칩니다. 이것을 푸는 열쇠는 <b>세로 정렬</b>입니다. 두 손의 리듬을 같은 격자(가장 촘촘한 분할) 위에 겹쳐 놓고, 어느 칸에서 두 손이 함께 치는지, 어느 칸에서 한 손만 치는지를 미리 알아 두는 것입니다. 큰보표에서 위아래로 같은 세로선에 놓인 음은 동시에 칩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 260" role="img" aria-label="왼손 4분음표와 오른손 8분음표, 점리듬의 세로 정렬">
+        <g id="rh-fig5"></g>
+      </svg>
+      <figcaption><b>그림 5-5.</b> 세로 정렬. 위: 오른손 8분음표 여덟 개와 왼손 4분음표 네 개는 박마다(굵은 선) 함께 치고 '&'에서는 오른손만 친다. 아래: '환희의 송가'(베토벤, 1824) 넷째 마디의 점4분+8분은 둘째 박에서 오른손이 쉬지 않고 누르고 있는 동안 왼손만 치고, 짧은 8분음표는 왼손이 없는 '&'에 홀로 떨어진다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rh-hands">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>양손 리듬 연습기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="rh-hd-staff"></div>
+          <div id="rh-hd-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>곡·패턴</span><select id="rh-hd-piece"></select></label>
+          <label class="ctrl"><span>템포 <output id="rh-hd-bpm-out"></output></span><input type="range" id="rh-hd-bpm" min="40" max="132" value="72" step="2"></label>
+          <label class="check"><input type="checkbox" id="rh-hd-r" checked> 오른손 소리</label>
+          <label class="check"><input type="checkbox" id="rh-hd-l" checked> 왼손 소리</label>
+          <label class="check"><input type="checkbox" id="rh-hd-click"> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="rh-hd-play">▶ 반복 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">박자</span><span class="v" id="rh-hd-o-sig">—</span></div>
+        <div class="stat"><span class="k">함께 치는 칸</span><span class="v" id="rh-hd-o-both">—</span></div>
+        <div class="stat"><span class="k">오른손만 / 왼손만</span><span class="v" id="rh-hd-o-solo">—</span></div>
+        <div class="stat"><span class="k">지금</span><span class="v" id="rh-hd-o-now">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 한 손의 소리를 끄면 그 손의 음표가 악보에서 흐려지고, 들리는 손에 맞춰 내가 나머지 손을 실제 피아노(또는 아래 건반, 컴퓨터 키 <kbd>A</kbd>–<kbd>K</kbd>)로 칠 수 있습니다. 끈 손은 건반 표시도 하지 않습니다. 곡: '환희의 송가'(베토벤 교향곡 9번 4악장 주제, 1824)와 '작은 별'(프랑스 민요)은 공유 저작물이며 왼손 반주는 이 책에서 만든 간단한 편곡입니다. 나머지는 연습용으로 직접 만든 패턴입니다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 양손 합치기 4단계</strong> ① <b>한 손씩</b>: 각 손을 메트로놈에 맞춰 틀리지 않고 세 번 연속 칠 수 있을 때까지. ② <b>한 손 치고 한 손 두드리기</b>: 오른손은 건반, 왼손은 무릎(또는 위 시뮬레이터에서 한 손을 끄고 따라 치기). ③ <b>느린 템포로 합치기</b>: 한 손일 때 템포의 60% 정도에서 시작하고, 세로 정렬 칸에서 두 손이 정확히 같이 떨어지는지 귀로 확인합니다. 두 음이 '두둑' 하고 갈라져 들리면 어긋난 것입니다. ④ <b>템포 올리기</b>: 세 번 연속 성공하면 4–6 BPM씩 올립니다(<a href="technique.html">12장 템포 사다리</a>). 3 대 2 같은 폴리리듬도 같은 원리로 푸는데, 이는 12장에서 다룹니다.</div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>음표 길이는 온음표를 2의 거듭제곱으로 나눈 상대 길이다. 4분음표를 한 박으로 세면 \(L_k = 4/2^k\)박이고, 쉼표도 같은 체계로 '소리 없는 길이'를 적는다.</li>
+      <li>박자표의 위 숫자는 마디의 박 수, 아래 숫자는 박이 되는 음표다. 4/4는 강–약–중강–약, 3/4는 강–약–약이다. 6/8은 8분음표 셋을 한 박으로 느끼는 겹2박자다.</li>
+      <li>점은 그 음표의 절반을 더한다(×1.5). 점 \(n\)개는 \(b(2-2^{-n})\). 붙임줄은 같은 높이의 음을 이어 길이를 더하며, 마디선을 넘는 음에는 반드시 쓴다. 이음줄(슬러)은 다른 높이를 이어 레가토를 뜻한다.</li>
+      <li>"1 & 2 &", "1 e & a"로 셈을 붙이면 마디 안의 모든 위치에 이름이 생기고, 리듬은 '시작 칸의 목록'으로 읽힌다.</li>
+      <li>박 간격은 \(60/\text{BPM}\) 초, 마디는 박 수 × 박 간격, 분할은 박 간격 ÷ 분할 수다. 탭 템포는 두드린 간격 평균의 역수다.</li>
+      <li>리듬 정확도는 편향(평균 오차)과 흔들림(표준편차)으로 본다. 사람은 대개 클릭보다 조금 일찍 치며, 장치 지연을 빼고 해석한다.</li>
+      <li>양손 리듬은 가장 촘촘한 격자 위의 세로 정렬로 푼다. 한 손씩 → 한 손 + 두드리기 → 느린 합치기 → 템포 올리기 순서로 연습한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>4/4박자 한 마디를 16분음표로만 채우면 몇 개가 필요한가?</p><div class="opts">
+        <button class="opt">4개</button><button class="opt">8개</button><button class="opt" data-correct>16개</button><button class="opt">32개</button>
+      </div><div class="quiz-exp">16분음표는 온음표의 1/16이고, 4/4 한 마디는 온음표 하나 길이(4박)이므로 16개. 한 박에 넷씩이다.</div></div>
+      <div class="quiz-q"><p>점2분음표에 점을 하나 더 찍은 겹점2분음표는 몇 박인가(4분음표 = 1박)?</p><div class="opts">
+        <button class="opt">3박</button><button class="opt" data-correct>3.5박</button><button class="opt">3.75박</button><button class="opt">4박</button>
+      </div><div class="quiz-exp">\(b(2-2^{-n}) = 2\times(2-\tfrac14) = 3.5\). 2 + 1 + 0.5 박이다.</div></div>
+      <div class="quiz-q"><p>6/8박자에 대한 설명으로 옳은 것은?</p><div class="opts">
+        <button class="opt">8분음표를 한 박으로 세는 6박자이며 강약은 강–약–강–약–강–약이다</button><button class="opt" data-correct>점4분음표를 한 박으로 느끼는 겹2박자로, 한 박이 셋으로 나뉜다</button><button class="opt">3/4와 마디 길이가 같으므로 같은 박자다</button><button class="opt">4분음표 여섯 개가 한 마디다</button>
+      </div><div class="quiz-exp">6/8은 8분음표 셋씩 두 묶음(강–약–약–중강–약–약)이다. 3/4와 마디 길이는 같지만 3/4는 둘씩 세 묶음이라 강약 구조가 다르다.</div></div>
+      <div class="quiz-q"><p>♩ = 75로 연주할 때 8분음표 하나의 길이는?</p><div class="opts">
+        <button class="opt">200 ms</button><button class="opt" data-correct>400 ms</button><button class="opt">750 ms</button><button class="opt">800 ms</button>
+      </div><div class="quiz-exp">박 = 60 000/75 = 800 ms, 8분음표는 그 절반인 400 ms다.</div></div>
+      <div class="quiz-q"><p>4분음표와 8분음표를 같은 높이에서 붙임줄로 이은 것과 소리가 같은 것은?</p><div class="opts">
+        <button class="opt">4분음표 둘</button><button class="opt" data-correct>점4분음표 하나</button><button class="opt">2분음표 하나</button><button class="opt">이음줄로 이은 4분·8분음표</button>
+      </div><div class="quiz-exp">붙임줄은 둘째 음을 다시 치지 않고 길이를 더하므로 1 + 0.5 = 1.5박, 점4분음표와 같다. 이음줄은 다른 높이의 음을 레가토로 잇는 기호라 두 음을 모두 친다.</div></div>
+      <div class="quiz-q"><p>탭 게임 결과가 편향 +5 ms, 흔들림 45 ms였다. 가장 알맞은 해석과 처방은?</p><div class="opts">
+        <button class="opt">습관적으로 늦게 친다 — 일부러 일찍 치자</button><button class="opt" data-correct>평균은 맞지만 탭마다 들쭉날쭉하다 — 템포를 낮추고 셈을 말하며 반복하자</button><button class="opt">거의 완벽하다 — 템포를 올리자</button><button class="opt">장치 지연 때문이므로 연습이 필요 없다</button>
+      </div><div class="quiz-exp">편향이 0에 가까워도 표준편차 45 ms는 일정하지 않다는 뜻이다. 흔들림은 느린 템포의 정확한 반복으로 줄인다. 장치 지연은 편향에 더해질 뿐 흔들림을 크게 만들지는 않는다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 도우미 (접두사 rh) */
+const rhSolo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const rhF = (x, d = 0) => (isFinite(x) ? Number(x).toFixed(d) : "—");
+const rhMs = (s) => (s >= 1 ? rhF(s, 2) + " s" : rhF(s * 1000, 0) + " ms");
+const RH_NAMES = { 4: "온음표", 2: "2분음표", 1: "4분음표", 0.5: "8분음표", 0.25: "16분음표", 3: "점2분음표", 1.5: "점4분음표", 0.75: "점8분음표", 3.5: "겹점2분음표", 1.75: "겹점4분음표" };
+const RH_COUNT = {
+  1: ["1", "2", "3", "4"],
+  2: ["1", "&", "2", "&", "3", "&", "4", "&"],
+  4: ["1", "e", "&", "a", "2", "e", "&", "a", "3", "e", "&", "a", "4", "e", "&", "a"],
+};
+/** 박 단위 플레이어: 음(소리·악보 강조) + 클릭 + 신호(cue) 이벤트. 손별 음소거 가능 */
+function rhPlayer(o) {
+  let sc = null, data = null;
+  const api = {
+    get running() { return !!(sc && sc.running); },
+    get data() { return data; },
+    get beat() { return sc && sc.running ? sc.beat : 0; },
+    start() {
+      if (sc && sc.running) sc.stop();
+      data = o.build();
+      const evs = data.notes.map((n, i) => Object.assign({ i, kind: "n" }, n))
+        .concat((data.clicks || []).map((c) => Object.assign({ kind: "c" }, c)))
+        .concat((data.cues || []).map((c) => Object.assign({ kind: "q" }, c)));
+      sc = PN.scheduler(evs, {
+        bpm: o.bpm, loop: o.loop ? o.loop() : false, length: data.length,
+        onEvent(ev, when, spb, loopNo) {
+          if (ev.kind === "c") { if (!o.clickOn || o.clickOn(ev)) PN.click(when, !!ev.accent, { vel: ev.vel != null ? ev.vel : 0.5 }); }
+          else if (ev.kind === "n" && !ev.cont && !(o.mute && o.mute(ev))) {
+            const ms = ev.ms || [ev.m], dur = Math.max(0.05, (ev.sd || ev.d) * spb * (ev.legato || o.legato || 0.92));
+            ms.forEach((m) => { o.piano.noteOn(m, ev.vel != null ? ev.vel : 0.68, when); o.piano.noteOff(m, when + dur); });
+          }
+          o.onEvent && o.onEvent(ev, when, spb, loopNo);
+        },
+        onUI(ev) {
+          if (ev.kind === "n" && o.staff && !o.noHighlight) {
+            const st = typeof o.staff === "function" ? o.staff() : o.staff;
+            const idx = []; data.notes.forEach((n, i) => { if (Math.abs(n.t - ev.t) < 1e-6) idx.push(n.si != null ? n.si : i); });
+            st && st.highlight(idx);
+          }
+          o.onUI && o.onUI(ev);
+        },
+        onStop() { o.piano.stop(); const st = typeof o.staff === "function" ? o.staff() : o.staff; st && st.highlight(-1); o.onStop && o.onStop(); },
+        onEnd() { api.onEnd && api.onEnd(); o.onEnd && o.onEnd(); },
+      });
+      sc.start();
+    },
+    stop() { if (sc && sc.running) sc.stop(); },
+  };
+  return api;
+}
+/** 재생 버튼 + 한 번에 하나만 울리는 규칙 */
+function rhBind(btnId, player, labels, onStart) {
+  let pb;
+  const halt = () => { player.stop(); pb.set(false); rhSolo.drop(halt); };
+  pb = MB.playButton(btnId, () => { rhSolo.take(halt); onStart && onStart(); player.start(); }, halt, labels);
+  player.onEnd = () => { pb.set(false); rhSolo.drop(halt); };
+  return { halt, pb };
+}
+/** 한 번 재생 버튼(토글 아님) */
+function rhOnce(btnId, player, before) {
+  const b = document.getElementById(btnId);
+  const halt = () => { player.stop(); rhSolo.drop(halt); };
+  b.addEventListener("click", () => { MB.ctx(); rhSolo.take(halt); before && before(); player.start(); });
+  player.onEnd = () => rhSolo.drop(halt);
+  return halt;
+}
+/**
+ * 마디 안의 길이 d(박)를 악보에 적을 수 있는 조각으로 나눈다(박 경계·정렬 규칙).
+ * 반환: [[t, d], …]  (t는 마디 시작 기준)
+ */
+function rhSplit(t, d, bpb) {
+  const SIZES = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25], out = [], eps = 1e-6;
+  const isInt = (x) => Math.abs(x - Math.round(x)) < eps;
+  while (d > eps) {
+    const s = SIZES.find((s) => {
+      if (s > d + eps || t + s > bpb + eps) return false;
+      const base = [3, 1.5, 0.75].includes(s) ? s / 1.5 : s;
+      if (!isInt(t / base)) return false;
+      if (s < 1 - eps) return Math.floor(t + eps) === Math.floor(t + s - eps); // 박보다 짧은 음은 박 경계를 넘지 않는다
+      if (!isInt(t)) return false;                                            // 박 이상 음은 박 위에서 시작
+      if (bpb === 4 && s > 1 + eps && t < 2 - eps && t + s > 2 + eps && !(t === 0)) return false; // 4/4 가운데 경계
+      return true;
+    }) || 0.25;
+    out.push([t, s]); t += s; d -= s;
+  }
+  return out;
+}
+/** 셈 칸 문자열(x 시작, - 이어짐, . 쉼) → 악보·소리 음표 */
+function rhCellsToNotes(cells, div, m, o = {}) {
+  const bpb = 4, out = [], n = cells.length, bars = o.bars || 1;
+  for (let b = 0; b < bars; b++) {
+    for (let i = 0; i < n; i++) {
+      if (cells[i] !== "x") continue;
+      let j = i + 1; while (j < n && cells[j] === "-") j++;
+      const t = i / div, d = (j - i) / div;
+      const pcs = rhSplit(t, d, bpb);
+      pcs.forEach(([pt, pd], k) => out.push({ t: b * bpb + pt, d: pd, m: typeof m === "function" ? m(i) : m, tie: k < pcs.length - 1, cont: k > 0, sd: k === 0 ? d : undefined, cell: i, label: k === 0 && o.labels ? RH_COUNT[div][i] : undefined }));
+    }
+  }
+  return out;
+}
+const RH_PATTERNS = [
+  { id: "q", name: "4분음표 넷", div: 1, cells: "xxxx" },
+  { id: "e", name: "8분음표 여덟", div: 2, cells: "xxxxxxxx" },
+  { id: "h", name: "2분 + 4분 둘", div: 1, cells: "x-xx" },
+  { id: "dq", name: "점4분 + 8분", div: 2, cells: "x--xx--x" },
+  { id: "rest", name: "쉼표가 섞인 8분", div: 2, cells: "x.xxx.x." },
+  { id: "sync", name: "당김음 8–4–8", div: 2, cells: "xx-xxx-x" },
+  { id: "s", name: "16분음표 열여섯", div: 4, cells: "xxxxxxxxxxxxxxxx" },
+  { id: "gal", name: "8분 + 16분 둘 (갤럽)", div: 4, cells: "x-xxx-xxx-xxx-xx" },
+  { id: "rgal", name: "16분 둘 + 8분", div: 4, cells: "xxx-xxx-xxx-xxx-" },
+  { id: "d8", name: "점8분 + 16분", div: 4, cells: "x--xx--xx--xx--x" },
+  { id: "mix", name: "섞어 쓰기(4분·8분·16분)", div: 4, cells: "x---x-x-xxxxx---" },
+];
+const rhPatName = (p) => p.name + " · " + p.cells.split("").map((c, i) => (c === "x" ? RH_COUNT[p.div][i] : c === "-" ? "–" : "(" + RH_COUNT[p.div][i] + ")")).join(" ");
+const RH_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const RH_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+
+/* 지휘 도형의 익투스(정규 좌표, 아래가 +) */
+var RH_CONDUCT = {
+  2: [[0, 0.75], [0.38, 0.3]],
+  3: [[0, 0.75], [0.75, 0.42], [0.32, -0.25]],
+  4: [[0, 0.75], [-0.72, 0.38], [0.75, 0.38], [0.28, -0.25]],
+};
+/** 두 익투스 사이 곡선의 제어점: 튀어 오르는 모양, 마지막 박은 위로 크게 */
+function rhCtrl(a, b, last, cx, cy, R) {
+  if (last) return [cx + (a[0] - cx) * 0.2, cy - R * 1.25];
+  return [(a[0] + b[0]) / 2, Math.min(a[1], b[1]) - R * (0.22 + 0.22 * Math.abs(a[0] - b[0]) / R)];
+}
+
+/* ================================================================ 정적 그림 채우기 */
+/** 작은 음표 글리프(SVG 문자열). y = 머리 중심 */
+function rhGlyph(x, y, d) {
+  const open = d >= 2, stem = d < 4, flags = d <= 0.25 ? 2 : d <= 0.5 ? 1 : 0;
+  let s = `<ellipse cx="${x}" cy="${y}" rx="${d >= 4 ? 6.6 : 5.6}" ry="${d >= 4 ? 4.6 : 4.1}" transform="rotate(-18 ${x} ${y})" style="fill:${open ? "var(--bg-elev)" : "var(--text)"};stroke:var(--text);stroke-width:${open ? 1.6 : 0}"/>`;
+  if (stem) s += `<line x1="${x + 5.2}" y1="${y - 1}" x2="${x + 5.2}" y2="${y - 30}" style="stroke:var(--text);stroke-width:1.3"/>`;
+  for (let f = 0; f < flags; f++) s += `<path d="M${x + 5.2} ${y - 30 + f * 7} c1 6 9 8 7 17 c2-7-3-10-7-11" style="fill:var(--text)"/>`;
+  return s;
+}
+function rhRestGlyph(x, y, d) {
+  const line = (yy) => `<line x1="${x - 12}" y1="${yy}" x2="${x + 12}" y2="${yy}" style="stroke:var(--text-faint);stroke-width:1"/>`;
+  if (d >= 4) return line(y - 8) + `<rect x="${x - 6}" y="${y - 8}" width="12" height="5" style="fill:var(--text)"/>`;
+  if (d >= 2) return line(y - 3) + `<rect x="${x - 6}" y="${y - 8}" width="12" height="5" style="fill:var(--text)"/>`;
+  if (d >= 1) return `<path d="M${x - 2} ${y - 18} l5 7 l-5 6 l5 7 c-5 -2 -7 2 -3 6 c-7 -3 -5 -10 1 -7 l-5 -6 l4 -6z" style="fill:var(--text)"/>`;
+  const fl = d <= 0.25 ? 2 : 1;
+  let s = `<line x1="${x + 3}" y1="${y - 14}" x2="${x - 2}" y2="${y + 4 + (fl - 1) * 6}" style="stroke:var(--text);stroke-width:1.5"/>`;
+  for (let f = 0; f < fl; f++) s += `<circle cx="${x - 2 - f * 1.5}" cy="${y - 13 + f * 7}" r="2.4" style="fill:var(--text)"/><path d="M${x - 2 - f * 1.5} ${y - 12 + f * 7} q3 1 ${5 - f * 0.5} -2" style="stroke:var(--text);stroke-width:1.5;fill:none"/>`;
+  return s;
+}
+(function () {
+  // 그림 5-1: 이진 트리
+  const rows = [[4, "온음표", "4박"], [2, "2분음표", "2박"], [1, "4분음표", "1박"], [0.5, "8분음표", "½박"], [0.25, "16분음표", "¼박"]];
+  let s = `<g font-family="var(--font)">`;
+  const x0 = 210, x1 = 790, Y = (k) => 46 + k * 66;
+  rows.forEach(([d, name, beats], k) => {
+    const n = 1 << k, w = (x1 - x0) / n, y = Y(k);
+    s += `<text x="14" y="${y + 4}" class="t" style="font-size:14px;font-weight:700">${name}</text><text x="14" y="${y + 21}" class="t-mono" style="font-size:12px">${beats}</text>`;
+    s += `<g>${rhRestGlyph(150, y + 8, d)}</g>`;
+    for (let i = 0; i < n; i++) {
+      const cx = x0 + w * (i + 0.5);
+      if (k > 0) { const pw = (x1 - x0) / (n / 2), px = x0 + pw * (Math.floor(i / 2) + 0.5); s += `<line x1="${px}" y1="${Y(k - 1) + 10}" x2="${cx + 5}" y2="${y - 30}" style="stroke:var(--border);stroke-width:1"/>`; }
+      s += rhGlyph(cx, y + 8, d);
+    }
+  });
+  s += `<text x="150" y="22" text-anchor="middle" class="t-dim" style="font-size:12px">쉼표</text><text x="${(x0 + x1) / 2}" y="16" text-anchor="middle" class="t-dim" style="font-size:12px">한 줄의 합 = 온음표 하나 = 4박</text></g>`;
+  document.getElementById("rh-fig1").innerHTML = s;
+
+  // 그림 5-2: 지휘 도형
+  let s2 = `<g font-family="var(--font)">`;
+  [2, 3, 4].forEach((nb, p) => {
+    const cx = 135 + p * 265, cy = 150, R = 95;
+    const pts = RH_CONDUCT[nb].map(([x, y]) => [cx + x * R, cy + y * R]);
+    s2 += `<rect x="${cx - 125}" y="18" width="250" height="262" rx="12" class="f-surface"/>`;
+    s2 += `<text x="${cx}" y="42" text-anchor="middle" class="t" style="font-size:15px;font-weight:700">${nb}박 (${nb === 2 ? "2/4 · 6/8" : nb === 3 ? "3/4" : "4/4"})</text>`;
+    let d = "";
+    for (let i = 0; i < nb; i++) {
+      const a = pts[i], b = pts[(i + 1) % nb], last = i === nb - 1;
+      const c = rhCtrl(a, b, last, cx, cy, R);
+      d += (i ? "" : `M${a[0]} ${a[1]}`) + ` Q${c[0]} ${c[1]} ${b[0]} ${b[1]}`;
+    }
+    s2 += `<path d="${d}" fill="none" style="stroke:var(--accent);stroke-width:2.6;stroke-linecap:round"/>`;
+    pts.forEach(([x, y], i) => { s2 += `<circle cx="${x}" cy="${y}" r="8" style="fill:${i === 0 ? "var(--accent)" : "var(--bg-elev)"};stroke:var(--accent);stroke-width:2"/><text x="${x + (x < cx - 5 ? -16 : 16)}" y="${y + 5}" text-anchor="middle" class="t" style="font-size:14px;font-weight:700">${i + 1}</text>`; });
+    s2 += `<text x="${cx}" y="270" text-anchor="middle" class="t-mono" style="font-size:12px">${nb === 2 ? "강 – 약" : nb === 3 ? "강 – 약 – 약" : "강 – 약 – 중강 – 약"}</text>`;
+  });
+  document.getElementById("rh-fig2").innerHTML = s2 + "</g>";
+
+  // 그림 5-3: 점·붙임줄 막대
+  const U = 200, bx = 250;
+  const rows3 = [
+    ["♩ 4분음표", [[1, "f-acc-soft", "1"]]],
+    ["♩. 점4분음표", [[1, "f-acc-soft", "1"], [0.5, "f-acc2-soft", "½"]]],
+    ["♩.. 겹점4분음표", [[1, "f-acc-soft", "1"], [0.5, "f-acc2-soft", "½"], [0.25, "f-acc2-soft", "¼"]]],
+    ["♩ ‿ ♪ 붙임줄", [[1, "f-acc-soft", "♩"], [0.5, "f-acc-soft", "♪"]]],
+  ];
+  let s3 = `<g font-family="var(--font)">`;
+  for (let b = 0; b <= 2; b++) s3 += `<line x1="${bx + b * U}" y1="14" x2="${bx + b * U}" y2="214" style="stroke:var(--text-faint);stroke-dasharray:${b ? "4 3" : "0"}"/><text x="${bx + b * U}" y="236" text-anchor="middle" class="t-mono" style="font-size:12px">${b}박</text>`;
+  rows3.forEach(([lab, segs], i) => {
+    const y = 26 + i * 48;
+    s3 += `<text x="14" y="${y + 21}" class="t" style="font-size:15px">${lab}</text>`;
+    let x = bx, tot = 0;
+    segs.forEach(([len, cls, t], j) => {
+      s3 += `<rect x="${x + 1}" y="${y}" width="${len * U - 3}" height="32" rx="6" class="${cls}" style="stroke:var(--accent);stroke-width:${i === 3 ? 1.5 : 0.8}"/><text x="${x + (len * U) / 2}" y="${y + 21}" text-anchor="middle" class="t-mono" style="font-size:13px">${t}</text>`;
+      if (i === 3 && j === 0) s3 += `<path d="M${x + len * U - 30} ${y - 2} Q${x + len * U} ${y - 14} ${x + len * U + 30} ${y - 2}" fill="none" style="stroke:var(--accent);stroke-width:2"/>`;
+      x += len * U; tot += len;
+    });
+    s3 += `<text x="${bx + 2 * U + 18}" y="${y + 21}" class="t-acc" style="font-size:14px;font-weight:700">= ${tot} 박</text>`;
+  });
+  document.getElementById("rh-fig3").innerHTML = s3 + "</g>";
+
+  // 그림 5-4: 셈 격자
+  let s4 = `<g font-family="var(--mono)">`;
+  const gx = 120, gw = 660;
+  [[1, "4분", 30], [2, "8분", 98], [4, "16분", 166]].forEach(([div, lab, y]) => {
+    const n = 4 * div, w = gw / n;
+    s4 += `<text x="14" y="${y + 24}" class="t" style="font-size:14px;font-family:var(--font)">${lab}</text>`;
+    for (let i = 0; i < n; i++) {
+      const beat = i % div === 0;
+      s4 += `<rect x="${gx + i * w + 1.5}" y="${y}" width="${w - 3}" height="38" rx="6" class="${beat ? "f-acc-soft" : "f-surface"}" style="stroke:${beat ? "var(--accent)" : "var(--border)"};stroke-width:${beat ? 1.6 : 1}"/>`;
+      s4 += `<text x="${gx + (i + 0.5) * w}" y="${y + 25}" text-anchor="middle" class="${beat ? "t-acc" : "t-dim"}" style="font-size:${div === 4 ? 13 : 15}px;font-weight:${beat ? 700 : 500}">${RH_COUNT[div][i]}</text>`;
+    }
+  });
+  s4 += `<text x="${gx + gw / 2}" y="226" text-anchor="middle" class="t-dim" style="font-size:12px;font-family:var(--font)">읽는 법: 1 e &amp; a = "원 이 앤 어" · 우리말로 "하나 그리고 둘 그리고"라고 세도 된다</text>`;
+  document.getElementById("rh-fig4").innerHTML = s4 + "</g>";
+
+  // 그림 5-5: 양손 세로 정렬
+  let s5 = `<g font-family="var(--font)">`;
+  const ax = 150, aw = 620, cell = aw / 8;
+  const panel = (y0, title, rh, lh) => {
+    let q = `<text x="14" y="${y0 + 4}" class="t" style="font-size:13px;font-weight:700">${title}</text>`;
+    for (let i = 0; i <= 8; i++) q += `<line x1="${ax + i * cell}" y1="${y0 + 14}" x2="${ax + i * cell}" y2="${y0 + 98}" style="stroke:${i % 2 ? "var(--grid)" : "var(--text-faint)"};stroke-width:${i % 2 ? 1 : 1.6};stroke-dasharray:${i % 2 ? "3 3" : "0"}"/>`;
+    for (let i = 0; i < 8; i++) q += `<text x="${ax + (i + 0.5) * cell}" y="${y0 + 112}" text-anchor="middle" class="${i % 2 ? "t-dim" : "t-acc"}" style="font-size:12px;font-family:var(--mono)">${RH_COUNT[2][i]}</text>`;
+    const bar = (list, y, cls, lab) => {
+      let r = `<text x="14" y="${y + 17}" class="t-dim" style="font-size:12px">${lab}</text>`;
+      list.forEach(([t, d]) => { r += `<rect x="${ax + t * 2 * cell + 2}" y="${y}" width="${d * 2 * cell - 4}" height="24" rx="5" class="${cls}"/><circle cx="${ax + t * 2 * cell + 9}" cy="${y + 12}" r="4" style="fill:var(--text)"/>`; });
+      return r;
+    };
+    q += bar(rh, y0 + 22, "f-acc-soft", "오른손");
+    q += bar(lh, y0 + 62, "f-acc2-soft", "왼손");
+    return q;
+  };
+  s5 += panel(14, "8분 대 4분", [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5].map((t) => [t, 0.5]), [0, 1, 2, 3].map((t) => [t, 1]));
+  s5 += panel(136, "점4분 + 8분 대 4분", [[0, 1.5], [1.5, 0.5], [2, 2]], [0, 1, 2, 3].map((t) => [t, 1]));
+  document.getElementById("rh-fig5").innerHTML = s5 + "</g>";
+})();
+
+/* ================================================================ 1. 음표 길이 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#rh-vl-kb", { from: 60, to: 84, piano: p, labels: "c", compact: true, height: 90 });
+  const val = MB.seg("rh-vl-val", () => { stop(); render(); });
+  const kind = MB.seg("rh-vl-kind", () => { stop(); render(); });
+  const bpm = MB.range("rh-vl-bpm", (v) => v + " BPM", () => stats());
+  const click = MB.check("rh-vl-click");
+  const st = PN.staff("#rh-vl-staff", [], { clef: "treble", time: [4, 4], width: 520, minBeat: 30 });
+  const blocks = document.getElementById("rh-vl-blocks");
+  const MEL = [72, 74, 76, 77, 79, 77, 76, 74, 72, 74, 76, 77, 79, 77, 76, 74];
+  let shown = 1;
+  function barNotes(d, k, t0 = 0) {
+    const n = Math.round(4 / d), out = [];
+    for (let i = 0; i < n; i++) {
+      const rest = k === "rest" || (k === "mix" && i % 2 === 1);
+      out.push(rest ? { t: t0 + i * d, d, rest: true } : { t: t0 + i * d, d, m: d >= 4 ? 72 : MEL[i % 16] });
+    }
+    return out;
+  }
+  function drawBlocks(notes, now = -1) {
+    blocks.innerHTML = notes.map((n, i) => `<span class="${n.rest ? "rest" : ""}${i === now ? " now" : ""}" style="flex-grow:${n.d}"></span>`).join("");
+  }
+  function render(d = +val(), k = kind()) {
+    shown = d;
+    const notes = barNotes(d, k);
+    st.setNotes(notes, { bars: 1 });
+    drawBlocks(notes);
+    stats(d);
+  }
+  function stats(d = shown) {
+    const spb = 60 / bpm();
+    MB.stat("rh-vl-o-len", `${RH_NAMES[d]} = ${d >= 1 ? d : d === 0.5 ? "½" : "¼"}박`);
+    MB.stat("rh-vl-o-ms", rhMs(d * spb));
+    MB.stat("rh-vl-o-n", Math.round(4 / d) + "개");
+    MB.stat("rh-vl-o-rate", rhF(1 / (d * spb), 2) + " 개/s");
+  }
+  const clicks = (bars) => { const c = []; for (let b = 0; b < 4 * bars; b++) c.push({ t: b, accent: b % 4 === 0 }); return c; };
+  // 한 마디 반복
+  const one = rhPlayer({
+    piano: p, bpm: () => bpm(), loop: () => true, staff: st, clickOn: () => click(),
+    build() { const notes = barNotes(+val(), kind()); return { notes: notes.filter((n) => !n.rest).map((n) => Object.assign({ si: notes.indexOf(n) }, n)), clicks: clicks(1), cues: notes.map((n, i) => ({ t: n.t, idx: i })), length: 4 }; },
+    onUI(ev) { if (ev.kind === "q") { drawBlocks(barNotes(+val(), kind()), ev.idx); if (kind() !== "note") st.highlight(ev.idx); } },
+    onStop() { render(); },
+  });
+  const b1 = rhBind("rh-vl-play", one, ["▶ 한 마디 반복", "■ 정지"]);
+  // 트리 전체
+  const DS = [4, 2, 1, 0.5, 0.25];
+  const tree = rhPlayer({
+    piano: p, bpm: () => bpm(), staff: () => st, clickOn: () => click(), noHighlight: true,
+    build() {
+      const notes = [], cues = [];
+      DS.forEach((d, b) => { barNotes(d, kind(), b * 4).forEach((n, i) => { if (!n.rest) notes.push(n); cues.push({ t: n.t, bar: b, idx: i }); }); });
+      return { notes, clicks: clicks(5), cues, length: 20 };
+    },
+    onUI(ev) {
+      if (ev.kind !== "q") return;
+      const d = DS[ev.bar];
+      if (ev.idx === 0) { st.setNotes(barNotes(d, kind()), { bars: 1 }); stats(d); }
+      st.highlight(ev.idx); drawBlocks(barNotes(d, kind()), ev.idx);
+    },
+    onStop() { render(); },
+  });
+  const b2 = rhBind("rh-vl-tree", tree, ["▶ 트리 전체(온→16분)", "■ 정지"]);
+  function stop() { b1.halt(); b2.halt(); }
+  render();
+})();
+
+/* ================================================================ 2. 박자표와 강약 */
+(function () {
+  const p = PN.piano();
+  const SIG = {
+    "2/4": { n: 2, unit: 1, acc: [2, 0], conduct: 2, time: [2, 4], felt: 1, div: "둘(8분 2개)" },
+    "3/4": { n: 3, unit: 1, acc: [2, 0, 0], conduct: 3, time: [3, 4], felt: 1, div: "둘(8분 2개)" },
+    "4/4": { n: 4, unit: 1, acc: [2, 0, 1, 0], conduct: 4, time: [4, 4], felt: 1, div: "둘(8분 2개)" },
+    "6/8": { n: 6, unit: 0.5, acc: [2, 0, 0, 1, 0, 0], conduct: 2, time: [6, 8], felt: 1.5, div: "셋(8분 3개)" },
+  };
+  const sig = MB.seg("rh-mt-sig", () => { const was = pl.running; if (was) b.halt(); setup(); if (was) { b.pb.set(true); rhSolo.take(b.halt); pl.start(); } });
+  const bpm = MB.range("rh-mt-bpm", (v) => (sig() === "6/8" ? "♩. = " : "♩ = ") + v, () => stats());
+  const acc = MB.check("rh-mt-acc"), click = MB.check("rh-mt-click"), bass = MB.check("rh-mt-bass");
+  const grid = document.getElementById("rh-mt-grid");
+  const st = PN.staff("#rh-mt-staff", [], { clef: "bass", width: 560, minBeat: 26 });
+  const ACCN = ["약", "약", "강"], VEL = [0.42, 0.6, 0.82];
+  const accName = (a) => (a === 2 ? "강" : a === 1 ? "중강" : "약");
+  function bassNotes(S) {
+    const out = [];
+    const C = { r: 48, ch: [52, 55] }, G = { r: 43, ch: [47, 53] };
+    [C, G].forEach((h, bar) => {
+      for (let i = 0; i < S.n; i++) {
+        const t = bar * S.n * S.unit + i * S.unit, a = S.acc[i];
+        const strong = a > 0;
+        const r = sig() === "4/4" && i === 2 ? h.r + 7 - (bar ? 0 : 0) : h.r;
+        out.push(strong ? { t, d: S.unit, m: i === 0 ? h.r : (sig() === "4/4" ? h.r + 7 : h.r), acc: a, beat: i } : { t, d: S.unit, ms: h.ch, acc: a, beat: i });
+      }
+    });
+    return out;
+  }
+  function setup() {
+    const S = SIG[sig()];
+    grid.style.setProperty("--n", S.n);
+    grid.innerHTML = S.acc.map((a, i) => `<button class="${a ? "beat" : ""} rh-acc${a}" tabindex="-1">${accName(a)}<small>${i + 1}</small></button>`).join("");
+    const notes = bassNotes(S);
+    st.setNotes(notes.map((n) => { const o = Object.assign({}, n); delete o.acc; return o; }), { time: S.time, bars: 2, marks: notes.filter((n) => n.acc > 0).map((n) => ({ t: n.t, text: n.acc === 2 ? ">" : "-", where: "above", staff: "bass" })) });
+    bpm.set(bpm(), false); stats(); cv.redraw();
+  }
+  function stats() {
+    const S = SIG[sig()], spbFelt = 60 / bpm();
+    MB.stat("rh-mt-o-beat", rhMs(spbFelt) + (S.felt > 1 ? " (♩.)" : " (♩)"));
+    MB.stat("rh-mt-o-bar", rhMs((S.n * S.unit / S.felt) * spbFelt));
+    MB.stat("rh-mt-o-div", S.div);
+    bpm.set(bpm(), false);
+  }
+  let curBeat = -1, t0Audio = 0, spbQ = 0.7;
+  const pl = rhPlayer({
+    piano: p, bpm: () => bpm() * SIG[sig()].felt, loop: () => true, staff: st, clickOn: () => click(),
+    mute: (ev) => !bass(),
+    build() {
+      const S = SIG[sig()], notes = bassNotes(S).map((n) => Object.assign({}, n, { vel: acc() ? VEL[n.acc] : 0.6 }));
+      const clicks = [], cues = [];
+      for (let k = 0; k < 2 * S.n; k++) { const a = S.acc[k % S.n]; clicks.push({ t: k * S.unit, accent: a === 2, vel: acc() ? [0.3, 0.45, 0.6][a] : 0.45 }); cues.push({ t: k * S.unit, beat: k % S.n }); }
+      return { notes, clicks, cues, length: 2 * S.n * S.unit };
+    },
+    onEvent(ev, when, spb) { if (ev.kind === "q" && ev.t === 0) { t0Audio = when; spbQ = spb; } },
+    onUI(ev) {
+      if (ev.kind !== "q") return;
+      curBeat = ev.beat;
+      grid.querySelectorAll("button").forEach((b, i) => b.classList.toggle("now", i === ev.beat));
+      MB.stat("rh-mt-o-now", `${ev.beat + 1}박 · ${accName(SIG[sig()].acc[ev.beat])}`);
+    },
+    onStop() { curBeat = -1; grid.querySelectorAll("button").forEach((b) => b.classList.remove("now")); MB.stat("rh-mt-o-now", "—"); cv.redraw(); },
+  });
+  const b = rhBind("rh-mt-play", pl);
+  // 지휘봉 그림
+  const cv = MB.canvas("#rh-mt-cv", (ctx, W, H) => {
+    const P = MB.palette(), S = SIG[sig()], nb = S.conduct;
+    const R = Math.min(W * 0.36, H * 0.4), cx = W / 2, cy = H * 0.5;
+    const pts = RH_CONDUCT[nb].map(([x, y]) => [cx + x * R, cy + y * R]);
+    // 경로
+    ctx.strokeStyle = P.border; ctx.lineWidth = 2; ctx.beginPath();
+    const ctrls = [];
+    for (let i = 0; i < nb; i++) { const a = pts[i], c = pts[(i + 1) % nb], q = rhCtrl(a, c, i === nb - 1, cx, cy, R); ctrls.push(q); if (!i) ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(q[0], q[1], c[0], c[1]); }
+    ctx.stroke();
+    ctx.font = "700 13px " + RH_MONO(); ctx.textAlign = "center";
+    pts.forEach(([x, y], i) => { ctx.fillStyle = i === 0 ? P.accent : P.elev; ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.fill(); ctx.strokeStyle = P.accent; ctx.lineWidth = 1.5; ctx.stroke(); ctx.fillStyle = P.text; ctx.fillText(String(i + 1), x + (x < cx - 4 ? -15 : 15), y + 4); });
+    // 지휘봉 끝
+    if (pl.running) {
+      const feltSpb = spbQ * S.felt, el = (MB.now() - t0Audio) / feltSpb;
+      const total = nb, ph = MB.mod(el, total), i = Math.floor(ph), u = ph - i;
+      const a = pts[i], c = pts[(i + 1) % nb], q = ctrls[i];
+      const s = u; // 등속
+      const x = (1 - s) * (1 - s) * a[0] + 2 * (1 - s) * s * q[0] + s * s * c[0];
+      const y = (1 - s) * (1 - s) * a[1] + 2 * (1 - s) * s * q[1] + s * s * c[1];
+      const flash = u < 0.12;
+      ctx.fillStyle = flash ? P.warn : P.accent; ctx.beginPath(); ctx.arc(x, y, flash ? 11 : 8, 0, 7); ctx.fill();
+      ctx.fillStyle = P.dim; ctx.font = "12px " + RH_FONT(); ctx.textAlign = "left";
+      ctx.fillText(sig() === "6/8" ? "6/8 → 2박 도형(점4분 = 1박)" : sig() + " → " + nb + "박 도형", 10, 18);
+    } else {
+      ctx.fillStyle = P.dim; ctx.font = "13px " + RH_FONT(); ctx.textAlign = "center";
+      ctx.fillText("▶ 재생하면 지휘봉 끝이 움직입니다", cx, 18);
+    }
+  }, { aspect: 0.55, minHeight: 200, maxHeight: 300 });
+  MB.loop(document.getElementById("rh-mt-cv"), () => { if (pl.running) cv.redraw(); });
+  setup();
+})();
+
+/* ================================================================ 3. 점음표와 붙임줄 */
+(function () {
+  const p = PN.piano();
+  const base = MB.seg("rh-dt-base", () => update());
+  const dots = MB.seg("rh-dt-dots", () => update());
+  const bpm = MB.range("rh-dt-bpm", (v) => v + " BPM", () => stats());
+  const click = MB.check("rh-dt-click");
+  const st = PN.staff("#rh-dt-staff", [], { clef: "treble", width: 620, minBeat: 30 });
+  let cur = null;
+  function rhythm() {
+    let b = +base(), n = +dots();
+    if (b === 0.5 && n === 2) { n = 1; dots.set("1", false); }
+    const L = b * (2 - Math.pow(2, -n)), rest = 2 * b - L, group = 2 * b, reps = Math.round(4 / group);
+    const A = [], B = [];
+    const MA = [67, 72, 69, 74], MB_ = [64, 65, 67, 64];
+    for (let r = 0; r < reps; r++) {
+      const t = r * group, hi = MA[r % 4], lo = MB_[r % 4];
+      A.push({ t, d: L, m: hi, part: "dot" });
+      if (rest > 1e-6) A.push({ t: t + L, d: rest, m: lo, part: "short" });
+      // 붙임줄 버전
+      const pieces = [b]; for (let k = 1; k <= n; k++) pieces.push(b / Math.pow(2, k));
+      let tt = 4 + t;
+      pieces.forEach((d, k) => { B.push({ t: tt, d, m: hi, tie: k < pieces.length - 1, cont: k > 0, sd: k === 0 ? L : undefined, part: "dot" }); tt += d; });
+      if (rest > 1e-6) B.push({ t: 4 + t + L, d: rest, m: lo, part: "short" });
+    }
+    return { b, n, L, rest, A, B };
+  }
+  function update() { stopAll(); cur = rhythm(); st.setNotes(cur.A.concat(cur.B), { bars: 2, marks: [{ t: 0, text: "점음표", where: "above", staff: "treble" }, { t: 4, text: "붙임줄", where: "above", staff: "treble" }] }); stats(); cv.redraw(); }
+  function stats() {
+    if (!cur) return;
+    const spb = 60 / bpm();
+    MB.stat("rh-dt-o-len", (RH_NAMES[cur.L] || "") + " " + cur.L + "박");
+    MB.stat("rh-dt-o-ms", rhMs(cur.L * spb));
+    MB.stat("rh-dt-o-pair", cur.rest > 1e-6 ? (RH_NAMES[cur.rest] || "") + " " + cur.rest + "박" : "없음(바탕 음표 둘)");
+    const pieces = [cur.b]; for (let k = 1; k <= cur.n; k++) pieces.push(cur.b / Math.pow(2, k));
+    MB.stat("rh-dt-o-tie", pieces.map((d) => RH_NAMES[d].replace("음표", "")).join(" ⌒ "));
+  }
+  let nowBeat = -1;
+  const mk = (part) => rhPlayer({
+    piano: p, bpm: () => bpm(), staff: st, clickOn: () => click(),
+    build() {
+      const all = cur.A.concat(cur.B).map((n, i) => Object.assign({ si: i }, n));
+      let notes = all, off = 0, len = 8;
+      if (part === "A") { notes = all.filter((n) => n.t < 4 - 1e-6); len = 4; }
+      if (part === "B") { notes = all.filter((n) => n.t >= 4 - 1e-6).map((n) => Object.assign({}, n, { t: n.t - 4 })); len = 4; off = 4; }
+      const clicks = []; for (let k = 0; k < len; k++) clicks.push({ t: k, accent: k % 4 === 0 });
+      const cues = []; for (let k = 0; k < len * 4; k++) cues.push({ t: k / 4, beat: k / 4 + off });
+      return { notes, clicks, cues, length: len };
+    },
+    onUI(ev) { if (ev.kind === "q") { nowBeat = ev.beat; cv.redraw(); } },
+    onStop() { nowBeat = -1; cv.redraw(); },
+  });
+  const pAll = mk("all"), pA = mk("A"), pB = mk("B");
+  const bAll = rhBind("rh-dt-play", pAll, ["▶ 두 마디", "■ 정지"]);
+  const hA = rhOnce("rh-dt-a", pA), hB = rhOnce("rh-dt-b", pB);
+  function stopAll() { bAll.halt(); hA(); hB(); }
+  const cv = MB.canvas("#rh-dt-cv", (ctx, W, H) => {
+    const P = MB.palette(); if (!cur) return;
+    const left = 52, w = W - left - 8, rowH = (H - 22) / 2;
+    ctx.font = "12px " + RH_FONT(); ctx.textAlign = "left";
+    [["점", cur.A, 0], ["붙임줄", cur.B, 4]].forEach(([lab, list, off], r) => {
+      const y = 6 + r * rowH;
+      ctx.fillStyle = P.dim; ctx.fillText(lab, 4, y + rowH / 2 + 4);
+      for (let k = 0; k <= 4; k++) { const x = left + (k / 4) * w; ctx.strokeStyle = k % 4 === 0 ? P.axis : P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + rowH - 6); ctx.stroke(); }
+      list.forEach((n) => {
+        const x = left + ((n.t - off) / 4) * w, ww = (n.d / 4) * w;
+        const on = nowBeat >= n.t - 1e-6 && nowBeat < n.t + n.d - 1e-6;
+        ctx.fillStyle = n.part === "dot" ? P.accent : P.accent2; ctx.globalAlpha = on ? 1 : 0.4;
+        ctx.fillRect(x + 1, y + 4, ww - (n.tie ? 0 : 3), rowH - 14); ctx.globalAlpha = 1;
+        if (!n.cont) { ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(x + 6, y + rowH / 2 - 1, 3, 0, 7); ctx.fill(); }
+        if (n.cont) { ctx.strokeStyle = P.elev; ctx.setLineDash([2, 2]); ctx.beginPath(); ctx.moveTo(x + 1, y + 4); ctx.lineTo(x + 1, y + rowH - 10); ctx.stroke(); ctx.setLineDash([]); }
+      });
+    });
+    ctx.fillStyle = P.faint; ctx.textAlign = "center"; ctx.font = "10px " + RH_MONO();
+    for (let k = 0; k < 4; k++) ctx.fillText(String(k + 1), left + ((k + 0.5) / 4) * w, H - 4);
+  }, { aspect: 0.22, minHeight: 100, maxHeight: 150 });
+  update();
+})();
+
+/* ================================================================ 4. 셈 세기 */
+(function () {
+  const p = PN.piano();
+  const sel = document.getElementById("rh-ct-pat");
+  sel.innerHTML = RH_PATTERNS.map((q) => `<option value="${q.id}" ${q.id === "dq" ? "selected" : ""}>${q.name}</option>`).join("") + `<option value="custom">직접 만들기(칸을 누르세요)</option>`;
+  const div = MB.seg("rh-ct-div", (v) => regrid(+v));
+  const bpm = MB.range("rh-ct-bpm", (v) => v + " BPM", () => stats());
+  const click = MB.check("rh-ct-click"), sub = MB.check("rh-ct-sub");
+  const grid = document.getElementById("rh-ct-grid"), big = document.getElementById("rh-ct-big");
+  const st = PN.staff("#rh-ct-staff", [], { clef: "treble", width: 480, minBeat: 30, bars: 1 });
+  let cells = "x--xx--x".split(""), dv = 2;
+  function loadPattern(id) {
+    const q = RH_PATTERNS.find((x) => x.id === id); if (!q) return;
+    cells = q.cells.split(""); dv = q.div; div.set(String(dv), false);
+  }
+  function regrid(nd) {
+    if (nd === dv) return;
+    const n = 4 * nd, out = Array(n).fill(".");
+    const snd = []; cells.forEach((c, i) => { snd[i] = c === "x" || (c === "-" && i > 0 && snd[i - 1]); });
+    cells.forEach((c, i) => { if (c === "x") out[Math.min(n - 1, Math.round((i / dv) * nd))] = "x"; });
+    let on = false;
+    for (let j = 0; j < n; j++) {
+      if (out[j] === "x") { on = true; continue; }
+      const io = Math.min(cells.length - 1, Math.floor((j / nd) * dv + 1e-6));
+      out[j] = on && snd[io] ? "-" : ".";
+      if (out[j] === ".") on = false;
+    }
+    cells = out; dv = nd; sel.value = "custom"; draw();
+  }
+  function notes() { return rhCellsToNotes(cells.join(""), dv, (i) => (i % (dv) === 0 ? 72 : 72), { labels: true }); }
+  function draw(now = -1) {
+    grid.style.setProperty("--n", cells.length);
+    grid.classList.toggle("n16", cells.length === 16);
+    let held = false;
+    grid.innerHTML = cells.map((c, i) => {
+      if (c === "x") held = true; else if (c === ".") held = false;
+      const hold = c === "-" && held;
+      return `<button data-i="${i}" class="${i % dv === 0 ? "beat" : ""}${c === "x" ? " on" : ""}${hold ? " rh-hold" : ""}${i === now ? " now" : ""}">${c === "x" ? "●" : hold ? "–" : "&nbsp;"}<small>${RH_COUNT[dv][i]}</small></button>`;
+    }).join("");
+    if (now < 0) { st.setNotes(notes(), { bars: 1 }); stats(); }
+  }
+  grid.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    const i = +b.dataset.i, c = cells[i];
+    cells[i] = c === "x" ? (i === 0 ? "." : "-") : c === "-" ? "." : "x";
+    sel.value = "custom"; draw();
+  });
+  sel.addEventListener("change", () => { if (sel.value !== "custom") { loadPattern(sel.value); draw(); } });
+  document.getElementById("rh-ct-clear").addEventListener("click", () => { cells = Array(4 * dv).fill("."); sel.value = "custom"; draw(); });
+  function stats() {
+    const spb = 60 / bpm();
+    MB.stat("rh-ct-o-count", cells.map((c, i) => (c === "x" ? RH_COUNT[dv][i] : c === "-" ? "–" : "(" + RH_COUNT[dv][i] + ")")).join(" "));
+    MB.stat("rh-ct-o-n", cells.filter((c) => c === "x").length + "개");
+    MB.stat("rh-ct-o-cell", rhMs(spb / dv));
+  }
+  const pl = rhPlayer({
+    piano: p, bpm: () => bpm(), loop: () => true, staff: st,
+    build() {
+      const ns = notes().map((n, i) => Object.assign({ si: i }, n));
+      const clicks = [];
+      for (let k = 0; k < 4 * dv; k++) { const beat = k % dv === 0; clicks.push({ t: k / dv, accent: k === 0, vel: beat ? 0.5 : 0.16, beat }); }
+      return { notes: ns, clicks, cues: cells.map((c, k) => ({ t: k / dv, cell: k })), length: 4 };
+    },
+    clickOn: (ev) => (ev.beat ? click() : sub()),
+    onUI(ev) {
+      if (ev.kind !== "q") return;
+      const c = cells[ev.cell];
+      big.innerHTML = `${RH_COUNT[dv][ev.cell]}<small>${c === "x" ? "● 친다" : c === "-" ? "– 누르고 있기" : "(쉼 · 속으로 세기)"}</small>`;
+      grid.querySelectorAll("button").forEach((b, i) => b.classList.toggle("now", i === ev.cell));
+    },
+    onStop() { big.innerHTML = `1<small>재생하면 셈이 여기에 나타납니다</small>`; grid.querySelectorAll("button.now").forEach((b) => b.classList.remove("now")); },
+  });
+  rhBind("rh-ct-play", pl);
+  loadPattern("dq"); draw();
+})();
+/* ================================================================ 5. 메트로놈과 탭 템포 */
+const RH_TEMPI = [
+  ["Grave", "무겁고 장중하게", 25, 45], ["Largo", "넓고 아주 느리게", 40, 60], ["Larghetto", "Largo보다 조금 빠르게", 60, 66],
+  ["Adagio", "느리게, 편안하게", 66, 76], ["Andante", "걸어가듯이", 76, 108], ["Moderato", "보통 빠르기로", 108, 120],
+  ["Allegro", "빠르게, 쾌활하게", 120, 156], ["Vivace", "생기 있게", 156, 176], ["Presto", "매우 빠르게", 168, 200], ["Prestissimo", "될 수 있는 한 빠르게", 200, 220],
+];
+const rhTerm = (bpm) => { const hit = RH_TEMPI.filter(([, , a, b]) => bpm >= a && bpm <= b).map((x) => x[0]); return hit.length ? hit.join(" / ") : bpm < 25 ? "Grave보다 느림" : "Prestissimo"; };
+(function () {
+  document.getElementById("rh-tempo-table").innerHTML = RH_TEMPI.map(([n, m, a, b]) => `<tr><td><b>${n}</b></td><td>${m}</td><td>${a}–${b}${b >= 220 ? "+" : ""}</td></tr>`).join("");
+  const terms = document.getElementById("rh-mn-terms");
+  terms.innerHTML = RH_TEMPI.map(([n, , a, b]) => `<button data-value="${Math.round((a + b) / 2)}">${n}</button>`).join("");
+  const p = PN.piano();
+  const bpm = MB.range("rh-mn-bpm", (v) => "♩ = " + v, () => stats());
+  const beats = MB.seg("rh-mn-beats", () => restart());
+  const sub = MB.seg("rh-mn-sub", () => restart());
+  MB.seg("rh-mn-terms", (v) => bpm.set(+v));
+  const lamps = document.getElementById("rh-mn-lamps");
+  function setLamps(now = -1) {
+    const n = +beats();
+    lamps.innerHTML = Array.from({ length: n }, (_, i) => `<i class="${i === 0 ? "a2" : n === 4 && i === 2 ? "a1" : n === 6 && i === 3 ? "a1" : "a0"}${i === now ? " on" : ""}"></i>`).join("");
+  }
+  function stats() {
+    const v = bpm(), spb = 60 / v;
+    MB.stat("rh-mn-o-term", rhTerm(v));
+    MB.stat("rh-mn-o-beat", rhMs(spb));
+    MB.stat("rh-mn-o-bar", rhMs(spb * +beats()));
+    MB.stat("rh-mn-o-sub", +sub() > 1 ? rhMs(spb / +sub()) : "—");
+  }
+  const pl = rhPlayer({
+    piano: p, bpm: () => bpm(), loop: () => true,
+    build() {
+      const n = +beats(), d = +sub(), clicks = [], cues = [];
+      for (let b = 0; b < n; b++) {
+        cues.push({ t: b, beat: b });
+        for (let k = 0; k < d; k++) clicks.push({ t: b + k / d, accent: k === 0 && b === 0 && n > 1, vel: k === 0 ? (b === 0 ? 0.6 : 0.45) : 0.18 });
+      }
+      return { notes: [], clicks, cues, length: n };
+    },
+    onUI(ev) { if (ev.kind === "q") setLamps(ev.beat); },
+    onStop() { setLamps(); cv.redraw(); },
+  });
+  const bd = rhBind("rh-mn-play", pl, ["▶ 시작", "■ 정지"]);
+  function restart() { setLamps(); stats(); if (pl.running) { pl.stop(); pl.start(); } }
+  const nudge = (f) => () => bpm.set(MB.clamp(Math.round(f(bpm())), 30, 220));
+  document.getElementById("rh-mn-m4").addEventListener("click", nudge((v) => v - 4));
+  document.getElementById("rh-mn-p4").addEventListener("click", nudge((v) => v + 4));
+  document.getElementById("rh-mn-half").addEventListener("click", nudge((v) => v / 2));
+  document.getElementById("rh-mn-dbl").addEventListener("click", nudge((v) => v * 2));
+  let taps = [];
+  document.getElementById("rh-mn-tap").addEventListener("click", () => {
+    const t = performance.now();
+    if (taps.length && t - taps[taps.length - 1] > 2000) taps = [];
+    taps.push(t); if (taps.length > 9) taps.shift();
+    if (taps.length < 2) { MB.stat("rh-mn-o-tap", "1번 · 계속 두드리세요"); return; }
+    const iv = []; for (let i = 1; i < taps.length; i++) iv.push(taps[i] - taps[i - 1]);
+    const mean = iv.reduce((a, b) => a + b, 0) / iv.length, v = 60000 / mean;
+    const sd = Math.sqrt(iv.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, iv.length - 1));
+    MB.stat("rh-mn-o-tap", `${taps.length}번 · ${rhF(v, 1)} BPM · 흔들림 ${rhF(sd, 0)} ms`);
+    if (taps.length >= 3) bpm.set(MB.clamp(Math.round(v), 30, 220));
+  });
+  const cv = MB.canvas("#rh-mn-cv", (ctx, W, H) => {
+    const P = MB.palette(), cx = W / 2, py = H - 16, L = H - 40;
+    const b = pl.running ? pl.beat : 0;
+    const ang = pl.running ? 0.55 * Math.cos(Math.PI * b) : 0;
+    ctx.strokeStyle = P.grid; ctx.lineWidth = 1;
+    [-0.55, 0.55].forEach((a) => { ctx.beginPath(); ctx.moveTo(cx, py); ctx.lineTo(cx + Math.sin(a) * L, py - Math.cos(a) * L); ctx.stroke(); });
+    ctx.fillStyle = P.surface; ctx.beginPath(); ctx.moveTo(cx - 70, py + 10); ctx.lineTo(cx + 70, py + 10); ctx.lineTo(cx + 22, 18); ctx.lineTo(cx - 22, 18); ctx.closePath(); ctx.fill();
+    const x = cx + Math.sin(ang) * L, y = py - Math.cos(ang) * L;
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, py); ctx.lineTo(x, y); ctx.stroke();
+    const wy = 0.45 + 0.4 * (1 - (bpm() - 30) / 190);
+    ctx.fillStyle = P.accent; ctx.fillRect(cx + Math.sin(ang) * L * wy - 9, py - Math.cos(ang) * L * wy - 7, 18, 14);
+    const near = pl.running && Math.abs(b - Math.round(b)) < 0.06;
+    ctx.fillStyle = near ? P.warn : P.dim; ctx.beginPath(); ctx.arc(cx, py, 6, 0, 7); ctx.fill();
+    ctx.fillStyle = P.text; ctx.font = "700 20px " + RH_MONO(); ctx.textAlign = "left"; ctx.fillText("♩ = " + bpm(), 10, 26);
+    ctx.font = "12px " + RH_FONT(); ctx.fillStyle = P.dim; ctx.fillText(rhTerm(bpm()), 10, 44);
+  }, { aspect: 0.5, minHeight: 180, maxHeight: 260 });
+  MB.loop(document.getElementById("rh-mn-cv"), () => { if (pl.running) cv.redraw(); });
+  bpm.el.addEventListener("input", () => cv.redraw());
+  setLamps(); stats();
+})();
+
+/* ================================================================ 6. 따라 치기 게임 */
+(function () {
+  const p = PN.piano(), tp = PN.piano();
+  const sel = document.getElementById("rh-tp-pat");
+  sel.innerHTML = RH_PATTERNS.map((q) => `<option value="${q.id}" ${q.id === "dq" ? "selected" : ""}>${q.name}</option>`).join("");
+  const bpm = MB.range("rh-tp-bpm", (v) => v + " BPM");
+  const rounds = MB.seg("rh-tp-rounds", () => b.halt());
+  const lat = MB.range("rh-tp-lat", (v) => v + " ms");
+  const snd = MB.check("rh-tp-snd");
+  const phase = document.getElementById("rh-tp-phase"), pad = document.getElementById("rh-tp-pad");
+  const st = PN.staff("#rh-tp-staff", [], { clef: "treble", width: 480, minBeat: 30, bars: 1 });
+  const pat = () => RH_PATTERNS.find((q) => q.id === sel.value);
+  const base = () => rhCellsToNotes(pat().cells, pat().div, 72, { labels: true });
+  function show() { st.setNotes(base(), { bars: 1 }); }
+  sel.addEventListener("change", () => { b.halt(); show(); });
+  let G = null; // 게임 상태
+  let lockBpm = 76;
+  const pl = rhPlayer({
+    piano: p, bpm: () => lockBpm, staff: st,
+    build() {
+      const R = +rounds(), ns = base(), notes = [], clicks = [], cues = [], targets = [];
+      const bars = 1 + 2 * R;
+      for (let k = 0; k < bars * 4; k++) clicks.push({ t: k, accent: k % 4 === 0, vel: k % 4 === 0 ? 0.55 : 0.4 });
+      cues.push({ t: 0, bar: 0, ph: "count" });
+      for (let r = 0; r < R; r++) {
+        const lb = 1 + 2 * r, yb = lb + 1;
+        ns.forEach((n, i) => notes.push(Object.assign({}, n, { t: n.t + lb * 4, si: i })));
+        ns.forEach((n) => { if (!n.cont) targets.push({ beat: n.t + yb * 4, rel: n.t, round: r, hit: null }); });
+        cues.push({ t: lb * 4, bar: lb, ph: "listen", round: r }, { t: yb * 4, bar: yb, ph: "you", round: r });
+      }
+      G = { targets, taps: [], extra: 0, base: null, spb: 60 / lockBpm, R, cell: 60 / lockBpm / pat().div, phase: "count" };
+      return { notes, clicks, cues, length: bars * 4 };
+    },
+    onEvent(ev, when, spb) { if (G && G.base == null && ev.kind === "c" && ev.t === 0) G.base = when; },
+    onUI(ev) {
+      if (ev.kind !== "q") return;
+      G.phase = ev.ph;
+      phase.className = "rh-phase " + (ev.ph === "listen" ? "listen" : ev.ph === "you" ? "you" : "");
+      phase.textContent = ev.ph === "count" ? "예비 박: 1 – 2 – 3 – 4" : ev.ph === "listen" ? `듣기 ${ev.round + 1}/${G.R}` : `따라 치기 ${ev.round + 1}/${G.R} — 지금 두드리세요!`;
+    },
+    onEnd() { phase.className = "rh-phase"; phase.textContent = G && G.taps.length ? "끝! 아래 결과를 보세요. 다시 하려면 ▶ 시작" : "끝. 탭이 기록되지 않았습니다 — 따라 치기 마디에서 두드리세요"; },
+    onStop() { if (G) G.phase = "done"; },
+  });
+  const b = rhBind("rh-tp-play", pl, ["▶ 시작", "■ 정지"], () => { lockBpm = bpm(); G = null; draw(); });
+  function tap() {
+    if (snd()) tp.play(84, { dur: 0.12, vel: 0.5 });
+    if (!pl.running || !G || G.base == null) return;
+    const t = MB.now() - lat() / 1000;
+    const win = Math.min(0.25, G.cell / 2);
+    let best = null, bd = Infinity;
+    G.targets.forEach((q) => { const d = Math.abs(t - (G.base + q.beat * G.spb)); if (d < bd) { bd = d; best = q; } });
+    let cls = "bad";
+    if (best && bd <= win && best.hit == null) {
+      const e = (t - (G.base + best.beat * G.spb)) * 1000;
+      best.hit = e; G.taps.push({ round: best.round, rel: best.rel + e / 1000 / G.spb, err: e });
+      cls = Math.abs(e) <= 30 ? "ok" : Math.abs(e) <= 70 ? "warn" : "bad";
+    } else if (G.phase === "you" || (best && bd <= win)) { G.extra++; const beat = (t - G.base) / G.spb; G.taps.push({ round: Math.max(0, Math.floor((beat / 4 - 2) / 2)), rel: MB.mod(beat, 4), err: null }); }
+    else return;
+    pad.classList.remove("ok", "warn", "bad"); void pad.offsetWidth; pad.classList.add(cls);
+    setTimeout(() => pad.classList.remove(cls), 160);
+    stats(); draw();
+  }
+  pad.addEventListener("pointerdown", (e) => { e.preventDefault(); MB.ctx(); tap(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.code !== "Space" || e.repeat || !pl.running) return;
+    const tg = e.target; if (tg && /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName) && tg.type !== "range" && tg.type !== "checkbox") return;
+    e.preventDefault(); tap();
+  });
+  function stats() {
+    if (!G) { ["mean", "sd", "hit", "tight", "extra"].forEach((k) => MB.stat("rh-tp-o-" + k, "—")); return; }
+    const e = G.targets.filter((q) => q.hit != null).map((q) => q.hit), n = e.length;
+    const m = n ? e.reduce((a, b) => a + b, 0) / n : NaN;
+    const sd = n > 1 ? Math.sqrt(e.reduce((a, b) => a + (b - m) ** 2, 0) / (n - 1)) : NaN;
+    MB.stat("rh-tp-o-mean", n ? (m >= 0 ? "+" : "") + rhF(m, 0) + " ms " + (Math.abs(m) < 8 ? "(정확)" : m < 0 ? "(일찍)" : "(늦게)") : "—");
+    MB.stat("rh-tp-o-sd", n > 1 ? rhF(sd, 0) + " ms" : "—");
+    MB.stat("rh-tp-o-hit", `${n} / ${G.targets.length}`);
+    MB.stat("rh-tp-o-tight", n ? rhF((100 * e.filter((x) => Math.abs(x) <= 30).length) / n, 0) + " %" : "—");
+    MB.stat("rh-tp-o-extra", String(G.extra));
+  }
+  const cv = MB.canvas("#rh-tp-cv", (ctx, W, H) => {
+    const P = MB.palette(), R = G ? G.R : +rounds();
+    const left = 30, w = W - left - 10, topH = Math.max(80, H * 0.52), rowH = topH / R;
+    ctx.font = "10px " + RH_MONO(); ctx.textAlign = "center";
+    for (let k = 0; k <= 4; k++) { const x = left + (k / 4) * w; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(x, 2); ctx.lineTo(x, topH); ctx.stroke(); if (k < 4) { ctx.fillStyle = P.faint; ctx.fillText(String(k + 1), x + 6, topH + 11); } }
+    const ns = base().filter((n) => !n.cont);
+    for (let r = 0; r < R; r++) {
+      const y = 2 + r * rowH, cy = y + rowH / 2;
+      ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(String(r + 1), left - 6, cy + 3);
+      ctx.strokeStyle = P.faint; ctx.lineWidth = 2;
+      ns.forEach((n) => { const x = left + (n.t / 4) * w; ctx.beginPath(); ctx.moveTo(x, y + 3); ctx.lineTo(x, y + rowH - 3); ctx.stroke(); });
+      if (G) G.taps.filter((q) => q.round === r).forEach((q) => {
+        const x = left + (MB.clamp(q.rel, -0.2, 4.2) / 4) * w;
+        ctx.fillStyle = q.err == null ? P.dim : Math.abs(q.err) <= 30 ? P.ok : Math.abs(q.err) <= 70 ? P.warn : P.bad;
+        ctx.beginPath(); ctx.arc(x, cy, Math.min(6, rowH / 3), 0, 7); ctx.fill();
+        if (q.err == null) { ctx.strokeStyle = P.bad; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x - 4, cy - 4); ctx.lineTo(x + 4, cy + 4); ctx.stroke(); }
+      });
+    }
+    // 히스토그램
+    const hy0 = topH + 22, hh = H - hy0 - 16, bins = new Array(30).fill(0);
+    const errs = G ? G.targets.filter((q) => q.hit != null).map((q) => q.hit) : [];
+    errs.forEach((e) => { const i = Math.floor((MB.clamp(e, -149.9, 149.9) + 150) / 10); bins[i]++; });
+    const mx = Math.max(1, ...bins), bw = w / 30;
+    const X = (e) => left + ((e + 150) / 300) * w;
+    ctx.fillStyle = P.surface; ctx.fillRect(X(-30), hy0, X(30) - X(-30), hh);
+    bins.forEach((c, i) => { if (!c) return; const e = i * 10 - 145; ctx.fillStyle = Math.abs(e) <= 30 ? P.ok : Math.abs(e) <= 70 ? P.warn : P.bad; const hgt = (c / mx) * (hh - 4); ctx.fillRect(left + i * bw + 1, hy0 + hh - hgt, bw - 2, hgt); });
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(left, hy0 + hh); ctx.lineTo(left + w, hy0 + hh); ctx.moveTo(X(0), hy0); ctx.lineTo(X(0), hy0 + hh); ctx.stroke();
+    if (errs.length) { const m = errs.reduce((a, b) => a + b, 0) / errs.length; ctx.strokeStyle = P.accent; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(X(MB.clamp(m, -150, 150)), hy0); ctx.lineTo(X(MB.clamp(m, -150, 150)), hy0 + hh); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.fillStyle = P.faint; ctx.textAlign = "center"; ctx.font = "10px " + RH_MONO();
+    [-150, -100, -50, 0, 50, 100, 150].forEach((e) => ctx.fillText((e > 0 ? "+" : "") + e, X(e), hy0 + hh + 12));
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText("오차 분포 (ms) · 왼쪽 = 일찍", left, hy0 - 3);
+  }, { aspect: 0.62, minHeight: 230, maxHeight: 380 });
+  const draw = () => cv.redraw();
+  document.getElementById("rh-tp-rounds").addEventListener("click", () => setTimeout(draw, 0));
+  show(); stats();
+})();
+
+/* ================================================================ 7. 양손 리듬 */
+(function () {
+  const P = (s, hand) => PN.parseNotes(s, { hand });
+  const PIECES = {
+    e4: { name: "8분 대 4분 (연습 패턴)", time: [4, 4], key: 0,
+      rh: "C5/.5 D5/.5 E5/.5 F5/.5 G5/.5 F5/.5 E5/.5 D5/.5 E5/.5 G5/.5 F5/.5 D5/.5 C5/2", lh: "C3/1 G3/1 E3/1 G3/1 G2/1 G3/1 C3/2" },
+    ode: { name: "환희의 송가 — 점4분 + 8분", time: [4, 4], key: 0,
+      rh: "E4/1 E4/1 F4/1 G4/1 G4/1 F4/1 E4/1 D4/1 C4/1 C4/1 D4/1 E4/1 E4/1.5 D4/.5 D4/2", lh: "C3/1 G3/1 E3/1 G3/1 G2/1 D3/1 B2/1 D3/1 C3/1 G3/1 E3/1 G3/1 G2/1 D3/1 B2/1 D3/1" },
+    star: { name: "작은 별 — 4분 대 8분(알베르티)", time: [4, 4], key: 0,
+      rh: "C4/1 C4/1 G4/1 G4/1 A4/1 A4/1 G4/2", lh: "C3/.5 G3/.5 E3/.5 G3/.5 C3/.5 G3/.5 E3/.5 G3/.5 F3/.5 C4/.5 A3/.5 C4/.5 C3/.5 G3/.5 E3/.5 G3/.5" },
+    dot8: { name: "점8분 + 16분 대 4분 (사장조)", time: [4, 4], key: 1,
+      rh: "G4/.75 A4/.25 B4/.75 C5/.25 D5/1 B4/1 C5/.75 B4/.25 A4/.75 G4/.25 G4/2", lh: "G2/1 D3/1 B2/1 D3/1 C3/1 D3/1 G2/2" },
+    sync: { name: "당김음 대 4분", time: [4, 4], key: 0,
+      rh: "C5/.5 D5/1 E5/.5 G5/1 E5/1 D5/.5 C5/1 D5/.5 C5/2", lh: "C3/1 G3/1 E3/1 G3/1 G2/1 D3/1 C3/2" },
+    six8: { name: "6/8 뱃노래 리듬", time: [6, 8], key: 0,
+      rh: "E5/1.5 D5/1 C5/.5 D5/.5 E5/.5 F5/.5 E5/1.5", lh: "C3/.5 G3/.5 E3/.5 C3/.5 G3/.5 E3/.5 G2/.5 D3/.5 B2/.5 C3/.5 G3/.5 E3/.5" },
+  };
+  const sel = document.getElementById("rh-hd-piece");
+  sel.innerHTML = Object.entries(PIECES).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join("");
+  const p = PN.piano();
+  const kb = PN.keyboard("#rh-hd-kb", { from: 43, to: 79, piano: p, labels: "c" });
+  const bpm = MB.range("rh-hd-bpm", (v) => v + " BPM");
+  const r = MB.check("rh-hd-r", () => ghost()), l = MB.check("rh-hd-l", () => ghost()), click = MB.check("rh-hd-click");
+  const st = PN.staff("#rh-hd-staff", [], { clef: "grand", width: 640, minBeat: 30 });
+  let notes = [], pc = PIECES.e4;
+  function load() {
+    pc = PIECES[sel.value];
+    notes = P(pc.rh, "R").concat(P(pc.lh, "L"));
+    st.setNotes(notes, { time: pc.time, key: pc.key, bars: undefined });
+    ghost(); stats();
+  }
+  function ghost() { st.unmark("ghost"); notes.forEach((n, i) => { if ((n.hand === "R" && !r()) || (n.hand === "L" && !l())) st.mark(i, "ghost"); }); }
+  function stats() {
+    const R = new Set(notes.filter((n) => n.hand === "R").map((n) => n.t.toFixed(3))), L = new Set(notes.filter((n) => n.hand === "L").map((n) => n.t.toFixed(3)));
+    const both = [...R].filter((t) => L.has(t)).length;
+    MB.stat("rh-hd-o-sig", pc.time.join("/"));
+    MB.stat("rh-hd-o-both", both + "곳");
+    MB.stat("rh-hd-o-solo", `${R.size - both} / ${L.size - both}`);
+  }
+  const len = () => Math.ceil(Math.max(...notes.map((n) => n.t + n.d)) - 1e-6);
+  const pl = rhPlayer({
+    piano: p, bpm: () => bpm(), loop: () => true, staff: st, clickOn: () => click(),
+    mute: (ev) => (ev.hand === "R" && !r()) || (ev.hand === "L" && !l()),
+    build() {
+      const L = len(), clicks = [], cues = [], six = pc.time[1] === 8, bpb = (pc.time[0] * 4) / pc.time[1];
+      if (six) for (let t = 0; t < L - 1e-6; t += 1.5) clicks.push({ t, accent: Math.abs(MB.mod(t, 3)) < 1e-6 });
+      else for (let t = 0; t < L; t++) clicks.push({ t, accent: t % bpb === 0 });
+      for (let k = 0; k < L * 2; k++) cues.push({ t: k / 2, k });
+      return { notes, clicks, cues, length: L };
+    },
+    onUI(ev) {
+      if (ev.kind !== "q") return;
+      const bpb = (pc.time[0] * 4) / pc.time[1], t = ev.k / 2, bar = Math.floor(t / bpb) + 1, inBar = t - (bar - 1) * bpb;
+      const lab = pc.time[1] === 8 ? `${Math.floor(inBar * 2) + 1}(8분)` : (Number.isInteger(inBar) ? String(inBar + 1) : Math.floor(inBar) + 1 + " &");
+      MB.stat("rh-hd-o-now", `${bar}마디 ${lab}`);
+    },
+    onStop() { MB.stat("rh-hd-o-now", "—"); ghost(); },
+  });
+  rhBind("rh-hd-play", pl);
+  sel.addEventListener("change", () => { const was = pl.running; pl.stop(); load(); if (was) pl.start(); });
+  load();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>블루스와 스타일 반주 · PianoBook</title>
+<meta name="description" content="12마디 블루스와 퀵 체인지, 부기우기 왼손, 스윙 비율, 블루스 스케일 즉흥과 크러시 음, 찰스턴 컴핑, 발라드·보사노바·래그타임·가스펠 스타일 반주를 소리로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/styles.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="블루스와 스타일 반주 · PianoBook">
+<meta property="og:description" content="12마디 블루스와 퀵 체인지, 부기우기 왼손, 스윙 비율, 블루스 스케일 즉흥과 크러시 음, 찰스턴 컴핑, 발라드·보사노바·래그타임·가스펠 스타일 반주를 소리로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/styles.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .sty-top { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--canvas-bg); }
+  .sty-top .grow { flex: 1; min-width: 150px; }
+  .sty-big { font: 700 28px/1.1 var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
+  .sty-big small { font-size: 12.5px; color: var(--text-dim); font-weight: 400; margin-left: 4px; }
+  .sty-msg { font-size: 14px; color: var(--text-dim); min-height: 1.4em; }
+  .sty-msg b { color: var(--text); }
+  .sty-chart { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 12px 16px; background: var(--canvas-bg); }
+  .sty-cell { font: inherit; border: 1px solid var(--border); border-left-width: 4px; border-radius: 8px; background: var(--surface); color: var(--text); padding: 5px 4px; cursor: pointer; text-align: center; min-width: 0; }
+  .sty-cell b { display: block; font: 700 15px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sty-cell small { font-size: 11px; color: var(--text-dim); }
+  .sty-cell.f-t { border-left-color: var(--accent); }
+  .sty-cell.f-s { border-left-color: var(--ok); }
+  .sty-cell.f-d { border-left-color: var(--warn); }
+  .sty-cell.now { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent) inset; }
+  .sty-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--text-dim); padding: 0 16px 10px; background: var(--canvas-bg); }
+  .sty-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+  .sty-steps-wrap { padding: 10px 16px; background: var(--canvas-bg); }
+  .sty-steps-lab { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; font: 600 11px var(--mono); color: var(--text-faint); text-align: center; margin-bottom: 3px; }
+  .sty-desc { padding: 10px 16px; font-size: 14px; color: var(--text-dim); background: var(--canvas-bg); border-top: 1px solid var(--border); }
+  .sty-desc b { color: var(--text); }
+  svg .sty-s { font-size: 11px; fill: var(--text-dim); font-family: var(--font); }
+  svg .sty-m { font: 700 15px var(--mono); fill: var(--text); text-anchor: middle; }
+  svg .sty-t { fill: color-mix(in srgb, var(--accent) 16%, var(--bg-elev)); stroke: var(--accent); }
+  svg .sty-sd { fill: color-mix(in srgb, var(--ok) 16%, var(--bg-elev)); stroke: var(--ok); }
+  svg .sty-d { fill: color-mix(in srgb, var(--warn) 18%, var(--bg-elev)); stroke: var(--warn); }
+  svg .sty-dot { fill: var(--accent); }
+  svg .sty-dot2 { fill: var(--accent-2); }
+  svg .sty-ghost { fill: none; stroke: var(--text-faint); stroke-width: 1.2; stroke-dasharray: 3 3; }
+  svg .sty-zone { fill: color-mix(in srgb, var(--accent-2) 18%, transparent); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="styles">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 13</div>
+    <h1>블루스와 스타일 반주</h1>
+    <p class="lead">같은 C–Am–F–G라도 교회에서, 재즈 클럽에서, 리우의 해변에서 들리는 소리는 전혀 다릅니다. 무엇이 다를까요? 코드 자체보다 <b>리듬의 결</b>(정박인가 스윙인가, 어디에 악센트가 오는가), <b>왼손의 움직임</b>(근음을 누르는가 걸어가는가), <b>코드 색</b>(3화음인가 7화음·9화음인가)이 스타일을 만듭니다. 이 장은 피아노 대중음악의 뿌리인 12마디 블루스와 부기우기에서 출발해, 스윙의 수학, 블루스 스케일로 하는 첫 즉흥, 건반으로 '휘는 음'을 흉내 내는 크러시 음, 재즈 컴핑 리듬, 그리고 하나의 진행을 여섯 스타일로 바꿔 치는 법까지 다룹니다.</p>
+    <ul class="objectives">
+      <li>12마디 블루스의 형식(I7–IV7–V7, 퀵 체인지, 턴어라운드)을 외우고 어떤 조에서든 반주할 수 있다.</li>
+      <li>스윙을 '긴–짧은 8분음표'의 비율 \(r\)로 설명하고, 템포에 따른 뒷박 지연을 계산한다.</li>
+      <li>부기우기·셔플 왼손 패턴 네 가지를 운지와 함께 익히고, 양손을 분리해 연습하는 순서를 안다.</li>
+      <li>블루스 스케일과 블루 노트의 정체를 알고, 반주 루프 위에서 질문–대답으로 즉흥 연주한다.</li>
+      <li>크러시 음·앞꾸밈음으로 피아노에서 '음을 휘는' 효과를 낸다.</li>
+      <li>찰스턴·역찰스턴·앤티시페이션 컴핑 리듬과 발라드·보사노바·래그타임·16비트·가스펠·스윙 반주의 특징을 구별한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="form">
+    <h2>12마디 블루스: 세 코드로 된 형식</h2>
+    <p>블루스는 20세기 초 미국 남부의 아프리카계 미국인 공동체에서 자라난 음악입니다. 1910년대에 W. C. 핸디 같은 작곡가가 악보로 출판하면서 널리 퍼졌고, 재즈·리듬 앤드 블루스·로큰롤·록·펑크의 공통 조상이 되었습니다. 블루스의 뼈대는 놀랄 만큼 단순합니다. 세 코드(I, IV, V)가 <span class="term">12마디 블루스</span><span class="en">(12-bar blues)</span>라는 정해진 순서로 돌아갑니다. 가사는 대개 AAB 형식입니다. 첫 줄(4마디)을 부르고, 같은 줄을 IV 코드 위에서 한 번 더 부르고(4마디), 셋째 줄은 V에서 시작해 앞의 두 줄에 '대답'합니다(4마디). 음악 형식이 곧 이야기의 형식인 셈입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="12마디 블루스 형식">
+        <g id="sty-fig-form"></g>
+      </svg>
+      <figcaption><b>그림 13-1.</b> 12마디 블루스(조 C). 주색 = 으뜸(I), 초록 = 버금딸림(IV), 주황 = 딸림(V). 한 줄이 가사 한 줄(4마디)이다. 2마디를 IV7로 바꾼 것이 <b>퀵 체인지</b>, 마지막 두 마디(I7–V7)가 다음 바퀴의 처음으로 되돌려 보내는 <b>턴어라운드</b>다.</figcaption>
+    </figure>
+    <p>블루스의 두 번째 특징은 세 코드가 모두 <b>속7화음</b><span class="en">(Dominant seventh)</span>이라는 점입니다. C 장조의 고전 화성에서 7화음 C–E–G–B♭은 "F로 가야 할" 불안정한 코드(V7/IV)지만, 블루스에서는 해결되지 않고 그 자체가 집입니다. I7–IV7–V7 모두 장3도와 단7도를 함께 품고 있어서, 장조인지 단조인지 애매한 블루스 특유의 색이 생깁니다. 속7화음의 단7도는 배음렬의 7번 배음과 관계가 있다고 설명하기도 합니다. 기본음의 7배 주파수를 옥타브 안으로 접으면 비율이 7:4가 되는데, 이것은 평균율 단7도보다 31센트쯤 낮은 음입니다.</p>
+    <div class="formula">$$1200\log_2\frac{7}{4} \approx 968.8\ \text{센트} \quad\text{vs}\quad \text{평균율 단7도} = 1000\ \text{센트}, \qquad C\!:\!E\!:\!G\!:\!B^{\flat}_{7} \approx 4\!:\!5\!:\!6\!:\!7$$
+      <div class="where">센트 = 반음의 1/100(로그 척도). 4:5:6:7은 배음렬 4–7번째 음으로 만든 '하모닉 7화음'이다. 평균율 피아노는 정확히 이 소리를 낼 수 없지만, 속7화음이 생각보다 덜 불안하게 들리는 이유 중 하나로 꼽힌다(<a href="../../fundamentals/chapters/consonance.html">MusicBook: 협화와 불협화</a>).</div>
+    </div>
+    <p>12마디 블루스에는 변형이 많습니다. <b>퀵 체인지</b><span class="en">(Quick change)</span>는 2마디를 IV7로 잠깐 갔다 오는 것이고, <b>마이너 블루스</b>는 i7–iv7을 쓰고 9–10마디에 ♭VI7–V7을 놓습니다. 재즈 연주자들은 여기에 ii–V를 잔뜩 끼워 넣어 '재즈 블루스'를 만듭니다(<a href="voicings.html">10장</a>). 그러나 어떤 변형이든 12마디라는 길이와 "I에서 시작해 IV로 갔다가 V에서 긴장하고 I로 돌아온다"는 큰 틀은 그대로입니다. 그래서 처음 만나는 연주자끼리도 "C 블루스!" 한마디면 바로 함께 연주할 수 있습니다.</p>
+
+    <div class="sim" id="sim-sty-twelve">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>12마디 블루스 반주기: 형식 · 조 · 왼손 패턴</h3></div>
+      <div class="sty-top">
+        <button class="btn primary" id="sty-tw-play">▶ 재생</button>
+        <div class="sty-big" id="sty-tw-pos">1<small>/ 12마디</small></div>
+        <div><div class="sty-big" id="sty-tw-chord" style="font-size:24px">C7</div><div class="sty-msg" id="sty-tw-fn">I7 · 으뜸</div></div>
+        <div class="grow sty-msg" id="sty-tw-line">가사 1줄(A): 질문을 던진다</div>
+      </div>
+      <div class="sty-chart" id="sty-tw-chart"></div>
+      <div class="sim-view"><div id="sty-tw-staff"></div><div id="sty-tw-kb"></div></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>형식</span><div class="seg" id="sty-tw-var"><button data-value="basic" class="on">기본</button><button data-value="quick">퀵 체인지</button><button data-value="minor">마이너 블루스</button></div></div>
+        <label class="ctrl"><span>조(으뜸음)</span><select id="sty-tw-key"><option value="0">C</option><option value="5">F</option><option value="7">G</option><option value="10">B♭</option><option value="3">E♭</option><option value="9">A</option></select></label>
+        <div class="ctrl"><span>왼손</span><div class="seg" id="sty-tw-lh"><button data-value="s56" class="on">셔플 5–6</button><button data-value="walk">부기 워킹</button><button data-value="block">근음+7도</button></div></div>
+        <div class="ctrl"><span>느낌</span><div class="seg" id="sty-tw-feel"><button data-value="swing" class="on">셔플(스윙)</button><button data-value="straight">정박</button></div></div>
+        <label class="check"><input type="checkbox" id="sty-tw-rh" checked> 오른손 7화음(2·4박)</label>
+        <label class="check"><input type="checkbox" id="sty-tw-dr" checked> 드럼</label>
+        <label class="ctrl"><span>템포 <output id="sty-tw-bpm-out"></output></span><input type="range" id="sty-tw-bpm" min="60" max="180" value="96"></label>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 코드 구성음</span><span class="v" id="sty-tw-r1">—</span></div>
+        <div class="stat"><span class="k">한 바퀴 길이</span><span class="v" id="sty-tw-r2">—</span></div>
+        <div class="stat"><span class="k">코드 비율 I : IV : V</span><span class="v" id="sty-tw-r3">—</span></div>
+      </div>
+      <div class="sim-note">▶ 재생으로 12마디가 반복되고, ■ 정지로 모든 소리가 멈춥니다. 재생 중에도 형식·조·패턴·템포를 바꾸면 곧바로 반영됩니다. 차트 칸을 누르면 그 코드를 한 번 칩니다. 해볼 것: ① 기본 형식으로 한 바퀴 들으며 박을 세고, 5마디(IV7)와 9마디(V7)가 오는 순간을 미리 말해 보기 ② 퀵 체인지로 바꿔 2마디의 차이 듣기 ③ 조를 F·B♭으로 바꿔 왼손 모양이 그대로 옮겨지는 것 확인하기. 모델: 반주는 가상 피아노(비조화 배음 근사), 드럼은 <code>MB.drum</code> 합성음. 악보는 스윙을 정박 8분음표로 적는 관례를 따른다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 형식을 몸에 새기기</strong> 왼손으로 각 마디 첫 박에 근음만 누르며(C·F·G) 12마디를 소리 내어 세어 보세요. "하나–둘–셋–넷, 둘–둘–셋–넷 …". 세 바퀴를 틀리지 않으면 근음 대신 근음+7도(C+B♭)를 누르고, 다음에는 오른손이 2·4박에 7화음을 더합니다. 목표: 메트로놈 80에서 눈을 감고 세 바퀴. 블루스는 형식을 '세지 않고 느낄' 때부터 자유로워집니다.</div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="swing">
+    <h2>스윙: 긴–짧은 8분음표의 비율</h2>
+    <p>블루스와 재즈 악보에 적힌 8분음표 두 개는 같은 길이로 치지 않습니다. 앞의 음을 길게, 뒤의 음을 짧게 치는 <span class="term">스윙</span><span class="en">(Swing)</span> 또는 <span class="term">셔플</span><span class="en">(Shuffle)</span>이 기본입니다. 악보 첫머리에 "Swing"이나 "♫ = ♩<sup>3</sup>♪"처럼 적어 두고, 본문은 보통 8분음표로 씁니다. 매번 셋잇단음표로 적으면 악보가 너무 복잡해지기 때문입니다. 따라서 스윙은 '적힌 대로'가 아니라 '약속대로' 연주하는 리듬입니다.</p>
+    <p>스윙을 수로 나타내면 한 박을 나누는 비율입니다. 앞 8분음표 길이 : 뒤 8분음표 길이 = \(r : 1\)을 <span class="term">스윙 비율</span><span class="en">(Swing ratio)</span>이라 합니다. \(r = 1\)이면 정박(스트레이트), \(r = 2\)이면 셋잇단음표의 2+1, \(r = 3\)이면 점8분+16분의 '딱딱한' 셔플입니다. 뒷박이 놓이는 위치는 한 박 \(T\)의 \(s\) 지점입니다.</p>
+    <div class="formula">$$s = \frac{r}{1+r}, \qquad t_{\text{뒷박}} = s\,T, \qquad \Delta = \Big(s - \tfrac{1}{2}\Big)T, \qquad T = \frac{60}{\text{BPM}}\ \text{초}$$
+      <div class="where">\(\Delta\): 정박 뒷박보다 늦어지는 시간. 120 BPM(\(T\) = 500 ms)에서 셋잇단 스윙(\(r=2\), \(s=2/3\))은 뒷박을 83 ms, 3:1(\(s = 3/4\))은 125 ms 늦춘다. 같은 비율이라도 템포가 느릴수록 \(\Delta\)가 커진다.</div>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="스윙 비율에 따른 뒷박 위치">
+        <g id="sty-fig-swing"></g>
+      </svg>
+      <figcaption><b>그림 13-2.</b> 두 박 동안의 8분음표 위치. 위에서부터 정박(1:1), 셋잇단 스윙(2:1), 하드 셔플(3:1). 점선은 셋잇단 격자(한 박의 1/3·2/3). 앞박(주색)은 박 위에 그대로 있고, 뒷박(주황)만 오른쪽으로 밀린다. 그래서 스윙은 '뒷박을 늦게 치는 것'으로 기억하면 정확하다.</figcaption>
+    </figure>
+    <p>실제 연주자의 스윙 비율은 하나로 정해져 있지 않습니다. 재즈 드러머의 라이드 심벌을 측정한 연구(프리베리와 순드스트룀, 2002)에서는 느린 템포에서 비율이 3:1을 넘기도 하고, 템포가 빨라질수록 작아져 아주 빠른 곡에서는 1:1에 가까워졌습니다. 빠른 템포에서는 짧은 음을 더 짧게 만들 시간이 없기 때문입니다. 또 솔로이스트는 리듬 섹션보다 비율을 작게(더 곧게) 연주하는 경향도 보고되었습니다. 결국 2:1은 '평균적인 출발점'이고, 좋은 스윙은 곡과 템포에 따라 미세하게 조정됩니다.</p>
+
+    <div class="sim" id="sim-sty-swing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스윙 비율 실험실: 1:1 → 2:1 → 3:1</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="sty-sw-cv"></canvas><div id="sty-sw-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>스윙 \(s\) (뒷박 위치) <output id="sty-sw-s-out"></output></span><input type="range" id="sty-sw-s" min="50" max="76" value="67"></label>
+          <div class="ctrl"><span>프리셋</span><div class="seg" id="sty-sw-pre"><button data-value="50">1:1</button><button data-value="67" class="on">2:1</button><button data-value="75">3:1</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sty-sw-bpm-out"></output></span><input type="range" id="sty-sw-bpm" min="60" max="260" value="120"></label>
+          <div class="ctrl"><span>소리</span><div class="seg" id="sty-sw-snd"><button data-value="both" class="on">피아노+심벌</button><button data-value="piano">피아노</button><button data-value="ride">심벌</button></div></div>
+          <label class="check"><input type="checkbox" id="sty-sw-acc"> 뒷박 악센트(재즈 8분음표)</label>
+          <div class="btn-row"><button class="btn primary" id="sty-sw-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">비율 r : 1</span><span class="v" id="sty-sw-r1">—</span></div>
+        <div class="stat"><span class="k">긴 음 · 짧은 음</span><span class="v" id="sty-sw-r2">—</span></div>
+        <div class="stat"><span class="k">뒷박 지연 Δ</span><span class="v" id="sty-sw-r3">—</span></div>
+      </div>
+      <div class="sim-note">▶ 재생으로 2마디짜리 블루스 스케일 선율이 라이드 심벌과 함께 반복됩니다. 재생 중에도 \(s\)와 템포를 바꾸면 다음 음부터 반영됩니다. 그래프: 회색 점선 = 셋잇단 격자, 속이 빈 원 = 정박 위치, 채운 원 = 지금 위치(재생 중인 음은 주황). 해볼 것: ① \(s\)를 50%에서 천천히 올리며 '곧은 느낌'이 '흔들리는 느낌'으로 바뀌는 지점 찾기 ② 3:1을 240 BPM에서 들어 보고 2:1과 비교하기(빠르면 차이가 안 들린다) ③ 뒷박 악센트를 켜서 재즈다운 'doo-BAH' 느낌 듣기. 모델: 스윙은 박 안의 앞 절반을 [0, s], 뒤 절반을 [s, 1]로 늘이고 줄이는 시간 왜곡.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 입으로 먼저 스윙하기</strong> 손보다 입이 먼저입니다. "두–비 두–비"(앞을 길게)나 "쿵–따 쿵–따"를 셋잇단 셈("1–트–렛 2–트–렛")에 맞춰 말하고, '트'는 소리 내지 않습니다. 그다음 오른손으로 C 하나만 반복해서 스윙 8분음표를 칩니다. 메트로놈은 2·4박에만 울리게(재즈의 백비트) 두고, 60 → 100 BPM으로 올리세요. 흔한 실수: 스윙을 '점8분+16분'(3:1)으로 너무 각지게 치거나, 빨라지면서 정박으로 돌아가는 것.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="boogie">
+    <h2>부기우기와 셔플 왼손</h2>
+    <p><span class="term">부기우기</span><span class="en">(Boogie-woogie)</span>는 왼손이 쉬지 않고 8분음표(대개 셔플)로 굴러가는 블루스 피아노 스타일입니다. 1920년대 남부의 술집과 '렌트 파티'에서 자랐고, 클래런스 '파인톱' 스미스의 「Pinetop's Boogie Woogie」(1928) 녹음으로 이름이 퍼졌습니다. 1938년 카네기 홀 공연 「From Spirituals to Swing」에서 앨버트 애먼스, 미드 럭스 루이스, 피트 존슨이 연주한 뒤로는 전국적인 유행이 되었고, 이 왼손은 그대로 로큰롤 피아노와 록 기타 리프의 원형이 되었습니다.</p>
+    <p>부기우기 왼손은 몇 가지 '틀'의 변형입니다. 가장 기본은 근음 위에 5도와 6도를 번갈아 얹는 <b>셔플 5–6</b>입니다. 새끼(5)는 근음에 그대로 두고, 검지(2)와 엄지(1)가 5도와 6도를 오갑니다. 6 다음에 ♭7까지 올라가면 <b>5–6–♭7–6</b>, 근음에서 3–5–6–♭7을 거쳐 다시 내려오는 한 줄 선율은 <b>워킹 부기</b>입니다. 손이 큰 사람은 각 음을 옥타브로 끊어 치는 <b>옥타브 부기</b>로 힘찬 소리를 냅니다. 어느 것이든 마디마다 같은 모양을 코드 근음으로 옮기기만 하면 되므로, 모양을 '조에 독립적인 손 모양'으로 외우는 것이 핵심입니다.</p>
+
+    <div class="sim" id="sim-sty-boogie">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>부기우기 왼손 트레이너: 패턴 · 운지 · 양손 분리</h3></div>
+      <div class="sim-view"><div id="sty-bg-staff"></div><div id="sty-bg-kb"></div></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>패턴</span><div class="seg" id="sty-bg-pat"><button data-value="s56" class="on">셔플 5–6</button><button data-value="s567">5–6–♭7–6</button><button data-value="walk">워킹 부기</button><button data-value="oct">옥타브 부기</button></div></div>
+        <div class="ctrl"><span>코드</span><div class="seg" id="sty-bg-ch"><button data-value="0" class="on">I7 (C7)</button><button data-value="5">IV7 (F7)</button><button data-value="7">V7 (G7)</button><button data-value="all">12마디</button></div></div>
+        <div class="ctrl"><span>느낌</span><div class="seg" id="sty-bg-feel"><button data-value="swing" class="on">셔플</button><button data-value="straight">정박(로큰롤 8비트)</button></div></div>
+        <label class="ctrl"><span>템포 <output id="sty-bg-bpm-out"></output></span><input type="range" id="sty-bg-bpm" min="50" max="200" value="88"></label>
+        <label class="check"><input type="checkbox" id="sty-bg-click" checked> 메트로놈 클릭(2·4박)</label>
+        <label class="check"><input type="checkbox" id="sty-bg-rh"> 오른손 리프 더하기</label>
+        <div class="btn-row"><button class="btn primary" id="sty-bg-play">▶ 재생</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 코드</span><span class="v" id="sty-bg-r1">—</span></div>
+        <div class="stat"><span class="k">왼손 음 / 분</span><span class="v" id="sty-bg-r2">—</span></div>
+        <div class="stat"><span class="k">긴 · 짧은 8분음표</span><span class="v" id="sty-bg-r3">—</span></div>
+      </div>
+      <div class="sim-note">악보는 선택한 코드의 2마디 패턴(낮은음자리표)과 왼손 운지입니다(옥타브 부기는 위아래 마디가 오르내림 짝). 재생 중에도 모든 설정이 반영됩니다. 오른손 리프는 2마디마다 반복되는 간단한 블루스 리프(C–E♭–E–G)입니다. 해볼 것: ① 셔플 5–6을 60 BPM에서 왼손만 따라 치기 ② 12마디로 바꿔 코드가 바뀔 때 손 모양이 그대로 이동하는지 확인 ③ 정박으로 바꿔 1950년대 로큰롤 피아노 느낌 듣기. 모델: 가상 피아노, 옥타브 부기의 운지 5–1은 옥타브가 닿는 손을 가정.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 왼손을 '자동 조종'으로</strong> 부기우기의 성패는 왼손이 의식 없이 굴러가느냐에 달려 있습니다. ① 왼손만 60 BPM에서 한 코드로 2분. ② 12마디로 세 바퀴. ③ 왼손을 계속 치며 <b>말하기</b>(오늘 한 일을 소리 내어 말해 보세요). 말하는 동안 왼손이 무너지지 않으면 자동화된 것입니다. ④ 그때 비로소 오른손을 한 음(C5)만 2·4박에 더하고, 점점 리프로 늘립니다. 손목은 낮고 부드럽게, 새끼손가락은 건반을 누르는 힘이 아니라 팔 무게로 칩니다. 아프면 즉시 쉬세요.</div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="blues-scale">
+    <h2>블루스 스케일과 첫 즉흥</h2>
+    <p>즉흥 연주가 막막한 가장 큰 이유는 "아무 음이나 쳐도 틀린 것 같아서"입니다. 블루스는 이 문제에 대한 가장 오래된 해법을 줍니다. 단조 펜타토닉(R–♭3–4–5–♭7)에 ♭5 하나를 더한 여섯 음, <span class="term">블루스 스케일</span><span class="en">(Blues scale)</span>입니다. C에서는 C–E♭–F–G♭–G–B♭. 이 여섯 음은 12마디 내내 I7·IV7·V7 어느 코드 위에서도 '블루스답게' 들립니다. 장3도(E) 위에 단3도(E♭)를 치는 충돌조차 블루스에서는 의도된 색입니다. 밝은 쪽을 원하면 장조 블루스 스케일(R–2–♭3–3–5–6, C–D–E♭–E–G–A)을 씁니다.</p>
+    <p>♭3, ♭5, ♭7을 흔히 <span class="term">블루 노트</span><span class="en">(Blue note)</span>라 부릅니다. 그러나 가수나 기타리스트가 내는 블루 노트는 평균율의 E♭이나 E처럼 딱 떨어지는 음이 아니라, 그 사이를 미끄러지거나 그 중간에 머무는 음입니다. 이론가들은 이를 단3도(6:5)와 장3도(5:4) 사이의 '중간 3도', 하모닉 7도(7:4) 같은 비율로 설명하려 했지만, 정해진 하나의 값이 있는 것은 아닙니다. 피아노는 음높이를 휘게 할 수 없으므로 이 '사이'를 다른 방법으로 암시합니다. 다음 절의 크러시 음이 그 방법입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="블루 노트의 음높이 영역">
+        <g id="sty-fig-blue"></g>
+      </svg>
+      <figcaption><b>그림 13-3.</b> 한 옥타브(0–1200센트)의 평균율 블루스 음(위, 피아노 건반 위치)과 단순한 정수비 음정(아래). 주황 띠는 가수·기타가 블루 노트를 내는 대략의 영역: ♭3과 3 사이, ♭5 근처, 하모닉 7도(969¢)와 ♭7 사이. 피아노는 이 띠 안의 음을 낼 수 없어서 양쪽 건반을 겹치거나(크러시) 빠르게 미끄러져(꾸밈음) 그 사이를 암시한다.</figcaption>
+    </figure>
+    <p>첫 즉흥은 <b>제약</b>을 걸수록 쉬워집니다. 아래 즉흥 스테이션에서 다음 순서를 따라 해 보세요. ① <b>세 음만</b>: C, E♭, F로만 2마디 '질문'을 하고 2마디 쉽니다. ② <b>리듬 하나</b>: 같은 리듬(예: 쿵–따–쿵, 쉼)을 음만 바꿔 반복합니다. ③ <b>질문과 대답</b>: 1–2마디에 친 프레이즈를 3–4마디에 조금 바꿔 대답합니다. 블루스 가사의 AAB가 바로 이 구조입니다. ④ <b>코드톤 착지</b>: 프레이즈의 마지막 음을 지금 코드의 구성음(건반의 청록 점)에 놓습니다. 쉼표가 음만큼 중요하다는 것을 잊지 마세요.</p>
+
+    <div class="sim" id="sim-sty-impro">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>블루스 즉흥 스테이션: C 블루스 반주 위에서</h3></div>
+      <div class="sty-top">
+        <button class="btn primary" id="sty-im-play">▶ 반주 재생</button>
+        <div class="sty-big" id="sty-im-pos">1<small>/ 12</small></div>
+        <div class="sty-big" id="sty-im-chord" style="font-size:24px">C7</div>
+        <div class="grow sty-msg" id="sty-im-cue">반주를 켜고 건반(또는 <kbd>A</kbd>–<kbd>K</kbd> 키)으로 연주하세요.</div>
+      </div>
+      <div class="sty-chart" id="sty-im-chart"></div>
+      <div class="sim-view"><div id="sty-im-kb"></div></div>
+      <div class="sty-legend"><span><i style="background:var(--bad)"></i>으뜸음 C</span><span><i style="background:var(--accent-2)"></i>지금 코드의 구성음</span><span><i style="background:var(--accent)"></i>스케일 음</span></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>표시할 스케일</span><div class="seg" id="sty-im-sc"><button data-value="minor" class="on">블루스(단조)</button><button data-value="major">장조 블루스</button><button data-value="mix">둘 다(9음)</button></div></div>
+        <div class="ctrl"><span>점 표시</span><div class="seg" id="sty-im-lab"><button data-value="deg" class="on">도수</button><button data-value="name">음 이름</button></div></div>
+        <label class="check"><input type="checkbox" id="sty-im-safe" checked> 안전 모드: 스케일 밖 건반은 가장 가까운 스케일·코드 음으로</label>
+        <label class="check"><input type="checkbox" id="sty-im-dr" checked> 드럼</label>
+        <label class="ctrl"><span>템포 <output id="sty-im-bpm-out"></output></span><input type="range" id="sty-im-bpm" min="60" max="150" value="84"></label>
+        <div class="btn-row"><button class="btn" id="sty-im-lick">♪ 시범 릭 듣기</button><button class="btn" id="sty-im-reset">기록 지우기</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">친 음</span><span class="v" id="sty-im-r1">0</span></div>
+        <div class="stat"><span class="k">코드 구성음 비율</span><span class="v" id="sty-im-r2">—</span></div>
+        <div class="stat"><span class="k">블루 노트(♭3 ♭5 ♭7)</span><span class="v" id="sty-im-r3">—</span></div>
+      </div>
+      <div class="sim-note">반주(왼손 셔플 5–6 + 드럼)는 ▶/■ 버튼으로 켜고 끕니다. 건반은 C4–C6, 컴퓨터 키보드 <kbd>A</kbd> <kbd>W</kbd> <kbd>S</kbd> … <kbd>K</kbd>로도 치며 <kbd>Z</kbd>/<kbd>X</kbd>로 옥타브를 옮깁니다. 안내 문구가 두 마디마다 '질문/대답'을 알려 줍니다. 시범 릭은 다음 박에 맞춰 2마디 동안 재생됩니다. 해볼 것: ① 안전 모드에서 마음대로 쳐 보기 ② 안전 모드를 끄고 E(장3도)와 E♭(단3도)을 각각 C7·F7 위에서 길게 눌러 비교하기 ③ 코드 구성음 비율을 40% 이상으로 유지하며 한 바퀴. 모델: '코드 구성음 비율'은 친 음 중 그 순간 코드(속7화음)의 음 비율.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 블루스 스케일 운지</strong> C 블루스 스케일 오른손 한 가지 운지: C(1) E♭(2) F(3) G♭(4) G(1) B♭(2) C(3)… 엄지가 G로 넘어갑니다. 위로 올라가며 4번에서 1번으로 넘어가는 순간 손목이 튀지 않도록 팔꿈치를 살짝 바깥으로. 연습 순서: 60 BPM 8분음표 한 옥타브 오르내리기 → 셔플로 → 두 옥타브 → 아무 음에서나 시작해 세 음씩 묶어(C E♭ F, E♭ F G♭ …) 오르내리기. 스케일 연습이 '재료'라면 즉흥은 그 재료로 '문장'을 만드는 일입니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="ornaments">
+    <h2>크러시 음과 꾸밈음: 건반으로 음을 휘기</h2>
+    <p>기타는 줄을 밀어 올려(벤딩) E♭에서 E로 음을 연속적으로 바꿀 수 있지만, 피아노의 해머는 고정된 현만 칩니다. 블루스 피아니스트들은 이 한계를 두 가지 손기술로 넘었습니다. 첫째는 <span class="term">크러시 음</span><span class="en">(Crushed note, Acciaccatura)</span>입니다. 이탈리아어 acciaccare(으깨다)에서 온 말 그대로, 이웃한 두 건반(예: E♭와 E)을 거의 동시에 누르고 아래 음만 곧바로 놓습니다. 귀에는 두 음이 부딪치는 '불협'이 순간 들렸다가 E로 정리되어, 음이 미끄러져 올라간 듯한 인상이 남습니다. 둘째는 검은 건반에서 흰 건반으로 손가락을 <b>미끄러뜨리는</b> 앞꾸밈음입니다. 같은 손가락(대개 2번이나 3번)으로 E♭를 누른 채 건반 앞쪽 경사를 따라 E로 미끄러져 내려옵니다.</p>
+    <p>이 효과가 통하는 이유는 청각의 시간 해상도에 있습니다. 두 음의 간격이 수십 밀리초 이하이면 귀는 그것을 따로 떨어진 두 사건이라기보다 하나의 '움직이는' 음으로 묶어 듣는 경향이 있습니다(시간적 통합, <a href="../../fundamentals/chapters/psychoacoustics.html">MusicBook: 심리음향</a>). 꾸밈음이 너무 길면(박의 1/4 이상) 별개의 음표처럼 들리고, 너무 짧으면 실수처럼 들립니다. 블루스 피아노에서는 대략 30–80 ms가 자연스럽습니다. 아래 실험실에서 길이를 바꿔 가며 '휘는 느낌'이 가장 잘 사는 지점을 찾아보세요. 클래식의 앞꾸밈음 규칙과 트릴은 <a href="technique.html">12장</a>에서 다룹니다.</p>
+
+    <div class="sim" id="sim-sty-crush">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>크러시 · 꾸밈음 실험실 (C7 위에서)</h3></div>
+      <div class="sim-view"><div id="sty-cr-staff"></div><div id="sty-cr-kb"></div></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>꾸밈</span><div class="seg" id="sty-cr-type"><button data-value="plain">꾸밈 없음</button><button data-value="crush" class="on">크러시(동시)</button><button data-value="grace">앞꾸밈음(미끄럼)</button><button data-value="b5">♭5 경과 릭</button></div></div>
+        <label class="ctrl"><span>꾸밈음 길이 <output id="sty-cr-ms-out"></output></span><input type="range" id="sty-cr-ms" min="10" max="200" value="50"></label>
+        <label class="ctrl"><span>템포 <output id="sty-cr-bpm-out"></output></span><input type="range" id="sty-cr-bpm" min="50" max="140" value="76"></label>
+        <label class="check"><input type="checkbox" id="sty-cr-loop"> 반복</label>
+        <div class="btn-row"><button class="btn primary" id="sty-cr-play">▶ 재생</button><button class="btn" id="sty-cr-ab">A/B: 꾸밈 없음과 번갈아</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">꾸밈음 길이</span><span class="v" id="sty-cr-r1">—</span></div>
+        <div class="stat"><span class="k">한 박에 대한 비율</span><span class="v" id="sty-cr-r2">—</span></div>
+        <div class="stat"><span class="k">들리는 방식(대략)</span><span class="v" id="sty-cr-r3">—</span></div>
+      </div>
+      <div class="sim-note">왼손은 C7(C3–B♭3–E4)을 길게, 오른손은 1마디 블루스 음형을 칩니다. 악보는 꾸밈음을 16분음표 자리에 근사해 적고(D♯ = E♭과 같은 건반), 실제 소리는 설정한 밀리초 길이를 씁니다. A/B 버튼은 꾸밈 없음 → 선택한 꾸밈을 한 번씩 이어서 들려줍니다. 해볼 것: ① 크러시 길이를 10 ms → 200 ms로 올리며 '한 음'이 '두 음'으로 갈라지는 지점 찾기 ② ♭5 경과 릭을 실제 피아노에서 2–3–2 운지로 미끄러뜨려 치기. 모델: 가상 피아노, 시간 지각 경계는 대략의 값(사람·음역·셈여림에 따라 다르다).</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 크러시는 '떨어뜨려' 친다</strong> 크러시는 두 손가락으로 '누르는' 것이 아니라, 손을 E♭–E 위에 살짝 떨어뜨린 뒤 E♭ 손가락만 튕기듯 들어 올리는 동작입니다. 처음에는 같은 손가락(3번)의 왼쪽 반은 E♭, 오른쪽 반은 E에 걸치게 놓고 떨어뜨리세요. 손목이 굳으면 소리가 딱딱해집니다. 목표: 3도(E) 크러시를 2·4박에 넣은 C7 반주를 80 BPM으로 12마디.</div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="comping">
+    <h2>컴핑: 리듬이 반주를 결정한다</h2>
+    <p>재즈에서 반주하는 일을 <span class="term">컴핑</span><span class="en">(Comping, accompanying/complementing)</span>이라 부릅니다. 컴핑의 핵심은 '어떤 화음을'보다 '언제' 치느냐입니다. 베이스가 박마다 걷고 드러머가 라이드 심벌로 박을 채우는 동안, 피아노가 같은 박을 또 치면 소리가 탁해집니다. 그래서 재즈 피아니스트는 박과 박 사이(뒷박)에 화음을 '찔러' 넣어 리듬에 대화를 만듭니다. 가장 유명한 틀이 <b>찰스턴</b><span class="en">(Charleston)</span>입니다. 1923년 제임스 P. 존슨의 노래 「The Charleston」에서 이름을 딴 리듬으로, 1박에 한 번, 2박 뒷박(2&)에 한 번(점4분 + 8분)을 칩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="컴핑 리듬 네 가지">
+        <g id="sty-fig-comp"></g>
+      </svg>
+      <figcaption><b>그림 13-4.</b> 한 마디를 8분음표 8칸으로 나눈 컴핑 리듬. 찰스턴(1, 2&), 역찰스턴(1&, 3), 2·4박(백비트, 스윙 시대 리듬 기타처럼), 앤티시페이션(4&에 다음 마디 코드를 미리). 칠한 칸이 화음을 치는 자리이고, 스윙에서는 뒷박(&) 칸이 셋잇단 위치로 늦게 온다.</figcaption>
+    </figure>
+    <p>컴핑의 보이싱은 근음을 빼는 것이 보통입니다. 베이스가 근음을 연주하므로 피아노는 3·7도와 텐션(9·13)만 가운데 음역(대략 D3–C5)에 놓습니다. 이것이 <a href="voicings.html">10장</a>의 루트리스 A·B형 보이싱입니다. ii–V–I에서 A형과 B형을 번갈아 쓰면 손이 거의 움직이지 않고 한두 음만 반음·온음씩 미끄러져 다음 코드가 됩니다. 아래 시뮬레이터에서 리듬을 직접 찍어 보세요. 같은 화음이 리듬만 바꿔도 얼마나 다르게 들리는지가 이 절의 요점입니다.</p>
+
+    <div class="sim" id="sim-sty-comp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>컴핑 리듬 시퀀서: 찰스턴부터 직접 만든 리듬까지</h3></div>
+      <div class="sty-top">
+        <button class="btn primary" id="sty-cp-play">▶ 재생</button>
+        <div class="sty-big" id="sty-cp-chord" style="font-size:24px">Dm7</div>
+        <div class="grow sty-msg" id="sty-cp-msg">칸을 눌러 화음 치는 자리를 켜고 끄세요(모든 마디에 같은 리듬).</div>
+      </div>
+      <div class="sty-steps-wrap">
+        <div class="sty-steps-lab"><span>1</span><span>&amp;</span><span>2</span><span>&amp;</span><span>3</span><span>&amp;</span><span>4</span><span>&amp;</span></div>
+        <div class="pn-steps" id="sty-cp-steps" style="--n:8"></div>
+      </div>
+      <div class="sim-view"><div id="sty-cp-staff"></div><div id="sty-cp-kb"></div></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>리듬 프리셋</span><div class="seg" id="sty-cp-pre"><button data-value="charleston" class="on">찰스턴</button><button data-value="reverse">역찰스턴</button><button data-value="backbeat">2·4박</button><button data-value="antic">앤티시페이션</button><button data-value="four">4비트</button></div></div>
+        <div class="ctrl"><span>진행</span><div class="seg" id="sty-cp-prog"><button data-value="251" class="on">Dm7–G7–Cmaj7–A7</button><button data-value="blues">C7–F7–C7–G7</button></div></div>
+        <div class="ctrl"><span>보이싱</span><div class="seg" id="sty-cp-voi"><button data-value="rootless" class="on">루트리스 A/B 교대</button><button data-value="shell">셸(3·7)</button></div></div>
+        <div class="ctrl"><span>느낌</span><div class="seg" id="sty-cp-feel"><button data-value="swing" class="on">스윙</button><button data-value="straight">정박</button></div></div>
+        <label class="check"><input type="checkbox" id="sty-cp-bass" checked> 워킹 베이스</label>
+        <label class="check"><input type="checkbox" id="sty-cp-ride" checked> 라이드 심벌</label>
+        <label class="ctrl"><span>템포 <output id="sty-cp-bpm-out"></output></span><input type="range" id="sty-cp-bpm" min="70" max="220" value="132"></label>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마디당 타격</span><span class="v" id="sty-cp-r1">—</span></div>
+        <div class="stat"><span class="k">뒷박 비율</span><span class="v" id="sty-cp-r2">—</span></div>
+        <div class="stat"><span class="k">지금 보이싱</span><span class="v" id="sty-cp-r3">—</span></div>
+      </div>
+      <div class="sim-note">악보 윗단 = 피아노 컴핑(루트리스는 가온 다 아래까지 내려가 덧줄이 생긴다), 아랫단 = 베이스(워킹 베이스: 근음–3도–5도–다음 근음으로 반음 접근). 4& 칸에 친 화음은 다음 마디의 코드를 미리 칩니다(앤티시페이션). 재생 중에도 칸·프리셋·진행을 바꿀 수 있습니다. 해볼 것: ① 찰스턴과 4비트를 번갈아 들으며 어느 쪽이 베이스·심벌과 '대화'하는지 비교 ② 직접 3칸 이하로 리듬 만들기 ③ 셸과 루트리스의 소리 밀도 비교. 모델: 베이스는 <code>MB.play</code> 신스 베이스, 라이드는 <code>MB.drum</code>.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 컴핑은 적게, 일정하게</strong> 처음에는 찰스턴 하나로 ii–V–I를 12바퀴 칩니다. 손은 건반에 붙인 채 손가락으로 '찍듯' 짧게(스타카토에 가깝게), 앞박보다 뒷박(2&)을 조금 세게. 익숙해지면 마디마다 리듬을 하나씩 바꾸되 <b>한 마디에 세 번 이하</b>로 칩니다. 컴핑은 솔로이스트에게 공간을 주는 일이라, 적게 칠수록 좋게 들리는 경우가 많습니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="switch">
+    <h2>같은 진행, 여섯 가지 스타일</h2>
+    <p>이제 이 장과 <a href="accompaniment.html">8장</a>에서 배운 패턴을 한데 모아 봅시다. 진행 하나(예: I–vi–IV–V)를 정해 두고 스타일만 바꾸면, 스타일이 결국 몇 개의 손잡이(템포, 스윙 비율, 왼손 패턴, 오른손 리듬, 코드 확장, 드럼)를 어떻게 돌리느냐의 문제라는 것이 보입니다. 아래 표는 각 스타일의 '지문'입니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>스타일</th><th>시대·배경</th><th>템포·느낌</th><th>왼손</th><th>오른손·코드 색</th></tr></thead>
+      <tbody>
+        <tr><td>팝 발라드</td><td>1970년대 이후 대중가요</td><td>60–80, 정박</td><td>8분 분산화음(1–5–8–10)</td><td>3화음·add9 길게, 페달로 잇기</td></tr>
+        <tr><td>보사노바</td><td>1950년대 말 브라질(조빙, 질베르투)</td><td>120–140, 정박·가볍게</td><td>근음–5도의 '점4분+8분' 베이스</td><td>7화음을 엇박에 짧게</td></tr>
+        <tr><td>래그타임·스트라이드</td><td>1890–1920년대(조플린), 1920년대 할렘(J. P. 존슨, 패츠 월러)</td><td>80–100(래그)·140 이상(스트라이드)</td><td>'쿵–짝': 낮은 근음과 가운데 화음을 번갈아</td><td>싱커페이션(16분–8분–16분)</td></tr>
+        <tr><td>16비트 팝</td><td>1980년대 이후 팝·R&amp;B</td><td>85–105, 16분 그루브</td><td>근음 옥타브 엇박</td><td>16분 엇박 스탭</td></tr>
+        <tr><td>가스펠</td><td>20세기 흑인 교회 음악</td><td>70–90, 약한 스윙</td><td>옥타브 + 다음 근음으로 반음 접근</td><td>add9, sus4→3 해결, IV–I '아멘' 종지</td></tr>
+        <tr><td>스윙</td><td>1930–40년대 빅밴드, 이후 재즈</td><td>120–200, 스윙 2:1 안팎</td><td>워킹 베이스(4분음표)</td><td>루트리스 7화음, 찰스턴 컴핑</td></tr>
+      </tbody>
+    </table></div>
+    <p><span class="term">래그타임</span><span class="en">(Ragtime)</span>은 스콧 조플린(1868–1917)의 「Maple Leaf Rag」(1899)으로 대표되는, 행진곡 형식에 오른손 싱커페이션을 얹은 피아노 음악입니다. 왼손이 낮은 베이스와 가운데 화음을 번갈아 치는 '쿵–짝'은 행진곡에서 왔고, 1920년대 할렘의 <b>스트라이드</b> 피아니스트들은 이 왼손을 훨씬 넓고 빠르게 만들었습니다. 조플린의 곡들은 공유 저작물이므로 악보를 자유롭게 구해 연습할 수 있습니다. 조플린은 악보에 "Not fast"라고 적어 두기도 했습니다. 래그타임은 원래 스윙하지 않고 곧게 칩니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 280" role="img" aria-label="스타일별 템포와 스윙 비율">
+        <g id="sty-fig-map"></g>
+      </svg>
+      <figcaption><b>그림 13-5.</b> 스타일 지도: 가로 = 전형적인 템포, 세로 = 스윙 \(s\)(0.5 = 정박, 0.67 = 셋잇단). 점은 대표값이고 실제 곡마다 넓게 퍼진다. 같은 템포라도 스윙 축 위치가 다르면 전혀 다른 음악이 된다(예: 보사노바와 스윙).</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-sty-switch">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스타일 전환기: 한 진행을 여섯 스타일로</h3></div>
+      <div class="sty-top">
+        <button class="btn primary" id="sty-sx-play">▶ 재생</button>
+        <div class="sty-big" id="sty-sx-chord" style="font-size:24px">C</div>
+        <div class="grow sty-msg" id="sty-sx-msg">스타일을 바꾸면 템포·스윙·코드 색이 그 스타일의 기본값으로 바뀝니다.</div>
+      </div>
+      <div class="sim-view"><div id="sty-sx-staff"></div><div id="sty-sx-kb"></div></div>
+      <div class="sty-desc" id="sty-sx-desc"></div>
+      <div class="sim-controls">
+        <div class="ctrl"><span>스타일</span><div class="seg" id="sty-sx-style"><button data-value="ballad" class="on">팝 발라드</button><button data-value="bossa">보사노바</button><button data-value="rag">래그타임</button><button data-value="pop16">16비트 팝</button><button data-value="gospel">가스펠</button><button data-value="swing">스윙</button></div></div>
+        <div class="ctrl"><span>진행 (C 장조)</span><div class="seg" id="sty-sx-prog"><button data-value="I vi IV V" class="on">I–vi–IV–V</button><button data-value="I V vi IV">I–V–vi–IV</button><button data-value="ii V I vi">ii–V–I–vi</button></div></div>
+        <label class="check"><input type="checkbox" id="sty-sx-dr" checked> 드럼</label>
+        <label class="ctrl"><span>템포 <output id="sty-sx-bpm-out"></output></span><input type="range" id="sty-sx-bpm" min="56" max="200" value="72"></label>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">스윙 s</span><span class="v" id="sty-sx-r1">—</span></div>
+        <div class="stat"><span class="k">코드 색</span><span class="v" id="sty-sx-r2">—</span></div>
+        <div class="stat"><span class="k">마디당 음 수(양손)</span><span class="v" id="sty-sx-r3">—</span></div>
+      </div>
+      <div class="sim-note">악보는 4마디 전체(높은음자리표 = 오른손, 낮은음자리표 = 왼손), 건반은 C2–C6(좁은 화면에서는 건반 안에서 가로로 밀어 보세요). 재생 중에 스타일·진행을 바꾸면 다음 박부터 이어집니다. 해볼 것: ① 같은 진행을 발라드 → 가스펠 → 스윙 순서로 들으며 '코드 색'과 '왼손'이 어떻게 바뀌는지 말로 설명하기 ② 템포만 크게 바꿔 보사노바를 60 BPM으로(스타일이 무너지는 지점) ③ 악보의 왼손 한 마디를 실제 피아노로 따라 치기. 모델: 반주 패턴은 이 책이 만든 단순화된 예이며, 실제 연주는 마디마다 훨씬 다양하게 변한다.</div>
+    </div>
+    <div class="callout tip"><strong>연습법 · 스타일 하나를 한 주씩</strong> 한 주에 한 스타일만 고르세요. 첫날: 왼손 패턴만 한 코드로. 둘째 날: 진행 전체를 왼손으로. 셋째 날: 오른손 리듬을 더하되 화음은 3화음으로. 넷째 날부터: 그 스타일의 코드 색(7화음, add9 등)과 꾸밈. 마지막 날에는 같은 노래(예: 「작은 별」 선율)를 그 스타일로 편곡해 녹음해 보세요(<a href="studio.html">14장</a>의 녹음기). 여섯 주면 같은 곡을 여섯 가지로 칠 수 있게 됩니다.</div>
+  </section>
+
+  <!-- =============================================================== summary -->
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>12마디 블루스: I7(4마디) – IV7(2) – I7(2) – V7 – IV7 – I7 – V7(턴어라운드). 가사 AAB와 대응하고, 퀵 체인지는 2마디를 IV7로 바꾼다. 마이너 블루스는 9–10마디에 ♭VI7–V7.</li>
+      <li>블루스에서는 세 코드 모두 속7화음이 '집'이다. 단7도는 하모닉 7도(7:4, 968.8¢)와 연결해 설명되기도 한다.</li>
+      <li>스윙 비율 \(r:1\)에서 뒷박은 \(s = r/(1+r)\) 지점에 온다. 120 BPM 셋잇단 스윙의 뒷박 지연은 83 ms. 실제 비율은 느린 템포에서 크고 빠른 템포에서 1:1에 가까워진다.</li>
+      <li>부기우기 왼손은 셔플 5–6, 5–6–♭7–6, 워킹(R–3–5–6–♭7–6–5–3), 옥타브 부기 같은 손 모양을 근음으로 옮겨 친다. 왼손이 '자동 조종'이 된 뒤 오른손을 더한다.</li>
+      <li>블루스 스케일 = R ♭3 4 ♭5 5 ♭7(C: C E♭ F G♭ G B♭). 블루 노트는 정해진 음높이가 아닌 영역이고, 피아노는 크러시 음(이웃 두 건반 동시, 아래 음만 곧 놓기)과 미끄러지는 꾸밈음(30–80 ms)으로 그 사이를 암시한다.</li>
+      <li>즉흥은 제약(세 음, 리듬 하나, 질문–대답, 코드톤 착지)을 걸수록 쉬워진다.</li>
+      <li>컴핑은 '언제' 치느냐가 핵심: 찰스턴(1, 2&), 역찰스턴(1&, 3), 앤티시페이션(4&에 다음 코드). 보이싱은 근음을 뺀 루트리스·셸.</li>
+      <li>스타일 = 템포 + 스윙 + 왼손 패턴 + 오른손 리듬 + 코드 색 + 드럼. 발라드·보사노바·래그타임·16비트·가스펠·스윙은 이 손잡이들의 다른 조합이다.</li>
+    </ol>
+  </section>
+
+  <!-- =============================================================== quiz -->
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>F 블루스(기본 12마디)의 9마디와 10마디 코드는?</p><div class="opts">
+        <button class="opt">B♭7 – F7</button><button class="opt" data-correct>C7 – B♭7</button><button class="opt">C7 – F7</button><button class="opt">G7 – C7</button>
+      </div><div class="quiz-exp">12마디 블루스의 9–10마디는 V7–IV7이다. F에서 V = C, IV = B♭. 11–12마디는 I7–V7(F7–C7)로 턴어라운드한다.</div></div>
+      <div class="quiz-q"><p>100 BPM에서 셋잇단 스윙(2:1)으로 친 8분음표 쌍의 뒷박은 정박 위치보다 얼마나 늦은가?</p><div class="opts">
+        <button class="opt">약 50 ms</button><button class="opt" data-correct>약 100 ms</button><button class="opt">약 200 ms</button><button class="opt">약 333 ms</button>
+      </div><div class="quiz-exp">\(T\) = 600 ms, \(s\) = 2/3이므로 \(\Delta = (2/3 - 1/2) \times 600 = 100\) ms. 뒷박은 박 시작에서 400 ms 지점(정박은 300 ms)에 온다.</div></div>
+      <div class="quiz-q"><p>C 블루스 스케일에 속하지 <b>않는</b> 음은?</p><div class="opts">
+        <button class="opt">G♭</button><button class="opt">B♭</button><button class="opt" data-correct>A</button><button class="opt">F</button>
+      </div><div class="quiz-exp">C 블루스 스케일은 C E♭ F G♭ G B♭. A(장6도)는 장조 블루스 스케일(C D E♭ E G A)에 들어간다.</div></div>
+      <div class="quiz-q"><p>피아노에서 '크러시 음'으로 블루 노트를 표현하는 방법으로 옳은 것은?</p><div class="opts">
+        <button class="opt">페달을 반쯤 밟아 음높이를 내린다</button><button class="opt" data-correct>E♭와 E를 거의 동시에 누르고 E♭만 곧바로 놓는다</button><button class="opt">같은 건반을 빠르게 여러 번 친다</button><button class="opt">건반을 누른 채 옆으로 흔든다(비브라토)</button>
+      </div><div class="quiz-exp">피아노는 현의 음높이를 바꿀 수 없다. 이웃 두 건반의 짧은 충돌이 E♭에서 E로 '미끄러진' 인상을 만든다. 페달·흔들기는 음높이를 바꾸지 못한다.</div></div>
+      <div class="quiz-q"><p>찰스턴 리듬에서 화음을 치는 자리는? (8분음표 칸: 1 & 2 & 3 & 4 &)</p><div class="opts">
+        <button class="opt">2, 4</button><button class="opt" data-correct>1, 2&amp;</button><button class="opt">1&amp;, 3</button><button class="opt">4&amp;만</button>
+      </div><div class="quiz-exp">찰스턴 = 점4분 + 8분(1박과 2박 뒷박). 1&·3은 역찰스턴, 2·4는 백비트, 4&는 다음 코드를 미리 치는 앤티시페이션이다.</div></div>
+      <div class="quiz-q"><p>같은 C–Am–F–G를 '스윙' 스타일로 바꿀 때 가장 거리가 먼 변화는?</p><div class="opts">
+        <button class="opt">코드를 Cmaj7–Am7–Fmaj7–G7처럼 7화음으로</button><button class="opt">왼손을 4분음표 워킹 베이스로</button><button class="opt">8분음표 뒷박을 늦게(스윙)</button><button class="opt" data-correct>왼손을 8분음표 1–5–8–10 분산화음으로 페달과 함께</button>
+      </div><div class="quiz-exp">8분 분산화음 + 페달은 팝 발라드의 지문이다. 스윙 스타일은 7화음(루트리스), 워킹 베이스, 스윙 8분음표, 찰스턴 같은 엇박 컴핑으로 특징지어진다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ===================================================================== 공용 도우미(sty) */
+const STY = (function () {
+  const S = {};
+  S.$ = (id) => document.getElementById(id);
+  /** 스윙 시간 왜곡: 박 안의 앞 절반 [0, .5) → [0, s), 뒤 절반 [.5, 1) → [s, 1) */
+  S.warp = (t, s) => {
+    if (!s || Math.abs(s - 0.5) < 1e-6) return t;
+    const b = Math.floor(t + 1e-9), f = t - b;
+    return b + (f < 0.5 ? f * 2 * s : s + (f - 0.5) * 2 * (1 - s));
+  };
+  /** 드럼 패턴(16칸 = 한 마디) */
+  S.DRUMS = {
+    shuffle: { kick: "X.......X.......", snare: "....X.......X...", hat: "x.x.x.x.x.x.x.x." },
+    ballad: { kick: "X.........x.....", rim: "........X.......", hat: "o.o.o.o.o.o.o.o." },
+    bossa: { kick: "X..xX..xX..xX..x", rim: "x..x..x...x..x..", shaker: "xoxoxoxoxoxoxoxo" },
+    pop16: { kick: "X.....x...X.....", snare: "....X.......X...", hat: "xoxoxoxoxoxoxoxo" },
+    gospel: { kick: "X......xX.......", clap: "....X.......X...", hat: "x.x.x.x.x.x.x.x." },
+    swing: { ride: "X...x.x.X...x.x.", hat: "....x.......x..." },
+    rag: {},
+  };
+  const DGAIN = { kick: 1, snare: 0.75, clap: 0.7, rim: 0.6, hat: 0.45, shaker: 0.32, ride: 0.42 };
+  S.drums = (pat, t0) => {
+    const out = [];
+    Object.keys(pat || {}).forEach((nm) => {
+      const p = pat[nm], n = p.length;
+      for (let i = 0; i < n; i++) { const ch = p[i]; if (ch === ".") continue; out.push({ t: t0 + (i * 4) / n, drum: nm, vel: (ch === "X" ? 1 : ch === "x" ? 0.72 : 0.42) * (DGAIN[nm] || 0.6) }); }
+    });
+    return out;
+  };
+  /** 블루스·부기 왼손 패턴. c = PN.parseChord 결과, R = 근음(36–47) */
+  S.lh = function (kind, c, t0, bar, o = {}) {
+    const R = o.R != null ? o.R : PN.above(c.root, o.low || 36), E = [], v = o.vel || 0.62;
+    const third = c.iv[1];
+    const L = (t, d, ms, fing, k = 1) => E.push({ t: t0 + t, d, ms: Array.isArray(ms) ? ms : undefined, m: Array.isArray(ms) ? undefined : ms, hand: "L", vel: v * k, finger: fing });
+    if (kind === "s56" || kind === "s567") {
+      const tops = kind === "s56" ? [7, 9, 7, 9] : [7, 9, 10, 9];
+      tops.forEach((iv, b) => { const f = iv === 7 ? [5, 2] : [5, 1]; L(b, 0.5, [R, R + iv], f, 1); L(b + 0.5, 0.5, [R, R + iv], f, 0.78); });
+    } else if (kind === "walk") {
+      const ivs = [0, third, 7, 9, 10, 9, 7, third], fs = [5, 4, 3, 2, 1, 2, 3, 4];
+      ivs.forEach((iv, i) => L(i / 2, 0.5, R + iv, fs[i], i % 2 ? 0.8 : 1));
+    } else if (kind === "oct") {
+      const line = bar % 2 === 0 ? [0, third, 7, 9] : [10, 9, 7, third];
+      line.forEach((iv, b) => { L(b, 0.5, R + iv, 5, 1); L(b + 0.5, 0.5, R + iv + 12, 1, 0.8); });
+    } else if (kind === "block") {
+      L(0, 2, [R, R + 10], [5, 1], 1); L(2, 2, [R, R + 10], [5, 1], 0.85);
+    }
+    return E;
+  };
+  /** 오른손 7화음을 2·4박에 */
+  S.stab = function (c, t0, prev, o = {}) {
+    const v = PN.voicing(c, "close", { center: o.center || 70, prev });
+    const vel = o.vel || 0.5;
+    return { rh: v.rh, events: [1, 3].map((b) => ({ t: t0 + b, d: 0.5, ms: v.rh, hand: "R", vel })) };
+  };
+  /** 표기용 정리: 같은 손·같은 시각의 음을 화음으로 묶고, 길이를 표준 음표 길이로. 각 이벤트에 si(악보 인덱스)를 붙인다 */
+  const STDS = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25];
+  S.notate = function (evs) {
+    const groups = new Map();
+    evs.forEach((e) => {
+      if (e.m == null && !e.ms) return;
+      const k = e.hand + "|" + e.t.toFixed(3);
+      let g = groups.get(k);
+      if (!g) { g = { t: e.t, d: e.d, ms: [], hand: e.hand, evs: [], finger: [], spell: e.spell, label: e.label, cls: e.cls }; groups.set(k, g); }
+      (e.ms || [e.m]).forEach((m) => { if (!g.ms.includes(m)) g.ms.push(m); });
+      if (e.finger != null) g.finger = g.finger.concat(e.finger);
+      if (e.label) g.label = e.label;
+      if (e.cls) g.cls = e.cls;
+      g.d = Math.max(g.d, e.d); g.evs.push(e);
+    });
+    const list = [...groups.values()].sort((a, b) => a.t - b.t || (a.hand < b.hand ? -1 : 1));
+    list.forEach((g) => {
+      const barEnd = Math.floor(g.t / 4 + 1e-9) * 4 + 4;
+      const nx = list.find((h) => h.hand === g.hand && h.t > g.t + 1e-6);
+      const gap = Math.min(barEnd, nx ? nx.t : barEnd) - g.t;
+      const fit = (x) => STDS.find((s) => s <= x + 1e-6) || 0.25;
+      if (g.d >= 0.6 * gap) g.nd = fit(gap);
+      else { let best = 0.25, bd = 9; STDS.forEach((s) => { if (s <= gap + 1e-6) { const dd = Math.abs(Math.log(s / g.d)); if (dd < bd) { bd = dd; best = s; } } }); g.nd = best; }
+    });
+    return list.map((g, i) => {
+      g.evs.forEach((e) => (e.si = i));
+      const ms = g.ms.slice().sort((a, b) => a - b);
+      const n = { t: g.t, d: g.nd, hand: g.hand };
+      if (ms.length > 1) n.ms = ms; else n.m = ms[0];
+      if (g.finger.length) n.finger = g.finger.length === 1 ? g.finger[0] : g.finger;
+      if (g.spell) n.spell = g.spell;
+      if (g.label) n.label = g.label;
+      if (g.cls) n.cls = g.cls;
+      return n;
+    });
+  };
+  /**
+   * 반주 밴드: 음·페달·드럼·베이스 이벤트를 한 스케줄러로. o = {piano, bpm(), swing(), loop, length(), drums(), drumDest, onUI(ev), onStop}
+   * 이벤트: {t, d, m|ms, vel, hand} · {t, pedal} · {t, drum, vel} · {t, bass, d, vel}
+   */
+  S.band = function (o) {
+    let bassV = null;
+    const sch = PN.scheduler([], {
+      bpm: o.bpm, loop: o.loop !== false, length: o.length,
+      onEvent(ev, when, spb) {
+        const s = o.swing ? o.swing() : 0.5;
+        const w = when + (S.warp(ev.t, s) - ev.t) * spb;
+        if (ev.drum) { if (!o.drums || o.drums()) MB.drum(ev.drum, w, { vel: ev.vel }); return; }
+        if (ev.pedal != null) { o.piano.pedal(ev.pedal, w); return; }
+        if (ev.click) { if (!o.click || o.click()) PN.click(w, ev.accent); return; }
+        const end = when + (S.warp(ev.t + (ev.d || 1), s) - ev.t) * spb;
+        if (ev.bass != null) {
+          if (o.bassOn && !o.bassOn()) return;
+          if (bassV) { try { bassV.release(w, 0.02); } catch (er) {} }
+          bassV = MB.play(ev.bass, { inst: "bass", when: w, dur: Math.max(0.05, (end - w) * 0.9), vel: ev.vel || 0.7 });
+          return;
+        }
+        if (ev.gate && !ev.gate()) return;
+        const ms = ev.ms || (ev.m != null ? [ev.m] : []);
+        const dur = Math.max(0.03, ev.dur != null ? ev.dur : (end - w) * (ev.leg || 0.9));
+        ms.forEach((m, k) => { o.piano.noteOn(m, ev.vel != null ? ev.vel : 0.6, w + k * (ev.roll || 0)); o.piano.noteOff(m, w + k * (ev.roll || 0) + dur); });
+      },
+      onUI(ev) { o.onUI && o.onUI(ev); },
+      onStop() { o.piano.pedal(false); o.piano.stop(); if (bassV) { try { bassV.release(MB.now(), 0.03); } catch (er) {} bassV = null; } o.onStop && o.onStop(); },
+    });
+    return sch;
+  };
+  /** 재생 중 악보 강조: 같은 시각의 음들을 함께 */
+  S.follower = function (st) {
+    let lastT = -1, cur = [];
+    return {
+      note(ev) { if (ev.si == null) return; if (Math.abs(ev.t - lastT) > 1e-6) { cur = []; lastT = ev.t; } cur.push(ev.si); st.highlight(cur.slice()); },
+      reset() { lastT = -1; cur = []; st.highlight(-1); },
+    };
+  };
+  /** 정지 뒤 건반 눌림 표시 정리(반주와 사용자가 같은 건반을 동시에 쳤을 때 남는 표시) */
+  S.unstick = (kb) => setTimeout(() => { const [a, b] = kb.range; for (let m = a; m <= b; m++) if (!kb.piano.held.includes(m)) kb.up(m); }, 350);
+  S.toneNames = (c, flat) => c.iv.map((x) => MB.pcName(MB.mod(c.root + x, 12), flat)).join(" ");
+  S.ms = (sec) => Math.round(sec * 1000) + " ms";
+  return S;
+})();
+
+/* ===================================================================== 그림 13-1: 12마디 블루스 */
+(function () {
+  const g = STY.$("sty-fig-form"); if (!g) return;
+  const prog = ["I7", "I7", "I7", "I7", "IV7", "IV7", "I7", "I7", "V7", "IV7", "I7", "V7"], nm = { I7: "C7", IV7: "F7", V7: "G7" };
+  const cls = { I7: "sty-t", IV7: "sty-sd", V7: "sty-d" };
+  const P = [];
+  const x0 = 90, y0 = 26, w = 140, h = 62, gap = 8;
+  ["A  (질문)", "A  (반복)", "B  (대답)"].forEach((t, r) => P.push(`<text class="t-dim" x="12" y="${y0 + r * (h + 22) + h / 2 + 5}">${t}</text>`));
+  prog.forEach((p, i) => {
+    const r = Math.floor(i / 4), c = i % 4, x = x0 + c * (w + gap), y = y0 + r * (h + 22);
+    P.push(`<rect class="${cls[p]}" x="${x}" y="${y}" width="${w}" height="${h}" rx="9" stroke-width="1.5"/>`);
+    P.push(`<text class="sty-s" x="${x + 8}" y="${y + 15}">${i + 1}</text>`);
+    P.push(`<text class="sty-m" x="${x + w / 2}" y="${y + 34}">${nm[p]}</text><text class="sty-s" x="${x + w / 2}" y="${y + 52}" text-anchor="middle">${p}</text>`);
+  });
+  // 퀵 체인지 표시
+  const qx = x0 + 1 * (w + gap) + w / 2;
+  P.push(`<path d="M${qx} ${y0 - 2} L${qx} ${y0 - 14} L${qx + 150} ${y0 - 14}" class="sty-ghost"/><text class="sty-s" x="${qx + 156}" y="${y0 - 10}">퀵 체인지: 2마디를 F7(IV7)로</text>`);
+  // 턴어라운드
+  const ty = y0 + 2 * (h + 22) + h + 12, tx = x0 + 2 * (w + gap);
+  P.push(`<path d="M${tx} ${ty - 6} L${tx} ${ty} L${tx + 2 * w + gap} ${ty} L${tx + 2 * w + gap} ${ty - 6}" fill="none" stroke="var(--accent-2)" stroke-width="1.6"/><text class="sty-s" x="${tx + w + gap / 2}" y="${ty + 16}" text-anchor="middle" style="fill:var(--accent-2)">턴어라운드 → 다시 1마디로</text>`);
+  P.push(`<path d="M${x0 + 4 * (w + gap) - 2} ${y0 + 2 * (h + 22) + h / 2} q40 0 40 -100 q0 -110 -40 -110" fill="none" class="s-acc" stroke-dasharray="5 4"/>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 13-2: 스윙 비율 */
+(function () {
+  const g = STY.$("sty-fig-swing"); if (!g) return;
+  const P = [], x0 = 150, W = 600, rows = [[0.5, "정박 1:1", "s = 0.50"], [2 / 3, "셋잇단 2:1", "s = 0.67"], [0.75, "하드 셔플 3:1", "s = 0.75"]];
+  const bx = (b) => x0 + (b / 2) * W;
+  for (let b = 0; b <= 2; b++) P.push(`<line x1="${bx(b)}" y1="18" x2="${bx(b)}" y2="222" class="s-axis"/><text class="sty-s" x="${bx(b)}" y="14" text-anchor="middle">${b < 2 ? b + 1 + "박" : ""}</text>`);
+  for (let k = 1; k < 6; k++) if (k % 3) P.push(`<line x1="${bx(k / 3)}" y1="22" x2="${bx(k / 3)}" y2="222" class="sty-ghost"/>`);
+  rows.forEach(([s, name, sub], r) => {
+    const y = 56 + r * 66;
+    P.push(`<text class="t" x="12" y="${y + 4}">${name}</text><text class="sty-s" x="12" y="${y + 20}">${sub}</text>`);
+    P.push(`<line x1="${x0}" y1="${y}" x2="${x0 + W}" y2="${y}" stroke="var(--border)" stroke-width="1"/>`);
+    for (let b = 0; b < 2; b++) {
+      const a = bx(b), o = bx(b + s), e = bx(b + 1);
+      P.push(`<rect x="${a + 2}" y="${y - 9}" width="${o - a - 4}" height="18" rx="5" class="f-acc-soft"/><rect x="${o + 2}" y="${y - 9}" width="${e - o - 4}" height="18" rx="5" style="fill:color-mix(in srgb, var(--warn) 18%, transparent)"/>`);
+      P.push(`<circle cx="${a}" cy="${y}" r="7" class="sty-dot"/><circle cx="${o}" cy="${y}" r="7" style="fill:var(--warn)"/>`);
+      if (b === 0 && s > 0.5) P.push(`<circle cx="${bx(0.5)}" cy="${y}" r="7" class="sty-ghost"/><path d="M${bx(0.5) + 8} ${y - 14} L${o - 8} ${y - 14}" stroke="var(--warn)" stroke-width="1.4" marker-end="url(#sty-ar)"/><text class="sty-s" x="${(bx(0.5) + o) / 2}" y="${y - 19}" text-anchor="middle">Δ</text>`);
+    }
+  });
+  P.unshift(`<defs><marker id="sty-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--warn)"/></marker></defs>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 13-3: 블루 노트 영역 */
+(function () {
+  const g = STY.$("sty-fig-blue"); if (!g) return;
+  const X = (c) => 50 + (c / 1200) * 700, P = [];
+  P.push(`<line x1="${X(0)}" y1="110" x2="${X(1200)}" y2="110" class="s-axis"/>`);
+  [[270, 400], [560, 640], [955, 1005]].forEach(([a, b]) => P.push(`<rect class="sty-zone" x="${X(a)}" y="60" width="${X(b) - X(a)}" height="100" rx="6"/>`));
+  for (let c = 0; c <= 1200; c += 100) P.push(`<line x1="${X(c)}" y1="104" x2="${X(c)}" y2="116" class="s-axis"/>`);
+  const et = [[0, "C", "R"], [300, "E♭", "♭3"], [400, "E", "3"], [500, "F", "4"], [600, "G♭", "♭5"], [700, "G", "5"], [1000, "B♭", "♭7"], [1200, "C", "8"]];
+  et.forEach(([c, n, d]) => P.push(`<circle cx="${X(c)}" cy="86" r="${d === "3" ? 6 : 8}" class="${d === "3" ? "sty-ghost" : "sty-dot"}"/><text class="t" x="${X(c)}" y="62" text-anchor="middle" style="font-weight:700">${n}</text><text class="sty-s" x="${X(c)}" y="46" text-anchor="middle">${d}</text>`));
+  const just = [[266.9, "7/6"], [315.6, "6/5"], [386.3, "5/4"], [551.3, "11/8"], [702, "3/2"], [968.8, "7/4"]];
+  just.forEach(([c, r], i) => P.push(`<line x1="${X(c)}" y1="116" x2="${X(c)}" y2="${140 + (i % 2) * 18}" stroke="var(--accent-2)" stroke-width="1.3"/><text class="sty-s" x="${X(c)}" y="${152 + (i % 2) * 18}" text-anchor="middle" style="fill:var(--accent-2)">${r} (${Math.round(c)}¢)</text>`));
+  P.push(`<text class="sty-s" x="${X(600)}" y="208" text-anchor="middle">블루스 스케일 음(채운 점)과 장3도 E(빈 점) · 아래는 정수비 음정 · 주황 띠 = 블루 노트 영역(대략)</text>`);
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 13-4: 컴핑 리듬 */
+(function () {
+  const g = STY.$("sty-fig-comp"); if (!g) return;
+  const rows = [["찰스턴", [0, 3]], ["역찰스턴", [1, 4]], ["2·4박", [2, 6]], ["앤티시페이션", [7]]];
+  const labs = ["1", "&", "2", "&", "3", "&", "4", "&"], P = [], x0 = 170, cw = 70, ch = 34;
+  labs.forEach((l, i) => P.push(`<text class="sty-s" x="${x0 + i * cw + cw / 2}" y="20" text-anchor="middle" style="font-weight:700">${l}</text>`));
+  rows.forEach(([nm, on], r) => {
+    const y = 32 + r * 52;
+    P.push(`<text class="t" x="14" y="${y + 22}">${nm}</text>`);
+    labs.forEach((_, i) => P.push(`<rect x="${x0 + i * cw + 2}" y="${y}" width="${cw - 4}" height="${ch}" rx="6" ${on.includes(i) ? 'class="sty-t" stroke-width="1.5"' : 'fill="var(--surface)" stroke="var(--border)"'}/>`));
+    if (r === 3) P.push(`<path d="M${x0 + 7 * cw + cw / 2} ${y + ch + 4} q10 12 30 12" fill="none" class="s-acc"/><text class="sty-s" x="${x0 + 7 * cw - 40}" y="${y + ch + 18}" text-anchor="end">다음 마디 코드</text>`);
+  });
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 그림 13-5: 스타일 지도 */
+(function () {
+  const g = STY.$("sty-fig-map"); if (!g) return;
+  const X = (bpm) => 90 + ((bpm - 50) / 170) * 670, Y = (s) => 240 - ((s - 0.48) / 0.24) * 210, P = [];
+  P.push(`<line x1="90" y1="240" x2="770" y2="240" class="s-axis"/><line x1="90" y1="20" x2="90" y2="240" class="s-axis"/>`);
+  [60, 80, 100, 120, 140, 160, 180, 200].forEach((b) => P.push(`<line x1="${X(b)}" y1="240" x2="${X(b)}" y2="245" class="s-axis"/><text class="sty-s" x="${X(b)}" y="258" text-anchor="middle">${b}</text>`));
+  [[0.5, "0.50 정박"], [0.6, "0.60"], [0.667, "0.67 셋잇단"]].forEach(([s, l]) => P.push(`<line x1="90" y1="${Y(s)}" x2="770" y2="${Y(s)}" stroke="var(--grid)"/><text class="sty-s" x="84" y="${Y(s) + 4}" text-anchor="end">${l}</text>`));
+  P.push(`<text class="sty-s" x="430" y="276" text-anchor="middle">템포(BPM) →</text>`);
+  const pts = [[70, 0.5, "팝 발라드"], [132, 0.5, "보사노바"], [88, 0.5, "래그타임"], [96, 0.5, "16비트 팝"], [78, 0.6, "가스펠"], [150, 0.63, "스윙"], [96, 0.667, "셔플 블루스"], [168, 0.62, "부기우기"], [190, 0.58, "스트라이드"]];
+  pts.forEach(([b, s, n], i) => P.push(`<circle cx="${X(b)}" cy="${Y(s)}" r="7" class="${s > 0.55 ? "sty-dot2" : "sty-dot"}"/><text class="t" x="${X(b) + (i === 3 ? 0 : 10)}" y="${Y(s) + (i === 3 ? -14 : i === 2 ? 20 : -10)}" ${i === 3 ? 'text-anchor="middle"' : ""} style="font-size:12.5px">${n}</text>`));
+  g.innerHTML = P.join("");
+})();
+
+/* ===================================================================== 13-1 12마디 블루스 반주기 */
+(function () {
+  const $ = STY.$;
+  const FORMS = {
+    basic: ["I7", "I7", "I7", "I7", "IV7", "IV7", "I7", "I7", "V7", "IV7", "I7", "V7"],
+    quick: ["I7", "IV7", "I7", "I7", "IV7", "IV7", "I7", "I7", "V7", "IV7", "I7", "V7"],
+    minor: ["i7", "i7", "i7", "i7", "iv7", "iv7", "i7", "i7", "♭VI7", "V7", "i7", "V7"],
+  };
+  const DEG = { "I7": [0, "dom7", "t"], "IV7": [5, "dom7", "s"], "V7": [7, "dom7", "d"], "i7": [0, "min7", "t"], "iv7": [5, "min7", "s"], "♭VI7": [8, "dom7", "s"] };
+  const FN = { t: "으뜸", s: "버금딸림", d: "딸림" };
+  const LINES = ["가사 1줄(A): 질문을 던진다", "가사 2줄(A): 같은 말을 IV 위에서 다시", "가사 3줄(B): 대답하고 마무리한다"];
+  const st = { form: "basic", key: 0, lh: "s56", feel: "swing" };
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-tw-kb", { from: 36, to: 79, piano: p, labels: "c", compact: true });
+  const staff = PN.staff("#sty-tw-staff", [], { clef: "grand", key: 0, barsPerLine: 4, compact: true, minBeat: 26 });
+  const fol = STY.follower(staff);
+  let chords = [], events = [];
+  const flat = () => st.key !== 7 && st.key !== 9;
+  function realize() {
+    chords = FORMS[st.form].map((r) => {
+      const [semi, q, fn] = DEG[r]; const root = MB.mod(st.key + semi, 12);
+      const name = MB.chordSymbol(root, q, flat());
+      return { roman: r, fn, name, c: PN.parseChord(name), root };
+    });
+  }
+  function build() {
+    events = []; let prev = null;
+    chords.forEach((ch, b) => {
+      const t0 = b * 4;
+      events.push({ t: t0, bar: b });
+      events.push(...STY.lh(st.lh, ch.c, t0, b));
+      if ($("sty-tw-rh").checked) { const r = STY.stab(ch.c, t0, prev, { center: 70 }); prev = r.rh; events.push(...r.events); }
+      events.push(...STY.drums(STY.DRUMS.shuffle, t0));
+    });
+    const notes = STY.notate(events);
+    staff.setNotes(notes, { key: PN.keyFifths(st.key, st.form === "minor"), chords: chords.map((c, i) => ({ t: i * 4, name: c.name })), marks: st.feel === "swing" ? [{ t: 2.5, text: "Shuffle ♫=♩♪³", staff: "treble", where: "above" }] : [] });
+    return events;
+  }
+  const chart = $("sty-tw-chart");
+  function renderChart() {
+    chart.innerHTML = chords.map((c, i) => `<button class="sty-cell f-${c.fn}" data-i="${i}"><small>${i + 1} · ${c.roman}</small><b>${c.name}</b></button>`).join("");
+  }
+  function show(i) {
+    const c = chords[i]; if (!c) return;
+    chart.querySelectorAll(".sty-cell").forEach((b, k) => b.classList.toggle("now", k === i));
+    $("sty-tw-pos").innerHTML = (i + 1) + "<small>/ 12마디</small>";
+    $("sty-tw-chord").textContent = c.name;
+    $("sty-tw-fn").textContent = c.roman + " · " + FN[c.fn];
+    $("sty-tw-line").textContent = LINES[Math.floor(i / 4)];
+    const tones = c.c.iv.map((x) => MB.mod(c.root + x, 12));
+    kb.set(tones.flatMap((pc) => [36, 48, 60, 72].map((o) => ({ m: o + pc, cls: pc === c.root ? "root" : "alt" }))).filter((x) => x.m <= 79));
+    MB.stat("sty-tw-r1", STY.toneNames(c.c, flat()));
+  }
+  function stats() {
+    const bpm = +$("sty-tw-bpm").value, n = { t: 0, s: 0, d: 0 };
+    chords.forEach((c) => n[c.fn]++);
+    MB.stat("sty-tw-r2", ((12 * 4 * 60) / bpm).toFixed(1) + " <small>초</small>");
+    MB.stat("sty-tw-r3", `${n.t} : ${n.s} : ${n.d}`);
+  }
+  const btn = $("sty-tw-play");
+  const sch = STY.band({
+    piano: p, bpm: () => +$("sty-tw-bpm").value, length: () => 48,
+    swing: () => (st.feel === "swing" ? 2 / 3 : 0.5), drums: () => $("sty-tw-dr").checked,
+    onUI(ev) { if (ev.bar != null) show(ev.bar); else fol.note(ev); },
+    onStop() { btn.textContent = "▶ 재생"; fol.reset(); STY.unstick(kb); },
+  });
+  btn.addEventListener("click", () => {
+    if (sch.running) { sch.stop(); return; }
+    MB.ctx(); PN.warm([...new Set(events.flatMap((e) => e.ms || (e.m != null ? [e.m] : [])))]);
+    sch.setEvents(events); sch.start(); btn.textContent = "■ 정지";
+  });
+  chart.addEventListener("click", (e) => {
+    const b = e.target.closest(".sty-cell"); if (!b) return; const i = +b.dataset.i; show(i);
+    if (!sch.running) { const c = chords[i]; const v = PN.voicing(c.c, "close", { center: 70 }); p.chord([...v.lh, v.lh[0] + 10, ...v.rh], { dur: 1.2, vel: 0.62, roll: 0.012 }); }
+  });
+  function refresh() { realize(); renderChart(); build(); show(0); stats(); if (sch.running) sch.setEvents(events); }
+  MB.seg("sty-tw-var", (v) => { st.form = v; refresh(); });
+  MB.seg("sty-tw-lh", (v) => { st.lh = v; refresh(); });
+  MB.seg("sty-tw-feel", (v) => { st.feel = v; refresh(); });
+  $("sty-tw-key").addEventListener("change", (e) => { st.key = +e.target.value; refresh(); });
+  $("sty-tw-rh").addEventListener("change", refresh);
+  MB.range("sty-tw-bpm", (v) => v + " BPM", stats);
+  refresh();
+})();
+
+/* ===================================================================== 13-2 스윙 비율 실험실 */
+(function () {
+  const $ = STY.$;
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-sw-kb", { from: 60, to: 84, piano: p, compact: true, labels: "c" });
+  // 2마디 C 블루스 스케일 선율(8분음표 16개)
+  const LINE = [72, 75, 77, 78, 79, 82, 79, 77, 75, 72, 70, 67, 70, 72, 75, 72];
+  kb.set(LINE.map((m) => ({ m, cls: "ghost" })), "ghost");
+  let cur = -1;
+  const sOf = () => +$("sty-sw-s").value / 100;
+  const cv = MB.canvas("#sty-sw-cv", (ctx, w, h) => {
+    const P = MB.palette(), s = sOf(), left = 16, right = w - 12, top = 28, bot = h - 30;
+    const X = (b) => left + (b / 4) * (right - left);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    // 셋잇단 격자
+    ctx.strokeStyle = P.faint; ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    for (let k = 0; k <= 12; k++) if (k % 3) { ctx.beginPath(); ctx.moveTo(X(k / 3), top); ctx.lineTo(X(k / 3), bot); ctx.stroke(); }
+    ctx.setLineDash([]);
+    for (let b = 0; b <= 4; b++) { ctx.strokeStyle = P.axis; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(X(b), top - 6); ctx.lineTo(X(b), bot); ctx.stroke(); if (b < 4) { ctx.fillStyle = P.dim; ctx.fillText(b + 1 + "박", X(b) + 4, top - 10); } }
+    const yS = top + (bot - top) * 0.32, yW = top + (bot - top) * 0.72;
+    ctx.fillStyle = P.dim; ctx.fillText("정박", left, yS - 12); ctx.fillText("지금 s = " + s.toFixed(2), left, yW - 14);
+    for (let i = 0; i < 8; i++) {
+      const b = Math.floor(i / 2), off = i % 2;
+      const xs = X(b + off * 0.5), xw = X(b + (off ? s : 0));
+      ctx.strokeStyle = P.dim; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(xs, yS, 6, 0, 7); ctx.stroke();
+      // 길이 막대
+      const end = X(b + (off ? 1 : s));
+      ctx.fillStyle = off ? P.warn : P.accent; ctx.globalAlpha = 0.18; ctx.fillRect(xw + 2, yW - 8, end - xw - 4, 16); ctx.globalAlpha = 1;
+      ctx.fillStyle = (cur % 8) === i ? P.warn : off ? P.accent2 : P.accent;
+      ctx.beginPath(); ctx.arc(xw, yW, (cur % 8) === i ? 9 : 7, 0, 7); ctx.fill();
+    }
+    ctx.fillStyle = P.dim; ctx.fillText("점선 = 셋잇단 격자(1/3, 2/3)", left, h - 10);
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 260 });
+  function stats() {
+    const s = sOf(), bpm = +$("sty-sw-bpm").value, T = 60 / bpm;
+    MB.stat("sty-sw-r1", (s / (1 - s)).toFixed(2) + " : 1");
+    MB.stat("sty-sw-r2", STY.ms(s * T) + " · " + STY.ms((1 - s) * T));
+    MB.stat("sty-sw-r3", STY.ms((s - 0.5) * T));
+    cv.redraw();
+  }
+  const evs = [];
+  LINE.forEach((m, i) => evs.push({ t: i / 2, d: 0.5, m, hand: "R", i, vel: 0.5 }));
+  for (let b = 0; b < 8; b++) { evs.push({ t: b, drum: "ride", vel: 0.38 }); if (b % 2) { evs.push({ t: b + 0.5, drum: "ride", vel: 0.3 }); evs.push({ t: b, drum: "hat", vel: 0.3 }); } }
+  const snd = MB.seg("sty-sw-snd");
+  evs.forEach((e) => {
+    if (e.m != null) { e.gate = () => snd() !== "ride"; e.vel = undefined; Object.defineProperty(e, "vel", { get: () => (e.i % 2 && $("sty-sw-acc").checked ? 0.66 : e.i % 2 ? 0.42 : 0.55), enumerable: true }); }
+  });
+  const btn = $("sty-sw-play");
+  const sch = STY.band({
+    piano: p, bpm: () => +$("sty-sw-bpm").value, length: () => 8, swing: sOf, drums: () => snd() !== "piano",
+    onUI(ev) { if (ev.i != null) { cur = ev.i; cv.redraw(); } },
+    onStop() { btn.textContent = "▶ 재생"; cur = -1; cv.redraw(); STY.unstick(kb); },
+  });
+  sch.setEvents(evs);
+  btn.addEventListener("click", () => { if (sch.running) sch.stop(); else { MB.ctx(); PN.warm(LINE); sch.start(); btn.textContent = "■ 정지"; } });
+  const sR = MB.range("sty-sw-s", (v) => v + "%", () => { stats(); });
+  MB.seg("sty-sw-pre", (v) => { sR.set(+v); stats(); });
+  MB.range("sty-sw-bpm", (v) => v + " BPM", stats);
+  stats();
+})();
+
+/* ===================================================================== 13-3 부기우기 트레이너 */
+(function () {
+  const $ = STY.$;
+  const st = { pat: "s56", ch: "0", feel: "swing" };
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-bg-kb", { from: 36, to: 76, piano: p, labels: "c", compact: true });
+  const staff = PN.staff("#sty-bg-staff", [], { clef: "grand", key: 0, bars: 2, compact: true });
+  const fol = STY.follower(staff);
+  const BL = ["C7", "C7", "C7", "C7", "F7", "F7", "C7", "C7", "G7", "F7", "C7", "G7"];
+  const NAMES = { 0: "C7", 5: "F7", 7: "G7" };
+  let events = [], seq = [];
+  const RIFF = [[0.5, 0.5, [72]], [1, 0.5, [75, 76]], [1.5, 0.5, [79]], [3, 1, [72, 76, 79]]];
+  function build() {
+    seq = st.ch === "all" ? BL : [NAMES[st.ch], NAMES[st.ch]];
+    events = [];
+    seq.forEach((nm, b) => {
+      const c = PN.parseChord(nm), t0 = b * 4;
+      events.push({ t: t0, bar: b, name: nm });
+      events.push(...STY.lh(st.pat, c, t0, b));
+      if (b % 2 === 0 && $("sty-bg-rh").checked) RIFF.forEach(([t, d, ms]) => {
+        const tr = c.root === 0 ? 0 : c.root === 5 ? 5 : -5; // 리프도 코드를 따라 옮긴다
+        ms.forEach((m, k) => events.push({ t: t0 + t + (ms.length === 2 && k === 0 ? 0 : 0), d: ms.length === 2 && k === 0 ? 0.25 : d, m: m + tr, hand: "R", vel: 0.55, dur: ms.length === 2 && k === 0 ? 0.05 : undefined }));
+      });
+      for (let q = 0; q < 4; q++) events.push({ t: t0 + q, click: true, accent: false, beatClick: q % 2 === 1 });
+    });
+    events = events.filter((e) => !e.click || e.beatClick);
+    // 악보: 앞 2마디만
+    const first = events.filter((e) => e.t < 8 && !e.click && e.bar == null && !e.drum);
+    const notes = STY.notate(first);
+    staff.setNotes(notes, { chords: [{ t: 0, name: seq[0] }, { t: 4, name: seq[1] }], marks: st.feel === "swing" ? [{ t: 2.5, text: "Shuffle", staff: "treble", where: "above" }] : [] });
+    kb.set(PN.parseChord(seq[0]).iv.map((x) => ({ m: PN.above(MB.mod(PN.parseChord(seq[0]).root + x, 12), 36), cls: x === 0 ? "root" : "ghost" })));
+  }
+  function stats() {
+    const bpm = +$("sty-bg-bpm").value, T = 60 / bpm, s = st.feel === "swing" ? 2 / 3 : 0.5;
+    MB.stat("sty-bg-r2", Math.round(bpm * 2) + " <small>음/분</small>");
+    MB.stat("sty-bg-r3", STY.ms(s * T) + " · " + STY.ms((1 - s) * T));
+  }
+  const btn = $("sty-bg-play");
+  const sch = STY.band({
+    piano: p, bpm: () => +$("sty-bg-bpm").value, length: () => seq.length * 4,
+    swing: () => (st.feel === "swing" ? 2 / 3 : 0.5), click: () => $("sty-bg-click").checked,
+    onUI(ev) {
+      if (ev.bar != null) {
+        MB.stat("sty-bg-r1", ev.name + " <small>" + (ev.bar + 1) + "마디</small>");
+        const c = PN.parseChord(ev.name);
+        kb.set(c.iv.map((x) => ({ m: PN.above(MB.mod(c.root + x, 12), 36), cls: x === 0 ? "root" : "ghost" })));
+        if (ev.bar % 2 === 0) fol.reset();
+      } else if (ev.t < 8 || st.ch !== "all") { const e2 = Object.assign({}, ev); if (st.ch !== "all" || ev.t < 8) fol.note(e2); }
+    },
+    onStop() { btn.textContent = "▶ 재생"; fol.reset(); STY.unstick(kb); },
+  });
+  btn.addEventListener("click", () => {
+    if (sch.running) { sch.stop(); return; }
+    MB.ctx(); PN.warm([...new Set(events.flatMap((e) => e.ms || (e.m != null ? [e.m] : [])))]);
+    sch.setEvents(events); sch.start(); btn.textContent = "■ 정지";
+  });
+  function refresh() { build(); stats(); MB.stat("sty-bg-r1", seq[0]); if (sch.running) sch.setEvents(events); }
+  MB.seg("sty-bg-pat", (v) => { st.pat = v; refresh(); });
+  MB.seg("sty-bg-ch", (v) => { st.ch = v; refresh(); });
+  MB.seg("sty-bg-feel", (v) => { st.feel = v; refresh(); });
+  $("sty-bg-rh").addEventListener("change", refresh);
+  MB.range("sty-bg-bpm", (v) => v + " BPM", stats);
+  refresh();
+})();
+
+/* ===================================================================== 13-4 블루스 즉흥 스테이션 */
+(function () {
+  const $ = STY.$;
+  const BL = ["C7", "C7", "C7", "C7", "F7", "F7", "C7", "C7", "G7", "F7", "C7", "G7"];
+  const ROM = ["I7", "I7", "I7", "I7", "IV7", "IV7", "I7", "I7", "V7", "IV7", "I7", "V7"];
+  const FNC = ["t", "t", "t", "t", "s", "s", "t", "t", "d", "s", "t", "d"];
+  const SC = { minor: [0, 3, 5, 6, 7, 10], major: [0, 2, 3, 4, 7, 9], mix: [0, 2, 3, 4, 5, 6, 7, 9, 10] };
+  const st = { sc: "minor", lab: "deg", bar: 0 };
+  const back = PN.piano(), user = PN.piano();
+  const stats = { n: 0, ct: 0, blue: 0 };
+  const snapped = new Map();
+  const kb = PN.keyboard("#sty-im-kb", {
+    from: 60, to: 84, piano: user, vel: undefined,
+    onDown(m, vel) {
+      let mm = m;
+      const allowed = new Set([...SC[st.sc], ...chordPcs()]);
+      if ($("sty-im-safe").checked && !allowed.has(MB.mod(m, 12))) {
+        for (let d = 1; d < 6; d++) { if (allowed.has(MB.mod(m - d, 12))) { mm = m - d; break; } if (allowed.has(MB.mod(m + d, 12))) { mm = m + d; break; } }
+      }
+      count(mm);
+      if (mm !== m) { snapped.set(m, mm); user.noteOn(mm, vel); return false; }
+      return true;
+    },
+    onUp(m) { if (snapped.has(m)) { user.noteOff(snapped.get(m)); snapped.delete(m); kb.up(m); } },
+  });
+  const chart = $("sty-im-chart");
+  chart.innerHTML = BL.map((c, i) => `<button class="sty-cell f-${FNC[i]}" data-i="${i}"><small>${i + 1} · ${ROM[i]}</small><b>${c}</b></button>`).join("");
+  function chordPcs() { const c = PN.parseChord(BL[st.bar]); return c.iv.map((x) => MB.mod(c.root + x, 12)); }
+  function count(m) {
+    const pc = MB.mod(m, 12); stats.n++;
+    if (chordPcs().includes(pc)) stats.ct++;
+    if ([3, 6, 10].includes(pc)) stats.blue++;
+    MB.stat("sty-im-r1", String(stats.n));
+    MB.stat("sty-im-r2", Math.round((100 * stats.ct) / stats.n) + "%");
+    MB.stat("sty-im-r3", stats.blue + " <small>회</small>");
+  }
+  function marks() {
+    const cp = chordPcs(), list = [];
+    for (let m = 60; m <= 84; m++) {
+      const pc = MB.mod(m, 12), inSc = SC[st.sc].includes(pc), inCh = cp.includes(pc);
+      if (!inSc && !inCh) continue;
+      const label = st.lab === "deg" ? PN.intervalLabel(pc) : MB.pcName(pc, true);
+      list.push({ m, cls: pc === 0 ? "root" : inCh ? "alt" : "mark", label });
+    }
+    kb.set(list);
+  }
+  function show(i) {
+    st.bar = i; marks();
+    chart.querySelectorAll(".sty-cell").forEach((b, k) => b.classList.toggle("now", k === i));
+    $("sty-im-pos").innerHTML = (i + 1) + "<small>/ 12</small>";
+    $("sty-im-chord").textContent = BL[i];
+  }
+  // 반주: 왼손 셔플 5–6 + 드럼
+  const evs = [];
+  BL.forEach((nm, b) => {
+    const c = PN.parseChord(nm), t0 = b * 4;
+    evs.push({ t: t0, bar: b });
+    STY.lh("s56", c, t0, b, { vel: 0.5 }).forEach((e) => evs.push(e));
+    evs.push(...STY.drums(STY.DRUMS.shuffle, t0));
+  });
+  const btn = $("sty-im-play");
+  const sch = STY.band({
+    piano: back, bpm: () => +$("sty-im-bpm").value, length: () => 48, swing: () => 2 / 3, drums: () => $("sty-im-dr").checked,
+    onUI(ev) { if (ev.bar != null) { show(ev.bar); const q = Math.floor(ev.bar / 2) % 2; $("sty-im-cue").innerHTML = q === 0 ? "<b>질문</b>: 짧은 프레이즈를 던지세요" : "<b>대답</b>: 방금 것을 조금 바꿔 답하거나, 쉬며 듣기"; } },
+    onStop() { btn.textContent = "▶ 반주 재생"; $("sty-im-cue").textContent = "반주를 켜고 건반(또는 A–K 키)으로 연주하세요."; },
+  });
+  sch.setEvents(evs);
+  btn.addEventListener("click", () => { if (sch.running) sch.stop(); else { MB.ctx(); PN.warm([36, 41, 43, 45, 48, 50, 52, 53]); sch.start(); btn.textContent = "■ 정지"; } });
+  // 시범 릭: 다음 박에 맞춰
+  const LICK = [[0, 0.5, 67], [0.5, 0.5, 70], [1, 0.5, 72], [1.5, 0.06, 75], [1.56, 0.94, 76], [2.5, 0.5, 72], [3, 1, 70], [4, 0.5, 72], [4.5, 0.5, 75], [5, 0.5, 77], [5.5, 0.5, 78], [6, 0.5, 79], [6.5, 0.5, 75], [7, 1, 72]];
+  $("sty-im-lick").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const bpm = +$("sty-im-bpm").value, spb = 60 / bpm;
+    let t0 = ctx.currentTime + 0.05;
+    if (sch.running) { const b = sch.beat; t0 = ctx.currentTime + (Math.ceil(b + 0.05) - b) * spb; }
+    LICK.forEach(([t, d, m]) => {
+      const tw = STY.warp(t, 2 / 3), ew = d < 0.1 ? tw + d : STY.warp(t + d, 2 / 3);
+      user.noteOn(m, d < 0.1 ? 0.5 : 0.62, t0 + tw * spb); user.noteOff(m, t0 + (d < 0.1 ? tw * spb + 0.05 : ew * spb * 0.97));
+    });
+  });
+  $("sty-im-reset").addEventListener("click", () => { stats.n = stats.ct = stats.blue = 0; MB.stat("sty-im-r1", "0"); MB.stat("sty-im-r2", "—"); MB.stat("sty-im-r3", "—"); });
+  chart.addEventListener("click", (e) => { const b = e.target.closest(".sty-cell"); if (!b) return; show(+b.dataset.i); });
+  MB.seg("sty-im-sc", (v) => { st.sc = v; marks(); });
+  MB.seg("sty-im-lab", (v) => { st.lab = v; marks(); });
+  MB.range("sty-im-bpm", (v) => v + " BPM");
+  show(0);
+})();
+
+/* ===================================================================== 13-5 크러시 · 꾸밈음 실험실 */
+(function () {
+  const $ = STY.$;
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-cr-kb", { from: 48, to: 84, piano: p, labels: "c", compact: true });
+  const staff = PN.staff("#sty-cr-staff", [], { clef: "grand", key: 0, bars: 1, compact: true, width: 520 });
+  const fol = STY.follower(staff);
+  let type = "crush";
+  // 음형: [t(박), d(박), m, 꾸밈 여부]
+  const FIG = {
+    plain: [[0, 1, 76], [1, 0.5, 79], [1.5, 0.5, 76], [2, 2, 72]],
+    crush: [[0, 1, 76, "c"], [1, 0.5, 79], [1.5, 0.5, 76, "c"], [2, 2, 72]],
+    grace: [[0, 1, 76, "g"], [1, 0.5, 79], [1.5, 0.5, 76, "g"], [2, 2, 72]],
+    b5: [[0, 0.5, 79], [0.5, 0.5, 78, null, "G♭"], [1, 0.5, 77], [1.5, 0.5, 76, "g"], [2, 2, 72]],
+  };
+  const LH = [48, 58, 64];
+  function events(kind) {
+    const gms = +$("sty-cr-ms").value / 1000, E = [{ t: 0, d: 4, ms: LH, hand: "L", vel: 0.42 }];
+    FIG[kind].forEach(([t, d, m, orn, sp]) => {
+      if (orn === "c") { E.push({ t, d, m: m - 1, hand: "R", vel: 0.5, dur: gms, label: "크러시", spellX: "D♯" }); E.push({ t, d, m, hand: "R", vel: 0.62 }); }
+      else if (orn === "g") { E.push({ t, d: 0.25, m: m - 1, hand: "R", vel: 0.48, dur: gms, grace: true, spell: "D♯", label: "꾸밈" }); E.push({ t, d, m, hand: "R", vel: 0.62, delay: gms }); }
+      else E.push({ t, d, m, hand: "R", vel: 0.6, spell: sp });
+    });
+    return E;
+  }
+  function notation(kind) {
+    const N = [{ t: 0, d: 4, ms: LH, hand: "L" }];
+    FIG[kind].forEach(([t, d, m, orn, sp]) => {
+      if (orn === "c") N.push({ t, d, ms: [m - 1, m], spell: ["D♯", "E"], hand: "R", label: "크러시", cls: "alt" });
+      else if (orn === "g") { N.push({ t, d: 0.25, m: m - 1, spell: "D♯", hand: "R", cls: "alt", label: "꾸밈" }); N.push({ t: t + 0.25, d: d - 0.25, m, hand: "R" }); }
+      else N.push({ t, d, m, hand: "R", spell: sp });
+    });
+    return N;
+  }
+  function render() {
+    staff.setNotes(notation(type), { chords: [{ t: 0, name: "C7" }] });
+  }
+  function stats() {
+    const ms = +$("sty-cr-ms").value, bpm = +$("sty-cr-bpm").value, beat = 60000 / bpm;
+    MB.stat("sty-cr-r1", ms + " ms");
+    MB.stat("sty-cr-r2", ((100 * ms) / beat).toFixed(0) + "%");
+    MB.stat("sty-cr-r3", ms < 25 ? "거의 동시(화음처럼)" : ms <= 90 ? "한 음이 미끄러짐" : ms <= 150 ? "짧은 앞음 + 본음" : "두 개의 음표");
+  }
+  let sched = null;
+  function play(kinds) {
+    if (sched) { sched.stop(); sched = null; }
+    const ctx = MB.ctx(); if (!ctx) return;
+    const bpm = +$("sty-cr-bpm").value, spb = 60 / bpm;
+    let all = [];
+    kinds.forEach((k, j) => events(k).forEach((e) => all.push(Object.assign({}, e, { t: e.t + j * 4, kind: k }))));
+    const N = notation(kinds[kinds.length - 1]);
+    // 화면 강조용: 표기 인덱스 찾기
+    all.forEach((e) => { if (e.hand === "L") e.si = 0; else { const idx = N.findIndex((n) => Math.abs(n.t - (e.t % 4)) < 1e-6 && (n.m === e.m || (n.ms && n.ms.includes(e.m)))); e.si = idx >= 0 ? idx : undefined; } });
+    sched = PN.scheduler(all.map((e) => Object.assign({}, e)), {
+      bpm: () => +$("sty-cr-bpm").value, loop: $("sty-cr-loop").checked && kinds.length === 1, length: kinds.length * 4,
+      onEvent(e, when, spb2) {
+        const w = when + (e.delay || 0), dur = e.dur != null ? e.dur : e.d * spb2 * 0.95 - (e.delay || 0);
+        (e.ms || [e.m]).forEach((m) => { p.noteOn(m, e.vel, w); p.noteOff(m, w + Math.max(0.02, dur)); });
+      },
+      onUI(e) {
+        if (kinds.length > 1) { const k = e.kind; if (staff._k !== k) { staff._k = k; staff.setNotes(notation(k), { chords: [{ t: 0, name: "C7" }] }); MB.stat("sty-cr-r3", k === "plain" ? "(A) 꾸밈 없음" : "(B) " + { crush: "크러시", grace: "앞꾸밈음", b5: "♭5 경과 릭" }[k]); } }
+        fol.note(e);
+      },
+      onStop() { p.stop(); fol.reset(); STY.unstick(kb); $("sty-cr-play").textContent = "▶ 재생"; if (kinds.length > 1) { staff._k = null; render(); stats(); } },
+      onEnd() {},
+    });
+    sched.start();
+    $("sty-cr-play").textContent = "■ 정지";
+  }
+  $("sty-cr-play").addEventListener("click", () => { if (sched && sched.running) { sched.stop(); return; } play([type]); });
+  $("sty-cr-ab").addEventListener("click", () => play(["plain", type === "plain" ? "crush" : type]));
+  MB.seg("sty-cr-type", (v) => { type = v; render(); });
+  MB.range("sty-cr-ms", (v) => v + " ms", stats);
+  MB.range("sty-cr-bpm", (v) => v + " BPM", stats);
+  render(); stats();
+  kb.set([{ m: 75, cls: "alt", label: "♭3" }, { m: 76, cls: "mark", label: "3" }, { m: 78, cls: "ghost", label: "♭5" }]);
+})();
+
+/* ===================================================================== 13-6 컴핑 리듬 시퀀서 */
+(function () {
+  const $ = STY.$;
+  const PRE = { charleston: [0, 3], reverse: [1, 4], backbeat: [2, 6], antic: [0, 7], four: [0, 2, 4, 6] };
+  const PROGS = { "251": ["Dm7", "G7", "Cmaj7", "A7"], blues: ["C7", "F7", "C7", "G7"] };
+  const st = { on: new Set(PRE.charleston), prog: "251", voi: "rootless", feel: "swing" };
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-cp-kb", { from: 36, to: 72, piano: p, labels: "c", compact: true });
+  const staff = PN.staff("#sty-cp-staff", [], { clef: "grand", key: 0, barsPerLine: 4, compact: true, minBeat: 24 });
+  const fol = STY.follower(staff);
+  const stepsEl = $("sty-cp-steps");
+  stepsEl.innerHTML = [...Array(8)].map((_, i) => `<button data-i="${i}" class="${i % 2 ? "" : "beat"}">${i % 2 ? "&amp;" : i / 2 + 1}</button>`).join("");
+  const preSeg = MB.seg("sty-cp-pre", (v) => { st.on = new Set(PRE[v]); refresh(); });
+  stepsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return; const i = +b.dataset.i;
+    st.on.has(i) ? st.on.delete(i) : st.on.add(i);
+    stepsEl.parentElement.parentElement.querySelectorAll("#sty-cp-pre button").forEach((x) => x.classList.remove("on"));
+    $("sty-cp-msg").textContent = "직접 만든 리듬: " + [...st.on].sort((a, b) => a - b).map((k) => (k % 2 ? Math.floor(k / 2) + 1 + "&" : k / 2 + 1)).join(", ");
+    refresh();
+  });
+  let events = [], voices = [];
+  function voiceAll() {
+    const names = PROGS[st.prog];
+    voices = names.map((nm, i) => {
+      if (st.voi === "shell") { const v = PN.voicing(nm, "shell", { bass: 36, low: 50 }); return v.lh.slice(1); }
+      const v = PN.voicing(nm, i % 2 === 0 ? "rootlessA" : "rootlessB", { low: 53 });
+      return v.lh;
+    });
+  }
+  function build() {
+    voiceAll();
+    const names = PROGS[st.prog], on = [...st.on].sort((a, b) => a - b);
+    events = [];
+    names.forEach((nm, b) => {
+      const t0 = b * 4, c = PN.parseChord(nm), nx = PN.parseChord(names[(b + 1) % names.length]);
+      events.push({ t: t0, bar: b, name: nm });
+      on.forEach((k, j) => {
+        const t = k / 2, next = on[j + 1] != null ? on[j + 1] / 2 : 4;
+        const ms = k === 7 ? voices[(b + 1) % names.length] : voices[b];
+        events.push({ t: t0 + t, d: Math.min(1.5, next - t), ms, hand: "R", vel: k % 2 ? 0.56 : 0.48, leg: 0.55 });
+      });
+      // 워킹 베이스: R–3–5–다음 근음 반음 접근
+      const R = PN.above(c.root, 36), third = PN.above(MB.mod(c.root + c.iv[1], 12), R + 1), fifth = PN.above(MB.mod(c.root + c.iv[2], 12), R + 1);
+      const nR = PN.above(nx.root, 36), appr = Math.abs(nR - 1 - fifth) <= Math.abs(nR + 1 - fifth) ? nR - 1 : nR + 1;
+      [R, third, fifth, appr].forEach((m, q) => events.push({ t: t0 + q, d: 1, bass: m, vel: 0.72, staffNote: true }));
+      events.push(...STY.drums(STY.DRUMS.swing, t0));
+    });
+    const notes = STY.notate(events.filter((e) => e.hand === "R").concat(events.filter((e) => e.staffNote).map((e) => Object.assign(e, { m: e.bass, hand: "L" }))));
+    staff.setNotes(notes, { chords: names.map((n, i) => ({ t: i * 4, name: n })), marks: st.feel === "swing" ? [{ t: 2.5, text: "Swing", staff: "treble", where: "above" }] : [] });
+    // m 속성을 지웠다가 다시: 베이스 이벤트는 피아노로 치지 않도록 m 제거
+    events.forEach((e) => { if (e.staffNote) delete e.m; });
+  }
+  function show(b) {
+    const names = PROGS[st.prog];
+    $("sty-cp-chord").textContent = names[b];
+    kb.set(voices[b].map((m) => ({ m, cls: "alt" })));
+    MB.stat("sty-cp-r3", voices[b].map((m) => PN.name(m)).join(" "));
+  }
+  function stats() {
+    const on = [...st.on];
+    MB.stat("sty-cp-r1", on.length + " <small>번</small>");
+    MB.stat("sty-cp-r2", on.length ? Math.round((100 * on.filter((k) => k % 2).length) / on.length) + "%" : "—");
+    stepsEl.querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", st.on.has(i)));
+  }
+  const btn = $("sty-cp-play");
+  let lastStep = null;
+  const sch = STY.band({
+    piano: p, bpm: () => +$("sty-cp-bpm").value, length: () => 16,
+    swing: () => (st.feel === "swing" ? 0.64 : 0.5), drums: () => $("sty-cp-ride").checked, bassOn: () => $("sty-cp-bass").checked,
+    onUI(ev) {
+      if (ev.bar != null) show(ev.bar);
+      else if (ev.hand === "R") {
+        fol.note(ev);
+        const k = Math.round((ev.t % 4) * 2);
+        if (lastStep) lastStep.classList.remove("now");
+        lastStep = stepsEl.children[k]; if (lastStep) lastStep.classList.add("now");
+      }
+    },
+    onStop() { btn.textContent = "▶ 재생"; fol.reset(); STY.unstick(kb); if (lastStep) lastStep.classList.remove("now"); },
+  });
+  btn.addEventListener("click", () => { if (sch.running) { sch.stop(); return; } MB.ctx(); PN.warm([...new Set(voices.flat())]); sch.setEvents(events); sch.start(); btn.textContent = "■ 정지"; });
+  function refresh() { build(); stats(); show(0); if (sch.running) sch.setEvents(events); }
+  MB.seg("sty-cp-prog", (v) => { st.prog = v; refresh(); });
+  MB.seg("sty-cp-voi", (v) => { st.voi = v; refresh(); });
+  MB.seg("sty-cp-feel", (v) => { st.feel = v; refresh(); });
+  MB.range("sty-cp-bpm", (v) => v + " BPM");
+  refresh();
+})();
+
+/* ===================================================================== 13-7 스타일 전환기 */
+(function () {
+  const $ = STY.$;
+  const p = PN.piano();
+  const kb = PN.keyboard("#sty-sx-kb", { from: 36, to: 84, piano: p, labels: "c", compact: true, minKey: 13 });
+  const staff = PN.staff("#sty-sx-staff", [], { clef: "grand", key: 0, barsPerLine: 4, compact: true, minBeat: 26, width: 860 });
+  const fol = STY.follower(staff);
+  const DEG = { I: 0, ii: 2, iii: 4, IV: 5, V: 7, vi: 9 };
+  const below = (pc, m) => m - MB.mod(m - pc, 12); // m 이하의 가장 가까운 pc
+  const STYLES = {
+    ballad: { name: "팝 발라드", bpm: 72, swing: 0.5, sev: false, drums: "ballad", color: "3화음 + 페달",
+      desc: "<b>팝 발라드</b>: 왼손이 8분음표로 근음–5도–옥타브–10도를 펼치고, 오른손은 화음을 길게 누른다. 마디마다 페달을 바꿔(뗐다가 곧 다시) 소리를 잇는다. 느리고 곧은 박.",
+      gen(c, t0, s) { const r = PN.accomp(c, "ballad", { t0, beats: 4, prev: s.prev, center: 74, vel: 0.5 }); s.prev = r.rh; return r.events.concat([{ t: t0, pedal: false }, { t: t0 + 0.08, pedal: true }]); } },
+    bossa: { name: "보사노바", bpm: 132, swing: 0.5, sev: true, drums: "bossa", color: "7화음(maj7·m7·7)",
+      desc: "<b>보사노바</b>: 왼손은 근음과 5도를 '점4분+8분'으로(브라질 수르두 북의 흉내), 오른손은 7화음을 엇박에 가볍고 짧게. 소리를 작게, 페달 없이 깔끔하게. 1950년대 말 리우데자네이루에서 삼바를 차분하게 다듬은 스타일.",
+      gen(c, t0, s) { const r = PN.accomp(c, "bossa", { t0, beats: 4, prev: s.prev, center: 70, vel: 0.46 }); s.prev = r.rh; return r.events; } },
+    rag: { name: "래그타임", bpm: 88, swing: 0.5, sev: false, v7: true, drums: "rag", color: "3화음 + V7",
+      desc: "<b>래그타임</b>: 왼손 '쿵–짝'(1·3박 낮은 근음·5도, 2·4박 가운데 화음)은 행진곡에서 왔다. 오른손은 16분–8분–16분 싱커페이션. 스윙하지 않고 곧게, 조플린의 말처럼 '빠르지 않게'.",
+      gen(c, t0, s) {
+        const L = PN.accomp(c, "stride", { t0, beats: 4, vel: 0.5 }).events;
+        const v = PN.voicing(c, "close", { center: 77, prev: s.prev }); s.prev = v.rh;
+        const a = v.rh, b = v.rh.slice(1).concat(v.rh[0] + 12);
+        const R = [[0, 0.25, a], [0.25, 0.5, b], [0.75, 0.25, a], [1, 1, b], [2, 0.25, a], [2.25, 0.5, b], [2.75, 0.25, a], [3, 1, a]];
+        return L.concat(R.map(([t, d, ms], i) => ({ t: t0 + t, d, ms, hand: "R", vel: i % 2 ? 0.56 : 0.5, leg: 0.8 })));
+      } },
+    pop16: { name: "16비트 팝", bpm: 96, swing: 0.5, sev: false, add9: true, drums: "pop16", color: "add9",
+      desc: "<b>16비트 팝</b>: 드럼 하이햇이 16분음표로 박을 잘게 쪼개고, 피아노는 그 격자의 엇박(16분 뒤)에 짧은 화음을 찌른다. 왼손은 근음 옥타브로 베이스처럼. 화음에 9도를 더해 밝고 현대적인 색.",
+      gen(c, t0, s) {
+        const R0 = PN.above(c.root, 36), E = [];
+        [[0, 1.5], [1.5, 0.5], [2, 0.75], [2.75, 0.25], [3, 1]].forEach(([t, d], i) => E.push({ t: t0 + t, d, ms: [R0, R0 + 12], hand: "L", vel: i === 0 ? 0.56 : 0.46, leg: 0.7 }));
+        const pcs = [...new Set(c.iv.map((x) => MB.mod(c.root + x, 12)).concat(MB.mod(c.root + 2, 12)))];
+        const rh = s.prev ? MB.voiceLead(s.prev, pcs, [62, 82]) : MB.voiceLead([64, 67, 72, 74], pcs, [62, 82]); s.prev = rh;
+        [[0, 0.5], [0.75, 0.25], [1.5, 0.5], [2.5, 0.25], [2.75, 0.25], [3.5, 0.5]].forEach(([t, d], i) => E.push({ t: t0 + t, d, ms: rh, hand: "R", vel: i % 2 ? 0.5 : 0.44, leg: 0.6 }));
+        return E;
+      } },
+    gospel: { name: "가스펠", bpm: 76, swing: 0.6, sev: false, drums: "gospel", color: "add9 + sus4→3",
+      desc: "<b>가스펠</b>: 왼손은 굵은 옥타브, 마디 끝에서 다음 근음으로 반음 접근. 오른손은 9도를 더한 화음으로 노래하듯 엇박에 들어가고, 3박에서 3도를 4도로 걸었다가(sus4) 4박에 풀어 준다. 약하게 흔들리는 셔플 느낌.",
+      gen(c, t0, s, nx) {
+        const R0 = PN.above(c.root, 36), nR = PN.above(nx.root, 36), E = [];
+        E.push({ t: t0, d: 2, ms: [R0, R0 + 12], hand: "L", vel: 0.58 });
+        E.push({ t: t0 + 2, d: 1.5, ms: [R0, R0 + 12], hand: "L", vel: 0.48 });
+        const ap = nR - 1 >= 36 ? nR - 1 : nR + 1; if (nR !== R0) E.push({ t: t0 + 3.5, d: 0.5, ms: [ap, ap + 12], hand: "L", vel: 0.5 }); else E.push({ t: t0 + 3.5, d: 0.5, ms: [R0, R0 + 12], hand: "L", vel: 0.44 });
+        const third = MB.mod(c.root + c.iv[1], 12), fourth = MB.mod(c.root + 5, 12);
+        const pcs = [c.root, MB.mod(c.root + 2, 12), third, MB.mod(c.root + c.iv[2], 12)];
+        const rh = s.prev ? MB.voiceLead(s.prev, pcs, [62, 82]) : MB.voiceLead([62, 64, 67, 72], pcs, [62, 82]); s.prev = rh;
+        const sus = rh.map((m) => (MB.mod(m, 12) === third ? m + (c.iv[1] === 4 ? 1 : 2) : m));
+        E.push({ t: t0, d: 1.5, ms: rh, hand: "R", vel: 0.5 });
+        E.push({ t: t0 + 1.5, d: 1.5, ms: rh, hand: "R", vel: 0.54 });
+        E.push({ t: t0 + 3, d: 0.5, ms: sus, hand: "R", vel: 0.52, label: "sus4" });
+        E.push({ t: t0 + 3.5, d: 0.5, ms: rh, hand: "R", vel: 0.48 });
+        return E;
+      } },
+    swing: { name: "스윙", bpm: 144, swing: 0.64, sev: true, drums: "swing", color: "루트리스 7화음",
+      desc: "<b>스윙</b>: 왼손이 4분음표로 걷는 워킹 베이스(근음–3도–5도–다음 근음으로 반음 접근), 오른손은 근음을 뺀 루트리스 7화음을 찰스턴 리듬(1, 2&)으로. 라이드 심벌이 '칭–칭가–칭'으로 스윙을 잡는다.",
+      gen(c, t0, s, nx, i) {
+        const R0 = PN.above(c.root, 36), third = PN.above(MB.mod(c.root + c.iv[1], 12), R0 + 1), fifth = PN.above(MB.mod(c.root + c.iv[2], 12), R0 + 1);
+        const nR = PN.above(nx.root, 36), ap = Math.abs(nR - 1 - fifth) <= Math.abs(nR + 1 - fifth) ? nR - 1 : nR + 1;
+        const E = [R0, third, fifth, ap].map((m, q) => ({ t: t0 + q, d: 1, m, hand: "L", vel: 0.52, leg: 0.85 }));
+        const v = PN.voicing(c, i % 2 === 0 ? "rootlessA" : "rootlessB", { low: 55 }).lh;
+        E.push({ t: t0, d: 1.5, ms: v, hand: "R", vel: 0.44, leg: 0.5 }, { t: t0 + 1.5, d: 0.5, ms: v, hand: "R", vel: 0.52, leg: 0.6 });
+        return E;
+      } },
+  };
+  const st = { style: "ballad", prog: "I vi IV V" };
+  let chords = [], events = [];
+  function realize() {
+    const S = STYLES[st.style], dia = MB.diatonic(0, "major", true), tri = MB.diatonic(0, "major", false);
+    chords = st.prog.split(" ").map((r) => {
+      const semi = DEG[r], idx = [0, 2, 4, 5, 7, 9, 11].indexOf(semi);
+      let q = S.sev ? dia[idx].quality : tri[idx].quality;
+      if (S.v7 && r === "V") q = "dom7";
+      const name = MB.chordSymbol(semi, q, false);
+      return { roman: r, name, c: PN.parseChord(name) };
+    });
+  }
+  function build() {
+    const S = STYLES[st.style], s = { prev: null };
+    events = [];
+    chords.forEach((ch, i) => {
+      const t0 = i * 4;
+      events.push({ t: t0, bar: i, name: ch.name });
+      events.push(...S.gen(ch.c, t0, s, chords[(i + 1) % chords.length].c, i));
+      events.push(...STY.drums(STY.DRUMS[S.drums], t0));
+    });
+    const notes = STY.notate(events);
+    const pedal = st.style === "ballad" ? chords.map((_, i) => ({ t0: i * 4 + 0.08, t1: i * 4 + 4 })) : [];
+    staff.setNotes(notes, { chords: chords.map((c, i) => ({ t: i * 4, name: c.name })), pedal, marks: S.swing > 0.55 ? [{ t: 2.5, text: S.swing > 0.62 ? "Swing" : "Shuffle(약하게)", staff: "treble", where: "above" }] : [] });
+    const per = notes.reduce((a, n) => a + (n.ms ? n.ms.length : 1), 0) / chords.length;
+    MB.stat("sty-sx-r1", S.swing.toFixed(2) + (S.swing > 0.5 ? " <small>스윙</small>" : " <small>정박</small>"));
+    MB.stat("sty-sx-r2", S.color);
+    MB.stat("sty-sx-r3", per.toFixed(0) + " <small>음</small>");
+    $("sty-sx-desc").innerHTML = S.desc;
+  }
+  function show(i) { const c = chords[i]; if (!c) return; $("sty-sx-chord").textContent = c.name; $("sty-sx-msg").textContent = (i + 1) + "마디 · " + c.roman + " · " + STYLES[st.style].name; }
+  const btn = $("sty-sx-play");
+  const bpmR = MB.range("sty-sx-bpm", (v) => v + " BPM");
+  const sch = STY.band({
+    piano: p, bpm: () => bpmR(), length: () => 16, swing: () => STYLES[st.style].swing, drums: () => $("sty-sx-dr").checked,
+    onUI(ev) { if (ev.bar != null) { show(ev.bar); if (ev.bar === 0) fol.reset(); } else fol.note(ev); },
+    onStop() { btn.textContent = "▶ 재생"; fol.reset(); STY.unstick(kb); },
+  });
+  btn.addEventListener("click", () => { if (sch.running) { sch.stop(); return; } MB.ctx(); PN.warm([...new Set(events.flatMap((e) => e.ms || (e.m != null ? [e.m] : [])))]); sch.setEvents(events); sch.start(); btn.textContent = "■ 정지"; });
+  function refresh() { realize(); build(); show(0); if (sch.running) { p.pedal(false); sch.setEvents(events); } }
+  MB.seg("sty-sx-style", (v) => { st.style = v; bpmR.set(STYLES[v].bpm, false); refresh(); });
+  MB.seg("sty-sx-prog", (v) => { st.prog = v; refresh(); });
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@
   "domain": "music.euiyun.com",
   "books": [
     "fundamentals/book.json",
-    "guitar/book.json"
+    "guitar/book.json",
+    "piano/book.json"
   ]
 }

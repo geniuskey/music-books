@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>테크닉과 연습곡 · PianoBook</title>
+<meta name="description" content="손가락 독립과 하농 연습, 트릴·모르덴트·턴·앞꾸밈음, 엄지 넘기기 아르페지오, 반복음과 옥타브, 2:3·3:4 폴리리듬, 템포 사다리와 연습 설계, 루바토를 소리로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/technique.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="테크닉과 연습곡 · PianoBook">
+<meta property="og:description" content="손가락 독립과 하농 연습, 트릴·모르덴트·턴·앞꾸밈음, 엄지 넘기기 아르페지오, 반복음과 옥타브, 2:3·3:4 폴리리듬, 템포 사다리와 연습 설계, 루바토를 소리로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/technique.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .ctrl > .seg { justify-self: start; }
+  .tq-two { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 720px) { .tq-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .tq-cap { display: block; font-size: 12px; color: var(--text-dim); margin: 2px 4px 4px; }
+  .tq-orn path, .tq-orn line { stroke: var(--text); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .tq-orn text { fill: var(--text); font: italic 700 15px Georgia, "Times New Roman", serif; }
+  .tq-orn .gh { fill: var(--text); stroke: none; }
+  .tq-fig .sym path, .tq-fig .sym line { stroke: var(--text); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .tq-fig .sym text { fill: var(--text); font: italic 700 16px Georgia, "Times New Roman", serif; }
+  .tq-fig .sym .gh { fill: var(--text); stroke: none; }
+  .tq-fig .blk { fill: var(--accent); }
+  .tq-fig .blk.u { fill: var(--accent-2); }
+  .tq-fig .blk.l { fill: var(--blue); }
+  .tq-fig .cell { fill: var(--surface); stroke: var(--border); }
+  .tq-fig .cell.r { fill: var(--accent); stroke: var(--accent); }
+  .tq-fig .cell.l { fill: var(--accent-2); stroke: var(--accent-2); }
+  .tq-fig .tend { stroke: var(--accent); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .tq-fig .junc { stroke: var(--accent-2); stroke-width: 4; stroke-linecap: round; }
+  .tq-fig .dot { fill: var(--accent); }
+  .tq-fig .dot2 { fill: var(--accent-2); }
+  .tq-fig .key { fill: var(--bg-elev); stroke: var(--border); }
+  .tq-fig .key.b { fill: var(--text); stroke: var(--text); }
+  .tq-taps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tq-taps .btn { padding: 14px 0; font-size: 15px; touch-action: manipulation; }
+  .tq-syl { font: 700 clamp(22px, 5vw, 30px) var(--font); text-align: center; min-height: 1.6em; letter-spacing: 0.02em; color: var(--accent); }
+  .tq-syl span { color: var(--text-faint); font-weight: 500; margin: 0 .18em; }
+  .tq-syl span.on { color: var(--accent); font-weight: 800; }
+  .tq-syl span.r { text-decoration: underline 3px var(--accent); text-underline-offset: 6px; }
+  .tq-syl span.l { text-decoration: underline 3px var(--accent-2); text-underline-offset: 6px; }
+  .tq-syl span.b { text-decoration: underline double 3px var(--text-dim); text-underline-offset: 6px; }
+  .tq-plan td, .tq-plan th { text-align: center; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="technique">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 12</div>
+    <h1>테크닉과 연습곡</h1>
+    <p class="lead">테크닉은 빠른 손가락이 아니라 <b>원하는 소리를 원하는 때에, 힘을 아끼며</b> 내는 능력입니다. 이 장에서는 손가락 독립과 하농 연습, 트릴·모르덴트·턴 같은 꾸밈음의 연주법, 엄지 넘기기 아르페지오, 반복음과 옥타브, 두 손이 서로 다른 박을 세는 폴리리듬을 차례로 소리로 익힙니다. 마지막으로 템포를 조금씩 올리는 템포 사다리와 '의도적 연습'의 설계, 그리고 시간을 훔쳤다가 돌려주는 루바토를 숫자로 들여다봅니다.</p>
+    <ul class="objectives">
+      <li>손가락 사이 힘줄의 연결(건간결합)을 알고, 다른 손가락을 누른 채 한 손가락만 움직이는 독립 연습을 한다.</li>
+      <li>하농 1번 패턴의 규칙(위로 묶음 14개, 아래로 거울상)을 이해하고, 조·리듬을 바꿔 가며 연습한다.</li>
+      <li>트릴·모르덴트·턴·아포자투라·아차카투라의 기호를 읽고 시대에 맞게 실행한다.</li>
+      <li>엄지 넘기기(thumb under)와 손가락 넘기기로 두 옥타브 아르페지오를 이어 친다.</li>
+      <li>반복음을 4-3-2-1로 나누어 치는 이유와 옥타브의 손목 사용, 더블 이스케이프먼트의 역할을 설명한다.</li>
+      <li>최소공배수 격자로 2:3·3:4 폴리리듬을 세고, 템포 사다리·간격 반복·끼워 넣기로 연습을 설계하며, 루바토의 시간 보존을 이해한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="independence">
+    <h2>손가락 독립: 4번 손가락이 말을 안 듣는 이유</h2>
+    <p>5손가락 자세(<a href="touch.html">3장</a>)에서 C D E F G 위에 손을 올리고 4번(약지)만 들어 보세요. 3번과 5번이 따라 올라가려 하는 것이 느껴질 겁니다. 게으름이 아니라 해부학입니다. 손가락을 펴는 근육(총지신근<span class="en">(Extensor digitorum)</span>)은 팔뚝에 있는 근육 하나에서 네 갈래 힘줄이 나와 2–5번 손가락으로 가고, 손등에서 이 힘줄들 사이를 <b>건간결합</b><span class="en">(Juncturae tendinum)</span>이라는 띠가 비스듬히 잇습니다. 특히 4번 힘줄은 3번·5번과 묶여 있어, 4번을 혼자 크게 들어 올릴 수 있는 범위가 원래 작습니다. 반면 엄지와 2번은 따로 쓰는 근육(장무지신근, 시지신근)이 있어 독립적입니다.</p>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 270" role="img" aria-label="손등의 신근 힘줄과 건간결합, 누른 채 한 손가락 연습">
+        <!-- 손(오른손 손등, 엄지가 왼쪽) -->
+        <path class="f-surface" d="M120 250 L120 190 Q100 170 70 150 Q52 136 62 124 Q74 114 92 128 L132 156 L140 70 Q142 52 156 52 Q170 52 172 70 L174 128 L180 46 Q182 28 197 28 Q212 28 214 46 L214 126 L222 52 Q224 36 238 36 Q252 36 254 52 L250 132 L266 80 Q270 66 283 68 Q296 72 292 86 L272 170 Q268 200 270 250 Z"/>
+        <path class="tend" d="M150 245 L158 150 L158 72"/>
+        <path class="tend" d="M180 245 L194 140 L196 48"/>
+        <path class="tend" d="M212 245 L232 144 L238 56"/>
+        <path class="tend" d="M238 245 L268 152 L282 88"/>
+        <path class="tend" d="M118 232 Q100 190 78 140" style="stroke-dasharray:5 4"/>
+        <line class="junc" x1="196" y1="160" x2="230" y2="168"/>
+        <line class="junc" x1="232" y1="166" x2="266" y2="172"/>
+        <line class="junc" x1="232" y1="156" x2="196" y2="150" style="opacity:.45"/>
+        <text class="t-mono" x="70" y="108" text-anchor="middle">1</text>
+        <text class="t-mono" x="156" y="44" text-anchor="middle">2</text>
+        <text class="t-mono" x="197" y="20" text-anchor="middle">3</text>
+        <text class="t-mono" x="238" y="28" text-anchor="middle">4</text>
+        <text class="t-mono" x="286" y="60" text-anchor="middle">5</text>
+        <text class="t-acc" x="300" y="176">건간결합</text>
+        <text class="t-dim" x="300" y="194">4번 힘줄을 3·5번과 묶는 띠</text>
+        <text class="t-dim" x="20" y="264">엄지(점선)·2번은 따로 쓰는 근육이 있다 · 오른손 손등(모식도)</text>
+        <!-- 오른쪽: 누른 채 한 손가락 -->
+        <g transform="translate(470 40)">
+          <text class="t" x="0" y="0">누른 채 한 손가락만 (4번)</text>
+          <rect class="key" x="0" y="20" width="56" height="150" rx="4"/>
+          <rect class="key" x="58" y="20" width="56" height="150" rx="4"/>
+          <rect class="key" x="116" y="20" width="56" height="150" rx="4"/>
+          <rect class="key" x="174" y="20" width="56" height="150" rx="4"/>
+          <rect class="key" x="232" y="20" width="56" height="150" rx="4"/>
+          <rect class="f-acc-soft" x="2" y="140" width="52" height="28" rx="3"/>
+          <rect class="f-acc-soft" x="60" y="140" width="52" height="28" rx="3"/>
+          <rect class="f-acc-soft" x="118" y="140" width="52" height="28" rx="3"/>
+          <rect class="f-acc-soft" x="234" y="140" width="52" height="28" rx="3"/>
+          <circle class="dot" cx="28" cy="120" r="12"/><circle class="dot" cx="86" cy="120" r="12"/><circle class="dot" cx="144" cy="120" r="12"/><circle class="dot" cx="260" cy="120" r="12"/>
+          <circle class="dot2" cx="202" cy="92" r="12"/>
+          <path class="s-line" d="M202 70 L202 50 M195 58 L202 48 L209 58 M202 112 L202 130 M195 122 L202 132 L209 122"/>
+          <text class="t-mono" x="28" y="192" text-anchor="middle">C·1</text><text class="t-mono" x="86" y="192" text-anchor="middle">D·2</text><text class="t-mono" x="144" y="192" text-anchor="middle">E·3</text><text class="t-mono" x="202" y="192" text-anchor="middle">F·4</text><text class="t-mono" x="260" y="192" text-anchor="middle">G·5</text>
+          <text class="t-dim" x="0" y="216">네 건반은 바닥까지 누른 채(보라), 4번만 들었다 친다</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 12-1.</b> 왼쪽: 오른손 손등의 신근 힘줄(모식도). 2–5번 힘줄은 한 근육에서 갈라지고, 4번 힘줄은 건간결합(주황 띠)으로 3·5번과 이어져 있어 혼자 들어 올리는 폭이 작다. 오른쪽: 다른 네 손가락으로 건반을 누른 채 한 손가락만 움직이는 '고정음 연습'. 묶인 손가락을 억지로 떼어 내는 것이 아니라, 묶인 범위 안에서 <b>불필요한 동반 움직임을 끄는 신경 조절</b>을 기르는 연습이다.</figcaption>
+    </figure>
+    <p>그러니 목표는 4번을 3번만큼 높이 드는 것이 아닙니다. 건반을 누르는 데 필요한 움직임은 1 cm 남짓(흰 건반 누름 깊이 약 10 mm)이고, 그 정도는 4번도 충분히 혼자 할 수 있습니다. 문제는 4번을 움직일 때 <b>3번·5번이 같이 힘을 주거나, 손 전체가 굳는 것</b>입니다. 아래 고정음 연습은 '다른 손가락은 건반 바닥에 힘 빼고 얹혀 있고, 한 손가락만 움직이는' 감각을 만듭니다. 누른 손가락은 꽉 누르는 게 아니라 건반이 다시 올라오지 않을 만큼만 무게를 싣습니다.</p>
+
+    <div class="sim" id="sim-tq-hold">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>고정음 연습: 네 손가락은 누른 채, 한 손가락만</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-hd-kb"></div><div class="sim-msg" id="tq-hd-msg">컴퓨터 키보드 <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd> <kbd>G</kbd> = C D E F G. 움직일 손가락(빨강)을 뺀 네 키를 누른 채 빨간 키를 반복해서 치세요.</div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>손</span><div class="seg" id="tq-hd-hand"><button data-value="R" class="on">오른손</button><button data-value="L">왼손</button></div></div>
+          <div class="ctrl"><span>움직일 손가락</span><div class="seg" id="tq-hd-f"><button data-value="1">1</button><button data-value="2">2</button><button data-value="3">3</button><button data-value="4" class="on">4</button><button data-value="5">5</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tq-hd-demo">▶ 시범 듣기</button><button class="btn" id="tq-hd-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="tq-hd-reset">점수 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">성공(네 손가락 유지)</span><span class="v" id="tq-hd-o-ok">0</span></div>
+        <div class="stat"><span class="k">놓침</span><span class="v" id="tq-hd-o-miss">0</span></div>
+        <div class="stat"><span class="k">자주 뜬 손가락</span><span class="v" id="tq-hd-o-lift">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 4번 → 3번 → 5번 → 2번 → 1번 순서로 각 20회씩. 화면 건반의 원 안 숫자가 손가락 번호입니다. 마우스로는 한 번에 한 건반만 누를 수 있으므로 이 실험은 컴퓨터 키보드(또는 MIDI가 아닌 실제 피아노)에서 하세요. 판정: 빨간 키를 누르는 순간 나머지 네 키가 모두 눌려 있으면 성공. 모델 한계: 화면은 '눌렸는지'만 알 뿐 손에 힘이 들어갔는지는 모릅니다. 그건 여러분의 손등과 팔뚝이 알려 줍니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 고정음 연습 (하루 3분)</strong>
+      <p>실제 피아노에서 C D E F G에 손을 얹고 네 건반을 소리 없이 천천히 눌러 바닥에 둡니다(소리 없이 누르는 법은 <a href="touch.html">3장</a>). 남은 한 손가락으로 같은 건반을 mp로 8번, 손등·팔뚝이 굳지 않는지 확인하며 칩니다. 4번이 높이 안 들려도 괜찮습니다. 건반 표면에서 1 cm만 떨어지면 충분합니다. 손가락마다 8번 × 2세트, 양손. 쥐가 나거나 아프면 바로 멈추고 손을 털어 줍니다. 이 연습은 <b>짧게, 자주</b>가 원칙입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="hanon">
+    <h2>하농 1번: 규칙으로 만든 연습곡</h2>
+    <p>샤를루이 하농<span class="en">(Charles-Louis Hanon)</span>의 『60개의 연습으로 된 명인 피아니스트』<span class="en">(Le Pianiste virtuose, 1873)</span>는 지금도 가장 많이 쓰이는 손가락 연습책입니다(공유 저작물). 1번 연습은 아주 단순한 규칙 하나로 만들어집니다. 시작 음에서 음계 도수로 <b>+0 +2 +3 +4 +5 +4 +3 +2</b>, 즉 '3도 뛰고 순차로 올라갔다가 되돌아오는' 8음 묶음을 치고, 시작 음을 한 칸씩 올려 같은 묶음을 반복합니다. 두 옥타브를 올라간 뒤에는 꼭대기에서 <b>−0 −2 −3 −4 −5 −4 −3 −2</b>의 거울상 묶음으로 내려옵니다.</p>
+    <div class="formula">$$n_{g,j} = s_0 + g + \Delta_j, \qquad \Delta = (0, 2, 3, 4, 5, 4, 3, 2), \quad g = 0, 1, \dots, 7k - 1$$
+      <div class="where">\(n\)은 음계 도수(0 = 으뜸음), \(g\)는 묶음 번호, \(k\)는 옥타브 수. 오른손 손가락은 \(1\,2\,3\,4\,5\,4\,3\,2\)로 매 묶음 같다. 손 모양이 늘 같고 위치만 한 칸씩 옮겨지므로, 다섯 손가락이 고르게 같은 횟수씩 일하고 '손 이동 + 5손가락 자세'를 자동으로 반복하게 된다. 왼손은 같은 음을 한 옥타브 아래에서 \(5\,4\,3\,2\,1\,2\,3\,4\)로 친다.</div>
+    </div>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 230" role="img" aria-label="하농 1번 패턴의 음높이 윤곽"><g id="tq-fig-hn"></g></svg>
+      <figcaption><b>그림 12-2.</b> 하농 1번(다장조, 오른손) 처음 세 묶음과 꼭대기의 거울상 묶음. 세로축은 음계 도수, 점 안의 숫자는 손가락. 묶음마다 모양이 똑같고 시작 음만 한 칸씩 올라간다. 내려올 때는 \(5\,4\,3\,2\,1\,2\,3\,4\)로 거울처럼 뒤집힌다.</figcaption>
+    </figure>
+    <p>하농은 메트로놈 60에서 시작해 108까지 올리라고 적었습니다. 그러나 하농만 수천 번 반복하는 것은 효과에 비해 손을 혹사할 위험이 큽니다. 기계적 반복보다는 <b>변주</b>가 낫습니다. 같은 음을 점음표(긴–짧), 거꾸로 점음표(짧–긴), 셋잇단(3음마다 강세가 묶음 경계와 엇갈림), 3음마다 강세로 치면 손가락마다 '긴 음·센 음'을 맡는 위치가 바뀌어, 약한 손가락이 드러나고 고르게 단련됩니다. 다른 조로 옮기면 검은 건반 위에서 손가락 길이 차이를 다루는 연습이 됩니다(손가락 번호는 그대로 둡니다).</p>
+
+    <div class="sim" id="sim-tq-hanon">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하농 1번 생성기: 조·리듬·손을 바꿔 연습</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-hn-st"></div><div id="tq-hn-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>조</span><div class="seg" id="tq-hn-key"><button data-value="0" class="on">C</button><button data-value="7">G</button><button data-value="2">D</button><button data-value="5">F</button><button data-value="10">B♭</button><button data-value="3">E♭</button></div></div>
+          <div class="ctrl"><span>손</span><div class="seg" id="tq-hn-hand"><button data-value="R" class="on">오른손</button><button data-value="L">왼손</button><button data-value="B">양손</button></div></div>
+          <div class="ctrl"><span>리듬 변주</span><div class="seg" id="tq-hn-rhy"><button data-value="even" class="on">고르게</button><button data-value="dot">긴–짧</button><button data-value="rev">짧–긴</button><button data-value="trip">셋잇단</button><button data-value="acc">3음 강세</button></div></div>
+          <div class="ctrl"><span>음역</span><div class="seg" id="tq-hn-oct"><button data-value="1" class="on">1옥타브</button><button data-value="2">2옥타브</button></div></div>
+          <label class="ctrl"><span>템포 <output id="tq-hn-bpm-out"></output></span><input type="range" id="tq-hn-bpm" min="40" max="132" value="60"></label>
+          <label class="check"><input type="checkbox" id="tq-hn-loop"> 반복 재생</label>
+          <div class="btn-row"><button class="btn primary" id="tq-hn-play">▶ 재생</button><button class="btn" id="tq-hn-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="tq-hn-o-g">—</span></div>
+        <div class="stat"><span class="k">음 수 / 길이</span><span class="v" id="tq-hn-o-n">—</span></div>
+        <div class="stat"><span class="k">손가락별 횟수(오른손)</span><span class="v" id="tq-hn-o-f">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '고르게'로 한 번 듣고 '긴–짧', '짧–긴'으로 바꿔 같은 손가락이 긴 음을 맡는 자리가 바뀌는 것을 악보에서 확인하세요. '셋잇단'과 '3음 강세'는 8음 묶음과 3음 강세가 엇갈려 강세가 매번 다른 손가락에 떨어집니다. 악보는 두 마디씩 넘어가고, 건반의 번호 원이 지금 치는 손가락입니다. 템포는 4분음표 기준(8분음표 2개 = 1박). 모델: 손가락 번호는 하농의 다장조 운지를 모든 조에 그대로 썼고(하농 39번의 조별 스케일과는 다름), 셋잇단은 연주용 변주라 원전에 없습니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 하농을 '음악'으로 치기</strong>
+      <p>한 번에 5분 이내, 손이 따뜻할 때. ① 손가락 끝이 건반에 닿은 채 시작해 손목은 수평, 팔꿈치는 몸 옆에 가볍게. ② 처음엔 ♩ = 60, 8분음표로 mf. 손가락마다 소리가 고른지 귀로 확인합니다(특히 4·5번). ③ 고르면 리듬 변주를 하나씩 추가. ④ 템포는 아래 7절의 템포 사다리로 4씩만 올립니다. 손등이 굳거나 팔뚝이 뻐근하면 그날 템포 상한이니, 거기서 멈추고 다시 느리게 한 번 쳐서 '편한 기억'으로 끝냅니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="ornaments">
+    <h2>꾸밈음: 기호를 읽고 시대에 맞게 실행하기</h2>
+    <p>꾸밈음<span class="en">(Ornament)</span>은 악보에 작은 기호로 쓰고, 연주자가 정해진 규칙에 따라 여러 음으로 풀어 칩니다. 같은 기호라도 시대마다 실행이 다르다는 것이 핵심입니다. 바로크·고전 시대(C. P. E. 바흐의 『건반 악기 연주의 참된 기법에 관한 시론』, 1753)에는 트릴을 <b>위 음(보조음)부터, 박 위에서</b> 시작하는 것이 기본이었고, 19세기에 들어 훔멜(1828) 등이 <b>본음부터</b> 시작하는 방식을 권하면서 낭만 시대 이후에는 본음 시작이 흔해졌습니다. 모르덴트·턴도 앞뒤 음의 흐름과 템포에 따라 연주자가 판단합니다.</p>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 300" role="img" aria-label="꾸밈음 기호와 실행"><g id="tq-fig-orn"></g></svg>
+      <figcaption><b>그림 12-3.</b> 꾸밈음 기호(위)와 실행(아래, 피아노 롤). 보라 = 본음, 주황 = 위 보조음, 파랑 = 아래 보조음. 가로 길이는 본음 2박 안에서의 시간. 아포자투라는 본음 길이의 절반을 '빼앗아' 박 위에서 길게, 아차카투라(빗금 있는 작은 음)는 거의 동시에 '부딪치듯' 짧게 친다.</figcaption>
+    </figure>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이름</th><th>기호</th><th>실행(본음 M, 위 U, 아래 L)</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td>트릴 <span class="en">(Trill)</span></td><td><i>tr</i>, <i>tr</i>∿∿</td><td>U M U M … 또는 M U M U …</td><td>바로크·고전은 위 음부터, 19세기 이후는 본음부터가 흔함. 끝에 L–M 마무리(Nachschlag)를 붙이기도 함</td></tr>
+        <tr><td>모르덴트 <span class="en">(Mordent)</span></td><td>세로줄 있는 짧은 물결</td><td>M L M</td><td>아래 보조음과 한 번 '깨물기'</td></tr>
+        <tr><td>프랄트릴러(역모르덴트) <span class="en">(Pralltriller, Inverted mordent)</span></td><td>세로줄 없는 짧은 물결</td><td>M U M</td><td>짧은 트릴. 위 음과 한 번</td></tr>
+        <tr><td>턴 <span class="en">(Turn)</span></td><td>옆으로 누운 S</td><td>U M L M</td><td>음표 위면 바로, 음표 사이면 본음을 먼저 조금 끈 뒤</td></tr>
+        <tr><td>아포자투라(긴 앞꾸밈음) <span class="en">(Appoggiatura)</span></td><td>빗금 없는 작은 음표</td><td>U(본음 절반) → M</td><td>박 위에서, 강하게 시작해 본음으로 풀린다</td></tr>
+        <tr><td>아차카투라(짧은 앞꾸밈음) <span class="en">(Acciaccatura)</span></td><td>빗금 있는 작은 음표</td><td>U(아주 짧게) → M</td><td>'으깨듯'. 박 직전에 치느냐 박 위에 치느냐는 시대·곡마다 다름</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-tq-orn">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>꾸밈음: 기호 → 실행</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tq-two">
+            <div><span class="tq-cap">악보에 쓴 것</span><div id="tq-or-st1"></div></div>
+            <div><span class="tq-cap">실제로 치는 것</span><div id="tq-or-st2"></div></div>
+          </div>
+          <div id="tq-or-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>꾸밈음</span><div class="seg" id="tq-or-k"><button data-value="trillU" class="on">트릴(위 음부터)</button><button data-value="trillM">트릴(본음부터)</button><button data-value="mord">모르덴트</button><button data-value="prall">프랄트릴러</button><button data-value="turn">턴</button><button data-value="app">아포자투라</button><button data-value="acc">아차카투라</button></div></div>
+          <div class="ctrl"><span>본음</span><div class="seg" id="tq-or-m"><button data-value="74" class="on">D5</button><button data-value="69">A4</button></div></div>
+          <label class="ctrl"><span>템포 <output id="tq-or-bpm-out"></output></span><input type="range" id="tq-or-bpm" min="40" max="120" value="66"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-or-play">▶ 실행 듣기</button><button class="btn" id="tq-or-plain">꾸밈 없이</button><button class="btn" id="tq-or-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">실행</span><span class="v" id="tq-or-o-r">—</span></div>
+        <div class="stat"><span class="k">음 수</span><span class="v" id="tq-or-o-n">—</span></div>
+        <div class="stat"><span class="k">본음이 들리는 시점</span><span class="v" id="tq-or-o-t">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 트릴을 '위 음부터'와 '본음부터'로 번갈아 들어 보세요. 위 음부터 시작하면 박 위에 불협(보조음)이 먼저 와서 긴장–해소가 생기고, 본음부터는 선율 음이 먼저 들려 담백합니다. 아포자투라와 아차카투라는 '본음이 들리는 시점'을 비교하세요. 모델: 다장조 음계의 이웃 음을 보조음으로 썼고, 트릴은 16분음표 8개, 아차카투라는 템포와 무관하게 70 ms로 칩니다. 실제 연주에서 트릴 속도와 마무리는 곡과 템포에 맞춰 연주자가 정합니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 트릴은 '느리고 고르게'부터</strong>
+      <p>트릴은 2–3번 또는 1–3번(약한 4–5번은 나중에)으로, 처음에는 셈을 정해 16분음표 정확히 8개로 칩니다. 손가락을 높이 들지 말고 건반 표면 가까이에서, 두 손가락 대신 <b>손을 아주 살짝 좌우로 흔드는 회전</b>을 섞으면 오래 쳐도 지치지 않습니다. 고르게 8개가 되면 12개, 16개로 늘리고, 마무리(L–M)를 붙여 다음 음에 정확히 착지하는 연습을 합니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="arpeggio">
+    <h2>아르페지오와 엄지 넘기기</h2>
+    <p>화음을 한 음씩 흩어 치는 아르페지오<span class="en">(Arpeggio)</span>는 손 하나가 덮는 범위(한 옥타브 남짓)를 넘어 이어 가야 하므로, 손 위치를 바꾸는 방법이 핵심입니다. 오른손이 올라갈 때는 3번이 건반을 누르고 있는 동안 <b>엄지가 손바닥 밑으로 지나가</b> 다음 근음을 잡습니다(엄지 넘기기<span class="en">(Thumb under)</span>). 내려올 때는 반대로 엄지를 축으로 3번이 <b>엄지 위로 넘어갑니다</b>(손가락 넘기기<span class="en">(Finger over)</span>). 스케일(<a href="scales.html">6장</a>)과 원리는 같지만, 아르페지오는 3·4도 간격이라 넘기는 거리가 훨씬 멉니다. C 장3화음에서 G4(3번) → C5(1번)는 흰 건반 3칸, 약 7 cm입니다.</p>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 210" role="img" aria-label="오른손 C 아르페지오의 엄지 넘기기"><g id="tq-fig-arp"></g></svg>
+      <figcaption><b>그림 12-4.</b> 오른손 C 장3화음 아르페지오(두 옥타브)의 운지 1 2 3 · 1 2 3 · 5. 주황 화살표가 엄지 넘기기 구간(G → C, 흰 건반 3칸). 손은 G를 3번으로 누른 채 엄지를 미리 C 쪽으로 옮겨 두고, 엄지가 C에 닿는 순간 팔이 수평으로 손 위치를 옮긴다. 손목을 꺾어 엄지를 끌어오는 것이 아니라 <b>팔꿈치부터 옆으로 미끄러지는</b> 움직임이다.</figcaption>
+    </figure>
+    <p>운지는 '엄지가 흰 건반에, 손가락 길이에 맞게, 넘기기는 적게'라는 원칙에서 나옵니다. 세 음이 모두 흰 건반인 근음 위치 장·단3화음(C F G, Am Dm Em)은 오른손 \(1\,2\,3\,1\,2\,3\,5\), 왼손 \(5\,4\,2\,1\,4\,2\,1\)이 표준입니다. 왼손에서 3음이 검은 건반인 D·A·E 장3화음은 긴 3번이 검은 건반을 맡도록 \(5\,3\,2\,1\,3\,2\,1\)을 흔히 씁니다(교재에 따라 4를 쓰기도 합니다). 검은 건반 근음 화음은 엄지가 검은 건반에 가지 않도록 시작 손가락이 바뀌므로 따로 익힙니다.</p>
+
+    <div class="sim" id="sim-tq-arp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 옥타브 아르페지오: 운지와 넘기기 지점</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-ar-st"></div><div id="tq-ar-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>화음</span><div class="seg" id="tq-ar-c"><button data-value="C" class="on">C</button><button data-value="F">F</button><button data-value="G">G</button><button data-value="D">D</button><button data-value="A">A</button><button data-value="E">E</button><button data-value="Am">Am</button><button data-value="Dm">Dm</button><button data-value="Em">Em</button></div></div>
+          <div class="ctrl"><span>손</span><div class="seg" id="tq-ar-h"><button data-value="R" class="on">오른손</button><button data-value="L">왼손</button></div></div>
+          <label class="ctrl"><span>템포 <output id="tq-ar-bpm-out"></output></span><input type="range" id="tq-ar-bpm" min="40" max="160" value="72"></label>
+          <label class="check"><input type="checkbox" id="tq-ar-loop"> 반복 재생</label>
+          <div class="btn-row"><button class="btn primary" id="tq-ar-play">▶ 위아래 재생</button><button class="btn" id="tq-ar-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">운지(올라갈 때)</span><span class="v" id="tq-ar-o-f">—</span></div>
+        <div class="stat"><span class="k">넘기기</span><span class="v" id="tq-ar-o-x">—</span></div>
+        <div class="stat"><span class="k">넘기는 거리</span><span class="v" id="tq-ar-o-d">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 오른손 C를 듣고 악보의 주황 음(넘기기로 손 위치가 바뀌는 음)을 확인한 뒤, 왼손으로 바꿔 넘기기가 '올라갈 때 4번이 엄지 위로', '내려올 때 엄지가 밑으로'로 뒤바뀌는 것을 보세요. D·A·E는 왼손 운지가 5 3 2 1로 바뀝니다. 건반의 번호 원은 올라갈 때의 손가락. 모델: 운지는 흔히 쓰는 표준표, 거리는 흰 건반 폭 2.35 cm로 셈(검은 건반은 반 칸).</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 넘기기만 떼어서</strong>
+      <p>아르페지오 전체보다 <b>넘기기 두 음만</b> 먼저 연습합니다. 오른손 C: G(3) → C(1)를 레가토로 10번, 이때 엄지는 E를 친 직후부터 이미 C 쪽으로 이동을 시작합니다(미리 준비). 다음엔 E–G–C–E 네 음, 그다음 한 옥타브, 두 옥타브로 늘립니다. 팔꿈치가 몸에서 살짝 떨어져 옆으로 미끄러지게 두고, 넘기는 순간 손목이 아래로 꺾이거나 소리가 '덜컥' 커지지 않는지 귀로 확인합니다. 목표: ♩ = 72에서 8분음표, 넘기기 지점에서 소리 크기가 튀지 않게.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="repeated">
+    <h2>반복음과 옥타브: 손가락을 돌려 쓰는 이유</h2>
+    <p>같은 음을 빠르게 여러 번 칠 때 피아니스트들은 손가락을 <b>4-3-2-1</b>(또는 3-2-1)로 바꿔 가며 칩니다. 이유는 간단한 나눗셈입니다. 손가락 하나가 건반을 치고, 들고, 다시 칠 준비를 하는 데는 최소 시간이 걸립니다. 같은 손가락으로 초당 \(f\)번 치면 그 손가락이 초당 \(f\)번 일하지만, \(k\)개 손가락이 돌아가면 손가락 하나는 초당 \(f/k\)번만 일하면 됩니다.</p>
+    <div class="formula">$$f_{\text{손가락}} = \frac{f}{k}, \qquad \Delta t_{\text{쉼}} = \frac{k}{f}$$
+      <div class="where">\(f\) = 초당 음 수, \(k\) = 돌려 쓰는 손가락 수. 예: 초당 12음을 한 손가락으로 치면 83 ms마다 다시 쳐야 하지만, 4-3-2-1이면 같은 손가락은 333 ms마다 한 번이다. 손가락을 바꾸면 '이전 손가락이 들리는 동안 다음 손가락이 이미 친다'는 겹침도 생긴다.</div>
+    </div>
+    <p>손가락만 빨라서는 안 되고 <b>건반(액션)</b>도 빨리 돌아와야 합니다. 해머가 현을 친 뒤 다시 칠 준비가 되려면 보통은 건반이 거의 끝까지 올라와야 하지만, 그랜드 피아노의 <b>더블 이스케이프먼트</b><span class="en">(Double escapement, repetition action)</span>는 해머를 중간 높이에 붙잡아 두어 건반이 조금만 올라와도 다시 칠 수 있게 합니다. 1821년 에라르<span class="en">(Sébastien Érard)</span>가 특허를 낸 이 장치 덕분에 리스트 시대의 빠른 반복음 기교가 가능해졌습니다. 업라이트는 구조상 반복이 그랜드보다 느립니다(<a href="instrument.html">1장</a>).</p>
+    <p><b>옥타브</b>는 손가락 대신 손목·팔이 일합니다. 오른손은 1–5(검은 건반 위에서는 손이 큰 사람은 1–4)로 옥타브를 잡고, 손가락은 그 모양을 '틀'처럼 유지만 한 채 손목을 위아래로 작게 튕기거나(빠르고 가벼운 옥타브), 팔 무게를 실어 떨어뜨립니다(크고 느린 옥타브). 손을 옥타브로 벌린 채 힘을 주고 버티면 손바닥과 엄지 아래가 금방 아파지므로, 치는 순간 외에는 벌림을 살짝 풀어 주는 것이 중요합니다.</p>
+
+    <div class="sim" id="sim-tq-rep">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>반복음 손가락 부하와 액션 한계</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tq-rep"></canvas><div id="tq-rp-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>치는 법</span><div class="seg" id="tq-rp-mode"><button data-value="3333">3-3-3-3</button><button data-value="321">3-2-1</button><button data-value="4321" class="on">4-3-2-1</button><button data-value="oct">옥타브(손목)</button></div></div>
+          <label class="ctrl"><span>속도 <output id="tq-rp-rate-out"></output></span><input type="range" id="tq-rp-rate" min="3" max="16" step="0.5" value="8"></label>
+          <div class="ctrl"><span>액션</span><div class="seg" id="tq-rp-act"><button data-value="grand" class="on">그랜드</button><button data-value="upright">업라이트</button></div></div>
+          <label class="check"><input type="checkbox" id="tq-rp-loop"> 반복 재생</label>
+          <div class="btn-row"><button class="btn primary" id="tq-rp-play">▶ 16음 듣기</button><button class="btn" id="tq-rp-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">손가락 하나의 부담</span><span class="v" id="tq-rp-o-f">—</span></div>
+        <div class="stat"><span class="k">같은 손가락 간격</span><span class="v" id="tq-rp-o-dt">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="tq-rp-o-st">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 초당 8음에서 3-3-3-3과 4-3-2-1을 비교한 뒤 속도를 12, 15로 올려 보세요. 한 손가락의 한계를 넘으면 소리가 고르지 않게(세기·타이밍 흔들림), 액션 한계를 넘으면 일부 음이 제대로 안 나게(작게) 들립니다. 그래프: 줄마다 한 손가락, 막대 뒤 회색 띠는 그 손가락에 필요한 회복 시간이고 빨강은 회복 전에 다시 친 곳. 모델 값(설명용 가정): 손가락 하나 초당 6회, 손목 옥타브 초당 9회, 건반 재타건 그랜드 초당 14회·업라이트 초당 8회. 실제 한계는 사람·악기·조정 상태에 따라 크게 다릅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="polyrhythm">
+    <h2>폴리리듬: 두 손이 다른 박을 셀 때</h2>
+    <p>오른손이 한 박에 셋을, 왼손이 같은 시간에 둘을 치는 3:2(또는 2:3) 폴리리듬<span class="en">(Polyrhythm)</span>은 낭만 시대 피아노곡에 아주 흔합니다. 쇼팽의 「즉흥환상곡」(Op. 66)은 오른손 16분음표 넷과 왼손 셋잇단 셋이 겹치는 4:3으로 유명합니다. 두 박을 동시에 '느끼기'는 어렵지만, 두 리듬의 <b>최소공배수</b><span class="en">(LCM)</span>로 한 주기를 잘게 나누면 모든 음이 하나의 격자 위에 올라가 '하나의 복합 리듬'으로 셀 수 있습니다.</p>
+    <div class="formula">$$N = \operatorname{lcm}(a, b), \qquad \text{오른손}: \ t_k = k\,\frac{N}{a}, \quad \text{왼손}: \ t_k = k\,\frac{N}{b} \quad (\text{격자 칸 단위})$$
+      <div class="where">3:2면 \(N = 6\): 오른손은 0·2·4칸, 왼손은 0·3칸. 합치면 0(둘 다)·2(오)·3(왼)·4(오)로 '따–오–왼–오'. 4:3이면 \(N = 12\): 오른손 0·3·6·9, 왼손 0·4·8 → 0·3·4·6·8·9. \(a, b\)가 서로소이면 첫 음 말고는 두 손이 겹치지 않는다.</div>
+    </div>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 230" role="img" aria-label="3:2와 4:3의 최소공배수 격자"><g id="tq-fig-poly"></g></svg>
+      <figcaption><b>그림 12-5.</b> 최소공배수 격자. 위: 3:2(6칸), 아래: 4:3(12칸). 보라 = 오른손, 주황 = 왼손. 영어권에서는 3:2를 "<b>nice cup of tea</b>"(nice = 둘 다, cup = 오른손, of = 왼손, tea = 오른손), 4:3을 "<b>pass the golden butter</b>"(pass = 둘 다, 그다음 오·왼·오·왼·오)로 외운다. 말의 리듬이 곧 합쳐진 리듬이다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-tq-poly">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>폴리리듬 격자와 두 손 탭 판정</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tq-poly"></canvas><div class="tq-syl" id="tq-po-syl"></div><div id="tq-po-kb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>오른손 : 왼손</span><div class="seg" id="tq-po-r"><button data-value="3:2" class="on">3:2</button><button data-value="2:3">2:3</button><button data-value="4:3">4:3</button><button data-value="3:4">3:4</button><button data-value="5:4">5:4</button></div></div>
+          <label class="ctrl"><span>주기 템포 <output id="tq-po-cpm-out"></output></span><input type="range" id="tq-po-cpm" min="20" max="80" value="40"></label>
+          <div class="ctrl"><span>컴퓨터가 치는 것</span><div class="seg" id="tq-po-g"><button data-value="both" class="on">두 손 다</button><button data-value="L">왼손만</button><button data-value="R">오른손만</button><button data-value="none">주기 클릭만</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tq-po-play">▶ 재생</button><button class="btn" id="tq-po-stop">■ 정지</button></div>
+          <div class="tq-taps"><button class="btn" id="tq-po-tl">왼손 <kbd>F</kbd></button><button class="btn" id="tq-po-tr">오른손 <kbd>J</kbd></button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">격자 N = lcm</span><span class="v" id="tq-po-o-n">—</span></div>
+        <div class="stat"><span class="k">오른손 평균 오차</span><span class="v" id="tq-po-o-er">—</span></div>
+        <div class="stat"><span class="k">왼손 평균 오차</span><span class="v" id="tq-po-o-el">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 3:2를 두 손 다 들으며 '나이스 컵 오브 티'를 소리 내어 따라 말하고, '왼손만'으로 바꿔 오른손 셋을 <kbd>J</kbd>(또는 버튼)로 탭하세요. 익숙해지면 '주기 클릭만'에서 <kbd>F</kbd>·<kbd>J</kbd> 두 손을 모두 탭합니다. 격자 위 작은 막대가 탭한 위치(초록 = 40 ms 이내, 노랑 = 80 ms 이내, 빨강 = 그 이상)입니다. 재생 중에만 <kbd>F</kbd>·<kbd>J</kbd>를 탭으로 받습니다. 모델 한계: 화면·오디오 지연(수십 ms)이 오차에 섞일 수 있고, 주기 첫 박은 높은 클릭으로 알립니다.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 폴리리듬 4단계</strong>
+      <p>① 무릎 위에서 두 손으로 탭하며 "nice cup of tea"를 말합니다. ② 피아노에서 왼손 C(2음), 오른손 G·E·C(3음)처럼 아주 쉬운 음으로. ③ 한 손을 '배경'으로 들으면서 다른 손을 얹습니다. 왼손이 박(2)을 맡고 오른손 셋잇단이 그 위를 흐르는 느낌이 3:2의 자연스러운 감각입니다. ④ 격자를 잊고 두 손 각각이 고르게 들리는지 확인합니다. 격자는 '처음 맞추는 도구'일 뿐, 결국 각 손이 자기 박을 고르게 가는 것이 목표입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="practice">
+    <h2>템포 사다리와 연습 설계</h2>
+    <p>어려운 구간을 처음부터 목표 템포로 치면 틀린 동작이 '연습'됩니다. 반대로 너무 느린 템포에만 머물면 빠른 템포에서 필요한 다른 동작(손목 회전, 묶어 치기)을 배우지 못합니다. <b>템포 사다리</b>는 그 사이를 잇는 방법입니다. 깔끔하게 칠 수 있는 템포에서 시작해 정해진 횟수만큼 성공하면 메트로놈을 조금(2–6) 올리고, 실수하면 한 칸 내려와 다시 올라갑니다.</p>
+    <div class="formula">$$T_k = T_0 + k\,\Delta T \ (k = 0, \dots, K), \qquad t_{\text{전체}} = \sum_{k=0}^{K} r \cdot \frac{4 \cdot 60}{T_k}\ \text{초}$$
+      <div class="where">\(T_0\) 시작 템포, \(\Delta T\) 한 칸, \(r\) 칸마다 반복할 마디 수(4/4). 예: 60 → 100을 4씩, 칸마다 2마디면 11칸, 약 1분 12초. 실수로 내려가는 칸까지 셈하면 실제로는 더 걸린다.</div>
+    </div>
+    <p>템포 사다리는 '의도적 연습'<span class="en">(Deliberate practice)</span>의 한 도구입니다. 에릭슨<span class="en">(K. A. Ericsson)</span> 등이 1993년 음악가 연구에서 강조한 것은 단순히 오래 치는 것이 아니라, <b>약점 하나를 겨냥하고, 바로 결과를 확인하고, 조금 어려운 수준에서 반복하는</b> 연습이었습니다. 학습 연구에서 나온 몇 가지 원칙을 피아노에 옮기면 다음과 같습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>원칙</th><th>피아노에서</th><th>왜</th></tr></thead>
+      <tbody>
+        <tr><td>덩이 나누기 <span class="en">(Chunking)</span></td><td>2–4마디 또는 박 하나 단위로 떼어 연습하고, 다음 덩이의 첫 음까지 포함해 이어 붙인다</td><td>한 번에 다룰 수 있는 정보량이 작다. 이음매가 따로 연습되어야 한다</td></tr>
+        <tr><td>느린 연습 <span class="en">(Slow practice)</span></td><td>틀리지 않을 템포에서 손가락·움직임을 정확히. 리듬 변주(긴–짧)와 함께</td><td>오류 없는 반복이 동작을 굳힌다. 느린 템포에서 근육 긴장도 알아차릴 수 있다</td></tr>
+        <tr><td>끼워 넣기 <span class="en">(Interleaving)</span></td><td>A 구간만 20분 대신 A·B·C를 5분씩 돌아가며</td><td>당장은 서툴게 느껴지지만 며칠 뒤의 기억·전이가 낫다(맥락 간섭 효과)</td></tr>
+        <tr><td>간격 반복 <span class="en">(Spaced repetition)</span></td><td>하루에 몰아서 대신 매일 짧게. 익힌 구간은 1·2·4·7일 간격으로 다시</td><td>에빙하우스 이래 반복 확인된 간격 효과. 잊어 갈 무렵 꺼내는 것이 기억을 강하게 한다</td></tr>
+        <tr><td>즉각 피드백</td><td>녹음해서 듣기(<a href="studio.html">14장</a>), 메트로놈, 거울로 손 보기</td><td>치는 동안의 자기 평가는 부정확하다</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-tq-ladder">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>템포 사다리: 자동으로 올라가는 메트로놈</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-tq-lad"></canvas><div class="pn-big" id="tq-ld-big">♩ = 60<small>준비</small></div><div id="tq-ld-kb"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>시작 템포 <output id="tq-ld-t0-out"></output></span><input type="range" id="tq-ld-t0" min="40" max="120" step="2" value="60"></label>
+          <label class="ctrl"><span>목표 템포 <output id="tq-ld-t1-out"></output></span><input type="range" id="tq-ld-t1" min="60" max="200" step="2" value="100"></label>
+          <label class="ctrl"><span>한 칸 <output id="tq-ld-dt-out"></output></span><input type="range" id="tq-ld-dt" min="2" max="10" step="1" value="4"></label>
+          <label class="ctrl"><span>칸마다 마디 <output id="tq-ld-r-out"></output></span><input type="range" id="tq-ld-r" min="1" max="6" value="2"></label>
+          <div class="ctrl"><span>함께 나오는 소리</span><div class="seg" id="tq-ld-p"><button data-value="click">클릭만</button><button data-value="hanon" class="on">하농 두 묶음</button><button data-value="scale">C장조 스케일</button></div></div>
+          <label class="check"><input type="checkbox" id="tq-ld-auto" checked> 자동으로 올리기</label>
+          <div class="btn-row"><button class="btn primary" id="tq-ld-play">▶ 시작</button><button class="btn" id="tq-ld-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="tq-ld-back">실수! 한 칸 내리기</button><button class="btn" id="tq-ld-up">한 칸 올리기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">칸</span><span class="v" id="tq-ld-o-k">—</span></div>
+        <div class="stat"><span class="k">계획 시간</span><span class="v" id="tq-ld-o-plan">—</span></div>
+        <div class="stat"><span class="k">경과 / 내려간 횟수</span><span class="v" id="tq-ld-o-el">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 실제 피아노 앞에서 '시작'을 누르고 하농 묶음(16분음표)을 따라 치세요. 칸마다 정해진 마디를 마치면 템포가 자동으로 오릅니다. 틀렸다면 '실수! 한 칸 내리기'를 누르세요. 그래프의 점선 계단이 계획, 실선이 실제 진행입니다. 목표 템포에서 정해진 마디를 마치면 자동으로 멈춥니다. 모델: 4/4, 1마디 = 4박. 화면 건반은 따라 치기 안내용입니다.</div>
+    </div>
+    <figure class="diagram tq-fig">
+      <svg viewBox="0 0 800 200" role="img" aria-label="일주일 연습 계획 예: 덩이를 돌려 쓰고 간격을 늘린다"><g id="tq-fig-plan"></g></svg>
+      <figcaption><b>그림 12-6.</b> 일주일 연습 계획의 예(개념도). 곡을 덩이 A–E로 나누고, 새 덩이는 매일 조금씩, 익힌 덩이는 1·2·4일 간격으로 다시 꺼낸다. 하루 안에서도 덩이를 돌아가며(끼워 넣기) 친다. 색이 진할수록 그날 그 덩이에 쓰는 시간이 길다.</figcaption>
+    </figure>
+    <div class="callout warn">
+      <strong>부상 예방 · 아프면 멈춘다</strong>
+      <p>피아노 부상의 대부분은 <b>갑자기 늘린 연습량, 긴장한 채 반복, 손 크기에 맞지 않는 벌림</b>에서 옵니다. ① 통증·저림·쥐는 '더 하라'가 아니라 '멈추라'는 신호입니다. 통증을 참고 하는 연습은 없습니다. ② 20–30분마다 일어나 손·어깨를 풀고, 하루 연습량은 일주일에 걸쳐 조금씩 늘립니다. ③ 옥타브·넓은 화음은 치는 순간만 벌리고 바로 풉니다. 손이 작으면 화음 음 하나를 빼거나 흩어 쳐도 됩니다. ④ 의자 높이와 거리(<a href="touch.html">3장</a>)를 점검하고, 손목을 꺾은 채 버티지 않습니다. ⑤ 같은 동작만 수백 번(하농 연속 30분 같은)은 피하고 끼워 넣기로 섞습니다. 통증이 며칠 이어지거나, 특정 손가락이 의지와 다르게 말리는 증상(국소성 근긴장이상증의 가능성)이 있으면 연주자를 진료해 본 의사·물리치료사와 상의하세요. 이 글은 의학적 조언을 대신하지 않습니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="rubato">
+    <h2>루바토: 훔친 시간을 돌려주기</h2>
+    <p>루바토<span class="en">(Tempo rubato, '도둑맞은 시간')</span>는 프레이즈의 흐름에 따라 템포를 살짝 당기고 늦추는 표현입니다. 메트로놈처럼 일정한 연주는 정확하지만 기계적으로 들리고, 아무 곳에서나 흔들리면 불안하게 들립니다. 좋은 루바토는 <b>프레이즈의 모양을 따라</b>, 그리고 대개 <b>훔친 만큼 돌려주는</b> 형태입니다. 모차르트는 1777년 아버지에게 쓴 편지에서 아다지오의 템포 루바토에서도 왼손은 박자를 지켜야 한다고 적었고, 쇼팽의 제자들도 비슷한 가르침을 전합니다.</p>
+    <p>템포가 시간에 따라 변하면, 박 \(b\)에 해당하는 실제 시각은 템포의 역수를 적분해서 얻습니다.</p>
+    <div class="formula">$$t(b) = \int_0^{b} \frac{60}{T_0\, r(\beta)}\, d\beta \ \text{초}, \qquad \text{시간 보존:}\ \ t(B) = \frac{60 B}{T_0}$$
+      <div class="where">\(T_0\) 기준 템포(BPM), \(r(\beta)\) 순간 템포 배율(1 = 기준, 1.1 = 10% 빠름), \(B\) 프레이즈 길이(박). 시간 보존은 프레이즈 전체 길이가 기계적 연주와 같도록 \(r\)을 정규화한다는 뜻이다. 앞에서 당긴 만큼 끝에서 늦추면 마디선(또는 왼손)과 다시 만난다.</div>
+    </div>
+
+    <div class="sim" id="sim-tq-rubato">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>루바토 시각화: 템포 곡선과 음마다 어긋남</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-rb-st"></div><canvas id="cv-tq-rb"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>템포 모양</span><div class="seg" id="tq-rb-shape"><button data-value="none">기계적</button><button data-value="arch" class="on">프레이즈 아치</button><button data-value="rit">끝에서 늦추기</button><button data-value="rand">무작위(나쁜 예)</button></div></div>
+          <label class="ctrl"><span>깊이 <output id="tq-rb-a-out"></output></span><input type="range" id="tq-rb-a" min="0" max="40" value="18"></label>
+          <div class="ctrl"><span>적용</span><div class="seg" id="tq-rb-mode"><button data-value="all" class="on">두 손 함께</button><button data-value="mel">선율만(왼손 박자 유지)</button></div></div>
+          <label class="check"><input type="checkbox" id="tq-rb-keep" checked> 총 길이 보존</label>
+          <label class="check"><input type="checkbox" id="tq-rb-click"> 원래 템포 클릭</label>
+          <label class="ctrl"><span>기준 템포 <output id="tq-rb-t-out"></output></span><input type="range" id="tq-rb-t" min="50" max="120" value="80"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-rb-play">▶ 재생</button><button class="btn" id="tq-rb-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">총 길이(기계적 대비)</span><span class="v" id="tq-rb-o-len">—</span></div>
+        <div class="stat"><span class="k">최대 어긋남</span><span class="v" id="tq-rb-o-max">—</span></div>
+        <div class="stat"><span class="k">템포 범위</span><span class="v" id="tq-rb-o-tr">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: '기계적'과 '프레이즈 아치'를 번갈아 들은 뒤 '무작위'를 들어 보세요. 어긋남의 크기는 비슷해도 무작위는 방향이 제멋대로라 불안하게 들립니다. '원래 템포 클릭'을 켜고 '총 길이 보존'을 끄면 프레이즈 끝에서 클릭과 어긋나고, 켜면 다시 만납니다. '선율만'은 마디마다 시간을 돌려주어 왼손 박과 마디선에서 다시 맞습니다(모차르트·쇼팽이 말한 방식). 그래프: 위 = 템포 배율 곡선, 아래 = 선율 음마다 기계적 시각과의 차이(ms). 선율: 「환희의 송가」(베토벤, 공유 저작물) 첫 프레이즈. 모델: 템포 곡선을 32분음표 간격으로 수치 적분.</div>
+    </div>
+    <div class="callout tip">
+      <strong>연습법 · 루바토는 '정박'을 먼저 익힌 뒤에</strong>
+      <p>루바토는 메트로놈을 버리는 것이 아니라, 메트로놈으로 정확히 칠 수 있는 상태에서 <b>의도적으로</b> 벗어나는 것입니다. ① 메트로놈으로 프레이즈를 정확히 칩니다. ② 노래하듯 불러 보고, 숨을 쉬고 싶은 곳(프레이즈 끝)과 앞으로 나아가고 싶은 곳(프레이즈 가운데 오르막)을 표시합니다. ③ 녹음해서 들어 보고, 늦춘 만큼 다음 프레이즈 시작에서 템포를 되찾는지 확인합니다. 셈여림(<a href="pedal.html#dynamics">11장</a>)과 템포는 함께 움직일 때 자연스럽습니다. 오르막에서 조금 크게·조금 앞으로, 끝에서 조금 작게·조금 느리게.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>4번 손가락의 독립이 어려운 것은 신근 힘줄을 잇는 건간결합 때문이다. 목표는 높이 드는 것이 아니라 다른 손가락의 동반 긴장을 끄는 것(고정음 연습).</li>
+      <li>하농 1번 = 도수 (0,2,3,4,5,4,3,2) 묶음을 한 칸씩 올리고 거울상으로 내려오는 규칙. 손가락 12345432. 리듬 변주(긴–짧, 짧–긴, 셋잇단, 3음 강세)와 조옮김으로 고르게 단련한다.</li>
+      <li>트릴은 바로크·고전에선 위 음부터, 19세기 이후엔 본음부터가 흔하다. 모르덴트 M–L–M, 프랄트릴러 M–U–M, 턴 U–M–L–M.</li>
+      <li>아포자투라는 박 위에서 본음 길이의 절반을 가져가고, 아차카투라는 아주 짧게 부딪친다.</li>
+      <li>아르페지오: 오른손 123 123 5, 왼손 5421 421(흰 건반 3화음). 올라갈 때 오른손은 엄지 넘기기, 내려올 때 손가락 넘기기. 손목이 아니라 팔이 옆으로 미끄러진다.</li>
+      <li>반복음은 손가락 \(k\)개를 돌려 한 손가락의 부담을 \(f/k\)로 줄인다. 그랜드의 더블 이스케이프먼트(에라르, 1821)는 빠른 재타건을 가능하게 했다. 옥타브는 손목·팔이 일한다.</li>
+      <li>폴리리듬 \(a\!:\!b\)는 \(N=\operatorname{lcm}(a,b)\) 격자로 센다. 3:2 = nice cup of tea(6칸), 4:3 = pass the golden butter(12칸).</li>
+      <li>템포 사다리·덩이 나누기·느린 연습·끼워 넣기·간격 반복으로 연습을 설계하고, 통증은 멈춤 신호다. 루바토는 \(t(b)=\int 60/(T_0 r)\,d\beta\)로, 훔친 시간을 프레이즈 안에서 돌려준다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>오른손 4번 손가락을 혼자 높이 들기 어려운 주된 이유는?</p><div class="opts">
+        <button class="opt">4번 손가락에는 펴는 근육이 없어서</button><button class="opt" data-correct>4번 신근 힘줄이 건간결합으로 3·5번 힘줄과 이어져 있어서</button><button class="opt">4번 손가락뼈가 가장 짧아서</button><button class="opt">연습만 하면 3번만큼 높이 들 수 있어야 정상이다</button>
+      </div><div class="quiz-exp">2–5번을 펴는 총지신근의 힘줄이 손등에서 띠(건간결합)로 이어져, 특히 4번은 이웃 손가락과 함께 움직이려 한다. 건반을 누르는 데는 1 cm 정도면 충분하므로, 목표는 동반 긴장을 줄이는 것이다.</div></div>
+      <div class="quiz-q"><p>하농 1번 다장조 오른손이 C4에서 시작할 때, 셋째 묶음(g = 2)의 첫 네 음은?</p><div class="opts">
+        <button class="opt">C D E F</button><button class="opt">D F G A</button><button class="opt" data-correct>E G A B</button><button class="opt">E F G A</button>
+      </div><div class="quiz-exp">셋째 묶음의 시작 도수는 0 + 2 = 2(E). 여기에 (0, 2, 3, 4)를 더하면 도수 2, 4, 5, 6 = E G A B.</div></div>
+      <div class="quiz-q"><p>바로크 음악(예: 바흐)의 트릴을 시대 관습대로 칠 때 기본 출발은?</p><div class="opts">
+        <button class="opt">본음에서, 박 앞에서</button><button class="opt" data-correct>위 보조음에서, 박 위에서</button><button class="opt">아래 보조음에서</button><button class="opt">본음을 한 번 길게 친 뒤 아무 음이나</button>
+      </div><div class="quiz-exp">C. P. E. 바흐 등 18세기 문헌은 트릴을 위 음부터, 박 위에서 시작하라고 가르쳤다. 본음 시작은 19세기 이후 널리 퍼졌다.</div></div>
+      <div class="quiz-q"><p>초당 12번 같은 음을 4-3-2-1 운지로 칠 때, 한 손가락이 다시 칠 때까지의 간격은?</p><div class="opts">
+        <button class="opt">약 83 ms</button><button class="opt">약 167 ms</button><button class="opt" data-correct>약 333 ms</button><button class="opt">약 1초</button>
+      </div><div class="quiz-exp">\(\Delta t = k/f = 4/12\) 초 ≈ 333 ms. 한 손가락으로만 치면 1/12 초 ≈ 83 ms마다 다시 쳐야 한다.</div></div>
+      <div class="quiz-q"><p>오른손 4, 왼손 3의 폴리리듬(4:3)을 격자로 셀 때 필요한 칸 수와 '둘 다 치는' 칸은?</p><div class="opts">
+        <button class="opt">7칸, 0과 3</button><button class="opt" data-correct>12칸, 0번 칸 하나</button><button class="opt">12칸, 0·6번 칸</button><button class="opt">24칸, 0·12번 칸</button>
+      </div><div class="quiz-exp">lcm(4, 3) = 12. 오른손 0·3·6·9, 왼손 0·4·8. 4와 3은 서로소라서 주기 첫 칸에서만 두 손이 겹친다.</div></div>
+      <div class="quiz-q"><p>'시간을 보존하는' 루바토에 대한 설명으로 옳은 것은?</p><div class="opts">
+        <button class="opt">모든 음을 무작위로 조금씩 어긋나게 친다</button><button class="opt">프레이즈 끝에서만 계속 느려지고 되찾지 않는다</button><button class="opt" data-correct>앞에서 당긴 시간만큼 뒤에서 늦춰, 프레이즈 끝(또는 왼손 박)에서 원래 시각과 다시 만난다</button><button class="opt">템포를 바꾸지 않고 셈여림만 바꾼다</button>
+      </div><div class="quiz-exp">\(t(B) = 60B/T_0\)가 되도록 템포 곡선을 정규화한다는 뜻이다. 모차르트가 말한 '왼손은 박자대로'는 마디 단위로 시간을 돌려주는 극단적인 형태다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ---------------------------------------------------------------- 공용 도우미 */
+const tqEl = (id) => document.getElementById(id);
+const tqMono = () => getComputedStyle(document.body).getPropertyValue("--mono") || "monospace";
+const tqFont = () => getComputedStyle(document.body).getPropertyValue("--font") || "sans-serif";
+/** 정지: 피아노 정지 + 미래에 예약된 음까지 확실히 끈다(엔진 p.stop()은 noteOff가 이미 예약된 음을 놓친다) */
+function tqHush(p) { try { p && p.pedal(false); p && p.stop(); } catch (e) {} MB.stopAll(); }
+/** 재생 버튼 하나 + 정지 버튼: 상태 표시용 */
+function tqToggle(playId, stopId, start, stop, labels) {
+  const b = tqEl(playId), lab = labels || [b.textContent, "■ 정지"];
+  let on = false;
+  const set = (v) => { on = v; b.textContent = lab[v ? 1 : 0]; b.classList.toggle("playing", v); };
+  b.addEventListener("click", () => { MB.ctx(); if (on) { set(false); stop(); } else { set(true); start(); } });
+  tqEl(stopId).addEventListener("click", () => { set(false); stop(); });
+  return { set, get on() { return on; } };
+}
+const TQ_STEPS = MB.SCALES.major.steps;
+const tqGcd = (a, b) => (b ? tqGcd(b, a % b) : a);
+const tqLcm = (a, b) => (a * b) / tqGcd(a, b);
+/** 꾸밈음 기호 SVG(가운데 x, 아랫변 y 기준) */
+function tqOrnSymbol(kind, x, y) {
+  const P = (d) => `<path d="${d}"/>`;
+  const wave = (x0, n) => { let d = `M${x0} ${y - 4}`; for (let i = 0; i < n; i++) d += ` l4 -5 l4 5`; return d; };
+  switch (kind) {
+    case "trillU": case "trillM": return `<text x="${x - 12}" y="${y}">tr</text>${P(`M${x + 6} ${y - 5} q2.5 -4 5 0 t5 0 t5 0 t5 0`)}`;
+    case "mord": return P(`M${x - 10} ${y - 3} l5 -6 l5 6 l5 -6 l5 6`) + P(`M${x} ${y - 13} L${x} ${y + 4}`);
+    case "prall": return P(`M${x - 10} ${y - 3} l5 -6 l5 6 l5 -6 l5 6`);
+    case "turn": return P(`M${x - 11} ${y - 2} c-1 -6 5 -9 8 -5 l6 7 c3 4 9 1 8 -5 M${x - 11} ${y - 2} c0 3 4 4 6 2 M${x + 11} ${y - 6} c0 -3 -4 -4 -6 -2`);
+    default: return "";
+  }
+}
+
+/* ---------------------------------------------------------------- 그림 12-2: 하농 윤곽 */
+(function () {
+  const g = tqEl("tq-fig-hn"); if (!g) return;
+  const UP = [0, 2, 3, 4, 5, 4, 3, 2], F = [1, 2, 3, 4, 5, 4, 3, 2], DF = [5, 4, 3, 2, 1, 2, 3, 4];
+  const X0 = 50, dx = 22, Y = (d) => 190 - d * 13;
+  const out = [];
+  for (let d = 0; d <= 11; d++) { out.push(`<line class="s-axis" x1="40" x2="790" y1="${Y(d)}" y2="${Y(d)}" style="opacity:${d % 7 === 0 ? 0.6 : 0.18}"/>`); }
+  ["C4", "", "", "", "", "", "", "C5", "", "", "", "F5"].forEach((t, d) => t && out.push(`<text class="t-mono" x="4" y="${Y(d) + 4}">${t}</text>`));
+  let x = X0;
+  const draw = (degs, fs, label, cls) => {
+    let path = "";
+    degs.forEach((d, j) => { path += (j ? " L" : "M") + (x + j * dx) + " " + Y(d); });
+    out.push(`<path class="s-line" d="${path}"/>`);
+    degs.forEach((d, j) => { out.push(`<circle class="${cls}" cx="${x + j * dx}" cy="${Y(d)}" r="8"/><text x="${x + j * dx}" y="${Y(d) + 4}" text-anchor="middle" style="font:700 10px var(--mono);fill:var(--on-accent)">${fs[j]}</text>`); });
+    out.push(`<text class="t-dim" x="${x}" y="215">${label}</text>`);
+    x += degs.length * dx + 18;
+  };
+  for (let s = 0; s < 3; s++) draw(UP.map((o) => s + o), F, `묶음 ${s + 1}`, "dot");
+  out.push(`<text class="t-dim" x="${x - 6}" y="${Y(5)}">…</text>`); x += 18;
+  draw(UP.map((o) => 11 - o), DF, "꼭대기에서 거울상", "dot2");
+  g.innerHTML = out.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 12-3: 꾸밈음 */
+const TQ_ORN = {
+  trillU: { name: "트릴(위 음부터)", seq: [["U", .25], ["M", .25], ["U", .25], ["M", .25], ["U", .25], ["M", .25], ["U", .25], ["M", .25]] },
+  trillM: { name: "트릴(본음부터)", seq: [["M", .25], ["U", .25], ["M", .25], ["U", .25], ["M", .25], ["U", .25], ["M", .25], ["U", .25]] },
+  mord: { name: "모르덴트", seq: [["M", .25], ["L", .25], ["M", 1.5]] },
+  prall: { name: "프랄트릴러", seq: [["M", .25], ["U", .25], ["M", 1.5]] },
+  turn: { name: "턴", seq: [["U", .5], ["M", .5], ["L", .5], ["M", .5]] },
+  app: { name: "아포자투라", seq: [["U", 1], ["M", 1]] },
+  acc: { name: "아차카투라", seq: [["U", .12], ["M", 1.88]] },
+};
+(function () {
+  const g = tqEl("tq-fig-orn"); if (!g) return;
+  const keys = Object.keys(TQ_ORN), W = 800 / keys.length, out = [];
+  keys.forEach((k, i) => {
+    const cx = i * W + W / 2, o = TQ_ORN[k];
+    out.push(`<rect class="f-surface" x="${i * W + 4}" y="6" width="${W - 8}" height="284" rx="8"/>`);
+    // 기호
+    out.push(`<g class="sym">`);
+    if (k === "app" || k === "acc") {
+      out.push(`<ellipse class="gh" cx="${cx - 14}" cy="62" rx="4.2" ry="3.2" transform="rotate(-18 ${cx - 14} 62)"/><path d="M${cx - 10} 62 L${cx - 10} 38 q6 4 7 10"/>`);
+      if (k === "acc") out.push(`<path d="M${cx - 17} 52 L${cx - 3} 40"/>`);
+      out.push(`<ellipse class="gh" cx="${cx + 10}" cy="70" rx="6" ry="4.4" transform="rotate(-18 ${cx + 10} 70)"/><path d="M${cx + 15.5} 70 L${cx + 15.5} 36"/><path d="M${cx - 12} 70 q10 10 20 4" style="stroke-width:1.2"/>`);
+    } else {
+      out.push(tqOrnSymbol(k, cx, 52));
+      out.push(`<ellipse class="gh" cx="${cx}" cy="74" rx="6" ry="4.4" transform="rotate(-18 ${cx} 74)"/><path d="M${cx + 5.5} 74 L${cx + 5.5} 40" style="opacity:0"/>`);
+    }
+    out.push(`</g>`);
+    out.push(`<text class="t" x="${cx}" y="108" text-anchor="middle" style="font-size:12px">${o.name}</text>`);
+    // 실행: 피아노 롤(위·본·아래 3줄)
+    const x0 = i * W + 12, ww = W - 24, rowY = { U: 150, M: 180, L: 210 };
+    ["U", "M", "L"].forEach((r) => out.push(`<line class="s-axis" x1="${x0}" x2="${x0 + ww}" y1="${rowY[r] + 8}" y2="${rowY[r] + 8}" style="opacity:.25"/>`));
+    let t = 0;
+    o.seq.forEach(([r, d]) => { const x = x0 + (t / 2) * ww, w = Math.max(3, (d / 2) * ww - 1.5); out.push(`<rect class="blk ${r === "U" ? "u" : r === "L" ? "l" : ""}" x="${x}" y="${rowY[r]}" width="${w}" height="14" rx="2"/>`); t += d; });
+    out.push(`<text class="t-mono" x="${cx}" y="246" text-anchor="middle">${o.seq.map((s) => s[0]).join(" ")}</text>`);
+    out.push(`<text class="t-mono" x="${x0}" y="272">0</text><text class="t-mono" x="${x0 + ww}" y="272" text-anchor="end">2박</text>`);
+  });
+  out.push(`<text class="t-mono" x="6" y="161">U</text>`);
+  g.innerHTML = out.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 12-4: 엄지 넘기기 */
+(function () {
+  const g = tqEl("tq-fig-arp"); if (!g) return;
+  const out = [], kw = 800 / 16, top = 20, wh = 130, bh = 80;
+  const whites = []; for (let m = 60; m <= 86; m++) if (PN.isWhite(m)) whites.push(m);
+  const xOf = new Map(); whites.forEach((m, i) => xOf.set(m, i * kw));
+  whites.slice(0, 16).forEach((m) => out.push(`<rect class="key" x="${xOf.get(m) + 1}" y="${top}" width="${kw - 2}" height="${wh}" rx="3"/>`));
+  for (let m = 60; m < 86; m++) if (PN.isBlack(m) && xOf.has(m - 1) && xOf.get(m - 1) < 800 - kw) out.push(`<rect class="key b" x="${xOf.get(m - 1) + kw * 0.68}" y="${top}" width="${kw * 0.62}" height="${bh}" rx="2"/>`);
+  const notes = [[60, 1], [64, 2], [67, 3], [72, 1], [76, 2], [79, 3], [84, 5]];
+  notes.forEach(([m, f], i) => { const x = xOf.get(m) + kw / 2; out.push(`<circle class="${f === 1 && i > 0 ? "dot2" : "dot"}" cx="${x}" cy="${top + wh - 26}" r="13"/><text x="${x}" y="${top + wh - 21}" text-anchor="middle" style="font:700 13px var(--mono);fill:var(--on-accent)">${f}</text><text class="t-mono" x="${x}" y="${top + wh + 18}" text-anchor="middle">${MB.noteName(m)}</text>`); });
+  [[67, 72], [79, 84 - 12 + 12 - 5]].forEach(() => {});
+  const arc = (a, b) => { const x1 = xOf.get(a) + kw / 2, x2 = xOf.get(b) + kw / 2; out.push(`<path d="M${x1} ${top + wh - 42} Q${(x1 + x2) / 2} ${top + 18} ${x2} ${top + wh - 42}" style="stroke:var(--accent-2);stroke-width:2.4;fill:none"/><path d="M${x2 - 7} ${top + wh - 50} L${x2} ${top + wh - 41} L${x2 + 4} ${top + wh - 52}" style="stroke:var(--accent-2);stroke-width:2.4;fill:none"/>`); };
+  arc(67, 72); arc(79, 84 - 0 > 0 ? 84 : 84);
+  out.push(`<text class="t-acc" x="${xOf.get(67) + 4}" y="${top + 14}">엄지 넘기기</text>`);
+  g.innerHTML = out.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 12-5: 폴리리듬 격자 */
+(function () {
+  const g = tqEl("tq-fig-poly"); if (!g) return;
+  const out = [];
+  const row = (y, a, b, syl, title) => {
+    const N = tqLcm(a, b), x0 = 120, cw = 660 / N;
+    out.push(`<text class="t" x="0" y="${y + 14}">${title}</text>`);
+    for (let i = 0; i < N; i++) {
+      const r = i % (N / a) === 0, l = i % (N / b) === 0;
+      out.push(`<rect class="cell${r ? " r" : ""}" x="${x0 + i * cw + 2}" y="${y}" width="${cw - 4}" height="22" rx="4"/>`);
+      out.push(`<rect class="cell${l ? " l" : ""}" x="${x0 + i * cw + 2}" y="${y + 28}" width="${cw - 4}" height="22" rx="4"/>`);
+      out.push(`<text class="t-mono" x="${x0 + i * cw + cw / 2}" y="${y + 66}" text-anchor="middle">${i}</text>`);
+      if (syl[i]) out.push(`<text class="t-acc" x="${x0 + i * cw + cw / 2}" y="${y + 84}" text-anchor="middle">${syl[i]}</text>`);
+    }
+    out.push(`<text class="t-mono" x="${x0 - 8}" y="${y + 15}" text-anchor="end">오른손 ${a}</text><text class="t-mono" x="${x0 - 8}" y="${y + 43}" text-anchor="end">왼손 ${b}</text>`);
+  };
+  row(4, 3, 2, { 0: "nice", 2: "cup", 3: "of", 4: "tea" }, "3:2");
+  row(118, 4, 3, { 0: "pass", 3: "the", 4: "gol-", 6: "-den", 8: "but-", 9: "-ter" }, "4:3");
+  g.innerHTML = out.join("");
+})();
+
+/* ---------------------------------------------------------------- 그림 12-6: 연습 계획 */
+(function () {
+  const g = tqEl("tq-fig-plan"); if (!g) return;
+  const days = ["월", "화", "수", "목", "금", "토", "일"], chunks = ["A", "B", "C", "D", "E"];
+  // 각 덩이가 처음 나오는 날, 그 뒤 1·2·4일 간격 복습
+  const start = { A: 0, B: 0, C: 1, D: 2, E: 3 };
+  const out = [], x0 = 70, cw = 100, y0 = 26, rh = 30;
+  days.forEach((d, i) => out.push(`<text class="t-mono" x="${x0 + i * cw + cw / 2}" y="16" text-anchor="middle">${d}</text>`));
+  chunks.forEach((c, j) => {
+    out.push(`<text class="t" x="20" y="${y0 + j * rh + 19}">덩이 ${c}</text>`);
+    for (let i = 0; i < 7; i++) {
+      const d = i - start[c];
+      let w = 0;
+      if (d === 0 || d === 1) w = 1; else if (d === 2) w = 0.6; else if (d === 4 || d === 6) w = 0.35; // 새로 익힘 → 간격 복습
+      out.push(`<rect x="${x0 + i * cw + 3}" y="${y0 + j * rh + 3}" width="${cw - 6}" height="${rh - 6}" rx="4" style="fill:${w ? "var(--accent)" : "var(--surface)"};opacity:${w ? 0.25 + 0.75 * w : 1};stroke:var(--border)"/>`);
+      if (w) out.push(`<text class="t-mono" x="${x0 + i * cw + cw / 2}" y="${y0 + j * rh + 19}" text-anchor="middle" style="fill:var(--text)">${w >= 1 ? "새로" : "복습"}</text>`);
+    }
+  });
+  g.innerHTML = out.join("");
+})();
+
+/* ---------------------------------------------------------------- 1. 고정음 연습 */
+(function () {
+  const hand = MB.seg("tq-hd-hand", () => setup());
+  const fing = MB.seg("tq-hd-f", () => setup());
+  const kb = PN.keyboard("#tq-hd-kb", { from: 57, to: 71, labels: "white", onDown: (m) => { check(m); } });
+  const p = kb.piano;
+  let ok = 0, miss = 0, lifts = {}, sched = null;
+  const keys = () => { const b = hand() === "R" ? 60 : 48; return [0, 2, 4, 5, 7].map((x) => b + x); };
+  const fingerAt = (i) => (hand() === "R" ? i + 1 : 5 - i);
+  const target = () => { const f = +fing(); return keys()[hand() === "R" ? f - 1 : 5 - f]; };
+  const msg = (h, cls) => { const e = tqEl("tq-hd-msg"); e.innerHTML = h; e.className = "sim-msg" + (cls ? " " + cls : ""); };
+  function stats() {
+    MB.stat("tq-hd-o-ok", ok); MB.stat("tq-hd-o-miss", miss);
+    const top = Object.entries(lifts).sort((a, b) => b[1] - a[1])[0];
+    MB.stat("tq-hd-o-lift", top ? `${top[0]}번 <small>${top[1]}회</small>` : "—");
+  }
+  function setup() {
+    if (hand() === "R") kb.setRange(57, 71); else kb.setRange(45, 59);
+    const t = target();
+    kb.set(keys().map((m, i) => ({ m, label: fingerAt(i), cls: m === t ? "root" : "finger" })), "finger");
+    ok = 0; miss = 0; lifts = {}; stats();
+    msg(`컴퓨터 키보드 <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd> <kbd>G</kbd> = ${hand() === "R" ? "C4–G4" : "C3–G3"}. 빨간 원(${fing()}번)을 뺀 네 키를 누른 채 빨간 키를 반복해서 치세요.`);
+  }
+  function check(m) {
+    const t = target(); if (m !== t) return;
+    const ks = keys(), held = p.held;
+    const missing = ks.filter((k) => k !== t && !held.includes(k));
+    if (!missing.length) { ok++; msg(`좋습니다! 네 손가락을 유지한 채 ${fing()}번만 쳤습니다. (${ok}회)`, "ok"); }
+    else {
+      miss++;
+      const fs = missing.map((k) => fingerAt(ks.indexOf(k)));
+      fs.forEach((f) => (lifts[f] = (lifts[f] || 0) + 1));
+      msg(`${fs.join("·")}번이 건반에서 떨어져 있습니다. 네 키를 먼저 누르고 유지하세요.`, "bad");
+    }
+    stats();
+  }
+  tqEl("tq-hd-demo").addEventListener("click", () => {
+    MB.ctx(); if (sched) sched.stop();
+    const t = target(), others = keys().filter((k) => k !== t);
+    const ev = [{ t: 0, d: 8, ms: others, vel: 0.3 }];
+    for (let i = 0; i < 6; i++) ev.push({ t: 1 + i, d: 0.6, m: t, vel: 0.62 });
+    PN.warm(keys());
+    sched = PN.playEvents(ev, { piano: p, bpm: 100, legato: 1, length: 8 });
+    sched.start();
+  });
+  tqEl("tq-hd-stop").addEventListener("click", () => { if (sched) sched.stop(); tqHush(p); });
+  tqEl("tq-hd-reset").addEventListener("click", () => { ok = 0; miss = 0; lifts = {}; stats(); });
+  setup();
+})();
+
+/* ---------------------------------------------------------------- 2. 하농 1번 */
+(function () {
+  const UP = [0, 2, 3, 4, 5, 4, 3, 2], DN = [0, -2, -3, -4, -5, -4, -3, -2];
+  const FING = { R: { up: [1, 2, 3, 4, 5, 4, 3, 2], dn: [5, 4, 3, 2, 1, 2, 3, 4], end: 1 }, L: { up: [5, 4, 3, 2, 1, 2, 3, 4], dn: [1, 2, 3, 4, 5, 4, 3, 2], end: 5 } };
+  const key = MB.seg("tq-hn-key", () => rebuild()), hand = MB.seg("tq-hn-hand", () => rebuild());
+  const rhy = MB.seg("tq-hn-rhy", () => rebuild()), oct = MB.seg("tq-hn-oct", () => rebuild());
+  const bpm = MB.range("tq-hn-bpm", (v) => "♩ = " + v, () => info());
+  const loopEl = tqEl("tq-hn-loop");
+  const kb = PN.keyboard("#tq-hn-kb", { from: 48, to: 77, labels: "c", compact: true });
+  const st = PN.staff("#tq-hn-st", [], { clef: "treble", bars: 2, barsPerLine: 2, time: [4, 4] });
+  let events = [], sched = null, curWin = -1, curT = -1, hl = [], fm = {}, nWin = 1, meta = [];
+  function hands() { return hand() === "B" ? ["R", "L"] : [hand()]; }
+  function dur(i) {
+    switch (rhy()) { case "dot": return i % 2 ? 0.25 : 0.75; case "rev": return i % 2 ? 0.75 : 0.25; case "trip": return 1 / 3; default: return 0.5; }
+  }
+  function rebuild() {
+    if (sched) { sched.stop(); }
+    const pc = +key(), N = 7 * +oct(), top = N - 1 + 5;
+    const seq = [];
+    for (let s = 0; s < N; s++) UP.forEach((o, j) => seq.push({ deg: s + o, dir: "up", g: s, j }));
+    for (let s = 0; s < N; s++) DN.forEach((o, j) => seq.push({ deg: top - s + o, dir: "dn", g: s, j }));
+    const startR = pc <= 5 ? 60 + pc : 48 + pc;
+    const start = { R: startR, L: startR - (hand() === "B" ? 12 : 12) };
+    events = []; meta = [];
+    let t = 0;
+    seq.forEach((s, i) => {
+      const d = dur(i);
+      const acc = rhy() === "acc" ? i % 3 === 0 : rhy() === "trip" ? i % 3 === 0 : i % 8 === 0;
+      hands().forEach((h) => events.push({ t, d, m: MB.scaleNote(start[h], TQ_STEPS, s.deg), hand: h, finger: FING[h][s.dir][s.j], vel: acc ? 0.78 : 0.56, g: s.g, dir: s.dir, acc }));
+      t += d;
+    });
+    t = Math.ceil(t - 1e-6);
+    const rem = 4 - (t % 4), dEnd = rem === 4 ? 4 : rem;
+    hands().forEach((h) => events.push({ t, d: dEnd, m: start[h], hand: h, finger: FING[h].end, vel: 0.6, end: true }));
+    // 창(2마디 = 8박)과 창 안 번호
+    const cnt = {};
+    events.forEach((e) => { e.win = Math.floor(e.t / 8 + 1e-6); cnt[e.win] = cnt[e.win] || 0; e.li = cnt[e.win]++; });
+    nWin = Math.max(...events.map((e) => e.win)) + 1;
+    const ms = events.map((e) => e.m);
+    kb.setRange(Math.min(...ms) - 1, Math.max(...ms) + 1);
+    curWin = -1; showWin(0); info();
+    kb.clear("finger");
+    // 손가락 횟수
+    const fc = [0, 0, 0, 0, 0];
+    events.forEach((e) => { if (e.hand === hands()[0] && e.hand === "R") fc[e.finger - 1]++; });
+    MB.stat("tq-hn-o-f", hands().includes("R") ? fc.map((c, i) => `${i + 1}:${c}`).join(" ") : "(왼손만)");
+  }
+  function showWin(w) {
+    curWin = w;
+    const list = events.filter((e) => e.win === w).map((e) => ({ t: e.t - 8 * w, d: e.d, m: e.m, hand: e.hand, finger: e.finger }));
+    const marks = [];
+    const sname = hand() === "L" ? "bass" : "treble";
+    if (rhy() === "trip") { const seen = new Set(); events.forEach((e) => { if (e.win === w && !e.end && e.hand === hands()[0]) { const b = Math.floor(e.t - 8 * w + 1e-6); if (!seen.has(b)) { seen.add(b); marks.push({ t: b, text: "3", staff: sname, where: "above" }); } } }); }
+    if (rhy() === "acc") events.forEach((e) => { if (e.win === w && e.acc && e.hand === hands()[0]) marks.push({ t: e.t - 8 * w, text: "&gt;", staff: sname, where: "above" }); });
+    st.setNotes(list, { clef: hand() === "B" ? "grand" : sname, key: PN.keyFifths(+key()), bars: 2, barsPerLine: 2, marks });
+    MB.stat("tq-hn-o-g", `${w + 1} / ${nWin} 쪽`);
+  }
+  function info() {
+    const L = Math.max(...events.map((e) => e.t + e.d));
+    const nn = events.filter((e) => e.hand === hands()[0]).length;
+    MB.stat("tq-hn-o-n", `${nn}음 <small>${(L * 60 / bpm()).toFixed(0)}초</small>`);
+  }
+  function start() {
+    MB.ctx(); PN.warm([...new Set(events.map((e) => e.m))]);
+    curT = -1; hl = []; fm = {};
+    sched = PN.playEvents(events, {
+      piano: kb.piano, bpm: () => bpm(), legato: 0.92, loop: loopEl.checked,
+      onNote(ev) {
+        if (ev.win !== curWin) showWin(ev.win);
+        if (ev.t !== curT) { curT = ev.t; hl = []; }
+        hl.push(ev.li); st.highlight(hl);
+        fm[ev.hand] = { m: ev.m, label: ev.finger, cls: "finger" };
+        kb.set(Object.values(fm), "finger");
+        MB.stat("tq-hn-o-g", ev.end ? "끝음" : `${ev.dir === "up" ? "올라가기" : "내려오기"} ${ev.g + 1}/${7 * +oct()} <small>${curWin + 1}/${nWin}쪽</small>`);
+      },
+      onEnd() { btn.set(false); },
+      onStop() { st.highlight(-1); kb.clear("finger"); },
+    });
+    sched.start();
+  }
+  const btn = tqToggle("tq-hn-play", "tq-hn-stop", start, () => { if (sched) sched.stop(); tqHush(kb.piano); showWin(0); });
+  rebuild();
+})();
+
+/* ---------------------------------------------------------------- 3. 꾸밈음 */
+(function () {
+  const kind = MB.seg("tq-or-k", () => render()), main = MB.seg("tq-or-m", () => render());
+  const bpm = MB.range("tq-or-bpm", (v) => "♩ = " + v, () => render());
+  const kb = PN.keyboard("#tq-or-kb", { from: 64, to: 81, labels: "white", compact: true });
+  const st1 = PN.staff("#tq-or-st1", [], { clef: "treble", width: 380, bars: 1, showTime: true });
+  const st2 = PN.staff("#tq-or-st2", [], { clef: "treble", width: 380, bars: 1 });
+  let sched = null;
+  const nb = () => { const M = +main(); const i = [0, 2, 4, 5, 7, 9, 11].indexOf(MB.mod(M, 12)); const oc = Math.floor(M / 12) * 12; return { M, U: MB.scaleNote(oc, TQ_STEPS, i + 1), L: MB.scaleNote(oc, TQ_STEPS, i - 1) }; };
+  function realized() {
+    const n = nb(), o = TQ_ORN[kind()], out = [{ t: 0, d: 1, m: n.L }];
+    let t = 1;
+    if (kind() === "acc") { out.push({ t: 1, d: 0.25, m: n.U, cls: "alt" }, { t: 1.25, d: 0.75, m: n.M, tie: true }, { t: 2, d: 1, m: n.M }); }
+    else o.seq.forEach(([r, d]) => { out.push({ t, d, m: n[r], cls: r === "M" ? "" : "alt" }); t += d; });
+    out.push({ t: 3, d: 1, m: n.L });
+    return out;
+  }
+  function playList(orn) {
+    const n = nb(), spb = 60 / bpm();
+    if (!orn) return [{ t: 0, d: 1, m: n.L, si: 0 }, { t: 1, d: 2, m: n.M, si: 1 }, { t: 3, d: 1, m: n.L, si: 2 }];
+    if (kind() === "acc") { const g = 0.07 / spb; return [{ t: 0, d: 1, m: n.L, si: 0 }, { t: 1, d: g, m: n.U, si: 1, legato: 1 }, { t: 1 + g, d: 2 - g, m: n.M, si: 2 }, { t: 3, d: 1, m: n.L, si: 4 }]; }
+    return realized().map((e, i) => Object.assign({ si: i }, e));
+  }
+  function render() {
+    const n = nb();
+    st1.setNotes([{ t: 0, d: 1, m: n.L }, { t: 1, d: 2, m: n.M }, { t: 3, d: 1, m: n.L }], { above: 10 });
+    // 기호 덧그리기
+    const lay = st1.layout, svg = st1.el.querySelector("svg"), h = lay.heads.find((q) => q.it.i === 1);
+    if (h && svg) {
+      const si = lay.sysInfo[0], topY = si.yS.treble, k = kind();
+      let s = "";
+      if (k === "app" || k === "acc") {
+        const yU = lay.yOf("treble", PN.spell(n.U).step, si), gx = h.x - 20;
+        s = `<ellipse class="gh" cx="${gx}" cy="${yU}" rx="3.9" ry="2.9" transform="rotate(-18 ${gx} ${yU})"/><path d="M${gx + 3.6} ${yU} L${gx + 3.6} ${yU - 22} q5 4 6 10"/>`;
+        if (k === "acc") s += `<path d="M${gx - 3} ${yU - 6} L${gx + 10} ${yU - 18}"/>`;
+        s += `<path d="M${gx} ${yU + 6} Q${gx + 10} ${yU + 14} ${h.x - 4} ${h.y + 6}" style="stroke-width:1.1"/>`;
+      } else s = tqOrnSymbol(k, h.x, Math.min(topY - 12, h.y - 30));
+      const gg = document.createElementNS("http://www.w3.org/2000/svg", "g"); gg.setAttribute("class", "tq-orn"); gg.innerHTML = s; svg.appendChild(gg);
+    }
+    st2.setNotes(realized());
+    const o = TQ_ORN[kind()];
+    MB.stat("tq-or-o-r", o.seq.map((x) => x[0]).join(" ") + ` <small>${PN.name(n.U)}·${PN.name(n.M)}·${PN.name(n.L)}</small>`);
+    MB.stat("tq-or-o-n", o.seq.length + "음");
+    const spb = 60 / bpm(), first = o.seq[0][0] === "M" ? 0 : kind() === "acc" ? 0.07 : o.seq[0][1] * spb;
+    MB.stat("tq-or-o-t", first === 0 ? "박 위에서 바로" : `박보다 ${(first * 1000).toFixed(0)} ms 뒤`);
+    kb.set([{ m: n.U, label: "U", cls: "alt" }, { m: n.M, label: "M", cls: "mark" }, { m: n.L, label: "L", cls: "ghost" }], "x");
+  }
+  function play(orn) {
+    MB.ctx(); if (sched) sched.stop();
+    const n = nb(); PN.warm([n.U, n.M, n.L]);
+    const ev = playList(orn), staff = orn ? st2 : st1;
+    sched = PN.playEvents(ev, { piano: kb.piano, bpm: () => bpm(), legato: 0.96, length: 4, onNote(e) { staff.highlight(orn && kind() === "acc" && e.si === 2 ? [2, 3] : e.si); }, onStop() { st1.highlight(-1); st2.highlight(-1); } });
+    sched.start();
+  }
+  tqEl("tq-or-play").addEventListener("click", () => play(true));
+  tqEl("tq-or-plain").addEventListener("click", () => play(false));
+  tqEl("tq-or-stop").addEventListener("click", () => { if (sched) sched.stop(); tqHush(kb.piano); });
+  render();
+})();
+
+/* ---------------------------------------------------------------- 4. 아르페지오 */
+(function () {
+  const CH = { C: [0, 0], F: [5, 0], G: [7, 0], D: [2, 0], A: [9, 0], E: [4, 0], Am: [9, 1], Dm: [2, 1], Em: [4, 1] };
+  const ch = MB.seg("tq-ar-c", () => render()), hand = MB.seg("tq-ar-h", () => render());
+  const bpm = MB.range("tq-ar-bpm", (v) => "♩ = " + v, () => {});
+  const loopEl = tqEl("tq-ar-loop");
+  const kb = PN.keyboard("#tq-ar-kb", { from: 60, to: 84, labels: "c" });
+  const st = PN.staff("#tq-ar-st", [], { clef: "treble", bars: 2, barsPerLine: 2 });
+  let sched = null, notes = [];
+  const whiteIdx = (m) => { const pc = MB.mod(m, 12), o = Math.floor(m / 12); const wi = PN.WHITE_PCS.filter((p) => p <= pc).length - 1; return o * 7 + wi + (PN.isBlack(m) ? 0.5 : 0); };
+  function build() {
+    const [pc, minor] = CH[ch()], R = hand() === "R";
+    const root = R ? (pc <= 7 ? 60 + pc : 48 + pc) : 36 + pc;
+    const iv = [0, minor ? 3 : 4, 7];
+    const up = []; for (let o = 0; o < 2; o++) iv.forEach((x) => up.push(root + 12 * o + x)); up.push(root + 24);
+    const blackThird = PN.isBlack(root + iv[1]);
+    const fu = R ? [1, 2, 3, 1, 2, 3, 5] : blackThird ? [5, 3, 2, 1, 3, 2, 1] : [5, 4, 2, 1, 4, 2, 1];
+    const list = up.map((m, i) => ({ m, finger: fu[i] }));
+    for (let i = up.length - 2; i >= 0; i--) list.push({ m: up[i], finger: fu[i] });
+    // 넘기기 표시
+    list.forEach((n, i) => {
+      const p = list[i - 1]; if (!p) return;
+      const upward = n.m > p.m;
+      if (R && upward && n.finger === 1 && p.finger !== 1) n.cross = "엄지 넘기기";
+      if (R && !upward && p.finger === 1 && n.finger > 1) n.cross = "손가락 넘기기";
+      if (!R && upward && p.finger === 1 && n.finger > 1) n.cross = "손가락 넘기기";
+      if (!R && !upward && n.finger === 1 && p.finger !== 1) n.cross = "엄지 넘기기";
+    });
+    list.forEach((n, i) => { n.t = i < 12 ? i * 0.5 : 6; n.d = i < 12 ? 0.5 : 2; n.hand = hand(); n.si = i; n.vel = i === 0 || i === 6 || i === 12 ? 0.68 : 0.56; });
+    return { list, fu, R, root, up };
+  }
+  function render() {
+    if (sched) sched.stop();
+    const b = build(); notes = b.list;
+    kb.setRange(b.up[0] - 2, b.up[b.up.length - 1] + 2);
+    kb.set(b.up.map((m, i) => ({ m, label: b.fu[i], cls: "finger" })), "finger");
+    st.setNotes(notes.map((n) => ({ t: n.t, d: n.d, m: n.m, finger: n.finger, cls: n.cross ? "alt" : "" })), { clef: b.R ? "treble" : "bass" });
+    MB.stat("tq-ar-o-f", b.fu.join(" "));
+    const xs = notes.filter((n) => n.cross);
+    MB.stat("tq-ar-o-x", `${xs.length}회 <small>${xs.filter((n) => n.cross === "엄지 넘기기").length}× 엄지 · ${xs.filter((n) => n.cross !== "엄지 넘기기").length}× 손가락</small>`);
+    const i0 = notes.findIndex((n) => n.cross), a = notes[i0 - 1].m, c = notes[i0].m;
+    const dist = Math.abs(whiteIdx(c) - whiteIdx(a)) * 2.35;
+    MB.stat("tq-ar-o-d", `${PN.name(a)}→${PN.name(c)} <small>${MB.INTERVALS[Math.abs(c - a)].name} · 약 ${dist.toFixed(1)} cm</small>`);
+  }
+  function start() {
+    MB.ctx(); PN.warm(notes.map((n) => n.m));
+    sched = PN.playEvents(notes, { piano: kb.piano, bpm: () => bpm(), legato: 0.95, loop: loopEl.checked, length: 8, staff: st, onEnd() { btn.set(false); } });
+    sched.start();
+  }
+  const btn = tqToggle("tq-ar-play", "tq-ar-stop", start, () => { if (sched) sched.stop(); tqHush(kb.piano); });
+  render();
+})();
+
+/* ---------------------------------------------------------------- 5. 반복음 */
+(function () {
+  const F_LIM = 6, W_LIM = 9, ACT = { grand: 14, upright: 8 };
+  const mode = MB.seg("tq-rp-mode", () => upd()), act = MB.seg("tq-rp-act", () => upd());
+  const rate = MB.range("tq-rp-rate", (v) => v.toFixed(1) + " 음/초", () => upd());
+  const loopEl = tqEl("tq-rp-loop");
+  const kb = PN.keyboard("#tq-rp-kb", { from: 57, to: 76, labels: "c", compact: true });
+  let sched = null, strikes = [], t0 = 0;
+  const fingers = () => (mode() === "oct" ? ["손목"] : mode().split(""));
+  function model() {
+    const k = fingers().length, f = rate(), lim = mode() === "oct" ? W_LIM : F_LIM;
+    const per = f / k, over = Math.max(0, per / lim - 1), actOver = Math.max(0, f / ACT[act()] - 1);
+    return { k, f, per, over, actOver, lim, rest: k / f };
+  }
+  function upd() {
+    const md = model();
+    MB.stat("tq-rp-o-f", `${md.per.toFixed(1)}회/초 <small>한계 ${md.lim}</small>`);
+    MB.stat("tq-rp-o-dt", `${(md.rest * 1000).toFixed(0)} ms <small>필요 ${(1000 / md.lim).toFixed(0)} ms</small>`);
+    MB.stat("tq-rp-o-st", md.actOver > 0 ? `<span style="color:var(--bad)">액션이 못 따라옴</span>` : md.over > 0 ? `<span style="color:var(--warn)">${mode() === "oct" ? "손목" : "손가락"} 과부하</span>` : `<span style="color:var(--ok)">여유 있음</span>`);
+    cv.redraw();
+  }
+  const cv = MB.canvas("#cv-tq-rep", (ctx, w, h) => {
+    const P = MB.palette(), md = model(), fs = fingers(), n = fs.length;
+    const left = 52, right = 90, top = 22, bot = 26, T = 2; // 2초 창
+    const rh = (h - top - bot) / Math.max(n, 1), X = (t) => left + (t / T) * (w - left - right);
+    ctx.font = "11px " + tqFont(); ctx.fillStyle = P.dim; ctx.textBaseline = "middle";
+    ctx.fillText("시간(2초) · 줄 = 손가락", left, 10);
+    fs.forEach((f, i) => { ctx.fillStyle = P.text; ctx.textAlign = "right"; ctx.fillText(f === "손목" ? "손목" : f + "번", left - 8, top + rh * (i + 0.5)); });
+    ctx.strokeStyle = P.grid; for (let s = 0; s <= 4; s++) { ctx.beginPath(); ctx.moveTo(X(s / 2), top); ctx.lineTo(X(s / 2), h - bot); ctx.stroke(); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText((s / 2).toFixed(1) + "s", X(s / 2), h - bot + 13); }
+    const N = Math.floor(T * md.f), need = 1 / md.lim;
+    let lastBy = {};
+    for (let j = 0; j < N; j++) {
+      const t = j / md.f, fi = j % n, y = top + rh * fi;
+      const bad = lastBy[fi] != null && t - lastBy[fi] < need - 1e-9;
+      ctx.fillStyle = P.grid; ctx.globalAlpha = 0.9; ctx.fillRect(X(t), y + rh * 0.3, Math.max(1, X(t + need) - X(t)), rh * 0.4); ctx.globalAlpha = 1;
+      if (bad) { ctx.fillStyle = P.bad; ctx.fillRect(X(t), y + rh * 0.15, Math.max(2, X(lastBy[fi] + need) - X(t)), rh * 0.7); }
+      ctx.fillStyle = md.f > ACT[act()] && j % 2 ? P.warn : P.accent; ctx.fillRect(X(t) - 1.5, y + rh * 0.12, 3, rh * 0.76);
+      lastBy[fi] = t;
+    }
+    // 부하 막대
+    const bx = w - right + 24, bw = 22, bh = h - top - bot, load = Math.min(2, md.per / md.lim);
+    ctx.strokeStyle = P.border; ctx.strokeRect(bx, top, bw, bh);
+    ctx.fillStyle = load > 1 ? P.bad : load > 0.8 ? P.warn : P.ok; ctx.fillRect(bx, top + bh * (1 - load / 2), bw, bh * load / 2);
+    ctx.strokeStyle = P.text; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(bx - 4, top + bh / 2); ctx.lineTo(bx + bw + 4, top + bh / 2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText("부하", bx + bw / 2, top - 10); ctx.fillText(Math.round(load * 100) + "%", bx + bw / 2, h - bot + 13);
+  }, { aspect: 0.42, minHeight: 170, maxHeight: 260 });
+  function start() {
+    MB.ctx(); const md0 = model(); PN.warm([60, 72]);
+    const ev = []; for (let j = 0; j < 16; j++) ev.push({ t: j, j });
+    const rnd = MB.rng(7);
+    sched = PN.scheduler(ev, {
+      bpm: () => rate() * 60, length: 16, loop: loopEl.checked,
+      onEvent(e, when, spb) {
+        const md = model(), p = kb.piano;
+        const jit = md.over * (rnd() - 0.5) * 0.5 * spb, vj = Math.max(0.12, 0.62 + md.over * (rnd() - 0.5) * 0.7);
+        const dropped = md.actOver > 0 && e.j % 2 === 1 && rnd() < Math.min(1, md.actOver * 2.5);
+        const vel = dropped ? 0.1 : vj, w = Math.max(when, when + jit);
+        const ms = mode() === "oct" ? [60, 72] : [72];
+        ms.forEach((m) => { p.noteOn(m, vel, w); p.noteOff(m, w + spb * 0.8); });
+      },
+      onUI(e) { const fs = fingers(); const f = fs[e.j % fs.length]; kb.set(mode() === "oct" ? [{ m: 60, label: 1, cls: "finger" }, { m: 72, label: 5, cls: "finger" }] : [{ m: 72, label: f, cls: "finger" }], "finger"); },
+      onEnd() { btn.set(false); kb.clear("finger"); }, onStop() { kb.clear("finger"); },
+    });
+    sched.start();
+  }
+  const btn = tqToggle("tq-rp-play", "tq-rp-stop", start, () => { if (sched) sched.stop(); tqHush(kb.piano); });
+  upd();
+})();
+
+/* ---------------------------------------------------------------- 6. 폴리리듬 */
+(function () {
+  const SYL = { "3:2": { 0: "nice", 2: "cup", 3: "of", 4: "tea" }, "2:3": { 0: "nice", 2: "cup", 3: "of", 4: "tea" }, "4:3": { 0: "pass", 3: "the", 4: "gol", 6: "den", 8: "but", 9: "ter" }, "3:4": { 0: "pass", 3: "the", 4: "gol", 6: "den", 8: "but", 9: "ter" } };
+  const ratio = MB.seg("tq-po-r", () => { reset(); if (sched && sched.running) sched.setEvents(evs()); }), guide = MB.seg("tq-po-g", () => {});
+  const cpm = MB.range("tq-po-cpm", (v) => v + " 주기/분", () => {});
+  const kb = PN.keyboard("#tq-po-kb", { from: 48, to: 72, labels: "c", compact: true, qwerty: false });
+  const p = kb.piano;
+  let sched = null, cur = -1, cycles = [], taps = [];
+  const ab = () => ratio().split(":").map(Number);
+  const N = () => { const [a, b] = ab(); return tqLcm(a, b); };
+  function evs() {
+    const [a, b] = ab(), n = N(), out = [];
+    for (let i = 0; i < n; i++) { const r = i % (n / a) === 0, l = i % (n / b) === 0; if (r || l) out.push({ t: i, r, l }); }
+    return out;
+  }
+  function reset() { taps = []; cur = -1; sylRender(-1); MB.stat("tq-po-o-n", `${N()}칸 <small>오 ${N() / ab()[0]}칸·왼 ${N() / ab()[1]}칸 간격</small>`); MB.stat("tq-po-o-er", "—"); MB.stat("tq-po-o-el", "—"); cv.redraw(); }
+  function sylRender(i) {
+    const s = SYL[ratio()], el = tqEl("tq-po-syl");
+    if (!s) { el.innerHTML = `<span class="${i >= 0 ? "on" : ""}">${i >= 0 ? "칸 " + i : "5:4 — 20칸으로 세기"}</span>`; return; }
+    const [a, b] = ab(), n = N();
+    el.innerHTML = Object.keys(s).map(Number).map((k) => { const r = k % (n / a) === 0, l = k % (n / b) === 0; return `<span class="${r && l ? "b" : r ? "r" : "l"}${k === i ? " on" : ""}">${s[k]}</span>`; }).join(" ");
+  }
+  const cv = MB.canvas("#cv-tq-poly", (ctx, w, h) => {
+    const P = MB.palette(), [a, b] = ab(), n = N(), left = 64, cw = (w - left - 8) / n, rows = [{ y: 24, k: "R", c: P.accent, step: n / a, lab: "오른손 " + a }, { y: 24 + 56, k: "L", c: P.accent2, step: n / b, lab: "왼손 " + b }];
+    ctx.font = "11px " + tqFont(); ctx.textBaseline = "middle";
+    rows.forEach((r) => {
+      ctx.fillStyle = P.text; ctx.textAlign = "right"; ctx.fillText(r.lab, left - 6, r.y + 18);
+      for (let i = 0; i < n; i++) {
+        const on = i % r.step === 0, x = left + i * cw;
+        ctx.fillStyle = on ? r.c : P.grid; ctx.globalAlpha = on ? (i === cur ? 1 : 0.75) : 1;
+        ctx.fillRect(x + 2, r.y, cw - 4, 36); ctx.globalAlpha = 1;
+        if (i === cur) { ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.strokeRect(x + 1, r.y - 1, cw - 2, 38); }
+      }
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.font = "10px " + tqMono();
+    for (let i = 0; i < n; i++) ctx.fillText(i, left + (i + 0.5) * cw, 148);
+    // 탭 표시
+    taps.slice(-24).forEach((tp) => {
+      const r = rows[tp.hand === "R" ? 0 : 1], x = left + tp.phase * n * cw, e = Math.abs(tp.err);
+      ctx.fillStyle = e <= 40 ? P.ok : e <= 80 ? P.warn : P.bad;
+      ctx.fillRect(x - 2, r.y + 38, 4, 12);
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.font = "11px " + tqFont(); ctx.fillText(`한 주기 = ${n}칸 (lcm(${a}, ${b}))`, left, 10);
+  }, { aspect: 0.3, minHeight: 160, maxHeight: 190 });
+  function start() {
+    MB.ctx(); PN.warm([48, 67]); taps = []; cycles = [];
+    sched = PN.scheduler(evs(), {
+      bpm: () => cpm() * N(), length: () => N(), loop: true,
+      onEvent(e, when, spb) {
+        const g = guide();
+        if (e.t === 0) { cycles.push({ when, spb, n: N() }); if (cycles.length > 6) cycles.shift(); PN.click(when, true, { vel: g === "none" ? 0.5 : 0.25 }); }
+        const [a] = ab();
+        if (e.r && (g === "both" || g === "R")) { p.noteOn(67, 0.55, when); p.noteOff(67, when + spb * Math.min(1.6, N() / a) * 0.8); }
+        if (e.l && (g === "both" || g === "L")) { p.noteOn(48, 0.55, when); p.noteOff(48, when + spb * 1.6); }
+      },
+      onUI(e) { cur = e.t; sylRender(e.t); cv.redraw(); },
+      onStop() { cur = -1; sylRender(-1); cv.redraw(); },
+    });
+    sched.start();
+  }
+  function tap(hand) {
+    if (!sched || !sched.running || !cycles.length) return;
+    const now = MB.ctx().currentTime, [a, b] = ab();
+    let best = null;
+    cycles.forEach((c) => {
+      const n = c.n, step = n / (hand === "R" ? a : b);
+      for (let k = 0; k <= n; k += step) { const e = c.when + k * c.spb, d = now - e; if (!best || Math.abs(d) < Math.abs(best.d)) best = { d, c, k }; }
+    });
+    if (!best || Math.abs(best.d) > 0.4) return;
+    const n = best.c.n, phase = MB.mod((now - best.c.when) / (n * best.c.spb), 1);
+    taps.push({ hand, err: best.d * 1000, phase }); if (taps.length > 60) taps.shift();
+    ["R", "L"].forEach((hh) => { const ts = taps.filter((t) => t.hand === hh).slice(-12); MB.stat(hh === "R" ? "tq-po-o-er" : "tq-po-o-el", ts.length ? `${(ts.reduce((s, t) => s + Math.abs(t.err), 0) / ts.length).toFixed(0)} ms <small>${ts.length}탭</small>` : "—"); });
+    if (guide() !== (hand === "R" ? "R" : "L") && guide() !== "both") { p.noteOn(hand === "R" ? 67 : 48, 0.5); p.noteOff(hand === "R" ? 67 : 48, now + 0.25); }
+    cv.redraw();
+  }
+  // F/J: 재생 중에는 이 시뮬레이터가 먼저 가로챈다(피아노 키보드 단축키보다 앞, capture 단계)
+  window.addEventListener("keydown", (e) => {
+    if (!sched || !sched.running || e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key.toLowerCase(); if (k !== "f" && k !== "j") return;
+    const tg = e.target; if (tg && /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName) && tg.type !== "range" && tg.type !== "checkbox") return;
+    e.stopPropagation(); e.preventDefault(); tap(k === "j" ? "R" : "L");
+  }, true);
+  tqEl("tq-po-tl").addEventListener("pointerdown", (e) => { e.preventDefault(); tap("L"); });
+  tqEl("tq-po-tr").addEventListener("pointerdown", (e) => { e.preventDefault(); tap("R"); });
+  tqToggle("tq-po-play", "tq-po-stop", start, () => { if (sched) sched.stop(); tqHush(p); });
+  reset();
+})();
+
+/* ---------------------------------------------------------------- 7. 템포 사다리 */
+(function () {
+  const t0 = MB.range("tq-ld-t0", (v) => v, () => plan()), t1 = MB.range("tq-ld-t1", (v) => v, () => plan());
+  const dT = MB.range("tq-ld-dt", (v) => "+" + v, () => plan()), reps = MB.range("tq-ld-r", (v) => v + "마디", () => plan());
+  const pass = MB.seg("tq-ld-p", () => { if (sched && sched.running) sched.setEvents(evs()); });
+  const autoEl = tqEl("tq-ld-auto");
+  const kb = PN.keyboard("#tq-ld-kb", { from: 60, to: 72, labels: "c", compact: true });
+  let sched = null, rung = 0, bars = 0, lastLoop = -1, hist = [], tStart = 0, backs = 0, done = false, timer = 0;
+  const rungs = () => { const a = t0(), b = Math.max(t0(), t1()), out = []; for (let v = a; v < b; v += dT()) out.push(v); out.push(b); return out; };
+  const tempo = () => rungs()[Math.min(rung, rungs().length - 1)];
+  function evs() {
+    const out = []; for (let b = 0; b < 4; b++) out.push({ t: b, click: true, accent: b === 0 });
+    if (pass() === "hanon") { const UP = [0, 2, 3, 4, 5, 4, 3, 2]; for (let g = 0; g < 2; g++) UP.forEach((o, j) => out.push({ t: g * 2 + j * 0.25, m: MB.scaleNote(60, TQ_STEPS, g + o) })); }
+    if (pass() === "scale") { for (let j = 0; j < 16; j++) out.push({ t: j * 0.25, m: MB.scaleNote(60, TQ_STEPS, j < 8 ? j : 15 - j + (j >= 8 ? 1 : 0) - 1) }); }
+    return out;
+  }
+  function plan() {
+    const rs = rungs(), tot = rs.reduce((s, v) => s + reps() * 240 / v, 0);
+    MB.stat("tq-ld-o-plan", `${rs.length}칸 · ${Math.floor(tot / 60)}분 ${Math.round(tot % 60)}초`);
+    if (!sched || !sched.running) { tqEl("tq-ld-big").innerHTML = `♩ = ${t0()}<small>준비 · 목표 ${Math.max(t0(), t1())}</small>`; MB.stat("tq-ld-o-k", `1 / ${rs.length}`); }
+    cv.redraw();
+  }
+  function showRung(note) {
+    const rs = rungs();
+    tqEl("tq-ld-big").innerHTML = `♩ = ${tempo()}<small>${note || `칸 ${Math.min(rung, rs.length - 1) + 1} / ${rs.length} · 마디 ${Math.min(bars + 1, reps())} / ${reps()}`}</small>`;
+    MB.stat("tq-ld-o-k", `${Math.min(rung, rs.length - 1) + 1} / ${rs.length}`);
+  }
+  function mark() { hist.push({ t: MB.now() - tStart, bpm: tempo() }); cv.redraw(); }
+  const cv = MB.canvas("#cv-tq-lad", (ctx, w, h) => {
+    const P = MB.palette(), rs = rungs(), planT = rs.reduce((s, v) => s + reps() * 240 / v, 0);
+    const el = hist.length ? (sched && sched.running ? MB.now() - tStart : hist[hist.length - 1].t) : 0;
+    const Tm = Math.max(planT, el) * 1.05 || 1, lo = Math.max(0, t0() - 10), hi = Math.max(t0(), t1()) + 10;
+    const box = { x: 40, y: 14, w: w - 52, h: h - 38 }, X = (t) => box.x + (t / Tm) * box.w, Y = (v) => box.y + box.h - ((v - lo) / (hi - lo)) * box.h;
+    ctx.font = "10px " + tqMono(); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let v = Math.ceil(lo / 20) * 20; v <= hi; v += 20) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(box.x, Y(v)); ctx.lineTo(box.x + box.w, Y(v)); ctx.stroke(); ctx.fillText(v, box.x - 4, Y(v)); }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    const stepT = Tm > 240 ? 60 : Tm > 90 ? 30 : 10; for (let t = 0; t <= Tm; t += stepT) ctx.fillText(t + "s", X(t), box.y + box.h + 6);
+    // 계획
+    ctx.strokeStyle = P.dim; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5; ctx.beginPath();
+    let t = 0; ctx.moveTo(X(0), Y(rs[0])); rs.forEach((v) => { ctx.lineTo(X(t), Y(v)); t += reps() * 240 / v; ctx.lineTo(X(t), Y(v)); }); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = P.ok; ctx.beginPath(); ctx.moveTo(box.x, Y(Math.max(t0(), t1()))); ctx.lineTo(box.x + box.w, Y(Math.max(t0(), t1()))); ctx.globalAlpha = 0.5; ctx.stroke(); ctx.globalAlpha = 1;
+    // 실제
+    if (hist.length) {
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(hist[0].t), Y(hist[0].bpm));
+      hist.forEach((hp, i) => { if (i) { ctx.lineTo(X(hp.t), Y(hist[i - 1].bpm)); ctx.lineTo(X(hp.t), Y(hp.bpm)); } });
+      ctx.lineTo(X(el), Y(hist[hist.length - 1].bpm)); ctx.stroke();
+      ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(X(el), Y(hist[hist.length - 1].bpm), 4.5, 0, 7); ctx.fill();
+    }
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.font = "11px " + tqFont(); ctx.fillText("템포(BPM) — 점선: 계획, 실선: 실제", box.x + 4, box.y);
+  }, { aspect: 0.36, minHeight: 170, maxHeight: 250 });
+  function start() {
+    MB.ctx(); PN.warm([60, 62, 64, 65, 67, 69, 71, 72]);
+    rung = 0; bars = 0; lastLoop = -1; backs = 0; done = false; hist = []; tStart = MB.now() + 0.08;
+    sched = PN.scheduler(evs(), {
+      bpm: () => tempo(), length: 4, loop: true,
+      onEvent(e, when, spb, loopNo) {
+        if (loopNo !== lastLoop && e.t === 0) {
+          if (lastLoop >= 0) {
+            bars++;
+            if (bars >= reps() && autoEl.checked) {
+              if (rung >= rungs().length - 1) { done = true; }
+              else { rung++; bars = 0; PN.at(when, mark); }
+            }
+          }
+          lastLoop = loopNo;
+          if (done) return;
+        }
+        if (done) return;
+        if (e.click) PN.click(when, e.accent);
+        else { kb.piano.noteOn(e.m, 0.5, when); kb.piano.noteOff(e.m, when + spb * 0.22); }
+      },
+      onUI() { if (done) { btn.set(false); sched.stop(); showRung("목표 도달! 수고했습니다"); return; } showRung(); },
+      onStop() { clearInterval(timer); cv.redraw(); },
+    });
+    sched.start(); mark(); showRung();
+    clearInterval(timer); timer = setInterval(() => { MB.stat("tq-ld-o-el", `${Math.round(MB.now() - tStart)}초 / ${backs}번`); cv.redraw(); }, 500);
+  }
+  const btn = tqToggle("tq-ld-play", "tq-ld-stop", start, () => { if (sched) sched.stop(); tqHush(kb.piano); });
+  tqEl("tq-ld-back").addEventListener("click", () => { if (!sched || !sched.running) return; if (rung > 0) rung--; bars = 0; backs++; mark(); showRung(); });
+  tqEl("tq-ld-up").addEventListener("click", () => { if (!sched || !sched.running) return; if (rung < rungs().length - 1) rung++; bars = 0; mark(); showRung(); });
+  plan(); MB.stat("tq-ld-o-el", "—");
+})();
+
+/* ---------------------------------------------------------------- 8. 루바토 */
+(function () {
+  const MEL = PN.parseNotes("E4/1 E4/1 F4/1 G4/1 G4/1 F4/1 E4/1 D4/1 C4/1 C4/1 D4/1 E4/1 E4/1.5 D4/.5 D4/2", { hand: "R" });
+  const LH = PN.parseNotes("C3/1 G3/1 E3/1 G3/1 G2/1 D3/1 B2/1 D3/1 C3/1 G3/1 E3/1 G3/1 G2/1 D3/1 B2/1 D3/1", { hand: "L" });
+  const ALL = MEL.concat(LH), B = 16;
+  const shape = MB.seg("tq-rb-shape", () => upd()), mode = MB.seg("tq-rb-mode", () => upd());
+  const depth = MB.range("tq-rb-a", (v) => v + "%", () => upd()), T0 = MB.range("tq-rb-t", (v) => "♩ = " + v, () => upd());
+  const keep = MB.check("tq-rb-keep", () => upd()), clickOn = MB.check("tq-rb-click", () => {});
+  const st = PN.staff("#tq-rb-st", ALL, { clef: "grand", bars: 4, barsPerLine: 4, compact: true });
+  const p = PN.piano();
+  let sched = null, data = null;
+  const rr = (x) => {
+    const a = depth() / 100;
+    switch (shape()) {
+      case "arch": return 1 + a * Math.sin(Math.PI * x) - a * 0.35;
+      case "rit": { const u = MB.clamp((x - 0.62) / 0.38, 0, 1); return 1 - a * 1.4 * u * u; }
+      default: return 1;
+    }
+  };
+  /** 박 b → 초: 적분(32분음표 간격) */
+  function timeMap() {
+    const spb = 60 / T0(), dx = 1 / 8, raw = [0];
+    for (let i = 0; i < B / dx; i++) { const b = (i + 0.5) * dx; raw.push(raw[i] + (dx * spb) / Math.max(0.3, rr(b / B))); }
+    const scale = keep() ? (B * spb) / raw[raw.length - 1] : 1;
+    const at = (b) => { const k = b / dx, i = Math.floor(k), f = k - i; const v = i >= raw.length - 1 ? raw[raw.length - 1] : raw[i] + f * (raw[i + 1] - raw[i]); return v * scale; };
+    return { at, spb };
+  }
+  function compute() {
+    const { at, spb } = timeMap(), rnd = MB.rng(11), a = depth() / 100, mel = mode() === "mel";
+    const onset = (n) => {
+      const strict = n.t * spb;
+      if (shape() === "rand") return strict + (n.t > 0 && n.t < B ? (rnd() - 0.5) * a * 1.4 * spb : 0);
+      if (mel && n.hand === "L") return strict;
+      if (mel) { const bar = Math.floor(n.t / 4), s0 = at(bar * 4), s1 = at(bar * 4 + 4); return bar * 4 * spb + ((at(n.t) - s0) / (s1 - s0)) * 4 * spb; }
+      return at(n.t);
+    };
+    const evs = ALL.map((n, i) => ({ i, m: n.m, hand: n.hand, strict: n.t * spb, on: onset(n), beat: n.t, d: n.d }));
+    const endT = shape() === "rand" || mel ? B * spb : at(B);
+    evs.forEach((e) => { const nx = evs.filter((q) => q.hand === e.hand && q.beat > e.beat + 1e-6).sort((x, y) => x.on - y.on)[0]; e.off = (nx ? nx.on : endT + 0.4) - 0.03; });
+    return { evs, endT, spb };
+  }
+  const cv = MB.canvas("#cv-tq-rb", (ctx, w, h) => {
+    if (!data) return;
+    const P = MB.palette(), left = 46, right = 10, X = (b) => left + (b / B) * (w - left - right);
+    const h1 = h * 0.42, y1 = 16, y2 = h1 + 34, h2 = h - y2 - 18;
+    ctx.font = "11px " + tqFont(); ctx.textBaseline = "middle";
+    // 마디선
+    for (let b = 0; b <= B; b += 4) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(b), y1); ctx.lineTo(X(b), h - 18); ctx.stroke(); }
+    // 템포 곡선
+    const spb = data.spb, { at } = timeMap();
+    const vals = []; for (let i = 0; i <= 64; i++) { const b = (i / 64) * B, db = 0.05; const tb = (at(Math.min(B, b + db)) - at(Math.max(0, b - db))) / (Math.min(B, b + db) - Math.max(0, b - db)); vals.push([b, shape() === "rand" || shape() === "none" ? 1 : spb / tb]); }
+    const Y1 = (v) => y1 + h1 / 2 - (v - 1) * (h1 / 2) / 0.5;
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(left, Y1(1)); ctx.lineTo(w - right, Y1(1)); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText("×1.0", left - 4, Y1(1)); ctx.fillText("×1.3", left - 4, Y1(1.3)); ctx.fillText("×0.7", left - 4, Y1(0.7));
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath(); vals.forEach(([b, v], i) => (i ? ctx.lineTo(X(b), Y1(v)) : ctx.moveTo(X(b), Y1(v)))); ctx.stroke(); ctx.lineWidth = 1;
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText(mode() === "mel" && shape() !== "rand" ? "템포 배율(선율, 마디마다 되돌림)" : "템포 배율", left + 4, y1 - 4);
+    // 어긋남
+    const mel = data.evs.filter((e) => e.hand === "R"), mx = Math.max(60, ...data.evs.map((e) => Math.abs(e.on - e.strict) * 1000));
+    const Y2 = (ms) => y2 + h2 / 2 - (ms / mx) * (h2 / 2);
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(left, Y2(0)); ctx.lineTo(w - right, Y2(0)); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText("+" + Math.round(mx), left - 4, Y2(mx) + 4); ctx.fillText("0 ms", left - 4, Y2(0)); ctx.fillText("−" + Math.round(mx), left - 4, Y2(-mx) - 4);
+    ctx.textAlign = "left"; ctx.fillText("선율 음의 어긋남(늦음 +)", left + 4, y2 - 12);
+    mel.forEach((e) => { const d = (e.on - e.strict) * 1000; ctx.fillStyle = e.i === data.now ? P.warn : P.accent2; ctx.fillRect(X(e.beat) - 3, Math.min(Y2(0), Y2(d)), 6, Math.max(1.5, Math.abs(Y2(d) - Y2(0)))); });
+    data.evs.filter((e) => e.hand === "L").forEach((e) => { const d = (e.on - e.strict) * 1000; ctx.fillStyle = P.blue; ctx.beginPath(); ctx.arc(X(e.beat), Y2(d), 2.4, 0, 7); ctx.fill(); });
+  }, { aspect: 0.5, minHeight: 220, maxHeight: 320 });
+  function upd() {
+    if (sched && sched.running) { sched.stop(); tqHush(p); btn.set(false); }
+    data = compute(); data.now = -1;
+    const mech = B * data.spb, mx = Math.max(...data.evs.map((e) => Math.abs(e.on - e.strict))) * 1000;
+    MB.stat("tq-rb-o-len", `${data.endT.toFixed(2)}초 <small>기계적 ${mech.toFixed(2)}초 (${MB.signed(((data.endT / mech) - 1) * 100, 1)}%)</small>`);
+    MB.stat("tq-rb-o-max", `${mx.toFixed(0)} ms`);
+    const vs = []; for (let i = 0; i <= 32; i++) vs.push(rr(i / 32));
+    MB.stat("tq-rb-o-tr", shape() === "rand" ? "무작위" : shape() === "none" ? `♩ = ${T0()}` : `${Math.round(T0() * Math.min(...vs))}–${Math.round(T0() * Math.max(...vs))} <small>(보존 전)</small>`);
+    cv.redraw();
+  }
+  function start() {
+    MB.ctx(); PN.warm([...new Set(ALL.map((n) => n.m))]);
+    data = compute();
+    const ev = data.evs.map((e) => ({ t: e.on, e }));
+    if (clickOn()) for (let b = 0; b < B; b++) ev.push({ t: b * data.spb, click: true, accent: b % 4 === 0 });
+    sched = PN.scheduler(ev, {
+      bpm: 60, length: data.endT + 0.6,
+      onEvent(x, when) {
+        if (x.click) { PN.click(when, x.accent, { vel: 0.35 }); return; }
+        const e = x.e, vel = e.hand === "L" ? 0.34 : 0.5 + 0.12 * Math.sin(Math.PI * e.beat / B);
+        p.noteOn(e.m, vel, when); p.noteOff(e.m, when + Math.max(0.08, e.off - e.on));
+      },
+      onUI(x) { if (x.click) return; st.highlight(x.e.i); if (x.e.hand === "R") { data.now = x.e.i; cv.redraw(); } },
+      onEnd() { btn.set(false); st.highlight(-1); },
+      onStop() { st.highlight(-1); data.now = -1; cv.redraw(); },
+    });
+    sched.start();
+  }
+  const btn = tqToggle("tq-rb-play", "tq-rb-stop", start, () => { if (sched) sched.stop(); tqHush(p); });
+  upd();
+})();
+</script>
+</body>
+</html>

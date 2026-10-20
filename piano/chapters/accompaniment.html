@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>왼손 반주 패턴 · PianoBook</title>
+<meta name="description" content="블록 코드와 근음–5도, 알베르티 베이스, 1–5–8–10 아르페지오, 왈츠와 스트라이드의 도약, 나만의 반주 패턴 만들기와 양손 분리 연습을 가상 피아노로 익힌다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/accompaniment.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="왼손 반주 패턴 · PianoBook">
+<meta property="og:description" content="블록 코드와 근음–5도, 알베르티 베이스, 1–5–8–10 아르페지오, 왈츠와 스트라이드의 도약, 나만의 반주 패턴 만들기와 양손 분리 연습을 가상 피아노로 익힌다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/accompaniment.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  .ac-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(54px, 1fr)); gap: 5px; margin-bottom: 8px; }
+  .ac-slots > div { text-align: center; padding: 6px 2px; border-radius: 8px; border: 2px solid var(--border); background: var(--bg-elev); font: 700 14px var(--font); color: var(--text); }
+  .ac-slots > div small { display: block; font: 500 10.5px var(--mono); color: var(--text-dim); }
+  .ac-slots > div.now { border-color: var(--accent); background: var(--accent-soft); }
+  .ac-grid .lab { font: 600 12px var(--mono); }
+  .ac-grid .row { min-width: 300px; grid-template-columns: 44px 1fr; }
+  .ac-grid .cell.on { background: var(--accent); }
+  .ac-pre { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ac-pre .btn { padding: 4px 10px; font-size: 13px; }
+  .ac-pre .btn.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  #ac-lp-cv { display: block; width: 100%; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="accompaniment">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 08</div>
+    <h1>왼손 반주 패턴</h1>
+    <p class="lead">코드 이름 네 개만 적힌 악보를 받았을 때, 피아노 반주자의 왼손은 무엇을 해야 할까요? 이 장에서는 왼손이 맡는 세 가지 일(베이스·화음·박)을 나누어 보고, 가장 단순한 블록 코드에서 근음–5도, 알베르티 베이스, 1–5–8–10 아르페지오, 왈츠와 스트라이드까지 대표적인 반주 패턴을 차례로 익힙니다. 패턴은 외울 리듬이 아니라 '<b>코드의 어느 음을 언제 치는가</b>'라는 작은 프로그램이라는 것을 확인한 뒤, 직접 패턴을 설계하고, 오른손 선율과 합치는 양손 분리 연습으로 마무리합니다.</p>
+    <ul class="objectives">
+      <li>왼손 반주가 베이스·화음 채우기·박(리듬) 세 역할을 나눠 맡는다는 것과, 낮은 음역에서 3도가 탁해지는 이유(낮은 음정 한계)를 설명한다.</li>
+      <li>블록 코드, 근음–5도, 옥타브, 1–5–8–5 같은 기본 패턴을 손가락 번호(5·2·1)와 함께 친다.</li>
+      <li>알베르티 베이스(낮–높–가운데–높)를 5-1-3-1 운지로 고르게 치고, 모차르트 K.545 첫 두 마디로 확인한다.</li>
+      <li>1–5–8–10 아르페지오·발라드 패턴의 손 펼침을 mm로 계산하고, 화음이 바뀔 때 페달을 갈아 밟는 이유를 안다.</li>
+      <li>왈츠(쿵–짝–짝)와 스트라이드의 도약을 거리·시간·손 속도로 분석하고, 도약 연습법을 안다.</li>
+      <li>스텝 격자로 반주 패턴을 직접 만들어 어떤 코드 진행에도 적용하고, 양손 분리 → 합치기 순서로 선율과 반주를 맞춘다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="why">
+    <h2>왼손이 맡는 세 가지 일</h2>
+    <p>밴드에서는 베이스 기타가 가장 낮은 음을, 기타나 키보드가 화음을, 드럼이 박을 맡습니다. 피아노 한 대로 노래를 반주할 때는 이 셋을 <b>왼손 하나</b>(와 오른손의 일부)가 다 해야 합니다. 그래서 왼손 반주 패턴은 모두 다음 세 가지를 어떤 비율로 섞느냐의 문제입니다.</p>
+    <ul>
+      <li><b>베이스</b> <span class="en">(Bass)</span>: 화음의 근음(가끔 5음이나 3음)을 가장 낮게 울려 화음의 정체와 무게중심을 정합니다. 7장에서 오른손이 자리바꿈을 써도 화음이 흐려지지 않았던 것은 왼손이 근음을 지켜 주었기 때문입니다.</li>
+      <li><b>화음 채우기</b> <span class="en">(Harmonic fill)</span>: 3음·5음을 울려 장조인지 단조인지, 어떤 색인지를 알려 줍니다. 오른손이 선율을 치느라 바쁠 때 특히 중요합니다.</li>
+      <li><b>박과 리듬</b> <span class="en">(Pulse)</span>: 음을 언제 치느냐로 박자와 스타일을 만듭니다. 같은 C 화음도 쿵–짝–짝이면 왈츠, 8분음표로 흘러가면 발라드가 됩니다.</li>
+    </ul>
+    <p>음역도 중요합니다. 낮은 음역에서 음을 촘촘히 쌓으면 소리가 뭉개집니다. 귀의 달팽이관은 주파수를 '임계 대역'이라는 칸으로 나누어 듣는데, 저음으로 갈수록 이 칸의 폭이 음정(반음 수)으로 따지면 넓어집니다. C2(65 Hz)와 E2(82 Hz)는 장3도이지만 둘의 배음이 같은 칸에 많이 떨어져 서로 거칠게 맥놀이를 칩니다. 그래서 편곡자들은 음정마다 '이보다 낮게 두지 말라'는 <span class="term">낮은 음정 한계</span><span class="en">(Low interval limit)</span>를 경험칙으로 씁니다. 대략 완전5도는 B♭1, 장3도는 B♭2, 단3도는 C3 부근이 경계이고, 그 아래에서는 근음–5도나 옥타브처럼 넓은 음정을 쓰고 3도는 위로 올립니다. 협화와 임계 대역의 관계는 MusicBook의 <a href="../../fundamentals/chapters/consonance.html#roughness">협화와 불협화</a>에서 다룹니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 250" role="img" aria-label="피아노 음역별 반주 역할과 낮은 음정 한계">
+        <g font-family="var(--font)">
+          <rect x="30" y="40" width="740" height="70" rx="6" fill="var(--pn-white)" stroke="var(--pn-white-edge)"/>
+          <g stroke="var(--pn-white-edge)" stroke-width=".8">
+            <line x1="91.7" y1="40" x2="91.7" y2="110"/><line x1="153.3" y1="40" x2="153.3" y2="110"/><line x1="215" y1="40" x2="215" y2="110"/><line x1="276.7" y1="40" x2="276.7" y2="110"/><line x1="338.3" y1="40" x2="338.3" y2="110"/><line x1="400" y1="40" x2="400" y2="110"/><line x1="461.7" y1="40" x2="461.7" y2="110"/><line x1="523.3" y1="40" x2="523.3" y2="110"/><line x1="585" y1="40" x2="585" y2="110"/><line x1="646.7" y1="40" x2="646.7" y2="110"/><line x1="708.3" y1="40" x2="708.3" y2="110"/>
+          </g>
+          <g class="t-mono" style="font-size:12px" text-anchor="middle"><text x="30" y="128">C1</text><text x="153.3" y="128">C2</text><text x="276.7" y="128">C3</text><text x="400" y="128">C4</text><text x="523.3" y="128">C5</text><text x="646.7" y="128">C6</text><text x="770" y="128">C7</text></g>
+          <rect x="92" y="146" width="200" height="26" rx="6" class="f-acc2-soft"/><text x="192" y="164" text-anchor="middle" class="t" style="font-size:13px">베이스 (근음·5음·옥타브)</text>
+          <rect x="270" y="178" width="150" height="26" rx="6" class="f-acc-soft"/><text x="345" y="196" text-anchor="middle" class="t" style="font-size:13px">화음 채우기</text>
+          <rect x="400" y="146" width="250" height="26" rx="6" class="f-surface" stroke="var(--accent)"/><text x="525" y="164" text-anchor="middle" class="t" style="font-size:13px">선율 (오른손)</text>
+          <g stroke="var(--bad)" stroke-width="2"><line x1="132" y1="30" x2="132" y2="118"/><line x1="255" y1="30" x2="255" y2="118"/><line x1="276.7" y1="30" x2="276.7" y2="118"/></g>
+          <g style="font-size:11.5px" class="t"><text x="132" y="24" text-anchor="middle" style="fill:var(--bad)">5도 ↓B♭1</text><text x="236" y="24" text-anchor="end" style="fill:var(--bad)">장3도 ↓B♭2</text><text x="282" y="24" style="fill:var(--bad)">단3도 ↓C3</text></g>
+          <text x="400" y="236" text-anchor="middle" class="t-dim" style="font-size:12.5px">빨간 선보다 낮은 곳에서 그 음정을 쌓으면 탁해지기 쉽다 (편곡 교재의 경험칙, 악기·음량에 따라 다름)</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 8-1.</b> 피아노 음역과 반주 역할. 베이스는 C2 부근, 화음 채우기는 C3–C4, 선율은 C4 위가 일반적이다. 빨간 선은 대표적인 낮은 음정 한계로, 저음 쪽에서는 5도·옥타브 같은 넓은 음정을 쓰고 3도는 위 음역으로 올린다.</figcaption>
+    </figure>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="basic">
+    <h2>블록 코드·근음–5도·옥타브</h2>
+    <p>가장 쉬운 반주는 화음이 바뀔 때마다 왼손으로 <b>블록 코드</b>를 한 번 누르고 오래 들고 있는 것입니다. 찬송가나 동요 반주에서 흔하고, 화음 자리를 익히는 첫 단계로도 좋습니다. 다만 C3 근처의 3화음은 그림 8-1의 경계에 걸려 조금 무겁게 들리고, 박을 만들어 주지 못합니다.</p>
+    <p>그래서 다음 단계는 화음을 <b>쪼개는</b> 것입니다. 왼손은 근음과 5음만 맡고(3음은 오른손에 맡김), 근음을 1박에, 5음을 3박에 치면 <span class="term">근음–5도 베이스</span><span class="en">(Root–fifth bass)</span>가 됩니다. 컨트리·행진곡·폴카의 '움–파' 느낌이 여기서 나옵니다. 근음과 그 옥타브 위를 함께 누르는 <b>옥타브</b>는 소리가 두껍고 힘이 있어 록 발라드의 후렴이나 클라이맥스에 쓰입니다. 근음–5음–옥타브–5음(1–5–8–5)을 4분음표로 돌리면 화음 채우기와 박이 동시에 생겨, 왼손 하나로도 노래 반주가 꽤 그럴듯해집니다.</p>
+    <p>손가락은 단순합니다. 왼손에서 근음은 거의 언제나 <b>5번</b>(새끼)이고, 5음은 손을 펴서 <b>1번</b>(엄지) 또는 <b>2번</b>, 옥타브 위 근음은 <b>1번</b>입니다. 1–5–8–5는 5–2–1–2로, 손 모양을 한 옥타브로 펼친 채 고정하고 손가락만 내립니다. 화음이 바뀔 때는 5번 손가락이 <b>새 근음을 먼저 찾아가고</b> 나머지 손가락이 따라갑니다. 근음을 놓치면 화음 전체가 틀린 것처럼 들리지만, 가운데 음 하나를 놓치는 것은 잘 들리지 않습니다.</p>
+
+    <div class="sim" id="sim-ac-bass">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기본 베이스 패턴과 왼손 운지</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="ac-slots" id="ac-bs-slots"></div>
+          <div id="ac-bs-st"></div>
+          <div id="ac-bs-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>패턴</span><div class="seg" id="ac-bs-pat"><button data-value="block" class="on">블록</button><button data-value="root5">근음–5도</button><button data-value="oct">옥타브</button><button data-value="r585">1–5–8–5</button></div></div>
+          <label class="ctrl"><span>진행</span><select id="ac-bs-prog"><option value="C F G C">C – F – G – C</option><option value="C Am Dm G">C – Am – Dm – G</option><option value="G Em C D">G – Em – C – D</option></select></label>
+          <label class="check"><input type="checkbox" id="ac-bs-rh" checked> 오른손 화음 함께</label>
+          <label class="ctrl"><span>템포 <output id="ac-bs-bpm-out"></output></span><input type="range" id="ac-bs-bpm" min="50" max="140" value="84"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-bs-play">▶ 반복 재생</button><button class="btn" id="ac-bs-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">왼손이 치는 음</span><span class="v" id="ac-bs-o-tones">—</span></div>
+        <div class="stat"><span class="k">왼손 손가락</span><span class="v" id="ac-bs-o-fing">—</span></div>
+        <div class="stat"><span class="k">손 펼침</span><span class="v" id="ac-bs-o-span">—</span></div>
+        <div class="stat"><span class="k">마디당 왼손 음</span><span class="v" id="ac-bs-o-n">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 블록 → 근음–5도 → 1–5–8–5로 바꾸며 같은 진행이 점점 '움직이는' 반주가 되는 것을 듣는다. ② '오른손 화음'을 끄고 왼손만으로 화음이 들리는지 확인한다(근음–5도만으로는 장·단을 알 수 없다). ③ 건반의 둥근 숫자(왼손 손가락 번호)를 보며 근음은 늘 5번이 맡는 것을 확인한다. 왼손 근음은 F2–E3 사이, 오른손은 C4 부근 밀집 화음으로 앞 화음에서 가장 가깝게 이어진다(7장). 손 펼침은 흰 건반 폭 23.5 mm로 어림한 손가락 중심 사이 거리다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 왼손 근음 찾기</strong> 화음 이름을 보고 근음을 찾는 시간이 반주의 병목입니다. 왼손 5번만으로 C–F–G–C, C–Am–Dm–G를 온음표로 치며 <b>건반을 보지 않고</b> 찾는 연습을 하세요. 이웃한 근음 사이의 거리(C→F는 흰 건반 3개 위 또는 4개 아래)를 손이 기억하면 눈은 악보에 둘 수 있습니다. 5번이 근음에 닿는 순간을 1박에 정확히 맞추는 것이 첫 목표입니다.</div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="explorer">
+    <h2>패턴 탐색기: 진행 × 패턴</h2>
+    <p>반주 패턴은 모두 같은 구조를 갖습니다. 한 화음이 지속되는 동안 <b>어느 시점에(리듬) 어느 화음 음을(R·3·5·8·10) 어느 손으로</b> 칠지를 정한 규칙이고, 화음이 바뀌면 같은 규칙을 새 화음에 적용합니다. 그림 8-2는 대표 패턴을 '시간 × 화음 음' 격자로 그린 것입니다. 이렇게 보면 패턴은 외워야 할 수많은 악보가 아니라 몇 줄짜리 프로그램이고, 진행이 바뀌어도 그대로 재사용할 수 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 300" role="img" aria-label="대표 반주 패턴을 시간과 화음 음 격자로 나타낸 그림">
+        <g font-family="var(--font)">
+          <g id="ac-fig2"></g>
+        </g>
+      </svg>
+      <figcaption><b>그림 8-2.</b> 반주 패턴을 격자로 그렸다. 가로는 8분음표 칸(한 마디), 세로는 화음 음(R 근음, 3·5, 8 옥타브, 10 = 옥타브 위 3음, R↓·5↓ 아래 옥타브). 점이 그 시점에 치는 음이다. 알베르티는 낮–높–가운데–높, 1–5–8–10은 위로 퍼지는 아르페지오, 왈츠는 3박 마디에서 1박 베이스 + 2·3박 화음, 스트라이드는 낮은 베이스와 가운데 화음을 오가는 도약이다.</figcaption>
+    </figure>
+    <p>아래 탐색기는 엔진의 반주 패턴 열한 가지를 어떤 진행에나 적용해 큰보표·건반·소리로 보여 줍니다. 오른손 화음은 7장의 '가까운 자리바꿈'으로 이어지고, 왼손은 패턴 규칙을 따릅니다. 보사노바·부기우기·찰스턴처럼 스타일이 분명한 패턴은 <a href="styles.html">13장</a>에서 리듬과 함께 자세히 다루니, 여기서는 '같은 진행이 패턴만 바꿔도 전혀 다른 곡처럼 들린다'는 것을 귀로 확인하면 충분합니다.</p>
+
+    <div class="sim" id="sim-ac-explorer">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>반주 패턴 탐색기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="ac-slots" id="ac-ex-slots"></div>
+          <div id="ac-ex-st"></div>
+          <div id="ac-ex-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>진행</span><select id="ac-ex-prog">
+            <option value="C G Am F">I–V–vi–IV (C G Am F)</option><option value="C Am F G">I–vi–IV–V (C Am F G)</option><option value="C G Am Em F C F G">캐논 진행 (C G Am Em F C F G)</option><option value="Dm G C C">ii–V–I (Dm G C C)</option><option value="Am Dm E Am">단조 i–iv–V–i (Am Dm E Am)</option>
+          </select></label>
+          <label class="ctrl"><span>패턴</span><select id="ac-ex-pat"></select></label>
+          <label class="check"><input type="checkbox" id="ac-ex-rh" checked> 오른손 화음 포함</label>
+          <label class="check"><input type="checkbox" id="ac-ex-click"> 메트로놈</label>
+          <label class="ctrl"><span>템포 <output id="ac-ex-bpm-out"></output></span><input type="range" id="ac-ex-bpm" min="50" max="160" value="88"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-ex-play">▶ 반복 재생</button><button class="btn" id="ac-ex-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">패턴</span><span class="v" id="ac-ex-o-name">—</span></div>
+        <div class="stat"><span class="k">박자</span><span class="v" id="ac-ex-o-meter">—</span></div>
+        <div class="stat"><span class="k">마디당 왼손 음</span><span class="v" id="ac-ex-o-ln">—</span></div>
+        <div class="stat"><span class="k">왼손 음역</span><span class="v" id="ac-ex-o-range">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 진행을 고정하고 패턴만 블록 → 알베르티 → 발라드 → 스트라이드로 바꿔 분위기가 어떻게 달라지는지 듣는다. ② '오른손 화음'을 끄고 왼손 패턴만으로 화음이 전달되는 패턴(알베르티·아르페지오·왈츠)과 그렇지 않은 패턴(근음–5도·부기우기)을 구별한다. ③ 왈츠를 고르면 마디가 3박으로 바뀐다. 패턴은 piano.js의 <code>PN.ACCOMP</code>·<code>PN.progEvents</code>가 만들며, 악보는 실제 소리 길이(스타카토 등)를 가장 가까운 음표 길이로 정리해 적는다. 재생 중에는 지금 화음 칸이 강조되고 악보·건반이 함께 움직인다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="alberti">
+    <h2>알베르티 베이스</h2>
+    <p>화음의 세 음을 <b>낮은 음–높은 음–가운데 음–높은 음</b> 순서로 고르게 되풀이하는 반주를 <span class="term">알베르티 베이스</span><span class="en">(Alberti bass)</span>라고 합니다. 18세기 초 베네치아의 작곡가 도메니코 알베르티(Domenico Alberti, 1710년경–1740)가 건반 소나타에서 즐겨 써서 그의 이름이 붙었고, 하이든·모차르트·초기 베토벤의 고전 시대 소나타에서 왼손의 대표 패턴이 되었습니다. 블록 코드를 시간 축으로 펼친 것이라 화음은 분명하게 들리면서도, 음이 끊임없이 움직여 피아노 소리가 쉽게 사라지는 약점(감쇠)을 메워 줍니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="알베르티 베이스의 음높이 윤곽과 손가락 번호">
+        <g font-family="var(--font)">
+          <g stroke="var(--grid)"><line x1="60" y1="50" x2="760" y2="50"/><line x1="60" y1="110" x2="760" y2="110"/><line x1="60" y1="170" x2="760" y2="170"/></g>
+          <g class="t-mono" style="font-size:12px" text-anchor="end"><text x="52" y="54">G (5음)</text><text x="52" y="114">E (3음)</text><text x="52" y="174">C (근음)</text></g>
+          <polyline points="100,170 180,50 260,110 340,50 420,170 500,50 580,110 660,50 740,170" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+          <g fill="var(--accent)"><circle cx="100" cy="170" r="13"/><circle cx="180" cy="50" r="13"/><circle cx="260" cy="110" r="13"/><circle cx="340" cy="50" r="13"/><circle cx="420" cy="170" r="13"/><circle cx="500" cy="50" r="13"/><circle cx="580" cy="110" r="13"/><circle cx="660" cy="50" r="13"/></g>
+          <circle cx="740" cy="170" r="13" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
+          <g text-anchor="middle" style="font:700 13px var(--mono)" fill="var(--on-accent)"><text x="100" y="175">5</text><text x="180" y="55">1</text><text x="260" y="115">3</text><text x="340" y="55">1</text><text x="420" y="175">5</text><text x="500" y="55">1</text><text x="580" y="115">3</text><text x="660" y="55">1</text></g>
+          <g class="t-dim" style="font-size:12px" text-anchor="middle"><text x="100" y="204">낮</text><text x="180" y="204">높</text><text x="260" y="204">가운데</text><text x="340" y="204">높</text><text x="420" y="204">낮</text><text x="500" y="204">높</text><text x="580" y="204">가운데</text><text x="660" y="204">높</text></g>
+          <text x="420" y="24" text-anchor="middle" class="t" style="font-size:13px">엄지(1)가 맡는 위 음 G가 두 번에 한 번씩 나온다 → 가장 여리게</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 8-3.</b> C 화음의 알베르티 베이스 C–G–E–G의 음높이 윤곽과 왼손 손가락 번호 5–1–3–1. 손은 C–G 5도 자세에 고정되고 손가락만 내린다. 엄지가 치는 G는 음 넷 중 둘을 차지하므로, 이 음을 가장 가볍게 쳐야 선율을 가리지 않는 '속삭이는' 반주가 된다.</figcaption>
+    </figure>
+    <p>알베르티 베이스에는 대표 예가 하나 있습니다. 모차르트가 1788년에 쓰고 자신의 작품 목록에 '초보자를 위한 작은 피아노 소나타'라고 적은 <b>피아노 소나타 16번 C장조 K.545</b>(흔히 '소나타 파칠레')의 첫머리입니다. 오른손이 C–E–G를 노래하는 동안 왼손은 16분음표로 C–G–E–G를 되풀이하고, 둘째 마디에서는 딸림화음(G7)을 D–G–F–G로 친 뒤 다시 C–G–E–G로 돌아옵니다. 화음이 바뀌어도 위 음 G가 그대로 남아 손이 거의 움직이지 않는다는 점에 주목하세요. 7장의 '가까운 자리바꿈'을 왼손 패턴에 적용한 것입니다.</p>
+
+    <div class="sim" id="sim-ac-alberti">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>알베르티 베이스 집중 연습</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="ac-al-st"></div>
+          <div id="ac-al-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>곡</span><div class="seg" id="ac-al-piece"><button data-value="k545" class="on">K.545 첫 두 마디</button><button data-value="drill">C–F–G7–C 연습</button></div></div>
+          <div class="ctrl"><span>셈여림 모양</span><div class="seg" id="ac-al-shape"><button data-value="even">모두 같게</button><button data-value="thumb" class="on">엄지 가볍게</button><button data-value="lumpy">울퉁불퉁</button></div></div>
+          <label class="check"><input type="checkbox" id="ac-al-rh" checked> 오른손 선율 함께</label>
+          <label class="ctrl"><span>템포(4분음표) <output id="ac-al-bpm-out"></output></span><input type="range" id="ac-al-bpm" min="40" max="140" value="72"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-al-play">▶ 반복 재생</button><button class="btn" id="ac-al-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 순서</span><span class="v" id="ac-al-o-seq">—</span></div>
+        <div class="stat"><span class="k">왼손 손가락</span><span class="v" id="ac-al-o-fing">—</span></div>
+        <div class="stat"><span class="k">1분에 치는 왼손 음</span><span class="v" id="ac-al-o-npm">—</span></div>
+        <div class="stat"><span class="k">음 간격</span><span class="v" id="ac-al-o-ioi">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① '모두 같게'와 '엄지 가볍게'를 비교한다. 엄지 음(위 음)을 여리게 하면 선율이 앞으로 나온다. ② '울퉁불퉁'은 초보자에게 흔한 소리(엄지가 세게 떨어지고 3번이 약함)를 흉내 낸 것이다. ③ 템포 40에서 시작해 음 간격이 고르게 들리면 올린다. K.545 첫 두 마디는 공유 저작물이며, 이 책에서는 왼손을 C3 부근, 오른손을 C5 부근에 적었다(원전의 셈여림·꾸밈은 생략). 왼손 손가락은 C 자세 5-1-3-1, G7·F 자세 5-1-2-1이다. 셈여림 모양은 각 음의 벨로시티를 바꿔 만든다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 알베르티를 고르게</strong> ① 먼저 세 음을 <b>블록</b>으로 눌러 손 모양을 확인합니다(C–E–G를 5–3–1). ② 손목을 낮게 고정하지 말고 아주 작게 <b>좌우로 굴리듯</b>(5 쪽으로 기울였다가 1 쪽으로) 움직이면 손가락만 쓸 때보다 고르고 덜 지칩니다. 이것을 '회전'이라고 합니다. ③ 엄지 음은 건반 바닥까지 세게 누르지 말고 얕게 칩니다. ④ 메트로놈 60에 8분음표(1박에 두 음) → 16분음표(1박에 네 음)로 올립니다. 녹음해서 들었을 때 '쿵딱쿵딱' 박이 들리면 아직 엄지가 셉니다.</div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="arpeggio">
+    <h2>아르페지오와 발라드 패턴</h2>
+    <p>왼손을 근음에서 위로 넓게 펼치는 분산화음은 피아노 발라드와 낭만 시대 반주의 상징입니다. 가장 유명한 모양이 <b>1–5–8–10</b>, 곧 근음–5음–옥타브–옥타브 위 3음입니다. C라면 C2–G2–C3–E3입니다. 3음을 근음 바로 위가 아니라 <b>한 옥타브 더 위(10도)</b>에 두는 데에 이유가 있습니다. 그림 8-1의 낮은 음정 한계 때문에 C2 위의 E2는 탁하지만, E3로 올리면 맑게 들립니다. 낮은 쪽은 넓은 음정(5도·옥타브)으로, 높은 쪽은 좁은 음정(3도)으로 채우는 것은 자연 배음열과 같은 배치이기도 합니다(배음열: 1, 2, 3, 4, 5번째 = C2, C3, G3, C4, E4).</p>
+    <div class="formula">$$\text{1–10 펼침} \approx (10 - 1) \times 23.5\ \text{mm} \approx 211\ \text{mm}$$
+      <div class="where">10도는 흰 건반 10개에 걸친 음정이라 동시에 누르려면 손가락 중심 사이가 약 21 cm 벌어져야 한다. 많은 손에게 버거운 거리지만, 아르페지오는 음을 차례로 치므로 손이 5–2–1(1–5–8) 자세에서 10도 쪽으로 <b>옮겨 가거나</b> 손가락을 엄지 위로 넘겨 해결한다. 그래서 피아노 반주자는 '닿는 거리'보다 '옮겨 가는 동작'을 연습한다.</div>
+    </div>
+    <p>아르페지오 반주는 음이 넓게 퍼져 있어 손으로는 다 붙잡고 있을 수 없습니다. 대신 <span class="term">댐퍼 페달</span><span class="en">(Damper pedal)</span>로 화음 전체를 울려 둡니다. 이때 화음이 바뀌는 순간 페달을 <b>떼었다가 새 근음을 친 직후 다시 밟아야</b> 앞 화음이 섞여 흐려지지 않습니다. 이것을 레가토 페달(또는 싱코페이티드 페달)이라 하고, <a href="pedal.html">11장</a>에서 자세히 다룹니다. 아래 시뮬레이터의 '페달'을 켜면 화음마다 이렇게 갈아 밟습니다.</p>
+
+    <div class="sim" id="sim-ac-arp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>아르페지오 반주와 손 펼침</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="ac-slots" id="ac-ar-slots"></div>
+          <div id="ac-ar-st"></div>
+          <div id="ac-ar-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>패턴</span><div class="seg" id="ac-ar-pat"><button data-value="1585" class="on">1–5–8–5</button><button data-value="15105">1–5–10–5</button><button data-value="15810">1–5–8–10</button><button data-value="low3">1–3–5–3 (낮게)</button></div></div>
+          <label class="check"><input type="checkbox" id="ac-ar-ped" checked> 페달(화음마다 갈아 밟기)</label>
+          <label class="check"><input type="checkbox" id="ac-ar-rh"> 오른손 화음 함께</label>
+          <label class="ctrl"><span>템포 <output id="ac-ar-bpm-out"></output></span><input type="range" id="ac-ar-bpm" min="50" max="130" value="72"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-ar-play">▶ 반복 재생</button><button class="btn" id="ac-ar-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">한 화음의 음</span><span class="v" id="ac-ar-o-tones">—</span></div>
+        <div class="stat"><span class="k">전체 폭</span><span class="v" id="ac-ar-o-span">—</span></div>
+        <div class="stat"><span class="k">왼손 손가락</span><span class="v" id="ac-ar-o-fing">—</span></div>
+        <div class="stat"><span class="k">가장 낮은 3도</span><span class="v" id="ac-ar-o-low">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 1–5–8–5와 '1–3–5–3 (낮게)'를 비교해 낮은 음역의 3도가 얼마나 탁한지 듣는다. ② 페달을 끄고 켜며 울림의 차이를, 페달을 켠 채 화음이 바뀌는 순간 앞 화음이 깨끗이 지워지는지 듣는다. ③ 1–5–8–10의 전체 폭(약 21 cm)을 자기 손으로 재 본다. 진행은 C–Am–F–G(I–vi–IV–V), 왼손 근음은 C2–B2 사이다. 페달은 화음 첫 음과 함께 떼고 8분음표 반 박 뒤에 다시 밟으며, 악보 아래 페달 기호로 표시한다. 손가락 번호는 흔한 기본형이고 손 크기에 따라 1–5–8–10의 10도는 엄지 위로 2·3번을 넘기거나 손을 옮겨 친다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="waltz">
+    <h2>왈츠와 스트라이드: 도약의 기술</h2>
+    <p><span class="term">왈츠</span><span class="en">(Waltz)</span> 반주는 3박자 마디의 1박에 낮은 베이스, 2·3박에 가운데 음역의 화음을 치는 '<b>쿵–짝–짝</b>'(oom-pah-pah)입니다. 1박이 무겁고 2·3박이 가벼워야 춤추는 느낌이 납니다. 2·3박 화음은 짧게 끊어 치고(스타카토), 베이스는 마디 끝까지 페달이나 손가락으로 울려 두는 것이 전통적인 소리입니다. 1박 베이스를 근음과 5음으로 마디마다 번갈아 치면(C2 → G1 → C2…) 같은 화음이 오래 이어질 때도 지루하지 않습니다.</p>
+    <p>같은 원리를 4박자로 옮기고 거리를 크게 늘린 것이 <span class="term">스트라이드</span><span class="en">(Stride)</span>입니다. 1910–30년대 뉴욕 할렘에서 제임스 P. 존슨, 패츠 월러, 윌리 '더 라이언' 스미스 같은 피아니스트들이 래그타임을 발전시켜 만든 양식으로, 왼손이 1·3박에 낮은 베이스(근음, 5음, 10도)를, 2·4박에 가운데 음역의 화음을 치며 건반 위를 '성큼성큼(stride)' 걷습니다. 소리는 경쾌하지만 손에는 가장 어려운 왼손 패턴 가운데 하나입니다. 도약 거리가 25 cm를 넘고, 그 거리를 한 박의 일부 동안 정확히 날아가야 하기 때문입니다.</p>
+    <p>도약을 공학적으로 보면 '정해진 시간 \(T\) 안에 거리 \(d\)를 이동해 정확히 멈추는' 문제입니다. 사람 팔의 빠른 도달 동작은 가속도의 변화(저크)를 가장 작게 하는 궤적, 이른바 <b>최소 저크 궤적</b>으로 잘 근사된다고 알려져 있습니다(Flash & Hogan, 1985). 이 궤적에서 위치·속도의 최댓값은 다음과 같습니다.</p>
+    <div class="formula">$$x(\tau) = d\,(10\tau^3 - 15\tau^4 + 6\tau^5),\quad \tau = \tfrac{t}{T},\qquad v_{\max} = 1.875\,\frac{d}{T},\qquad a_{\max} \approx 5.77\,\frac{d}{T^2}$$
+      <div class="where">\(T\)는 이동에 쓸 수 있는 시간이다. 베이스를 박 길이의 비율 \(r\)만큼 누르고 있다면 \(T = (1-r)\cdot 60/\text{BPM}\)이다. 예: 160 BPM, \(r = 0.5\)이면 \(T \approx 0.19\) s, 도약 21 cm면 최고 속도 약 2.1 m/s. 템포를 두 배로 하면 속도는 두 배, 가속도는 네 배가 되므로, 도약은 템포를 올릴수록 급격히 어려워진다.</div>
+    </div>
+
+    <div class="sim" id="sim-ac-leap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>스트라이드 도약 계산기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="ac-lp-cv"></canvas>
+          <div id="ac-lp-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>베이스</span><div class="seg" id="ac-lp-bass"><button data-value="c2" class="on">C2</button><button data-value="alt">C2·G1 교대</button><button data-value="c1">C1</button><button data-value="waltz">왈츠(3박)</button></div></div>
+          <label class="ctrl"><span>템포 <output id="ac-lp-bpm-out"></output></span><input type="range" id="ac-lp-bpm" min="60" max="220" value="120"></label>
+          <label class="ctrl"><span>누르고 있는 비율 r <output id="ac-lp-r-out"></output></span><input type="range" id="ac-lp-r" min="0.2" max="0.9" step="0.05" value="0.5"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-lp-play">▶ 반복 재생</button><button class="btn" id="ac-lp-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">도약 거리 d</span><span class="v" id="ac-lp-o-d">—</span></div>
+        <div class="stat"><span class="k">이동 시간 T</span><span class="v" id="ac-lp-o-T">—</span></div>
+        <div class="stat"><span class="k">평균 속도</span><span class="v" id="ac-lp-o-v">—</span></div>
+        <div class="stat"><span class="k">최고 속도</span><span class="v" id="ac-lp-o-vmax">—</span></div>
+        <div class="stat"><span class="k">최대 가속도</span><span class="v" id="ac-lp-o-a">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 템포를 120 → 180으로 올리며 최고 속도와 가속도가 어떻게 커지는지 본다. ② r(건반을 누르고 있는 비율)을 줄이면, 곧 베이스를 짧게 끊으면 이동 시간이 늘어 도약이 쉬워지는 것을 확인한다. 스트라이드 피아니스트가 베이스를 짧게 치는 이유다. ③ C1 베이스는 도약이 커서 템포 160에서도 매우 빠른 손이 필요하다. 그래프는 한 마디 동안 손의 가로 위치(위 = 화음 자리, 아래 = 베이스 자리)를 최소 저크 궤적으로 그린 것이고, 굵은 구간이 건반을 누르는 시간, 빨간 선이 지금 재생 위치다. 화음은 E3–G3–C4(C/E)로 고정했고, 거리는 손의 중심(화음 가운데 음 G3)과 베이스 음(교대이면 더 먼 G1) 사이를 흰 건반 폭 23.5 mm로 어림한다. 모델은 이상화된 한 방향 이동이며 실제 손은 위로 들었다 내리는 호를 그린다.</div>
+    </div>
+    <div class="callout tip"><strong>실제 피아노로: 도약 연습 3단계</strong> ① <b>미리 가기</b>: 베이스를 치자마자(누르고 있지 말고) 손을 화음 자리로 옮겨 건반 위에 <b>미리</b> 올려 두고, 박이 오면 누르기만 합니다. 손은 '날아가서 누르는' 것이 아니라 '가서 기다렸다가 누르는' 것입니다. ② <b>눈은 한 곳만</b>: 도약 연습에서 눈은 더 먼 쪽(대개 베이스)을 봅니다. 가까운 화음 자리는 손이 기억하게 합니다. ③ <b>박 빼고 거리만</b>: 메트로놈 없이 베이스–화음을 오가며 정확히 착지하는 것만 10번, 그다음 메트로놈 60에서 r을 작게(베이스 짧게) 칩니다. 정확도가 90%를 넘기 전에는 템포를 올리지 않습니다.</div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="editor">
+    <h2>나만의 반주 패턴 만들기</h2>
+    <p>3절에서 본 것처럼 반주 패턴은 '시간 칸 × 화음 음' 격자 위의 점 배치일 뿐입니다. 그렇다면 직접 만들 수도 있습니다. 아래 편집기는 한 마디를 8분음표 여덟 칸(3박자는 여섯 칸)으로 나누고, 칸마다 근음(R)·3음·5음·옥타브(8)·10도와 아래 옥타브 음(R↓·5↓) 가운데 무엇을 칠지 고르게 합니다. 칸이 비어 있으면 앞 음을 계속 누르고 있는 것으로(다음 음이 나오거나 화음이 바뀔 때까지) 처리합니다. 완성한 패턴은 어떤 코드 진행에나 그대로 적용됩니다. 화음이 바뀌면 같은 '프로그램'이 새 근음 위에서 다시 실행되는 것입니다.</p>
+    <p>좋은 패턴을 만드는 몇 가지 원칙이 있습니다. ① <b>1박에는 베이스</b>(R 또는 R↓)를 둡니다. 화음의 정체가 처음에 정해집니다. ② 저음 쪽에는 넓은 음정, 3도는 위쪽(10)에 둡니다(그림 8-1). ③ 마디 안에서 한 번은 3음을 쳐야 장·단이 들립니다. ④ 오른손 선율과 같은 음역(C4 위)에 너무 오래 머무르지 않습니다. ⑤ 칸을 다 채우기보다 쉼(지속)을 두면 오히려 선율이 숨을 쉽니다.</p>
+
+    <div class="sim" id="sim-ac-editor">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>왼손 패턴 편집기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="steps-grid ac-grid" id="ac-ed-grid"></div>
+          <div class="ac-slots" id="ac-ed-slots" style="margin-top:10px"></div>
+          <div id="ac-ed-st"></div>
+          <div id="ac-ed-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>박자</span><div class="seg" id="ac-ed-meter"><button data-value="4" class="on">4/4 (8칸)</button><button data-value="3">3/4 (6칸)</button></div></div>
+          <div class="ctrl"><span>불러오기</span><div class="ac-pre" id="ac-ed-pre"></div></div>
+          <label class="ctrl"><span>진행</span><select id="ac-ed-prog"><option value="C Am F G">C Am F G</option><option value="C G Am Em F C F G">캐논 진행</option><option value="Am F C G">Am F C G</option><option value="Dm G C A">Dm G C A</option></select></label>
+          <label class="ctrl"><span>템포 <output id="ac-ed-bpm-out"></output></span><input type="range" id="ac-ed-bpm" min="50" max="150" value="84"></label>
+          <div class="btn-row"><button class="btn primary" id="ac-ed-play">▶ 반복 재생</button><button class="btn" id="ac-ed-stop">■ 정지</button><button class="btn" id="ac-ed-clear">모두 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마디당 음</span><span class="v" id="ac-ed-o-n">—</span></div>
+        <div class="stat"><span class="k">쓰는 화음 음</span><span class="v" id="ac-ed-o-used">—</span></div>
+        <div class="stat"><span class="k">C 화음에서 폭</span><span class="v" id="ac-ed-o-span">—</span></div>
+        <div class="stat"><span class="k">점검</span><span class="v" id="ac-ed-o-check">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① '알베르티'를 불러온 뒤 한 칸만 바꿔 R–5–3–5를 R–5–10–5로 만들어 본다. ② 1박의 R을 지우면 '점검'이 무엇을 경고하는지 본다. ③ 3/4로 바꿔 왈츠를 불러오고, 1박을 R↓로 바꿔 더 깊은 베이스를 만든다. 칸(세로 한 줄)에는 여러 음을 함께 켤 수 있고(동시에 치는 화음), 재생 중에 칸을 바꾸면 바로 처음부터 새 패턴으로 다시 재생한다. 음높이: 근음 R은 F2–E3 사이, 3·5는 그 위, 8·10은 옥타브 위, R↓·5↓는 근음 아래 옥타브·4도 아래(5음의 아래 옥타브)다. '점검'은 위 다섯 원칙 가운데 ①·③·④를 자동으로 확인한다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="hands">
+    <h2>양손 합치기: 분리 → 느리게 → 함께</h2>
+    <p>반주 패턴을 왼손 혼자 칠 수 있게 되었다면 이제 오른손 선율과 합칠 차례입니다. 양손 합치기가 어려운 이유는 뇌가 두 손에 <b>다른 리듬</b>을 동시에 보내야 하기 때문입니다. 연구와 경험이 일치하는 해법은 한 손을 '자동'으로 만드는 것입니다. 왼손 패턴이 생각 없이 돌아갈 만큼 익으면 주의를 선율에 쓸 수 있습니다. 그래서 순서는 언제나 <b>손 따로(특히 왼손) → 양손 아주 느리게 → 목표 템포로</b>입니다.</p>
+    <p>아래 시뮬레이터는 공유 저작물 선율(베토벤 '환희의 송가', 프랑스 민요 '작은 별')과 이 책의 짧은 창작 왈츠에 왼손 패턴을 붙여 줍니다. 한 손을 끄면 그 손은 악보에서 흐리게 남고 소리만 빠지니, 꺼진 손을 실제 피아노로 직접 쳐서 '반주자'나 '선율 연주자' 역할을 맡아 보세요. 꺼진 손이 무엇을 할지 악보와 건반 표시로 미리 보며 맞추는 것이 이 장의 마지막 연습입니다.</p>
+
+    <div class="sim" id="sim-ac-hands">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>양손 분리 연습: 선율 + 왼손 패턴</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div id="ac-hd-st"></div>
+          <div id="ac-hd-kb" style="margin-top:8px"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>선율</span><select id="ac-hd-song"><option value="ode">환희의 송가 (4/4)</option><option value="star">작은 별 (4/4)</option><option value="waltz">창작 왈츠 (3/4)</option></select></label>
+          <label class="ctrl"><span>왼손 패턴</span><select id="ac-hd-pat"></select></label>
+          <div class="ctrl"><span>소리 낼 손</span><div class="seg" id="ac-hd-hand"><button data-value="L">왼손만</button><button data-value="R">오른손만</button><button data-value="both" class="on">양손</button></div></div>
+          <label class="ctrl"><span>템포 <output id="ac-hd-bpm-out"></output></span><input type="range" id="ac-hd-bpm" min="40" max="140" value="80"></label>
+          <label class="check"><input type="checkbox" id="ac-hd-click"> 메트로놈</label>
+          <div class="btn-row"><button class="btn primary" id="ac-hd-play">▶ 반복 재생</button><button class="btn" id="ac-hd-stop">■ 정지</button></div>
+          <div class="btn-row"><button class="btn" id="ac-hd-step">연습 단계 따라가기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 단계</span><span class="v" id="ac-hd-o-stage">자유 연습</span></div>
+        <div class="stat"><span class="k">코드</span><span class="v" id="ac-hd-o-chord">—</span></div>
+        <div class="stat"><span class="k">왼손 : 오른손 음 수</span><span class="v" id="ac-hd-o-ratio">—</span></div>
+        <div class="stat"><span class="k">템포</span><span class="v" id="ac-hd-o-bpm">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① '왼손만'으로 패턴을 들으며 실제 피아노로 오른손 선율을 얹는다. ② '오른손만'으로 바꿔 이번에는 왼손 반주를 직접 친다. ③ '연습 단계 따라가기'는 왼손만(목표 템포의 60%) → 오른손만(60%) → 양손(60%) → 양손(80%) → 양손(100%)을 곡을 한 번 끝까지 칠 때마다 자동으로 넘긴다. 선율은 공유 저작물(베토벤 교향곡 9번 '환희의 송가' 주제, 민요 '작은 별')과 이 책의 창작곡이며, 화음 붙임은 이 책에서 단순하게 정한 것이다. 왼손 패턴은 위 편집기와 같은 규칙(근음 F2–E3)으로 만든다.</div>
+    </div>
+    <div class="callout tip"><strong>양손 합치기 체크리스트</strong>
+      <ol style="margin:6px 0 0;padding-left:1.3em">
+        <li><b>왼손 먼저 자동화</b>: 왼손 패턴을 눈을 감고, 말을 하면서도 칠 수 있을 때까지(대개 목표 템포에서 5번 연속 실수 없이).</li>
+        <li><b>오른손 따로</b>: 선율을 손가락 번호까지 정해 혼자 칩니다(<a href="touch.html">3장</a>의 5손가락 자세).</li>
+        <li><b>양손은 반 템포로</b>: 목표의 50–60%에서 시작합니다. 틀리면 멈추지 말고 <b>왼손 박을 지키며</b> 오른손을 다음 박에 다시 맞춥니다.</li>
+        <li><b>세로 맞춤 확인</b>: 두 손이 함께 치는 박(대개 1박)을 악보에서 찾아 그 순간만 정확히 맞추는 데 집중합니다. 그 사이는 각 손이 알아서 흘러가게 둡니다.</li>
+        <li><b>앞을 읽기</b>: 눈은 지금 치는 마디보다 한 마디 앞의 코드 이름을 봅니다. 다음 근음을 미리 알아야 5번 손가락이 제때 갑니다.</li>
+        <li><b>템포 사다리</b>: 실수 없이 두 번 연속이면 5 BPM 올리고, 실수하면 10 BPM 내립니다(<a href="technique.html">12장</a>).</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>왼손 반주는 베이스(근음으로 화음의 정체), 화음 채우기(3·5음으로 색), 박(언제 치는가)의 세 역할을 나눠 맡는다.</li>
+      <li>낮은 음역에서는 3도가 탁해진다(낮은 음정 한계: 대략 5도 B♭1, 장3도 B♭2, 단3도 C3). 저음은 근음–5도·옥타브로, 3도는 위(10도)로 올린다.</li>
+      <li>기본 패턴은 블록, 근음–5도, 옥타브, 1–5–8–5이며 왼손 근음은 거의 언제나 5번 손가락이 먼저 찾아간다.</li>
+      <li>알베르티 베이스는 낮–높–가운데–높(C–G–E–G, 5-1-3-1)이고 엄지 음을 가장 여리게 친다. 모차르트 K.545 첫머리가 대표 예이며, 화음이 바뀌어도 가까운 자리바꿈으로 손이 거의 움직이지 않는다.</li>
+      <li>1–5–8–10 아르페지오는 폭이 약 21 cm라 차례로 치며 손을 옮긴다. 넓게 퍼진 반주는 화음마다 페달을 떼었다 다시 밟는다.</li>
+      <li>왈츠는 1박 베이스 + 2·3박 짧은 화음, 스트라이드는 1·3박 낮은 베이스 + 2·4박 화음의 도약이다. 최소 저크 모델에서 최고 속도는 \(1.875\,d/T\)라 템포를 두 배로 하면 속도 두 배, 가속도 네 배가 된다. 베이스를 짧게 끊고 손을 미리 옮긴다.</li>
+      <li>반주 패턴은 '시간 칸 × 화음 음' 격자 위의 작은 프로그램이고, 진행이 바뀌어도 그대로 재사용된다. 1박 베이스, 마디 안 3음, 선율 음역 피하기를 지킨다.</li>
+      <li>양손 합치기는 왼손 자동화 → 손 따로 → 양손 50–60% 템포 → 템포 사다리 순서로 하고, 틀려도 왼손 박을 지키며 한 마디 앞을 읽는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>C 화음 알베르티 베이스의 음 순서와 왼손 손가락 번호로 알맞은 것은?</p><div class="opts">
+        <button class="opt">C–E–G–E, 5-3-1-3</button><button class="opt" data-correct>C–G–E–G, 5-1-3-1</button><button class="opt">C–G–C–G, 5-1-5-1</button><button class="opt">G–E–C–E, 1-3-5-3</button>
+      </div><div class="quiz-exp">알베르티는 낮은 음–높은 음–가운데 음–높은 음이다. C–E–G 화음에서 C(5번)–G(1번)–E(3번)–G(1번)가 되고, 엄지가 치는 G가 두 번에 한 번씩 나오므로 가장 여리게 친다.</div></div>
+      <div class="quiz-q"><p>C2를 근음으로 하는 아르페지오에서 3음 E를 E2가 아니라 E3에 두는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">E2는 피아노에 없는 음이라서</button><button class="opt">E3가 더 크게 울려서</button><button class="opt" data-correct>낮은 음역의 3도는 배음이 겹쳐 탁하게 들리므로(낮은 음정 한계)</button><button class="opt">왼손 5번 손가락이 E2에 닿지 않아서</button>
+      </div><div class="quiz-exp">장3도의 낮은 음정 한계는 대략 B♭2 부근이다. C2–E2는 그보다 훨씬 낮아 거칠게 들리므로, 저음은 5도·옥타브로 넓게, 3도는 10도 위로 올린다. 배음열(C2, C3, G3, C4, E4…)과 같은 배치다.</div></div>
+      <div class="quiz-q"><p>스트라이드에서 템포를 120에서 180 BPM으로 올리고 나머지는 그대로 두면, 최소 저크 모델의 최고 손 속도는?</p><div class="opts">
+        <button class="opt">그대로다</button><button class="opt" data-correct>1.5배</button><button class="opt">2.25배</button><button class="opt">3배</button>
+      </div><div class="quiz-exp">\(v_{\max} = 1.875\,d/T\)이고 \(T\)는 박 길이에 비례하므로 템포에 반비례한다. 템포가 1.5배면 \(T\)는 2/3배, 속도는 1.5배다. 가속도는 \(1/T^2\)에 비례해 2.25배가 된다.</div></div>
+      <div class="quiz-q"><p>왈츠 반주 '쿵–짝–짝'에서 일반적인 셈여림과 아티큘레이션은?</p><div class="opts">
+        <button class="opt">세 박 모두 같은 세기로 길게</button><button class="opt" data-correct>1박 베이스는 무겁게 울리고, 2·3박 화음은 가볍고 짧게</button><button class="opt">1박은 짧게, 2·3박은 길게 페달로</button><button class="opt">2박에 강세</button>
+      </div><div class="quiz-exp">왈츠의 무게는 1박에 있다. 베이스를 울려 두고 2·3박 화음은 가볍게 끊어야 춤의 '들어 올리는' 느낌이 난다.</div></div>
+      <div class="quiz-q"><p>아르페지오 반주에 페달을 쓸 때, 화음이 바뀌는 순간에 해야 할 일은?</p><div class="opts">
+        <button class="opt">페달을 계속 밟고 있는다</button><button class="opt">새 화음의 마지막 음에서 뗀다</button><button class="opt" data-correct>새 근음을 치는 순간 떼었다가 친 직후 다시 밟는다</button><button class="opt">새 화음을 치기 한 박 전에 뗀다</button>
+      </div><div class="quiz-exp">레가토 페달(싱코페이티드 페달)이다. 떼는 순간 앞 화음의 울림이 지워지고, 새 근음을 친 뒤 밟아야 그 근음이 페달에 잡힌다. 계속 밟으면 두 화음이 섞여 흐려진다.</div></div>
+      <div class="quiz-q"><p>양손 합치기 연습에서 실수했을 때 권장하는 대처는?</p><div class="opts">
+        <button class="opt">처음부터 다시 시작한다</button><button class="opt">오른손 선율을 지키고 왼손을 멈춘다</button><button class="opt" data-correct>왼손 박을 지키며 계속하고, 오른손을 다음 박에 다시 맞춘다</button><button class="opt">템포를 올려 흐름을 탄다</button>
+      </div><div class="quiz-exp">반주의 박이 끊기면 음악 전체가 멈춘다. 왼손을 자동화해 박을 지키고, 오른손은 다음 맞춤 지점(대개 다음 1박)에서 다시 합류한다. 같은 곳에서 반복해 틀리면 그 부분만 떼어 템포를 내려 연습한다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================ 공통 */
+/** 정지 직후 미리 예약돼 있던 '누름' 표시가 늦게 켜져 남는 것을 지운다(엔진 PN.at 순서 문제 우회) */
+function unstick(kb) { setTimeout(() => { const [a, b] = kb.range; for (let m = a; m <= b; m++) if (!kb.piano.held.includes(m)) kb.up(m); }, 260); }
+const Solo = (() => {
+  let cur = null;
+  return {
+    take(f) { if (cur && cur !== f) { const g = cur; cur = null; try { g(); } catch (e) { console.error(e); } } cur = f; },
+    drop(f) { if (cur === f) cur = null; },
+  };
+})();
+const AC_STD = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25];
+const acSnap = (d) => AC_STD.find((x) => x <= d + 0.12) || 0.25;
+const acW = (sel, wide = 760, narrow = 440) => { const el = document.querySelector(sel); return el && el.clientWidth && el.clientWidth < 520 ? narrow : wide; };
+const acName = (m) => MB.noteName(m);
+/** 재생 이벤트 → 악보용 음표(같은 손 안에서 다음 음까지·마디 끝까지로 길이를 정리해 표준 음표 길이로) */
+function acStaffNotes(events, bpb = 4) {
+  const out = events.map((e) => { const n = { t: e.t, d: e.d, hand: e.hand === "L" ? "L" : "R" }; if (e.ms) n.ms = e.ms; else n.m = e.m; if (e.finger != null) n.finger = e.finger; if (e.cls) n.cls = e.cls; return n; });
+  ["L", "R"].forEach((h) => {
+    const idx = out.map((n, i) => i).filter((i) => out[i].hand === h).sort((a, b) => out[a].t - out[b].t);
+    idx.forEach((i, j) => {
+      const e = out[i]; let nxt = Infinity;
+      for (let q = j + 1; q < idx.length; q++) if (out[idx[q]].t > e.t + 1e-6) { nxt = out[idx[q]].t; break; }
+      const barEnd = (Math.floor(e.t / bpb + 1e-9) + 1) * bpb;
+      e.d = acSnap(Math.min(e.d, nxt - e.t, barEnd - e.t));
+    });
+  });
+  return out;
+}
+/** "C G:2 Am" → [{name, t, beats}] */
+function acSeq(str, per = 4) {
+  let t = 0; return str.trim().split(/\s+/).map((tok) => { const [n, b] = tok.split(":"); const beats = b ? +b : per; const r = { name: n, t, beats }; t += beats; return r; });
+}
+/** 화음 칸 표시 */
+function acSlots(el, seq, romans) {
+  el.innerHTML = seq.map((c, i) => `<div data-i="${i}">${c.name}${romans ? `<small>${romans[i] || ""}</small>` : `<small>${c.beats}박</small>`}</div>`).join("");
+  return (i) => el.querySelectorAll("div").forEach((d) => d.classList.toggle("now", +d.dataset.i === i));
+}
+const acChordAt = (seq, t) => { let k = 0; seq.forEach((c, i) => { if (c.t <= t + 1e-6) k = i; }); return k; };
+/* 스텝(칸) 패턴 모델: 칸마다 화음 음 이름 목록 */
+const AC_ROWS = ["10", "8", "5", "3", "R", "5↓", "R↓"];
+function acTone(slot, c, base) {
+  const third = c.iv[1], fifth = c.iv[2] != null ? c.iv[2] : 7;
+  return { R: base, "3": base + third, "5": base + fifth, "8": base + 12, "10": base + 12 + third, "5↓": base + fifth - 12, "R↓": base - 12 }[slot];
+}
+/** 칸 패턴을 코드 진행에 적용 → 왼손 이벤트. 화음이 바뀌면 패턴을 첫 칸부터 다시 실행한다 */
+function acGen(seq, steps, o = {}) {
+  const sd = o.stepDur || 0.5, n = steps.length, E = [];
+  seq.forEach((seg) => {
+    const c = PN.parseChord(seg.name); if (!c) return;
+    const base = (o.lo || 41) + MB.mod(c.root - (o.lo || 41), 12);
+    const on = [];
+    for (let k = 0; k * sd < seg.beats - 1e-6; k++) { const s = steps[k % n]; if (s && s.length) on.push({ k, ms: [...new Set(s.map((x) => acTone(x, c, base)))].sort((a, b) => a - b), slots: s }); }
+    on.forEach((x, j) => {
+      const t = seg.t + x.k * sd, end = j + 1 < on.length ? seg.t + on[j + 1].k * sd : seg.t + seg.beats;
+      const pos = MB.mod(t, o.bpb || 4);
+      const vel = (pos < 1e-6 ? 0.68 : Math.abs(pos - Math.round(pos)) < 1e-6 ? 0.56 : 0.5) * (o.velK || 1);
+      E.push(Object.assign({ t, d: end - t, hand: "L", vel, slots: x.slots }, x.ms.length > 1 ? { ms: x.ms } : { m: x.ms[0] }));
+    });
+  });
+  return E;
+}
+const AC_PRESETS4 = {
+  block: { name: "블록", steps: [["R", "3", "5"], [], [], [], [], [], [], []] },
+  root5: { name: "근음–5도", steps: [["R"], [], [], [], ["5"], [], [], []] },
+  r585: { name: "1–5–8–5", steps: [["R"], [], ["5"], [], ["8"], [], ["5"], []] },
+  alberti: { name: "알베르티", steps: [["R"], ["5"], ["3"], ["5"], ["R"], ["5"], ["3"], ["5"]] },
+  arp: { name: "1–5–8–10", steps: [["R"], ["5"], ["8"], ["10"], ["8"], ["5"], ["8"], ["5"]] },
+  ballad: { name: "발라드 1–5–10", steps: [["R↓"], ["R"], ["5"], ["10"], [], ["5"], ["R"], ["5"]] },
+  stride: { name: "스트라이드", steps: [["R↓"], [], ["5", "8", "10"], [], ["5↓"], [], ["5", "8", "10"], []] },
+  bossa: { name: "보사 베이스", steps: [["R"], [], [], ["5↓"], ["5↓"], [], [], ["R"]] },
+};
+const AC_PRESETS3 = {
+  waltz: { name: "왈츠", steps: [["R"], [], ["5", "8", "10"], [], ["5", "8", "10"], []] },
+  waltzLow: { name: "왈츠(깊은 베이스)", steps: [["R↓"], [], ["5", "8", "10"], [], ["5", "8", "10"], []] },
+  waltzArp: { name: "3박 분산", steps: [["R"], ["5"], ["8"], ["10"], ["8"], ["5"]] },
+  block3: { name: "블록", steps: [["R", "3", "5"], [], [], [], [], []] },
+};
+
+/* ================================================================ 그림 8-2 */
+(function () {
+  const g = document.getElementById("ac-fig2");
+  const pats = [["블록", AC_PRESETS4.block.steps], ["근음–5도", AC_PRESETS4.root5.steps], ["알베르티", AC_PRESETS4.alberti.steps], ["1–5–8–10", AC_PRESETS4.arp.steps], ["왈츠 3/4", AC_PRESETS3.waltz.steps], ["스트라이드", AC_PRESETS4.stride.steps]];
+  const rows = AC_ROWS, cw = 13, rh = 13;
+  let s = "";
+  pats.forEach(([nm, steps], k) => {
+    const x0 = 22 + (k % 3) * 262, y0 = 16 + Math.floor(k / 3) * 142;
+    s += `<text x="${x0 + 30}" y="${y0 + 12}" class="t" style="font-size:13px;font-weight:700">${nm}</text>`;
+    rows.forEach((r, i) => { s += `<text x="${x0 + 22}" y="${y0 + 32 + i * rh}" text-anchor="end" class="t-mono" style="font-size:9.5px;fill:var(--text-dim)">${r}</text>`; });
+    for (let c = 0; c < 8; c++) {
+      const xx = x0 + 30 + c * (cw + 15);
+      rows.forEach((r, i) => { const on = c < steps.length && steps[c].includes(r); s += `<rect x="${xx}" y="${y0 + 23 + i * rh}" width="${cw + 12}" height="${rh - 2}" rx="3" fill="${c >= steps.length ? "transparent" : on ? "var(--accent)" : c % 2 === 0 ? "var(--surface-2)" : "var(--surface)"}"/>`; });
+      if (c < steps.length) s += `<text x="${xx + (cw + 12) / 2}" y="${y0 + 23 + rows.length * rh + 11}" text-anchor="middle" class="t-mono" style="font-size:9px;fill:var(--text-faint)">${c % 2 === 0 ? c / 2 + 1 : "&amp;"}</text>`;
+    }
+  });
+  g.innerHTML = s;
+})();
+
+/* ================================================================ 1. 기본 베이스 패턴 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-bs-kb", { from: 41, to: 76, labels: "c", piano: p });
+  const st = PN.staff("#ac-bs-st", [], { clef: "grand", width: acW("#ac-bs-st") });
+  const pat = MB.seg("ac-bs-pat", () => { build(); restart(); });
+  const progSel = document.getElementById("ac-bs-prog");
+  const rh = MB.check("ac-bs-rh", () => { build(); restart(); });
+  const bpm = MB.range("ac-bs-bpm", (v) => v + " BPM");
+  progSel.addEventListener("change", () => { build(); restart(); });
+  const P = {
+    block: { steps: [["R", "3", "5"], [], [], [], [], [], [], []], fing: { R: 5, "3": 3, "5": 1 }, txt: "R+3+5", f: "5–3–1" },
+    root5: { steps: [["R"], [], [], [], ["5"], [], [], []], fing: { R: 5, "5": 1 }, txt: "R · 5", f: "5 · 1" },
+    oct: { steps: [["R", "8"], [], ["R", "8"], [], ["R", "8"], [], ["R", "8"], []], fing: { R: 5, "8": 1 }, txt: "R+8", f: "5+1" },
+    r585: { steps: [["R"], [], ["5"], [], ["8"], [], ["5"], []], fing: { R: 5, "5": 2, "8": 1 }, txt: "R · 5 · 8 · 5", f: "5–2–1–2" },
+  };
+  let sched = null, data = null, hl = () => {};
+  function build() {
+    const seq = acSeq(progSel.value), P0 = P[pat()];
+    hl = acSlots(document.getElementById("ac-bs-slots"), seq);
+    const L = acGen(seq, P0.steps);
+    L.forEach((e) => { const f = e.slots.map((s) => P0.fing[s]); e.finger = f.length > 1 ? f.slice().reverse() : f[0]; });
+    let prev = null; const R = [];
+    if (rh()) seq.forEach((c) => { const v = PN.voicing(c.name, "close", { center: 69, prev }); prev = v.rh; R.push({ t: c.t, d: c.beats, ms: v.rh, hand: "R", vel: 0.5 }); });
+    const ev = [...L, ...R];
+    st.setNotes(acStaffNotes(ev), { chords: seq.map((c) => ({ t: c.t, name: c.name })), width: acW("#ac-bs-st") });
+    // 첫 화음의 손 모양(손가락 번호)
+    const c0 = PN.parseChord(seq[0].name), base = 41 + MB.mod(c0.root - 41, 12);
+    const uniq = [...new Set(P0.steps.flat())];
+    kb.set(uniq.map((s) => ({ m: acTone(s, c0, base), label: P0.fing[s], cls: "finger" })), "finger");
+    const ms0 = uniq.map((s) => acTone(s, c0, base));
+    const span = Math.max(...ms0) - Math.min(...ms0);
+    let wn = 0; for (let m = Math.min(...ms0); m <= Math.max(...ms0); m++) if (PN.isWhite(m)) wn++;
+    MB.stat("ac-bs-o-tones", P0.txt);
+    MB.stat("ac-bs-o-fing", P0.f);
+    MB.stat("ac-bs-o-span", `${span}<small>반음 · 약 ${Math.round((wn - 1) * 23.5)} mm (${seq[0].name})</small>`);
+    MB.stat("ac-bs-o-n", String(L.filter((e) => e.t < 4).length));
+    data = { ev, seq };
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); hl(-1); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    sched = PN.playEvents(data.ev, { piano: p, bpm: () => bpm(), loop: true, length: 16, staff: st, legato: 0.97, onNote(e) { hl(acChordAt(data.seq, e.t)); } });
+    sched.start();
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  document.getElementById("ac-bs-play").addEventListener("click", start);
+  document.getElementById("ac-bs-stop").addEventListener("click", stop);
+  build();
+})();
+
+/* ================================================================ 2. 패턴 탐색기 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-ex-kb", { from: 29, to: 79, labels: "c", piano: p });
+  const st = PN.staff("#ac-ex-st", [], { clef: "grand", width: acW("#ac-ex-st") });
+  const progSel = document.getElementById("ac-ex-prog"), patSel = document.getElementById("ac-ex-pat");
+  patSel.innerHTML = Object.entries(PN.ACCOMP).map(([k, v]) => `<option value="${k}"${k === "alberti" ? " selected" : ""}>${v.name}</option>`).join("");
+  const rh = MB.check("ac-ex-rh", () => { build(); restart(); });
+  const click = MB.check("ac-ex-click");
+  const bpm = MB.range("ac-ex-bpm", (v) => v + " BPM");
+  let sched = null, data = null, hl = () => {};
+  function build() {
+    const pat = patSel.value, per = PN.ACCOMP[pat].beats;
+    const names = progSel.value.split(" ");
+    const r = PN.progEvents(names, pat);
+    let ev = r.events.map((e) => Object.assign({}, e, pat === "waltz" ? { hand: "L" } : {}));
+    if (!rh()) ev = ev.filter((e) => e.hand === "L");
+    const seq = names.map((n, i) => ({ name: r.chords[i] ? r.chords[i].name : n, t: i * per, beats: per }));
+    hl = acSlots(document.getElementById("ac-ex-slots"), seq);
+    st.setNotes(acStaffNotes(ev, per), { time: per === 3 ? [3, 4] : [4, 4], chords: r.chords, width: acW("#ac-ex-st") });
+    const L = ev.filter((e) => e.hand === "L"), lm = L.flatMap((e) => e.ms || [e.m]);
+    MB.stat("ac-ex-o-name", PN.ACCOMP[pat].name);
+    MB.stat("ac-ex-o-meter", per === 3 ? "3/4" : "4/4");
+    MB.stat("ac-ex-o-ln", `${L.filter((e) => e.t < per - 1e-6).length}<small>개</small>`);
+    MB.stat("ac-ex-o-range", lm.length ? `${acName(Math.min(...lm))}–${acName(Math.max(...lm))}` : "—");
+    data = { ev, seq, len: r.length, per };
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); hl(-1); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    sched = PN.playEvents(data.ev, { piano: p, bpm: () => bpm(), loop: true, length: data.len, staff: st, legato: 0.96, click: true, clickOn: () => click(), beatsPerBar: data.per, onNote(e) { hl(acChordAt(data.seq, e.t)); } });
+    sched.start();
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  progSel.addEventListener("change", () => { build(); restart(); });
+  patSel.addEventListener("change", () => { build(); restart(); });
+  document.getElementById("ac-ex-play").addEventListener("click", start);
+  document.getElementById("ac-ex-stop").addEventListener("click", stop);
+  build();
+})();
+
+/* ================================================================ 3. 알베르티 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-al-kb", { from: 43, to: 81, labels: "c", piano: p });
+  const st = PN.staff("#ac-al-st", [], { clef: "grand", width: acW("#ac-al-st") });
+  const piece = MB.seg("ac-al-piece", () => { build(); restart(); });
+  const shape = MB.seg("ac-al-shape", () => { build(); restart(); });
+  const rh = MB.check("ac-al-rh", () => { build(); restart(); });
+  const bpm = MB.range("ac-al-bpm", (v) => v + " BPM", () => stats());
+  const SHAPE = { even: [0.6, 0.6, 0.6, 0.6], thumb: [0.66, 0.4, 0.56, 0.4], lumpy: [0.62, 0.78, 0.4, 0.74] };
+  let sched = null, data = null;
+  function build() {
+    const sh = SHAPE[shape()], ev = [];
+    const groups = piece() === "k545"
+      ? { sd: 0.25, list: [[48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"], [50, 55, 53, 55, "5121"], [50, 55, 53, 55, "5121"], [48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"]], chords: [{ t: 0, name: "C" }, { t: 4, name: "G7" }, { t: 6, name: "C" }] }
+      : { sd: 0.5, list: [[48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"], [48, 57, 53, 57, "5121"], [48, 57, 53, 57, "5121"], [47, 55, 53, 55, "5121"], [47, 55, 53, 55, "5121"], [48, 55, 52, 55, "5131"], [48, 55, 52, 55, "5131"]], chords: [{ t: 0, name: "C" }, { t: 4, name: "F/C" }, { t: 8, name: "G7/B" }, { t: 12, name: "C" }] };
+    let t = 0;
+    groups.list.forEach((g) => { for (let k = 0; k < 4; k++) { ev.push({ t, d: groups.sd, m: g[k], hand: "L", vel: sh[k], finger: +g[4][k] }); t += groups.sd; } });
+    const len = t;
+    if (rh() && piece() === "k545") PN.parseNotes("C5/2 E5/1 G5/1 B4/1.5 C5/.25 D5/.25 C5/2", { hand: "R" }).forEach((n) => ev.push(Object.assign(n, { vel: 0.68 })));
+    if (rh() && piece() === "drill") [[0, [64, 67, 72]], [4, [65, 69, 72]], [8, [65, 67, 71]], [12, [64, 67, 72]]].forEach(([tt, ms]) => ev.push({ t: tt, d: 4, ms, hand: "R", vel: 0.45 }));
+    st.setNotes(acStaffNotes(ev), { chords: groups.chords, width: acW("#ac-al-st"), fingering: true });
+    kb.set(groups.list[0].slice(0, 3).map((m, k) => ({ m, label: groups.list[0][4][k], cls: "finger" })), "finger");
+    data = { ev, len, sd: groups.sd };
+    MB.stat("ac-al-o-seq", piece() === "k545" ? "C–G–E–G · D–G–F–G" : "C–G–E–G · C–A–F–A · B–G–F–G");
+    MB.stat("ac-al-o-fing", "5-1-3-1 · 5-1-2-1");
+    stats();
+  }
+  function stats() {
+    if (!data) return;
+    const per = 1 / data.sd;
+    MB.stat("ac-al-o-npm", `${Math.round(bpm() * per)}<small>음/분</small>`);
+    MB.stat("ac-al-o-ioi", `${Math.round((60 / bpm()) * data.sd * 1000)}<small>ms</small>`);
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    sched = PN.playEvents(data.ev, { piano: p, bpm: () => bpm(), loop: true, length: data.len, staff: st, legato: 0.92 });
+    sched.start();
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  document.getElementById("ac-al-play").addEventListener("click", start);
+  document.getElementById("ac-al-stop").addEventListener("click", stop);
+  build();
+})();
+
+/* ================================================================ 4. 아르페지오 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-ar-kb", { from: 36, to: 76, labels: "c", piano: p });
+  const st = PN.staff("#ac-ar-st", [], { clef: "grand", width: acW("#ac-ar-st") });
+  const pat = MB.seg("ac-ar-pat", () => { build(); restart(); });
+  const ped = MB.check("ac-ar-ped", () => { build(); restart(); });
+  const rh = MB.check("ac-ar-rh", () => { build(); restart(); });
+  const bpm = MB.range("ac-ar-bpm", (v) => v + " BPM");
+  const P = {
+    "1585": { steps: [["R"], ["5"], ["8"], ["5"], ["R"], ["5"], ["8"], ["5"]], lo: 36, fing: "5-2-1-2", f: { R: 5, "5": 2, "8": 1 } },
+    "15105": { steps: [["R"], ["5"], ["10"], ["5"], ["R"], ["5"], ["10"], ["5"]], lo: 36, fing: "5-2-1-2 (6도를 2–1로 펼침)", f: { R: 5, "5": 2, "10": 1 } },
+    "15810": { steps: [["R"], ["5"], ["8"], ["10"], ["8"], ["5"], ["8"], ["5"]], lo: 36, fing: "5-2-1 → 2(엄지 위로) …", f: { R: 5, "5": 2, "8": 1, "10": 2 } },
+    low3: { steps: [["R"], ["3"], ["5"], ["3"], ["R"], ["3"], ["5"], ["3"]], lo: 36, fing: "5-3-1-3", f: { R: 5, "3": 3, "5": 1 } },
+  };
+  const seq = acSeq("C Am F G");
+  const hl = acSlots(document.getElementById("ac-ar-slots"), seq, ["I", "vi", "IV", "V"]);
+  let sched = null, data = null;
+  function build() {
+    const P0 = P[pat()];
+    const L = acGen(seq, P0.steps, { lo: P0.lo });
+    L.forEach((e) => { e.finger = P0.f[e.slots[0]]; });
+    const ev = [];
+    const pedals = [];
+    if (ped()) seq.forEach((c) => { ev.push({ t: c.t, pedal: false }); ev.push({ t: c.t + 0.5, pedal: true }); pedals.push({ t0: c.t + 0.5, t1: c.t + c.beats }); });
+    ev.push(...L);
+    if (rh()) { let prev = null; seq.forEach((c) => { const v = PN.voicing(c.name, "close", { center: 70, prev }); prev = v.rh; ev.push({ t: c.t, d: 4, ms: v.rh, hand: "R", vel: 0.45 }); }); }
+    const notesIdx = ev.map((e, i) => i).filter((i) => ev[i].pedal == null);
+    const staffNotes = acStaffNotes(notesIdx.map((i) => ev[i]));
+    // 악보 인덱스 = 이벤트 인덱스가 되도록 페달 이벤트 자리에 빈 칸 대신 '보이지 않는' 음은 넣지 않고, 하이라이트는 onNote에서 직접 한다
+    st.setNotes(staffNotes, { chords: seq.map((c) => ({ t: c.t, name: c.name })), pedal: pedals, width: acW("#ac-ar-st") });
+    const c0 = PN.parseChord("C"), base = 36;
+    const uniq = [...new Set(P0.steps.flat())];
+    const ms0 = uniq.map((s) => acTone(s, c0, base));
+    kb.set(uniq.map((s) => ({ m: acTone(s, c0, base), label: P0.f[s], cls: "finger" })), "finger");
+    const span = Math.max(...ms0) - Math.min(...ms0);
+    let wn = 0; for (let m = Math.min(...ms0); m <= Math.max(...ms0); m++) if (PN.isWhite(m)) wn++;
+    MB.stat("ac-ar-o-tones", uniq.map((s) => MB.noteName(acTone(s, c0, base))).join(" "));
+    MB.stat("ac-ar-o-span", `${span}<small>반음 · 약 ${Math.round((wn - 1) * 23.5)} mm</small>`);
+    MB.stat("ac-ar-o-fing", P0.fing);
+    const thirdM = uniq.includes("3") ? acTone("3", c0, base) : uniq.includes("10") ? acTone("10", c0, base) : null;
+    MB.stat("ac-ar-o-low", thirdM ? `${acName(thirdM)} <small>${thirdM < 46 ? "· 한계(B♭2)보다 낮음" : "· 맑음"}</small>` : "—");
+    data = { ev, map: notesIdx };
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); st.highlight(-1); hl(-1); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    sched = PN.playEvents(data.ev, { piano: p, bpm: () => bpm(), loop: true, length: 16, legato: 0.95,
+      onNote(e, i) { st.highlight(data.map.indexOf(i)); hl(acChordAt(seq, e.t)); } });
+    sched.start();
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  document.getElementById("ac-ar-play").addEventListener("click", start);
+  document.getElementById("ac-ar-stop").addEventListener("click", stop);
+  build();
+})();
+
+/* ================================================================ 5. 도약 계산기 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-lp-kb", { from: 24, to: 64, labels: "c", piano: p });
+  const bass = MB.seg("ac-lp-bass", () => { calc(); restart(); });
+  const bpm = MB.range("ac-lp-bpm", (v) => v + " BPM", () => calc());
+  const rr = MB.range("ac-lp-r", (v) => v.toFixed(2), () => { calc(); restart(); });
+  const CHORD = [52, 55, 60], CENTER = 55;
+  const whites = (a, b) => { const lo = Math.min(a, b), hi = Math.max(a, b); let n = 0; for (let m = lo; m <= hi; m++) if (PN.isWhite(m)) n++; return n - 1; };
+  let now = -1, sched = null, info = null;
+  function plan() {
+    const b = bass();
+    const per = b === "waltz" ? 3 : 4;
+    const basses = b === "c1" ? [24, 24] : b === "alt" ? [36, 31] : [36, 36];
+    return { per, basses };
+  }
+  function calc() {
+    const { per, basses } = plan();
+    const spb = 60 / bpm(), r = rr();
+    const d = Math.max(...basses.map((b) => whites(b, CENTER))) * 0.0235;
+    const T = (1 - r) * spb;
+    const v = d / T, vmax = 1.875 * v, a = 5.774 * d / (T * T);
+    MB.stat("ac-lp-o-d", `${Math.round(d * 1000)}<small>mm</small>`);
+    MB.stat("ac-lp-o-T", `${Math.round(T * 1000)}<small>ms</small>`);
+    MB.stat("ac-lp-o-v", `${v.toFixed(2)}<small>m/s</small>`);
+    MB.stat("ac-lp-o-vmax", `${vmax.toFixed(2)}<small>m/s</small>`);
+    MB.stat("ac-lp-o-a", `${(a / 9.81).toFixed(1)}<small>g</small>`);
+    info = { per, basses, r };
+    kb.set([...CHORD.map((m) => ({ m, cls: "mark" })), ...[...new Set(basses)].map((m) => ({ m, cls: "root" }))]);
+    cv.redraw();
+  }
+  // 손 위치 그래프: 0 = 베이스, 1 = 화음 자리. 한 마디(스트라이드 4박 / 왈츠 3박)
+  const mj = (u) => 10 * u ** 3 - 15 * u ** 4 + 6 * u ** 5;
+  const cv = MB.canvas("#ac-lp-cv", (ctx, w, h) => {
+    if (!info) return;
+    const P = MB.palette(), per = info.per, r = info.r;
+    const L = 40, R = w - 12, top = 18, bot = h - 26;
+    const X = (b) => L + (b / per) * (R - L), Y = (y) => bot - y * (bot - top);
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.fillStyle = P.dim; ctx.fillText("화음", 4, Y(1) + 4); ctx.fillText("베이스", 2, Y(0) + 4);
+    for (let b = 0; b <= per; b++) { ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(b), top - 6); ctx.lineTo(X(b), bot + 4); ctx.stroke(); if (b < per) { ctx.fillStyle = P.dim; ctx.fillText(String(b + 1), X(b) + 3, h - 8); } }
+    // 위치 함수: 박마다 누르는 자리(waltz: 0,1,1 / stride: 0,1,0,1)
+    const seat = (b) => (per === 3 ? (b % 3 === 0 ? 0 : 1) : b % 2 === 0 ? 0 : 1);
+    const pos = (t) => {
+      const b = Math.floor(t), fr = t - b, cur = seat(b), nxt = seat((b + 1) % per);
+      if (fr <= r || cur === nxt) return cur;
+      return cur + (nxt - cur) * mj((fr - r) / (1 - r));
+    };
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.beginPath();
+    for (let i = 0; i <= 400; i++) { const t = (i / 400) * per; const x = X(t), y = Y(pos(Math.min(t, per - 1e-6))); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 7; ctx.lineCap = "round";
+    for (let b = 0; b < per; b++) { const y = Y(seat(b)); ctx.beginPath(); ctx.moveTo(X(b) + 2, y); ctx.lineTo(X(b + r) - 2, y); ctx.stroke(); }
+    ctx.lineCap = "butt";
+    if (now >= 0) { ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(now), top - 6); ctx.lineTo(X(now), bot + 4); ctx.stroke(); }
+  }, { aspect: 0.36, minHeight: 150, maxHeight: 240 });
+  let raf = 0;
+  function loopUI() { if (!sched || !sched.running) { now = -1; cv.redraw(); raf = 0; return; } now = MB.mod(sched.beat, info.per); cv.redraw(); raf = requestAnimationFrame(loopUI); }
+  function events() {
+    const { per, basses, r } = info, ev = [];
+    for (let bar = 0; bar < 2; bar++) for (let b = 0; b < per; b++) {
+      const t = bar * per + b;
+      const isBass = per === 3 ? b === 0 : b % 2 === 0;
+      if (isBass) ev.push({ t, d: r, m: per === 3 ? basses[bar % 2] : basses[(b / 2) % 2], vel: b === 0 ? 0.72 : 0.64 });
+      else ev.push({ t, d: r, ms: CHORD, vel: 0.5 });
+    }
+    return { ev, len: 2 * per };
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    const { ev, len } = events();
+    sched = PN.playEvents(ev, { piano: p, bpm: () => bpm(), loop: true, length: len, legato: 1 });
+    sched.start(); if (!raf) raf = requestAnimationFrame(loopUI);
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  document.getElementById("ac-lp-play").addEventListener("click", start);
+  document.getElementById("ac-lp-stop").addEventListener("click", stop);
+  calc();
+})();
+
+/* ================================================================ 6. 패턴 편집기 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-ed-kb", { from: 29, to: 72, labels: "c", piano: p });
+  const st = PN.staff("#ac-ed-st", [], { clef: "bass", width: acW("#ac-ed-st") });
+  const meter = MB.seg("ac-ed-meter", () => { steps = clone((meter() === "3" ? AC_PRESETS3.waltz : AC_PRESETS4.alberti).steps); curPre = meter() === "3" ? "waltz" : "alberti"; presets(); grid(); build(); restart(); });
+  const progSel = document.getElementById("ac-ed-prog");
+  const bpm = MB.range("ac-ed-bpm", (v) => v + " BPM");
+  const clone = (s) => s.map((x) => x.slice());
+  let steps = clone(AC_PRESETS4.alberti.steps), curPre = "alberti", sched = null, data = null, hl = () => {}, nowStep = -1;
+  function presets() {
+    const PR = meter() === "3" ? AC_PRESETS3 : AC_PRESETS4;
+    document.getElementById("ac-ed-pre").innerHTML = Object.entries(PR).map(([k, v]) => `<button class="btn${k === curPre ? " on" : ""}" data-k="${k}">${v.name}</button>`).join("");
+  }
+  function grid() {
+    const n = steps.length;
+    document.getElementById("ac-ed-grid").innerHTML = AC_ROWS.map((r) => `<div class="row"><span class="lab">${r}</span><div class="cells" style="--n:${n}">${steps.map((s, c) => `<button class="cell${c % 2 === 0 ? " beat" : ""}${s.includes(r) ? " on" : ""}${c === nowStep ? " now" : ""}" data-r="${r}" data-c="${c}" aria-label="${r} ${c + 1}번째 칸"></button>`).join("")}</div></div>`).join("");
+  }
+  document.getElementById("ac-ed-grid").addEventListener("click", (e) => {
+    const b = e.target.closest(".cell"); if (!b) return;
+    const c = +b.dataset.c, r = b.dataset.r, s = steps[c];
+    const i = s.indexOf(r); if (i >= 0) s.splice(i, 1); else s.push(r);
+    curPre = ""; presets(); grid(); build(true);
+    if (s.includes(r)) { MB.ctx(); const c0 = PN.parseChord("C"); p.play(acTone(r, c0, 48), { dur: 0.4, vel: 0.6 }); }
+  });
+  document.getElementById("ac-ed-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    const PR = meter() === "3" ? AC_PRESETS3 : AC_PRESETS4;
+    steps = clone(PR[b.dataset.k].steps); curPre = b.dataset.k; presets(); grid(); build(true);
+  });
+  document.getElementById("ac-ed-clear").addEventListener("click", () => { steps = steps.map(() => []); curPre = ""; presets(); grid(); build(true); });
+  function build(live) {
+    const per = +meter();
+    const seq = acSeq(progSel.value, per);
+    hl = acSlots(document.getElementById("ac-ed-slots"), seq);
+    const ev = acGen(seq, steps, { bpb: per });
+    const len = seq.reduce((a, c) => a + c.beats, 0);
+    st.setNotes(acStaffNotes(ev, per), { time: [per, 4], bars: Math.round(len / per), chords: seq.map((c) => ({ t: c.t, name: c.name })), width: acW("#ac-ed-st") });
+    const n = steps.filter((s) => s.length).length;
+    const used = AC_ROWS.filter((r) => steps.some((s) => s.includes(r)));
+    const c0 = PN.parseChord("C"), ms = used.map((r) => acTone(r, c0, 48));
+    MB.stat("ac-ed-o-n", `${n}<small>칸 / ${steps.length}</small>`);
+    MB.stat("ac-ed-o-used", used.length ? used.join(" ") : "—");
+    MB.stat("ac-ed-o-span", ms.length ? `${Math.max(...ms) - Math.min(...ms)}<small>반음 (${acName(Math.min(...ms))}–${acName(Math.max(...ms))})</small>` : "—");
+    const warn = [];
+    if (!steps[0].some((r) => r === "R" || r === "R↓")) warn.push("1박에 근음 없음");
+    if (!used.some((r) => r === "3" || r === "10")) warn.push("3음 없음(장·단 불명)");
+    if (ms.some((m) => m > 67)) warn.push("선율 음역 침범");
+    MB.stat("ac-ed-o-check", warn.length ? `<span style="color:var(--warn)">${warn.join(" · ")}</span>` : `<span style="color:var(--ok)">좋음</span>`);
+    data = { ev, len, seq, per };
+    if (live) restart();
+  }
+  function markNow() { document.querySelectorAll("#ac-ed-grid .cell").forEach((c) => c.classList.toggle("now", +c.dataset.c === nowStep)); }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); hl(-1); nowStep = -1; markNow(); Solo.drop(stop); }
+  function start() {
+    MB.ctx(); Solo.take(stop); if (sched) sched.stop();
+    sched = PN.playEvents(data.ev, { piano: p, bpm: () => bpm(), loop: true, length: data.len, legato: 0.96, staff: st,
+      onNote(e) { hl(acChordAt(data.seq, e.t)); const seg = data.seq[acChordAt(data.seq, e.t)]; nowStep = Math.round((e.t - seg.t) / 0.5) % steps.length; markNow(); } });
+    sched.start();
+  }
+  function restart() { if (sched) { sched.stop(); sched = null; start(); } }
+  progSel.addEventListener("change", () => { build(); restart(); });
+  document.getElementById("ac-ed-play").addEventListener("click", start);
+  document.getElementById("ac-ed-stop").addEventListener("click", stop);
+  presets(); grid(); build();
+})();
+
+/* ================================================================ 7. 양손 분리 연습 */
+(function () {
+  const p = PN.piano();
+  const kb = PN.keyboard("#ac-hd-kb", { from: 29, to: 84, labels: "c", piano: p });
+  const st = PN.staff("#ac-hd-st", [], { clef: "grand", width: acW("#ac-hd-st") });
+  const songSel = document.getElementById("ac-hd-song"), patSel = document.getElementById("ac-hd-pat");
+  const hand = MB.seg("ac-hd-hand", () => { build(); restart(); });
+  const bpm = MB.range("ac-hd-bpm", (v) => v + " BPM", () => MB.stat("ac-hd-o-bpm", bpm() + " BPM"));
+  const click = MB.check("ac-hd-click");
+  const SONGS = {
+    ode: { per: 4, mel: "E5/1 E5/1 F5/1 G5/1 G5/1 F5/1 E5/1 D5/1 C5/1 C5/1 D5/1 E5/1 E5/1.5 D5/.5 D5/2 E5/1 E5/1 F5/1 G5/1 G5/1 F5/1 E5/1 D5/1 C5/1 C5/1 D5/1 E5/1 D5/1.5 C5/.5 C5/2", prog: "C G C G C G C G:2 C:2" },
+    star: { per: 4, mel: "C5/1 C5/1 G5/1 G5/1 A5/1 A5/1 G5/2 F5/1 F5/1 E5/1 E5/1 D5/1 D5/1 C5/2", prog: "C F:2 C:2 F:2 C:2 G:2 C:2" },
+    waltz: { per: 3, mel: "G4/1 C5/1 E5/1 G5/2 E5/1 F5/2 D5/1 B4/3 B4/1 D5/1 F5/1 A5/2 G5/1 E5/1 D5/1 E5/1 C5/3", prog: "C C G7 G7 G7 G7 C C" },
+  };
+  function pats() {
+    const PR = SONGS[songSel.value].per === 3 ? AC_PRESETS3 : AC_PRESETS4;
+    const keep = patSel.value;
+    patSel.innerHTML = Object.entries(PR).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join("");
+    if (PR[keep]) patSel.value = keep; else patSel.value = SONGS[songSel.value].per === 3 ? "waltz" : "alberti";
+  }
+  let sched = null, data = null, stage = -1, stageLoops = 0, base = 80, lastLoop = 0;
+  const STAGES = [["왼손만", "L", 0.6], ["오른손만", "R", 0.6], ["양손 60%", "both", 0.6], ["양손 80%", "both", 0.8], ["양손 100%", "both", 1]];
+  function build() {
+    const S = SONGS[songSel.value], PR = S.per === 3 ? AC_PRESETS3 : AC_PRESETS4;
+    const seq = acSeq(S.prog, S.per);
+    const L = acGen(seq, PR[patSel.value].steps, { bpb: S.per, velK: 0.9 });
+    const R = PN.parseNotes(S.mel, { hand: "R" }).map((n) => Object.assign(n, { vel: 0.7 }));
+    const h = hand();
+    const ev = [...R.map((e) => Object.assign({}, e, h === "L" ? { cls: "ghost", mute: true } : {})), ...L.map((e) => Object.assign({}, e, h === "R" ? { cls: "ghost", mute: true } : {}))];
+    st.setNotes(acStaffNotes(ev, S.per), { time: [S.per, 4], chords: seq.map((c) => ({ t: c.t, name: c.name })), width: acW("#ac-hd-st") });
+    const len = seq.reduce((a, c) => a + c.beats, 0);
+    data = { ev, len, seq, per: S.per, play: ev.map((e, i) => (e.mute ? Object.assign({}, e, { vel: 0.0001 }) : e)) };
+    MB.stat("ac-hd-o-ratio", `${L.length} : ${R.length}`);
+    MB.stat("ac-hd-o-bpm", bpm() + " BPM");
+  }
+  function stop() { unstick(kb); if (sched) { sched.stop(); sched = null; } p.stop(); stage = -1; MB.stat("ac-hd-o-stage", "자유 연습"); MB.stat("ac-hd-o-chord", "—"); Solo.drop(stop); }
+  function start(keepStage) {
+    MB.ctx(); Solo.take(stop);
+    if (sched) { const s = sched; sched = null; s.stop(); }
+    if (!keepStage) { stage = -1; MB.stat("ac-hd-o-stage", "자유 연습"); }
+    const evs = data.ev.map((e) => e).filter((e) => !e.mute);
+    // 악보 인덱스를 맞추기 위해 원래 인덱스를 들고 간다
+    const idx = data.ev.map((e, i) => i).filter((i) => !data.ev[i].mute);
+    lastLoop = 0;
+    sched = PN.playEvents(evs, { piano: p, bpm: () => bpm(), loop: true, length: data.len, legato: 0.95, click: true, clickOn: () => click(), beatsPerBar: data.per,
+      onNote(e, i) { st.highlight(idx[i]); const k = acChordAt(data.seq, e.t); MB.stat("ac-hd-o-chord", data.seq[k].name); if (stage >= 0 && e.t < 1e-6 && i === 0) nextLoop(); } });
+    sched.start();
+  }
+  function nextLoop() {
+    lastLoop++;
+    if (lastLoop < 2) return;
+    stageLoops++;
+    if (stageLoops >= 1 && stage < STAGES.length - 1) { setStage(stage + 1); }
+  }
+  function setStage(k) {
+    stage = k; stageLoops = 0;
+    const [nm, h, f] = STAGES[k];
+    hand.set(h, false); bpm.set(Math.round(base * f), false);
+    MB.stat("ac-hd-o-stage", `${k + 1}/5 ${nm}`); MB.stat("ac-hd-o-bpm", bpm() + " BPM");
+    build(); start(true);
+  }
+  function restart() { if (sched) { start(stage >= 0); } }
+  document.getElementById("ac-hd-step").addEventListener("click", () => { base = bpm() < 60 ? 80 : bpm(); setStage(0); });
+  songSel.addEventListener("change", () => { pats(); build(); restart(); });
+  patSel.addEventListener("change", () => { build(); restart(); });
+  document.getElementById("ac-hd-play").addEventListener("click", () => start(false));
+  document.getElementById("ac-hd-stop").addEventListener("click", stop);
+  pats(); build();
+})();
+</script>
+</body>
+</html>

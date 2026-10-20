@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>피아노라는 악기 · PianoBook</title>
+<meta name="description" content="하프시코드에서 피아노포르테로, 해머 액션과 댐퍼, 230개의 현과 향판, 비조화성과 스트레치 튜닝, 2단 감쇠, 그랜드·업라이트·디지털 피아노의 차이를 듣고 조작한다.">
+<link rel="canonical" href="https://music.euiyun.com/piano/chapters/instrument.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PianoBook">
+<meta property="og:title" content="피아노라는 악기 · PianoBook">
+<meta property="og:description" content="하프시코드에서 피아노포르테로, 해머 액션과 댐퍼, 230개의 현과 향판, 비조화성과 스트레치 튜닝, 2단 감쇠, 그랜드·업라이트·디지털 피아노의 차이를 듣고 조작한다.">
+<meta property="og:url" content="https://music.euiyun.com/piano/chapters/instrument.html">
+<meta property="og:locale" content="ko_KR">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/piano.css">
+<script src="../js/common.js"></script>
+<script src="../js/piano.js"></script>
+<style>
+  :root { --ins-wood: color-mix(in srgb, var(--warn) 22%, var(--bg-elev)); --ins-wood-2: color-mix(in srgb, var(--warn) 45%, var(--text) 20%); --ins-iron: color-mix(in srgb, var(--warn) 30%, var(--text-faint)); --ins-copper: color-mix(in srgb, var(--warn) 70%, var(--bad) 30%); }
+  .ins-anat { padding: 8px 6px 2px; }
+  .ins-anat svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+  .ins-anat .part { cursor: pointer; transition: opacity .15s; }
+  .ins-anat.sel .part:not(.on) { opacity: 0.42; }
+  .ins-anat .part.on { filter: drop-shadow(0 0 3px var(--accent)); }
+  .ins-anat .rim { fill: var(--ins-wood-2); stroke: var(--text-dim); stroke-width: 1.5; }
+  .ins-anat .sb { fill: var(--ins-wood); }
+  .ins-anat .rib { stroke: color-mix(in srgb, var(--warn) 40%, var(--bg-elev)); stroke-width: 3; }
+  .ins-anat .plate { fill: color-mix(in srgb, var(--ins-iron) 30%, transparent); stroke: var(--ins-iron); stroke-width: 3; }
+  .ins-anat .strut { stroke: var(--ins-iron); stroke-width: 7; stroke-linecap: round; opacity: .85; }
+  .ins-anat .str { stroke: var(--text-dim); stroke-width: .8; }
+  .ins-anat .wound { stroke: var(--ins-copper); stroke-width: 2.2; }
+  .ins-anat .bridge { fill: none; stroke: var(--ins-wood-2); stroke-width: 7; stroke-linecap: round; }
+  .ins-anat .pin { fill: var(--text-dim); }
+  .ins-anat .pinblock { fill: color-mix(in srgb, var(--ins-wood-2) 60%, transparent); }
+  .ins-anat .damp { fill: var(--text); }
+  .ins-anat .ham { fill: var(--accent); }
+  .ins-anat .wk { fill: var(--pn-white); stroke: var(--pn-white-edge); stroke-width: .6; }
+  .ins-anat .bk { fill: var(--pn-black); }
+  .ins-anat .ped { fill: color-mix(in srgb, var(--warn) 55%, var(--text-dim)); stroke: var(--text-dim); }
+  .ins-anat .lid { fill: none; stroke: var(--accent-2); stroke-width: 2; stroke-dasharray: 7 5; }
+  .ins-anat .hit { fill: transparent; stroke: transparent; }
+  .ins-anat .lbl { font: 600 14px var(--font); fill: var(--accent); text-anchor: middle; pointer-events: none; paint-order: stroke; stroke: var(--canvas-bg); stroke-width: 4px; }
+  .ins-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ins-chips button { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+  .ins-chips button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .ins-info { padding: 12px 18px; border-top: 1px solid var(--border); font-size: 15px; line-height: 1.7; min-height: 92px; }
+  .ins-info h4 { margin: 0 0 4px; font-size: 16px; }
+  .ins-info p { margin: 0; }
+  .ins-hold { touch-action: none; user-select: none; -webkit-user-select: none; }
+  .ins-hold.down { background: var(--accent-soft); border-color: var(--accent); }
+  .ins-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ins-presets .btn { padding: 5px 10px; font-size: 13px; }
+  .sim-view .ins-sub { font-size: 12.5px; color: var(--text-dim); padding: 6px 10px 0; }
+  .ins-tl .yr { font: 700 13px var(--mono); fill: var(--accent); text-anchor: middle; }
+  .ins-tl .ev { font: 13px var(--font); fill: var(--text); text-anchor: middle; }
+  .ins-tl .ev2 { font: 12px var(--font); fill: var(--text-dim); text-anchor: middle; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="piano"></script>
+</head>
+<body data-chapter="instrument">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 01</div>
+    <h1>피아노라는 악기</h1>
+    <p class="lead">피아노는 건반 하나를 누르는 동작을 지렛대 몇 개로 증폭해 펠트 망치를 날려 보내고, 그 망치가 강철 현을 때린 뒤 곧바로 물러나게 하는 정교한 기계입니다. 현의 진동은 브리지를 거쳐 넓은 나무판으로 넘어가 소리가 되고, 건반을 떼면 펠트 덩어리가 현을 눌러 소리를 멈춥니다. 이 장에서는 피아노가 왜 '여리게와 세게(piano e forte)'라는 이름을 얻었는지에서 출발해, 해머 액션의 동작을 슬로 모션으로 보고, 230개 남짓한 현의 장력을 계산하고, 피아노 배음이 왜 조금씩 높은지(비조화성)와 그 때문에 옥타브를 넓게 맞추는 이유(스트레치 튜닝)를 귀로 확인합니다.</p>
+    <ul class="objectives">
+      <li>하프시코드·클라비코드와 피아노의 차이, 크리스토포리의 발명(1700년 무렵)과 이중 이탈 장치·주철 프레임·교차현이 바꾼 것을 설명할 수 있다.</li>
+      <li>건반 → 액션 → 해머 → 현 → 브리지 → 향판으로 이어지는 소리의 길과 댐퍼·페달의 역할을 안다.</li>
+      <li>이탈(escapement)과 백체크가 왜 필요한지, 너무 느리게 누르면 왜 소리가 나지 않는지 해머 운동으로 설명한다.</li>
+      <li>\(f = \frac{1}{2L}\sqrt{T/\mu}\)로 현의 장력을 계산하고, 저음에 감은 현을 쓰는 이유를 길이의 한계로 설명한다.</li>
+      <li>비조화성 \(f_n = n f_0\sqrt{1+Bn^2}\)이 배음을 어떻게 끌어올리는지, 그 결과 옥타브를 넓게 맞추는 스트레치 튜닝을 이해한다.</li>
+      <li>2단 감쇠(즉답음·여운), 유니즌 맥놀이, 타현 위치가 음색에 주는 영향을 듣고, 그랜드·업라이트·디지털 피아노를 고를 기준을 갖춘다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="history">
+    <h2>하프시코드에서 피아노로: 세기를 조절하는 건반</h2>
+    <p>피아노 이전의 대표적인 건반 악기는 <b>하프시코드</b><span class="en">(Harpsichord, 이탈리아어 cembalo)</span>였습니다. 건반을 누르면 뒤쪽의 나무 막대(잭) 끝에 달린 깃촉이나 가죽 조각이 현을 <b>뜯습니다</b>. 뜯는 동작은 '걸렸다가 넘어가는' 일이라, 건반을 세게 누르든 살살 누르든 현이 받는 변위가 거의 같습니다. 그래서 하프시코드는 손끝으로 셈여림을 바꿀 수 없고, 연주자는 음을 겹치거나 꾸밈음을 넣거나 건반 단(段)과 현 묶음을 바꾸는 방식으로 표현했습니다. 다른 하나인 <b>클라비코드</b><span class="en">(Clavichord)</span>는 금속 탄젠트가 현을 눌러 붙인 채 소리를 내므로 셈여림이 가능했지만, 소리가 방 하나를 채우기도 어려울 만큼 작았습니다.</p>
+    <p>1700년 무렵 피렌체 메디치 가문의 악기 관리인이던 <b>바르톨로메오 크리스토포리</b><span class="en">(Bartolomeo Cristofori, 1655–1731)</span>가 현을 뜯는 대신 <b>가죽을 씌운 작은 망치로 때리는</b> 건반 악기를 만들었습니다. 1700년의 메디치 악기 목록에 그의 새 악기가 등장하고, 1711년 한 잡지 기사는 이를 <i>gravicembalo col piano e forte</i>, 곧 "여리게도 세게도 칠 수 있는 하프시코드"라고 소개했습니다. 오늘날의 이름 피아노포르테·포르테피아노, 그리고 줄임말 <b>피아노</b>가 여기서 나왔습니다. 크리스토포리가 만든 악기 중 1720·1722·1726년의 세 대가 지금도 남아 있습니다.</p>
+    <p>망치로 때리는 방식의 핵심 문제는 두 가지였습니다. 망치가 현을 때린 뒤 <b>곧바로 떨어져야</b> 현이 자유롭게 울리고(눌러 붙어 있으면 소리를 죽인다), 떨어진 망치가 <b>되튀어 다시 현을 때리지 않아야</b> 합니다. 크리스토포리는 첫 악기부터 망치를 밀어 올리던 부품이 마지막 순간 빠져나가는 <b>이탈 장치</b><span class="en">(Escapement)</span>와 떨어지는 망치를 붙잡는 장치를 넣었습니다. 이 원리는 지금의 피아노에도 그대로 있습니다.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="피아노 발전 연표" class="ins-tl" id="ins-tl-svg">
+        <g id="ins-tl-g"></g>
+      </svg>
+      <figcaption><b>그림 1-1.</b> 피아노가 지금 모습이 되기까지. 18세기의 피아노포르테는 나무 틀에 가는 현, 가죽 해머, 5옥타브 안팎(모차르트 시대 약 61건반)이었다. 19세기에 이중 이탈 장치(빠른 연타), 주철 프레임(큰 장력), 펠트 해머, 교차현이 더해지면서 소리가 커지고 음역이 7¼옥타브(88건반)로 넓어졌다.</figcaption>
+    </figure>
+
+    <p>19세기에 들어 피아노는 연주회장을 채울 만큼 커져야 했습니다. 더 굵고 팽팽한 현을 쓰려면 나무 틀로는 버틸 수 없었고, 1820년대에 금속 보강을 거쳐 <b>통주철 프레임</b><span class="en">(Cast-iron plate/frame)</span>이 나왔습니다. 오늘날 콘서트 그랜드의 현 장력을 모두 더하면 약 20톤에 이릅니다. 1821년 에라르<span class="en">(Érard)</span>가 특허를 낸 <b>이중 이탈 장치</b><span class="en">(Double escapement)</span>는 건반이 끝까지 올라오지 않아도 다시 칠 수 있게 해 빠른 연타와 트릴을 가능하게 했고, 1859년 스타인웨이<span class="en">(Steinway)</span>는 저음 현을 고음 현 위로 비스듬히 지나가게 하는 <b>교차현</b><span class="en">(Overstringing, Cross-stringing)</span>을 주철 프레임과 결합한 그랜드로 특허를 받았습니다. 해머는 가죽에서 두꺼운 양모 <b>펠트</b>로 바뀌었고, 1880년대 무렵 A0부터 C8까지의 <b>88건반</b>이 표준이 되었습니다.</p>
+
+    <div class="sim" id="sim-ins-pf">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>뜯기와 때리기: 하프시코드 근사 vs 피아노</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-ins-pf"></canvas>
+          <div id="ins-pf-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="ins-pf-inst"><button data-value="piano" class="on">피아노(때림)</button><button data-value="harp">하프시코드 근사(뜯음)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-pf-cresc">▶ pp → ff 크레셴도</button></div>
+          <div class="btn-row"><button class="btn" id="ins-pf-both">두 악기 차례로</button><button class="btn" id="ins-pf-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">누른 세기</span><span class="v" id="ins-pf-o-v">—</span></div>
+        <div class="stat"><span class="k">음량(ff 대비)</span><span class="v" id="ins-pf-o-db">—</span></div>
+        <div class="stat"><span class="k">음색 층</span><span class="v" id="ins-pf-o-l">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 건반 앞쪽(아래)을 누를수록 세게, 안쪽(위)을 누를수록 여리게 칩니다. 피아노로 놓고 같은 건반을 앞·안쪽으로 번갈아 눌러 본 뒤 하프시코드로 바꿔 같은 일을 해 보세요. 그래프는 크레셴도 여덟 번의 상대 음량(dB)입니다. 피아노는 세게 칠수록 커지고 밝아지지만, 뜯는 악기는 거의 그대로입니다. 모델: 하프시코드는 카플러스–스트롱 현(밝게, 브리지 가까이 뜯음)에 고정 세기를 준 근사이며 실제 하프시코드의 음색·여러 현 묶음은 흉내 내지 않습니다. 피아노 음량 곡선은 엔진의 벨로시티 → 음량 곡선(ppp ≈ −36 dB)입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="anatomy">
+    <h2>피아노의 해부도: 손가락에서 향판까지</h2>
+    <p>그랜드 피아노의 뚜껑을 열고 위에서 내려다보면, 연주자 쪽에서 꼬리 쪽으로 다음 순서로 부품이 놓여 있습니다. 맨 앞에 <b>건반</b><span class="en">(Keys)</span> 88개가 있고, 그 뒤 건반 끝에 해머를 날리는 기계 장치인 <b>액션</b><span class="en">(Action)</span>이 들어 있습니다. 액션 위로는 현의 한쪽 끝을 감아 둔 <b>조율 핀</b><span class="en">(Tuning pins)</span>이 여러 겹 쌓아 붙인 단단한 나무 블록(<b>핀블록</b>, Pinblock)에 박혀 있고, 현은 거기서 출발해 해머가 때리는 선과 <b>댐퍼</b><span class="en">(Dampers)</span> 줄을 지나 꼬리 쪽의 <b>브리지</b><span class="en">(Bridge)</span>를 넘어 끝의 고정 핀에 걸립니다. 현 아래에는 피아노 바닥 전체를 덮는 얇은 가문비나무 판인 <b>향판</b><span class="en">(Soundboard)</span>이 있고, 현 위에는 장력을 버티는 거대한 <b>주철 프레임</b>이 덮여 있습니다.</p>
+    <p>현은 스스로는 공기를 거의 밀지 못합니다. 지름 1 mm의 선은 공기 속을 칼처럼 지나가 버리기 때문입니다. 그래서 현의 진동을 넓은 판으로 넘겨야 하는데, 이 다리 역할을 하는 것이 브리지입니다. 브리지는 향판에 붙어 있고, 향판은 뒷면의 가로 막대(<b>리브</b>, Ribs)로 보강되어 약간 위로 볼록한 모양(<b>크라운</b>, Crown)을 유지하며 현이 브리지를 누르는 힘(다운베어링)에 맞섭니다. 향판의 넓은 면이 공기를 밀어 비로소 소리가 됩니다. 이 '작은 진동체 → 넓은 판' 구조는 기타의 상판, 바이올린의 앞판과 같은 원리입니다(<a href="../../fundamentals/chapters/instruments.html#piano">MusicBook 악기의 물리</a>).</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 230" role="img" aria-label="그랜드 피아노 단면: 소리의 길">
+        <!-- rim & soundboard -->
+        <path d="M120 200 L780 200 L780 214 L120 214 Z" class="f-elev"/>
+        <path d="M300 168 Q540 158 770 168 L770 176 Q540 166 300 176 Z" class="f-acc-soft"/>
+        <text x="560" y="196" text-anchor="middle" class="t-dim">향판(가문비나무, 크라운) · 아래쪽 리브</text>
+        <g class="s-line"><line x1="380" y1="178" x2="380" y2="186"/><line x1="460" y1="176" x2="460" y2="184"/><line x1="540" y1="175" x2="540" y2="183"/><line x1="620" y1="176" x2="620" y2="184"/><line x1="700" y1="178" x2="700" y2="186"/></g>
+        <!-- key -->
+        <rect x="20" y="150" width="200" height="14" rx="2" class="f-surface"/>
+        <path d="M110 164 l-8 12 h16 z" class="f-acc"/>
+        <text x="60" y="142" class="t">건반(지렛대)</text>
+        <text x="110" y="192" text-anchor="middle" class="t-dim">밸런스 레일(받침점)</text>
+        <!-- action -->
+        <rect x="180" y="118" width="40" height="30" rx="4" class="f-elev"/>
+        <text x="172" y="138" text-anchor="end" class="t-dim">액션</text>
+        <!-- hammer -->
+        <line x1="190" y1="104" x2="250" y2="96" class="s-line"/>
+        <rect x="244" y="74" width="16" height="24" rx="6" class="f-acc"/>
+        <text x="252" y="128" text-anchor="middle" class="t-acc">해머</text>
+        <!-- pinblock & pins -->
+        <rect x="200" y="46" width="70" height="16" rx="2" class="f-elev"/>
+        <circle cx="222" cy="44" r="4" class="f-acc"/>
+        <text x="236" y="30" text-anchor="middle" class="t-dim">조율 핀·핀블록</text>
+        <!-- string -->
+        <path d="M222 44 L262 70 L470 70 L700 70 L760 76" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+        <rect x="258" y="64" width="8" height="8" class="f-acc2-soft"/>
+        <!-- damper -->
+        <rect x="292" y="52" width="26" height="16" rx="3" class="f-surface"/>
+        <text x="305" y="44" text-anchor="middle" class="t-dim">댐퍼</text>
+        <!-- bridge -->
+        <path d="M688 70 L712 70 L708 166 L692 166 Z" class="f-elev"/>
+        <text x="700" y="58" text-anchor="middle" class="t">브리지</text>
+        <!-- plate -->
+        <path d="M270 34 L770 34" stroke="var(--warn)" stroke-width="5" opacity=".55"/>
+        <text x="520" y="26" text-anchor="middle" class="t-dim">주철 프레임(장력 약 20톤을 받친다)</text>
+        <!-- arrows -->
+        <path d="M480 86 q30 30 0 60" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <text x="470" y="112" text-anchor="end" class="t-acc">현 진동 → 브리지 → 향판</text>
+        <path d="M560 156 q14 -22 30 -10 M590 152 q14 -22 30 -10 M620 156 q14 -22 30 -10" fill="none" stroke="var(--accent-2)" stroke-width="1.4"/>
+        <text x="606" y="128" class="t-dim" text-anchor="middle">공기로 방사</text>
+        <!-- pedal -->
+        <line x1="60" y1="214" x2="60" y2="228" class="s-line"/>
+        <rect x="44" y="222" width="34" height="6" rx="2" class="f-acc"/>
+        <text x="90" y="228" class="t-dim">페달(트랩워크)</text>
+      </svg>
+      <figcaption><b>그림 1-2.</b> 그랜드 피아노 단면(비율은 단순화). 건반은 받침점을 가진 지렛대이고, 뒤쪽이 올라가며 액션을 밀어 해머를 위로 던진다. 현은 조율 핀에서 출발해 해머가 때리는 지점과 댐퍼를 지나 브리지를 넘는다. 현의 진동이 브리지를 통해 향판을 흔들고, 넓은 향판이 공기를 밀어 소리가 난다. 주철 프레임은 현 위에서 장력을 받는다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-anatomy">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>눌러 보는 그랜드 피아노 평면도</h3></div>
+      <div class="sim-body">
+        <div class="sim-view ins-anat" id="ins-an-view"></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>부분 고르기</span><div class="ins-chips" id="ins-an-chips"></div></div>
+        </div>
+      </div>
+      <div class="ins-info" id="ins-an-info"><h4>부분을 눌러 보세요</h4><p>그림이나 이름표를 누르면 설명이 나오고, 소리와 관계있는 부분(해머·댐퍼·현·페달 등)은 그 역할을 가상 피아노 소리로 들려줍니다.</p></div>
+      <div class="sim-note">위에서 내려다본 그랜드 피아노(아래가 연주자 쪽, 왼쪽이 저음). 현은 음마다 묶음 하나만 대표로 그렸고, 실제로는 230개 남짓이 촘촘히 놓입니다. 저음 감은 현(구리색)이 중음 현 위를 비스듬히 지나가는 교차현 배치, 오른쪽 위 고음역에 댐퍼가 없는 구간을 확인해 보세요. 소리는 비조화 배음 + 2단 감쇠 + 유니즌 맥놀이로 만든 근사 모델입니다.</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>연습법 · 내 피아노 들여다보기 (10분)</strong>
+      <p>그랜드라면 보면대를 빼고 뚜껑을 올린 채, 업라이트라면 위 뚜껑과 앞판을 열고 들여다보며 건반 하나를 천천히 눌러 보세요. ① 건반을 반쯤 눌렀을 때 그 음의 댐퍼가 들리기 시작하고, ② 끝까지 누르기 직전에 해머가 '툭' 하고 풀려(이탈) 현에 닿기 2–3 mm 전에 손의 힘에서 벗어나며, ③ 건반을 누르고 있는 동안 해머가 아래로 떨어져 붙잡혀 있는 것(백체크)을 볼 수 있습니다. 이어서 오른쪽 페달을 밟으면 모든 댐퍼가 한꺼번에 들리는지 확인하세요. 현과 향판에는 손을 대지 말고(땀의 염분이 녹을 만듭니다), 액션 부품을 억지로 건드리지 마세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="action">
+    <h2>해머 액션: 0.01초 안에 일어나는 일</h2>
+    <p>건반은 가운데쯤의 <b>밸런스 레일</b>을 받침점으로 하는 시소입니다. 앞쪽을 약 10 mm 누르면 뒤쪽이 올라가며 <b>캡스턴</b><span class="en">(Capstan)</span> 나사가 <b>위펜</b><span class="en">(Wippen)</span>이라는 중간 지렛대를 밀어 올리고, 위펜 위에 선 <b>잭</b><span class="en">(Jack)</span>이 해머 자루 아래의 둥근 펠트(너클)를 밀어 해머를 위로 돌립니다. 지렛대들이 움직임을 몇 배로 키우기 때문에 건반 10 mm가 해머 약 45 mm의 이동이 됩니다.</p>
+    <p>해머가 현에 2–3 mm쯤 남은 순간, 잭의 꼬리가 고정된 단추(<b>렛오프 버튼</b>)에 걸려 잭이 옆으로 빠집니다. 이것이 <b>이탈</b><span class="en">(Escapement, Let-off)</span>입니다. 이 순간부터 해머는 손과 연결이 끊긴 채 <b>관성만으로 날아가</b> 현을 때리고 되튀어 내려옵니다. 따라서 연주자가 해머에 주는 것은 결국 <b>이탈 순간의 속도 하나</b>뿐이고, 그 속도가 음량과 음색을 정합니다. 건반을 '누르는 무게'가 아니라 '누르는 빠르기'가 셈여림이라는 뜻입니다. 이 속도가 MIDI에서 말하는 <b>벨로시티</b><span class="en">(Velocity)</span>의 물리적 정체입니다.</p>
+    <p>되튀어 떨어지는 해머는 건반 뒤쪽에 붙은 <b>백체크</b><span class="en">(Back check)</span>가 붙잡아 두 번 치지 않게 합니다. 그랜드 액션에는 여기에 <b>리피티션 레버</b><span class="en">(Repetition lever)</span>가 더해져, 건반이 절반쯤만 올라와도 해머를 중간 높이에 받쳐 둔 채 잭이 너클 아래로 돌아갑니다. 이것이 이중 이탈 장치이고, 덕분에 같은 음을 빠르게 다시 칠 수 있습니다. 한편 건반 뒤쪽은 <b>댐퍼</b>도 들어 올립니다. 건반을 누르는 도중에 댐퍼가 현에서 떨어지고, 건반을 떼면 댐퍼가 내려와 소리를 멈춥니다.</p>
+
+    <div class="sim" id="sim-ins-action">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>슬로 모션 해머 액션</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <canvas id="cv-ins-ac"></canvas>
+          <div id="ins-ac-kb"></div>
+        </div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>누르는 빠르기 <output id="ins-ac-vel-out"></output></span><input type="range" id="ins-ac-vel" min="0.03" max="1" step="0.01" value="0.55"></label>
+          <div class="ctrl"><span>시간 배율</span><div class="seg" id="ins-ac-slow"><button data-value="1">×1</button><button data-value="0.2">×1/5</button><button data-value="0.05" class="on">×1/20</button><button data-value="0.0125">×1/80</button></div></div>
+          <div class="ctrl"><span>액션</span><div class="seg" id="ins-ac-type"><button data-value="grand" class="on">그랜드(이중 이탈)</button><button data-value="upright">업라이트</button></div></div>
+          <label class="check"><input type="checkbox" id="ins-ac-ped"> 댐퍼 페달 밟기</label>
+          <div class="btn-row"><button class="btn primary ins-hold" id="ins-ac-hold">누르고 있기</button><button class="btn" id="ins-ac-tap">한 번 치기</button></div>
+          <div class="btn-row"><button class="btn" id="ins-ac-trill">반만 떼고 연타 ×4</button><button class="btn" id="ins-ac-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음</span><span class="v" id="ins-ac-o-m">—</span></div>
+        <div class="stat"><span class="k">단계</span><span class="v" id="ins-ac-o-ph">—</span></div>
+        <div class="stat"><span class="k">해머 속도(타현)</span><span class="v" id="ins-ac-o-hv">—</span></div>
+        <div class="stat"><span class="k">결과</span><span class="v" id="ins-ac-o-res">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① '누르는 빠르기'를 0.05 아래로 내리고 한 번 치기 — 이탈 뒤 해머가 현까지 날아가지 못해 소리가 나지 않습니다(아주 여린 pp가 어려운 이유). ② 업라이트로 바꾸고 '반만 떼고 연타' — 그랜드는 건반이 반만 올라와도 다시 치지만, 업라이트는 잭이 돌아오지 못해 헛누름이 됩니다. ③ '누르고 있기'를 누른 채로 해머가 백체크에 붙잡혀 있는 모습을 보세요. 아래 건반을 눌러 음을 바꿀 수 있고, F♯6(90) 이상은 댐퍼가 없습니다. 모델: 건반은 일정한 속도로 내려가고, 해머는 이탈까지 지렛대로 끌려 올라간 뒤 중력만 받으며 날아갑니다. 부품 모양과 비율은 그림으로 단순화했고, 실제 해머는 펠트가 눌리는 동안(약 1–4 ms) 현과 닿아 있습니다.</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>연습법 · 이탈점 느끼기 (하루 3분)</strong>
+      <p>실제 피아노(또는 해머 액션 디지털 피아노)에서 가온 다 C4를 아주 천천히, 소리가 나지 않을 만큼 느리게 눌러 보세요. 바닥에 닿기 직전 손끝에 작은 '턱'이 느껴지는 곳이 이탈점입니다. 이 턱 바로 위까지 건반을 미리 내려 두었다가 짧고 가볍게 통과시키면, 손가락 힘을 거의 쓰지 않고도 일정한 pp를 낼 수 있습니다. 같은 음을 10번 연속으로 이렇게 쳐서 음량이 고르게 나오면 성공입니다. 세게 칠 때도 원리는 같습니다. 건반을 '바닥까지 눌러 짓누르는' 힘은 소리에 아무 영향이 없으니, 바닥에 닿은 뒤에는 힘을 빼는 습관을 들이세요(<a href="touch.html">3장 터치</a>).</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="strings">
+    <h2>현: 230개의 줄과 메르센 법칙</h2>
+    <p>건반은 88개지만 현은 230개 남짓입니다. 고음과 중음의 한 음에는 같은 높이로 맞춘 현이 <b>세 가닥</b>, 그 아래 저음역에는 <b>두 가닥</b>, 가장 낮은 열 개 남짓에는 <b>한 가닥</b>이 있습니다. 한 음을 이루는 여러 현을 <b>유니즌</b><span class="en">(Unison)</span>이라고 부릅니다. 가는 고음 현 하나는 굵은 저음 현보다 힘이 약하므로, 여러 가닥이 함께 브리지를 흔들어 음량을 고르게 맞추는 것입니다. 왼쪽 페달(우나 코르다)은 그랜드에서 액션 전체를 옆으로 밀어 해머가 세 현 중 두 현만 때리게 하는 장치로, 이름이 '한 현으로'라는 뜻인 것도 여기서 왔습니다(<a href="pedal.html">11장</a>).</p>
+    <p>양 끝이 고정된 현의 기본 진동수는 길이 \(L\), 장력 \(T\), 단위 길이당 질량(선밀도) \(\mu\)로 정해집니다. 이것이 메르센 법칙(테일러 공식)입니다.</p>
+    <div class="formula">$$f = \frac{1}{2L}\sqrt{\frac{T}{\mu}}, \qquad T = \mu\,(2Lf)^2, \qquad \mu = \rho\,\frac{\pi d^2}{4}$$<div class="where">여기서 \(\rho\)는 재질의 밀도(강철 약 7850 kg/m³), \(d\)는 지름. 같은 장력·같은 굵기라면 길이가 두 배일 때 한 옥타브 낮아진다.</div></div>
+    <p>피아노 현은 고탄소 강철 <b>피아노선</b>으로, 인장 강도가 2 GPa 안팎(1 mm² 단면이 200 kgf 넘게 버틴다)입니다. 한 가닥에는 보통 700–900 N(70–90 kgf) 정도의 장력을 겁니다. 장력이 너무 낮으면 소리가 힘없고 흔들리며, 너무 높으면 끊어집니다. 그러면 A4(440 Hz)의 길이는? 지름 1.0 mm 현에 700 N을 걸면 \(\mu \approx 6.2\) g/m이므로 \(L = \frac{1}{2f}\sqrt{T/\mu} \approx 0.38\) m입니다. 실제 그랜드의 A4 현 길이와 거의 같습니다.</p>
+    <p>문제는 저음입니다. 같은 현으로 A4에서 네 옥타브 아래인 A0(27.5 Hz)를 내려면 길이가 16배, 약 6 m가 되어야 합니다. 콘서트 그랜드의 길이가 2.7 m 남짓이고 가장 긴 현이 2 m 안팎이니 불가능합니다. 길이를 줄이는 대신 장력을 낮추면 소리가 힘을 잃습니다. 남은 방법은 <b>선밀도 \(\mu\)를 키우는 것</b>인데, 강철선을 그냥 굵게 하면 막대처럼 뻣뻣해져 다음 절의 비조화성이 커집니다. 그래서 저음 현은 강철 심선 위에 <b>구리선을 감아</b> 굽힘 강성은 거의 그대로 두고 질량만 늘립니다. 이것이 <b>감은 현</b><span class="en">(Wound string)</span>이고, 가장 낮은 현은 구리를 두 겹으로 감기도 합니다. 그래도 남는 길이 부족은 교차현으로 대각선 공간을 써서 메웁니다.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 220" role="img" aria-label="유니즌과 감은 현 단면">
+        <text x="20" y="28" class="t">음 하나에 붙은 현</text>
+        <g>
+          <line x1="40" y1="60" x2="260" y2="60" stroke="var(--text)" stroke-width="1.2"/><line x1="40" y1="66" x2="260" y2="66" stroke="var(--text)" stroke-width="1.2"/><line x1="40" y1="72" x2="260" y2="72" stroke="var(--text)" stroke-width="1.2"/>
+          <rect x="140" y="52" width="16" height="28" rx="5" class="f-acc" opacity=".8"/>
+          <text x="280" y="70" class="t-dim">고음·중음: 3현(트라이코드) · 민선 강철</text>
+          <line x1="40" y1="110" x2="260" y2="110" stroke="var(--ins-copper)" stroke-width="3"/><line x1="40" y1="118" x2="260" y2="118" stroke="var(--ins-copper)" stroke-width="3"/>
+          <rect x="140" y="100" width="16" height="28" rx="5" class="f-acc" opacity=".8"/>
+          <text x="280" y="118" class="t-dim">저음 일부: 2현 · 감은 현</text>
+          <line x1="40" y1="160" x2="260" y2="160" stroke="var(--ins-copper)" stroke-width="6"/>
+          <rect x="140" y="146" width="16" height="28" rx="5" class="f-acc" opacity=".8"/>
+          <text x="280" y="164" class="t-dim">최저음 10여 개: 1현 · 굵게 감은 현</text>
+        </g>
+        <g transform="translate(640 110)">
+          <circle r="62" fill="var(--ins-copper)" opacity=".35"/>
+          <circle r="62" fill="none" stroke="var(--ins-copper)" stroke-width="2"/>
+          <g fill="none" stroke="var(--ins-copper)" stroke-width="1.2" opacity=".9"><circle r="50"/><circle r="38"/></g>
+          <circle r="22" class="f-elev" stroke="var(--text)" stroke-width="2"/>
+          <text y="5" text-anchor="middle" class="t-mono">강철 심선 d</text>
+          <text y="-74" text-anchor="middle" class="t-dim">감은 현 단면</text>
+          <text y="88" text-anchor="middle" class="t-dim">구리 감은 선(질량만 더함) · 바깥지름 D</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 1-3.</b> 왼쪽: 해머 하나가 음 하나의 유니즌 현을 함께 때린다. 고음은 3현, 저음으로 갈수록 2현·1현이 되고 현은 굵어진다. 오른쪽: 감은 현의 단면. 장력과 굽힘 강성은 주로 강철 심선이 맡고, 구리 감은 선은 선밀도 \(\mu\)만 키운다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-string">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>피아노 현 설계기: 길이·굵기·감은 선</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-st"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="ins-st-m-out"></output></span><input type="range" id="ins-st-m" min="21" max="108" step="1" value="21"></label>
+          <label class="ctrl"><span>진동 길이 L <output id="ins-st-L-out"></output></span><input type="range" id="ins-st-L" min="0.04" max="2.5" step="0.01" value="1.95"></label>
+          <label class="ctrl"><span>강철 심선 지름 d <output id="ins-st-d-out"></output></span><input type="range" id="ins-st-d" min="0.7" max="1.6" step="0.025" value="1.5"></label>
+          <label class="ctrl"><span>구리 감은 층 두께 <output id="ins-st-w-out"></output></span><input type="range" id="ins-st-w" min="0" max="2.4" step="0.05" value="1.6"></label>
+          <div class="ctrl"><span>예시</span><div class="ins-presets" id="ins-st-pre"><button class="btn" data-p="a0">A0 감은 현</button><button class="btn" data-p="a0p">A0 민선</button><button class="btn" data-p="c2">C2</button><button class="btn" data-p="a4">A4</button><button class="btn" data-p="c8">C8</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-st-play">▶ 이 현으로 치기</button><button class="btn" id="ins-st-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선밀도 μ</span><span class="v" id="ins-st-o-mu">—</span></div>
+        <div class="stat"><span class="k">필요한 장력 T</span><span class="v" id="ins-st-o-T">—</span></div>
+        <div class="stat"><span class="k">심선 응력 / 강도</span><span class="v" id="ins-st-o-s">—</span></div>
+        <div class="stat"><span class="k">비조화 계수 B</span><span class="v" id="ins-st-o-B">—</span></div>
+      </div>
+      <div class="sim-msg" id="ins-st-msg">—</div>
+      <div class="sim-note">해볼 것: 'A0 감은 현'과 'A0 민선'을 비교하세요. 같은 길이에서 민선은 장력이 160 N 남짓으로 너무 낮고 B가 열 배 가까이 커져, 치면 소리가 힘없고 쇳소리처럼 들립니다. A0 민선 상태에서 길이를 늘려 적정 장력(초록 띠)에 닿으려면 몇 m가 필요한지 확인해 보세요. 그래프: 가로축 길이(로그), 세로축 장력(로그). 실선은 지금 설정, 점선은 같은 심선의 민선, 빨간 점선은 심선이 끊어지는 장력(인장 강도 2.2 GPa 가정)입니다. 모델: 감은 선은 구리(8960 kg/m³)를 채움률 0.8로 계산하고, 굽힘 강성은 심선만 준다고 보아 \(B = \pi^3 E d^4 / (64\,T L^2)\), \(E = 200\) GPa. 재생은 그 B를 엔진 음색에 넣은 근사입니다(향판·현 길이에 따른 다른 차이는 반영하지 않음).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="inharmonicity">
+    <h2>비조화성: 피아노의 배음은 조금씩 높다</h2>
+    <p>이상적인 현, 곧 굽힘에 전혀 저항하지 않는 끈이라면 배음은 정확히 기본음의 정수배 \(f, 2f, 3f, \dots\)입니다(<a href="../../fundamentals/chapters/harmonics.html#series">MusicBook 배음과 음색</a>). 그러나 피아노 현은 굵은 강철이라 휘어지는 데 저항합니다. 짧은 파장(높은 배음)일수록 현이 더 급하게 휘어야 하므로 이 강성이 복원력을 더 보태고, 그만큼 진동이 빨라집니다. 결과적으로 \(n\)번째 배음은 \(n f_0\)보다 조금 높습니다.</p>
+    <div class="formula">$$f_n = n f_0 \sqrt{1 + B n^2}, \qquad B = \frac{\pi^3 E d^4}{64\, T L^2}$$<div class="where">여기서 \(f_0\)는 강성이 없을 때의 기본 진동수, \(B\)는 <b>비조화 계수</b>(Inharmonicity coefficient), \(E\)는 영률, \(d\)는 (심선) 지름. \(B\)가 작을 때 \(n\)번 배음의 어긋남은 약 \(1731\,B n^2\) 센트.</div></div>
+    <p>\(B\)는 \(d^4\)에 비례하고 \(L^2\)에 반비례합니다. 그래서 짧고 상대적으로 굵은 고음 현일수록 크고(C8 근처 \(10^{-2}\) 정도), 길고 가는 심선을 쓴 저음 현은 작습니다(\(10^{-4}\) 정도). 가온 다 근처에서 \(B \approx 4\times 10^{-4}\)이면 10번 배음은 \(\sqrt{1+0.04} \approx 1.0198\)배, 약 34센트 높습니다. 반음의 3분의 1이니 작지 않은 양입니다. 피아노 소리 특유의 '쇳소리 섞인 반짝임'과, 작은 업라이트의 저음이 둔탁하게 들리는 이유(짧은 저음 현은 B가 크다)가 모두 여기서 나옵니다.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 190" role="img" aria-label="정수배 배음과 비조화 배음 비교">
+        <g id="ins-fig-ladder"></g>
+      </svg>
+      <figcaption><b>그림 1-4.</b> 배음 사다리. 위: 이상적인 현의 정수배 배음(같은 간격). 아래: \(B = 2\times 10^{-3}\)(대략 C6 부근의 실제 값)인 피아노 현의 배음. 번호가 클수록 오른쪽으로 밀려 간격이 넓어진다. 숫자는 정수배에서 벗어난 양(센트).</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-ins-inharm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>비조화성 듣기: B ×0 · ×1 · ×4</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ih"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="ins-ih-m-out"></output></span><input type="range" id="ins-ih-m" min="21" max="96" step="1" value="36"></label>
+          <div class="ctrl"><span>비조화 계수 배율</span><div class="seg" id="ins-ih-k"><button data-value="0">×0 (이상적 현)</button><button data-value="1" class="on">×1 (실제)</button><button data-value="4">×4 (과장)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-ih-play">▶ 피아노 음</button><button class="btn" id="ins-ih-abc">×0 → ×1 → ×4</button></div>
+          <div class="btn-row"><button class="btn" id="ins-ih-sines">배음 1–10 사인파로</button><button class="btn" id="ins-ih-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">B</span><span class="v" id="ins-ih-o-B">—</span></div>
+        <div class="stat"><span class="k">기본음 f₁</span><span class="v" id="ins-ih-o-f">—</span></div>
+        <div class="stat"><span class="k">10번 배음 어긋남</span><span class="v" id="ins-ih-o-10">—</span></div>
+        <div class="stat"><span class="k">20번 배음 어긋남</span><span class="v" id="ins-ih-o-20">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: C2 근처에서 '×0 → ×1 → ×4'를 들어 보세요. ×0은 오르간처럼 매끈하고, ×4는 종소리처럼 금속성이 됩니다. '배음 1–10 사인파로'는 배음을 하나씩 순수한 사인파로 쌓아 올려, 높은 번호일수록 정수배 자리(점선)보다 올라가는 것을 귀로 들려줍니다. 위 그래프는 배음별 진폭(dB, 해머 위치와 펠트 경도가 정함)과 정수배 위치(점선), 아래 그래프는 배음 번호별 어긋남(센트)입니다. 모델: 엔진의 \(B(m)\)은 저음 약 \(2\times10^{-4}\), 가온 다 약 \(4\times10^{-4}\), 최고음 약 \(1.6\times10^{-2}\)을 잇는 근사입니다. 실제 값은 피아노 기종과 현 설계에 따라 다릅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="stretch">
+    <h2>스트레치 튜닝: 옥타브를 넓게 맞추는 이유</h2>
+    <p>조율사는 옥타브를 맞출 때 두 음을 함께 치고 <b>맥놀이</b><span class="en">(Beats)</span>가 사라지는 곳을 찾습니다. 맥놀이는 가까운 두 주파수가 겹칠 때 그 차이만큼 소리가 '웅웅' 커졌다 작아지는 현상입니다(<a href="../../fundamentals/chapters/sound.html#beats">MusicBook 소리와 파동</a>). 옥타브에서 실제로 겹치는 것은 아래 음의 2번 배음과 위 음의 1번 배음, 아래 음의 4번 배음과 위 음의 2번 배음입니다. 그런데 비조화성 때문에 아래 음의 2번 배음은 기본음의 정확히 2배보다 조금 높습니다. 위 음의 기본음을 정확히 2배에 두면 둘이 어긋나 맥놀이가 납니다. 맥놀이가 없게 맞추면 위 음은 2배보다 조금 높아지고, 옥타브가 1200센트보다 <b>넓어집니다</b>.</p>
+    <p>가온 다에서 출발해 옥타브를 위로 하나씩 쌓으면 이 넓힘이 누적되어 최고음은 평균율 이론값보다 수십 센트 높아지고, 아래로 쌓으면 최저음은 수십 센트 낮아집니다. 1938년 레일스백<span class="en">(O. L. Railsback)</span>이 잘 조율된 피아노들을 측정해 이 S자 모양의 편차를 처음 그래프로 보였기 때문에 <b>레일스백 곡선</b><span class="en">(Railsback curve)</span>이라고 부릅니다. 스트레치의 양은 피아노마다 다릅니다. B가 작은 큰 그랜드는 덜 늘리고, B가 큰 작은 업라이트는 더 늘립니다. 그리고 모든 음을 '평균율 수식대로' 맞춘 피아노는 오히려 고음이 낮게(flat), 저음이 탁하게 들립니다.</p>
+
+    <div class="sim" id="sim-ins-stretch">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>옥타브 맞추기: 순정 2:1 vs 스트레치</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-sr"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>아래 음 <output id="ins-sr-m-out"></output></span><input type="range" id="ins-sr-m" min="36" max="88" step="1" value="72"></label>
+          <div class="ctrl"><span>위 음 맞추는 법</span><div class="seg" id="ins-sr-mode"><button data-value="pure" class="on">기본음 2:1</button><button data-value="s21">2번 배음에 맞춤</button><button data-value="s42">4:2 배음에 맞춤</button></div></div>
+          <div class="ctrl"><span>비조화 배율</span><div class="seg" id="ins-sr-k"><button data-value="1" class="on">×1</button><button data-value="3">×3</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-sr-both">▶ 함께 치기</button><button class="btn" id="ins-sr-seq">차례로</button></div>
+          <div class="btn-row"><button class="btn" id="ins-sr-ab">2:1 → 맞춤 비교</button><button class="btn" id="ins-sr-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">옥타브 크기</span><span class="v" id="ins-sr-o-oct">—</span></div>
+        <div class="stat"><span class="k">맥놀이 2:1 배음</span><span class="v" id="ins-sr-o-b1">—</span></div>
+        <div class="stat"><span class="k">맥놀이 4:2 배음</span><span class="v" id="ins-sr-o-b2">—</span></div>
+        <div class="stat"><span class="k">레일스백 근사(위 음)</span><span class="v" id="ins-sr-o-rb">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 아래 음을 C5(72) 근처에 두고 '기본음 2:1'로 함께 쳐서 2–3초 동안 '웅웅' 하는 맥놀이를 들은 뒤, '2번 배음에 맞춤'으로 바꿔 맥놀이가 사라지는 것을 확인하세요. 고음일수록 B가 커서 차이가 뚜렷합니다. 위 그래프는 엔진의 레일스백 곡선 근사(평균율 대비 센트, 지금 음 표시), 아래 그래프는 두 음의 배음 위치를 아래 음 2번 배음 기준 센트로 나란히 놓은 것입니다. 모델: 유니즌 맥놀이를 끄고(unison 0) 비조화 배음만 남긴 음색입니다. 실제 조율사는 2:1, 4:2, 6:3 등 여러 배음 쌍과 음역별 성격을 절충해 스트레치 양을 정합니다.</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>연습법 · 맥놀이 듣는 귀 (5분)</strong>
+      <p>조율이 된 피아노에서 C5와 C6을 함께 누르고 페달 없이 4초 정도 들어 보세요. 잘 조율된 피아노라면 맥놀이가 거의 없을 것입니다. 그다음 디지털 피아노나 위 시뮬레이터의 '기본음 2:1'과 비교해 보면, '수학적으로 정확한 옥타브'가 피아노에서는 오히려 맞지 않게 들린다는 것을 알 수 있습니다. 맥놀이 속도를 세는 연습(1초에 몇 번 '웅'이 오는가)은 나중에 조율 상태를 판단하고 화음의 울림을 듣는 데 그대로 쓰입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 7 -->
+  <section id="decay">
+    <h2>울림의 모양: 2단 감쇠, 유니즌, 타현 위치</h2>
+    <p>피아노 음을 치고 음량을 dB로 그려 보면 직선 하나로 줄어들지 않습니다. 처음 1–2초 동안 빠르게 떨어지는 <b>즉답음</b><span class="en">(Prompt sound)</span>과, 그 뒤 훨씬 천천히 사라지는 <b>여운</b><span class="en">(Aftersound)</span>의 두 기울기로 꺾입니다. 원인은 현이 움직이는 방향과 유니즌 현의 결합입니다. 해머는 현을 위아래로 때리므로 처음에는 현이 향판에 수직인 방향으로 진동하는데, 이 방향은 브리지를 강하게 흔들어 에너지를 빨리 내보냅니다(크고 빨리 줄어드는 소리). 시간이 지나면 브리지와 잘 결합하지 않는 수평 방향 진동과, 유니즌 현들이 서로 엇갈려(반대 위상으로) 진동하는 모드가 남아 오래 울립니다. 1977년 물리학자 와인라이히<span class="en">(G. Weinreich)</span>가 이 구조를 설명했고, 그는 조율사가 유니즌을 '완벽히 같게'가 아니라 1센트 안팎으로 아주 조금 어긋나게 맞추는 것이 여운을 길게 하는 데 도움이 된다는 것도 보였습니다.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 210" role="img" aria-label="2단 감쇠 개념도">
+        <line x1="70" y1="20" x2="70" y2="180" class="s-axis"/><line x1="70" y1="180" x2="770" y2="180" class="s-axis"/>
+        <text x="20" y="28" class="t-dim">0 dB</text><text x="14" y="178" class="t-dim">−60</text>
+        <text x="760" y="200" text-anchor="end" class="t-dim">시간 →</text>
+        <path d="M70 30 L210 100" class="s-acc" stroke-dasharray="6 4"/>
+        <path d="M70 72 L770 168" class="s-line" stroke-dasharray="6 4"/>
+        <path d="M70 30 C120 56 170 82 220 96 C300 110 500 140 770 170" fill="none" stroke="var(--accent)" stroke-width="3"/>
+        <text x="150" y="52" class="t-acc">즉답음: 수직 진동, 빠른 감쇠</text>
+        <text x="420" y="112" class="t">여운: 수평 진동·유니즌 반대 위상, 느린 감쇠</text>
+        <text x="300" y="160" class="t-dim">점선 두 개의 합(dB로 보면 꺾인 곡선)</text>
+      </svg>
+      <figcaption><b>그림 1-5.</b> 피아노 음의 2단 감쇠. 두 지수 감쇠 \(a_1 e^{-t/\tau_1} + a_2 e^{-t/\tau_2}\)(\(\tau_1 \ll \tau_2\))를 더하면 dB 그래프에서 기울기가 꺾인다. 엔진은 배음마다 이 두 성분을 더하고, 유니즌 현 사이의 작은 어긋남을 진폭 맥놀이로 곱한다.</figcaption>
+    </figure>
+
+    <p>음색을 정하는 또 하나의 요소는 <b>해머가 현을 때리는 위치</b>입니다. 현 길이의 \(\beta\) 지점을 때리면, 그 지점이 마디(움직이지 않는 점)인 배음, 곧 \(n\beta\)가 정수인 배음은 거의 들뜨지 않습니다. 기타에서 뜯는 위치가 음색을 바꾸는 것과 같은 원리입니다. 피아노는 대개 현 길이의 1/7–1/9 근처를 때리도록 설계됩니다. 예전에는 귀에 거슬리는 7·9번 배음을 줄이려는 설계라고 설명했지만, 실제로는 해머가 폭이 있고 현에 수 ms 동안 닿아 있어서 효과가 단순한 공식보다 무디고, 음량과 음색의 균형을 함께 고려한 결과로 봅니다. 해머 펠트의 <b>경도</b>도 중요합니다. 세게 칠수록 펠트가 더 눌려 단단해지고(비선형 스프링), 접촉 시간이 짧아져 높은 배음이 늘어납니다. 그래서 피아노의 ff는 단지 큰 것이 아니라 <b>더 밝은</b> 소리입니다.</p>
+
+    <div class="sim" id="sim-ins-decay">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음 하나의 일생: 감쇠 곡선과 타현 위치</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-dc"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="ins-dc-m-out"></output></span><input type="range" id="ins-dc-m" min="28" max="96" step="1" value="48"></label>
+          <div class="ctrl"><span>셈여림(해머 경도 층)</span><div class="seg" id="ins-dc-l"><button data-value="0">p</button><button data-value="1" class="on">mf</button><button data-value="2">f</button></div></div>
+          <label class="ctrl"><span>타현 위치 β <output id="ins-dc-b-out"></output></span><input type="range" id="ins-dc-b" min="2" max="16" step="0.1" value="8.3"></label>
+          <label class="ctrl"><span>유니즌 어긋남 <output id="ins-dc-u-out"></output></span><input type="range" id="ins-dc-u" min="0" max="4" step="0.1" value="0.7"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-dc-play">▶ 치기</button><button class="btn" id="ins-dc-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">즉답음 τ</span><span class="v" id="ins-dc-o-t1">—</span></div>
+        <div class="stat"><span class="k">여운 τ</span><span class="v" id="ins-dc-o-t2">—</span></div>
+        <div class="stat"><span class="k">−60 dB까지(근사)</span><span class="v" id="ins-dc-o-t60">—</span></div>
+        <div class="stat"><span class="k">약해지는 배음</span><span class="v" id="ins-dc-o-n">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: ① 타현 위치를 1/2로 옮기면 짝수 배음이 모두 빠져(아래 막대) 속이 빈 클라리넷 같은 소리가 납니다. 1/7–1/9로 돌아오면 다시 피아노답게 됩니다. ② 유니즌 어긋남을 3–4센트로 올리면 감쇠 곡선에 물결(맥놀이)이 생기고 소리가 '출렁'입니다. 조율이 풀린 피아노의 소리입니다. ③ 낮은 음일수록 여운 τ가 길고, p와 f를 바꾸면 막대의 고배음 쪽이 달라집니다. 위 그래프는 이 설정으로 실제 합성한 버퍼의 RMS 포락선(dB), 점선은 기본음의 두 감쇠 성분입니다. 모델: 배음별 2단 지수 감쇠 + 두 유니즌 현 맥놀이를 진폭 변조로 근사. 실제 현의 수평·수직 편광 결합, 향판 공진, 해머의 비선형 접촉은 계산하지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 8 -->
+  <section id="types">
+    <h2>그랜드·업라이트·디지털: 무엇으로 연습할까</h2>
+    <p><b>그랜드 피아노</b>는 현과 향판이 바닥과 나란히 누워 있고, 해머가 아래에서 위로 현을 때린 뒤 <b>중력</b>으로 돌아옵니다. <b>업라이트 피아노</b>는 공간을 아끼려고 현과 향판을 세워 놓았기 때문에 해머가 앞에서 뒤로 현을 때리고, 중력 대신 <b>스프링</b>이 해머를 되돌립니다. 업라이트 액션은 대개 이중 이탈 장치가 없어 같은 음을 다시 치려면 건반이 거의 끝까지 올라와야 하고, 연타가 그랜드보다 느립니다. 키가 큰 업라이트(130 cm 안팎)는 현이 길어 소리가 좋지만, 작은 업라이트일수록 저음 현이 짧아 비조화성이 커지고 저음이 둔해집니다.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 800 200" role="img" aria-label="그랜드와 업라이트의 해머 방향">
+        <g transform="translate(40 0)">
+          <text x="150" y="22" text-anchor="middle" class="t">그랜드: 아래에서 위로</text>
+          <line x1="20" y1="60" x2="300" y2="60" stroke="var(--text)" stroke-width="2"/>
+          <text x="306" y="64" class="t-dim">현(수평)</text>
+          <line x1="70" y1="150" x2="150" y2="130" class="s-line" stroke-width="2"/>
+          <rect x="140" y="86" width="20" height="40" rx="7" class="f-acc"/>
+          <path d="M150 82 L150 68" stroke="var(--accent)" stroke-width="2" marker-end="url(#ins-ar)"/>
+          <path d="M190 80 L190 120" stroke="var(--ok)" stroke-width="2" marker-end="url(#ins-ar2)"/>
+          <text x="198" y="108" class="t-dim">돌아옴: 중력</text>
+          <rect x="20" y="160" width="240" height="12" rx="2" class="f-surface"/>
+          <text x="140" y="192" text-anchor="middle" class="t-dim">건반</text>
+        </g>
+        <g transform="translate(470 0)">
+          <text x="140" y="22" text-anchor="middle" class="t">업라이트: 앞에서 뒤로</text>
+          <line x1="240" y1="34" x2="240" y2="176" stroke="var(--text)" stroke-width="2"/>
+          <text x="250" y="110" class="t-dim">현(수직)</text>
+          <line x1="110" y1="160" x2="190" y2="100" class="s-line" stroke-width="2"/>
+          <rect x="186" y="86" width="36" height="20" rx="7" class="f-acc"/>
+          <path d="M224 96 L236 96" stroke="var(--accent)" stroke-width="2" marker-end="url(#ins-ar)"/>
+          <path d="M200 124 q-30 10 -50 -6" fill="none" stroke="var(--ok)" stroke-width="2" marker-end="url(#ins-ar2)"/>
+          <text x="80" y="138" class="t-dim">돌아옴: 스프링</text>
+          <rect x="0" y="168" width="200" height="12" rx="2" class="f-surface"/>
+          <text x="100" y="196" text-anchor="middle" class="t-dim">건반</text>
+        </g>
+        <defs>
+          <marker id="ins-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker>
+          <marker id="ins-ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/></marker>
+        </defs>
+      </svg>
+      <figcaption><b>그림 1-6.</b> 그랜드는 해머가 위로 쳐 올리고 무게로 떨어지며, 리피티션 레버가 빠른 재타건을 돕는다. 업라이트는 해머가 수평으로 앞으로 치고 스프링과 브라이들 테이프가 되돌린다. 손에 느껴지는 무게와 연타 감각이 다른 이유다.</figcaption>
+    </figure>
+
+    <p><b>디지털 피아노</b>에는 현이 없습니다. 건반 밑의 센서가 누르는 빠르기를 재고, 그 값으로 미리 녹음한 피아노 소리(<b>샘플</b>)를 고르거나 물리 모델로 소리를 계산합니다. 대부분의 건반에는 깊이가 다른 접점이 두세 개 있어, 건반이 첫 접점에서 마지막 접점까지 가는 데 걸린 시간 \(\Delta t\)를 재서 벨로시티(MIDI 1–127)로 바꿉니다. 빠를수록(\(\Delta t\)가 짧을수록) 세게 친 것입니다. 샘플 방식은 같은 음을 여러 세기로 녹음한 <b>벨로시티 레이어</b>를 두고, 그 사이를 음량으로 메웁니다. 레이어가 적으면 '세게 쳐도 음량만 커지고 음색은 그대로'인 부자연스러움이 생깁니다. 좋은 디지털 피아노는 실제 해머 무게를 흉내 내는 <b>해머 액션 건반</b>(무게 건반)을 씁니다. 처음 연습용으로는 88건반, 해머 액션, 세 페달(최소한 반 페달을 인식하는 댐퍼 페달)을 갖춘 것을 고르세요. 가벼운 신시사이저 건반으로만 연습하면 실제 피아노에서 손가락 힘과 셈여림 조절이 따로 놀게 됩니다.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>그랜드</th><th>업라이트</th><th>디지털</th></tr></thead>
+      <tbody>
+        <tr><td>현·향판</td><td>수평, 긴 현(콘서트 그랜드 약 2.7 m 몸길이)</td><td>수직, 키에 따라 현 길이 제한</td><td>없음(샘플 또는 물리 모델)</td></tr>
+        <tr><td>해머 복귀</td><td>중력 + 리피티션 레버(이중 이탈)</td><td>스프링, 대개 단일 이탈</td><td>해머 무게를 흉내 낸 기구</td></tr>
+        <tr><td>연타</td><td>건반이 반쯤 올라와도 가능</td><td>건반이 더 많이 올라와야 함</td><td>센서 방식에 따라 다름</td></tr>
+        <tr><td>왼쪽 페달</td><td>우나 코르다(액션이 옆으로)</td><td>해머가 현에 가까워짐</td><td>음색·음량 변화로 흉내</td></tr>
+        <tr><td>가운데 페달</td><td>소스테누토</td><td>대개 연습용 약음(펠트 막)</td><td>기종에 따라</td></tr>
+        <tr><td>관리</td><td>1년에 1–2회 조율, 습도 관리</td><td>같음</td><td>조율 불필요, 헤드폰·녹음·MIDI 가능</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="sim" id="sim-ins-types">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>디지털 피아노 속: 센서 시간 → 벨로시티 → 레이어</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="cv-ins-ty"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>두 접점 사이 시간 Δt <output id="ins-ty-dt-out"></output></span><input type="range" id="ins-ty-dt" min="2" max="80" step="0.5" value="12"></label>
+          <div class="ctrl"><span>샘플 레이어</span><div class="seg" id="ins-ty-lay"><button data-value="1">1개(음량만)</button><button data-value="3" class="on">3개(음색도)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-ty-hit">▶ 이 세기로 치기</button></div>
+          <div class="btn-row"><button class="btn" id="ins-ty-ramp">pp → ff 8단계</button><button class="btn" id="ins-ty-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">MIDI 벨로시티</span><span class="v" id="ins-ty-o-v">—</span></div>
+        <div class="stat"><span class="k">쓰인 레이어</span><span class="v" id="ins-ty-o-l">—</span></div>
+        <div class="stat"><span class="k">음량</span><span class="v" id="ins-ty-o-g">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 레이어를 '1개'로 놓고 pp → ff 8단계를 들은 뒤 '3개'로 바꿔 다시 들어 보세요. 1개일 때는 커지기만 하고 음색이 그대로라 '볼륨 손잡이를 돌린' 것처럼 들립니다. 3개일 때는 경계(벨로시티 약 54, 99)를 넘을 때마다 해머가 단단해진 듯 밝아집니다. 그래프는 \(\Delta t\) → 벨로시티 변환 곡선(로그 시간축)과 레이어 구간입니다. 모델: 곡선은 \(v = 127\,\frac{\ln(t_{max}/\Delta t)}{\ln(t_{max}/t_{min})}\), \(t_{min} = 2\) ms, \(t_{max} = 80\) ms의 예시이며 실제 제품의 곡선·레이어 수(수십 개에 이르기도 한다)는 기종마다 다릅니다.</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>연습법 · 디지털 피아노 설정 (처음 한 번)</strong>
+      <p>디지털 피아노의 '터치 감도(벨로시티 커브)'를 보통(Normal)에 두고 시작하세요. 가벼움(Light)은 살짝만 쳐도 크게 나서 처음엔 편하지만, 실제 피아노에서 소리가 작아지는 습관이 생깁니다. 볼륨은 mf로 쳤을 때 대화 소리 정도가 되도록 맞추고, 헤드폰으로 연습할 때도 한 시간에 한 번은 쉬세요. 의자 높이와 건반 높이(바닥에서 약 72–75 cm)는 <a href="touch.html">3장</a>에서 다룹니다. 이 책의 시뮬레이터는 MIDI 건반을 연결해 연주할 수 있는 곳이 많습니다(14장).</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>하프시코드는 현을 뜯어 셈여림이 거의 없고, 1700년 무렵 크리스토포리가 해머로 때리는 '피아노 에 포르테'를 만들었다. 이탈 장치는 처음부터 있었고, 19세기에 이중 이탈(1821), 주철 프레임, 펠트 해머, 교차현(1859), 88건반(1880년대)이 더해졌다.</li>
+      <li>소리의 길: 건반(지렛대) → 액션 → 해머 → 현 → 브리지 → 향판 → 공기. 댐퍼는 건반을 누르는 도중 들리고 떼면 내려온다. 최고음역(약 F♯6 위)에는 댐퍼가 없다.</li>
+      <li>해머는 현에 닿기 2–3 mm 전에 이탈해 관성으로 날아간다. 연주자가 주는 것은 이탈 순간의 속도뿐이고, 그것이 벨로시티(음량과 밝기)다. 너무 느리면 해머가 현에 닿지 못한다.</li>
+      <li>\(f = \frac{1}{2L}\sqrt{T/\mu}\). 한 현에 700–900 N, 전체 약 20톤. 민선으로 A0를 내려면 6 m가 필요하므로 저음은 구리 감은 현으로 μ만 키운다.</li>
+      <li>강성 때문에 배음이 \(f_n = n f_0\sqrt{1+Bn^2}\)로 높아진다. \(B\)는 \(d^4/(TL^2)\)에 비례해 고음과 짧은 현에서 크다.</li>
+      <li>옥타브는 아래 음의 높아진 배음에 맞추므로 1200센트보다 넓게 조율된다(스트레치 튜닝, 레일스백 곡선: 저음 낮게, 고음 높게).</li>
+      <li>피아노 음은 즉답음(빠른 감쇠)과 여운(느린 감쇠)의 2단 감쇠를 보이며, 유니즌의 작은 어긋남과 타현 위치(1/7–1/9), 해머 경도가 음색을 정한다.</li>
+      <li>그랜드는 중력·이중 이탈, 업라이트는 스프링·단일 이탈, 디지털은 센서 시간으로 벨로시티를 재서 샘플 레이어를 고른다. 연습용 디지털은 88건반 해머 액션을 고른다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>하프시코드로는 건반을 세게 눌러도 소리가 거의 커지지 않는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">현이 피아노보다 가늘어서</button><button class="opt" data-correct>깃촉이 현을 일정한 변위만큼 걸었다가 놓는 '뜯기' 방식이라 누르는 속도가 현에 전달되지 않아서</button><button class="opt">댐퍼가 없어서</button><button class="opt">향판이 없어서</button>
+      </div><div class="quiz-exp">뜯는 기구는 현을 걸 수 있는 만큼만 끌어당겼다 놓으므로 진폭이 거의 일정하다. 피아노는 해머의 속도가 그대로 현의 에너지가 되어 셈여림이 생긴다.</div></div>
+      <div class="quiz-q"><p>해머 액션에서 '이탈(escapement)'이 없다면 무슨 일이 생기는가?</p><div class="opts">
+        <button class="opt">소리가 더 커진다</button><button class="opt">댐퍼가 들리지 않는다</button><button class="opt" data-correct>건반을 누르고 있는 동안 해머가 현에 눌러 붙어 진동을 막는다</button><button class="opt">음높이가 올라간다</button>
+      </div><div class="quiz-exp">잭이 해머를 끝까지 밀어붙이면 해머가 현에 닿은 채 멈춰 현이 울리지 못한다. 이탈 덕분에 해머는 마지막 2–3 mm를 관성으로 날아가 치고 곧바로 떨어진다.</div></div>
+      <div class="quiz-q"><p>같은 재질·같은 지름의 민선으로 A4(0.38 m)와 같은 장력에서 A0를 내려면 길이는?</p><div class="opts">
+        <button class="opt">약 0.76 m</button><button class="opt">약 1.5 m</button><button class="opt" data-correct>약 6 m</button><button class="opt">약 24 m</button>
+      </div><div class="quiz-exp">A0는 A4보다 네 옥타브(주파수 1/16) 아래다. \(f \propto 1/L\)이므로 길이가 16배, 0.38 × 16 ≈ 6.1 m. 그래서 저음은 감은 현으로 μ를 키운다.</div></div>
+      <div class="quiz-q"><p>비조화 계수 \(B\)가 가장 큰 현은?</p><div class="opts">
+        <button class="opt">길고 가는 저음 감은 현</button><button class="opt" data-correct>짧은 최고음 현</button><button class="opt">가온 다의 현</button><button class="opt">모든 현이 같다</button>
+      </div><div class="quiz-exp">\(B = \pi^3 E d^4/(64 T L^2)\)는 길이의 제곱에 반비례한다. 최고음 현은 몇 cm로 매우 짧아 \(B\)가 \(10^{-2}\) 수준까지 커진다.</div></div>
+      <div class="quiz-q"><p>잘 조율된 피아노에서 C7을 평균율 이론값(2093 Hz)과 비교하면?</p><div class="opts">
+        <button class="opt">정확히 같다</button><button class="opt">조금 낮다</button><button class="opt" data-correct>조금(수십 센트 이내) 높다</button><button class="opt">반음 높다</button>
+      </div><div class="quiz-exp">옥타브마다 아래 음의 높아진 배음에 맞추므로 넓힘이 누적되어 고음은 이론값보다 높게, 저음은 낮게 조율된다. 레일스백 곡선이 이 편차를 보여 준다.</div></div>
+      <div class="quiz-q"><p>디지털 피아노의 벨로시티 레이어가 하나뿐이면 어떤 부자연스러움이 생기는가?</p><div class="opts">
+        <button class="opt">음높이가 흔들린다</button><button class="opt" data-correct>세게 쳐도 음량만 커지고 밝기(음색)는 그대로다</button><button class="opt">페달이 작동하지 않는다</button><button class="opt">고음에서 소리가 나지 않는다</button>
+      </div><div class="quiz-exp">실제 피아노는 세게 칠수록 해머 펠트가 단단해져 고배음이 늘어난다. 레이어가 하나면 같은 녹음의 음량만 바꾸므로 이 변화를 재현할 수 없다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ---------------------------------------------------------------- 공용 */
+const insHz = (f) => (f >= 1000 ? (f / 1000).toFixed(2) + " kHz" : f.toFixed(f < 100 ? 2 : 1) + " Hz");
+const insName = (m) => MB.noteName(m) + " (" + m + ")";
+const INS_FONT = () => getComputedStyle(document.body).getPropertyValue("--font");
+const INS_MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
+const insCents = (r) => 1200 * Math.log2(r);
+let _insOff = null;
+/** 그림용 오프라인 컨텍스트(소리를 내지 않으므로 클릭 전에도 만들 수 있다) */
+function insOffline() {
+  if (!_insOff) { const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext; _insOff = new OAC(1, 1, 22050); }
+  return _insOff;
+}
+/** 진동수를 직접 지정한 그랜드 피아노 음 */
+function insGrand(f, o = {}) {
+  if (!MB.ctx()) return null;
+  return MB.play({ freq: f }, { inst: "grand", dur: o.dur != null ? o.dur : 2.5, vel: o.vel != null ? o.vel : 0.7, when: o.when, pn: o.pn || {} });
+}
+/** 장 전체에서 쓰는 타이머(정지 버튼이 함께 지운다) */
+const insTimers = new Set();
+function insLater(ms, fn) { const id = setTimeout(() => { insTimers.delete(id); fn(); }, ms); insTimers.add(id); return id; }
+function insClearTimers() { insTimers.forEach((id) => clearTimeout(id)); insTimers.clear(); }
+
+/* ---------------------------------------------------------------- 그림 1-1: 연표(좁은 화면에서는 세로) */
+(function () {
+  const svg = document.getElementById("ins-tl-svg"), g = document.getElementById("ins-tl-g");
+  const EV = [
+    [1700, "1700", "크리스토포리", "피아노포르테 발명"],
+    [1720, "1720–26", "현존 3대", "크리스토포리 피아노"],
+    [1780, "1770–80년대", "빈·영국 액션", "모차르트 시대 약 5옥타브"],
+    [1821, "1821", "에라르", "이중 이탈 장치 특허"],
+    [1826, "1826", "펠트 해머", "가죽 → 양모 펠트"],
+    [1859, "1859", "교차현 + 주철", "스타인웨이 그랜드"],
+    [1885, "1880년대", "88건반", "A0–C8 표준화"],
+    [1983, "1983", "MIDI 1.0", "디지털 피아노 보급"],
+  ];
+  let mode = "";
+  function render() {
+    const narrow = svg.parentElement.clientWidth < 560;
+    if ((narrow ? "v" : "h") === mode) return; mode = narrow ? "v" : "h";
+    let s = "";
+    if (!narrow) {
+      svg.setAttribute("viewBox", "0 0 800 210");
+      const X = (y) => 40 + ((y - 1690) / (2000 - 1690)) * 730;
+      s += `<line x1="30" y1="96" x2="780" y2="96" class="s-axis"/>`;
+      EV.forEach(([y, yr, a, b], i) => {
+        const x = X(y), up = i % 2 === 0;
+        s += `<line x1="${x}" y1="96" x2="${x}" y2="${up ? 76 : 116}" class="s-line"/><circle cx="${x}" cy="96" r="5" class="f-acc"/>`;
+        s += `<text x="${x}" y="${up ? 30 : 152}" class="yr">${yr}</text><text x="${x}" y="${up ? 48 : 170}" class="ev">${a}</text><text x="${x}" y="${up ? 66 : 188}" class="ev2">${b}</text>`;
+      });
+    } else {
+      const H = 40 + EV.length * 52;
+      svg.setAttribute("viewBox", `0 0 340 ${H}`);
+      s += `<line x1="96" y1="16" x2="96" y2="${H - 16}" class="s-axis"/>`;
+      EV.forEach(([y, yr, a, b], i) => {
+        const yy = 40 + i * 52;
+        s += `<circle cx="96" cy="${yy}" r="5" class="f-acc"/><text x="84" y="${yy + 5}" class="yr" style="text-anchor:end">${yr}</text>`;
+        s += `<text x="110" y="${yy}" class="ev" style="text-anchor:start">${a}</text><text x="110" y="${yy + 18}" class="ev2" style="text-anchor:start">${b}</text>`;
+      });
+    }
+    g.innerHTML = s;
+  }
+  render();
+  if (window.ResizeObserver) new ResizeObserver(render).observe(svg.parentElement); else addEventListener("resize", render);
+})();
+
+/* ---------------------------------------------------------------- 그림 1-4: 배음 사다리 */
+(function () {
+  const g = document.getElementById("ins-fig-ladder");
+  const B = 2e-3, N = 12, x0 = 60, W = 700, fx = (r) => x0 + (r / (N + 0.6)) * W;
+  let s = `<text x="10" y="44" class="t-dim">정수배</text><text x="10" y="128" class="t-dim">피아노</text>`;
+  s += `<line x1="${x0}" y1="60" x2="${x0 + W}" y2="60" class="s-axis"/><line x1="${x0}" y1="144" x2="${x0 + W}" y2="144" class="s-axis"/>`;
+  for (let n = 1; n <= N; n++) {
+    const xi = fx(n), xr = fx(PN.partialFreq(1, n, B));
+    s += `<line x1="${xi}" y1="34" x2="${xi}" y2="60" class="s-line" stroke-width="2"/><text x="${xi}" y="28" text-anchor="middle" class="t-mono">${n}</text>`;
+    s += `<line x1="${xi}" y1="62" x2="${xi}" y2="144" class="s-line" stroke-dasharray="2 4" opacity=".55"/>`;
+    s += `<line x1="${xr}" y1="118" x2="${xr}" y2="144" class="s-acc" stroke-width="2.6"/>`;
+    if (n % 2 === 0 || n === 1 || n === 3) s += `<text x="${xr}" y="166" text-anchor="middle" class="t-acc" font-size="12">+${insCents(Math.sqrt(1 + B * n * n)).toFixed(0)}</text>`;
+  }
+  s += `<text x="${x0 + W}" y="186" text-anchor="end" class="t-dim">센트(정수배 대비) · B = 0.002</text>`;
+  g.innerHTML = s;
+})();
+
+/* ---------------------------------------------------------------- 1. 하프시코드 vs 피아노 */
+(function () {
+  const p = PN.piano();
+  const inst = MB.seg("ins-pf-inst", () => draw.redraw());
+  const harpV = new Map();
+  const VELS = [0.16, 0.27, 0.38, 0.49, 0.6, 0.71, 0.84, 0.97];
+  let cur = -1, which = null;
+  const relDb = (v, kind) => (kind === "harp" ? 0 : 20 * Math.log10(PN.velGain(v) / PN.velGain(1)));
+  function show(v, kind) {
+    MB.stat("ins-pf-o-v", v.toFixed(2) + (kind === "harp" ? " (무시됨)" : ""));
+    MB.stat("ins-pf-o-db", (kind === "harp" ? "≈ 0" : relDb(v, kind).toFixed(1)) + " dB");
+    MB.stat("ins-pf-o-l", kind === "harp" ? "하나(뜯기)" : ["여리게(부드러운 펠트)", "보통", "세게(단단한 펠트)"][PN.layerOf(v)]);
+  }
+  function harpOn(m) { const v = MB.play(m, { inst: "pluck", dur: null, vel: 0.8, ks: { bright: 0.93, pos: 0.12, decay: 0.997 } }); if (v) harpV.set(m, v); }
+  function harpOff(m) { const v = harpV.get(m); if (v) { v.release(MB.now() + 0.05, 0.25); harpV.delete(m); } }
+  const kb = PN.keyboard("#ins-pf-kb", { from: 48, to: 72, labels: "c", piano: p,
+    onDown(m, vel) { const k = inst(); show(vel, k); if (k === "harp") { harpOn(m); return false; } },
+    onUp(m) { if (inst() === "harp") { harpOff(m); kb.up(m); } } });
+  const draw = MB.canvas(document.getElementById("cv-ins-pf"), (ctx, w, h) => {
+    const P = MB.palette();
+    const box = { x: 52, y: 14, w: w - 66, h: h - 50 };
+    MB.chart(ctx, box, { x: [0, 8], y: [-36, 3], yLabel: "dB", xTicks: [], yTicks: [-30, -20, -10, 0] });
+    const bw = box.w / 8;
+    ctx.font = "11px " + INS_MONO(); ctx.textAlign = "center";
+    VELS.forEach((v, i) => {
+      [["piano", P.accent, 0], ["harp", P.accent2, 1]].forEach(([k, col, j]) => {
+        const db = relDb(v, k) + (k === "harp" ? (i % 2 ? -0.6 : 0.4) : 0);
+        const x = box.x + i * bw + bw * (0.16 + 0.36 * j), y0 = box.y + box.h, y = box.y + box.h * (3 - db) / 39;
+        ctx.globalAlpha = which && which !== k ? 0.3 : cur === i && which === k ? 1 : 0.75;
+        ctx.fillStyle = col; ctx.fillRect(x, y, bw * 0.32, y0 - y);
+      });
+      ctx.globalAlpha = 1; ctx.fillStyle = P.dim;
+      ctx.fillText(["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"][i], box.x + (i + 0.5) * bw, box.y + box.h + 14);
+    });
+    ctx.textAlign = "left"; ctx.font = "12px " + INS_FONT();
+    ctx.fillStyle = P.accent; ctx.fillText("■ 피아노", box.x + 8, box.y + box.h + 32);
+    ctx.fillStyle = P.accent2; ctx.fillText("■ 하프시코드 근사", box.x + 90, box.y + box.h + 32);
+  }, { aspect: (w) => (w < 500 ? 0.55 : 0.36) });
+  function cresc(kind, t0) {
+    const ctx = MB.ctx(); if (!ctx) return 0;
+    const m = 64, spb = 0.42;
+    VELS.forEach((v, i) => {
+      const when = t0 + i * spb;
+      if (kind === "piano") p.play(m, { when, dur: spb * 0.9, vel: v });
+      else MB.play(m, { inst: "pluck", when, dur: spb * 0.9, vel: 0.8, ks: { bright: 0.93, pos: 0.12, decay: 0.997 } });
+      PN.at(when, () => { cur = i; which = kind; show(v, kind); draw.redraw(); });
+    });
+    return VELS.length * spb;
+  }
+  function stop() { insClearTimers(); p.stop(); harpV.forEach((v) => v.release(MB.now(), 0.03)); harpV.clear(); MB.stopAll(); cur = -1; which = null; draw.redraw(); }
+  document.getElementById("ins-pf-cresc").addEventListener("click", () => { stop(); const ctx = MB.ctx(); if (!ctx) return; const L = cresc(inst(), ctx.currentTime + 0.1); insLater(L * 1000 + 600, () => { cur = -1; which = null; draw.redraw(); }); });
+  document.getElementById("ins-pf-both").addEventListener("click", () => {
+    stop(); const ctx = MB.ctx(); if (!ctx) return;
+    const t0 = ctx.currentTime + 0.1, L = cresc("harp", t0); cresc("piano", t0 + L + 0.6);
+    insLater((2 * L + 1.4) * 1000, () => { cur = -1; which = null; draw.redraw(); });
+  });
+  document.getElementById("ins-pf-stop").addEventListener("click", stop);
+})();
+
+/* ---------------------------------------------------------------- 2. 해부도 */
+(function () {
+  const view = document.getElementById("ins-an-view"), chips = document.getElementById("ins-an-chips"), info = document.getElementById("ins-an-info");
+  const p = PN.piano();
+  const P = {
+    keys: { n: "건반", en: "Keys", d: "흰 건반 52개 + 검은 건반 36개 = 88개, A0부터 C8까지 7¼옥타브. 건반 하나하나가 밸런스 레일을 받침점으로 하는 나무 지렛대이고, 앞쪽 약 10 mm를 누르면 뒤쪽이 올라가 액션을 민다. 앞쪽에 납 추를 박아 무게(누르는 데 50 g 안팎)를 맞춘다. 소리: C4.", snd: "keys" },
+    action: { n: "액션", en: "Action", d: "건반의 움직임을 해머의 비행으로 바꾸는 기계 장치. 음마다 위펜·잭·리피티션 레버·해머·백체크·댐퍼 레버 등 수십 개의 부품이 있다. 다음 절의 시뮬레이터에서 슬로 모션으로 볼 수 있다. 소리: 같은 음을 여리게 → 세게.", snd: "action" },
+    hammers: { n: "해머", en: "Hammers", d: "나무 심을 단단히 압축한 양모 펠트로 감싼 망치. 저음 해머는 크고 무겁고 고음 해머는 작다. 펠트가 단단할수록 소리가 밝다. 조율사는 바늘로 펠트를 찔러 부드럽게 하거나 다듬어 음색을 고르게 맞추는데, 이를 정음(보이싱, Voicing)이라 한다. 소리: 같은 세기로 부드러운 펠트 → 단단한 펠트.", snd: "hammer" },
+    dampers: { n: "댐퍼", en: "Dampers", d: "현 위에 얹힌 펠트 덩어리. 건반을 누르면 들리고, 떼면 내려와 진동을 멈춘다. 오른쪽 페달은 모든 댐퍼를 한꺼번에 든다. 최고음역(약 1.5옥타브)은 현이 짧아 소리가 금방 사라지므로 댐퍼가 없다. 소리: 짧게 친 음(댐퍼가 멈춤) → 같은 길이로 페달을 밟고(계속 울림).", snd: "damper" },
+    pins: { n: "조율 핀·핀블록", en: "Tuning pins / Pinblock", d: "현의 한쪽 끝을 감는 강철 핀. 여러 겹의 단단한 나무(주로 단풍나무)를 엇갈려 붙인 핀블록에 마찰력만으로 박혀 있다. 조율사는 조율 해머(렌치)로 핀을 아주 조금 돌려 장력을 맞춘다. 현 장력 1%는 약 8.6센트에 해당한다." },
+    plate: { n: "주철 프레임", en: "Cast-iron plate", d: "현 전체의 장력(콘서트 그랜드 약 20톤)을 받치는 주철 틀. 이 틀 덕분에 19세기 이후 굵고 팽팽한 현을 쓸 수 있게 되어 음량이 크게 늘었다. 그랜드의 무게(300–500 kg) 중 큰 몫을 차지한다." },
+    treble: { n: "고음·중음 현", en: "Treble strings", d: "민선 강철 현. 한 음에 세 가닥(유니즌)이 있고, 조율사는 세 현을 같은 높이로 맞춘다. 고음으로 갈수록 짧아지고, C8 현은 진동하는 길이가 5 cm 안팎이다. 소리: C6을 세 현이 함께 울리는 소리.", snd: "treble" },
+    bass: { n: "저음 감은 현", en: "Bass strings (wound)", d: "강철 심선에 구리선을 감아 질량을 늘린 현. 한 음에 두 가닥, 가장 낮은 음들은 한 가닥. 중음 현 위를 비스듬히 지나가는 교차현 배치로 좁은 몸통에 최대한 긴 현을 넣고, 저음 브리지를 향판 가운데 쪽에 놓아 향판을 잘 흔든다. 소리: A0, C1, C2.", snd: "bass" },
+    bridge: { n: "브리지", en: "Bridges", d: "향판에 붙은 단단한 나무 띠. 현이 그 위를 지나며 진동을 향판에 넘긴다. 중·고음 현이 지나는 긴 브리지와, 교차하는 저음 현을 위한 저음 브리지가 따로 있다. 현은 브리지 핀에 지그재그로 걸려 브리지를 아래로 누른다(다운베어링)." },
+    sb: { n: "향판", en: "Soundboard", d: "피아노 바닥 전체를 덮는 두께 6–10 mm 안팎의 가문비나무 판. 결을 가로지르는 리브로 보강되고 위로 살짝 볼록하다(크라운). 현은 공기를 거의 밀지 못하므로, 브리지가 전한 진동을 넓은 면으로 공기에 방사하는 '스피커'가 바로 향판이다. 소리: 넓게 펼친 화음.", snd: "sb" },
+    rim: { n: "림(옆판)", en: "Rim", d: "단풍나무 등의 얇은 판 여러 장을 겹쳐 굽혀 만든 그랜드의 옆판. 향판의 가장자리를 단단히 잡아 진동 에너지가 새 나가지 않게 한다. 오른쪽(고음 쪽)의 휘어진 부분을 벤트사이드라고 부른다." },
+    lid: { n: "뚜껑", en: "Lid", d: "열어서 받침대로 세우면 향판에서 위로 나온 소리를 청중 쪽(그랜드의 오른쪽)으로 반사한다. 무대에서 그랜드의 오른쪽 옆면이 객석을 향하는 이유다. 연습할 때 소리가 너무 크면 짧은 받침대로 반만 연다." },
+    pedals: { n: "페달", en: "Pedals", d: "오른쪽 = 댐퍼 페달(모든 댐퍼를 듦), 가운데 = 소스테누토(밟는 순간 누르고 있던 음의 댐퍼만 들고 있음), 왼쪽 = 우나 코르다(그랜드는 액션이 옆으로 밀려 해머가 현 일부만 때림). 페달은 아래의 막대와 지렛대(트랩워크)로 액션까지 이어진다. 11장에서 자세히 다룬다. 소리: 페달 없이 → 페달을 밟고 같은 아르페지오.", snd: "pedal" },
+  };
+  const ORDER = ["keys", "action", "hammers", "dampers", "pins", "plate", "treble", "bass", "bridge", "sb", "rim", "lid", "pedals"];
+  const LBL = { keys: [450, 512], action: [130, 486], hammers: [560, 418], dampers: [400, 392], pins: [700, 452], plate: [520, 302], treble: [640, 360], bass: [150, 250], bridge: [500, 188], sb: [690, 270], rim: [120, 46], lid: [330, 26], pedals: [530, 580] };
+  // 기하
+  const KX0 = 70, KX1 = 830, KY = 470;
+  const caseD = "M70 470 L70 78 C70 44 92 30 132 30 L262 30 C350 30 392 66 440 126 C530 236 646 302 770 330 C812 340 830 360 830 402 L830 470 Z";
+  const sbD = "M84 432 L84 84 C84 56 102 44 136 44 L258 44 C340 44 380 78 426 136 C516 248 640 314 762 342 C800 351 816 368 816 404 L816 432 Z";
+  const bridgeY = (x) => 96 + Math.pow((x - 300) / 515, 1.15) * 262; // 긴 브리지(왼쪽 300 → 오른쪽 815)
+  let sel = null;
+  function draw() {
+    const S = [`<svg viewBox="0 0 900 600" role="img" aria-label="그랜드 피아노 평면도">`];
+    S.push(`<g class="part" data-p="lid"><path class="lid" d="M60 470 L60 72 C60 30 90 18 132 18 L262 18 C356 18 402 56 452 118 C540 228 650 292 774 320 C824 332 842 356 842 402 L842 470"/><path class="hit" d="M60 470 L60 72 C60 30 90 18 132 18 L262 18 C356 18 402 56 452 118 C540 228 650 292 774 320 C824 332 842 356 842 402 L842 470" stroke-width="10" fill="none"/></g>`);
+    S.push(`<g class="part" data-p="rim"><path class="rim" d="${caseD}"/></g>`);
+    // 향판·리브
+    let ribs = ""; for (let i = 0; i < 9; i++) { const y = 80 + i * 40; ribs += `<line class="rib" x1="${90 + i * 4}" y1="${y + 60}" x2="${330 + i * 56}" y2="${y - 30}"/>`; }
+    S.push(`<g class="part" data-p="sb"><path class="sb" d="${sbD}"/><clipPath id="ins-sbclip"><path d="${sbD}"/></clipPath><g clip-path="url(#ins-sbclip)" opacity=".7">${ribs}</g></g>`);
+    // 프레임(먼저 그리고 현이 위에 지나가는 것처럼 반투명)
+    S.push(`<g class="part" data-p="plate"><path class="plate" d="M90 444 L90 92 C90 66 108 54 138 54 L254 54 C330 54 372 88 416 144 C506 256 636 322 756 350 C792 358 806 372 806 404 L806 444 Z M150 380 L150 120 L260 110 L380 300 L520 380 Z"/>
+      <line class="strut" x1="140" y1="410" x2="200" y2="80"/><line class="strut" x1="300" y1="410" x2="330" y2="90"/><line class="strut" x1="470" y1="410" x2="470" y2="200"/><line class="strut" x1="640" y1="410" x2="620" y2="300"/></g>`);
+    // 핀블록 + 핀
+    let pins = `<rect class="pinblock" x="86" y="438" width="726" height="26" rx="3"/>`;
+    for (let x = 92; x < 810; x += 9) { pins += `<circle class="pin" cx="${x}" cy="${446 + ((x / 9) % 2) * 9}" r="2"/>`; }
+    S.push(`<g class="part" data-p="pins">${pins}</g>`);
+    // 고음·중음 현(브리지까지)
+    let tr = "";
+    for (let x = 300; x <= 812; x += 8) { const yb = bridgeY(x); tr += `<line class="str" x1="${x}" y1="440" x2="${x}" y2="${yb - 10}"/>`; }
+    S.push(`<g class="part" data-p="treble">${tr}<rect class="hit" x="300" y="${bridgeY(560)}" width="512" height="${440 - bridgeY(560)}"/></g>`);
+    // 긴 브리지 + 저음 브리지
+    let bp = "M300 " + bridgeY(300); for (let x = 320; x <= 815; x += 20) bp += ` L${x} ${bridgeY(x).toFixed(1)}`;
+    S.push(`<g class="part" data-p="bridge"><path class="bridge" d="${bp}"/><line class="bridge" x1="196" y1="72" x2="350" y2="102"/></g>`);
+    // 저음 감은 현(교차, 위로 지나감)
+    let bs = "";
+    for (let i = 0; i < 16; i++) { const x1 = 96 + i * 13, x2 = 200 + i * 9.6, y2 = 74 + i * 1.9; bs += `<line class="wound" x1="${x1}" y1="440" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`; }
+    S.push(`<g class="part" data-p="bass">${bs}<path class="hit" d="M96 440 L200 74 L350 104 L292 440 Z"/></g>`);
+    // 댐퍼(최고음역 제외) · 해머 타현선
+    let dp = ""; for (let x = 96; x < 712; x += 12) dp += `<rect class="damp" x="${x}" y="${x < 300 ? 404 - (x - 96) * 0.0 : 408}" width="8" height="10" rx="1.5"/>`;
+    S.push(`<g class="part" data-p="dampers">${dp}<rect class="hit" x="92" y="400" width="624" height="22"/></g>`);
+    let hm = ""; for (let x = 94; x < 810; x += 10) hm += `<rect class="ham" x="${x}" y="426" width="7" height="8" rx="2"/>`;
+    S.push(`<g class="part" data-p="hammers">${hm}<rect class="hit" x="90" y="422" width="722" height="16"/></g>`);
+    // 액션(건반 뒤, 몸통 안쪽 띠)
+    S.push(`<g class="part" data-p="action"><rect x="70" y="464" width="760" height="8" fill="var(--text-faint)" opacity=".6"/><rect class="hit" x="70" y="462" width="760" height="12"/></g>`);
+    // 건반
+    let ks = ""; const nW = 52, ww = (KX1 - KX0) / nW;
+    for (let i = 0; i < nW; i++) ks += `<rect class="wk" x="${(KX0 + i * ww).toFixed(2)}" y="${KY + 4}" width="${ww.toFixed(2)}" height="44"/>`;
+    let wi = 0; for (let m = 21; m <= 108; m++) { if (PN.isWhite(m)) { wi++; continue; } const x = KX0 + wi * ww - ww * 0.3; ks += `<rect class="bk" x="${x.toFixed(2)}" y="${KY + 4}" width="${(ww * 0.6).toFixed(2)}" height="27"/>`; }
+    S.push(`<g class="part" data-p="keys">${ks}</g>`);
+    // 페달
+    S.push(`<g class="part" data-p="pedals"><path d="M430 520 L440 566 L470 566 L480 520" fill="none" stroke="var(--text-dim)" stroke-width="3"/><rect class="ped" x="424" y="562" width="14" height="22" rx="4"/><rect class="ped" x="448" y="562" width="14" height="22" rx="4"/><rect class="ped" x="472" y="562" width="14" height="22" rx="4"/><rect class="hit" x="416" y="516" width="78" height="72"/></g>`);
+    // 이름표
+    ORDER.forEach((k) => { const [x, y] = LBL[k]; S.push(`<text class="lbl" x="${x}" y="${y}">${P[k].n}</text>`); });
+    S.push(`<text class="t-dim" x="760" y="392" text-anchor="middle" font-size="12">댐퍼 없음</text>`);
+    S.push(`</svg>`);
+    view.innerHTML = S.join("");
+    view.querySelectorAll(".part").forEach((g) => g.addEventListener("click", () => pick(g.dataset.p, true)));
+    mark();
+  }
+  function mark() {
+    view.classList.toggle("sel", !!sel);
+    view.querySelectorAll(".part").forEach((g) => g.classList.toggle("on", g.dataset.p === sel));
+    chips.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.p === sel));
+  }
+  function sound(kind) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    p.stop(); insClearTimers();
+    const t = ctx.currentTime + 0.05;
+    switch (kind) {
+      case "keys": p.play(60, { when: t, dur: 1.2, vel: 0.6 }); break;
+      case "action": [0.22, 0.45, 0.68, 0.92].forEach((v, i) => p.play(67, { when: t + i * 0.5, dur: 0.45, vel: v })); break;
+      case "hammer": insGrand(PN.freq(64), { when: t, vel: 0.62, dur: 1.2, pn: { layer: 0 } }); insGrand(PN.freq(64), { when: t + 1.4, vel: 0.62, dur: 1.2, pn: { layer: 2 } }); break;
+      case "damper":
+        p.play(55, { when: t, dur: 0.35, vel: 0.7 });
+        insLater(1500, () => { const t2 = MB.now() + 0.02; p.pedal(true, t2); p.play(55, { when: t2, dur: 0.35, vel: 0.7 }); insLater(2600, () => p.pedal(false)); });
+        break;
+      case "treble": p.play(84, { when: t, dur: 1.5, vel: 0.7 }); break;
+      case "bass": [21, 24, 36].forEach((m, i) => p.play(m, { when: t + i * 1.1, dur: 1.0, vel: 0.75 })); break;
+      case "sb": p.chord([36, 48, 55, 64, 72], { when: t, dur: 2.4, vel: 0.6, roll: 0.03 }); break;
+      case "pedal": {
+        const arp = [48, 55, 60, 64, 67, 72];
+        arp.forEach((m, i) => p.play(m, { when: t + i * 0.18, dur: 0.16, vel: 0.6 }));
+        insLater(1800, () => { const t2 = MB.now() + 0.02; p.pedal(true, t2); arp.forEach((m, i) => p.play(m, { when: t2 + i * 0.18, dur: 0.16, vel: 0.6 })); insLater(3200, () => p.pedal(false)); });
+        break;
+      }
+    }
+  }
+  function pick(k, play) {
+    sel = k; const d = P[k]; mark();
+    info.innerHTML = `<h4>${d.n} <span class="en">(${d.en})</span></h4><p>${d.d}</p>`;
+    if (play && d.snd) sound(d.snd);
+  }
+  chips.innerHTML = ORDER.map((k) => `<button data-p="${k}">${P[k].n}</button>`).join("");
+  chips.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => pick(b.dataset.p, true)));
+  draw();
+})();
+
+/* ---------------------------------------------------------------- 3. 해머 액션 */
+(function () {
+  const cv = document.getElementById("cv-ins-ac");
+  const p = PN.piano();
+  const velG = MB.range("ins-ac-vel", (v) => v.toFixed(2) + (v < 0.07 ? " (매우 느림)" : v > 0.8 ? " (ff)" : ""));
+  const slowG = MB.seg("ins-ac-slow");
+  const typeG = MB.seg("ins-ac-type");
+  const pedG = MB.check("ins-ac-ped", (on) => { MB.ctx(); p.pedal(on); });
+  // 상수(해머 높이 h: 0 = 쉼, 1 = 현에 닿음)
+  const LETK = 0.85, LETH = 0.94, G = 220, BC = 0.55, KREL = 1 / 0.06, BLOW_MM = 45;
+  const st = { m: 60, k: 0, kT: 0, kV: 0, h: 0, hv: 0, eng: true, k0: 0, h0: 0, caught: false, d: 0, dKey: 0, vib: 0, vibPh: 0,
+    phase: "쉼", lastHv: null, res: "—", flew: false, maxH: 0 };
+  let script = [];
+  const line = (k) => st.h0 + ((k - st.k0) * (LETH - st.h0)) / (LETK - st.k0);
+  const pressT = () => 0.018 / Math.pow(Math.max(velG(), 0.02), 0.9);
+  function press() { st.kT = 1; st.kV = 1 / pressT(); }
+  function release(to = 0) { st.kT = to; }
+  function strike(hv) {
+    const vel = MB.clamp(hv / 60, 0.05, 1);
+    p.noteOn(st.m, vel);
+    st.vib = Math.min(1, 0.35 + vel); st.lastHv = hv; st.res = "벨로시티 " + vel.toFixed(2);
+    MB.stat("ins-ac-o-hv", (hv * BLOW_MM / 1000).toFixed(2) + " m/s");
+    MB.stat("ins-ac-o-res", st.res);
+  }
+  function step(dt) {
+    const grand = typeG() === "grand";
+    // 건반
+    if (st.k < st.kT) st.k = Math.min(st.kT, st.k + st.kV * dt);
+    else if (st.k > st.kT) st.k = Math.max(st.kT, st.k - KREL * dt);
+    const goingDown = st.k < st.kT || (st.kT === 1 && st.k < 1);
+    // 해머
+    if (st.eng) {
+      const hl = Math.max(0, line(st.k));
+      if (st.k >= LETK) {
+        st.eng = false; st.flew = true; st.maxH = st.h;
+        st.hv = goingDown || st.kT >= st.k ? ((LETH - st.h0) / (LETK - st.k0)) * st.kV : 0;
+        st.h = LETH; st.phase = "이탈 → 비행";
+      } else { st.hv = (hl - st.h) / dt; st.h = hl; if (st.h > 0.02) st.phase = "잭이 밀어 올림"; }
+      if (st.k < 0.01 && st.k0 !== 0) { st.k0 = 0; st.h0 = 0; }
+    } else {
+      st.hv -= G * dt; st.h += st.hv * dt; st.maxH = Math.max(st.maxH, st.h);
+      if (st.h >= 1) { st.h = 1; strike(st.hv); st.hv = -0.35 * st.hv; st.phase = "타현 → 되튐"; }
+      if (st.hv < 0 && st.h <= BC) {
+        if (st.k > 0.8) { st.h = BC; st.hv = 0; st.caught = true; st.phase = "백체크가 붙잡음"; }
+        else if (grand && st.k > 0.2) { st.h = BC; st.hv = 0; st.phase = "리피티션 레버가 받침"; }
+      }
+      if (st.h <= 0) { st.h = 0; st.hv = 0; }
+      if (st.flew && st.hv <= 0 && st.maxH < 1 && st.h < LETH - 0.01 && st.res !== "현에 닿지 못함" && st.lastHv === null) { st.res = "현에 닿지 못함"; MB.stat("ins-ac-o-res", st.res); MB.stat("ins-ac-o-hv", "—"); }
+      // 잭 복귀
+      const resetK = grand ? 0.62 : 0.15;
+      if (st.k < resetK && st.hv === 0) { st.eng = true; st.k0 = st.k; st.h0 = st.h; st.caught = false; st.flew = false; if (st.k < resetK) st.phase = grand ? "잭 복귀(반만 올라와도)" : "잭 복귀"; }
+      else if (!grand && st.k < 0.8 && st.h > 0 && st.hv === 0 && st.caught) { st.caught = false; st.hv = -0.01; }
+    }
+    if (st.eng && st.k < 0.005 && st.h < 0.005) st.phase = "쉼";
+    // 댐퍼
+    const noD = st.m >= PN.NO_DAMPER;
+    const dKey = MB.clamp((st.k - 0.42) / 0.4, 0, 1);
+    if (st.dKey > 0.02 && dKey <= 0.02) { p.noteOff(st.m); }
+    st.dKey = dKey;
+    st.d = noD ? 0 : pedG() ? 1 : dKey;
+  }
+  function runScript(dt) {
+    if (!script.length) return;
+    const s = script[0];
+    if (s.wait) { s.wait -= dt; if (s.wait <= 0) script.shift(); return; }
+    if (s.until) { if (s.until()) script.shift(); return; }
+    s.fn(); script.shift();
+  }
+  function stopAll() { script = []; p.stop(); st.kT = 0; if (pedG()) p.pedal(true); }
+  function resetResult() { st.lastHv = null; st.res = "—"; MB.stat("ins-ac-o-res", "…"); MB.stat("ins-ac-o-hv", "—"); }
+  const kb = PN.keyboard("#ins-ac-kb", { from: 36, to: 96, labels: "c", piano: p, play: false,
+    onDown(m) { MB.ctx(); script = []; setNote(m); resetResult(); press(); },
+    onUp() { release(0); } });
+  function setNote(m) {
+    if (m !== st.m) { p.noteOff(st.m); st.m = m; }
+    MB.stat("ins-ac-o-m", MB.noteName(m) + (m >= PN.NO_DAMPER ? " · 댐퍼 없음" : ""));
+    kb.set([{ m, cls: "ghost" }], "ghost");
+  }
+  setNote(60);
+  const hold = document.getElementById("ins-ac-hold");
+  hold.addEventListener("pointerdown", (e) => { e.preventDefault(); MB.ctx(); script = []; resetResult(); press(); hold.classList.add("down"); try { hold.setPointerCapture(e.pointerId); } catch (er) {} });
+  const up = () => { if (!hold.classList.contains("down")) return; hold.classList.remove("down"); release(0); };
+  hold.addEventListener("pointerup", up); hold.addEventListener("pointercancel", up); hold.addEventListener("lostpointercapture", up);
+  hold.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); MB.ctx(); script = []; resetResult(); press(); } });
+  hold.addEventListener("keyup", (e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); release(0); } });
+  document.getElementById("ins-ac-tap").addEventListener("click", () => {
+    MB.ctx(); resetResult();
+    script = [{ fn: press }, { until: () => st.k >= 1 }, { wait: 0.12 }, { fn: () => release(0) }];
+  });
+  document.getElementById("ins-ac-trill").addEventListener("click", () => {
+    MB.ctx(); resetResult(); script = [];
+    for (let i = 0; i < 4; i++) {
+      script.push({ fn: () => { st.lastHv = null; press(); } }, { until: () => st.k >= 1 }, { wait: 0.02 }, { fn: () => release(0.45) }, { until: () => st.k <= 0.45 + 1e-6 }, { wait: 0.01 });
+    }
+    script.push({ fn: () => release(0) });
+  });
+  document.getElementById("ins-ac-stop").addEventListener("click", stopAll);
+  // 그리기 (가상 좌표 800×420)
+  const VW = 800, VH = 420, SY = 70, FX = 380, FY = 160, HR = 180, HH = 46;
+  // 타현 각도 φmax: FY − HR sinφ − HH cosφ = SY + 1
+  let PHI = 0.25; for (let i = 0; i < 40; i++) { const f = FY - HR * Math.sin(PHI) - HH * Math.cos(PHI) - (SY + 1), df = -HR * Math.cos(PHI) + HH * Math.sin(PHI); PHI -= f / df; }
+  const KY = 300, BX = 340, AMAX = 0.075;
+  const draw = MB.canvas(cv, (ctx, w, h) => {
+    const P = MB.palette(), s = w / VW;
+    ctx.save(); ctx.scale(s, s);
+    const labels = w >= 520;
+    ctx.font = "15px " + INS_FONT(); ctx.textBaseline = "middle";
+    const a = st.k * AMAX, dy = (x) => (BX - x) * Math.tan(a);
+    // 현
+    const amp = st.vib * 7;
+    ctx.fillStyle = P.elev; ctx.fillRect(352, SY - 6, 14, 12); // 아그라프
+    ctx.beginPath(); ctx.moveTo(770, SY + 2); ctx.lineTo(790, SY + 2); ctx.lineTo(780, SY - 14); ctx.closePath(); ctx.fillStyle = P.dim; ctx.fill(); // 브리지
+    if (amp > 0.2) {
+      ctx.beginPath();
+      for (let i = 0; i <= 60; i++) { const u = i / 60, x = 366 + u * 414, y = SY - amp * Math.sin(Math.PI * u); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      for (let i = 60; i >= 0; i--) { const u = i / 60, x = 366 + u * 414, y = SY + amp * Math.sin(Math.PI * u); ctx.lineTo(x, y); }
+      ctx.fillStyle = P.accent; ctx.globalAlpha = 0.25; ctx.fill(); ctx.globalAlpha = 1;
+    }
+    ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(300, SY); ctx.lineTo(790, SY); ctx.stroke();
+    // 댐퍼
+    const noD = st.m >= PN.NO_DAMPER, lift = st.d * 26;
+    ctx.globalAlpha = noD ? 0.25 : 1;
+    ctx.fillStyle = P.text; ctx.fillRect(664, SY - 24 - lift, 38, 20);
+    ctx.fillStyle = P.surface; ctx.fillRect(666, SY - 6 - lift, 34, 5);
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(708, SY - 14 - lift); ctx.lineTo(716, SY - 14 - lift); ctx.lineTo(716, 278 - lift); ctx.stroke();
+    ctx.fillStyle = P.dim; ctx.fillRect(650, 278 - lift, 120, 7); // 댐퍼 언더레버
+    ctx.globalAlpha = 1;
+    // 건반
+    const kp = (x, y) => [x, y + dy(x)];
+    const K = [kp(30, KY), kp(730, KY), kp(730, KY + 22), kp(30, KY + 22)];
+    ctx.beginPath(); K.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath();
+    ctx.fillStyle = P.surface; ctx.fill(); ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2; ctx.stroke();
+    const C = [kp(30, KY - 6), kp(120, KY - 6), kp(120, KY), kp(30, KY)];
+    ctx.beginPath(); C.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); ctx.fillStyle = P.elev; ctx.fill(); ctx.stroke();
+    // 밸런스 레일
+    ctx.beginPath(); ctx.moveTo(BX, KY + 22); ctx.lineTo(BX - 10, KY + 40); ctx.lineTo(BX + 10, KY + 40); ctx.closePath(); ctx.fillStyle = P.accent2; ctx.fill();
+    ctx.fillStyle = P.faint; ctx.fillRect(20, KY + 40, 760, 6);
+    // 손가락 화살표
+    if (st.kT > st.k || st.k > 0.02) { ctx.fillStyle = P.warn; ctx.beginPath(); const [fx0, fy0] = kp(70, KY - 8); ctx.moveTo(fx0, fy0); ctx.lineTo(fx0 - 9, fy0 - 16); ctx.lineTo(fx0 + 9, fy0 - 16); ctx.closePath(); ctx.fill(); }
+    // 캡스턴·위펜
+    const [cx, cy] = kp(470, KY);
+    const wl = -dy(470) * 1.7;
+    ctx.fillStyle = P.dim; ctx.fillRect(cx - 5, cy - 12, 10, 12);
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy - 12); ctx.lineTo(cx, 246 - wl); ctx.stroke();
+    ctx.fillStyle = P.elev; ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.rect(420, 232 - wl, 130, 14); ctx.fill(); ctx.stroke();
+    // 해머
+    const phi = st.h * PHI, cs = Math.cos(phi), sn = Math.sin(phi);
+    const rot = (x, y) => [FX + x * cs + y * sn, FY - x * sn + y * cs]; // (x 오른쪽, y 아래) 를 φ만큼 위로 회전
+    // 잭
+    const kn = rot(80, 10);
+    ctx.strokeStyle = P.accent2; ctx.lineWidth = 5; ctx.lineCap = "round"; ctx.beginPath();
+    if (st.eng) { ctx.moveTo(470, 232 - wl); ctx.lineTo(kn[0], kn[1] + 4); }
+    else { ctx.moveTo(470, 232 - wl); ctx.lineTo(492, 178 - wl); }
+    ctx.stroke(); ctx.lineCap = "butt";
+    // 리피티션 레버(그랜드)
+    if (typeG() === "grand") { ctx.strokeStyle = P.dim; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(430, 228 - wl); ctx.lineTo(530, Math.min(206 - wl, rot(110, 8)[1] + 2)); ctx.stroke(); }
+    // 자루
+    const tip = rot(HR, 0);
+    ctx.strokeStyle = P.text; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(FX, FY); ctx.lineTo(tip[0], tip[1]); ctx.stroke();
+    ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(FX, FY, 6, 0, 7); ctx.fill();
+    ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(kn[0], kn[1], 6, 0, 7); ctx.fill(); // 너클
+    // 머리
+    const Hd = [rot(HR - 15, 0), rot(HR + 15, 0), rot(HR + 13, -HH + 10), rot(HR, -HH), rot(HR - 13, -HH + 10)];
+    ctx.beginPath(); Hd.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath();
+    ctx.fillStyle = P.accent; ctx.fill();
+    const core = [rot(HR - 6, 0), rot(HR + 6, 0), rot(HR + 6, -20), rot(HR - 6, -20)];
+    ctx.beginPath(); core.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); ctx.fillStyle = P.warn; ctx.globalAlpha = 0.6; ctx.fill(); ctx.globalAlpha = 1;
+    // 백체크
+    const [bx, by] = kp(612, KY);
+    ctx.strokeStyle = P.dim; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx - 8, by - 130 + 30); ctx.stroke();
+    ctx.fillStyle = st.caught ? P.ok : P.elev; ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.rect(bx - 20, by - 112, 22, 16); ctx.fill(); ctx.stroke();
+    // 렛오프 버튼
+    ctx.fillStyle = P.bad; ctx.beginPath(); ctx.arc(500, 172, 5, 0, 7); ctx.fill();
+    if (labels) {
+      ctx.fillStyle = P.dim; ctx.textAlign = "left";
+      ctx.fillText("건반", 46, KY + 11 + dy(46));
+      ctx.fillText("밸런스 레일", BX + 14, KY + 34);
+      ctx.fillText("캡스턴", cx + 10, cy - 20);
+      ctx.fillText("위펜", 556, 238 - wl);
+      ctx.fillText(st.eng ? "잭" : "잭(이탈)", 500, 200 - wl);
+      ctx.fillText("렛오프 버튼", 512, 182);
+      ctx.fillText("해머", tip[0] - 70, tip[1] - 26);
+      ctx.fillText("백체크", bx + 6, by - 104);
+      ctx.fillText(noD ? "댐퍼 없음(고음)" : "댐퍼", 720, SY - 30 - lift);
+      ctx.fillText("현", 300, SY - 14);
+      ctx.textAlign = "right"; ctx.fillStyle = P.accent;
+      ctx.fillText(st.phase, VW - 14, VH - 22);
+    }
+    ctx.restore();
+  }, { aspect: VH / VW });
+  MB.loop(cv, (dt) => {
+    const sd = dt * Number(slowG());
+    const n = Math.max(1, Math.ceil(sd / 0.0004)), h = sd / n;
+    for (let i = 0; i < n; i++) { runScript(h); step(h); }
+    // 현 진동 표시(실시간): 댐퍼가 닿아 있으면 빨리, 아니면 천천히 줄어든다
+    const damped = st.d < 0.02 && st.m < PN.NO_DAMPER && !pedG();
+    st.vib *= Math.exp(-dt / (damped ? PN.dampTime(st.m) : 2.2));
+    if (st.vib < 0.01) st.vib = 0;
+    MB.stat("ins-ac-o-ph", st.phase);
+    draw.redraw();
+  });
+})();
+
+/* ---------------------------------------------------------------- 4. 현 설계기 */
+(function () {
+  const RHO = 7850, RCU = 8960, FILL = 0.8, E = 2e11, SIG = 2.2e9;
+  const g = {
+    m: MB.range("ins-st-m", (v) => MB.noteName(v) + " · " + insHz(PN.freq(v)), upd),
+    L: MB.range("ins-st-L", (v) => (v < 1 ? (v * 100).toFixed(0) + " cm" : v.toFixed(2) + " m"), upd),
+    d: MB.range("ins-st-d", (v) => v.toFixed(3) + " mm", upd),
+    w: MB.range("ins-st-w", (v) => (v === 0 ? "0 (민선)" : v.toFixed(2) + " mm"), upd),
+  };
+  const PRE = { a0: [21, 1.95, 1.5, 1.6], a0p: [21, 1.95, 1.5, 0], c2: [36, 1.35, 1.2, 0.6], a4: [69, 0.38, 1.0, 0], c8: [108, 0.045, 0.8, 0] };
+  document.querySelectorAll("#ins-st-pre .btn").forEach((b) => b.addEventListener("click", () => { const [m, L, d, w] = PRE[b.dataset.p]; g.m.set(m, false); g.L.set(L, false); g.d.set(d, false); g.w.set(w, false); upd(); }));
+  function calc(m, L, d, w) {
+    const dm = d / 1000, Dm = (d + 2 * w) / 1000, f = PN.freq(m);
+    const muC = RHO * Math.PI * dm * dm / 4, muW = w > 0 ? RCU * Math.PI * (Dm * Dm - dm * dm) / 4 * FILL : 0, mu = muC + muW;
+    const T = mu * Math.pow(2 * L * f, 2), sig = T / (Math.PI * dm * dm / 4);
+    const B = Math.pow(Math.PI, 3) * E * Math.pow(dm, 4) / (64 * T * L * L);
+    return { f, mu, T, sig, B, Tbreak: SIG * Math.PI * dm * dm / 4 };
+  }
+  let cur = null;
+  const cv = MB.canvas(document.getElementById("cv-ins-st"), (ctx, w, h) => {
+    if (!cur) return;
+    const P = MB.palette(), m = g.m(), d = g.d(), ww = g.w();
+    const Ls = []; for (let i = 0; i <= 80; i++) Ls.push(0.03 * Math.pow(10 / 0.03, i / 80));
+    const ser = (wd) => Ls.map((L) => [L, calc(m, L, d, wd).T]);
+    const c = MB.chart(ctx, null, { x: [0.03, 10], y: [10, 20000], logX: true, logY: true, xLabel: "진동 길이 L (m)", yLabel: "장력 T (N)",
+      xTicks: [0.03, 0.1, 0.3, 1, 3, 10], yTicks: [10, 100, 1000, 10000], xFmt: (v) => String(v), yFmt: (v) => (v >= 1000 ? v / 1000 + "k" : String(v)),
+      bands: [], hlines: [{ y: cur.Tbreak, color: P.bad, label: "심선 파단 " + Math.round(cur.Tbreak) + " N" }],
+      series: [{ data: ser(0), color: P.dim, dash: [5, 4], width: 1.5 }, ...(ww > 0 ? [{ data: ser(ww), color: P.accent, width: 2.4 }] : [{ data: ser(0), color: P.accent, width: 2.4 }])],
+      points: [{ x: g.L(), y: cur.T, color: P.accent, r: 5.5, label: Math.round(cur.T) + " N" }], vlines: [{ x: 2.0, color: P.faint, label: "그랜드 최장 현 ≈ 2 m" }] });
+    // 적정 장력 띠
+    ctx.save(); ctx.fillStyle = P.ok; ctx.globalAlpha = 0.12; const y1 = c.Y(1100), y0 = c.Y(500); ctx.fillRect(c.box.x, y1, c.box.w, y0 - y1); ctx.restore();
+    ctx.fillStyle = P.ok; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top"; ctx.fillText("적정 장력 500–1100 N", c.box.x + c.box.w - 4, y0 + 2);
+  }, { aspect: (w) => (w < 500 ? 0.72 : 0.5), maxHeight: 400 });
+  function upd() {
+    const m = g.m(), L = g.L(), d = g.d(), w = g.w();
+    document.getElementById("ins-st-w-out").textContent = w === 0 ? "0 (민선)" : w.toFixed(2) + " mm (D = " + (d + 2 * w).toFixed(2) + " mm)";
+    cur = calc(m, L, d, w);
+    MB.stat("ins-st-o-mu", (cur.mu * 1000).toFixed(cur.mu < 0.01 ? 2 : 1) + " g/m");
+    MB.stat("ins-st-o-T", Math.round(cur.T) + " N · " + (cur.T / 9.80665).toFixed(0) + " kgf");
+    MB.stat("ins-st-o-s", (cur.sig / 1e6).toFixed(0) + " MPa · " + ((cur.sig / SIG) * 100).toFixed(0) + "%");
+    MB.stat("ins-st-o-B", cur.B.toExponential(1).replace("e-", "×10⁻").replace(/⁻(\d)$/, (s, a) => "⁻" + "⁰¹²³⁴⁵⁶⁷⁸⁹"[a]));
+    const msg = document.getElementById("ins-st-msg");
+    let t, cls;
+    if (cur.T > cur.Tbreak) { t = "심선이 끊어집니다. 장력이 인장 강도를 넘었습니다. 길이를 줄이거나 감은 선을 줄이세요."; cls = "bad"; }
+    else if (cur.sig > 0.6 * SIG) { t = "응력이 인장 강도의 60%를 넘어 위험합니다(보통 30–50%를 씁니다)."; cls = "bad"; }
+    else if (cur.T < 400) { t = "장력이 너무 낮습니다. 소리가 힘없고 쉽게 음이 흔들립니다. 길이를 늘리거나(공간이 허락하면) 감은 선으로 μ를 키우세요."; cls = "bad"; }
+    else if (cur.T > 1800) { t = "장력이 큽니다. 버틸 수는 있지만 프레임 부담이 크고 건반이 무거워집니다."; cls = ""; }
+    else { t = "적정 범위입니다. 실제 피아노 현과 비슷한 설계입니다."; cls = "ok"; }
+    msg.textContent = t; msg.className = "sim-msg" + (cls ? " " + cls : "");
+    cv.redraw();
+  }
+  upd();
+  let v = null;
+  document.getElementById("ins-st-play").addEventListener("click", () => {
+    if (!MB.ctx()) return; if (v) v.release(MB.now(), 0.05);
+    const m = g.m(), mult = MB.clamp(cur.B / PN.inharmonicity(m), 0, 40);
+    v = insGrand(cur.f, { dur: 3, vel: cur.T < 400 ? 0.45 : 0.7, pn: { B: Math.round(mult * 20) / 20, unison: cur.T < 400 ? 2.2 : 0.7, decay: cur.T < 400 ? 0.6 : 1 } });
+  });
+  document.getElementById("ins-st-stop").addEventListener("click", () => { if (v) v.release(MB.now(), 0.05); v = null; MB.stopAll(); });
+})();
+
+/* ---------------------------------------------------------------- 5. 비조화성 */
+(function () {
+  const mG = MB.range("ins-ih-m", (v) => MB.noteName(v) + " · " + insHz(PN.freq(v)), redraw);
+  const kG = MB.seg("ins-ih-k", redraw);
+  let hi = -1;
+  const model = (m, k) => PN.noteModel(m, 1, { B: k, sr: 44100 });
+  const cv = MB.canvas(document.getElementById("cv-ins-ih"), (ctx, w, h) => {
+    const P = MB.palette(), m = mG(), k = Number(kG()), md = model(m, k), f0 = md.f0;
+    const N = Math.min(20, md.partials.length);
+    const top = { x: 54, y: 12, w: w - 68, h: h * 0.5 - 30 }, bot = { x: 54, y: h * 0.5 + 18, w: w - 68, h: h * 0.5 - 64 };
+    const amax = Math.max(...md.partials.map((q) => q.a));
+    const xmax = PN.partialFreq(f0, N, md.B) * 1.05;
+    const c1 = MB.chart(ctx, top, { x: [0, xmax], y: [-40, 0], yLabel: "dB", yTicks: [-40, -20, 0], xFmt: (v) => (v >= 1000 ? (v / 1000).toFixed(1) + "k" : String(Math.round(v))),
+      vlines: Array.from({ length: N }, (_, i) => ({ x: (i + 1) * f0, color: P.faint, dash: [2, 3] })) });
+    md.partials.slice(0, N).forEach((q, i) => {
+      const db = Math.max(-40, 20 * Math.log10(q.a / amax)), x = c1.X(q.f);
+      ctx.fillStyle = i === hi ? P.warn : P.accent; ctx.fillRect(x - 2, c1.Y(db), 4, c1.Y(-40) - c1.Y(db));
+    });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top"; ctx.fillText("Hz · 점선 = 정수배 n·f₀", top.x + top.w, top.y + top.h + 18);
+    // 아래: 센트
+    const B1 = PN.inharmonicity(m);
+    const cmax = Math.max(20, Math.ceil(insCents(Math.sqrt(1 + 4 * B1 * 400)) / 20) * 20);
+    const dat = (b) => Array.from({ length: 20 }, (_, i) => [i + 1, insCents(Math.sqrt(1 + b * (i + 1) * (i + 1)))]);
+    const c2 = MB.chart(ctx, bot, { x: [0.5, 20.5], y: [0, cmax], xLabel: "배음 번호 n", yLabel: "센트", xTicks: [1, 5, 10, 15, 20],
+      series: [{ data: dat(B1 * 4), color: P.faint, dash: [3, 3], width: 1 }, { data: dat(B1), color: P.dim, dash: [5, 3], width: 1.2 }, { data: dat(md.B), color: P.accent, width: 2.4 }] });
+    if (hi >= 0) { const c = insCents(Math.sqrt(1 + md.B * (hi + 1) * (hi + 1))); ctx.fillStyle = P.warn; ctx.beginPath(); ctx.arc(c2.X(hi + 1), c2.Y(c), 5, 0, 7); ctx.fill(); }
+  }, { aspect: (w) => (w < 500 ? 0.95 : 0.62), maxHeight: 460 });
+  function redraw() {
+    const m = mG(), k = Number(kG()), md = model(m, k), B = md.B;
+    MB.stat("ins-ih-o-B", B === 0 ? "0" : B.toExponential(2));
+    MB.stat("ins-ih-o-f", insHz(PN.partialFreq(md.f0, 1, B)));
+    MB.stat("ins-ih-o-10", "+" + insCents(Math.sqrt(1 + B * 100)).toFixed(1) + " ¢");
+    MB.stat("ins-ih-o-20", "+" + insCents(Math.sqrt(1 + B * 400)).toFixed(1) + " ¢");
+    cv.redraw();
+  }
+  redraw();
+  const p = PN.piano({ pn: {} });
+  function hit(k, when) { p.pn = { B: k }; p.play(mG(), { when, dur: 2.2, vel: 0.72 }); }
+  function stop() { insClearTimers(); p.stop(); MB.stopAll(); hi = -1; cv.redraw(); }
+  document.getElementById("ins-ih-play").addEventListener("click", () => { stop(); if (!MB.ctx()) return; hit(Number(kG()), MB.now() + 0.03); });
+  document.getElementById("ins-ih-abc").addEventListener("click", () => {
+    stop(); if (!MB.ctx()) return;
+    [0, 1, 4].forEach((k, i) => insLater(i * 2300, () => { kG.set(String(k)); hit(k, MB.now() + 0.02); }));
+  });
+  document.getElementById("ins-ih-sines").addEventListener("click", () => {
+    stop(); const ctx = MB.ctx(); if (!ctx) return;
+    const md = model(mG(), Number(kG())), t0 = ctx.currentTime + 0.05;
+    md.partials.slice(0, 10).forEach((q, i) => {
+      const when = t0 + i * 0.45;
+      if (q.f < 9000) MB.play({ freq: q.f }, { inst: "sine", when, dur: 0.42, vel: 0.22 / Math.sqrt(i + 1) });
+      PN.at(when, () => { hi = i; cv.redraw(); });
+    });
+    insLater(10 * 450 + 400, () => { hi = -1; cv.redraw(); });
+  });
+  document.getElementById("ins-ih-stop").addEventListener("click", stop);
+})();
+
+/* ---------------------------------------------------------------- 6. 스트레치 튜닝 */
+(function () {
+  const mG = MB.range("ins-sr-m", (v) => MB.noteName(v) + " – " + MB.noteName(v + 12), upd);
+  const modeG = MB.seg("ins-sr-mode", upd);
+  const kG = MB.seg("ins-sr-k", upd);
+  const Pf = PN.partialFreq;
+  let S = null;
+  function solve() {
+    const m = mG(), k = Number(kG()), mode = modeG();
+    const fl = PN.freq(m), Bl = PN.inharmonicity(m) * k, Bh = PN.inharmonicity(m + 12) * k;
+    let fh;
+    if (mode === "pure") fh = (2 * Pf(fl, 1, Bl)) / Math.sqrt(1 + Bh);
+    else if (mode === "s21") fh = Pf(fl, 2, Bl) / Math.sqrt(1 + Bh);
+    else fh = Pf(fl, 4, Bl) / (2 * Math.sqrt(1 + 4 * Bh));
+    const oct = insCents(Pf(fh, 1, Bh) / Pf(fl, 1, Bl));
+    return { m, k, fl, fh, Bl, Bh, oct, b21: Math.abs(Pf(fl, 2, Bl) - Pf(fh, 1, Bh)), b42: Math.abs(Pf(fl, 4, Bl) - Pf(fh, 2, Bh)) };
+  }
+  const cv = MB.canvas(document.getElementById("cv-ins-sr"), (ctx, w, h) => {
+    if (!S) return;
+    const P = MB.palette();
+    const top = { x: 54, y: 12, w: w - 68, h: h * 0.55 - 34 }, bot = { x: 54, y: h * 0.55 + 14, w: w - 68, h: h * 0.45 - 46 };
+    const curve = []; for (let m = 21; m <= 108; m++) curve.push([m, PN.stretchCents(m)]);
+    const c1 = MB.chart(ctx, top, { x: [21, 108], y: [-40, 40], yLabel: "센트", xTicks: [21, 36, 48, 60, 72, 84, 96, 108], xFmt: (v) => MB.noteName(v), yTicks: [-30, 0, 30],
+      hlines: [{ y: 0, color: P.faint }], series: [{ data: curve, color: P.accent, width: 2.4 }],
+      points: [{ x: S.m, y: PN.stretchCents(S.m), color: P.accent2, r: 4.5 }, { x: S.m + 12, y: PN.stretchCents(S.m + 12), color: P.warn, r: 5 }] });
+    ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("레일스백 곡선 근사(평균율 대비)", top.x + 6, top.y + 2);
+    // 아래: 배음 위치(아래 음 2번 배음 기준 센트)
+    const ref = Pf(S.fl, 2, S.Bl);
+    const pts = [[0, insCents(Pf(S.fl, 2, S.Bl) / ref), "아래 음 2번", P.accent2], [0.3, insCents(Pf(S.fh, 1, S.Bh) / ref), "위 음 1번", P.warn],
+      [0.9, insCents(Pf(S.fl, 4, S.Bl) / (2 * ref)), "아래 음 4번", P.accent2], [1.2, insCents(Pf(S.fh, 2, S.Bh) / (2 * ref)), "위 음 2번", P.warn]];
+    const lim = Math.max(12, Math.ceil((Math.max(...pts.map((q) => Math.abs(q[1]))) + 6) / 6) * 6);
+    const c2 = MB.chart(ctx, bot, { x: [-0.5, 1.5], y: [-lim, lim], xTicks: [], yTicks: [-lim / 2 | 0, 0, lim / 2 | 0], yLabel: "¢", hlines: [{ y: 0, color: P.faint }] });
+    ctx.font = "11px " + INS_FONT(); ctx.textAlign = "center";
+    pts.forEach(([x, c, lab, col]) => {
+      const X = c2.X(x), Y = c2.Y(c);
+      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X - 14, Y); ctx.lineTo(X + 14, Y); ctx.stroke();
+      ctx.fillStyle = P.dim; ctx.textBaseline = "top"; ctx.fillText(w < 500 ? lab.replace("아래 음 ", "아래").replace("위 음 ", "위").replace("번", "") : lab, X, bot.y + bot.h + 4);
+      ctx.fillStyle = col; ctx.textBaseline = "bottom"; ctx.fillText((c >= 0 ? "+" : "") + c.toFixed(1), X, Y - 4);
+    });
+  }, { aspect: (w) => (w < 500 ? 0.95 : 0.6), maxHeight: 440 });
+  function upd() {
+    S = solve();
+    MB.stat("ins-sr-o-oct", S.oct.toFixed(1) + " ¢");
+    MB.stat("ins-sr-o-b1", S.b21.toFixed(2) + " Hz");
+    MB.stat("ins-sr-o-b2", S.b42.toFixed(2) + " Hz");
+    MB.stat("ins-sr-o-rb", (PN.stretchCents(S.m + 12) >= 0 ? "+" : "") + PN.stretchCents(S.m + 12).toFixed(1) + " ¢");
+    cv.redraw();
+  }
+  upd();
+  const pn = () => ({ B: Number(kG()), unison: 0 });
+  function dyad(t, seq) {
+    insGrand(S.fl, { when: t, dur: seq ? 1.6 : 4.2, vel: 0.62, pn: pn() });
+    insGrand(S.fh, { when: t + (seq ? 1.7 : 0), dur: seq ? 1.6 : 4.2, vel: 0.55, pn: pn() });
+  }
+  function stop() { insClearTimers(); MB.stopAll(); }
+  document.getElementById("ins-sr-both").addEventListener("click", () => { stop(); if (!MB.ctx()) return; dyad(MB.now() + 0.05, false); });
+  document.getElementById("ins-sr-seq").addEventListener("click", () => { stop(); if (!MB.ctx()) return; dyad(MB.now() + 0.05, true); });
+  document.getElementById("ins-sr-ab").addEventListener("click", () => {
+    stop(); if (!MB.ctx()) return;
+    modeG.set("pure"); dyad(MB.now() + 0.05, false);
+    insLater(4600, () => { modeG.set("s21"); dyad(MB.now() + 0.05, false); });
+  });
+  document.getElementById("ins-sr-stop").addEventListener("click", stop);
+})();
+
+/* ---------------------------------------------------------------- 7. 감쇠 곡선 */
+(function () {
+  const mG = MB.range("ins-dc-m", (v) => MB.noteName(v) + " · " + insHz(PN.freq(v)), sched);
+  const lG = MB.seg("ins-dc-l", sched);
+  const bG = MB.range("ins-dc-b", (v) => "1/" + v.toFixed(1), sched);
+  const uG = MB.range("ins-dc-u", (v) => v.toFixed(1) + " ¢", sched);
+  let env = null, md = null, timer = 0, playT0 = null;
+  const opts = () => ({ strike: 1 / bG(), unison: uG() });
+  function compute() {
+    const ctx = insOffline(), m = mG(), layer = Number(lG());
+    const buf = PN.buffer(ctx, m, layer, opts());
+    md = PN.noteModel(m, layer, Object.assign({ sr: ctx.sampleRate }, opts()));
+    const y = buf.getChannelData(0), sr = buf.sampleRate, win = Math.floor(sr * 0.02);
+    const pts = []; let mx = 1e-9;
+    for (let i = 0; i + win <= y.length; i += win) { let s = 0; for (let k = i; k < i + win; k++) s += y[k] * y[k]; const r = Math.sqrt(s / win); mx = Math.max(mx, r); pts.push([i / sr, r]); }
+    env = pts.map(([t, r]) => [t, 20 * Math.log10(Math.max(r / mx, 1e-5))]);
+    env.dur = buf.duration;
+    const t1 = md.partials[0].tau;
+    MB.stat("ins-dc-o-t1", (t1 * 0.16).toFixed(2) + " s");
+    MB.stat("ins-dc-o-t2", t1.toFixed(2) + " s");
+    MB.stat("ins-dc-o-t60", "≈ " + (6.9 * t1).toFixed(1) + " s");
+    const beta = 1 / bG(), weak = [];
+    for (let n = 1; n <= 24 && weak.length < 6; n++) if (Math.abs(Math.sin(Math.PI * n * beta)) < 0.2) weak.push(n);
+    MB.stat("ins-dc-o-n", weak.length ? weak.join(", ") + (weak.length >= 6 ? " …" : "") : "없음(24번까지)");
+    cv.redraw();
+  }
+  function sched() { clearTimeout(timer); timer = setTimeout(compute, 90); }
+  const cv = MB.canvas(document.getElementById("cv-ins-dc"), (ctx, w, h) => {
+    if (!env || !md) return;
+    const P = MB.palette();
+    const top = { x: 54, y: 12, w: w - 68, h: h * 0.56 - 50 }, bot = { x: 54, y: h * 0.56 + 18, w: w - 68, h: h * 0.44 - 50 };
+    const T = Math.max(1, env.dur), t1 = md.partials[0].tau, k = 20 / Math.LN10;
+    const pr = [[0, 20 * Math.log10(0.62)], [T, 20 * Math.log10(0.62) - (k * T) / (0.16 * t1)]];
+    const af = [[0, 20 * Math.log10(0.38)], [T, 20 * Math.log10(0.38) - (k * T) / t1]];
+    const c = MB.chart(ctx, top, { x: [0, T], y: [-70, 3], xLabel: "시간 (s)", yLabel: "dB", yTicks: [-60, -40, -20, 0],
+      series: [{ data: pr, color: P.warn, dash: [5, 4], width: 1.3 }, { data: af, color: P.accent2, dash: [5, 4], width: 1.3 }, { data: env, color: P.accent, width: 2 }] });
+    if (playT0 != null) { const t = MB.now() - playT0; if (t >= 0 && t <= T) { ctx.strokeStyle = P.text; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.moveTo(c.X(t), top.y); ctx.lineTo(c.X(t), top.y + top.h); ctx.stroke(); ctx.globalAlpha = 1; } }
+    ctx.font = "11px " + INS_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "top";
+    ctx.fillStyle = P.warn; ctx.fillText("즉답음(기본음)", top.x + top.w - 4, top.y + 4); ctx.fillStyle = P.accent2; ctx.fillText("여운(기본음)", top.x + top.w - 4, top.y + 18);
+    // 배음 진폭 막대
+    const amps = []; const N = 20; for (let n = 1; n <= N; n++) { const q = md.partials[n - 1]; amps.push(q ? q.a : 0); }
+    const amax = Math.max(...amps);
+    const cb = MB.chart(ctx, bot, { x: [0.5, N + 0.5], y: [-40, 0], yLabel: "dB", xTicks: [1, 5, 10, 15, 20], yTicks: [-40, -20, 0] });
+    const bw = (bot.w / N) * 0.6, beta = 1 / bG();
+    amps.forEach((a, i) => {
+      if (!a) return; const db = Math.max(-40, 20 * Math.log10(a / amax)), x = cb.X(i + 1);
+      ctx.fillStyle = Math.abs(Math.sin(Math.PI * (i + 1) * beta)) < 0.2 ? P.bad : P.accent; ctx.fillRect(x - bw / 2, cb.Y(db), bw, cb.Y(-40) - cb.Y(db));
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "top"; ctx.fillText("배음 번호 · 빨강 = 타현점이 마디 근처", bot.x + bot.w, bot.y + bot.h + 22);
+  }, { aspect: (w) => (w < 500 ? 1.0 : 0.62), maxHeight: 470 });
+  compute();
+  const loop = MB.loop(cv.canvas, () => { if (playT0 != null) { cv.redraw(); if (MB.now() - playT0 > (env ? env.dur : 6)) playT0 = null; } });
+  let v = null;
+  document.getElementById("ins-dc-play").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return; if (v) v.release(ctx.currentTime, 0.05);
+    const t = ctx.currentTime + 0.03, layer = Number(lG());
+    v = MB.play(mG(), { inst: "grand", when: t, dur: null, vel: [0.3, 0.6, 0.9][layer], pn: Object.assign({ layer }, opts()) });
+    playT0 = t; loop.start();
+  });
+  document.getElementById("ins-dc-stop").addEventListener("click", () => { if (v) v.release(MB.now(), 0.05); v = null; playT0 = null; MB.stopAll(); cv.redraw(); });
+})();
+
+/* ---------------------------------------------------------------- 8. 디지털 피아노 벨로시티 */
+(function () {
+  const TMIN = 2, TMAX = 80;
+  const velOf = (dt) => Math.round(MB.clamp(127 * Math.log(TMAX / dt) / Math.log(TMAX / TMIN), 1, 127));
+  const dtG = MB.range("ins-ty-dt", (v) => v.toFixed(1) + " ms", upd);
+  const layG = MB.seg("ins-ty-lay", upd);
+  let hl = null;
+  const layerUsed = (v) => (layG() === "1" ? 1 : PN.layerOf(v / 127));
+  const cv = MB.canvas(document.getElementById("cv-ins-ty"), (ctx, w, h) => {
+    const P = MB.palette();
+    const data = []; for (let i = 0; i <= 100; i++) { const t = TMIN * Math.pow(TMAX / TMIN, i / 100); data.push([t, velOf(t)]); }
+    const three = layG() === "3";
+    const c = MB.chart(ctx, null, { x: [TMIN, TMAX], y: [0, 130], logX: true, xLabel: "Δt (ms, 로그)", yLabel: "벨로시티", xTicks: [2, 5, 10, 20, 50, 80], yTicks: [0, 32, 64, 96, 127], xFmt: (v) => String(v),
+      series: [{ data, color: P.accent, width: 2.4 }], points: [{ x: hl != null ? hl : dtG(), y: velOf(hl != null ? hl : dtG()), color: P.warn, r: 6, label: String(velOf(hl != null ? hl : dtG())) }] });
+    const bands = three ? [[0, 0.42 * 127, "레이어 1 (p)"], [0.42 * 127, 0.78 * 127, "레이어 2 (mf)"], [0.78 * 127, 127, "레이어 3 (f)"]] : [[0, 127, "레이어 하나"]];
+    ctx.save(); bands.forEach(([a, b, lab], i) => {
+      ctx.globalAlpha = 0.1 + 0.06 * i; ctx.fillStyle = P.accent2; const y1 = c.Y(b), y0 = c.Y(a); ctx.fillRect(c.box.x, y1, c.box.w, y0 - y1);
+      ctx.globalAlpha = 1; ctx.fillStyle = P.dim; ctx.font = "11px " + INS_FONT(); ctx.textAlign = "right"; ctx.textBaseline = "bottom"; ctx.fillText(lab, c.box.x + c.box.w - 6, y1 + 14);
+    }); ctx.restore();
+  }, { aspect: (w) => (w < 500 ? 0.7 : 0.45), maxHeight: 360 });
+  function show(v) {
+    MB.stat("ins-ty-o-v", String(v));
+    MB.stat("ins-ty-o-l", layG() === "1" ? "1 (고정)" : ["1 (p)", "2 (mf)", "3 (f)"][layerUsed(v)]);
+    MB.stat("ins-ty-o-g", (20 * Math.log10(PN.velGain(v / 127))).toFixed(1) + " dB");
+  }
+  function upd() { show(velOf(dtG())); cv.redraw(); }
+  upd();
+  function hit(v, when) { MB.play(60, { inst: "grand", when, dur: 0.8, vel: v / 127, pn: layG() === "1" ? { layer: 1 } : {} }); }
+  function stop() { insClearTimers(); MB.stopAll(); hl = null; cv.redraw(); upd(); }
+  document.getElementById("ins-ty-hit").addEventListener("click", () => { if (!MB.ctx()) return; hit(velOf(dtG()), MB.now() + 0.02); });
+  document.getElementById("ins-ty-ramp").addEventListener("click", () => {
+    stop(); const ctx = MB.ctx(); if (!ctx) return;
+    const t0 = ctx.currentTime + 0.05, DTS = [70, 45, 30, 20, 13, 8.5, 5.5, 3];
+    DTS.forEach((d, i) => { const v = velOf(d), when = t0 + i * 0.55; hit(v, when); PN.at(when, () => { hl = d; show(v); cv.redraw(); }); });
+    insLater(DTS.length * 550 + 500, () => { hl = null; cv.redraw(); upd(); });
+  });
+  document.getElementById("ins-ty-stop").addEventListener("click", stop);
+})();
+</script>
+</body>
+</html>
