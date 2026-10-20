@@ -11,7 +11,7 @@
 | PianoBook · 피아노 | `/piano/` | 공개, 15개 장 |
 | DrumBook · 드럼 | `/drums/` | 공개, 15개 장 |
 
-GuitarBook(`guitar/`)·PianoBook(`piano/`)·DrumBook(`drums/`)은 이 저장소에서 직접 집필한 책으로, MusicBook(`fundamentals/`)의 엔진(`MB`)과 장 구성 규칙을 그대로 쓰고 악기 전용 엔진을 더했습니다. 기타는 `guitar/js/guitar.js`(`GT`: 가상 기타·지판·코드 다이어그램·TAB), 피아노는 `piano/js/piano.js`(`PN`: 물리 모델 근사 피아노 음원·댐퍼/소스테누토/소프트 페달·건반·큰보표 악보·운지·보이싱·반주 패턴·MIDI 입력), 드럼은 `drums/js/drums.js`(`DR`: 베셀 모드 막·스네어 와이어·금속 부분음 심벌로 합성한 가상 킷, 하이햇 열림과 초크, 플램·드래그·버즈, 드럼 악보·스텝 그리드·킷 그림, 그루브·루디먼트 사전, 스윙·휴머나이즈 스케줄러, 탭 타이밍 채점, MIDI 패드)입니다. 집필 규칙은 [guitar/CONTRIBUTING.md](guitar/CONTRIBUTING.md), [piano/CONTRIBUTING.md](piano/CONTRIBUTING.md), [drums/CONTRIBUTING.md](drums/CONTRIBUTING.md)를 참고하세요.
+GuitarBook(`guitar/`)·PianoBook(`piano/`)·DrumBook(`drums/`)은 이 저장소에서 직접 집필한 책으로, MusicBook(`fundamentals/`)의 엔진(`MB`)과 장 구성 규칙을 그대로 쓰고 악기 전용 엔진을 더했습니다. 기타는 `guitar/js/guitar.js`(`GT`: 가상 기타·지판·코드 다이어그램·TAB), 피아노는 `piano/js/piano.js`(`PN`: 물리 모델 근사 피아노 음원·댐퍼/소스테누토/소프트 페달·건반·큰보표 악보·운지·보이싱·반주 패턴·MIDI 입력), 드럼은 `drums/js/drums.js`(`DR`: 베셀 모드 막·스네어 와이어·공진 대역 잡음 워시 심벌로 합성한 가상 킷, 하이햇 열림과 초크, 플램·드래그·버즈, 드럼 악보·스텝 그리드·킷 그림, 그루브·루디먼트 사전, 스윙·휴머나이즈 스케줄러, 탭 타이밍 채점, MIDI 패드)입니다. 집필 규칙은 [guitar/CONTRIBUTING.md](guitar/CONTRIBUTING.md), [piano/CONTRIBUTING.md](piano/CONTRIBUTING.md), [drums/CONTRIBUTING.md](drums/CONTRIBUTING.md)를 참고하세요.
 
 ## 실행과 배포
 

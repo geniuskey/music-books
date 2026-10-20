@@ -1,6 +1,6 @@
 /* ==========================================================================
    DrumBook 드럼 전용 스크립트 — 전역 객체 DR (common.js의 MB 위에서 동작)
-   - 드럼 음원: 원형 막의 베셀 모드 합(킥·스네어·탐) + 스네어 와이어 잡음 + 비조화 금속 부분음(심벌)을 버퍼로 합성
+   - 드럼 음원: 원형 막의 베셀 모드 합(킥·스네어·탐) + 스네어 와이어 잡음 + 비조화 공진 대역으로 거른 잡음 워시(크래시·라이드)·금속 부분음(벨·하이햇)을 버퍼로 합성
    - DR.kit(): 조각(piece)마다 튜닝·감쇠를 바꿀 수 있는 가상 드럼 킷. 하이햇 열림·초크, 플램·드래그·버즈, 룸 잔향
    - 위젯: 드럼 악보(DR.staff), 스텝 그리드(DR.grid), 위에서 본 킷(DR.kitView), 패드(DR.pads), 타임라인(DR.timeline)
    - 리듬: 패턴 문자열 해석(DR.parse), 그루브·루디먼트 사전, 스케줄러(스윙·휴머나이즈·조각별 타이밍), 메트로놈
@@ -151,6 +151,37 @@
     return out;
   }
 
+  /**
+   * 심벌 워시: 수천 개의 촘촘한 모드를 하나하나 더하는 대신, 잡음을 비조화 공진 대역 n개로 걸러 더한다.
+   * 대역마다 블룸(차오름)·감쇠·느린 진폭 흔들림(쉬머)이 다르고, 높은 대역일수록 빨리 사라져 소리가 점점 어두워진다.
+   * o: {n, f0, f1, q:[lo, hi], peak, lowTilt, highTilt, tau, decayTilt, att, attTilt, shimmer, a}
+   */
+  function addWash(y, sr, rnd, o) {
+    const len = y.length, lf = Math.log(o.f0), hf = Math.log(o.f1), BLK = 64;
+    const noise = new Float32Array(len); for (let k = 0; k < len; k++) noise[k] = rnd() * 2 - 1;
+    for (let i = 0; i < o.n; i++) {
+      const f = Math.exp(lf + (hf - lf) * ((i + rnd()) / o.n));
+      const Q = o.q[0] + (o.q[1] - o.q[0]) * rnd();
+      const bp = biquad("bp", f, Q, sr);
+      // 백색 잡음을 띠 폭 f/Q로 거르면 높은 대역일수록 에너지가 커지므로 √(Q/f)로 맞춘 뒤 스펙트럼 기울기를 준다
+      const norm = Math.sqrt(Q / f) * 40;
+      const tilt = Math.pow(f / o.peak, f < o.peak ? o.lowTilt : -o.highTilt);
+      const a = (o.a || 1) * norm * tilt * (0.6 + 0.8 * rnd());
+      const tau = o.tau * Math.pow(f / 1000, -(o.decayTilt || 0)) * (0.75 + 0.5 * rnd());
+      const att = o.att ? o.att * Math.pow(f / 1000, o.attTilt || 0) * (0.6 + 0.8 * rnd()) : 0;
+      const n = Math.min(len, Math.ceil(sr * (tau * 7 + att * 3)));
+      const d = Math.exp(-BLK / (sr * tau)), da = att ? Math.exp(-BLK / (sr * att)) : 0;
+      const fm = 1.5 + 6 * rnd(), ph = rnd() * 6.283, sh = o.shimmer || 0;
+      let env = 1, rise = 1;
+      for (let s0 = 0; s0 < n; s0 += BLK) {
+        const g = a * env * (att ? 1 - rise : 1) * (1 + sh * Math.sin(2 * Math.PI * fm * (s0 / sr) + ph));
+        const end = Math.min(n, s0 + BLK);
+        for (let k = s0; k < end; k++) y[k] += g * bp(noise[k]);
+        env *= d; if (att) rise *= da;
+      }
+    }
+  }
+
   /* ------------------------------------------------------------ voices: one function per piece */
   /**
    * 조각 하나의 모델 매개변수(장 스크립트에서 그림·표로 보여 줄 때도 쓴다).
@@ -174,9 +205,9 @@
       return { piece, f0, pos, tau0, modes, glide: (piece === "kick" ? 0.35 : 0.12) * (0.4 + vel) * (1 - 0.5 * muffle), tg: piece === "kick" ? 0.03 : 0.045, dur: Math.min(3, tau0 * 6 + 0.12) };
     }
     const cym = {
-      crash: { f0: 240, f1: 14000, n: 70, peak: 3800, tau: 1.9, dur: 3.6 },
-      ride: { f0: 300, f1: 12000, n: 60, peak: 4600, tau: 2.6, dur: 3.8 },
-      bell: { f0: 600, f1: 9000, n: 20, peak: 1800, tau: 2.4, dur: 3.2 },
+      crash: { f0: 380, f1: 15000, n: 44, peak: 5200, tau: 1.7, dur: 4.2 },
+      ride: { f0: 420, f1: 13000, n: 40, peak: 4200, tau: 2.4, dur: 4.6 },
+      bell: { f0: 560, f1: 11000, n: 28, peak: 2400, tau: 2.1, dur: 3.6 },
       hat: { f0: 2400, f1: 15000, n: 36, peak: 8000, tau: 0.05, dur: 0.35 },
       hatHalf: { f0: 2400, f1: 15000, n: 36, peak: 8000, tau: 0.22, dur: 1.1 },
       hatOpen: { f0: 2400, f1: 15000, n: 36, peak: 8000, tau: 0.6, dur: 2.0 },
@@ -230,16 +261,37 @@
         break;
       }
       case "crash": case "ride": case "bell": {
-        const ps = metalPartials(rnd, { f0: md.f0, f1: md.f1, n: md.n, peak: md.peak, lowTilt: 0.6, highTilt: 0.9 - 0.5 * vel, tau: md.tau, decayTilt: piece === "bell" ? 0.35 : 0.5, att: piece === "crash" ? 0.012 + 0.02 * vel : piece === "ride" ? 0.004 : 0 });
-        if (piece === "bell") [620, 1240, 1860, 2610, 3420].forEach((f, i) => ps.push({ f: f * (1 + (rnd() - 0.5) * 0.03) * Math.pow(2, (prm.tune || 0) / 12), a: [1.6, 1.1, 0.8, 0.5, 0.35][i], tau: md.tau * (1.2 - 0.15 * i), ph: rnd() * 6 }));
-        if (piece === "ride") { // 스틱 핑: 4–6 kHz 부근의 뚜렷한 부분음
-          for (let i = 0; i < 6; i++) ps.push({ f: (4300 + 1400 * rnd()) * Math.pow(2, (prm.tune || 0) / 12), a: 0.9 + 0.5 * vel, tau: 0.35 + 0.3 * rnd(), ph: rnd() * 6 });
+        const T = Math.pow(2, (prm.tune || 0) / 12), dk = prm.decay != null ? prm.decay : 1;
+        const bright = 0.35 + 0.65 * vel; // 세게 칠수록 고음 대역이 크고 블룸이 빠르다
+        if (piece === "crash") {
+          // 넓은 워시: 친 직후 고음이 수십 ms에 걸쳐 차오르고(블룸), 높은 대역부터 사라진다
+          addWash(y, sr, rnd, { n: md.n, f0: md.f0, f1: md.f1, q: [1.6, 4.5], peak: md.peak * (0.8 + 0.4 * vel), lowTilt: 1.1, highTilt: 1.1 - 0.6 * bright,
+            tau: md.tau, decayTilt: 0.38, att: 0.022 - 0.012 * vel, attTilt: 0.35, shimmer: 0.12 });
+          // 낮은 웅웅거림: 좁은 공진 몇 개가 길게 남는다(심벌의 '징' 성분)
+          addWash(y, sr, rnd, { n: 10, f0: 420 * T, f1: 2600 * T, q: [35, 90], peak: 900 * T, lowTilt: 0.3, highTilt: 0.8, tau: md.tau * 1.15, decayTilt: 0.15, a: 0.55, shimmer: 0.2 });
+          addNoise(y, sr, rnd, { a: 0.9 * bright, tau: 0.018, hp: 3500, lp: 15000 }); // 스틱이 엣지를 때리는 '착'
+        } else if (piece === "ride") {
+          // 스틱 핑: 2.5–7 kHz의 좁은 대역들이 0.3–0.7초 울린다 → 라이드 특유의 '팅–'
+          addWash(y, sr, rnd, { n: 9, f0: 2600 * T, f1: 7200 * T, q: [14, 34], peak: 4300 * T, lowTilt: 0.8, highTilt: 1.2, tau: 0.34 * Math.sqrt(dk), decayTilt: 0.25, a: 3.2 * (0.7 + 0.5 * vel) });
+          // 워시: 핑 뒤로 천천히 차오르는 낮고 고른 '쉬–' (크래시보다 작고 어둡다)
+          addWash(y, sr, rnd, { n: md.n, f0: md.f0, f1: md.f1, q: [2.2, 6], peak: md.peak, lowTilt: 0.9, highTilt: 1.5 - 0.5 * bright,
+            tau: md.tau, decayTilt: 0.42, att: 0.09, attTilt: 0.2, shimmer: 0.14, a: 0.16 + 0.2 * vel });
+          addWash(y, sr, rnd, { n: 8, f0: 480 * T, f1: 2200 * T, q: [40, 110], peak: 900 * T, lowTilt: 0.3, highTilt: 0.8, tau: md.tau * 1.3, decayTilt: 0.1, a: 0.32, shimmer: 0.18 });
+          addNoise(y, sr, rnd, { a: 0.7 + 0.5 * vel, tau: 0.0035, bp: 6500, bq: 0.8 }); // 스틱 끝 '틱'
+        } else {
+          // 벨: 두꺼운 가운데라 또렷한 음 몇 개(조금 비조화)가 길게 울리고 워시는 적다
+          // 맞은 순간 바로 울려야 하므로 좁은 대역 대신 감쇠 사인. 모드마다 살짝 어긋난 두 개(축대칭이 깨진 판)라 느리게 맥놀이 친다
+          const ps = [];
+          [1, 1.97, 2.83, 4.07, 5.36, 6.9].forEach((r, i) => {
+            const f = 640 * T * r * (1 + (rnd() - 0.5) * 0.02), am = [1, 0.75, 0.55, 0.38, 0.26, 0.17][i] * (i ? 0.7 + 0.5 * vel : 1), tau = md.tau * (1.15 - 0.14 * i);
+            ps.push({ f, a: am, tau, ph: rnd() * 6.283 }, { f: f * (1 + 0.0025 + 0.002 * rnd()), a: am * 0.35, tau: tau * 0.9, ph: rnd() * 6.283 });
+          });
+          addModes(y, sr, ps);
+          addWash(y, sr, rnd, { n: md.n, f0: md.f0, f1: md.f1, q: [3, 8], peak: md.peak, lowTilt: 0.8, highTilt: 1.4 - 0.4 * bright, tau: md.tau * 0.45, decayTilt: 0.35, a: 0.012 + 0.01 * vel });
+          addNoise(y, sr, rnd, { a: 2.2 + 1.2 * vel, tau: 0.004, bp: 4500, bq: 0.8 });
         }
-        addModes(y, sr, ps);
-        let pk = 0; for (let k = 0; k < Math.min(len, sr * 0.1); k++) pk = Math.max(pk, Math.abs(y[k]));
-        if (piece === "crash") addNoise(y, sr, rnd, { a: pk * (0.25 + 0.3 * vel), tau: md.tau * 0.55, hp: 3200, att: 0.01 });
-        else addNoise(y, sr, rnd, { a: pk * 0.18, tau: md.tau * 0.4, hp: 5000 });
-        addNoise(y, sr, rnd, { a: pk * (0.25 + 0.4 * vel), tau: 0.003, bp: 5000, bq: 0.6 }); // 스틱 끝 소리
+        // 직류 성분·초저역 제거
+        const hp = biquad("hp", 250, 0.7, sr); for (let k = 0; k < len; k++) y[k] = hp(y[k]);
         break;
       }
       case "hat": case "hatHalf": case "hatOpen": case "hatFoot": {
@@ -305,13 +357,25 @@
     if (_abuf.size > 220) _abuf.delete(_abuf.keys().next().value);
     return b;
   }
-  /** 처음 연주하기 전에 버퍼를 미리 만들어 둔다(사용자 클릭 뒤에만 부를 것) */
+  const cachedBuffer = (ctx, piece, layer, variant, prm) => _abuf.get([piece, layer, variant, ctx.sampleRate, prmKey(prm)].join("|")) || null;
+  // 심벌 버퍼 하나를 만드는 데 수십 ms가 걸리므로, 연주 중에는 한가할 때(idle) 하나씩 만든다
+  const _buildQ = [], _queued = new Set();
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(() => fn({ timeRemaining: () => 8 }), 30));
+  let _building = false;
+  function queueBuild(ctx, piece, layer, variant, prm) {
+    const key = [piece, layer, variant, ctx.sampleRate, prmKey(prm)].join("|");
+    if (_abuf.has(key) || _queued.has(key)) return;
+    _queued.add(key); _buildQ.push([ctx, piece, layer, variant, prm, key]);
+    if (!_building) { _building = true; idle(buildStep); }
+  }
+  function buildStep(dl) {
+    while (_buildQ.length && dl.timeRemaining() > 4) { const [ctx, p, l, v, prm, key] = _buildQ.shift(); _queued.delete(key); audioBuffer(ctx, p, l, v, prm); }
+    if (_buildQ.length) idle(buildStep); else _building = false;
+  }
+  /** 처음 연주하기 전에 버퍼를 미리 만들어 둔다(사용자 클릭 뒤에만 부를 것). 킷을 처음 쓸 때 표준 킷은 자동으로 데운다 */
   DR.warm = function (pieces = DR.KIT, prm = {}) {
     const ctx = MB.ctx(); if (!ctx) return;
-    const q = []; pieces.forEach((p) => [2, 3, 1, 0].forEach((l) => q.push([p, l])));
-    const idle = window.requestIdleCallback || ((fn) => setTimeout(() => fn({ timeRemaining: () => 8 }), 30));
-    const step = (dl) => { while (q.length && dl.timeRemaining() > 4) { const [p, l] = q.shift(); audioBuffer(ctx, p, l, 0, prm[p] || {}); } if (q.length) idle(step); };
-    idle(step);
+    [2, 3, 1, 0].forEach((l) => pieces.forEach((p) => { for (let v = 0; v < (VARIANTS[p] || 3); v++) queueBuild(ctx, p, l, v, prm[p] || {}); }));
   };
 
   /** 오디오 시각 when에 fn을 실행(화면 갱신용) */
@@ -331,6 +395,7 @@
 
   /* ------------------------------------------------------------ virtual kit */
   const _kits = new Set();
+  let _warmed = false;
   /**
    * 가상 드럼 킷.
    *   const kit = DR.kit({dest, room(0–1), stereo, params:{snare:{tune, decay, snares, pos, muffle}, kick:{beater}}, hatOpen(0–1)})
@@ -351,6 +416,7 @@
       const ctx = MB.ctx(); if (!ctx) return null;
       if (ctxRef !== ctx) {
         ctxRef = ctx;
+        if (!_warmed) { _warmed = true; DR.warm(DR.KIT.concat(["bell", "hatOpen", "hatHalf"])); }
         bus = ctx.createGain(); bus.gain.value = o.gain != null ? o.gain : 0.9; bus.connect(o.dest || MB.out);
         const conv = ctx.createConvolver(); conv.buffer = roomIR(ctx);
         wet = ctx.createGain(); wet.gain.value = api.room; wet.connect(conv); conv.connect(o.dest || MB.out);
@@ -366,7 +432,16 @@
       const layer = DR.layerOf(vel);
       const nv = VARIANTS[piece] || 3;
       const variant = (api._rr = (api._rr || 0) + 1) % nv;
-      const buf = audioBuffer(ctx, piece, layer, variant, prm);
+      // 아직 만들지 않은 버퍼면 이미 있는 가장 가까운 층·변형으로 대신 치고, 정확한 것은 한가할 때 만든다(연주가 끊기지 않게)
+      let buf = cachedBuffer(ctx, piece, layer, variant, prm);
+      if (!buf) {
+        for (const l of [layer, layer + 1, layer - 1, layer + 2, layer - 2, layer + 3, layer - 3]) {
+          if (l < 0 || l > 3) continue;
+          for (let v = 0; v < nv && !buf; v++) buf = cachedBuffer(ctx, piece, l, v, prm);
+          if (buf) break;
+        }
+        if (buf) queueBuild(ctx, piece, layer, variant, prm); else buf = audioBuffer(ctx, piece, layer, variant, prm);
+      }
       const src = ctx.createBufferSource(); src.buffer = buf;
       const g = ctx.createGain(), lvl = P.level * DR.velGain(vel);
       const lv = [piece, base, grp].map((k) => api.levels[k]).find((x) => x != null);

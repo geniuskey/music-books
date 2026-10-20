@@ -106,7 +106,7 @@ canonical은 필수다(`npm test`가 검사). 상단바·챕터 서랍·목차·
   - 하이햇 페달 변화는 예약 시각 기준으로 기록되므로 미리 예약된 `"hat"` 타격도 그 시각의 상태로 난다. 뮤트·음량을 `hat`으로 주면 열림·반열림에도 적용된다. `kit.choke("crash", when)`, `kit.set(p, {tune(반음), decay(배수), snares(0–1), pos(0 중심–1 가장자리), muffle(0–1)})`, `kit.setRoom(v)`, `kit.levels[p]`, `kit.mute = {p:true}`, `kit.stop()`.
   - `kit.on(cb)`/`kit.off(cb)` → `cb({type:"hit", p, sound, v, when, hand, src, grace} | {type:"pedal", value, when})`. `when`은 오디오 시각이므로 화면은 `DR.at(when, fn)`으로 맞춘다. `src`: `"seq"`(스케줄러) `"key"` `"pointer"` `"midi"` `"tap"` `"grid"` `"api"`.
   - `DR.default()` 공용 킷. 정지 버튼은 `kit.stop()` 또는 `MB.stopAll()`(모든 킷도 멈춘다).
-- 음색 모델: `DR.model(p, vel, prm)` → 북: `{f0, pos, tau0, modes:[{f, a, tau, mode}], glide, tg, dur}`, 심벌: `{f0, f1, n, peak, tau, dur}`(그림·표용). `DR.samples(p, {vel, tune, decay, snares, pos, muffle, variant, sr})` → `Float32Array`(동기, 캐시) — 파형·스펙트럼(`MB.spectrum`)·포락선 그림에 쓴다. `DR.warm(pieces)` 버퍼 미리 만들기(클릭 뒤에만). `DR.velGain(v)`, `DR.layerOf(v)`.
+- 음색 모델: `DR.model(p, vel, prm)` → 북: `{f0, pos, tau0, modes:[{f, a, tau, mode}], glide, tg, dur}`, 심벌: `{f0, f1, n(크래시·라이드·벨은 워시 공진 대역 수, 하이햇은 부분음 수), peak, tau, dur}`(그림·표용). `DR.samples(p, {vel, tune, decay, snares, pos, muffle, variant, sr})` → `Float32Array`(동기, 캐시) — 파형·스펙트럼(`MB.spectrum`)·포락선 그림에 쓴다. `DR.warm(pieces)` 버퍼 미리 만들기(클릭 뒤에만). `DR.velGain(v)`, `DR.layerOf(v)`.
 - 막의 물리: `DR.MODES`(`[{m, n, j, ratio, name:"(0,1)"}]` 16개), `DR.besselJ(m, x)`, `DR.modeAmp(m, n, r)` 치는 자리 r에서 그 모드의 들뜸, `DR.modeShape(md, r, θ)`, `DR.membraneFreq(T, σ, a)`, `DR.realRatio(ratio, k)` 공기 하중 근사.
 - `DR.click(when, accent(true | false | "sub"), {voice:"beep"|"wood"|"cowbell", vel})` 메트로놈 클릭.
 
