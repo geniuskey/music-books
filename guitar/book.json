@@ -7,5 +7,9 @@
   "field": "music",
   "status": "published",
   "domain": "music.euiyun.com",
-  "basePath": "/guitar/"
+  "basePath": "/guitar/",
+  "meta": {
+    "siteName": "GuitarBook",
+    "summary": "듣고 튕기며 배우는 인터랙티브 기타 교과서. 지판·코드·스트로크·스케일·톤을 브라우저의 가상 기타로 연주하며 배운다."
+  }
 }

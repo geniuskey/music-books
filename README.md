@@ -24,7 +24,7 @@ python3 -m http.server 8000 --directory .book-dist
 
 배포물은 `.book-dist/`입니다. GitHub Pages의 Source를 GitHub Actions로 설정하고, 커스텀 도메인 `music.euiyun.com`과 DNS를 연결합니다. `main`에 push하거나 Deploy Book 워크플로를 실행하면 검사·빌드 후 배포합니다. 이 저장소의 CNAME 설정만으로 DNS나 GitHub 설정이 자동 변경되지는 않습니다.
 
-빌드에는 외부 패키지나 원본 저장소가 필요하지 않습니다. 책의 수식·폰트 등 기존 CDN 의존성은 유지합니다. 오디오는 책의 재생 버튼을 눌러 시작합니다.
+빌드에는 원본 저장소가 필요하지 않고, npm 패키지는 수식 렌더링용 `katex`만 씁니다. `book.json`에 `meta`가 있는 책(GuitarBook·PianoBook·DrumBook)은 소스에 canonical·Open Graph·KaTeX 태그를 두지 않습니다. 빌드가 태그를 생성하고 수식을 미리 렌더링해 KaTeX 스타일시트만 붙입니다. 가져온 MusicFundamentals는 원본과 같게 유지하며, 기존 CDN 의존성(수식·폰트)을 그대로 씁니다. 오디오는 책의 재생 버튼을 눌러 시작합니다.
 
 ## 원본 가져오기
 

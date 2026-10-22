@@ -33,16 +33,6 @@ PianoBook은 [MusicBook(fundamentals)](../fundamentals/CONTRIBUTING.md)·[Guitar
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <title>건반과 음 이름 · PianoBook</title>
 <meta name="description" content="한 문장 설명(120자 안팎)">
-<link rel="canonical" href="https://music.euiyun.com/piano/chapters/keyboard.html">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="PianoBook">
-<meta property="og:title" content="건반과 음 이름 · PianoBook">
-<meta property="og:description" content="(description과 같게)">
-<meta property="og:url" content="https://music.euiyun.com/piano/chapters/keyboard.html">
-<meta property="og:locale" content="ko_KR">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/piano.css">
 <script src="../js/common.js"></script>
@@ -70,7 +60,7 @@ PianoBook은 [MusicBook(fundamentals)](../fundamentals/CONTRIBUTING.md)·[Guitar
 </body>
 </html>
 ```
-canonical은 필수다(`npm test`가 검사). 상단바·챕터 서랍·목차·이전/다음·푸터·퀴즈·KaTeX는 `common.js`가 처리한다. 컴포넌트(`.sim`, `.sim-head`, `.sim-body.side`, `.sim-view`, `.sim-controls`, `.ctrl`, `.seg`, `.btn-row`, `.btn.primary`, `.sim-readout .stat`, `.sim-note`, `.callout.tip|.note|.warn`, `.formula .where`, `.table-wrap`, `.quiz-q`(`.opt[data-correct]`, `.quiz-exp`), `.pads`, `.steps-grid` …)와 `MB.range/MB.seg/MB.check/MB.stat/MB.canvas/MB.loop` 사용법은 fundamentals 가이드 그대로.
+소스에는 `<title>`과 `<meta name="description">`(한 줄)만 쓴다. canonical과 Open Graph 태그는 `tools/build.mjs`가 파일 경로, `<title>`·description, `piano/book.json`의 `meta`(`siteName`, 책 홈의 짧은 소개 `summary`)로 배포물에 생성한다. 수식은 빌드가 `tools/katex.mjs`로 미리 렌더링하고 KaTeX 스타일시트만 붙이므로 KaTeX 태그도 넣지 않는다. 소스 파일을 바로 열면 `common.js`가 CDN에서 KaTeX를 불러와 렌더링한다. 이 태그들이 소스에 남아 있거나, TeX 문법 오류가 있거나, 수식 안에 `<` 바로 뒤에 글자가 오면(`j<k` → `j\lt k`) `npm test`나 빌드가 실패한다. 빌드는 정적 HTML의 수식만 렌더링하므로 스크립트가 수식 문자열을 DOM에 넣지 않는다. 상단바·챕터 서랍·목차·이전/다음·푸터·퀴즈는 `common.js`가 처리한다. 컴포넌트(`.sim`, `.sim-head`, `.sim-body.side`, `.sim-view`, `.sim-controls`, `.ctrl`, `.seg`, `.btn-row`, `.btn.primary`, `.sim-readout .stat`, `.sim-note`, `.callout.tip|.note|.warn`, `.formula .where`, `.table-wrap`, `.quiz-q`(`.opt[data-correct]`, `.quiz-exp`), `.pads`, `.steps-grid` …)와 `MB.range/MB.seg/MB.check/MB.stat/MB.canvas/MB.loop` 사용법은 fundamentals 가이드 그대로.
 
 ## 피아노 엔진 (`js/piano.js`, 전역 `PN`)
 
@@ -125,6 +115,6 @@ canonical은 필수다(`npm test`가 검사). 상단바·챕터 서랍·목차·
 
 ## 검사
 ```bash
-npm test                                   # 메타·링크·canonical
+npm test                                   # 수식 렌더러·링크·소스 규칙
 node tools/browser-check.cjs piano/        # 콘솔 오류·360px 가로 넘침 (Playwright)
 ```

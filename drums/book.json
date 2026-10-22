@@ -7,5 +7,9 @@
   "field": "music",
   "status": "published",
   "domain": "music.euiyun.com",
-  "basePath": "/drums/"
+  "basePath": "/drums/",
+  "meta": {
+    "siteName": "DrumBook",
+    "summary": "듣고 두드리며 배우는 인터랙티브 드럼 교과서. 그립·악보·루디먼트·그루브·필인·타이밍을 브라우저의 가상 드럼으로 연주하며 배운다."
+  }
 }

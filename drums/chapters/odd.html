@@ -6,16 +6,6 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <title>홀수 박자와 폴리리듬 · DrumBook</title>
 <meta name="description" content="5/4·7/8·9/8·11/8의 그룹핑과 카운팅, 홀수 박자 그루브, 3:2·4:3 폴리리듬의 최소공배수 격자, 폴리미터, 메트릭 모듈레이션, 유클리드 리듬과 오버 더 바 라인을 가상 드럼으로 듣고 두드린다.">
-<link rel="canonical" href="https://music.euiyun.com/drums/chapters/odd.html">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="DrumBook">
-<meta property="og:title" content="홀수 박자와 폴리리듬 · DrumBook">
-<meta property="og:description" content="5/4·7/8·9/8·11/8의 그룹핑과 카운팅, 홀수 박자 그루브, 3:2·4:3 폴리리듬의 최소공배수 격자, 폴리미터, 메트릭 모듈레이션, 유클리드 리듬과 오버 더 바 라인을 가상 드럼으로 듣고 두드린다.">
-<meta property="og:url" content="https://music.euiyun.com/drums/chapters/odd.html">
-<meta property="og:locale" content="ko_KR">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/drums.css">
 <script src="../js/common.js"></script>
@@ -167,7 +157,7 @@
     <h2>박자표에 맞는 그루브: 백비트를 어디에 둘까</h2>
     <p>4/4 록 비트의 뼈대는 1·3박의 킥과 2·4박의 스네어, 곧 '강–약–강–약'의 교대였습니다(<a href="beat.html">6장</a>). 홀수 박자에서도 같은 원리를 씁니다. 다만 '박' 대신 <b>그룹</b>을 단위로 삼습니다. 그룹의 첫 박을 킥 → 스네어 → 킥 … 순서로 번갈아 짚으면, 2+2+3은 "쿵 짝 쿵 · ·", 3+2+2는 "쿵 · · 짝 · 쿵 ·"이 됩니다. 하이햇은 8분음표를 모두 치되 그룹 첫 박에 액센트를 넣어 묶음을 드러냅니다.</p>
     <p>두 번째 방법은 <b>백비트를 마지막 그룹에 고정</b>하는 것입니다. 7/8 2+2+3에서 "쿵 · 쿵 · 짝 · ·"처럼 스네어가 긴 그룹의 첫 박에 떨어지면, 앞의 짧은 두 그룹이 스네어를 향해 달려가고 3개짜리 끝 그룹이 숨을 쉬게 해 줍니다. 5/4 3+2라면 "쿵 · · 짝 ·"으로, 4/4의 1박과 3박 사이를 한 박 늘린 느낌입니다. 세 번째로, 그룹 첫 박을 탐으로 옮겨 다니면 그룹핑을 아주 또렷하게 들려주는 '설명용' 그루브가 됩니다. 필인이나 곡의 인트로에서 박자를 알려 줄 때 쓸 만합니다.</p>
-    <div class="formula">$$\text{그룹 } g_k \text{의 시작} = \sum_{j<k} g_j \ \ (\text{8분 칸}), \qquad t_k = \tfrac12 \sum_{j<k} g_j\ \text{박}, \qquad 7/8\ (2{+}2{+}3):\ t = 0,\ 1,\ 2$$
+    <div class="formula">$$\text{그룹 } g_k \text{의 시작} = \sum_{j\lt k} g_j \ \ (\text{8분 칸}), \qquad t_k = \tfrac12 \sum_{j\lt k} g_j\ \text{박}, \qquad 7/8\ (2{+}2{+}3):\ t = 0,\ 1,\ 2$$
       <div class="where">그룹 시작 시각은 앞선 그룹 길이의 누적합이다. 2+2+3의 그룹 시작은 0·1·2박이라 처음 세 그룹 시작은 4분음표 박과 같고, 마지막 그룹만 1.5박으로 늘어난다. 그래서 2+2+3은 '3/4에 8분 하나를 덧붙인 것'처럼 들린다. 3+2+2의 그룹 시작은 0·1.5·2.5박이다. 악보의 빔도 이 묶음대로 묶는다.</div>
     </div>
 

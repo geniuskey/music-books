@@ -7,5 +7,9 @@
   "field": "music",
   "status": "published",
   "domain": "music.euiyun.com",
-  "basePath": "/piano/"
+  "basePath": "/piano/",
+  "meta": {
+    "siteName": "PianoBook",
+    "summary": "듣고 누르며 배우는 인터랙티브 피아노 교과서. 건반·악보·운지·화음·반주·페달을 브라우저의 가상 피아노로 연주하며 배운다."
+  }
 }

@@ -20,6 +20,8 @@ class Page(HTMLParser):
             if url: self.links.append(url)
         if tag=='link' and a.get('rel')=='canonical': self.canonical.append(a.get('href'))
 paths = [ROOT/'index.html']
+# Books with `meta` in book.json get canonical, Open Graph and KaTeX from tools/build.mjs instead of the source.
+generated = {Path(e).parent.as_posix() for e in meta['books'] if 'meta' in json.loads((ROOT/e).read_text())}
 for entry in meta['books']:
     book=json.loads((ROOT/entry).read_text()); slug=Path(entry).parent.as_posix()
     assert book['url']==f'{origin}/{slug}/'
@@ -28,7 +30,14 @@ pages = {p.resolve():Page(p.read_text()) for p in paths}
 errors=[]
 for path,page in pages.items():
     rel=path.relative_to(ROOT).as_posix(); expected=origin+'/'+re.sub(r'(^|/)index\.html$',r'\1',rel)
-    if page.canonical != [expected]: errors.append(f'{rel}: canonical {page.canonical}')
+    if rel.split('/')[0] in generated:
+        text = path.read_text()
+        stale = re.search(r'<link\b[^>]*rel=["\']canonical["\']|<meta\b[^>]*property=["\']og:|cdn\.jsdelivr\.net/npm/katex@', text)
+        if stale: errors.append(f'{rel}: "{stale[0]}" is added by the build — remove it from the source')
+        # The build renders math in static HTML only; math a script inserts would show as raw TeX.
+        for script in re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, re.S):
+            if re.search(r'\\\\[(\[]|\$\$', script): errors.append(f'{rel}: a script writes math (\\( \\[ $$) — the build only renders math in static HTML')
+    elif page.canonical != [expected]: errors.append(f'{rel}: canonical {page.canonical}')
     for link in page.links:
         url=urlsplit(link)
         if url.scheme or url.netloc: continue

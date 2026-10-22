@@ -6,16 +6,6 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <title>드럼 스튜디오 · DrumBook</title>
 <meta name="description" content="패턴 시퀀서와 송 빌더, 키보드·패드·MIDI 녹음과 퀀타이즈, 베이스·코드 반주, 믹서와 킷 튜닝 프리셋, 텍스트·MIDI 파일 내보내기, 템포 사다리 연습 콘솔까지 갖춘 종합 드럼 작업실.">
-<link rel="canonical" href="https://music.euiyun.com/drums/chapters/studio.html">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="DrumBook">
-<meta property="og:title" content="드럼 스튜디오 · DrumBook">
-<meta property="og:description" content="패턴 시퀀서와 송 빌더, 키보드·패드·MIDI 녹음과 퀀타이즈, 베이스·코드 반주, 믹서와 킷 튜닝 프리셋, 텍스트·MIDI 파일 내보내기, 템포 사다리 연습 콘솔까지 갖춘 종합 드럼 작업실.">
-<meta property="og:url" content="https://music.euiyun.com/drums/chapters/studio.html">
-<meta property="og:locale" content="ko_KR">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/drums.css">
 <script src="../js/common.js"></script>
@@ -163,7 +153,7 @@
   <section id="song">
     <h2>송 빌더: 패턴을 곡으로</h2>
     <p>곡은 패턴의 목록입니다. "A를 3마디, 필 1마디, B를 3마디, 필 1마디, C를 4마디"처럼 섹션을 이어 붙이면 12마디짜리 형식이 됩니다. 대중음악의 프레이즈가 대개 4·8마디 단위인 이유와 섹션 끝에 필을 넣고 다음 섹션 첫 박에 크래시로 착지하는 관습은 <a href="fills.html">8장</a>에서 보았습니다. 송 빌더는 이것을 그대로 데이터로 만듭니다. 각 섹션은 (패턴, 마디 수)이고, 재생할 때는 모든 섹션의 이벤트를 하나의 긴 배열로 이어 붙인 뒤(<code>DR.concat</code>와 같은 일), 섹션마다 격자 해상도가 다르면 공통 격자(최소공배수)로 맞춥니다.</p>
-    <div class="formula">$$t_\text{시작}(i) = 4\sum_{j<i} b_j\ \text{박}, \qquad L_\text{곡} = 4\sum_j b_j\ \text{박}, \qquad \text{div}_\text{곡} = \operatorname{lcm}(\text{div}_A, \text{div}_B, \dots)$$
+    <div class="formula">$$t_\text{시작}(i) = 4\sum_{j\lt i} b_j\ \text{박}, \qquad L_\text{곡} = 4\sum_j b_j\ \text{박}, \qquad \text{div}_\text{곡} = \operatorname{lcm}(\text{div}_A, \text{div}_B, \dots)$$
       <div class="where">\(b_j\)는 \(j\)번째 섹션의 마디 수. 8분 패턴(div 2)과 셋잇단 필(div 3)을 섞은 곡은 한 박을 6칸으로 나눈 격자에서 재생한다(<a href="odd.html">11장</a>의 최소공배수 격자와 같은 생각). ♩ = 100에서 16마디는 38.4초다.</div>
     </div>
 
