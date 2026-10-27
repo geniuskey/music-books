@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>자세와 두 손 · BassBook</title>
+<meta name="description" content="스트랩 높이와 앉은 자세, 두 손가락 교대 피킹과 레이킹, 피크 피킹, 한 손가락 한 프렛 운지, 그리고 베이스에서 가장 어려운 기술인 뮤팅까지 직접 두드리고 들으며 익힌다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .hnd-pads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .hnd-pads button { font: 700 18px var(--font); padding: 22px 6px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .hnd-pads button small { display: block; font: 500 12px var(--mono); color: var(--text-dim); margin-top: 4px; }
+  .hnd-pads button.hit { border-color: var(--accent); background: var(--accent-soft); }
+  .hnd-track { padding: 10px 12px; }
+  .hnd-track svg { display: block; width: 100%; height: auto; }
+  .hnd-fing { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .hnd-fing button { font: 700 16px var(--font); padding: 12px 4px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .hnd-fing button small { display: block; font: 500 11px var(--mono); color: var(--text-dim); }
+  .hnd-fing button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .hnd-fing button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .hnd-fing button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .hnd-ladder { display: grid; gap: 4px; padding: 10px 12px; }
+  .hnd-ladder .row { display: grid; grid-template-columns: 66px minmax(0, 1fr) 58px; gap: 8px; align-items: center; font-size: 13px; }
+  .hnd-ladder .row b { font-family: var(--mono); }
+  .hnd-ladder .bar { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .hnd-ladder .bar i { display: block; height: 100%; background: var(--accent); }
+  .hnd-ladder .row.now { color: var(--accent); font-weight: 700; }
+  .hnd-ladder .row .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="hands">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 03</div>
+    <h1>자세와 두 손</h1>
+    <p class="lead">베이스는 두 손이 <b>다른 일을 하는</b> 악기입니다. 오른손은 줄을 울리고, 왼손은 음높이를 정합니다. 그런데 초보와 숙련자를 가르는 지점은 그 둘이 아니라 <b>세 번째 일</b>, 즉 "울리지 말아야 할 줄을 조용히 시키는 일"입니다. 울리는 줄이 하나뿐인 소리와 셋이 함께 우는 소리는 전혀 다른 악기처럼 들립니다. 이 장에서는 몸에 악기를 맞추는 법부터 시작해, 두 손가락 교대 피킹, 한 손가락 한 프렛 운지, 그리고 양손이 나눠 맡는 뮤팅을 다룹니다.</p>
+    <ul class="objectives">
+      <li>앉은 자세와 선 자세에서 베이스가 같은 위치에 오도록 스트랩을 맞춘다.</li>
+      <li>검지·중지 <b>교대 피킹</b><span class="en">(Alternate plucking)</span>의 이유를 알고, 메트로놈에 맞춰 흔들림을 ms 단위로 측정한다.</li>
+      <li><b>레이킹</b><span class="en">(Raking)</span>이 왜 교대보다 빠른지, 언제 쓰는지 안다.</li>
+      <li>피크 피킹과 손가락 피킹의 음색·어택 차이를 듣고 구분한다.</li>
+      <li><b>한 손가락 한 프렛</b>과 <b>시몬디 운지</b>의 차이를 알고, 손 위치를 숫자로 말한다.</li>
+      <li>왼손 뮤팅·오른손 뮤팅·플로팅 섬의 역할을 구분하고, 뮤팅 유무가 소리에 주는 차이를 듣는다.</li>
+      <li>템포 사다리로 연습 계획을 세운다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="posture">
+    <h2>악기를 몸에 맞추기</h2>
+    <p>자세에서 정답은 하나뿐입니다. <b>앉았을 때와 섰을 때 베이스가 몸에 대해 같은 자리에 있을 것.</b> 두 자세의 높이가 다르면 손 모양을 두 벌 익히게 되고, 집에서 앉아 연습한 것이 무대에서 통하지 않습니다.</p>
+    <p>기준점은 <b>12프렛 언저리가 몸 중심선 근처에 오는 높이</b>입니다. 이보다 낮게 메면 보기는 좋지만 왼손 손목이 심하게 꺾이고 1–5프렛에 손이 닿지 않습니다. 손목이 꺾인 상태로 장시간 힘을 주는 것은 손목 터널 증후군의 전형적인 원인이므로, 멋보다 각도를 우선하세요.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 260" role="img" aria-label="스트랩 높이에 따른 손목 각도">
+        <g transform="translate(20,20)">
+          <text x="150" y="0" text-anchor="middle" class="t">권장 높이</text>
+          <path d="M150 30 q-26 0 -26 30 v56 q0 14 12 14 h28 q12 0 12-14 v-56 q0-30 -26-30Z" class="f-surface" stroke="var(--border)"/>
+          <circle cx="150" cy="18" r="13" class="f-surface" stroke="var(--border)"/>
+          <g transform="rotate(-14 150 110)"><rect x="60" y="98" width="190" height="22" rx="8" class="f-acc-soft" stroke="var(--accent)"/>
+            <rect x="12" y="102" width="56" height="14" rx="5" class="f-elev" stroke="var(--border)"/></g>
+          <path d="M124 92 l-28 18" stroke="var(--text-dim)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M176 92 l30 16" stroke="var(--text-dim)" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="94" cy="112" r="7" class="f-acc" />
+          <text x="150" y="176" text-anchor="middle" class="t-dim" style="font-size:12.5px">왼손목이 거의 펴진다 · 1프렛까지 닿는다</text>
+          <text x="150" y="196" text-anchor="middle" class="t-mono" style="font-size:11.5px">손목 각도 ≈ 15°</text>
+        </g>
+        <g transform="translate(420,20)">
+          <text x="150" y="0" text-anchor="middle" class="t">너무 낮은 높이</text>
+          <path d="M150 30 q-26 0 -26 30 v56 q0 14 12 14 h28 q12 0 12-14 v-56 q0-30 -26-30Z" class="f-surface" stroke="var(--border)"/>
+          <circle cx="150" cy="18" r="13" class="f-surface" stroke="var(--border)"/>
+          <g transform="rotate(-6 150 160)"><rect x="60" y="150" width="190" height="22" rx="8" class="f-surface" stroke="var(--border)"/>
+            <rect x="12" y="154" width="56" height="14" rx="5" class="f-elev" stroke="var(--border)"/></g>
+          <path d="M124 92 q-34 44 -28 68" stroke="var(--bad)" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M176 92 q34 40 30 62" stroke="var(--text-dim)" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <circle cx="94" cy="162" r="7" class="f-acc"/>
+          <text x="150" y="212" text-anchor="middle" class="t-dim" style="font-size:12.5px">손목이 꺾이고 1–5프렛에 닿지 않는다</text>
+          <text x="150" y="232" text-anchor="middle" class="t-mono" style="font-size:11.5px">손목 각도 ≈ 55° — 통증의 원인</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 3-1.</b> 스트랩 높이는 취향이 아니라 왼손목 각도의 문제다. 12프렛이 몸 중심선 근처에 오게 맞추면 손목이 거의 펴진 상태로 1프렛까지 닿는다.</figcaption>
+    </figure>
+    <div class="callout tip">
+      <p><b>연습법 · 10분 점검.</b> ① 의자에 앉아 베이스를 오른쪽 허벅지에 올리고 편한 각도를 찾는다. ② 그 상태에서 스트랩을 메고 길이를 조절해 <b>스트랩이 팽팽해지는</b> 지점에 맞춘다. ③ 일어선다. 악기가 움직이지 않으면 맞은 것이다. ④ 넥은 바닥과 평행보다 <b>살짝 위로</b> 들어 올린다(10–20°). 왼손이 더 편해지고 오른손 각도도 자연스러워진다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="right">
+    <h2>오른손: 두 손가락 교대 피킹</h2>
+    <p>베이스의 기본 주법은 검지와 중지를 번갈아 쓰는 <b>교대 피킹</b>입니다. 한 손가락만 쓰면 속도가 손가락 하나의 복귀 시간에 묶이지만, 둘을 번갈아 쓰면 한쪽이 돌아오는 동안 다른 쪽이 치므로 <b>이론상 두 배</b>가 됩니다. 실제로는 그보다 덜 늘지만, 8분음표 120 BPM 이상에서는 교대가 사실상 유일한 답입니다.</p>
+    <p>손가락이 줄을 떠나는 방식도 중요합니다. 줄을 <b>바깥쪽으로 튕겨 내지 말고</b>, 줄을 눌러 통과시킨 뒤 다음(더 낮은) 줄에 손끝을 기대 멈추게 합니다. 이렇게 하면 ① 줄이 지판과 평행하게 떨어 버징이 줄고, ② 손끝이 멈추는 그 줄이 자동으로 뮤팅되며, ③ 다음 음까지의 거리가 짧아 빨라집니다.</p>
+    <h3>레이킹</h3>
+    <p>굵은 줄에서 가는 줄로 <b>연달아 내려갈 때</b>는 교대 대신 한 손가락으로 쓸어내리는 <b>레이킹</b>이 빠릅니다. 예를 들어 4번 줄 → 3번 줄 → 2번 줄을 차례로 칠 때, 검지 하나가 세 줄을 연속으로 통과하면 손가락이 돌아오는 시간이 아예 없습니다. 다만 <b>방향이 바뀌면</b>(가는 줄 → 굵은 줄) 쓸 수 없으므로, 교대를 기본으로 하되 하행 구간에서 섞어 쓰는 것이 보통입니다.</p>
+
+    <div class="sim" id="sim-hnd-alt">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>교대 피킹 타이밍 측정</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="hnd-track" id="hnd-al-track"></div><div class="hnd-pads" id="hnd-al-pads">
+          <button data-i="0">검지<small>F 키 · 짝수 박</small></button>
+          <button data-i="1">중지<small>J 키 · 홀수 박</small></button>
+        </div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>템포 <output id="hnd-al-bpm-out"></output></span><input type="range" id="hnd-al-bpm" min="50" max="160" step="1" value="80"></label>
+          <div class="ctrl"><span>세분</span><div class="seg" id="hnd-al-div"><button data-value="1" class="on">4분음</button><button data-value="2">8분음</button><button data-value="4">16분음</button></div></div>
+          <label class="check"><input type="checkbox" id="hnd-al-sound" checked> 치면 베이스 소리도 내기</label>
+          <label class="check"><input type="checkbox" id="hnd-al-strict"> 손가락 순서까지 채점(교대를 지켰는가)</label>
+          <div class="btn-row"><button class="btn primary" id="hnd-al-go">▶ 시작</button><button class="btn" id="hnd-al-reset">↺ 기록 지우기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">평균 어긋남</span><span class="v" id="hnd-al-mean">—</span></div>
+        <div class="stat"><span class="k">흔들림(표준편차)</span><span class="v" id="hnd-al-sd">—</span></div>
+        <div class="stat"><span class="k">친 횟수</span><span class="v" id="hnd-al-n">—</span></div>
+        <div class="stat"><span class="k">교대 정확도</span><span class="v" id="hnd-al-ord">—</span></div>
+      </div>
+      <div class="sim-note">키보드 <kbd>F</kbd>·<kbd>J</kbd>를 번갈아 누르거나 패드를 누르세요. 가운데 선이 박, 점이 내 타격입니다. 음수는 박보다 빠른 것 · 모델: 오디오 시계 기준 시각 차이를 그대로 잽니다. 화면·입력 지연이 5–15 ms 더해질 수 있으니 <b>절대값보다 흔들림</b>을 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="pick">
+    <h2>피크냐 손가락이냐</h2>
+    <p>둘은 우열이 아니라 다른 도구입니다. 차이의 근원은 <b>줄을 놓아 주는 물체의 단단함과 접촉 면적</b>입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>손가락</th><th>피크</th></tr></thead>
+        <tbody>
+          <tr><td>접촉</td><td>넓고 무른 살 → 고역이 둥글게 깎인다</td><td>좁고 단단한 면 → 고역이 살아 있다</td></tr>
+          <tr><td>어택</td><td>부드럽게 솟는다</td><td>날카로운 '틱' 성분이 앞에 붙는다</td></tr>
+          <tr><td>셈여림 폭</td><td>손가락 힘으로 미세하게</td><td>각도·깊이로 크게</td></tr>
+          <tr><td>속도</td><td>교대 + 레이킹</td><td>다운·업 교대로 더 빠른 16분음</td></tr>
+          <tr><td>흔한 쓰임</td><td>모타운·소울·재즈·R&amp;B</td><td>록·펑크록·메탈</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>피크를 쓸 때도 <b>다운·업 교대</b>가 기본입니다. 다만 다운 스트로크가 미세하게 더 세고 어택이 또렷해서, 강조할 음에 다운을 배치하는 식으로 셈여림을 설계할 수 있습니다. 느린 8분음표를 전부 다운으로 치는 것도 흔한 선택인데, 모든 음이 같은 무게를 갖는 단단한 느낌이 나기 때문입니다.</p>
+    <div class="sim" id="sim-hnd-pick">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 프레이즈, 다른 오른손</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="hnd-pk-cv"></canvas><div id="hnd-pk-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>주법</span><div class="seg" id="hnd-pk-tone"><button data-value="finger" class="on">손가락</button><button data-value="pick">피크</button><button data-value="muted">팜 뮤트</button><button data-value="flat">플랫와운드</button></div></div>
+          <label class="ctrl"><span>뜯는 자리 <output id="hnd-pk-pos-out"></output></span><input type="range" id="hnd-pk-pos" min="4" max="40" step="1" value="16"></label>
+          <label class="ctrl"><span>템포 <output id="hnd-pk-bpm-out"></output></span><input type="range" id="hnd-pk-bpm" min="60" max="180" step="1" value="104"></label>
+          <div class="btn-row"><button class="btn primary" id="hnd-pk-play">▶ 재생</button><button class="btn" id="hnd-pk-ab">▶ 손가락↔피크 번갈아</button><button class="btn" id="hnd-pk-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-note">"뜯는 자리"는 브리지에서 넥 쪽으로 가는 비율입니다. 넥 쪽(큰 값)일수록 굵고 둥글어집니다. 왜 그런지는 <a href="tone.html">13장</a>에서 빗살 필터로 설명합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="left">
+    <h2>왼손: 한 손가락 한 프렛</h2>
+    <p>왼손의 기본 체계는 <b>한 손가락 한 프렛</b><span class="en">(One finger per fret, OFPF)</span>입니다. 검지·중지·약지·새끼가 각각 한 프렛씩 맡아, 손을 움직이지 않고 네 프렛을 덮습니다. 손 위치는 "검지가 놓인 프렛" 번호로 부릅니다. 예를 들어 <b>5포지션</b>이면 검지 5프렛, 중지 6프렛, 약지 7프렛, 새끼 8프렛입니다.</p>
+    <p>문제는 1–5프렛입니다. 이 구간은 프렛 간격이 가장 넓어서(1–2프렛 사이가 약 48 mm) 손이 작으면 OFPF가 무리입니다. 여기서는 <b>시몬디 운지</b><span class="en">(Simandl fingering)</span>를 씁니다. 더블 베이스에서 온 방식으로 검지·약지·새끼만 쓰고(약지와 새끼는 함께 눌러 힘을 보탭니다) 한 손 위치가 <b>세 프렛</b>을 덮습니다. 저음부에서는 시몬디, 5프렛 위로는 OFPF로 바꾸는 것이 가장 흔한 실전 절충안입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>방식</th><th>덮는 범위</th><th>쓰는 손가락</th><th>유리한 구간</th></tr></thead>
+        <tbody>
+          <tr><td>한 손가락 한 프렛 (OFPF)</td><td>4프렛</td><td>1·2·3·4</td><td>5프렛 이상 · 빠른 패시지</td></tr>
+          <tr><td>시몬디</td><td>3프렛</td><td>1·2(보조)·4</td><td>1–5프렛 · 손이 작을 때 · 업라이트</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <p><b>누르는 힘은 생각보다 적게.</b> 줄이 프렛에 닿기만 하면 음은 납니다. 그 이상의 힘은 음정을 올리고(줄이 더 늘어남) 손을 지치게 할 뿐입니다. 점검법: 한 음을 소리 내며 누르는 힘을 조금씩 빼 보세요. 소리가 지직거리기 직전이 <b>필요한 최소 힘</b>이고, 평소 그 1.2배면 충분합니다.</p>
+    </div>
+
+    <div class="sim" id="sim-hnd-ofpf">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>운지 훈련기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="hnd-of-fb"></div><div class="sim-msg" id="hnd-of-msg">시작을 누르면 지판에 자리가 하나 표시됩니다. 어느 손가락으로 짚을지 고르세요.</div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>운지 체계</span><div class="seg" id="hnd-of-sys"><button data-value="ofpf" class="on">한 손가락 한 프렛</button><button data-value="simandl">시몬디</button></div></div>
+          <label class="ctrl"><span>손 위치(검지 프렛) <output id="hnd-of-hand-out"></output></span><input type="range" id="hnd-of-hand" min="1" max="12" step="1" value="5"></label>
+          <div class="ctrl"><span>어느 손가락?</span><div class="hnd-fing" id="hnd-of-btns"></div></div>
+          <div class="btn-row"><button class="btn primary" id="hnd-of-go">▶ 시작</button><button class="btn" id="hnd-of-next">다음 문제 →</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="hnd-of-score">0 / 0</span></div>
+        <div class="stat"><span class="k">이번 음</span><span class="v" id="hnd-of-note">—</span></div>
+      </div>
+      <div class="sim-note">손 위치를 바꾸면 같은 자리를 짚는 손가락이 달라집니다. 시몬디에서는 2·3프렛을 약지와 새끼가 함께 맡습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="muting">
+    <h2>가장 어려운 기술: 뮤팅</h2>
+    <p>베이스에서 소리의 절반은 <b>울리지 않게 하는 일</b>이 만듭니다. 이유는 저음의 물리에 있습니다. 베이스 줄은 서스테인이 길고(수 초), 저음은 배음 구조가 촘촘해서, 두 음이 겹치면 금세 혼탁해집니다. 게다가 한 줄을 뜯으면 다른 줄이 <b>공명으로 함께 울립니다</b>(공진). 아무것도 하지 않으면 네 줄이 전부 웅웅거립니다.</p>
+    <p>뮤팅은 세 가지 도구를 섞어 씁니다.</p>
+    <ul>
+      <li><b>왼손 뮤팅</b> — 누르던 손가락의 힘을 빼되 줄에서 떼지는 않습니다. 그러면 음이 멈추면서도 개방현이 울리지 않습니다. 음 <b>길이</b>를 정하는 주된 수단입니다.</li>
+      <li><b>오른손 뮤팅(플로팅 섬)</b> — 엄지를 픽업에 고정하지 않고 <b>지금 치는 줄보다 굵은 줄 위에 얹어</b> 따라 옮깁니다. 2번 줄을 칠 때 엄지는 3번 줄 위에, 1번 줄을 칠 때는 2번 줄 위에 놓이는 식입니다. 손가락이 줄을 통과해 아래 줄에 멈추는 동작도 같은 일을 합니다.</li>
+      <li><b>손바닥 옆(팜) 뮤트</b> — 브리지 근처에 손날을 얹어 전체적으로 짧고 둔탁한 소리를 만듭니다. 주로 음색 선택으로 씁니다.</li>
+    </ul>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 200" role="img" aria-label="플로팅 섬: 치는 줄에 따라 엄지가 옮겨간다">
+        <g class="s-line" stroke-width="1.6">
+          <line x1="90" y1="40" x2="690" y2="40"/><line x1="90" y1="78" x2="690" y2="78"/><line x1="90" y1="116" x2="690" y2="116"/><line x1="90" y1="154" x2="690" y2="154"/>
+        </g>
+        <g class="t-mono" text-anchor="end"><text x="80" y="44">G (1번)</text><text x="80" y="82">D (2번)</text><text x="80" y="120">A (3번)</text><text x="80" y="158">E (4번)</text></g>
+        <g transform="translate(0,0)">
+          <circle cx="200" cy="154" r="13" class="f-acc" opacity=".9"/><text x="200" y="182" text-anchor="middle" class="t-acc" style="font-size:12px">E를 칠 때</text>
+          <rect x="176" y="130" width="48" height="12" rx="6" class="f-acc2-soft" stroke="var(--accent-2)"/><text x="200" y="124" text-anchor="middle" class="t-dim" style="font-size:11px">엄지: 픽업</text>
+        </g>
+        <g><circle cx="360" cy="116" r="13" class="f-acc" opacity=".9"/><text x="360" y="182" text-anchor="middle" class="t-acc" style="font-size:12px">A를 칠 때</text>
+          <rect x="336" y="148" width="48" height="12" rx="6" class="f-acc2-soft" stroke="var(--accent-2)"/><text x="360" y="176" text-anchor="middle" class="t-dim" style="font-size:11px">엄지: E 줄</text></g>
+        <g><circle cx="510" cy="78" r="13" class="f-acc" opacity=".9"/>
+          <rect x="486" y="110" width="48" height="12" rx="6" class="f-acc2-soft" stroke="var(--accent-2)"/><text x="510" y="138" text-anchor="middle" class="t-dim" style="font-size:11px">엄지: A 줄</text>
+          <text x="510" y="60" text-anchor="middle" class="t-acc" style="font-size:12px">D를 칠 때</text></g>
+        <g><circle cx="650" cy="40" r="13" class="f-acc" opacity=".9"/>
+          <rect x="626" y="72" width="48" height="12" rx="6" class="f-acc2-soft" stroke="var(--accent-2)"/><text x="650" y="100" text-anchor="middle" class="t-dim" style="font-size:11px">엄지: D 줄</text>
+          <text x="650" y="24" text-anchor="middle" class="t-acc" style="font-size:12px">G를 칠 때</text></g>
+      </svg>
+      <figcaption><b>그림 3-2.</b> 플로팅 섬. 엄지는 한 자리에 고정되지 않고 치는 줄보다 한 단계 굵은 줄 위를 따라 옮겨 다니며, 아래쪽 줄이 공명으로 울리는 것을 막는다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-hnd-mute">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>뮤팅이 있을 때와 없을 때</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="hnd-mt-cv"></canvas><div id="hnd-mt-tab"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 길이(게이트) <output id="hnd-mt-gate-out"></output></span><input type="range" id="hnd-mt-gate" min="20" max="400" step="5" value="90"></label>
+          <label class="ctrl"><span>다른 줄의 공명 <output id="hnd-mt-symp-out"></output></span><input type="range" id="hnd-mt-symp" min="0" max="100" step="5" value="0"></label>
+          <div class="ctrl"><span>빠른 설정</span><div class="seg" id="hnd-mt-pre"><button data-value="clean" class="on">뮤팅 잘됨</button><button data-value="loose">느슨함</button><button data-value="none">전혀 안 됨</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="hnd-mt-play">▶ 재생</button><button class="btn" id="hnd-mt-ab">▶ 잘됨↔안됨 번갈아</button><button class="btn" id="hnd-mt-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">동시에 울리는 음</span><span class="v" id="hnd-mt-poly">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: "전혀 안 됨"으로 들어 보세요. 음 하나하나는 그대로인데 전체가 뭉개집니다 · 모델: 게이트는 음을 끄는 시간, "다른 줄의 공명"은 뜯은 음과 음정 관계가 가까운 개방현을 작게 함께 울려 흉내 냈습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 뮤팅만 따로.</b> 한 줄을 뜯고 <b>정확히 한 박 뒤에 소리를 끄는</b> 연습을 메트로놈에 맞춰 하세요. 60 BPM에서 시작해 "둥—(끄기)—둥—(끄기)". 소리가 남아 있거나 끄는 순간에 '툭' 소리가 나면 아직입니다. 다음 단계는 4번 줄을 치면서 <b>1·2·3번 줄이 조용한지</b> 확인하는 것입니다. 앰프 게인을 평소보다 올리면 새는 소리가 잘 들립니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="practice">
+    <h2>템포 사다리</h2>
+    <p>속도는 "빨리 치는 연습"이 아니라 <b>정확한 동작을 반복한 횟수</b>에서 나옵니다. 그래서 연습은 자신이 <b>완전히 정확한 템포</b>에서 시작해 조금씩 올리고, 흔들리면 내려와야 합니다. 이것을 템포 사다리<span class="en">(Tempo ladder)</span>라고 합니다.</p>
+    <ol>
+      <li>목표 패턴을 <b>4번 연속 완벽하게</b> 칠 수 있는 가장 빠른 템포를 찾는다. 이것이 출발점이다.</li>
+      <li>그 템포에서 8마디를 실수 없이 치면 <b>+4 BPM</b>.</li>
+      <li>실수가 나면 <b>−8 BPM</b>으로 내려가 다시 쌓는다.</li>
+      <li>한 번에 20분을 넘기지 않는다. 짧게 자주가 길게 가끔보다 낫다.</li>
+    </ol>
+    <div class="sim" id="sim-hnd-ladder">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>템포 사다리 연습 설계</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="hnd-ladder" id="hnd-ld-list"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>시작 템포 <output id="hnd-ld-from-out"></output></span><input type="range" id="hnd-ld-from" min="40" max="140" step="2" value="70"></label>
+          <label class="ctrl"><span>목표 템포 <output id="hnd-ld-to-out"></output></span><input type="range" id="hnd-ld-to" min="60" max="220" step="2" value="120"></label>
+          <label class="ctrl"><span>한 단계 <output id="hnd-ld-step-out"></output></span><input type="range" id="hnd-ld-step" min="2" max="12" step="1" value="4"></label>
+          <label class="ctrl"><span>단계마다 마디 수 <output id="hnd-ld-bars-out"></output></span><input type="range" id="hnd-ld-bars" min="4" max="32" step="4" value="8"></label>
+          <div class="btn-row"><button class="btn primary" id="hnd-ld-run">▶ 사다리 실행</button><button class="btn" id="hnd-ld-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">단계 수</span><span class="v" id="hnd-ld-steps">—</span></div>
+        <div class="stat"><span class="k">총 연습 시간</span><span class="v" id="hnd-ld-time">—</span></div>
+        <div class="stat"><span class="k">현재 템포</span><span class="v" id="hnd-ld-now">—</span></div>
+      </div>
+      <div class="sim-note">실행하면 각 단계를 실제 템포로 연주해 줍니다(4번 줄 교대 피킹 패턴). 함께 치면서 어느 템포부터 흔들리는지 찾아보세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>스트랩 높이는 <b>앉은 자세와 같아지도록</b> 맞춘다. 12프렛이 몸 중심선 근처면 왼손목이 거의 펴진다.</li>
+      <li>오른손은 검지·중지 <b>교대</b>가 기본. 줄을 튕기지 말고 통과시켜 아래 줄에 손끝을 기대 멈춘다 — 속도와 뮤팅을 동시에 얻는다.</li>
+      <li>굵은 줄에서 가는 줄로 연달아 내려갈 때는 한 손가락으로 쓸어내리는 <b>레이킹</b>이 빠르다. 방향이 바뀌면 쓸 수 없다.</li>
+      <li>피크는 좁고 단단해 고역과 어택이 살아 있고, 손가락은 넓고 물러 둥글다. 우열이 아니라 선택이다.</li>
+      <li>왼손은 5프렛 위에서 <b>한 손가락 한 프렛</b>(4프렛 범위), 1–5프렛에서는 <b>시몬디</b>(3프렛 범위)를 섞어 쓴다. 손 위치는 검지 프렛 번호로 부른다.</li>
+      <li>누르는 힘은 줄이 프렛에 닿을 만큼만. 그 이상은 음정을 올리고 손을 지치게 할 뿐이다.</li>
+      <li><b>뮤팅</b>이 소리의 절반이다. 왼손은 음 길이를, 플로팅 섬은 아래 줄의 공명을, 팜 뮤트는 음색을 맡는다.</li>
+      <li>속도는 정확한 반복에서 나온다. 템포 사다리로 올리고, 흔들리면 내려온다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>오른손 손가락이 줄을 뜯은 뒤 <b>아래(더 굵은) 줄에 기대 멈추는</b> 동작의 이점이 <u>아닌</u> 것은?</p><div class="opts">
+        <button class="opt">그 줄이 자동으로 뮤팅된다</button>
+        <button class="opt">다음 음까지 손가락 이동 거리가 짧아진다</button>
+        <button class="opt">줄이 지판과 평행하게 떨어 버징이 줄어든다</button>
+        <button class="opt" data-correct>줄의 장력이 올라가 음정이 안정된다</button>
+      </div><div class="quiz-exp">뜯는 동작은 장력을 순간적으로 흔들 뿐 평균 장력을 바꾸지 않는다. 나머지 세 가지가 이 동작을 기본으로 삼는 이유다.</div></div>
+
+      <div class="quiz-q"><p><b>레이킹</b>을 쓸 수 있는 상황은?</p><div class="opts">
+        <button class="opt">같은 줄에서 빠른 16분음을 칠 때</button>
+        <button class="opt" data-correct>4번 줄 → 3번 줄 → 2번 줄처럼 굵은 줄에서 가는 줄로 연달아 내려갈 때</button>
+        <button class="opt">1번 줄 → 2번 줄 → 3번 줄로 올라갈 때</button>
+        <button class="opt">한 줄에서 해머온·풀오프를 이어 칠 때</button>
+      </div><div class="quiz-exp">레이킹은 한 손가락이 여러 줄을 연속으로 쓸어내리는 동작이라 하행에서만 자연스럽다. 상행에서는 손가락이 매번 되돌아와야 하므로 교대 피킹이 낫다.</div></div>
+
+      <div class="quiz-q"><p>1–5프렛 저음부에서 <b>시몬디 운지</b>를 쓰는 이유는?</p><div class="opts">
+        <button class="opt">소리가 더 크기 때문에</button>
+        <button class="opt" data-correct>프렛 간격이 가장 넓어 한 손가락 한 프렛으로는 손이 벌어지지 않기 때문에</button>
+        <button class="opt">새끼손가락을 쓰면 안 되기 때문에</button>
+        <button class="opt">개방현을 많이 쓰기 때문에</button>
+      </div><div class="quiz-exp">프렛 간격은 \(d_n=L(1-2^{-n/12})\)에 따라 너트 쪽이 가장 넓다. 34″ 베이스의 1–2프렛 간격은 약 48 mm라 OFPF가 무리인 경우가 많아, 검지·약지·새끼로 세 프렛을 덮는 시몬디를 쓴다.</div></div>
+
+      <div class="quiz-q"><p><b>플로팅 섬</b>에서 2번 줄(D)을 칠 때 엄지는 어디에 있어야 하는가?</p><div class="opts">
+        <button class="opt">픽업 위에 고정</button><button class="opt" data-correct>3번 줄(A) 위</button><button class="opt">1번 줄(G) 위</button><button class="opt">브리지 위</button>
+      </div><div class="quiz-exp">엄지는 치는 줄보다 한 단계 굵은 줄 위에 얹어 그 줄과 그 아래 줄들의 공명을 막는다. 치는 줄이 옮겨 가면 엄지도 함께 옮긴다.</div></div>
+
+      <div class="quiz-q"><p>템포 사다리에서 한 단계를 실수 없이 통과했을 때 올바른 다음 행동은?</p><div class="opts">
+        <button class="opt">목표 템포로 바로 올린다</button>
+        <button class="opt" data-correct>작은 폭(예: +4 BPM)만 올린다</button>
+        <button class="opt">같은 템포를 30분 더 반복한다</button>
+        <button class="opt">메트로놈을 끈다</button>
+      </div><div class="quiz-exp">한 번에 크게 올리면 동작이 무너진 채로 반복하게 되어 잘못된 패턴이 굳는다. 작게 올리고, 흔들리면 더 크게(−8 BPM) 내려와 정확한 반복을 쌓는다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 교대 피킹 타이밍 */
+(function () {
+  let bpm = 80, div = 1, sound = true, strict = false;
+  let clock = null, taps = [], beats = [], expectFinger = 0, orderOk = 0, orderN = 0;
+  const bass = BS.bass({ tone: "finger" });
+  const track = document.getElementById("hnd-al-track");
+  const pads = document.getElementById("hnd-al-pads");
+  function spb() { return 60 / bpm / div; }
+  function render() {
+    const W = 100, H = 46, mid = H / 2;
+    const span = 120; // ±ms 표시 범위
+    const pts = taps.slice(-40).map((d, i, a) => {
+      const x = 6 + (i / Math.max(1, a.length - 1)) * (W - 12);
+      const y = mid - MB.clamp(d / span, -1, 1) * (mid - 6);
+      return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.5" fill="${Math.abs(d) < 20 ? "var(--ok)" : Math.abs(d) < 45 ? "var(--warn)" : "var(--bad)"}"/>`;
+    }).join("");
+    track.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="타격 타이밍 그래프">
+      <rect x="6" y="${mid - (mid - 6) * 20 / span}" width="${W - 12}" height="${(mid - 6) * 40 / span}" fill="var(--ok)" opacity=".12"/>
+      <line x1="6" y1="${mid}" x2="${W - 6}" y2="${mid}" stroke="var(--accent)" stroke-width=".5"/>
+      <text x="7" y="7" class="t-dim" style="font-size:3.4px">빠름 −${span} ms</text>
+      <text x="7" y="${H - 3}" class="t-dim" style="font-size:3.4px">느림 +${span} ms</text>
+      ${pts}</svg>`;
+  }
+  function stats() {
+    const n = taps.length;
+    if (!n) { MB.stat("hnd-al-mean", "—"); MB.stat("hnd-al-sd", "—"); MB.stat("hnd-al-n", "—"); MB.stat("hnd-al-ord", "—"); return; }
+    const mean = taps.reduce((a, b) => a + b, 0) / n;
+    const sd = Math.sqrt(taps.reduce((a, b) => a + (b - mean) * (b - mean), 0) / n);
+    MB.stat("hnd-al-mean", MB.signed(mean, 1) + " ms");
+    MB.stat("hnd-al-sd", "± " + sd.toFixed(1) + " ms");
+    MB.stat("hnd-al-n", n + "회");
+    MB.stat("hnd-al-ord", strict ? (orderN ? Math.round(orderOk / orderN * 100) + "%" : "—") : "채점 안 함");
+  }
+  function tap(i) {
+    const now = MB.now();
+    const pad = pads.querySelector(`button[data-i="${i}"]`);
+    if (pad) { pad.classList.add("hit"); setTimeout(() => pad.classList.remove("hit"), 90); }
+    if (sound) bass.pluck(0, i ? 3 : 0, { dur: spb() * 0.8, vel: 0.8 });
+    if (!clock || !clock.running || !beats.length) return;
+    let best = beats[0], bd = 1e9;
+    beats.forEach((t) => { const d = Math.abs(now - t); if (d < bd) { bd = d; best = t; } });
+    if (bd > spb() * 0.7) return; // 박에서 너무 멀면 버린다
+    taps.push((now - best) * 1000);
+    if (taps.length > 200) taps.shift();
+    orderN++; if (i === expectFinger) orderOk++;
+    expectFinger = 1 - i;
+    render(); stats();
+  }
+  pads.addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (!b) return; MB.ctx(); tap(+b.dataset.i); });
+  document.addEventListener("keydown", (e) => {
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    if (k !== "f" && k !== "j") return;
+    if (!clock || !clock.running) return;
+    e.preventDefault(); tap(k === "f" ? 0 : 1);
+  });
+  MB.range("hnd-al-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.seg("hnd-al-div", (v) => { div = +v; });
+  MB.check("hnd-al-sound", (v) => { sound = v; });
+  MB.check("hnd-al-strict", (v) => { strict = v; stats(); });
+  document.getElementById("hnd-al-go").addEventListener("click", function () {
+    MB.ctx();
+    if (clock && clock.running) { clock.stop(); clock = null; this.textContent = "▶ 시작"; return; }
+    beats = []; expectFinger = 0;
+    clock = MB.Clock({ bpm: () => bpm, div: () => div, length: 16,
+      onStep(step, time) {
+        MB.drum(step % div === 0 ? "rim" : "shaker", time, { vel: step % (div * 4) === 0 ? 0.9 : 0.45 });
+        beats.push(time);
+        if (beats.length > 12) beats.shift();
+      } });
+    clock.start(); this.textContent = "■ 정지";
+  });
+  document.getElementById("hnd-al-reset").addEventListener("click", () => { taps = []; orderOk = orderN = 0; render(); stats(); });
+  render(); stats();
+})();
+
+/* ------------------------------------------------------------ 2. 피크 vs 손가락 */
+(function () {
+  let tone = "finger", pos = 0.16, bpm = 104, sched = null, ab = null;
+  const bass = BS.bass({ tone });
+  const PHRASE = [
+    { t: 0, d: 0.5, s: 0, f: 5 }, { t: 0.5, d: 0.5, s: 0, f: 5 }, { t: 1, d: 0.5, s: 1, f: 0 },
+    { t: 1.5, d: 0.5, s: 0, f: 5 }, { t: 2, d: 0.5, s: 1, f: 3 }, { t: 2.5, d: 0.5, s: 1, f: 0 },
+    { t: 3, d: 0.5, s: 0, f: 7 }, { t: 3.5, d: 0.5, s: 0, f: 5 },
+  ];
+  const tab = BS.tab("#hnd-pk-tab", PHRASE, { beatsPerBar: 4 });
+  const live = MB.liveView("#hnd-pk-cv", { mode: "both", fmin: 30, fmax: 6000, log: true, aspect: 0.4 });
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); }
+  function play() {
+    stop();
+    sched = BS.playTab(PHRASE.map((n) => Object.assign({}, n, { pos })), { bpm, bass, tab, loop: true, onStop: () => { sched = null; } });
+    sched.start();
+  }
+  MB.seg("hnd-pk-tone", (v) => { tone = v; bass.tone = v; });
+  MB.range("hnd-pk-pos", (v) => Math.round(v) + "%", (v) => { pos = v / 100; });
+  MB.range("hnd-pk-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  document.getElementById("hnd-pk-play").addEventListener("click", () => { MB.ctx(); if (sched) { stop(); return; } play(); });
+  document.getElementById("hnd-pk-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); return; }
+    let k = 0;
+    const flip = () => {
+      const v = k++ % 2 ? "pick" : "finger";
+      bass.tone = v;
+      document.querySelectorAll("#hnd-pk-tone button").forEach((b) => b.classList.toggle("on", b.dataset.value === v));
+    };
+    flip(); play(); ab = setInterval(flip, (60 / bpm) * 4000);
+  });
+  document.getElementById("hnd-pk-stop").addEventListener("click", stop);
+  if (live) live.redraw();
+})();
+
+/* ------------------------------------------------------------ 3. 운지 훈련기 */
+(function () {
+  const SYS = {
+    ofpf: { name: "한 손가락 한 프렛", span: 4, finger: (d) => d + 1, labels: ["검지 1", "중지 2", "약지 3", "새끼 4"] },
+    simandl: { name: "시몬디", span: 3, finger: (d) => (d === 0 ? 1 : d === 1 ? 2 : 4), labels: ["검지 1", "중지 2", "약지+새끼 4", "—"] },
+  };
+  let sys = "ofpf", hand = 5, q = null, ok = 0, n = 0;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#hnd-of-fb", { frets: 12, from: 0, labels: "frets", bass, play: false,
+    onClick(s, f, midi) { bass.pluck(s, f); return false; } });
+  const btns = document.getElementById("hnd-of-btns"), msg = document.getElementById("hnd-of-msg");
+  function buildBtns() {
+    const S = SYS[sys];
+    btns.innerHTML = S.labels.map((l, i) => l === "—" ? "" : `<button data-d="${i}">${l.split(" ")[1]}<small>${l.split(" ")[0]}</small></button>`).join("");
+  }
+  function next() {
+    const S = SYS[sys];
+    const d = Math.floor(Math.random() * S.span);
+    const s = Math.floor(Math.random() * 4);
+    const f = hand + d;
+    q = { s, f, d, finger: S.finger(d) };
+    fb.clear(); fb.mark([{ s, f, cls: "mark" }]);
+    MB.stat("hnd-of-note", MB.noteName(BS.STANDARD[s] + f) + " · " + f + "프렛 " + BS.stringLabel(s));
+    msg.className = "sim-msg"; msg.textContent = "이 자리를 어느 손가락으로 짚을까요? (검지 = " + hand + "프렛)";
+    btns.querySelectorAll("button").forEach((b) => b.className = "");
+    bass.pluck(s, f, { dur: 0.5, vel: 0.7 });
+  }
+  btns.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-d]"); if (!b || !q) return;
+    MB.ctx(); n++;
+    const good = +b.dataset.d === q.d;
+    if (good) { ok++; b.classList.add("ok"); msg.className = "sim-msg ok"; msg.textContent = "맞습니다 — " + q.finger + "번 손가락."; fb.flash(q.s, q.f); bass.pluck(q.s, q.f); }
+    else { b.classList.add("bad"); msg.className = "sim-msg bad"; msg.textContent = "아닙니다. " + q.f + "프렛은 검지(" + hand + ")에서 " + q.d + "칸 위 → " + q.finger + "번 손가락."; }
+    MB.stat("hnd-of-score", ok + " / " + n);
+    setTimeout(next, good ? 650 : 1500);
+  });
+  MB.seg("hnd-of-sys", (v) => { sys = v; buildBtns(); if (q) next(); });
+  MB.range("hnd-of-hand", (v) => Math.round(v) + "프렛", (v) => { hand = Math.round(v); fb.setRange(Math.max(0, hand - 2), 10); if (q) next(); });
+  document.getElementById("hnd-of-go").addEventListener("click", () => { MB.ctx(); ok = n = 0; MB.stat("hnd-of-score", "0 / 0"); next(); });
+  document.getElementById("hnd-of-next").addEventListener("click", () => { MB.ctx(); next(); });
+  buildBtns();
+})();
+
+/* ------------------------------------------------------------ 4. 뮤팅 */
+(function () {
+  let gate = 0.09, symp = 0, sched = null, ab = null, live = null;
+  const bass = BS.bass({ tone: "finger" });
+  // 4번·3번 줄을 오가는 8분음 라인 — 뮤팅이 안 되면 바로 뭉개진다
+  const PHRASE = [
+    { t: 0, d: 0.5, s: 0, f: 3 }, { t: 0.5, d: 0.5, s: 0, f: 3 }, { t: 1, d: 0.5, s: 1, f: 0 }, { t: 1.5, d: 0.5, s: 0, f: 3 },
+    { t: 2, d: 0.5, s: 1, f: 2 }, { t: 2.5, d: 0.5, s: 0, f: 5 }, { t: 3, d: 0.5, s: 1, f: 0 }, { t: 3.5, d: 0.5, s: 0, f: 3 },
+    { t: 4, d: 0.5, s: 0, f: 1 }, { t: 4.5, d: 0.5, s: 0, f: 1 }, { t: 5, d: 0.5, s: 1, f: 3 }, { t: 5.5, d: 0.5, s: 0, f: 1 },
+    { t: 6, d: 0.5, s: 1, f: 0 }, { t: 6.5, d: 0.5, s: 2, f: 0 }, { t: 7, d: 0.5, s: 1, f: 3 }, { t: 7.5, d: 0.5, s: 0, f: 3 },
+  ];
+  const tab = BS.tab("#hnd-mt-tab", PHRASE, { beatsPerBar: 4 });
+  function poly() {
+    const bpm = 96, spb = 60 / bpm;
+    return Math.max(1, Math.round(gate / (spb * 0.5)));
+  }
+  function update() {
+    document.getElementById("hnd-mt-gate-out").textContent = Math.round(gate * 1000) + " ms";
+    document.getElementById("hnd-mt-symp-out").textContent = symp === 0 ? "없음" : Math.round(symp * 100) + "%";
+    MB.stat("hnd-mt-poly", "약 " + poly() + "개");
+  }
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); }
+  function play() {
+    stop();
+    const notes = PHRASE.map((n) => Object.assign({}, n, { d: Math.max(0.03, gate / (60 / 96)) }));
+    sched = BS.scheduler(notes.map((n, i) => Object.assign({ i }, n)), {
+      bpm: 96, loop: true, length: 8,
+      onEvent(n, when) {
+        bass.pluck(n.s, n.f, { when, dur: gate, vel: 0.85 });
+        if (symp > 0) {
+          // 뜯은 음과 음정 관계가 가까운 다른 개방현이 공명으로 따라 운다
+          const midi = BS.STANDARD[n.s] + n.f;
+          BS.STANDARD.forEach((m, s) => {
+            if (s === n.s) return;
+            const iv = MB.mod(midi - m, 12);
+            if (iv === 0 || iv === 7 || iv === 5) bass.pluck(s, 0, { when: when + 0.01, vel: 0.26 * symp, ring: 5 });
+          });
+        }
+      },
+      onUI(n) { tab.highlightAt(n.t); },
+      onStop: () => { sched = null; tab.clear(); },
+    });
+    sched.start();
+  }
+  const gateR = MB.range("hnd-mt-gate", null, (v) => { gate = v / 1000; update(); });
+  const sympR = MB.range("hnd-mt-symp", null, (v) => { symp = v / 100; update(); });
+  MB.seg("hnd-mt-pre", (v) => {
+    if (v === "clean") { gateR.set(90); sympR.set(0); }
+    else if (v === "loose") { gateR.set(220); sympR.set(35); }
+    else { gateR.set(400); sympR.set(100); }
+  });
+  document.getElementById("hnd-mt-play").addEventListener("click", () => { MB.ctx(); if (sched) { stop(); return; } play(); });
+  document.getElementById("hnd-mt-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); return; }
+    let k = 0;
+    const flip = () => {
+      const seg = document.querySelectorAll("#hnd-mt-pre button");
+      const v = k++ % 2 ? "none" : "clean";
+      seg.forEach((b) => b.classList.toggle("on", b.dataset.value === v));
+      if (v === "clean") { gateR.set(90); sympR.set(0); } else { gateR.set(400); sympR.set(100); }
+    };
+    flip(); play(); ab = setInterval(flip, 5000);
+  });
+  document.getElementById("hnd-mt-stop").addEventListener("click", stop);
+  live = MB.liveView("#hnd-mt-cv", { mode: "wave", yScale: 1.4, aspect: 0.26, idleText: "재생하면 파형이 나타납니다 — 뮤팅이 없으면 파형이 0으로 돌아오지 않습니다" });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 템포 사다리 */
+(function () {
+  let from = 70, to = 120, step = 4, bars = 8, sched = null, idx = 0;
+  const bass = BS.bass({ tone: "finger" });
+  const list = document.getElementById("hnd-ld-list");
+  function steps() {
+    const out = [];
+    for (let b = from; b <= to + 1e-6; b += step) out.push(b);
+    if (!out.length) out.push(from);
+    return out;
+  }
+  function render() {
+    const S = steps();
+    list.innerHTML = S.map((b, i) =>
+      `<div class="row${i === idx ? " now" : ""}"><b>${b} BPM</b><span class="bar"><i style="width:${((b - 40) / 180 * 100).toFixed(1)}%"></i></span><span class="n">${(bars * 4 * 60 / b).toFixed(0)}초</span></div>`).join("");
+    const total = S.reduce((a, b) => a + bars * 4 * 60 / b, 0);
+    MB.stat("hnd-ld-steps", S.length + "단계");
+    MB.stat("hnd-ld-time", Math.floor(total / 60) + "분 " + Math.round(total % 60) + "초");
+    MB.stat("hnd-ld-now", sched ? S[idx] + " BPM" : "—");
+    document.getElementById("hnd-ld-from-out").textContent = from + " BPM";
+    document.getElementById("hnd-ld-to-out").textContent = to + " BPM";
+    document.getElementById("hnd-ld-step-out").textContent = "+" + step + " BPM";
+    document.getElementById("hnd-ld-bars-out").textContent = bars + "마디";
+  }
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); idx = 0; render(); }
+  function run() {
+    const S = steps();
+    if (idx >= S.length) { stop(); return; }
+    const bpm = S[idx];
+    const notes = [];
+    for (let b = 0; b < bars * 4; b++) { notes.push({ t: b, d: 0.5, s: 0, f: 3 }); notes.push({ t: b + 0.5, d: 0.5, s: 0, f: 3 }); }
+    sched = BS.scheduler(notes, { bpm, length: bars * 4, loop: false,
+      onEvent(n, when) { bass.pluck(n.s, n.f, { when, dur: 0.1, vel: n.t % 1 === 0 ? 0.9 : 0.72 }); if (n.t % 1 === 0) MB.drum("rim", when, { vel: n.t % 4 === 0 ? 0.8 : 0.4 }); },
+      onEnd() { idx++; render(); run(); },
+      onStop() { sched = null; } });
+    sched.start(); render();
+  }
+  MB.range("hnd-ld-from", null, (v) => { from = Math.round(v); if (to < from) to = from; render(); });
+  MB.range("hnd-ld-to", null, (v) => { to = Math.round(v); if (to < from) from = to; render(); });
+  MB.range("hnd-ld-step", null, (v) => { step = Math.round(v); render(); });
+  MB.range("hnd-ld-bars", null, (v) => { bars = Math.round(v); render(); });
+  document.getElementById("hnd-ld-run").addEventListener("click", () => { MB.ctx(); if (sched) { stop(); return; } idx = 0; run(); });
+  document.getElementById("hnd-ld-stop").addEventListener("click", stop);
+  render();
+})();
+</script>
+</body>
+</html>
