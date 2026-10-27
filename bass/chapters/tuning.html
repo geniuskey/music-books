@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>튜닝과 낮은 음 · BassBook</title>
+<meta name="description" content="왜 베이스는 4도로 조율하는가, 41 Hz 기본음이 작은 스피커에서 사라져도 음높이가 들리는 이유, 맥놀이와 하모닉스로 귀 튜닝 하기, 마이크 튜너, 5현·드롭 D·반음 내림, 인토네이션 조정을 듣고 조작한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .tun-dial { display: grid; place-items: center; padding: 10px 0 0; }
+  .tun-dial svg { display: block; width: 100%; max-width: 420px; height: auto; }
+  .tun-big { font: 800 40px var(--mono); text-align: center; letter-spacing: -.02em; }
+  .tun-big small { display: block; font: 500 13px var(--font); color: var(--text-dim); letter-spacing: 0; }
+  .tun-list { display: grid; gap: 6px; padding: 10px 12px; }
+  .tun-list button { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; font: inherit; font-size: 13.5px; text-align: left; padding: 8px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .tun-list button small { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .tun-list button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .tun-list button .hz { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .tun-harm { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+  .tun-harm button { font: inherit; font-size: 13px; padding: 8px 6px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.35; }
+  .tun-harm button small { display: block; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .tun-harm button.on { border-color: var(--accent); background: var(--accent-soft); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="tuning">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 02</div>
+    <h1>튜닝과 낮은 음</h1>
+    <p class="lead">줄 넷을 어떤 음으로 맞출지는 취향이 아니라 <b>손의 구조와 산수</b>가 정한 답입니다. 그리고 그 답이 만들어 내는 음역의 아래쪽 끝에서는, 사람의 귀가 평소와 다르게 동작합니다. 41 Hz는 작은 스피커에서 재생조차 되지 않는데도 음높이는 또렷이 들립니다. 이 장에서는 4도 조율이 왜 최선인지, 낮은 음이 어떻게 들리는지, 그리고 전자 튜너 없이 귀와 맥놀이만으로 베이스를 맞추는 법을 다룹니다.</p>
+    <ul class="objectives">
+      <li>표준 튜닝 E₁ A₁ D₂ G₂가 모두 <b>완전 4도</b> 간격인 이유를 손가락 범위로 설명한다.</li>
+      <li>등청감 곡선과 <b>잃어버린 기본음</b><span class="en">(Missing fundamental)</span>을 알고, 저음이 작은 스피커에서도 음높이를 유지하는 이유를 말한다.</li>
+      <li>맥놀이 주파수가 \(|f_1-f_2|\)임을 이해하고, 맥놀이를 세어 두 음을 맞춘다.</li>
+      <li>5프렛·7프렛 <b>하모닉스</b>로 줄끼리 맞추는 방법과 그 한계를 안다.</li>
+      <li>마이크 튜너로 센트 단위 오차를 읽고, 저음에서 피치 검출이 왜 느린지 안다.</li>
+      <li>드롭 D·반음 내림·5현 튜닝이 장력과 지판 모양에 주는 영향을 안다.</li>
+      <li><b>인토네이션</b>이 무엇이고 왜 새들을 앞뒤로 옮겨야 하는지 설명한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="fourths">
+    <h2>왜 4도로 쌓는가</h2>
+    <p>표준 튜닝 E₁ A₁ D₂ G₂는 줄 사이가 모두 <b>완전 4도</b>(5반음)입니다. 기타가 중간에 한 번 장3도(G–B)로 꺾이는 것과 달리, 베이스는 끝까지 같은 간격입니다. 이 균일함이 베이스 지판을 배우기 쉽게 만드는 가장 큰 이유입니다. <b>한 모양을 익히면 어느 줄에서나 그대로 쓸 수 있기 때문입니다.</b></p>
+    <p>왜 하필 5반음일까요? 왼손이 편하게 닿는 범위는 <b>한 손가락 한 프렛</b> 기준으로 네 프렛입니다(검지·중지·약지·새끼). 개방현을 포함하면 한 줄에서 다섯 개의 음, 즉 0~4프렛을 손을 움직이지 않고 짚을 수 있습니다. 줄 간격이 5반음이면 다음 줄의 개방현이 바로 그다음 음이 되어, 네 줄이 <b>빈틈도 겹침도 없이</b> 이어집니다.</p>
+    <div class="formula">
+      $$\underbrace{0,1,2,3,4}_{\text{4번 줄 E}} \;\to\; \underbrace{5,6,7,8,9}_{\text{3번 줄 A, 0–4프렛}} \;\to\; \underbrace{10,11,12,13,14}_{\text{2번 줄 D, 0–4프렛}} \;\to\; \cdots$$
+      <div class="where">4번 줄 E에서 반음을 세어 올라간 수를 적은 것입니다. 간격이 5반음이면 한 줄의 0–4프렛이 끝나는 지점에서 다음 줄의 개방현이 정확히 이어받습니다.</div>
+    </div>
+    <p>간격이 더 좁으면(예: 장3도, 4반음) 줄끼리 음이 겹쳐 낭비가 생기고, 더 넓으면(예: 완전 5도, 7반음) 손이 닿지 않는 구멍이 생깁니다. 첼로와 콘트라베이스가 갈라지는 지점도 여기입니다. 첼로는 5도로 조율해 음역을 넓게 쓰고 손을 많이 옮기는 대신, 콘트라베이스는 악기가 커서 손이 닿지 않으므로 <b>4도</b>를 택했습니다. 일렉 베이스는 그 전통을 그대로 물려받았습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 230" role="img" aria-label="4도 조율에서 줄과 프렛이 이어지는 방식">
+        <g class="s-line">
+          <line x1="90" y1="40" x2="700" y2="40"/><line x1="90" y1="80" x2="700" y2="80"/><line x1="90" y1="120" x2="700" y2="120"/><line x1="90" y1="160" x2="700" y2="160"/>
+        </g>
+        <g class="t-mono" text-anchor="end"><text x="80" y="44">G (1번)</text><text x="80" y="84">D (2번)</text><text x="80" y="124">A (3번)</text><text x="80" y="164">E (4번)</text></g>
+        <g class="s-line" stroke-dasharray="2 4">
+          <line x1="150" y1="28" x2="150" y2="172"/><line x1="210" y1="28" x2="210" y2="172"/><line x1="270" y1="28" x2="270" y2="172"/><line x1="330" y1="28" x2="330" y2="172"/><line x1="390" y1="28" x2="390" y2="172"/>
+        </g>
+        <g class="t-dim" text-anchor="middle" style="font-size:12px"><text x="120" y="194">0</text><text x="180" y="194">1</text><text x="240" y="194">2</text><text x="300" y="194">3</text><text x="360" y="194">4</text><text x="420" y="194">5</text></g>
+        <text x="300" y="216" text-anchor="middle" class="t-dim">프렛</text>
+        <g>
+          <rect x="100" y="148" width="280" height="24" rx="10" class="f-acc-soft" stroke="var(--accent)"/>
+          <text x="240" y="165" text-anchor="middle" class="t-acc" style="font-size:12.5px">E F F♯ G G♯ (0–4프렛)</text>
+          <rect x="100" y="108" width="280" height="24" rx="10" class="f-acc-soft" stroke="var(--accent)"/>
+          <text x="240" y="125" text-anchor="middle" class="t-acc" style="font-size:12.5px">A A♯ B C C♯ (0–4프렛)</text>
+          <rect x="100" y="68" width="280" height="24" rx="10" class="f-acc2-soft" stroke="var(--accent-2)"/>
+          <text x="240" y="85" text-anchor="middle" class="t" style="font-size:12.5px">D D♯ E F F♯</text>
+          <rect x="100" y="28" width="280" height="24" rx="10" class="f-acc2-soft" stroke="var(--accent-2)"/>
+          <text x="240" y="45" text-anchor="middle" class="t" style="font-size:12.5px">G G♯ A A♯ B</text>
+        </g>
+        <path d="M392 158 Q430 158 430 136 Q430 120 404 120" fill="none" class="s-acc" stroke-dasharray="4 3"/>
+        <text x="452" y="126" class="t-acc" style="font-size:12.5px">4번 줄 5프렛 A = 3번 줄 개방현 A</text>
+        <path d="M392 118 Q430 118 430 96 Q430 80 404 80" fill="none" class="s-acc" stroke-dasharray="4 3"/>
+        <text x="452" y="86" class="t-acc" style="font-size:12.5px">3번 줄 5프렛 D = 2번 줄 개방현 D</text>
+        <text x="452" y="46" class="t-dim" style="font-size:12.5px">모든 줄이 같은 규칙 — 외울 모양이 하나다</text>
+      </svg>
+      <figcaption><b>그림 2-1.</b> 줄 간격이 5반음이면 한 줄의 0–4프렛이 끝나는 자리에서 다음 줄 개방현이 이어받는다. 그래서 어떤 줄에서 외운 모양이든 옆 줄에 그대로 옮길 수 있다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-tun-tunings">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>튜닝 사전</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tun-tn-fb"></div><div class="tun-list" id="tun-tn-list"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>보기</span><div class="seg" id="tun-tn-lab"><button data-value="notes" class="on">음 이름</button><button data-value="intervals">근음에서 음정</button><button data-value="none">없음</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tun-tn-open">▶ 개방현 차례로</button><button class="btn" id="tun-tn-riff">▶ 같은 리프 치기</button><button class="btn" id="tun-tn-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">줄 간격</span><span class="v" id="tun-tn-iv">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="tun-tn-range">—</span></div>
+      </div>
+      <div class="sim-note">"같은 리프 치기"는 4번 줄 0·3·5프렛 패턴을 튜닝만 바꿔 그대로 칩니다. 드롭 D에서는 같은 모양이 다른 음이 됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="low">
+    <h2>41 Hz는 어떻게 들리는가</h2>
+    <p>4번 줄 개방현 E₁의 기본 주파수는 41.2 Hz입니다. 사람의 가청 하한이 20 Hz이니 들리기는 하지만, <b>얼마나 크게 들리는가</b>는 전혀 다른 문제입니다. 등청감 곡선<span class="en">(Equal-loudness contour)</span>에 따르면 같은 음압에서 40 Hz는 1 kHz보다 약 <b>50 dB</b>나 작게 느껴집니다. 음압을 300배 올려야 같은 크기로 들린다는 뜻입니다.</p>
+    <p>여기에 재생 장치의 한계가 겹칩니다. 노트북 스피커는 보통 200 Hz 아래, 휴대폰은 400 Hz 아래를 거의 내보내지 못합니다. 그렇다면 휴대폰으로 음악을 들을 때 베이스는 사라져야 할 텐데, 실제로는 멜로디처럼 또렷하게 들립니다. 왜일까요?</p>
+    <h3>잃어버린 기본음</h3>
+    <p>줄이 내는 소리는 기본음 하나가 아니라 41.2, 82.4, 123.6, 164.8 … Hz의 배음 <b>묶음</b>입니다. 청각은 음높이를 "가장 낮은 성분의 주파수"가 아니라 <b>"성분들이 늘어선 간격"</b>에서 읽어 냅니다. 82.4 · 123.6 · 164.8 Hz만 들려도 간격이 모두 41.2 Hz이므로 뇌는 "41.2 Hz짜리 음"이라고 판단합니다. 이것을 <b>잃어버린 기본음</b> 또는 가상 음높이<span class="en">(Virtual pitch)</span>라고 부릅니다.</p>
+    <div class="callout deep">
+      <p><b>이것이 실무에 주는 교훈.</b> 믹스에서 베이스의 저역을 과하게 밀어 올려도 작은 스피커에서는 들리지 않습니다. 오히려 <b>200–1000 Hz의 배음</b>이 베이스의 음높이를 전달합니다. 그래서 엔지니어는 베이스에 가벼운 디스토션이나 하모닉 익사이터를 걸어 배음을 더합니다. 큰 스피커에서는 몸으로 느끼는 저역이, 작은 스피커에서는 배음이 같은 음높이를 전달하는 것입니다. 자세한 내용은 <a href="tone.html">13장</a>에서 다룹니다.</p>
+    </div>
+
+    <div class="sim" id="sim-tun-missing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기본음을 지워도 음높이가 남을까</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tun-ms-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>기본 주파수 <output id="tun-ms-f-out"></output></span><input type="range" id="tun-ms-f" min="28" max="52" step="1" value="28"></label>
+          <label class="ctrl"><span>고역 통과 필터 <output id="tun-ms-hp-out"></output></span><input type="range" id="tun-ms-hp" min="20" max="500" step="5" value="20"></label>
+          <div class="ctrl"><span>빠른 설정</span><div class="seg" id="tun-ms-pre"><button data-value="20" class="on">전부</button><button data-value="100">노트북(100 Hz↑)</button><button data-value="300">휴대폰(300 Hz↑)</button></div></div>
+          <label class="check"><input type="checkbox" id="tun-ms-only"> 기본음만 빼기(배음은 그대로)</label>
+          <div class="btn-row"><button class="btn primary" id="tun-ms-play">▶ 재생</button><button class="btn" id="tun-ms-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">들리는 음</span><span class="v" id="tun-ms-note">—</span></div>
+        <div class="stat"><span class="k">남은 최저 성분</span><span class="v" id="tun-ms-lowest">—</span></div>
+        <div class="stat"><span class="k">남은 배음 수</span><span class="v" id="tun-ms-count">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 필터를 300 Hz까지 올려 기본음과 아래 배음 여러 개를 지워도 음높이가 그대로인지 들어 보세요. 그다음 기본 주파수만 한 음씩 바꿔 보세요 · 모델: 배음 12개 가산 합성 + 1차 고역 통과(실제 스피커는 이보다 완만합니다).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="beats">
+    <h2>맥놀이로 맞추기</h2>
+    <p>주파수가 조금 다른 두 음을 함께 울리면 합은 다음과 같이 쓸 수 있습니다.</p>
+    <div class="formula">
+      $$\sin(2\pi f_1 t)+\sin(2\pi f_2 t)=2\cos\!\left(2\pi \tfrac{f_1-f_2}{2}t\right)\sin\!\left(2\pi \tfrac{f_1+f_2}{2}t\right)$$
+      <div class="where">평균 주파수의 음이 울리되, 그 크기가 \(\tfrac{|f_1-f_2|}{2}\) Hz로 느리게 흔들립니다. 소리의 세기는 반주기마다 최대가 되므로 <b>초당 \(|f_1-f_2|\)번</b> "우웅—우웅" 하는 맥놀이<span class="en">(Beating)</span>가 들립니다.</div>
+    </div>
+    <p>맥놀이가 튜닝에 쓸모 있는 이유는 <b>아주 작은 차이를 시간으로 바꿔 주기</b> 때문입니다. 55 Hz와 55.5 Hz의 차이는 16센트로 귀로 직접 구분하기 어렵지만, 맥놀이는 2초에 한 번이라 셀 수 있습니다. 맥놀이가 완전히 멈추면 두 음이 정확히 같습니다.</p>
+    <h3>하모닉스 튜닝</h3>
+    <p>베이스는 줄 간격이 모두 4도라 <b>하모닉스</b><span class="en">(Harmonics)</span>로 줄끼리 맞추기 좋습니다. 줄 위 정확히 \(1/n\) 지점을 살짝 눌렀다 떼면서 뜯으면 기본음 대신 <b>n번째 배음</b>만 울립니다. 5프렛은 \(1/4\) 지점이므로 4배음, 7프렛은 \(1/3\) 지점이므로 3배음입니다.</p>
+    <div class="formula">
+      $$4\times f_{\text{E}_1}=4\times 41.20=164.8\ \text{Hz},\qquad 3\times f_{\text{A}_1}=3\times 55.00=165.0\ \text{Hz}$$
+      <div class="where">4번 줄 5프렛 하모닉스와 3번 줄 7프렛 하모닉스는 거의 같은 음(E₃)입니다. 두 음을 함께 울려 맥놀이가 멈출 때까지 3번 줄을 조절하면 됩니다. 0.2 Hz 차이는 평균율과 순정률의 차이에서 오며, 아래에서 다룹니다.</div>
+    </div>
+    <div class="callout warn">
+      <p><b>하모닉스 튜닝의 함정.</b> 위 두 수가 정확히 같지 않은 데 주목하세요. 하모닉스는 <b>순정률</b>의 완전 4도(비 4:3)를 만들지만, 베이스는 <b>평균율</b>로 조율해야 합니다. 평균율의 완전 4도는 500센트이고 순정 4도는 498센트이므로, 하모닉스로만 네 줄을 연달아 맞추면 오차가 누적되어 마지막 1번 줄이 약 6센트 낮아집니다. 실전에서는 하모닉스로 대충 맞춘 뒤 <b>각 줄을 전자 튜너로</b> 확인하거나, 코드를 쳐 보며 미세 조정합니다.</p>
+    </div>
+
+    <div class="sim" id="sim-tun-beats">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>맥놀이 세어 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tun-bt-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>맞출 줄 쌍</span><div class="tun-harm" id="tun-bt-pairs"></div></div>
+          <label class="ctrl"><span>조절할 줄의 오차 <output id="tun-bt-det-out"></output></span><input type="range" id="tun-bt-det" min="-50" max="50" step="1" value="18"></label>
+          <label class="check"><input type="checkbox" id="tun-bt-harm" checked> 하모닉스로 듣기(기준음과 같은 옥타브)</label>
+          <div class="btn-row"><button class="btn primary" id="tun-bt-play">▶ 함께 울리기</button><button class="btn" id="tun-bt-auto">↻ 자동으로 맞추기</button><button class="btn" id="tun-bt-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">두 음</span><span class="v" id="tun-bt-f">—</span></div>
+        <div class="stat"><span class="k">맥놀이</span><span class="v" id="tun-bt-rate">—</span></div>
+        <div class="stat"><span class="k">음높이 차</span><span class="v" id="tun-bt-cents">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 오차를 ±2센트까지 줄이면 맥놀이가 10초에 한 번꼴로 느려집니다. 그 상태에서 귀로 두 음의 높낮이를 구분할 수 있는지 보세요 · 모델: 두 사인파의 합과 그 포락선을 그립니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="tuner">
+    <h2>마이크 튜너</h2>
+    <p>전자 튜너는 들어온 소리의 기본 주파수를 재서 가장 가까운 평균율 음과 비교합니다. 차이는 <b>센트</b><span class="en">(Cent)</span>로 표시하는데, 1센트는 반음의 1/100입니다.</p>
+    <div class="formula">
+      $$\text{cents}=1200\log_2\!\frac{f}{f_{\text{ref}}}$$
+      <div class="where">\(f_{\text{ref}}\)는 목표 음의 주파수입니다. ±3센트 안이면 사실상 맞은 것으로 봅니다.</div>
+    </div>
+    <p>베이스에서 튜너가 유난히 굼뜬 데는 이유가 있습니다. 어떤 피치 검출 알고리즘이든 한 주기를 관찰해야 주파수를 알 수 있는데, 41 Hz의 한 주기는 24 ms입니다. 안정적인 추정을 위해 보통 <b>두 주기 이상</b>을 봐야 하므로 최소 50 ms, 샘플로는 48 kHz에서 2400개가 필요합니다. 고음 악기보다 열 배 긴 시간입니다. 그래서 "줄을 뜯고 조금 기다려야" 바늘이 멈춥니다.</p>
+    <div class="sim" id="sim-tun-tuner">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마이크 튜너</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="tun-dial" id="tun-tu-dial"></div>
+          <div class="tun-big" id="tun-tu-note">—<small id="tun-tu-sub">마이크를 켜고 한 줄씩 뜯어 보세요</small></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>목표 튜닝</span><div class="seg" id="tun-tu-tun"><button data-value="standard" class="on">4현 표준</button><button data-value="five">5현</button><button data-value="dropD">드롭 D</button><button data-value="halfDown">반음 내림</button></div></div>
+          <label class="ctrl"><span>기준음 A4 <output id="tun-tu-a4-out"></output></span><input type="range" id="tun-tu-a4" min="432" max="446" step="1" value="440"></label>
+          <div class="btn-row"><button class="btn primary" id="tun-tu-mic">🎤 마이크 켜기</button><button class="btn" id="tun-tu-off">■ 끄기</button></div>
+          <div class="ctrl"><span>마이크 없이 시험</span><div class="tun-harm" id="tun-tu-test"></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">들어온 주파수</span><span class="v" id="tun-tu-f">—</span></div>
+        <div class="stat"><span class="k">가장 가까운 줄</span><span class="v" id="tun-tu-near">—</span></div>
+        <div class="stat"><span class="k">신호 세기</span><span class="v" id="tun-tu-rms">—</span></div>
+      </div>
+      <div class="sim-note">마이크는 버튼을 눌렀을 때만 켜지고 어떤 소리도 저장·전송하지 않습니다 · 모델: YIN 피치 검출(fftSize 8192, 최저 30 Hz). "마이크 없이 시험" 버튼은 일부러 어긋난 음을 스피커로 내보내 튜너 동작만 확인합니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 튜닝 순서.</b> ① 줄을 뜯을 때는 <b>살짝</b>, 평소 세기로. 세게 뜯으면 줄이 늘어나 순간적으로 음이 높아져 튜너가 흔들립니다. ② 목표보다 <b>낮은 쪽에서 올려서</b> 맞추세요. 튜닝 머신의 기어 유격 때문에 내리면서 맞추면 연주 중에 풀립니다. ③ 네 줄을 다 맞춘 뒤 <b>처음부터 다시</b> 확인하세요. 한 줄을 조이면 넥이 조금 휘어 다른 줄의 음이 바뀝니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="alt">
+    <h2>드롭 D·반음 내림·5현</h2>
+    <p>표준에서 벗어나는 조율은 거의 모두 <b>더 낮은 음이 필요해서</b> 나왔습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>튜닝</th><th>줄</th><th>최저음</th><th>얻는 것</th><th>잃는 것</th></tr></thead>
+        <tbody>
+          <tr><td>표준</td><td>E A D G</td><td>E₁ 41.2 Hz</td><td>균일한 4도 격자</td><td>—</td></tr>
+          <tr><td>드롭 D</td><td>D A D G</td><td>D₁ 36.7 Hz</td><td>D 리프를 한 손가락으로, 2반음 아래</td><td>4번 줄의 음 위치가 전부 2프렛 밀린다</td></tr>
+          <tr><td>반음 내림</td><td>E♭ A♭ D♭ G♭</td><td>E♭₁ 38.9 Hz</td><td>장력이 낮아 줄이 부드럽다. 기타와 함께 내리기 쉽다</td><td>장력 약 11% 감소 → 버징·음정 불안</td></tr>
+          <tr><td>5현</td><td>B E A D G</td><td>B₀ 30.9 Hz</td><td>아래로 5반음 + 손 이동 감소</td><td>줄 하나만큼 뮤팅 부담 증가</td></tr>
+          <tr><td>5현 하이 C</td><td>E A D G C</td><td>E₁ 41.2 Hz</td><td>위로 5반음(솔로·코드)</td><td>저음 확장 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>드롭 D</b>는 4번 줄만 두 반음 내립니다. 그러면 4·3번 줄이 D–A, 즉 완전 5도가 되어 한 손가락으로 파워 코드(근음+5도)를 누를 수 있습니다. 대신 4번 줄의 음 이름 지도를 새로 외워야 합니다. 같은 자리를 짚어도 두 반음 낮은 음이 나기 때문입니다.</p>
+    <p><b>반음 내림</b>은 1장에서 본 \(T=\mu(2Lf)^2\)가 바로 적용됩니다. 주파수를 \(2^{-1/12}=0.9439\)배로 내리면 장력은 그 제곱인 0.891배, 즉 약 11% 줄어듭니다. 줄이 눈에 띄게 물러져 벤딩은 쉬워지지만 세게 뜯으면 음정이 올라가고 버징이 생깁니다. 그래서 반음 내림을 상시로 쓰는 연주자는 보통 한 단계 굵은 줄을 씁니다.</p>
+
+    <div class="sim" id="sim-tun-alt">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>튜닝을 바꾸면 같은 모양이 어떻게 되나</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tun-al-fb"></div><div id="tun-al-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>튜닝</span><div class="seg" id="tun-al-tun"><button data-value="standard" class="on">표준</button><button data-value="dropD">드롭 D</button><button data-value="halfDown">반음 내림</button><button data-value="five">5현</button></div></div>
+          <div class="ctrl"><span>칠 모양</span><div class="seg" id="tun-al-fig"><button data-value="riff" class="on">0–3–5 리프</button><button data-value="pow">근음+5도</button><button data-value="oct">근음+옥타브</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tun-al-play">▶ 재생</button><button class="btn" id="tun-al-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">나오는 음</span><span class="v" id="tun-al-notes">—</span></div>
+        <div class="stat"><span class="k">4번 줄 장력(미디엄 세트)</span><span class="v" id="tun-al-ten">—</span></div>
+      </div>
+      <div class="sim-note">같은 <b>지판 모양</b>을 그대로 두고 튜닝만 바꿉니다. 드롭 D에서는 "근음+5도"가 한 프렛으로 잡히는 반면, 0–3–5 리프는 다른 음이 됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="intonation">
+    <h2>인토네이션: 12프렛이 맞지 않는 이유</h2>
+    <p>개방현을 완벽히 맞춰도 12프렛을 누르면 음이 살짝 높아집니다. 줄을 프렛에 누르는 순간 줄이 아래로 늘어나 <b>장력이 올라가기</b> 때문입니다. 늘어나는 비율은 액션(줄 높이)이 높을수록, 줄이 굵을수록 큽니다. 베이스는 줄이 굵고 액션도 높아 이 효과가 기타보다 큽니다.</p>
+    <p>해결책은 <b>새들을 뒤로 밀어</b> 실제 진동 길이를 조금 늘리는 것입니다. 눌렀을 때 올라가는 만큼을 길이로 상쇄하는 셈입니다. 조정 절차는 간단합니다.</p>
+    <ol>
+      <li>12프렛 <b>하모닉스</b>를 울려 튜너로 읽는다 — 이것이 기준(정확히 한 옥타브 위).</li>
+      <li>12프렛을 <b>눌러서</b> 뜯고 읽는다.</li>
+      <li>누른 음이 <b>높으면</b> 새들을 브리지 쪽(뒤)으로, <b>낮으면</b> 넥 쪽(앞)으로 옮긴다.</li>
+      <li>조정하면 개방현 음이 바뀌므로 다시 튜닝하고 ①부터 반복한다.</li>
+    </ol>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 190" role="img" aria-label="누를 때 줄이 늘어나 장력이 오르는 모습">
+        <line x1="60" y1="60" x2="700" y2="60" stroke="var(--text-dim)" stroke-width="2"/>
+        <text x="60" y="44" class="t-dim">① 누르기 전: 길이 L, 장력 T</text>
+        <g class="s-line"><line x1="380" y1="52" x2="380" y2="68"/></g>
+        <text x="380" y="84" text-anchor="middle" class="t-mono">12프렛</text>
+        <path d="M60 130 L380 150 L700 130" fill="none" stroke="var(--accent)" stroke-width="2.4"/>
+        <line x1="60" y1="130" x2="700" y2="130" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="60" y="114" class="t-acc">② 누른 뒤: 경로가 길어져 장력이 T + ΔT로 올라간다 → 음이 높아진다</text>
+        <line x1="380" y1="130" x2="380" y2="150" class="s-acc"/>
+        <text x="392" y="146" class="t-mono">줄 높이 h</text>
+        <rect x="648" y="120" width="12" height="20" rx="2" class="f-acc"/>
+        <path d="M662 130 L700 130" stroke="var(--accent-2)" stroke-width="3"/>
+        <text x="700" y="118" text-anchor="end" class="t">새들을 뒤로 → L이 길어져 ΔT를 상쇄</text>
+        <text x="380" y="180" text-anchor="middle" class="t-dim">액션이 높을수록, 줄이 굵을수록 ΔT가 커져 보정량도 커진다</text>
+      </svg>
+      <figcaption><b>그림 2-2.</b> 줄을 누르면 경로가 길어져 장력이 올라가고 음이 높아진다. 새들을 뒤로 밀어 진동 길이를 늘리면 상쇄된다. 그래서 굵은 4번 줄의 새들이 가장 뒤에 있다.</figcaption>
+    </figure>
+    <div class="callout tip">
+      <p><b>연습법 · 집에서 확인하기.</b> 전자 튜너가 있으면 지금 바로 해 보세요. 네 줄 모두 12프렛 하모닉스와 누른 음의 센트 차이를 적어 두면, 액션을 바꾸거나 줄을 갈았을 때 무엇이 달라졌는지 비교할 수 있습니다. 보통 ±5센트 안쪽이면 그대로 두어도 됩니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>표준 튜닝 E₁ A₁ D₂ G₂는 전부 완전 4도(5반음)다. 왼손이 닿는 0–4프렛이 다음 줄 개방현으로 정확히 이어지기 때문이며, 그래서 지판 모양을 어느 줄로든 옮길 수 있다.</li>
+      <li>40 Hz는 1 kHz보다 약 50 dB 작게 느껴지고, 작은 스피커는 아예 재생하지 못한다. 그래도 음높이가 들리는 것은 <b>배음의 간격</b>에서 기본음을 복원하는 잃어버린 기본음 현상 덕분이다.</li>
+      <li>주파수가 다른 두 음은 초당 \(|f_1-f_2|\)번 맥놀이를 만든다. 작은 음정 차이를 <b>셀 수 있는 시간</b>으로 바꿔 주므로 귀 튜닝의 핵심 도구다.</li>
+      <li>5프렛 하모닉스(4배음)와 다음 줄 7프렛 하모닉스(3배음)는 거의 같은 음이다. 다만 이것은 순정 4도라 네 줄을 연달아 맞추면 약 6센트가 누적된다.</li>
+      <li>센트는 \(1200\log_2(f/f_{\text{ref}})\). 41 Hz는 한 주기가 24 ms라 안정된 측정에 50 ms 이상 걸린다 — 베이스 튜너가 느린 것은 정상이다.</li>
+      <li>드롭 D는 4번 줄만 2반음 내려 5도를 만들고, 반음 내림은 장력을 약 11% 떨어뜨린다. 5현은 아래로, 하이 C 5현은 위로 음역을 넓힌다.</li>
+      <li>줄을 누르면 장력이 올라 음이 높아진다. 새들을 뒤로 밀어 진동 길이를 늘리는 것이 <b>인토네이션</b> 조정이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>베이스를 4도로 조율하는 가장 실용적인 이유는?</p><div class="opts">
+        <button class="opt">4도가 가장 듣기 좋은 음정이라서</button>
+        <button class="opt" data-correct>손이 닿는 0–4프렛이 다음 줄 개방현으로 빈틈없이 이어져서</button>
+        <button class="opt">장력이 모든 줄에서 같아져서</button>
+        <button class="opt">하모닉스가 잘 나와서</button>
+      </div><div class="quiz-exp">한 손가락 한 프렛으로 짚을 수 있는 범위가 개방현 포함 다섯 음(0–4프렛)이다. 줄 간격이 5반음이면 그 끝이 다음 줄 개방현과 정확히 맞물려 겹침도 구멍도 생기지 않는다.</div></div>
+
+      <div class="quiz-q"><p>두 음이 각각 110.0 Hz와 110.8 Hz일 때 맥놀이는?</p><div class="opts">
+        <button class="opt">초당 0.4번</button><button class="opt" data-correct>초당 0.8번</button><button class="opt">초당 1.6번</button><button class="opt">초당 110.4번</button>
+      </div><div class="quiz-exp">맥놀이 주파수는 두 주파수의 차 \(|f_1-f_2|\)다. 포락선은 \(\tfrac{|f_1-f_2|}{2}\) Hz로 흔들리지만 세기의 최대는 반주기마다 오므로 들리는 맥놀이는 0.8회/초다.</div></div>
+
+      <div class="quiz-q"><p>휴대폰 스피커가 41 Hz를 전혀 내보내지 못하는데도 베이스의 음높이를 알아들을 수 있는 이유는?</p><div class="opts">
+        <button class="opt">이어폰이 보정해 주므로</button>
+        <button class="opt">41 Hz가 다른 주파수로 변환되므로</button>
+        <button class="opt" data-correct>남은 배음들이 41 Hz 간격으로 늘어서 있어 청각이 그 간격을 음높이로 읽으므로</button>
+        <button class="opt">비조화성 덕분에 기본음이 올라가므로</button>
+      </div><div class="quiz-exp">82.4·123.6·164.8 Hz만 남아도 간격이 모두 41.2 Hz다. 청각은 성분의 간격에서 가상 음높이를 만들어 내므로 기본음이 없어도 같은 음으로 들린다.</div></div>
+
+      <div class="quiz-q"><p>하모닉스만으로 네 줄을 연달아 맞추면 생기는 문제는?</p><div class="opts">
+        <button class="opt">맥놀이가 들리지 않아 맞출 수 없다</button>
+        <button class="opt" data-correct>순정 4도(498센트)를 쌓게 되어 평균율(500센트)과의 차이가 누적된다</button>
+        <button class="opt">하모닉스는 음높이가 없다</button>
+        <button class="opt">장력이 달라져 줄이 끊어진다</button>
+      </div><div class="quiz-exp">하모닉스는 정수배 배음이라 순정 4도(4:3)를 만든다. 평균율 4도는 그보다 2센트 넓어, 세 번 쌓으면 약 6센트가 어긋난다. 하모닉스로 대략 맞춘 뒤 줄마다 튜너로 확인하는 것이 안전하다.</div></div>
+
+      <div class="quiz-q"><p>12프렛을 누른 음이 12프렛 하모닉스보다 <b>높게</b> 나올 때 올바른 조치는?</p><div class="opts">
+        <button class="opt">새들을 넥 쪽(앞)으로 옮긴다</button>
+        <button class="opt" data-correct>새들을 브리지 쪽(뒤)으로 옮겨 진동 길이를 늘린다</button>
+        <button class="opt">트러스 로드를 조인다</button>
+        <button class="opt">줄을 한 단계 가는 것으로 바꾼다</button>
+      </div><div class="quiz-exp">누를 때 장력이 올라 음이 높아진 것이므로, 진동 길이 \(L\)을 늘려 \(f=\frac{1}{2L}\sqrt{T/\mu}\)를 다시 낮춘다. 새들을 뒤로 밀면 된다. 조정 후에는 개방현을 다시 튜닝하고 반복한다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 튜닝 사전 */
+(function () {
+  const KEYS = ["standard", "dropD", "halfDown", "five", "fiveHigh", "six", "piccolo"];
+  let cur = "standard", labels = "notes", timer = null;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#tun-tn-fb", { frets: 7, labels, tuning: cur, bass });
+  const list = document.getElementById("tun-tn-list");
+  list.innerHTML = KEYS.map((k) => {
+    const t = BS.TUNINGS[k];
+    return `<button data-k="${k}"${k === cur ? ' class="on"' : ""}><span>${t.name}<br><small>${t.notes.map((m) => MB.noteName(m)).join(" ")}</small></span><span class="hz">${MB.fmt(MB.mtof(t.notes[0]), 3)} Hz</span></button>`;
+  }).join("");
+  function stop() { if (timer) { clearInterval(timer); timer = null; } bass.stop(); }
+  function show(k) {
+    cur = k; stop();
+    bass.tuning = k; fb.setTuning(k);
+    const t = BS.TUNINGS[k].notes;
+    const ivs = t.slice(1).map((m, i) => MB.intervalName(m - t[i]));
+    MB.stat("tun-tn-iv", [...new Set(ivs)].join(" · "));
+    MB.stat("tun-tn-range", MB.noteName(t[0]) + " – " + MB.noteName(t[t.length - 1] + 20) + " (20프렛)");
+    list.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.k === k));
+  }
+  list.addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (!b) return; MB.ctx(); show(b.dataset.k); });
+  MB.seg("tun-tn-lab", (v) => { labels = v; fb.setLabels(v, BS.TUNINGS[cur].notes[0] % 12); });
+  document.getElementById("tun-tn-open").addEventListener("click", () => {
+    MB.ctx(); stop();
+    const t = BS.TUNINGS[cur].notes; let i = 0;
+    const step = () => { if (i >= t.length) { stop(); return; } bass.pluck(i, 0, { ring: 3 }); fb.flash(i, 0); i++; };
+    step(); timer = setInterval(step, 780);
+  });
+  document.getElementById("tun-tn-riff").addEventListener("click", () => {
+    MB.ctx(); stop();
+    const pat = [[0, 0], [0, 3], [0, 5], [0, 3], [0, 0], [1, 2], [0, 5], [0, 0]];
+    let i = 0;
+    const step = () => {
+      if (i >= pat.length) { stop(); return; }
+      const [s, f] = pat[i]; bass.pluck(s, f, { dur: 0.42 }); fb.flash(s, f); i++;
+    };
+    step(); timer = setInterval(step, 300);
+  });
+  document.getElementById("tun-tn-stop").addEventListener("click", stop);
+  show("standard");
+})();
+
+/* ------------------------------------------------------------ 2. 잃어버린 기본음 */
+(function () {
+  let f0m = 28, hp = 20, onlyF0 = false, voice = null;
+  const N = 12;
+  const amp = (n) => 0.8 / n;
+  // 1차 고역 통과의 크기 응답
+  const gainAt = (f) => (hp <= 20 ? 1 : f / Math.sqrt(f * f + hp * hp));
+  function parts() {
+    const f0 = MB.mtof(f0m), out = [];
+    for (let n = 1; n <= N; n++) {
+      const f = n * f0;
+      let g = amp(n) * gainAt(f);
+      if (onlyF0 && n === 1) g = 0;
+      out.push({ n, f, g });
+    }
+    return out;
+  }
+  function draw(ctx, w, h) {
+    const ps = parts(), P = MB.palette();
+    const c = MB.chart(ctx, null, { x: [20, 1200], y: [0, 0.9], logX: true, xLabel: "주파수 (Hz)", yLabel: "세기",
+      yTicks: 0, xFmt: (v) => (v >= 1000 ? (v / 1000).toFixed(1) + "k" : Math.round(v)),
+      series: [{ data: Array.from({ length: 120 }, (_, i) => { const f = 20 * Math.pow(60, i / 119); return [f, 0.9 * gainAt(f)]; }), color: P.faint, width: 1.5, dash: [5, 4] }] });
+    ps.forEach((p) => {
+      const x = c.X(p.f), y0 = c.Y(0), y1 = c.Y(p.g);
+      ctx.strokeStyle = p.g < 0.02 ? P.faint : (p.n === 1 ? P.accent2 : P.accent);
+      ctx.lineWidth = p.n === 1 ? 4 : 3;
+      ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke();
+    });
+    ctx.fillStyle = P.dim; ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
+    ctx.fillText("점선 = 고역 통과 필터 응답 · 청록 막대 = 기본음", c.box.x + 8, c.box.y + 14);
+  }
+  const view = MB.canvas("#tun-ms-cv", draw, { aspect: 0.42 });
+  function update() {
+    const ps = parts();
+    document.getElementById("tun-ms-f-out").textContent = MB.noteName(f0m) + " · " + MB.fmt(MB.mtof(f0m), 4) + " Hz";
+    document.getElementById("tun-ms-hp-out").textContent = hp <= 20 ? "끔" : hp + " Hz";
+    const alive = ps.filter((p) => p.g > 0.02);
+    MB.stat("tun-ms-note", MB.noteName(f0m) + " (" + MB.fmt(MB.mtof(f0m), 4) + " Hz)");
+    MB.stat("tun-ms-lowest", alive.length ? MB.fmt(alive[0].f, 4) + " Hz (" + alive[0].n + "배음)" : "없음");
+    MB.stat("tun-ms-count", alive.length + " / " + N);
+    view.redraw();
+    if (voice) retune();
+  }
+  function retune() {
+    if (!voice) return;
+    const ps = parts();
+    voice.set({ freq: MB.mtof(f0m), amps: ps.map((p) => p.g), gain: 0.28 });
+  }
+  function start() {
+    MB.ctx(); if (voice) voice.stop();
+    const ps = parts();
+    voice = MB.drone({ freq: MB.mtof(f0m), amps: ps.map((p) => p.g), gain: 0.28 });
+  }
+  function stop() { if (voice) { voice.stop(); voice = null; } }
+  MB.range("tun-ms-f", null, (v) => { f0m = Math.round(v); update(); });
+  const hpR = MB.range("tun-ms-hp", null, (v) => { hp = Math.round(v); update(); });
+  MB.seg("tun-ms-pre", (v) => { hpR.set(+v); });
+  MB.check("tun-ms-only", (v) => { onlyF0 = v; update(); });
+  document.getElementById("tun-ms-play").addEventListener("click", start);
+  document.getElementById("tun-ms-stop").addEventListener("click", stop);
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 맥놀이 */
+(function () {
+  // [기준 줄 s, 기준 프렛(하모닉 배수), 맞출 줄 s, 배수]
+  const PAIRS = [
+    { a: 0, am: 4, b: 1, bm: 3, label: "4번 E 5프렛 ↔ 3번 A 7프렛", sub: "4배음 164.8 ↔ 3배음 165.0 Hz" },
+    { a: 1, am: 4, b: 2, bm: 3, label: "3번 A 5프렛 ↔ 2번 D 7프렛", sub: "4배음 220.0 ↔ 3배음 220.0 Hz" },
+    { a: 2, am: 4, b: 3, bm: 3, label: "2번 D 5프렛 ↔ 1번 G 7프렛", sub: "4배음 293.7 ↔ 3배음 294.0 Hz" },
+  ];
+  let pi = 0, det = 18, harm = true, nodes = null, auto = null;
+  const box = document.getElementById("tun-bt-pairs");
+  box.innerHTML = PAIRS.map((p, i) => `<button data-i="${i}"${i ? "" : ' class="on"'}>${p.label}<small>${p.sub}</small></button>`).join("");
+  const T = BS.STANDARD;
+  function freqs() {
+    const p = PAIRS[pi];
+    const fa = MB.mtof(T[p.a]) * (harm ? p.am : 1);
+    const fb = MB.mtof(T[p.b]) * (harm ? p.bm : 1) * Math.pow(2, det / 1200);
+    return [fa, fb];
+  }
+  function draw(ctx, w, h) {
+    const [fa, fb] = freqs(), P = MB.palette();
+    const beat = Math.abs(fa - fb);
+    const span = beat > 0.05 ? Math.min(6, 2.4 / beat) : 6; // 초
+    const n = 900, data = [], env = [], env2 = [];
+    for (let i = 0; i < n; i++) {
+      const t = (i / (n - 1)) * span;
+      data.push([t, Math.sin(2 * Math.PI * fa * t) + Math.sin(2 * Math.PI * fb * t)]);
+      const e = 2 * Math.abs(Math.cos(Math.PI * (fa - fb) * t));
+      env.push([t, e]); env2.push([t, -e]);
+    }
+    MB.chart(ctx, null, { x: [0, span], y: [-2.2, 2.2], xLabel: "시간 (초)", yLabel: "", yTicks: 0,
+      xFmt: (v) => v.toFixed(1),
+      series: [
+        { data: env, color: P.accent2, width: 1.6 }, { data: env2, color: P.accent2, width: 1.6 },
+        { data, color: P.accent, width: 1 },
+      ] });
+  }
+  const view = MB.canvas("#tun-bt-cv", draw, { aspect: 0.36 });
+  function update() {
+    const [fa, fb] = freqs(), beat = Math.abs(fa - fb);
+    document.getElementById("tun-bt-det-out").textContent = MB.signed(det, 0) + " 센트";
+    MB.stat("tun-bt-f", MB.fmt(fa, 5) + " Hz vs " + MB.fmt(fb, 5) + " Hz");
+    MB.stat("tun-bt-rate", beat < 0.02 ? "없음 (맞음)" : MB.fmt(beat, 2) + " 회/초 · " + MB.fmt(1 / beat, 2) + "초에 한 번");
+    MB.stat("tun-bt-cents", MB.signed(det, 1) + " 센트");
+    view.redraw();
+    if (nodes) { nodes.a.frequency.setTargetAtTime(fa, MB.now(), 0.02); nodes.b.frequency.setTargetAtTime(fb, MB.now(), 0.02); }
+  }
+  function stop() { if (auto) { clearInterval(auto); auto = null; } if (nodes) { nodes.g.gain.setTargetAtTime(0, MB.now(), 0.05); const nn = nodes; nodes = null; setTimeout(() => { try { nn.a.stop(); nn.b.stop(); } catch (e) {} }, 400); } }
+  document.getElementById("tun-bt-play").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return;
+    if (nodes) { stop(); return; }
+    const [fa, fb] = freqs();
+    const g = ctx.createGain(); g.gain.value = 0.0001; g.connect(MB.out);
+    g.gain.setTargetAtTime(0.2, ctx.currentTime, 0.05);
+    const mk = (f) => { const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = f; o.connect(g); o.start(); return o; };
+    nodes = { a: mk(fa), b: mk(fb), g };
+  });
+  document.getElementById("tun-bt-auto").addEventListener("click", () => {
+    if (auto) { clearInterval(auto); auto = null; return; }
+    auto = setInterval(() => {
+      if (Math.abs(det) < 0.6) { clearInterval(auto); auto = null; detR.set(0); return; }
+      detR.set(det - Math.sign(det) * Math.max(0.5, Math.abs(det) * 0.12));
+    }, 180);
+  });
+  document.getElementById("tun-bt-stop").addEventListener("click", stop);
+  const detR = MB.range("tun-bt-det", null, (v) => { det = v; update(); });
+  MB.check("tun-bt-harm", (v) => { harm = v; update(); });
+  box.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    pi = +b.dataset.i; box.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); update();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 마이크 튜너 */
+(function () {
+  let tuning = "standard", a4 = 440, mic = null, raf = 0, buf = null, test = null;
+  const dial = document.getElementById("tun-tu-dial");
+  const noteEl = document.getElementById("tun-tu-note"), subEl = document.getElementById("tun-tu-sub");
+  function targets() { return BS.TUNINGS[tuning].notes; }
+  function drawDial(cents, ok) {
+    const a = MB.clamp(cents / 50, -1, 1) * 60; // ±60°
+    const col = ok ? "var(--ok)" : Math.abs(cents) < 15 ? "var(--warn)" : "var(--bad)";
+    const ticks = [-50, -25, 0, 25, 50].map((c) => {
+      const r = (c / 50) * 60 * Math.PI / 180;
+      const x1 = 110 + 72 * Math.sin(r), y1 = 100 - 72 * Math.cos(r), x2 = 110 + 84 * Math.sin(r), y2 = 100 - 84 * Math.cos(r);
+      return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="var(--text-faint)" stroke-width="${c === 0 ? 2.5 : 1.3}"/>`
+        + `<text x="${(110 + 96 * Math.sin(r)).toFixed(1)}" y="${(104 - 96 * Math.cos(r)).toFixed(1)}" text-anchor="middle" class="t-dim" style="font-size:10px">${c > 0 ? "+" + c : c}</text>`;
+    }).join("");
+    dial.innerHTML = `<svg viewBox="0 0 220 120" role="img" aria-label="튜너 바늘">
+      <path d="M38 100 A74 74 0 0 1 182 100" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M86 44 A74 74 0 0 1 134 44" fill="none" stroke="var(--ok)" stroke-width="4" opacity=".5"/>
+      ${ticks}
+      <g transform="rotate(${a.toFixed(1)} 110 100)"><line x1="110" y1="100" x2="110" y2="26" stroke="${col}" stroke-width="3.5" stroke-linecap="round"/></g>
+      <circle cx="110" cy="100" r="5" fill="${col}"/></svg>`;
+  }
+  function show(f, rms) {
+    if (!f) { noteEl.firstChild.textContent = "—"; subEl.textContent = "소리를 기다리는 중…"; drawDial(0, false); MB.stat("tun-tu-f", "—"); return; }
+    const ts = targets();
+    let best = ts[0], bc = 1e9;
+    ts.forEach((m) => { const c = Math.abs(MB.cents(f / (MB.mtof(m) * a4 / 440))); if (c < bc) { bc = c; best = m; } });
+    const cents = MB.cents(f / (MB.mtof(best) * a4 / 440));
+    const ok = Math.abs(cents) < 3;
+    noteEl.firstChild.textContent = MB.noteName(best);
+    subEl.textContent = ok ? "맞았습니다" : (cents > 0 ? "높습니다 — 줄을 푸세요" : "낮습니다 — 줄을 조이세요");
+    drawDial(cents, ok);
+    MB.stat("tun-tu-f", MB.fmt(f, 5) + " Hz");
+    MB.stat("tun-tu-near", MB.noteName(best) + " · " + MB.signed(cents, 1) + " 센트");
+    MB.stat("tun-tu-rms", rms != null ? MB.fmt(20 * Math.log10(Math.max(rms, 1e-6)), 3) + " dB" : "—");
+  }
+  function tick() {
+    raf = requestAnimationFrame(tick);
+    if (!mic) return;
+    const an = mic.analyser;
+    if (!buf || buf.length !== an.fftSize) buf = new Float32Array(an.fftSize);
+    an.getFloatTimeDomainData(buf);
+    const r = BS.detectPitch(buf, an.context.sampleRate, { fmin: 28, fmax: 420 });
+    if (r && r.clarity > 0.75) show(r.freq, r.rms);
+    else if (r) MB.stat("tun-tu-rms", MB.fmt(20 * Math.log10(Math.max(r.rms, 1e-6)), 3) + " dB");
+  }
+  document.getElementById("tun-tu-mic").addEventListener("click", async function () {
+    this.disabled = true; subEl.textContent = "마이크 권한을 기다리는 중…";
+    try {
+      mic = await MB.mic();
+      mic.analyser.fftSize = 8192;
+      subEl.textContent = "한 줄씩 뜯어 보세요";
+      if (!raf) tick();
+    } catch (e) { subEl.textContent = "마이크를 쓸 수 없습니다"; }
+    this.disabled = false;
+  });
+  document.getElementById("tun-tu-off").addEventListener("click", () => {
+    if (mic) { mic.stop(); mic = null; }
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    if (test) { test.release(); test = null; }
+    show(null);
+  });
+  MB.seg("tun-tu-tun", (v) => { tuning = v; buildTest(); show(null); });
+  MB.range("tun-tu-a4", (v) => v + " Hz", (v) => { a4 = v; });
+  const testBox = document.getElementById("tun-tu-test");
+  function buildTest() {
+    testBox.innerHTML = targets().map((m, s) => `<button data-s="${s}">${MB.noteName(m)}<small>살짝 어긋난 소리</small></button>`).reverse().join("");
+  }
+  testBox.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-s]"); if (!b) return;
+    MB.ctx();
+    const m = targets()[+b.dataset.s];
+    const off = (Math.random() * 2 - 1) * 28;
+    const f = MB.mtof(m) * Math.pow(2, off / 1200) * a4 / 440;
+    MB.play({ freq: f }, { inst: "ebass", dur: 2.2, bs: { tone: "finger" } });
+    show(f, 0.08);
+  });
+  buildTest(); show(null);
+})();
+
+/* ------------------------------------------------------------ 5. 대체 튜닝 */
+(function () {
+  const MU = { 105: 0.03870 };
+  const FIGS = {
+    riff: { name: "0–3–5 리프", notes: [[0, 0], [0, 3], [0, 5], [0, 3]] },
+    pow: { name: "근음+5도", notes: [[0, 3], [1, 5]] },
+    oct: { name: "근음+옥타브", notes: [[0, 3], [2, 5]] },
+  };
+  let tuning = "standard", fig = "riff", sched = null;
+  const bass = BS.bass({ tone: "finger", tuning });
+  const fb = BS.fretboard("#tun-al-fb", { frets: 7, labels: "notes", tuning, bass });
+  const tab = BS.tab("#tun-al-tab", [], { beatsPerBar: 4, tuning });
+  function build() {
+    const F = FIGS[fig], t = BS.tuningNotes(tuning);
+    const notes = F.notes.map(([s, f], i) => ({ t: i * (fig === "riff" ? 1 : 2), d: fig === "riff" ? 1 : 2, s: Math.min(s, t.length - 1), f }));
+    tab.setNotes(notes);
+    MB.stat("tun-al-notes", notes.map((n) => MB.noteName(t[n.s] + n.f)).join(" – "));
+    const f0 = MB.mtof(t[0]);
+    const T = MU[105] * Math.pow(2 * 0.864 * f0, 2);
+    MB.stat("tun-al-ten", (T / 9.80665).toFixed(1) + " kgf · " + MB.noteName(t[0]));
+    return notes;
+  }
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); }
+  MB.seg("tun-al-tun", (v) => { stop(); tuning = v; bass.tuning = v; fb.setTuning(v); build(); });
+  MB.seg("tun-al-fig", (v) => { stop(); fig = v; build(); });
+  document.getElementById("tun-al-play").addEventListener("click", () => {
+    MB.ctx(); if (sched) { stop(); return; }
+    sched = BS.playTab(build(), { bpm: 84, bass, tab, loop: true, onStop: () => { sched = null; } });
+    sched.start();
+  });
+  document.getElementById("tun-al-stop").addEventListener("click", stop);
+  build();
+})();
+</script>
+</body>
+</html>
