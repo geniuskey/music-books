@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>TAB과 낮은음자리표 · BassBook</title>
+<meta name="description" content="베이스 TAB의 문법과 기법 기호, 낮은음자리표의 줄과 칸, 베이스 악보를 실음보다 한 옥타브 위에 적는 관례, 음표 길이와 쉼표·붙임줄·점음표, 그리고 TAB과 보표를 함께 읽는 법.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .rd-edit { padding: 10px 12px; }
+  .rd-edit textarea { width: 100%; box-sizing: border-box; min-height: 118px; font: 13px/1.5 var(--mono); padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--canvas-bg); color: var(--text); resize: vertical; white-space: pre; overflow-x: auto; }
+  .rd-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rd-presets button { font: inherit; font-size: 13px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+  .rd-presets button.on, .rd-presets button:hover { border-color: var(--accent); color: var(--accent); }
+  .rd-legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 6px; font-size: 13px; }
+  .rd-legend div { padding: 6px 10px; border-radius: 8px; background: var(--surface); }
+  .rd-legend b { font-family: var(--mono); color: var(--accent); }
+  .rd-vals { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 8px; }
+  .rd-vals button { font: inherit; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.35; }
+  .rd-vals button em { display: block; font-style: normal; }
+  .nv { width: 22px; height: 31px; vertical-align: middle; color: var(--text); }
+  .rd-vals button small { display: block; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .rd-vals button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .rd-opts { display: grid; gap: 8px; }
+  .rd-opts > button { font: inherit; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .rd-opts > button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .rd-opts > button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .rd-opts .bs-staff { pointer-events: none; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="reading">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>TAB과 낮은음자리표</h1>
+    <p class="lead">베이스 연주자는 두 가지 글자를 읽습니다. <b>TAB</b>은 "어디를 짚을지"를 말해 주고, <b>낮은음자리표</b>는 "어떤 음인지"를 말해 줍니다. 둘은 경쟁 관계가 아니라 서로의 빈칸을 메웁니다. TAB은 리듬을 잘 못 적고, 보표는 어느 자리를 짚을지 말해 주지 않습니다. 이 장에서는 두 표기를 모두 읽고, 직접 써 보고, 들은 리듬을 받아 적는 데까지 갑니다.</p>
+    <ul class="objectives">
+      <li>TAB의 줄 배치와 숫자의 뜻, 기법 기호(h p / \ x T P)를 읽는다.</li>
+      <li>낮은음자리표의 줄과 칸, 덧줄을 읽고 지판에서 그 자리를 찾는다.</li>
+      <li>베이스 악보를 <b>실음보다 한 옥타브 위</b>에 적는 관례와 그 이유를 안다.</li>
+      <li>온음표부터 16분음표까지의 길이, 쉼표, 붙임줄, 점음표를 센다.</li>
+      <li>들은 리듬을 악보에서 골라낸다.</li>
+      <li>TAB·보표·스텝 격자가 같은 음악을 어떻게 다르게 적는지 비교한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="tab">
+    <h2>TAB 읽기</h2>
+    <p>TAB<span class="en">(Tablature)</span>은 줄 하나에 가로줄 하나를 그리고, 그 위에 <b>누를 프렛 번호</b>를 적는 표기입니다. 4현 베이스는 네 줄입니다. 중요한 규칙은 <b>가장 가는 줄이 맨 위</b>라는 것입니다. 악기를 연주 자세로 들고 내려다볼 때 보이는 순서와 같습니다.</p>
+    <div class="formula">
+      $$\begin{aligned}
+      \texttt{G|}&\texttt{---------} &&\leftarrow \text{1번 줄(가장 가는)}\\
+      \texttt{D|}&\texttt{---------}\\
+      \texttt{A|}&\texttt{--5--7---}\\
+      \texttt{E|}&\texttt{--------} &&\leftarrow \text{4번 줄(가장 굵은)}
+      \end{aligned}$$
+      <div class="where">숫자 <b>0</b>은 개방현, <b>5</b>는 5프렛을 뜻합니다. 가로 위치가 시간이고, 같은 세로줄에 있는 숫자는 동시에 울립니다.</div>
+    </div>
+    <p>TAB의 약점은 <b>리듬</b>입니다. 칸 간격만으로는 음표 길이를 정확히 적을 수 없어서, 보통 아래에 음표 기둥을 덧붙이거나(요즘 악보 프로그램의 방식) 보표와 나란히 놓습니다. 이 책의 TAB 위젯도 음표 기둥을 함께 그립니다.</p>
+    <div class="rd-legend" style="margin:14px 0">
+      <div><b>h</b> 해머온</div><div><b>p</b> 풀오프</div><div><b>/</b> 올려 슬라이드</div><div><b>\</b> 내려 슬라이드</div>
+      <div><b>x</b> 데드 노트</div><div><b>T</b> 슬랩(엄지)</div><div><b>P</b> 팝(검지로 당김)</div><div><b>~</b> 비브라토</div>
+    </div>
+
+    <div class="sim" id="sim-rd-tab">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>TAB 쓰고 바로 듣기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><div id="rd-tb-tab"></div><div id="rd-tb-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>예제</span><div class="rd-presets" id="rd-tb-pre"></div></div>
+          <div class="rd-edit"><textarea id="rd-tb-txt" spellcheck="false" aria-label="ASCII TAB 입력"></textarea></div>
+          <label class="ctrl"><span>템포 <output id="rd-tb-bpm-out"></output></span><input type="range" id="rd-tb-bpm" min="50" max="180" step="1" value="92"></label>
+          <div class="ctrl"><span>한 칸의 길이</span><div class="seg" id="rd-tb-step"><button data-value="1">4분음</button><button data-value="0.5" class="on">8분음</button><button data-value="0.25">16분음</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="rd-tb-play">▶ 재생</button><button class="btn" id="rd-tb-loop">↻ 반복</button><button class="btn" id="rd-tb-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음표 수</span><span class="v" id="rd-tb-n">—</span></div>
+        <div class="stat"><span class="k">길이</span><span class="v" id="rd-tb-len">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="rd-tb-range">—</span></div>
+      </div>
+      <div class="sim-note">텍스트를 고치면 바로 악보가 다시 그려집니다. 줄은 위에서부터 G D A E 순서이고, 한 칸이 위에서 고른 길이입니다 · 기법 문자는 숫자 <b>앞</b>에(h p / \), 슬랩·팝은 숫자 <b>뒤</b>에(T P) 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="staff">
+    <h2>낮은음자리표</h2>
+    <p>베이스는 <b>낮은음자리표</b><span class="en">(Bass clef, F clef)</span>를 씁니다. 기호의 두 점이 감싸는 줄이 <b>F₃</b>(아래에서 넷째 줄)이라는 뜻입니다. 다섯 줄과 네 칸에 놓이는 음은 아래에서부터 이렇게 읽습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>아래 → 위</th><th>외우는 말</th></tr></thead>
+        <tbody>
+          <tr><td>줄 위의 음</td><td>G₂ B₂ D₃ F₃ A₃</td><td>"<b>G</b>리고 <b>B</b>로 <b>D</b>려가 <b>F</b>를 <b>A</b>자"처럼 자기만의 문장을 만들면 된다</td></tr>
+          <tr><td>칸 안의 음</td><td>A₂ C₃ E₃ G₃</td><td>A-C-E-G</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>한 옥타브 위에 적는다</h3>
+    <p>여기서 베이스 초보자가 가장 많이 혼동하는 지점이 나옵니다. <b>베이스 악보는 실제 소리보다 한 옥타브 높게 적습니다.</b> 악보에 가장 아래 줄 G가 적혀 있으면 실제로 울리는 소리는 G₁(49 Hz)이고, 악보 기준으로는 G₂입니다. 이런 악기를 <b>옥타브 이조 악기</b>라고 하며, 기타(높은음자리표에서 한 옥타브 아래로 소리남)도 같은 관례를 따릅니다.</p>
+    <p>왜 그럴까요? 실음 그대로 적으면 베이스의 음 대부분이 오선 아래 <b>덧줄</b>에 걸려 읽기가 극도로 어려워집니다. 개방현 E₁은 낮은음자리표 아래 덧줄 다섯 개 자리입니다. 한 옥타브 올려 적으면 대부분의 음이 오선 안이나 덧줄 한두 개 안에 들어옵니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 760 230" role="img" aria-label="실음 표기와 옥타브 위 표기 비교">
+        <g transform="translate(40,30)">
+          <text x="0" y="-8" class="t">실음 그대로 적으면</text>
+          <g class="s-line" stroke-width="1.2"><line x1="0" y1="40" x2="290" y2="40"/><line x1="0" y1="50" x2="290" y2="50"/><line x1="0" y1="60" x2="290" y2="60"/><line x1="0" y1="70" x2="290" y2="70"/><line x1="0" y1="80" x2="290" y2="80"/></g>
+          <text x="6" y="72" style="font:28px serif" fill="var(--text)">𝄢</text>
+          <g class="s-line"><line x1="70" y1="90" x2="92" y2="90"/><line x1="70" y1="100" x2="92" y2="100"/><line x1="70" y1="110" x2="92" y2="110"/><line x1="70" y1="120" x2="92" y2="120"/><line x1="70" y1="130" x2="92" y2="130"/></g>
+          <ellipse cx="81" cy="130" rx="6" ry="4.4" transform="rotate(-20 81 130)" fill="var(--bad)"/>
+          <text x="81" y="156" text-anchor="middle" class="t-mono" style="font-size:11px">E₁ 개방현</text>
+          <g class="s-line"><line x1="150" y1="90" x2="172" y2="90"/><line x1="150" y1="100" x2="172" y2="100"/><line x1="150" y1="110" x2="172" y2="110"/></g>
+          <ellipse cx="161" cy="110" rx="6" ry="4.4" transform="rotate(-20 161 110)" fill="var(--bad)"/>
+          <text x="161" y="136" text-anchor="middle" class="t-mono" style="font-size:11px">A₁</text>
+          <g class="s-line"><line x1="230" y1="90" x2="252" y2="90"/></g>
+          <ellipse cx="241" cy="90" rx="6" ry="4.4" transform="rotate(-20 241 90)" fill="var(--bad)"/>
+          <text x="241" y="116" text-anchor="middle" class="t-mono" style="font-size:11px">D₂</text>
+          <text x="145" y="186" text-anchor="middle" class="t-dim" style="font-size:12px">덧줄 투성이 — 읽기 어렵다</text>
+        </g>
+        <g transform="translate(420,30)">
+          <text x="0" y="-8" class="t">한 옥타브 위에 적으면 (관례)</text>
+          <g class="s-line" stroke-width="1.2"><line x1="0" y1="40" x2="290" y2="40"/><line x1="0" y1="50" x2="290" y2="50"/><line x1="0" y1="60" x2="290" y2="60"/><line x1="0" y1="70" x2="290" y2="70"/><line x1="0" y1="80" x2="290" y2="80"/></g>
+          <text x="6" y="72" style="font:28px serif" fill="var(--text)">𝄢</text>
+          <g class="s-line"><line x1="70" y1="90" x2="92" y2="90"/></g>
+          <ellipse cx="81" cy="90" rx="6" ry="4.4" transform="rotate(-20 81 90)" fill="var(--accent)"/>
+          <text x="81" y="116" text-anchor="middle" class="t-mono" style="font-size:11px">E (들리는 음 E₁)</text>
+          <ellipse cx="161" cy="75" rx="6" ry="4.4" transform="rotate(-20 161 75)" fill="var(--accent)"/>
+          <text x="161" y="104" text-anchor="middle" class="t-mono" style="font-size:11px">A</text>
+          <ellipse cx="241" cy="60" rx="6" ry="4.4" transform="rotate(-20 241 60)" fill="var(--accent)"/>
+          <text x="241" y="104" text-anchor="middle" class="t-mono" style="font-size:11px">D</text>
+          <text x="145" y="186" text-anchor="middle" class="t-dim" style="font-size:12px">대부분 오선 안 — 읽기 쉽다</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 5-1.</b> 베이스 악보는 실음보다 한 옥타브 높게 적는다. 실음 표기는 덧줄이 너무 많아 실용적이지 않기 때문이다. 이 책의 보표 위젯도 같은 관례를 따른다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-rd-staff">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>보표에서 지판으로</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-st-staff"></div><div id="rd-st-fb"></div><div class="sim-msg" id="rd-st-msg">시작을 누르면 보표에 음이 하나 나타납니다. 지판에서 그 음을 찾아 누르세요.</div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>표기</span><div class="seg" id="rd-st-oct"><button data-value="written" class="on">관례(옥타브 위)</button><button data-value="concert">실음 그대로</button></div></div>
+          <label class="ctrl"><span>음역 <output id="rd-st-rng-out"></output></span><input type="range" id="rd-st-rng" min="0" max="2" step="1" value="0"></label>
+          <label class="check"><input type="checkbox" id="rd-st-nat" checked> 자연음만</label>
+          <div class="btn-row"><button class="btn primary" id="rd-st-go">▶ 시작</button><button class="btn" id="rd-st-next">다음 →</button><button class="btn" id="rd-st-hear">▶ 들어 보기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="rd-st-score">0 / 0</span></div>
+        <div class="stat"><span class="k">악보의 음</span><span class="v" id="rd-st-written">—</span></div>
+        <div class="stat"><span class="k">실제로 울리는 음</span><span class="v" id="rd-st-sound">—</span></div>
+      </div>
+      <div class="sim-note">"실음 그대로"로 바꾸면 같은 음이 덧줄 아래로 내려갑니다. 왜 관례가 생겼는지 바로 보입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="rhythm">
+    <h2>음표 길이와 쉼표</h2>
+    <p>음표의 길이는 <b>박</b>으로 셉니다. 4/4박자에서 4분음표가 한 박이고, 나머지는 모두 그 배수나 약수입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>음표</th><th>이름</th><th>박</th><th>쉼표</th><th>4/4 한 마디에</th></tr></thead>
+        <tbody>
+          <tr><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></td><td>온음표</td><td>4</td><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><line x1="3" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1"/><rect x="8" y="15" width="10" height="5" fill="currentColor"/></svg></td><td>1개</td></tr>
+          <tr><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/></svg></td><td>2분음표</td><td>2</td><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><line x1="3" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1"/><rect x="8" y="10" width="10" height="5" fill="currentColor"/></svg></td><td>2개</td></tr>
+          <tr><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/></svg></td><td>4분음표</td><td>1</td><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><path d="M8 8L15 15L7.6 21.5L15.4 28.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td>4개</td></tr>
+          <tr><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 5.0 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></td><td>8분음표</td><td>1/2</td><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><path d="M16 11 L7 27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14.4" cy="11" r="2" fill="currentColor"/><path d="M15.9 10.2 q2.8 -0.7 3.2 2.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></td><td>8개</td></tr>
+          <tr><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 5.0 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 10.5 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></td><td>16분음표</td><td>1/4</td><td><svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><path d="M16 8 L7 27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14.4" cy="8" r="2" fill="currentColor"/><path d="M15.9 7.2 q2.8 -0.7 3.2 2.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="14.4" cy="14" r="2" fill="currentColor"/><path d="M15.9 13.2 q2.8 -0.7 3.2 2.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></td><td>16개</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>점</b>은 원래 길이의 절반을 더합니다. 점4분음표는 1 + 0.5 = 1.5박입니다. <b>붙임줄</b><span class="en">(Tie)</span>은 같은 음높이의 두 음표를 이어 하나로 만듭니다. 마디선을 넘어 음을 끌 때는 붙임줄 말고는 방법이 없습니다.</p>
+    <div class="callout tip">
+      <p><b>연습법 · 베이스에서 쉼표가 더 중요한 이유.</b> 기타나 건반은 손을 떼면 소리가 비교적 빨리 사라지지만, 베이스는 서스테인이 길어 <b>적극적으로 꺼야</b> 쉼표가 들립니다(<a href="hands.html">3장</a>). 악보에 쉼표가 보이면 "아무것도 하지 않는다"가 아니라 "<b>끄는 동작을 한다</b>"로 읽으세요. 악보를 소리 내어 읽을 때 쉼표에서 "쉿"이라고 말해 보면 몸에 익습니다.</p>
+    </div>
+
+    <div class="sim" id="sim-rd-rhythm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>리듬 받아 적기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="rd-opts" id="rd-rh-opts"></div>
+          <div class="sim-msg" id="rd-rh-msg">문제를 들은 뒤 같은 리듬을 고르세요.</div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>난이도</span><div class="seg" id="rd-rh-lvl"><button data-value="1" class="on">4분·8분</button><button data-value="2">점음표·쉼표</button><button data-value="3">16분음표</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-rh-bpm-out"></output></span><input type="range" id="rd-rh-bpm" min="50" max="120" step="1" value="76"></label>
+          <label class="check"><input type="checkbox" id="rd-rh-click" checked> 메트로놈 함께</label>
+          <div class="btn-row"><button class="btn primary" id="rd-rh-go">▶ 새 문제</button><button class="btn" id="rd-rh-again">↻ 다시 듣기</button></div>
+          <div class="ctrl"><span>음표 길이 사전</span><div class="rd-vals" id="rd-rh-vals"></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="rd-rh-score">0 / 0</span></div>
+      </div>
+      <div class="sim-note">보기는 모두 한 마디(4/4)입니다. 음높이는 모두 같으니 <b>길이와 쉼</b>만 들으세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="both">
+    <h2>세 가지 표기, 같은 음악</h2>
+    <p>같은 베이스라인을 TAB·보표·스텝 격자로 나란히 놓으면 각 표기가 무엇을 잘하고 무엇을 못하는지 한눈에 보입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>표기</th><th>잘 보여 주는 것</th><th>못 보여 주는 것</th><th>주로 쓰는 곳</th></tr></thead>
+        <tbody>
+          <tr><td>TAB</td><td>어느 줄 어느 프렛 · 기법</td><td>음 이름 · 정확한 리듬</td><td>인터넷 악보, 리프 공유</td></tr>
+          <tr><td>낮은음자리표</td><td>음 이름 · 리듬 · 화성</td><td>어느 자리를 짚을지</td><td>세션, 합주, 작곡</td></tr>
+          <tr><td>스텝 격자</td><td>박 안에서의 위치 · 드럼과의 관계</td><td>음높이 · 음 길이</td><td>그루브 설계, 시퀀서</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sim" id="sim-rd-both">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 라인을 세 가지로</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="rd-bt-staff"></div><div id="rd-bt-tab"></div><div class="bs-steps" id="rd-bt-steps" style="--n:16;padding:8px 12px"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>라인</span><div class="seg" id="rd-bt-line"><button data-value="root8" class="on">8분음 근음</button><button data-value="rootFifth">근음–5도</button><button data-value="octave">옥타브</button><button data-value="walk">워킹</button></div></div>
+          <label class="ctrl"><span>템포 <output id="rd-bt-bpm-out"></output></span><input type="range" id="rd-bt-bpm" min="60" max="160" step="1" value="92"></label>
+          <label class="check"><input type="checkbox" id="rd-bt-drum" checked> 드럼과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="rd-bt-play">▶ 재생</button><button class="btn" id="rd-bt-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드 진행</span><span class="v">C | Am | F | G</span></div>
+        <div class="stat"><span class="k">현재 음</span><span class="v" id="rd-bt-now">—</span></div>
+      </div>
+      <div class="sim-note">스텝 격자는 첫 마디(16칸 = 16분음)만 보여 줍니다. 세 표기가 동시에 움직이는 것을 보세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>TAB은 줄마다 가로줄 하나, 숫자는 프렛 번호. <b>맨 위가 가장 가는 줄</b>이다. 기법은 h(해머온) p(풀오프) / \(슬라이드) x(데드) T(슬랩) P(팝).</li>
+      <li>TAB은 리듬을 정확히 적지 못한다. 음표 기둥을 덧붙이거나 보표와 나란히 놓아야 완전해진다.</li>
+      <li>낮은음자리표의 줄은 아래부터 G B D F A, 칸은 A C E G다. 기호의 두 점이 감싸는 줄이 F다.</li>
+      <li><b>베이스 악보는 실음보다 한 옥타브 높게 적는다.</b> 실음 표기는 덧줄이 너무 많아 읽을 수 없기 때문이다.</li>
+      <li>4/4에서 4분음표가 한 박. 점은 절반을 더하고(점4분 = 1.5박), 붙임줄은 마디선을 넘어 음을 끈다.</li>
+      <li>베이스에서 쉼표는 "하지 않는다"가 아니라 "<b>끈다</b>"로 읽는다. 서스테인이 길어 적극적으로 꺼야 쉼이 들린다.</li>
+      <li>TAB은 자리, 보표는 음과 리듬, 스텝 격자는 박 안의 위치를 보여 준다. 셋은 보완 관계다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>베이스 TAB에서 <b>맨 위 줄</b>은 어떤 줄인가?</p><div class="opts">
+        <button class="opt">4번 줄 E (가장 굵은)</button><button class="opt" data-correct>1번 줄 G (가장 가는)</button><button class="opt">연주자가 정한다</button><button class="opt">악보마다 다르다</button>
+      </div><div class="quiz-exp">TAB은 악기를 연주 자세로 들고 내려다본 모습과 같은 순서로 적는다. 가장 가는 G 줄이 맨 위, 가장 굵은 E 줄이 맨 아래다.</div></div>
+
+      <div class="quiz-q"><p>베이스 악보에서 낮은음자리표 아래 첫 덧줄에 적힌 음(기보상 C₂ 자리)은 실제로 어떤 음으로 울리는가?</p><div class="opts">
+        <button class="opt">C₂</button><button class="opt" data-correct>C₁ — 적힌 것보다 한 옥타브 아래</button><button class="opt">C₃ — 적힌 것보다 한 옥타브 위</button><button class="opt">C₄</button>
+      </div><div class="quiz-exp">베이스는 옥타브 이조 악기다. 악보는 실음보다 한 옥타브 높게 적히므로, 들리는 소리는 적힌 것보다 한 옥타브 낮다.</div></div>
+
+      <div class="quiz-q"><p>4/4박자에서 점4분음표 + 8분음표는 몇 박인가?</p><div class="opts">
+        <button class="opt">1.5박</button><button class="opt" data-correct>2박</button><button class="opt">2.5박</button><button class="opt">3박</button>
+      </div><div class="quiz-exp">점4분음표는 1 + 0.5 = 1.5박, 8분음표는 0.5박이므로 합이 2박이다. 모타운 베이스라인에서 아주 흔한 조합이다.</div></div>
+
+      <div class="quiz-q"><p>TAB만으로는 알 수 없는 것은?</p><div class="opts">
+        <button class="opt">어느 줄을 짚는지</button><button class="opt">몇 프렛을 짚는지</button><button class="opt" data-correct>음이 얼마나 긴지</button><button class="opt">해머온인지 풀오프인지</button>
+      </div><div class="quiz-exp">TAB은 위치와 기법은 정확히 적지만 음표 길이를 적는 수단이 없다. 그래서 실제 악보에서는 음표 기둥을 덧붙이거나 보표와 함께 쓴다.</div></div>
+
+      <div class="quiz-q"><p>악보에 4분쉼표가 보일 때 베이스 연주자가 해야 할 일은?</p><div class="opts">
+        <button class="opt">아무것도 하지 않고 기다린다</button>
+        <button class="opt" data-correct>울리던 줄을 꺼서 한 박 동안 소리가 없게 만든다</button>
+        <button class="opt">볼륨 노브를 내린다</button>
+        <button class="opt">같은 음을 한 번 더 친다</button>
+      </div><div class="quiz-exp">베이스는 서스테인이 길어 손을 떼기만 해서는 소리가 남는다. 왼손 힘을 빼거나 오른손을 얹어 적극적으로 꺼야 쉼표가 들린다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. TAB 에디터 */
+(function () {
+  const PRESETS = {
+    "근음 8분음": "G|----------------|\nD|----------------|\nA|----------------|\nE|3-3-3-3-3-3-3-3-|",
+    "옥타브": "G|----------------|\nD|-5---5---5---5--|\nA|----------------|\nE|3---3---3---3---|",
+    "해머온·슬라이드": "G|----------------|\nD|------5h7-------|\nA|--3-5-----7\\5---|\nE|3---------------|",
+    "데드 노트": "G|----------------|\nD|----------------|\nA|--x---x---x-----|\nE|3---3---3---3---|",
+    "슬랩·팝": "G|------5P--------|\nD|----------------|\nA|----------------|\nE|3T----3T--3T----|",
+  };
+  let bpm = 92, step = 0.5, sched = null, loop = false;
+  const bass = BS.bass({ tone: "finger" });
+  const txt = document.getElementById("rd-tb-txt");
+  const tab = BS.tab("#rd-tb-tab", [], { beatsPerBar: 4 });
+  const staff = BS.staff("#rd-tb-staff", [], { beatsPerBar: 4 });
+  const pre = document.getElementById("rd-tb-pre");
+  pre.innerHTML = Object.keys(PRESETS).map((k, i) => `<button data-k="${k}"${i ? "" : ' class="on"'}>${k}</button>`).join("");
+  function notes() { return BS.parseAsciiTab(txt.value, { step }); }
+  function render() {
+    const ns = notes();
+    tab.setNotes(ns);
+    staff.setNotes(ns.filter((n) => n.f != null).map((n) => ({ t: n.t, d: n.d, m: BS.midiAt(n.s, n.f) })));
+    const ms = ns.filter((n) => n.f != null).map((n) => BS.midiAt(n.s, n.f));
+    MB.stat("rd-tb-n", ns.length + "개");
+    MB.stat("rd-tb-len", ns.length ? (Math.max(...ns.map((n) => n.t + (n.d || step))) ).toFixed(2) + "박" : "—");
+    MB.stat("rd-tb-range", ms.length ? MB.noteName(Math.min(...ms)) + " – " + MB.noteName(Math.max(...ms)) : "—");
+  }
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); staff.clear(); }
+  function play() {
+    stop();
+    sched = BS.playTab(notes(), { bpm, bass, tab, loop,
+      onNote(i, n) { staff.highlightAt(n.t); },
+      onStop: () => { sched = null; }, onEnd: () => { sched = null; } });
+    sched.start();
+  }
+  pre.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    pre.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    txt.value = PRESETS[b.dataset.k]; render();
+  });
+  txt.addEventListener("input", render);
+  MB.range("rd-tb-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.seg("rd-tb-step", (v) => { step = +v; render(); });
+  document.getElementById("rd-tb-play").addEventListener("click", () => { MB.ctx(); loop = false; if (sched) { stop(); return; } play(); });
+  document.getElementById("rd-tb-loop").addEventListener("click", () => { MB.ctx(); loop = true; play(); });
+  document.getElementById("rd-tb-stop").addEventListener("click", stop);
+  txt.value = PRESETS["근음 8분음"]; render();
+})();
+
+/* ------------------------------------------------------------ 2. 보표 → 지판 */
+(function () {
+  const NATURAL = [0, 2, 4, 5, 7, 9, 11];
+  const RANGES = [[28, 43, "낮은 자리 (E₁–G₂)"], [33, 50, "가운데 (A₁–D₃)"], [28, 55, "전체 (E₁–G₃)"]];
+  let concert = false, ri = 0, nat = true, q = null, ok = 0, n = 0, live = false;
+  const bass = BS.bass({ tone: "finger" });
+  const staffEl = document.getElementById("rd-st-staff");
+  const fb = BS.fretboard("#rd-st-fb", { frets: 12, labels: "frets", bass, play: false, onClick: answer });
+  const msg = document.getElementById("rd-st-msg");
+  let st = BS.staff("#rd-st-staff", [], { beatsPerBar: 4, concert });
+  function next() {
+    if (!live) return;
+    const [lo, hi] = RANGES[ri];
+    let m;
+    do { m = lo + Math.floor(Math.random() * (hi - lo + 1)); } while (nat && !NATURAL.includes(MB.mod(m, 12)));
+    q = { m };
+    st.setNotes([{ t: 0, d: 4, m }]);
+    fb.clear();
+    MB.stat("rd-st-written", MB.noteName(concert ? m : m + 12));
+    MB.stat("rd-st-sound", MB.noteName(m) + " · " + MB.fmt(MB.mtof(m), 4) + " Hz");
+    msg.className = "sim-msg"; msg.textContent = "이 음을 지판에서 찾아 누르세요.";
+  }
+  function answer(s, f) {
+    if (!live || !q) return true;
+    const m = BS.midiAt(s, f);
+    bass.pluck(s, f, { dur: 0.8 });
+    n++;
+    const good = m === q.m;
+    if (good) { ok++; fb.mark([{ s, f, cls: "ok", label: MB.pcName(m) }]); msg.className = "sim-msg ok"; msg.textContent = "정답입니다 — " + MB.noteName(m) + "."; }
+    else {
+      fb.mark([{ s, f, cls: "bad", label: MB.pcName(m) }]);
+      fb.mark(BS.positionsOf(q.m, { maxFret: 12 }).map((p) => ({ s: p.s, f: p.f, cls: "mark", label: MB.pcName(q.m) })));
+      msg.className = "sim-msg bad"; msg.textContent = "그 자리는 " + MB.noteName(m) + "입니다. 정답은 " + MB.noteName(q.m) + " — 표시된 자리입니다.";
+    }
+    MB.stat("rd-st-score", ok + " / " + n);
+    setTimeout(next, good ? 700 : 1800);
+    return false;
+  }
+  MB.seg("rd-st-oct", (v) => {
+    concert = v === "concert";
+    staffEl.innerHTML = "";
+    st = BS.staff("#rd-st-staff", q ? [{ t: 0, d: 4, m: q.m }] : [], { beatsPerBar: 4, concert });
+    if (q) MB.stat("rd-st-written", MB.noteName(concert ? q.m : q.m + 12));
+  });
+  MB.range("rd-st-rng", null, (v) => { ri = Math.round(v); document.getElementById("rd-st-rng-out").textContent = RANGES[ri][2]; if (live) next(); });
+  MB.check("rd-st-nat", (v) => { nat = v; if (live) next(); });
+  document.getElementById("rd-st-go").addEventListener("click", () => { MB.ctx(); live = true; ok = n = 0; MB.stat("rd-st-score", "0 / 0"); next(); });
+  document.getElementById("rd-st-next").addEventListener("click", () => { MB.ctx(); next(); });
+  document.getElementById("rd-st-hear").addEventListener("click", () => { MB.ctx(); if (q) bass.note(q.m, { ring: 3 }); });
+  document.getElementById("rd-st-rng-out").textContent = RANGES[0][2];
+})();
+
+/* ------------------------------------------------------------ 3. 리듬 받아 적기 */
+(function () {
+  const BANK = {
+    1: [[1, 1, 1, 1], [0.5, 0.5, 1, 1, 1], [1, 0.5, 0.5, 1, 1], [0.5, 0.5, 0.5, 0.5, 1, 1], [1, 1, 0.5, 0.5, 1], [2, 1, 1], [1, 2, 1], [2, 2]],
+    2: [[1.5, 0.5, 1, 1], [1, "r1", 1, 1], [1.5, 0.5, 1.5, 0.5], [0.5, "r0.5", 1, 1, 1], [1, 1, 1.5, 0.5], [3, 1], [1, 1.5, 0.5, 1], ["r1", 1, 1, 1]],
+    3: [[0.25, 0.25, 0.5, 1, 1, 1], [1, 0.25, 0.25, 0.25, 0.25, 1, 1], [0.5, 0.25, 0.25, 1, 1, 1], [0.25, 0.25, 0.25, 0.25, 1, 1, 1], [1, 1, 0.25, 0.25, 0.25, 0.25, 1], [0.75, 0.25, 1, 1, 1]],
+  };
+  let lvl = 1, bpm = 76, click = true, q = null, ok = 0, n = 0, staffs = [];
+  const bass = BS.bass({ tone: "finger" });
+  const opts = document.getElementById("rd-rh-opts"), msg = document.getElementById("rd-rh-msg");
+  const VALS = [[4, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`, "온음표"], [2, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/></svg>`, "2분음표"], [1, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/></svg>`, "4분음표"], [0.5, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 5.0 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`, "8분음표"], [0.25, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 5.0 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13.1 10.5 q6.5 3 5.5 11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`, "16분음표"], [1.5, `<svg class="nv" viewBox="0 0 24 34" aria-hidden="true"><ellipse cx="8" cy="25" rx="5.4" ry="3.9" transform="rotate(-20 8 25)" fill="currentColor"/><line x1="13.1" y1="24" x2="13.1" y2="5" stroke="currentColor" stroke-width="1.5"/><circle cx="18.6" cy="23" r="1.7" fill="currentColor"/></svg>`, "점4분음표"]];
+  document.getElementById("rd-rh-vals").innerHTML = VALS.map(([d, g, nm]) => `<button data-d="${d}"><em>${g}</em>${nm}<small>${d}박</small></button>`).join("");
+  document.getElementById("rd-rh-vals").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-d]"); if (!b) return;
+    MB.ctx(); const d = +b.dataset.d, spb = 60 / bpm;
+    bass.pluck(0, 3, { dur: d * spb * 0.95, vel: 0.85 });
+    for (let k = 0; k < 4; k++) MB.drum("rim", MB.now() + k * spb, { vel: k === 0 ? 0.8 : 0.35 });
+  });
+  function toNotes(pat) {
+    let t = 0; const out = [];
+    pat.forEach((v) => {
+      if (typeof v === "string") { const d = +v.slice(1); out.push({ t, d, rest: true }); t += d; }
+      else { out.push({ t, d: v, m: 31 }); t += v; }
+    });
+    return out;
+  }
+  function render(choices) {
+    opts.innerHTML = choices.map((_, i) => `<button data-i="${i}"><div id="rd-rh-s${i}"></div></button>`).join("");
+    staffs = choices.map((c, i) => BS.staff("#rd-rh-s" + i, toNotes(c), { beatsPerBar: 4, barsPerLine: 1 }));
+  }
+  function playPat(pat) {
+    MB.ctx();
+    const spb = 60 / bpm, t0 = MB.now() + 0.15;
+    if (click) for (let k = 0; k < 5; k++) MB.drum("rim", t0 + k * spb, { vel: k === 0 ? 0.8 : 0.35 });
+    let t = 0;
+    pat.forEach((v) => {
+      if (typeof v === "string") { t += +v.slice(1); return; }
+      bass.pluck(0, 3, { when: t0 + t * spb, dur: v * spb * 0.92, vel: t % 1 === 0 ? 0.9 : 0.75 });
+      t += v;
+    });
+  }
+  function next() {
+    const bank = BANK[lvl];
+    const idxs = [];
+    while (idxs.length < 3) { const i = Math.floor(Math.random() * bank.length); if (!idxs.includes(i)) idxs.push(i); }
+    const answer = Math.floor(Math.random() * 3);
+    q = { choices: idxs.map((i) => bank[i]), answer };
+    render(q.choices);
+    msg.className = "sim-msg"; msg.textContent = "들은 리듬과 같은 것을 고르세요.";
+    setTimeout(() => playPat(q.choices[answer]), 250);
+  }
+  opts.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b || !q) return;
+    MB.ctx(); n++;
+    const good = +b.dataset.i === q.answer;
+    if (good) ok++;
+    opts.querySelectorAll("button[data-i]").forEach((x) => { x.className = +x.dataset.i === q.answer ? "ok" : (x === b ? "bad" : ""); });
+    msg.className = "sim-msg " + (good ? "ok" : "bad");
+    msg.textContent = good ? "정답입니다." : "아닙니다 — 초록색이 정답입니다. 다시 들어 보세요.";
+    MB.stat("rd-rh-score", ok + " / " + n);
+    if (!good) setTimeout(() => playPat(q.choices[q.answer]), 400);
+  });
+  MB.seg("rd-rh-lvl", (v) => { lvl = +v; if (q) next(); });
+  MB.range("rd-rh-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("rd-rh-click", (v) => { click = v; });
+  document.getElementById("rd-rh-go").addEventListener("click", () => { MB.ctx(); next(); });
+  document.getElementById("rd-rh-again").addEventListener("click", () => { if (q) playPat(q.choices[q.answer]); });
+})();
+
+/* ------------------------------------------------------------ 4. 세 가지 표기 */
+(function () {
+  const PROG = "C | Am | F | G";
+  let style = "root8", bpm = 92, drum = true;
+  const bass = BS.bass({ tone: "finger" });
+  const staff = BS.staff("#rd-bt-staff", [], { beatsPerBar: 4, chords: [] });
+  const tab = BS.tab("#rd-bt-tab", [], { beatsPerBar: 4 });
+  const steps = document.getElementById("rd-bt-steps");
+  const band = BS.band({
+    bpm: () => bpm, progression: () => PROG, style: () => style,
+    groove: () => (drum ? "rock8" : "none"), keys: () => false, bassInst: bass,
+    onNote(n) {
+      tab.highlightAt(n.t); staff.highlightAt(n.t);
+      const k = Math.round(n.t * 4);
+      steps.querySelectorAll("button").forEach((b, i) => b.classList.toggle("now", i === k));
+      MB.stat("rd-bt-now", MB.noteName(n.m) + " · " + (n.role || "") + " · " + (n.t + 1).toFixed(2) + "박");
+    },
+    onStop() { document.getElementById("rd-bt-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); steps.querySelectorAll("button").forEach((b) => b.classList.remove("now")); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += c.beats || 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+    const first = band.notes.filter((n) => n.t < 4);
+    steps.innerHTML = Array.from({ length: 16 }, (_, i) => {
+      const hit = first.find((n) => Math.abs(n.t * 4 - i) < 1e-6);
+      return `<button class="${i % 4 === 0 ? "beat " : ""}${hit ? "d" : ""}">${hit ? (hit.role || "●") : "·"}<small>${i % 4 === 0 ? (i / 4 + 1) : (i % 4 === 2 ? "+" : "")}</small></button>`;
+    }).join("");
+  }
+  MB.seg("rd-bt-line", (v) => { style = v; refresh(); });
+  MB.range("rd-bt-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("rd-bt-drum", (v) => { drum = v; refresh(); });
+  document.getElementById("rd-bt-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  document.getElementById("rd-bt-stop").addEventListener("click", () => band.stop());
+  refresh();
+})();
+</script>
+</body>
+</html>

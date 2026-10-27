@@ -909,6 +909,21 @@
    *   BS.staff(el, notes, {beatsPerBar:4, chords:[{t,name}], flat, labels:"none"|"notes", concert:false(실음 그대로)})
    *   → {highlightAt(t), at(beat), clear(), setNotes(notes, chords)}
    */
+  /** 쉼표는 유니코드 음악 기호(𝄻 𝄼 …)가 대부분의 폰트에 없어 도형으로 그린다. y0 = 오선 맨 윗줄, sp = 줄 간격 */
+  function restGlyph(x, y0, sp, d) {
+    const f = (v) => +v.toFixed(2);
+    if (d >= 4) return `<rect class="rest" x="${f(x - sp * 0.55)}" y="${f(y0 + sp)}" width="${f(sp * 1.1)}" height="${f(sp * 0.5)}"/>`;
+    if (d >= 2) return `<rect class="rest" x="${f(x - sp * 0.55)}" y="${f(y0 + sp * 1.5)}" width="${f(sp * 1.1)}" height="${f(sp * 0.5)}"/>`;
+    if (d >= 1) return `<path class="rest l" d="M${f(x - 3)} ${f(y0 + sp * 0.6)}L${f(x + 3)} ${f(y0 + sp * 1.5)}L${f(x - 2.6)} ${f(y0 + sp * 2.3)}L${f(x + 3.4)} ${f(y0 + sp * 3.2)}"/>`;
+    const n = d >= 0.5 ? 1 : 2;
+    let s = `<path class="rest l" d="M${f(x + 3.2)} ${f(y0 + sp * (n === 1 ? 1.1 : 0.8))}L${f(x - 2.8)} ${f(y0 + sp * 3)}"/>`;
+    for (let k = 0; k < n; k++) {
+      const cy = y0 + sp * ((n === 1 ? 1.1 : 0.8) + k * 0.7);
+      s += `<circle class="rest" cx="${f(x + 2.1)}" cy="${f(cy)}" r="1.9"/>`
+        + `<path class="rest l" d="M${f(x + 3.4)} ${f(cy - 0.6)}q2.6 -0.6 3 2"/>`;
+    }
+    return s;
+  }
   BS.staff = function (sel, notes, o = {}) {
     const host = $(sel);
     host.classList.add("bs-staff");
@@ -941,11 +956,7 @@
       const beams = new Map();
       list.forEach((n, i) => {
         const { x, line } = xOf(n.t); const d = n.d || 1;
-        if (n.rest || n.m == null) {
-          const y = line * lineH + top + sp * 2 + 5;
-          const sym = d >= 4 ? "𝄻" : d >= 2 ? "𝄼" : d >= 1 ? "𝄽" : d >= 0.5 ? "𝄾" : "𝄿";
-          P.push(`<text class="rest" x="${x}" y="${y}">${sym}</text>`); return;
-        }
+        if (n.rest || n.m == null) { P.push(restGlyph(x, line * lineH + top, sp, d)); return; }
         const sp_ = MB.spell(n.m + (o.concert ? 0 : 12), o.flat);
         const y = yOf(sp_.pos, line), y0 = line * lineH + top;
         P.push(`<g class="n" data-i="${i}">`);
