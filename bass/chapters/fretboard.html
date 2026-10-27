@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>지판과 음 이름 · BassBook</title>
+<meta name="description" content="프렛 간격의 수학과 17.817 규칙, 4도로 쌓인 지판의 옥타브·5도 모양, 음 이름 지도와 암기 전략, 같은 음의 여러 자리와 그 음색 차이, 시간을 재는 지판 암기 게임.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .fb-shapes { display: grid; gap: 6px; }
+  @media (min-width: 560px) { .fb-shapes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .fb-shapes button { display: block; font: inherit; font-size: 13.5px; text-align: left; padding: 8px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .fb-shapes button small { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .fb-shapes button small + small { margin-top: 1px; }
+  .fb-shapes button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .fb-tbl { padding: 8px 10px; overflow-x: auto; }
+  .fb-tbl table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-family: var(--mono); }
+  .fb-tbl th, .fb-tbl td { padding: 4px 6px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .fb-tbl th { color: var(--text-dim); font-weight: 600; }
+  .fb-tbl tr.mark td { color: var(--accent); font-weight: 700; }
+  .fb-same { display: grid; gap: 6px; padding: 8px 12px; }
+  .fb-same button { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 10px; align-items: center; font: inherit; font-size: 13px; text-align: left; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .fb-same button b { font-family: var(--mono); }
+  .fb-same button .bar { height: 9px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .fb-same button .bar i { display: block; height: 100%; background: var(--accent-2); }
+  .fb-same button small { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .fb-quest { text-align: center; padding: 14px 10px 4px; }
+  .fb-quest b { display: block; font: 800 34px var(--mono); letter-spacing: -.02em; }
+  .fb-quest span { color: var(--text-dim); font-size: 13.5px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="fretboard">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 04</div>
+    <h1>지판과 음 이름</h1>
+    <p class="lead">베이스 지판은 음을 외우기에 가장 친절한 격자입니다. 네 줄이 모두 같은 간격으로 쌓여 있어, 모양 하나를 익히면 어디서나 그대로 쓸 수 있기 때문입니다. 이 장에서는 프렛이 왜 그 자리에 박혀 있는지부터 시작해, 옥타브와 5도의 <b>모양</b>으로 지판을 잇고, 같은 음이 여러 자리에 있다는 사실이 연주에 어떤 선택을 주는지 봅니다. 마지막에는 시간을 재며 지판을 외웁니다.</p>
+    <ul class="objectives">
+      <li>\(d_n=L\left(1-2^{-n/12}\right)\)로 프렛 위치를 계산하고, "남은 길이 ÷ 17.817" 규칙이 왜 성립하는지 안다.</li>
+      <li>옥타브 모양(두 줄 위 + 두 프렛 위)과 5도 모양(한 줄 위 + 두 프렛 위)을 어느 자리에서나 그린다.</li>
+      <li>자연음의 위치와 5·7·12프렛 이정표를 이용한 암기 전략을 세운다.</li>
+      <li>같은 음높이가 여러 줄에 있다는 것과, 그 자리마다 음색·운지가 다르다는 것을 안다.</li>
+      <li>지판의 음 이름을 3초 안에 떠올리는 수준까지 훈련한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="math">
+    <h2>프렛은 왜 거기 박혀 있는가</h2>
+    <p>한 프렛은 반음입니다. 12평균율에서 반음은 주파수 비 \(2^{1/12}\approx 1.0595\)이고, 줄의 음높이는 길이에 반비례하므로(\(f\propto 1/L\)) <b>n번째 프렛을 누른 줄의 진동 길이</b>는 전체 길이의 \(2^{-n/12}\)배여야 합니다. 그러면 너트에서 n번째 프렛까지의 거리는 다음과 같습니다.</p>
+    <div class="formula">
+      $$d_n = L\left(1-2^{-n/12}\right)$$
+      <div class="where">\(L\)은 스케일 길이(34″ 베이스는 864 mm), \(d_n\)은 너트에서 n번 프렛까지의 거리입니다. \(n=12\)에서 \(d_{12}=L/2\), 즉 정확히 가운데입니다.</div>
+    </div>
+    <p>목공에서는 로그 대신 <b>17.817 규칙</b>을 씁니다. 지금 프렛에서 다음 프렛까지의 거리는 "<b>남은 길이 ÷ 17.817</b>"입니다. 왜 그 숫자일까요?</p>
+    <div class="formula">
+      $$\frac{1}{1-2^{-1/12}}=\frac{1}{1-0.943874}=17.8172$$
+      <div class="where">한 프렛을 지날 때 남은 길이가 \(2^{-1/12}\)배로 줄어드므로, 줄어드는 양은 남은 길이의 \(1-2^{-1/12}\)배 = 남은 길이 ÷ 17.817입니다. 같은 비율이 반복되는 <b>등비수열</b>이라 한 번의 나눗셈을 계속 적용할 수 있습니다.</div>
+    </div>
+    <p>이 등비 성질이 지판의 생김새를 정합니다. 프렛 간격은 너트 쪽에서 가장 넓고 몸통 쪽으로 갈수록 좁아지며, 12프렛을 지나면 처음 간격의 정확히 절반이 됩니다. 34″ 베이스에서 1–2프렛 사이는 약 48 mm, 12–13프렛 사이는 약 24 mm입니다. 1장에서 본 "저음부가 OFPF로 벌어지지 않는다"는 문제의 수치적 근거가 바로 이것입니다.</p>
+
+    <div class="sim" id="sim-fb-ruler">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>프렛 자</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="fb-rl-cv"></canvas><div class="fb-tbl" id="fb-rl-tbl"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>스케일 길이</span><div class="seg" id="fb-rl-L"><button data-value="762">30″ 숏</button><button data-value="813">32″ 미디엄</button><button data-value="864" class="on">34″ 롱</button><button data-value="889">35″</button><button data-value="1050">41″ 업라이트</button></div></div>
+          <label class="ctrl"><span>프렛 <output id="fb-rl-n-out"></output></span><input type="range" id="fb-rl-n" min="1" max="24" step="1" value="12"></label>
+          <div class="btn-row"><button class="btn primary" id="fb-rl-play">▶ 그 프렛 들어 보기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">너트에서</span><span class="v" id="fb-rl-d">—</span></div>
+        <div class="stat"><span class="k">앞 프렛과의 간격</span><span class="v" id="fb-rl-gap">—</span></div>
+        <div class="stat"><span class="k">남은 진동 길이</span><span class="v" id="fb-rl-rest">—</span></div>
+        <div class="stat"><span class="k">4번 줄에서 나는 음</span><span class="v" id="fb-rl-note">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 1–2프렛 간격과 12–13프렛 간격을 비교해 보세요. 정확히 두 배입니다 · 모델: 이론 위치입니다. 실제 악기는 인토네이션 보정 때문에 새들이 조금 뒤에 있습니다(<a href="tuning.html">2장</a>).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="shapes">
+    <h2>4도 격자의 모양들</h2>
+    <p>줄 사이가 모두 5반음이므로, 지판에서 <b>두 자리의 음정 차이는 오직 상대 위치로만</b> 정해집니다. 줄을 \(\Delta s\)개 올라가고 프렛을 \(\Delta f\)개 올라가면 음정은 다음과 같습니다.</p>
+    <div class="formula">
+      $$\Delta(\text{반음}) = 5\,\Delta s + \Delta f$$
+      <div class="where">\(\Delta s\)는 가는 줄 쪽으로 올라간 줄 수, \(\Delta f\)는 올라간 프렛 수입니다. 기타와 달리 예외가 없습니다.</div>
+    </div>
+    <p>여기서 베이스에서 가장 많이 쓰는 모양 셋이 나옵니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>모양</th><th>Δ줄</th><th>Δ프렛</th><th>반음</th><th>쓰임</th></tr></thead>
+        <tbody>
+          <tr><td><b>옥타브</b></td><td>+2</td><td>+2</td><td>12</td><td>디스코·펑크의 뼈대. 같은 음을 두 옥타브로 오간다</td></tr>
+          <tr><td><b>완전 5도</b></td><td>+1</td><td>+2</td><td>7</td><td>근음–5도 패턴, 파워 코드</td></tr>
+          <tr><td><b>완전 4도</b></td><td>+1</td><td>0</td><td>5</td><td>바로 옆 줄 같은 프렛. 가장 쉬운 이동</td></tr>
+          <tr><td>옥타브(한 줄)</td><td>0</td><td>+12</td><td>12</td><td>같은 줄에서 옥타브 위</td></tr>
+          <tr><td>옥타브(다른 길)</td><td>+1</td><td>+7</td><td>12</td><td>높은 자리로 뛸 때</td></tr>
+          <tr><td>단7도</td><td>+2</td><td>0</td><td>10</td><td>7화음 아르페지오에서 자주 나온다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>이 모양들을 외우는 것이 음 이름을 외우는 것보다 먼저입니다. 모양은 <b>절대 위치를 몰라도</b> 쓸 수 있기 때문입니다. "4번 줄 3프렛이 G다"를 모르더라도, 거기서 두 줄 두 프렛 위가 같은 음의 옥타브라는 사실은 바로 쓸 수 있습니다.</p>
+
+    <div class="sim" id="sim-fb-shapes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>모양으로 지판 잇기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="fb-sh-fb"></div><div id="fb-sh-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>모양</span><div class="fb-shapes" id="fb-sh-list"></div></div>
+          <label class="check"><input type="checkbox" id="fb-sh-all"> 같은 줄에서 이 모양 반복해 보이기</label>
+          <div class="btn-row"><button class="btn primary" id="fb-sh-play">▶ 차례로 듣기</button><button class="btn" id="fb-sh-both">▶ 동시에</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">근음</span><span class="v" id="fb-sh-root">—</span></div>
+        <div class="stat"><span class="k">목표음</span><span class="v" id="fb-sh-target">—</span></div>
+        <div class="stat"><span class="k">음정</span><span class="v" id="fb-sh-iv">—</span></div>
+      </div>
+      <div class="sim-note">지판을 눌러 근음을 옮겨 보세요. 모양은 그대로 따라옵니다 — 그것이 4도 조율의 선물입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="names">
+    <h2>음 이름 지도와 암기 전략</h2>
+    <p>지판 전체를 통째로 외우려 들면 4줄 × 12프렛 = 48칸을 외우는 일이 됩니다. 대신 <b>이정표부터</b> 잡으면 훨씬 적은 노력으로 끝납니다.</p>
+    <ol>
+      <li><b>개방현 네 개</b>: E A D G. 여기서 모든 것이 시작합니다.</li>
+      <li><b>5프렛 = 다음 줄 개방현</b>: 4번 줄 5프렛 = A, 3번 줄 5프렛 = D, 2번 줄 5프렛 = G. 공짜로 세 칸을 얻습니다.</li>
+      <li><b>12프렛 = 개방현의 옥타브</b>: 점 두 개가 찍혀 있어 눈에 띕니다. 12프렛 위는 0프렛과 같은 이름이 반복됩니다.</li>
+      <li><b>7프렛 = 개방현의 5도</b>: 4번 줄 7프렛 = B, 3번 줄 7프렛 = E… 역시 점이 찍혀 있습니다.</li>
+      <li><b>E와 A 줄만 먼저</b>: 근음은 대부분 이 두 줄에 있습니다. 두 줄만 확실해져도 실전의 80%가 해결됩니다.</li>
+      <li><b>옥타브 모양으로 퍼뜨리기</b>: E 줄의 음을 알면 두 줄 두 프렛 위(D 줄)도 같은 이름입니다.</li>
+    </ol>
+    <div class="callout tip">
+      <p><b>연습법 · 하루 한 음.</b> 오늘은 <b>C</b>만 찾습니다. 네 줄 12프렛 안에 있는 모든 C를 소리 내며 짚어 보세요(3번 줄 3프렛, 2번 줄 10프렛, 1번 줄 5프렛, 4번 줄 8프렛). 다음 날은 G. 열두 음을 열이틀에 나누면 지판이 머리에 들어옵니다. 통째로 외우는 것보다 훨씬 빠릅니다.</p>
+    </div>
+    <div class="sim" id="sim-fb-map">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음 이름 지도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="fb-mp-fb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>보기</span><div class="seg" id="fb-mp-mode"><button data-value="all" class="on">전체</button><button data-value="natural">자연음만</button><button data-value="pc">고른 음만</button><button data-value="none">끄기</button></div></div>
+          <label class="ctrl"><span>찾을 음 <output id="fb-mp-pc-out"></output></span><input type="range" id="fb-mp-pc" min="0" max="11" step="1" value="0"></label>
+          <label class="check"><input type="checkbox" id="fb-mp-oct"> 옥타브 모양 잇기(점선)</label>
+          <div class="btn-row"><button class="btn primary" id="fb-mp-play">▶ 고른 음 모두 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">고른 음</span><span class="v" id="fb-mp-sel">—</span></div>
+        <div class="stat"><span class="k">12프렛 안의 자리</span><span class="v" id="fb-mp-count">—</span></div>
+      </div>
+      <div class="sim-note">"고른 음만"으로 두고 슬라이더를 돌리면 하루 한 음 연습을 그대로 할 수 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="same">
+    <h2>같은 음, 다른 자리</h2>
+    <p>지판에서 하나의 음높이는 보통 <b>두세 자리</b>에 있습니다. 예를 들어 G₂(MIDI 43)는 1번 줄 개방현, 2번 줄 5프렛, 3번 줄 10프렛, 4번 줄 15프렛에 있습니다. 어느 자리를 고를지는 세 가지가 정합니다.</p>
+    <ul>
+      <li><b>손의 이동</b> — 지금 손이 있는 자리에서 가장 가까운 곳. 가장 흔한 기준입니다.</li>
+      <li><b>음색</b> — 같은 음이라도 굵은 줄의 높은 프렛은 <b>어둡고 통통</b>하며, 가는 줄의 낮은 프렛은 <b>밝고 또렷</b>합니다. 줄이 굵을수록 고역 배음이 빨리 사그라들기 때문입니다.</li>
+      <li><b>이어지는 음</b> — 다음 음이 어디 있는지에 따라 지금 음의 자리가 정해집니다. 개방현은 뮤팅이 어렵고 음색이 튀어서, 이어지는 라인에서는 일부러 누른 자리를 고르기도 합니다.</li>
+    </ul>
+    <div class="callout deep">
+      <p><b>왜 굵은 줄이 더 어두운가.</b> 줄의 감쇠는 공기 저항과 내부 마찰, 그리고 브리지로 빠져나가는 에너지로 정해집니다. 굵은 줄은 질량이 커서 같은 주파수에서 진폭이 작고, 와인딩 사이의 마찰로 고역 배음이 더 빨리 사라집니다. 게다가 같은 음을 내려면 더 높은 프렛을 눌러야 하는데, 그러면 진동 구간이 짧아져 뜯는 자리가 줄 길이의 더 <b>가운데</b> 쪽이 됩니다. 가운데를 뜯으면 짝수 배음이 약해져(<a href="tone.html">13장</a>) 소리가 더 둥글어집니다.</p>
+    </div>
+    <div class="sim" id="sim-fb-same">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 음을 네 자리에서</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="fb-sm-fb"></div><div class="fb-same" id="fb-sm-list"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="fb-sm-m-out"></output></span><input type="range" id="fb-sm-m" min="40" max="60" step="1" value="43"></label>
+          <label class="ctrl"><span>최대 프렛 <output id="fb-sm-mx-out"></output></span><input type="range" id="fb-sm-mx" min="12" max="20" step="1" value="17"></label>
+          <div class="btn-row"><button class="btn primary" id="fb-sm-play">▶ 차례로 듣기</button><button class="btn" id="fb-sm-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-note">막대는 모델이 주는 고역 비중입니다. 굵은 줄·높은 프렛일수록 짧습니다 · 모델: 같은 주파수에 줄 번호에 따라 밝기와 감쇠를 바꿔 넣은 근사입니다. 실제 악기의 차이는 이보다 작고 악기마다 다릅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="game">
+    <h2>지판 암기 게임</h2>
+    <p>지판 암기의 목표는 "생각하면 알 수 있다"가 아니라 <b>"생각하기 전에 손이 간다"</b>입니다. 그 경계는 보통 <b>3초</b>입니다. 3초 안에 짚을 수 있으면 연주 중에 쓸 수 있고, 그보다 느리면 못 씁니다.</p>
+    <div class="sim" id="sim-fb-game">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>3초 안에 짚기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="fb-quest" id="fb-gm-quest"><b>—</b><span>시작을 누르세요</span></div>
+          <div id="fb-gm-fb"></div>
+          <div class="sim-msg" id="fb-gm-msg">문제에 나온 음을 지판에서 찾아 누르세요.</div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>문제 유형</span><div class="seg" id="fb-gm-mode"><button data-value="name" class="on">음 이름 → 자리</button><button data-value="pos">자리 → 음 이름</button></div></div>
+          <label class="ctrl"><span>프렛 범위 <output id="fb-gm-fr-out"></output></span><input type="range" id="fb-gm-fr" min="5" max="12" step="1" value="12"></label>
+          <label class="check"><input type="checkbox" id="fb-gm-nat" checked> 자연음만(♯·♭ 제외)</label>
+          <label class="check"><input type="checkbox" id="fb-gm-str"> 줄도 지정하기</label>
+          <div class="ctrl"><span>답 고르기(자리 → 음 이름)</span><div class="fb-shapes" id="fb-gm-opts"></div></div>
+          <div class="btn-row"><button class="btn primary" id="fb-gm-go">▶ 시작</button><button class="btn" id="fb-gm-end">■ 끝내기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="fb-gm-score">0 / 0</span></div>
+        <div class="stat"><span class="k">평균 시간</span><span class="v" id="fb-gm-avg">—</span></div>
+        <div class="stat"><span class="k">마지막 문제</span><span class="v" id="fb-gm-last">—</span></div>
+      </div>
+      <div class="sim-note">"줄도 지정하기"를 끄면 그 음이 있는 아무 자리나 정답입니다. 먼저 끈 상태로 익히고, 익숙해지면 켜세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>\(d_n=L(1-2^{-n/12})\). 12프렛은 정확히 길이의 절반이고, 프렛 간격은 너트 쪽이 가장 넓다. 다음 프렛까지는 <b>남은 길이 ÷ 17.817</b>.</li>
+      <li>4도 조율에서 음정은 \(5\Delta s+\Delta f\)로만 정해진다. 기타와 달리 예외가 없다.</li>
+      <li>핵심 모양: <b>옥타브 = 두 줄 위 + 두 프렛 위</b>, <b>5도 = 한 줄 위 + 두 프렛 위</b>, <b>4도 = 한 줄 위 같은 프렛</b>.</li>
+      <li>암기는 이정표부터. 개방현 → 5프렛(다음 줄 개방현) → 12프렛(옥타브) → 7프렛(5도) → 옥타브 모양으로 퍼뜨리기.</li>
+      <li>같은 음높이는 보통 두세 자리에 있다. 손의 이동·음색·다음 음이 어느 자리를 쓸지 정한다.</li>
+      <li>굵은 줄의 높은 프렛은 어둡고 통통하며, 가는 줄의 낮은 프렛은 밝고 또렷하다.</li>
+      <li>쓸 수 있는 수준의 기준은 <b>3초</b>다. 그보다 느리면 연주 중에는 못 쓴다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>34″(864 mm) 베이스에서 5프렛은 너트에서 몇 mm 떨어져 있는가?</p><div class="opts">
+        <button class="opt">144 mm</button><button class="opt" data-correct>216 mm</button><button class="opt">288 mm</button><button class="opt">432 mm</button>
+      </div><div class="quiz-exp">\(d_5=864(1-2^{-5/12})=864\times0.2500=216\) mm. 5프렛은 완전 4도이고 길이 비가 3:4이므로 전체의 1/4 지점이라는 점을 기억하면 암산할 수 있다.</div></div>
+
+      <div class="quiz-q"><p>4번 줄 5프렛(A)에서 <b>두 줄 위, 두 프렛 위</b>는 어떤 음인가?</p><div class="opts">
+        <button class="opt">E</button><button class="opt">D</button><button class="opt" data-correct>A (한 옥타브 위)</button><button class="opt">C</button>
+      </div><div class="quiz-exp">\(5\times2+2=12\)반음, 즉 정확히 한 옥타브다. 2번 줄(D) 7프렛이 A₂다. 이것이 베이스에서 가장 많이 쓰는 옥타브 모양이다.</div></div>
+
+      <div class="quiz-q"><p>지판에서 <b>한 줄 위, 같은 프렛</b>은 몇 반음 위인가?</p><div class="opts">
+        <button class="opt">4반음(장3도)</button><button class="opt" data-correct>5반음(완전 4도)</button><button class="opt">7반음(완전 5도)</button><button class="opt">12반음(옥타브)</button>
+      </div><div class="quiz-exp">\(\Delta s=1,\ \Delta f=0\)이므로 \(5\times1+0=5\)반음이다. 줄 사이가 모두 완전 4도이기 때문이며, 그래서 옆 줄 같은 프렛으로 옮기는 것이 가장 쉬운 이동이다.</div></div>
+
+      <div class="quiz-q"><p>같은 G₂를 1번 줄 개방현으로 칠 때와 4번 줄 15프렛으로 칠 때의 차이로 옳은 것은?</p><div class="opts">
+        <button class="opt">주파수가 다르다</button>
+        <button class="opt" data-correct>주파수는 같지만 4번 줄 쪽이 더 어둡고 통통하게 들린다</button>
+        <button class="opt">4번 줄 쪽이 더 밝다</button>
+        <button class="opt">개방현 쪽이 서스테인이 짧다</button>
+      </div><div class="quiz-exp">음높이는 같다. 굵은 줄은 고역 배음이 빨리 사라지고, 높은 프렛에서는 뜯는 자리가 진동 구간의 더 가운데가 되어 짝수 배음이 약해진다. 개방현은 뮤팅이 어렵고 서스테인이 오히려 길다.</div></div>
+
+      <div class="quiz-q"><p>"남은 길이 ÷ 17.817"에서 17.817이 나오는 이유는?</p><div class="opts">
+        <button class="opt">12평균율 반음이 17.817센트라서</button>
+        <button class="opt">프렛이 보통 17–18개라서</button>
+        <button class="opt" data-correct>\(1/(1-2^{-1/12})=17.817\)이기 때문</button>
+        <button class="opt">목공 관습일 뿐 수학적 근거는 없다</button>
+      </div><div class="quiz-exp">한 프렛을 지날 때 남은 길이가 \(2^{-1/12}\)배가 되므로 줄어드는 양은 남은 길이의 \(1-2^{-1/12}=0.05613\)배다. 그 역수가 17.817이다. 같은 비율이 반복되므로 한 번의 나눗셈을 계속 적용할 수 있다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 프렛 자 */
+(function () {
+  let L = 864, n = 12;
+  const bass = BS.bass({ tone: "finger" });
+  const INL = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
+  const d = (k) => L * (1 - Math.pow(2, -k / 12));
+  function draw(ctx, w, h) {
+    const P = MB.palette();
+    const pad = 16, x0 = pad, x1 = w - pad, y = h * 0.52;
+    const scale = (x1 - x0) / L;
+    ctx.fillStyle = P.surface; ctx.fillRect(x0, y - 26, x1 - x0, 52);
+    ctx.strokeStyle = P.border; ctx.strokeRect(x0, y - 26, x1 - x0, 52);
+    for (let k = 1; k <= 24; k++) {
+      const x = x0 + d(k) * scale;
+      if (x > x1) break;
+      ctx.strokeStyle = k === n ? P.accent : P.axis;
+      ctx.lineWidth = k === n ? 3 : 1.4;
+      ctx.beginPath(); ctx.moveTo(x, y - 26); ctx.lineTo(x, y + 26); ctx.stroke();
+      if (INL.includes(k)) { ctx.fillStyle = P.faint; ctx.beginPath(); ctx.arc((x0 + d(k - 1) * scale + x) / 2, y, 3, 0, 7); ctx.fill(); }
+    }
+    ctx.strokeStyle = P.text; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x0, y - 26); ctx.lineTo(x0, y + 26); ctx.stroke();
+    ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
+    ctx.fillStyle = P.dim; ctx.textAlign = "center";
+    ctx.fillText("너트", x0, y - 34);
+    ctx.fillStyle = P.accent;
+    ctx.fillText(n + "프렛 · " + d(n).toFixed(1) + " mm", MB.clamp(x0 + d(n) * scale, x0 + 40, x1 - 40), y + 46);
+    ctx.fillStyle = P.dim; ctx.fillText("새들 (" + L + " mm)", x1 - 36, y - 34);
+    ctx.textAlign = "left";
+  }
+  const view = MB.canvas("#fb-rl-cv", draw, { aspect: 0.22, minHeight: 120 });
+  function render() {
+    const rows = [];
+    for (let k = 1; k <= 12; k++) rows.push(`<tr class="${k === n ? "mark" : ""}"><td>${k}</td><td>${d(k).toFixed(1)}</td><td>${(d(k) - d(k - 1)).toFixed(2)}</td><td>${(L - d(k)).toFixed(1)}</td></tr>`);
+    document.getElementById("fb-rl-tbl").innerHTML =
+      `<table><thead><tr><th>프렛</th><th>너트에서 (mm)</th><th>간격 (mm)</th><th>남은 길이 (mm)</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+    MB.stat("fb-rl-d", d(n).toFixed(1) + " mm (" + (d(n) / L * 100).toFixed(1) + "%)");
+    MB.stat("fb-rl-gap", (d(n) - d(n - 1)).toFixed(2) + " mm");
+    MB.stat("fb-rl-rest", (L - d(n)).toFixed(1) + " mm");
+    MB.stat("fb-rl-note", MB.noteName(28 + n) + " · " + MB.fmt(MB.mtof(28 + n), 4) + " Hz");
+    document.getElementById("fb-rl-n-out").textContent = n + "프렛";
+    view.redraw();
+  }
+  MB.seg("fb-rl-L", (v) => { L = +v; render(); });
+  MB.range("fb-rl-n", null, (v) => { n = Math.round(v); render(); });
+  document.getElementById("fb-rl-play").addEventListener("click", () => { MB.ctx(); bass.pluck(0, Math.min(n, 20), { ring: 3 }); });
+  render();
+})();
+
+/* ------------------------------------------------------------ 2. 모양 */
+(function () {
+  const SHAPES = [
+    { k: "oct", name: "옥타브", ds: 2, df: 2, note: "두 줄 위 + 두 프렛 위" },
+    { k: "fifth", name: "완전 5도", ds: 1, df: 2, note: "한 줄 위 + 두 프렛 위" },
+    { k: "fourth", name: "완전 4도", ds: 1, df: 0, note: "한 줄 위 · 같은 프렛" },
+    { k: "oct1", name: "옥타브(한 줄)", ds: 0, df: 12, note: "같은 줄 12프렛 위" },
+    { k: "oct2", name: "옥타브(다른 길)", ds: 1, df: 7, note: "한 줄 위 + 일곱 프렛 위" },
+    { k: "sev", name: "단7도", ds: 2, df: 0, note: "두 줄 위 · 같은 프렛" },
+    { k: "m3", name: "단3도", ds: 0, df: 3, note: "같은 줄 세 프렛 위" },
+    { k: "M3", name: "장3도", ds: 0, df: 4, note: "같은 줄 네 프렛 위" },
+  ];
+  let cur = SHAPES[0], root = { s: 0, f: 3 }, all = false;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#fb-sh-fb", { frets: 14, labels: "notes", bass, play: false,
+    onClick(s, f) { root = { s, f }; show(); bass.pluck(s, f, { dur: 0.6 }); return false; } });
+  const staff = BS.staff("#fb-sh-staff", [], { beatsPerBar: 4, labels: "notes" });
+  const list = document.getElementById("fb-sh-list");
+  list.innerHTML = SHAPES.map((s, i) => `<button data-k="${s.k}"${i ? "" : ' class="on"'}>${s.name} <small>${5 * s.ds + s.df}반음</small><small>${s.note}</small></button>`).join("");
+  function target(r) { const s = r.s + cur.ds, f = r.f + cur.df; return (s < 4 && f >= 0 && f <= 14) ? { s, f } : null; }
+  function show() {
+    fb.clear();
+    const t = target(root);
+    const marks = [{ s: root.s, f: root.f, cls: "root", label: "R" }];
+    if (t) marks.push({ s: t.s, f: t.f, cls: "mark", label: BS.intervalLabel(5 * cur.ds + cur.df) });
+    if (all) {
+      // 같은 줄에서 한 칸씩 옮겨 가며 같은 모양을 반복해 보여 준다
+      for (let f = 0; f <= 14; f++) {
+        if (f === root.f) continue;
+        const tt = target({ s: root.s, f });
+        if (!tt) continue;
+        marks.push({ s: root.s, f, cls: "ghost" }); marks.push({ s: tt.s, f: tt.f, cls: "dim" });
+      }
+    }
+    fb.mark(marks);
+    const rm = BS.midiAt(root.s, root.f);
+    MB.stat("fb-sh-root", MB.noteName(rm) + " · " + BS.stringLabel(root.s) + " " + root.f + "프렛");
+    MB.stat("fb-sh-target", t ? MB.noteName(BS.midiAt(t.s, t.f)) + " · " + BS.stringLabel(t.s) + " " + t.f + "프렛" : "지판 밖");
+    MB.stat("fb-sh-iv", MB.intervalName(5 * cur.ds + cur.df) + " (" + (5 * cur.ds + cur.df) + "반음)");
+    staff.setNotes(t ? [{ t: 0, d: 2, m: rm }, { t: 2, d: 2, m: BS.midiAt(t.s, t.f) }] : [{ t: 0, d: 4, m: rm }]);
+  }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    cur = SHAPES.find((s) => s.k === b.dataset.k);
+    list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    show();
+  });
+  MB.check("fb-sh-all", (v) => { all = v; show(); });
+  document.getElementById("fb-sh-play").addEventListener("click", () => {
+    MB.ctx(); const t = target(root);
+    bass.pluck(root.s, root.f, { dur: 0.6 }); fb.flash(root.s, root.f);
+    if (t) setTimeout(() => { bass.pluck(t.s, t.f, { dur: 0.9 }); fb.flash(t.s, t.f); }, 420);
+  });
+  document.getElementById("fb-sh-both").addEventListener("click", () => {
+    MB.ctx(); const t = target(root);
+    bass.pluck(root.s, root.f, { dur: 1.4 }); fb.flash(root.s, root.f);
+    if (t) { bass.pluck(t.s, t.f, { when: MB.now() + 0.02, dur: 1.4, vel: 0.7 }); fb.flash(t.s, t.f); }
+  });
+  show();
+})();
+
+/* ------------------------------------------------------------ 3. 음 이름 지도 */
+(function () {
+  const NATURAL = [0, 2, 4, 5, 7, 9, 11];
+  let mode = "all", pc = 0, link = false;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#fb-mp-fb", { frets: 12, labels: "notes", labelAll: true, bass, play: true });
+  function show() {
+    fb.clear();
+    fb.setLabels(mode === "none" ? "none" : "notes");
+    const marks = [];
+    let count = 0;
+    for (let s = 0; s < 4; s++) for (let f = 0; f <= 12; f++) {
+      const p = MB.mod(BS.midiAt(s, f), 12);
+      if (mode === "natural" && NATURAL.includes(p)) marks.push({ s, f, cls: "mark" });
+      if (mode === "pc" && p === pc) { marks.push({ s, f, cls: "root" }); count++; }
+      if (mode === "all" && p === pc) { marks.push({ s, f, cls: "alt" }); count++; }
+    }
+    if (link && (mode === "pc" || mode === "all")) {
+      for (let s = 0; s + 2 < 4; s++) for (let f = 0; f + 2 <= 12; f++) {
+        if (MB.mod(BS.midiAt(s, f), 12) === pc) marks.push({ s: s + 2, f: f + 2, cls: "ok", label: "8" });
+      }
+    }
+    fb.mark(marks);
+    MB.stat("fb-mp-sel", MB.pcName(pc));
+    MB.stat("fb-mp-count", count + "곳");
+    document.getElementById("fb-mp-pc-out").textContent = MB.pcName(pc);
+  }
+  MB.seg("fb-mp-mode", (v) => { mode = v; show(); });
+  MB.range("fb-mp-pc", null, (v) => { pc = Math.round(v); show(); });
+  MB.check("fb-mp-oct", (v) => { link = v; show(); });
+  document.getElementById("fb-mp-play").addEventListener("click", () => {
+    MB.ctx();
+    const hits = [];
+    for (let s = 0; s < 4; s++) for (let f = 0; f <= 12; f++) if (MB.mod(BS.midiAt(s, f), 12) === pc) hits.push({ s, f });
+    hits.sort((a, b) => BS.midiAt(a.s, a.f) - BS.midiAt(b.s, b.f));
+    hits.forEach((h, i) => setTimeout(() => { bass.pluck(h.s, h.f, { dur: 0.6 }); fb.flash(h.s, h.f); }, i * 480));
+  });
+  show();
+})();
+
+/* ------------------------------------------------------------ 4. 같은 음 다른 자리 */
+(function () {
+  let m = 43, maxF = 17, timer = null;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#fb-sm-fb", { frets: 20, labels: "frets", bass, play: false,
+    onClick(s, f) { pluck({ s, f }); return false; } });
+  const list = document.getElementById("fb-sm-list");
+  // 줄이 굵고 프렛이 높을수록 고역 비중이 낮다는 근사
+  const bright = (s, f) => MB.clamp(0.62 - (3 - s) * 0.07 - f * 0.009, 0.14, 0.7);
+  function spots() { return BS.positionsOf(m, { maxFret: maxF }); }
+  function pluck(p) { bass.pluck(p.s, p.f, { ring: 3.5, bright: bright(p.s, p.f), pos: 0.1 + p.f * 0.004 }); fb.flash(p.s, p.f); }
+  function show() {
+    const ps = spots();
+    fb.clear();
+    fb.mark(ps.map((p) => ({ s: p.s, f: p.f, cls: p.f === 0 ? "open" : "mark", label: p.f === 0 ? "0" : String(p.f) })));
+    list.innerHTML = ps.slice().reverse().map((p) =>
+      `<button data-s="${p.s}" data-f="${p.f}"><b>${BS.stringLabel(p.s)}</b><span class="bar"><i style="width:${(bright(p.s, p.f) / 0.7 * 100).toFixed(0)}%"></i></span><small>${p.f}프렛</small></button>`).join("");
+    document.getElementById("fb-sm-m-out").textContent = MB.noteName(m) + " · " + MB.fmt(MB.mtof(m), 4) + " Hz";
+    document.getElementById("fb-sm-mx-out").textContent = maxF + "프렛";
+  }
+  list.addEventListener("click", (e) => { const b = e.target.closest("button[data-s]"); if (!b) return; MB.ctx(); pluck({ s: +b.dataset.s, f: +b.dataset.f }); });
+  MB.range("fb-sm-m", null, (v) => { m = Math.round(v); show(); });
+  MB.range("fb-sm-mx", null, (v) => { maxF = Math.round(v); show(); });
+  document.getElementById("fb-sm-play").addEventListener("click", () => {
+    MB.ctx(); if (timer) clearInterval(timer);
+    const ps = spots().slice().reverse(); let i = 0;
+    const step = () => { if (i >= ps.length) { clearInterval(timer); timer = null; return; } pluck(ps[i++]); };
+    step(); timer = setInterval(step, 900);
+  });
+  document.getElementById("fb-sm-stop").addEventListener("click", () => { if (timer) { clearInterval(timer); timer = null; } bass.stop(); });
+  show();
+})();
+
+/* ------------------------------------------------------------ 5. 암기 게임 */
+(function () {
+  const NATURAL = [0, 2, 4, 5, 7, 9, 11];
+  let mode = "name", maxF = 12, natOnly = true, withString = false;
+  let q = null, t0 = 0, ok = 0, n = 0, times = [], live = false;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#fb-gm-fb", { frets: 12, labels: "frets", bass, play: false, onClick: answerPos });
+  const quest = document.getElementById("fb-gm-quest"), msg = document.getElementById("fb-gm-msg"), opts = document.getElementById("fb-gm-opts");
+  function pcs() { return natOnly ? NATURAL : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]; }
+  function stats() {
+    MB.stat("fb-gm-score", ok + " / " + n);
+    MB.stat("fb-gm-avg", times.length ? (times.reduce((a, b) => a + b, 0) / times.length / 1000).toFixed(2) + "초" : "—");
+  }
+  function next() {
+    if (!live) return;
+    const list = pcs();
+    const pc = list[Math.floor(Math.random() * list.length)];
+    const all = [];
+    for (let s = 0; s < 4; s++) for (let f = 0; f <= maxF; f++) if (MB.mod(BS.midiAt(s, f), 12) === pc) all.push({ s, f });
+    if (!all.length) return next();
+    const pick = all[Math.floor(Math.random() * all.length)];
+    q = { pc, all, pick, s: withString ? pick.s : null };
+    fb.clear(); opts.innerHTML = "";
+    if (mode === "name") {
+      quest.innerHTML = `<b>${MB.pcName(pc)}</b><span>${withString ? BS.stringLabel(pick.s) + "에서 찾아 누르세요" : "아무 줄에서나 찾아 누르세요"}</span>`;
+      msg.className = "sim-msg"; msg.textContent = "지판에서 눌러 보세요.";
+    } else {
+      fb.mark([{ s: pick.s, f: pick.f, cls: "root", label: "?" }]);
+      quest.innerHTML = `<b>?</b><span>${BS.stringLabel(pick.s)} ${pick.f}프렛은 무슨 음일까요</span>`;
+      const choices = new Set([pc]);
+      while (choices.size < 4) choices.add(pcs()[Math.floor(Math.random() * pcs().length)]);
+      const arr = [...choices].sort(() => Math.random() - 0.5);
+      opts.innerHTML = arr.map((p) => `<button data-pc="${p}">${MB.pcName(p)}</button>`).join("");
+      msg.className = "sim-msg"; msg.textContent = "오른쪽 보기에서 고르세요.";
+    }
+    t0 = performance.now();
+  }
+  function score(good, text) {
+    n++; if (good) { ok++; times.push(performance.now() - t0); }
+    msg.className = "sim-msg " + (good ? "ok" : "bad");
+    msg.textContent = text;
+    MB.stat("fb-gm-last", (good ? "정답 " : "오답 ") + ((performance.now() - t0) / 1000).toFixed(2) + "초");
+    stats();
+    setTimeout(next, good ? 600 : 1500);
+  }
+  function answerPos(s, f) {
+    if (!live || !q || mode !== "name") return true;
+    const good = MB.mod(BS.midiAt(s, f), 12) === q.pc && (q.s == null || q.s === s);
+    bass.pluck(s, f, { dur: 0.6 });
+    if (good) fb.mark([{ s, f, cls: "ok", label: MB.pcName(q.pc) }]);
+    else fb.mark([{ s, f, cls: "bad", label: MB.noteName(BS.midiAt(s, f), false, false) }]);
+    score(good, good ? "정답입니다." : "그 자리는 " + MB.pcName(MB.mod(BS.midiAt(s, f), 12)) + "입니다. " + MB.pcName(q.pc) + "은(는) " + q.all.map((p) => BS.stringNumber(p.s) + "번 줄 " + p.f + "프렛").join(", ") + ".");
+    return false;
+  }
+  opts.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-pc]"); if (!b || !q || mode !== "pos") return;
+    MB.ctx();
+    const good = +b.dataset.pc === q.pc;
+    bass.pluck(q.pick.s, q.pick.f, { dur: 0.6 });
+    score(good, good ? "정답입니다 — " + MB.pcName(q.pc) + "." : "아닙니다. " + BS.stringLabel(q.pick.s) + " " + q.pick.f + "프렛은 " + MB.pcName(q.pc) + "입니다.");
+  });
+  MB.seg("fb-gm-mode", (v) => { mode = v; if (live) next(); });
+  MB.range("fb-gm-fr", (v) => "0–" + Math.round(v) + "프렛", (v) => { maxF = Math.round(v); fb.setRange(0, Math.max(5, maxF)); if (live) next(); });
+  MB.check("fb-gm-nat", (v) => { natOnly = v; if (live) next(); });
+  MB.check("fb-gm-str", (v) => { withString = v; if (live) next(); });
+  document.getElementById("fb-gm-go").addEventListener("click", () => { MB.ctx(); live = true; ok = n = 0; times = []; stats(); next(); });
+  document.getElementById("fb-gm-end").addEventListener("click", () => {
+    live = false; q = null; fb.clear(); opts.innerHTML = "";
+    quest.innerHTML = "<b>—</b><span>시작을 누르세요</span>";
+    msg.className = "sim-msg"; msg.textContent = times.length ? "평균 " + (times.reduce((a, b) => a + b, 0) / times.length / 1000).toFixed(2) + "초. 3초 안이면 연주 중에 쓸 수 있습니다." : "문제에 나온 음을 지판에서 찾아 누르세요.";
+  });
+  stats();
+})();
+</script>
+</body>
+</html>
