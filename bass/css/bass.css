@@ -1,0 +1,126 @@
+/* ==========================================================================
+   BassBook 베이스 위젯 스타일 — 지판(.bs-fb), TAB(.bs-tab), 스텝 격자(.bs-steps), 낮은음자리표(.bs-staff)
+   ========================================================================== */
+:root {
+  --bs-wood: #b98d68;
+  --bs-wood-2: #a77a52;
+  --bs-fret: #8f8a84;
+  --bs-nut: #f4efe6;
+  --bs-string: #5b5148;
+  --bs-inlay: rgba(255, 252, 245, 0.85);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bs-wood: #3b2a1e;
+    --bs-wood-2: #4a3424;
+    --bs-fret: #8d877f;
+    --bs-nut: #d9d2c5;
+    --bs-string: #c9bfb2;
+    --bs-inlay: rgba(240, 232, 220, 0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bs-wood: #3b2a1e;
+  --bs-wood-2: #4a3424;
+  --bs-fret: #8d877f;
+  --bs-nut: #d9d2c5;
+  --bs-string: #c9bfb2;
+  --bs-inlay: rgba(240, 232, 220, 0.35);
+}
+
+/* ---------------------------------------------------------------- fretboard */
+.bs-fb { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; padding: 4px 0; max-width: 100%; }
+.bs-fb svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+.bs-fb .wood { fill: var(--bs-wood); }
+.bs-fb .inlay { fill: var(--bs-inlay); }
+.bs-fb .fret { stroke: var(--bs-fret); stroke-width: 2.4; }
+.bs-fb .nut { stroke: var(--bs-nut); stroke-width: 6; }
+.bs-fb .capo { fill: var(--text); opacity: 0.85; }
+.bs-fb .str { stroke: var(--bs-string); stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
+.bs-fb .str.vib { animation: bs-vib 0.6s ease-out; }
+@keyframes bs-vib { 0% { transform: scaleY(1); stroke: var(--accent); } 15% { transform: translateY(1.2px); } 30% { transform: translateY(-1px); } 45% { transform: translateY(0.7px); } 60% { transform: translateY(-0.4px); } 100% { transform: none; } }
+.bs-fb .sname { font: 600 11px var(--mono); fill: var(--text-dim); text-anchor: middle; }
+.bs-fb .fnum { font: 10px var(--mono); fill: var(--text-faint); text-anchor: middle; }
+.bs-fb .hits rect { fill: transparent; cursor: pointer; }
+.bs-fb .hits rect:hover { fill: color-mix(in srgb, var(--accent) 16%, transparent); }
+.bs-fb .dot { pointer-events: none; }
+.bs-fb .dot circle { fill: var(--accent); stroke: var(--bg-elev); stroke-width: 1.5; }
+.bs-fb .dot text { font: 600 9.5px var(--mono); fill: var(--on-accent); text-anchor: middle; }
+.bs-fb .dot.alt circle { fill: var(--accent-2); }
+.bs-fb .dot.root circle { fill: var(--bad); }
+.bs-fb .dot.root text { fill: #fff; }
+.bs-fb .dot.open circle { fill: var(--bg-elev); stroke: var(--accent); stroke-width: 2; }
+.bs-fb .dot.open text { fill: var(--accent); }
+.bs-fb .dot.ghost circle { fill: var(--bg-elev); stroke: var(--text-dim); stroke-width: 1.5; opacity: 0.9; }
+.bs-fb .dot.ghost text { fill: var(--text-dim); }
+.bs-fb .dot.dim circle { fill: var(--text-faint); }
+.bs-fb .dot.dim text { fill: var(--bg-elev); }
+.bs-fb .dot.faint circle { fill: transparent; stroke: none; }
+.bs-fb .dot.faint text { fill: var(--text-dim); font-weight: 400; }
+.bs-fb .dot.ok circle { fill: var(--ok); }
+.bs-fb .dot.bad circle { fill: var(--bad); }
+.bs-fb .dot.ok text, .bs-fb .dot.bad text { fill: #fff; }
+.bs-fb .dot.x circle { fill: transparent; stroke: none; }
+.bs-fb .dot.x text { fill: var(--text-dim); font-size: 13px; }
+.bs-fb .dot.on circle { fill: var(--warn); stroke: var(--bg-elev); animation: bs-pop 0.38s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+.bs-fb .dot.on text { fill: #1c1a17; }
+@keyframes bs-pop { 0% { transform: scale(0.6); } 40% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 0.9; } }
+.sim-view .bs-fb { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 8px 6px 2px; }
+
+/* ---------------------------------------------------------------- tab */
+.bs-tab { width: 100%; overflow: hidden; }
+.bs-tab svg { display: block; width: 100%; height: auto; }
+.bs-tab .tl { stroke: var(--text-faint); stroke-width: 1; }
+.bs-tab .bar { stroke: var(--text-dim); stroke-width: 1.2; }
+.bs-tab .bar.end { stroke-width: 3; }
+.bs-tab .clef { font: 700 11px var(--mono); fill: var(--text-dim); }
+.bs-tab .tn rect { fill: var(--canvas-bg, var(--bg-elev)); }
+.bs-tab .tn text { font: 600 12px var(--mono); fill: var(--text); text-anchor: middle; }
+.bs-tab .tn.now rect { fill: var(--accent); }
+.bs-tab .tn.now text { fill: var(--on-accent); }
+.bs-tab .tech { fill: none; stroke: var(--text-dim); stroke-width: 1.2; }
+.bs-tab .techl { font: 9.5px var(--mono); fill: var(--text-dim); }
+.bs-tab .chname { font: 700 12.5px var(--font); fill: var(--accent); }
+.bs-tab .stem, .bs-tab .flag { stroke: var(--text-dim); stroke-width: 1.3; fill: none; }
+.bs-tab .beam { stroke: var(--text-dim); stroke-width: 3; }
+.bs-tab .dotted { fill: var(--text-dim); }
+.bs-tab .head { fill: none; stroke: var(--text-dim); stroke-width: 1.3; }
+.bs-tab .playhead { fill: var(--accent); opacity: 0.55; }
+
+/* ---------------------------------------------------------------- misc */
+.bs-steps { display: grid; grid-template-columns: repeat(var(--n, 8), minmax(0, 1fr)); gap: 4px; }
+.bs-steps button { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 8px 0 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 15px var(--mono); color: var(--text); line-height: 1.1; }
+.bs-steps button small { display: block; font: 10px var(--mono); color: var(--text-faint); margin-top: 3px; }
+.bs-steps button.beat { background: var(--surface); }
+.bs-steps button.d, .bs-steps button.u { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.bs-steps button.x { color: var(--accent-2); }
+.bs-steps button.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+.bs-big { font: 700 clamp(30px, 7vw, 46px) var(--mono); letter-spacing: -0.02em; text-align: center; line-height: 1.15; }
+.bs-big small { display: block; font: 500 13px var(--font); color: var(--text-dim); letter-spacing: 0; }
+.bs-steps button.on { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+.bs-steps button.gh { color: var(--accent-2); border-color: color-mix(in srgb, var(--accent-2) 50%, var(--border)); }
+.bs-steps .lab { font: 600 11px var(--mono); color: var(--text-dim); align-self: center; }
+
+/* ---------------------------------------------------------------- bass-clef staff */
+.bs-staff { width: 100%; overflow: hidden; }
+.bs-staff svg { display: block; width: 100%; height: auto; }
+.bs-staff .sl { stroke: var(--text-faint); stroke-width: 1; }
+.bs-staff .ledger { stroke: var(--text-dim); stroke-width: 1.1; }
+.bs-staff .bar { stroke: var(--text-dim); stroke-width: 1.2; }
+.bs-staff .bar.end { stroke-width: 3; }
+.bs-staff .clef { font: 30px serif; fill: var(--text); }
+.bs-staff .head { fill: var(--text); }
+.bs-staff .head.hollow { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.bs-staff .stem, .bs-staff .flag { stroke: var(--text); stroke-width: 1.3; fill: none; }
+.bs-staff .beam { stroke: var(--text); stroke-width: 3.2; }
+.bs-staff .acc, .bs-staff .rest { font: 15px serif; fill: var(--text); text-anchor: middle; }
+.bs-staff .lab { font: 600 10px var(--mono); fill: var(--text-dim); text-anchor: middle; }
+.bs-staff .chname { font: 700 12.5px var(--font); fill: var(--accent); }
+.bs-staff .n.now .head { fill: var(--accent); stroke: var(--accent); }
+.bs-staff .playhead { fill: var(--accent); opacity: 0.5; }
+
+/* ---------------------------------------------------------------- chips (고르기 버튼 줄) */
+.bs-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.bs-chips button { all: unset; box-sizing: border-box; cursor: pointer; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); font: 600 13px var(--font); color: var(--text-dim); }
+.bs-chips button:hover { border-color: var(--accent); color: var(--text); }
+.bs-chips button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }

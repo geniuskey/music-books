@@ -1,0 +1,15 @@
+{
+  "id": "bassbook",
+  "title": "BassBook",
+  "description": "낮은 한 줄에서 밴드를 떠받치는 그루브까지. 굵은 현의 물리와 튜닝, 4도 지판과 TAB·낮은음자리표, 근음과 코드톤, 반음 어프로치와 워킹 베이스, 킥 드럼과 맞물리는 그루브, 장르 베이스라인, 슬랩과 톤을 브라우저의 가상 베이스로 직접 뜯으며 배우는 베이스 교과서.",
+  "url": "https://music.euiyun.com/bass/",
+  "repo": "https://github.com/geniuskey/music-books",
+  "field": "music",
+  "status": "published",
+  "domain": "music.euiyun.com",
+  "basePath": "/bass/",
+  "meta": {
+    "siteName": "BassBook",
+    "summary": "듣고 뜯으며 배우는 인터랙티브 베이스 교과서. 지판·근음·코드톤·워킹·그루브·슬랩·톤을 브라우저의 가상 베이스로 연주하며 배운다."
+  }
+}

@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>베이스라는 악기 · BassBook</title>
+<meta name="description" content="베이스 각 부분의 이름과 역할, 34인치 스케일과 줄 장력, 굵은 줄의 비조화성, 4현·5현·6현의 음역, 일렉 베이스와 업라이트의 차이, 밴드에서 베이스가 맡는 일을 듣고 조작한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .ins-anat { padding: 10px 8px 4px; }
+  .ins-anat svg { display: block; width: 100%; height: auto; }
+  .ins-strbtns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .ins-strbtns button { font: inherit; font-size: 13px; padding: 7px 4px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.3; }
+  .ins-strbtns button small { display: block; color: var(--text-dim); font-family: var(--mono); font-size: 11px; }
+  .ins-strbtns button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .ins-tense { display: grid; gap: 8px; padding: 10px 14px; }
+  .ins-tense .row { display: grid; grid-template-columns: 62px minmax(0, 1fr) 86px; gap: 10px; align-items: center; font-size: 13.5px; }
+  .ins-tense .row b { font-family: var(--mono); }
+  .ins-tense .bar { height: 12px; border-radius: 6px; background: var(--accent-soft); overflow: hidden; }
+  .ins-tense .bar i { display: block; height: 100%; background: var(--accent); }
+  .ins-tense .row .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+  .ins-tense .tot { border-top: 1px solid var(--border); padding-top: 8px; font-weight: 700; }
+  .ins-range { padding: 8px 12px; }
+  .ins-range svg { display: block; width: 100%; height: auto; }
+  .ins-roles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .ins-roles label { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-elev); font-size: 14px; cursor: pointer; }
+  .ins-roles label small { display: block; color: var(--text-dim); font-size: 12.5px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="instrument">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 01</div>
+    <h1>베이스라는 악기</h1>
+    <p class="lead">베이스 기타는 기타를 크게 만든 물건처럼 보이지만, 크기의 차이가 아니라 <b>과제의 차이</b>에서 나온 모양입니다. 사람 귀가 가장 둔한 영역인 40–100 Hz에서 또렷한 음높이를 내려면 줄은 길고 무거워야 하고, 길고 무거운 줄은 더 세게 당겨야 하며, 세게 당긴 줄은 쉽게 휘지 않아 배음이 어긋납니다. 이 장에서는 베이스 각 부분의 이름과 역할을 익히고, 34인치라는 길이가 어디서 나왔는지 장력 계산으로 확인하고, 굵은 줄의 비조화성을 귀로 듣고, 마지막으로 밴드에서 베이스를 뺐다 넣었다 하며 이 악기가 맡은 일을 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>헤드스톡·너트·넥·지판·프렛·픽업·브리지·새들의 이름과 역할을 말할 수 있다.</li>
+      <li>줄 번호 규칙(4번 줄 = 가장 굵은 저음 E, 1번 줄 = 가장 가는 G)과 개방현 음 이름·주파수를 안다.</li>
+      <li>\(f=\frac{1}{2L}\sqrt{T/\mu}\)로 길이·장력·선밀도의 관계를 설명하고, 줄 한 벌이 넥을 얼마나 당기는지 계산한다.</li>
+      <li>스케일 길이를 30·32·34·35인치로 바꿀 때 장력과 소리가 어떻게 달라지는지 안다.</li>
+      <li>굵은 줄의 <b>비조화성</b>이 무엇이고 왜 베이스에서 두드러지는지 듣고 설명한다.</li>
+      <li>4현·5현·6현의 음역 차이를 알고, 일렉 베이스와 업라이트의 소리가 왜 다른지 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="anatomy">
+    <h2>베이스의 해부도: 줄이 지나가는 길</h2>
+    <p>베이스의 부분 이름은 줄 하나가 지나가는 길을 따라가면 자연스럽게 외워집니다. 줄은 <b>헤드스톡</b><span class="en">(Headstock)</span>의 <b>튜닝 머신</b><span class="en">(Tuning machine, 줄감개)</span>에 감겨 출발해, 홈이 파인 작은 막대인 <b>너트</b><span class="en">(Nut)</span>를 넘고, 손가락으로 누르는 <b>지판</b><span class="en">(Fretboard)</span> 위를 지나, 몸통의 <b>브리지</b><span class="en">(Bridge)</span>에 얹힌 <b>새들</b><span class="en">(Saddle)</span>을 넘어 고정됩니다. 줄이 실제로 진동하는 구간은 <b>너트에서 새들까지</b>이고, 이 길이를 <b>스케일 길이</b><span class="en">(Scale length)</span>라고 부릅니다. 일렉 베이스의 표준은 34인치(864 mm)이고, 32인치(미디엄)·30인치(숏)·35인치(5현에 흔한 엑스트라 롱)도 쓰입니다.</p>
+    <p>기타와 가장 크게 다른 점은 <b>소리가 나오는 길</b>입니다. 통기타는 줄의 진동이 새들을 통해 상판을 흔들고, 상판과 몸통 속 공기가 그 진동을 공기 중으로 밀어냅니다. 솔리드 바디 일렉 베이스의 몸통은 거의 울리지 않습니다. 대신 줄 밑에 놓인 <b>픽업</b><span class="en">(Pickup)</span>이 자석 둘레의 자기장을 강철 줄이 흔드는 것을 전압으로 바꿔 앰프로 보냅니다. 그래서 일렉 베이스에서 몸통 나무는 공명판이라기보다 <b>줄의 에너지를 얼마나 빨리 가져가는가</b>(서스테인)와 무게·균형을 정하는 부품에 가깝습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 860 270" role="img" aria-label="일렉 베이스 단면: 줄의 경로">
+        <path d="M60 104 L96 108 L380 112 L380 132 L96 132 L60 124 Z" class="f-surface"/>
+        <rect x="96" y="104" width="284" height="9" class="f-acc2-soft"/>
+        <line x1="104" y1="124" x2="374" y2="124" stroke="var(--warn)" stroke-width="2.4" stroke-dasharray="6 4"/>
+        <text x="240" y="150" text-anchor="middle" class="t-dim">트러스 로드(넥 속 강철 막대)</text>
+        <path d="M28 72 L96 104 L96 112 L60 124 L18 92 Z" class="f-elev"/>
+        <g class="f-acc"><circle cx="44" cy="84" r="5"/><circle cx="62" cy="92" r="5"/></g>
+        <text x="20" y="58" class="t-dim">튜닝 머신(줄감개)</text>
+        <rect x="94" y="98" width="6" height="9" class="f-acc"/>
+        <text x="98" y="86" text-anchor="middle" class="t">너트</text>
+        <g class="s-line"><line x1="142" y1="100" x2="142" y2="105"/><line x1="182" y1="100" x2="182" y2="105"/><line x1="220" y1="100" x2="220" y2="105"/><line x1="254" y1="100" x2="254" y2="105"/><line x1="288" y1="100" x2="288" y2="105"/><line x1="318" y1="100" x2="318" y2="105"/><line x1="346" y1="100" x2="346" y2="105"/></g>
+        <text x="236" y="94" text-anchor="middle" class="t-dim">프렛 (반음마다 좁아진다)</text>
+        <path d="M370 112 L820 112 L820 206 L370 206 Z" class="f-surface"/>
+        <text x="812" y="194" text-anchor="end" class="t-dim">솔리드 바디(거의 울리지 않는다)</text>
+        <rect x="520" y="96" width="22" height="18" rx="3" class="f-elev"/><rect x="620" y="96" width="22" height="18" rx="3" class="f-elev"/>
+        <g class="f-acc"><circle cx="531" cy="100" r="3"/><circle cx="631" cy="100" r="3"/></g>
+        <text x="531" y="140" text-anchor="middle" class="t-dim">넥 픽업</text>
+        <text x="634" y="162" text-anchor="middle" class="t-dim">브리지 픽업</text>
+        <rect x="700" y="100" width="54" height="12" rx="2" class="f-elev"/>
+        <rect x="706" y="90" width="5" height="11" class="f-acc"/>
+        <circle cx="736" cy="106" r="3" class="f-acc"/>
+        <text x="708" y="78" text-anchor="middle" class="t">새들</text>
+        <text x="766" y="96" class="t-dim">브리지</text>
+        <path d="M44 84 L97 96 L708 90 L736 106" fill="none" stroke="var(--text)" stroke-width="2.2"/>
+        <line x1="97" y1="46" x2="708" y2="46" class="s-acc"/>
+        <line x1="97" y1="40" x2="97" y2="52" class="s-acc"/><line x1="708" y1="40" x2="708" y2="52" class="s-acc"/>
+        <text x="402" y="38" text-anchor="middle" class="t-acc">스케일 길이 L (너트 → 새들) = 34″ = 864 mm</text>
+        <text x="596" y="232" text-anchor="middle" class="t-mono">픽업: 줄의 진동 → 자기장 변화 → 전압</text>
+        <text x="236" y="252" text-anchor="middle" class="t-mono">넥: 메이플 등 · 지판: 로즈우드·메이플</text>
+      </svg>
+      <figcaption><b>그림 1-1.</b> 일렉 베이스 단면(비율은 단순화). 줄은 줄감개 → 너트 → 지판 → 새들 → 브리지로 이어지고, 진동하는 구간은 너트에서 새들까지다. 통기타와 달리 소리는 몸통이 아니라 픽업이 만든다.</figcaption>
+    </figure>
+
+    <h3>줄 번호와 개방현</h3>
+    <p>베이스의 줄 번호는 기타와 같은 규칙입니다. <b>가장 가는 고음 줄이 1번</b>, 가장 굵은 저음 줄이 마지막 번호입니다. 4현 베이스의 표준 튜닝은 낮은 쪽부터 <b>E₁ A₁ D₂ G₂</b>이고, 줄 번호로는 4번 줄이 E, 1번 줄이 G입니다. 기타의 저음 네 줄(E A D G)과 음 이름이 같고 <b>정확히 한 옥타브 아래</b>입니다. 그래서 기타를 치던 사람은 지판 모양을 그대로 옮겨 쓸 수 있습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>줄</th><th>음 이름</th><th>MIDI</th><th>주파수</th><th>표준 굵기</th><th>기타와 비교</th></tr></thead>
+        <tbody>
+          <tr><td>1번 (가장 가는)</td><td>G₂</td><td>43</td><td>98.0 Hz</td><td>.045″</td><td>기타 3번 줄 G₃의 한 옥타브 아래</td></tr>
+          <tr><td>2번</td><td>D₂</td><td>38</td><td>73.4 Hz</td><td>.065″</td><td>기타 4번 줄 D₃의 한 옥타브 아래</td></tr>
+          <tr><td>3번</td><td>A₁</td><td>33</td><td>55.0 Hz</td><td>.085″</td><td>기타 5번 줄 A₂의 한 옥타브 아래</td></tr>
+          <tr><td>4번 (가장 굵은)</td><td>E₁</td><td>28</td><td>41.2 Hz</td><td>.105″</td><td>기타 6번 줄 E₂의 한 옥타브 아래</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <p><b>헤드폰을 권합니다.</b> 노트북이나 휴대폰 스피커는 보통 150–200 Hz 아래를 거의 내보내지 못합니다. 4번 줄 개방현 E(41 Hz)을 작은 스피커로 들으면 기본음은 사라지고 배음만 남는데, 신기하게도 음높이는 그대로 들립니다. 왜 그런지는 <a href="tuning.html">2장</a>에서 다룹니다.</p>
+    </div>
+
+    <div class="sim" id="sim-ins-strings">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>네 줄을 하나씩 들어 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="ins-str-fb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>개방현</span><div class="ins-strbtns" id="ins-str-btns"></div></div>
+          <div class="ctrl"><span>튜닝</span><div class="seg" id="ins-str-tun"><button data-value="standard" class="on">4현 E A D G</button><button data-value="five">5현 B E A D G</button></div></div>
+          <label class="check"><input type="checkbox" id="ins-str-oct"> 한 옥타브 위로 듣기(작은 스피커용)</label>
+          <div class="btn-row"><button class="btn primary" id="ins-str-all">▶ 개방현 차례로</button><button class="btn" id="ins-str-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 이름</span><span class="v" id="ins-str-name">—</span></div>
+        <div class="stat"><span class="k">기본 주파수</span><span class="v" id="ins-str-f">—</span></div>
+        <div class="stat"><span class="k">파장(공기 중)</span><span class="v" id="ins-str-wl">—</span></div>
+      </div>
+      <div class="sim-note">지판을 눌러도 소리가 납니다. "한 옥타브 위로 듣기"를 켜면 작은 스피커에서도 음높이를 비교할 수 있습니다 · 모델: 카플러스–스트롱 현 + 주법별 픽업·앰프 필터 근사.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="tension">
+    <h2>왜 이렇게 길고 굵은가: 장력의 산수</h2>
+    <p>양끝이 고정된 줄의 기본 주파수는 <b>메르센 법칙</b><span class="en">(Mersenne's laws)</span>으로 정해집니다.</p>
+    <div class="formula">
+      $$f=\frac{1}{2L}\sqrt{\frac{T}{\mu}}$$
+      <div class="where">여기서 \(L\)은 진동하는 길이(m), \(T\)는 장력(N), \(\mu\)는 단위 길이당 질량(kg/m)입니다.</div>
+    </div>
+    <p>이 식을 장력에 대해 풀면 <span>\(T=\mu\,(2Lf)^2\)</span>가 됩니다. 여기서 베이스의 설계 문제가 그대로 드러납니다. 기타의 저음 E보다 <b>한 옥타브 낮은</b> 음(41.2 Hz)을 내려면 \(f\)를 절반으로 만들어야 하는데, 방법은 세 가지뿐입니다.</p>
+    <ul>
+      <li><b>길이 \(L\)을 두 배로</b> — 648 mm의 두 배면 1296 mm. 팔이 닿지 않습니다.</li>
+      <li><b>장력 \(T\)를 \(1/4\)로</b> — 줄이 흐물흐물해져서 음높이가 불안정하고 소리도 나지 않습니다.</li>
+      <li><b>선밀도 \(\mu\)를 네 배로</b> — 줄을 무겁게. 실제로 쓰이는 답입니다.</li>
+    </ul>
+    <p>실제 베이스는 이 셋을 <b>섞어서</b> 씁니다. 길이는 기타의 648 mm에서 864 mm로 1.33배만 늘리고(이 정도가 팔이 닿는 한계), 모자란 몫은 줄을 무겁게 만들어 채웁니다. 그래서 베이스 E 줄의 선밀도는 기타 E 줄의 약 여섯 배입니다. 줄을 무겁게 만드는 방법은 <b>와운드</b><span class="en">(Wound)</span>, 즉 가는 심선 위에 굵은 철사를 촘촘히 감는 것입니다. 통짜 굵은 철사를 쓰지 않는 이유는 다음 절에서 다룰 <b>강성</b> 때문입니다.</p>
+    <div class="callout deep">
+      <p><b>왜 하필 34인치인가.</b> 레오 펜더가 1951년 프리시전 베이스를 만들 때 고른 34″는 물리적 최적값이라기보다 <b>타협점</b>입니다. 더 길면 장력과 음정 안정성은 좋아지지만 1프렛까지 손이 닿지 않고, 더 짧으면 줄이 물러져 음높이가 흔들립니다. 5현 베이스에서 35″가 흔한 이유도 같습니다. 저음 B(30.9 Hz)를 같은 34″에서 내려면 줄이 너무 물러지는데, 1인치만 늘려도 \(T \propto L^2\)이라 장력이 약 6% 올라가 B 줄이 훨씬 또렷해집니다.</p>
+    </div>
+
+    <div class="sim" id="sim-ins-tension">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>줄 한 벌이 넥을 당기는 힘</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="ins-tense" id="ins-ten-list"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>스케일 길이 <output id="ins-ten-L-out"></output></span><input type="range" id="ins-ten-L" min="0" max="4" step="1" value="2"></label>
+          <div class="ctrl"><span>줄 세트</span><div class="seg" id="ins-ten-set"><button data-value="light" class="on">라이트 40–95</button><button data-value="medium">미디엄 45–105</button><button data-value="heavy">헤비 50–110</button></div></div>
+          <label class="ctrl"><span>조율 <output id="ins-ten-tune-out"></output></span><input type="range" id="ins-ten-tune" min="-4" max="2" step="1" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-ten-play">▶ 4번 줄 들어 보기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">한 벌 합계</span><span class="v" id="ins-ten-total">—</span></div>
+        <div class="stat"><span class="k">4번 줄(E) 장력</span><span class="v" id="ins-ten-e">—</span></div>
+        <div class="stat"><span class="k">기타 한 벌과 비교</span><span class="v" id="ins-ten-vs">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 스케일을 30″(숏)로 줄이면 같은 음을 내는 데 필요한 장력이 얼마나 떨어지는지 보세요 · 모델: \(T=\mu(2Lf)^2\)에 실제 니켈 라운드와운드 줄의 선밀도 표를 넣었습니다. 와인딩 방식·브랜드에 따라 5% 안팎 차이가 납니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 넥 상태 보기.</b> 줄 한 벌이 넥을 70–90 kgf로 당깁니다. 1프렛과 마지막 프렛을 동시에 누르고 7–9프렛 근처에서 줄과 프렛 사이 틈을 보세요. 종이 한 장(0.1–0.3 mm) 정도면 정상, 틈이 전혀 없거나 1 mm 넘게 벌어지면 트러스 로드 조정이 필요합니다. 계절이 바뀌면 다시 보세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="inharmonicity">
+    <h2>굵은 줄의 배신: 비조화성</h2>
+    <p>이상적인 줄은 휘지 않고 장력만으로 복원력을 얻습니다. 그런 줄의 배음은 정확히 정수배입니다(\(f_n = n f_0\)). 그런데 실제 줄은 <b>굵을수록 잘 휘지 않습니다</b>. 줄을 구부리는 데 드는 추가 복원력은 짧은 파장(높은 배음)일수록 크게 작용하므로, 높은 배음일수록 <b>예상보다 높은 주파수</b>로 울립니다. 이것을 <b>비조화성</b><span class="en">(Inharmonicity)</span>이라고 하고, 다음 식으로 근사합니다.</p>
+    <div class="formula">
+      $$f_n = n f_0 \sqrt{1 + B n^2}, \qquad B=\frac{\pi^3 E d^4}{64\,T L^2}$$
+      <div class="where">여기서 \(E\)는 심선의 영률(강철 약 \(2\times10^{11}\) Pa), \(d\)는 <b>심선</b> 지름, \(T\)는 장력, \(L\)은 길이입니다. \(B\)는 보통 \(10^{-5}\) 안팎이고, \(B\)가 커질수록 높은 배음이 가파르게 위로 밀립니다.</div>
+    </div>
+    <p>\(d^4\)에 비례한다는 점이 핵심입니다. 줄을 통짜로 굵게 만들면 \(\mu\)는 \(d^2\)로 늘지만 강성은 \(d^4\)로 늘어, 음은 내려가는 대신 배음이 엉망이 됩니다. <b>와운드 줄</b>은 이 문제를 피하는 영리한 해법입니다. 가는 심선이 강성을 결정하고(작은 \(d\)), 감은 철사가 질량을 더해 주므로(\(\mu\) 증가), 무게는 얻고 강성은 피합니다.</p>
+    <p>그래도 베이스는 기타보다 비조화성이 큽니다. 그 결과가 실제로 귀에 들리는 방식은 두 가지입니다. 첫째, 낮은 음일수록 음높이가 <b>약간 모호하게</b> 들립니다. 둘째, 12프렛 하모닉스로 맞춘 튜닝과 실제로 눌러서 친 음이 미세하게 어긋나는데, 이것이 <b>인토네이션</b> 조정이 필요한 이유의 절반입니다(나머지 절반은 줄을 누를 때 생기는 장력 증가입니다).</p>
+
+    <div class="sim" id="sim-ins-inharm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>배음이 얼마나 밀려 올라가는가</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ins-inh-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>비조화 계수 B <output id="ins-inh-B-out"></output></span><input type="range" id="ins-inh-B" min="0" max="40" step="0.5" value="4.5"></label>
+          <div class="ctrl"><span>음</span><div class="seg" id="ins-inh-note"><button data-value="28" class="on">E₁ 41 Hz</button><button data-value="40">E₂ 82 Hz</button><button data-value="52">E₃ 165 Hz</button></div></div>
+          <label class="ctrl"><span>배음 개수 <output id="ins-inh-n-out"></output></span><input type="range" id="ins-inh-n" min="4" max="24" step="1" value="16"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-inh-play">▶ 들어 보기</button><button class="btn" id="ins-inh-cmp">▶ 정수배와 번갈아</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">최고 배음 어긋남</span><span class="v" id="ins-inh-cents">—</span></div>
+        <div class="stat"><span class="k">실제 베이스 E 줄</span><span class="v">B ≈ 4×10⁻⁵</span></div>
+        <div class="stat"><span class="k">피아노 최저음</span><span class="v">B ≈ 3×10⁻⁴</span></div>
+      </div>
+      <div class="sim-note">해볼 것: B를 0으로 두면 깨끗한 톱니파처럼, 크게 올리면 종(鐘)처럼 들립니다 · 모델: 배음 \(n\)개를 \(f_n=nf_0\sqrt{1+Bn^2}\) 주파수의 사인파로 직접 더하고 \(1/n\)로 세기를 줄였습니다. 실제 줄의 감쇠·몸통 응답은 넣지 않았습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="range">
+    <h2>음역: 4현·5현·6현</h2>
+    <p>4현 베이스의 음역은 개방 E₁(41.2 Hz)에서 20프렛 G₄? 아닙니다 — 1번 줄 G₂의 20프렛은 D₄(293.7 Hz)입니다. 즉 <b>약 2옥타브 반</b>으로, 피아노로 치면 가장 왼쪽 건반 근처부터 가온다(C₄) 조금 위까지입니다. 이 좁아 보이는 음역이 밴드에서는 거의 독점 구역입니다. 기타의 최저음 E₂(82.4 Hz)보다 한 옥타브 아래가 통째로 비어 있기 때문입니다.</p>
+    <p>줄을 더하면 음역이 넓어지는데, 넓히는 방향이 두 갈래입니다.</p>
+    <ul>
+      <li><b>5현 (B E A D G)</b> — 아래로 넓힙니다. 저음 B₀는 30.87 Hz. 모던 록·메탈·가스펠·R&amp;B에서 표준에 가깝습니다. 아래로 5반음이 늘어나는 것보다 더 중요한 이득은 <b>손을 옮기지 않고</b> 낮은 음을 짚을 수 있다는 점입니다(예: 4현에서 1프렛 F를 치려면 1포지션으로 내려가야 하지만, 5현이면 B 줄 6프렛으로 제자리에서 해결됩니다).</li>
+      <li><b>6현 (B E A D G C)</b> — 위아래로 모두. 솔로·코드 연주·재즈에 쓰입니다. 줄 간격이 좁아져 뮤팅이 훨씬 어려워집니다.</li>
+    </ul>
+    <div class="sim" id="sim-ins-range">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음역 비교: 베이스·기타·피아노</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="ins-range" id="ins-rng-view"></div><div id="ins-rng-fb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>베이스</span><div class="seg" id="ins-rng-tun"><button data-value="standard" class="on">4현</button><button data-value="five">5현</button><button data-value="six">6현</button></div></div>
+          <label class="ctrl"><span>프렛 수 <output id="ins-rng-fr-out"></output></span><input type="range" id="ins-rng-fr" min="12" max="24" step="1" value="20"></label>
+          <div class="btn-row"><button class="btn primary" id="ins-rng-lo">▶ 최저음</button><button class="btn" id="ins-rng-hi">▶ 최고음</button><button class="btn" id="ins-rng-sweep">▶ 전체 훑기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">최저음</span><span class="v" id="ins-rng-olo">—</span></div>
+        <div class="stat"><span class="k">최고음</span><span class="v" id="ins-rng-ohi">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="ins-rng-oct">—</span></div>
+      </div>
+      <div class="sim-note">지판을 눌러 아무 음이나 들어 보세요. 막대 그림에서 같은 음높이가 어디에 있는지 함께 표시됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="kinds">
+    <h2>일렉 베이스와 업라이트, 그리고 음색</h2>
+    <p>같은 음역을 맡는 악기지만 소리를 만드는 방식이 다릅니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>일렉 베이스</th><th>업라이트(더블 베이스)</th></tr></thead>
+        <tbody>
+          <tr><td>스케일 길이</td><td>약 864 mm (34″)</td><td>약 1050 mm (41″)</td></tr>
+          <tr><td>프렛</td><td>있음(보통). 프렛리스도 흔함</td><td>없음 — 음정을 귀와 손이 만든다</td></tr>
+          <tr><td>소리를 내는 길</td><td>픽업 → 앰프</td><td>줄 → 브리지 → 상판 → 몸통 속 공기</td></tr>
+          <tr><td>어택</td><td>빠르고 또렷함(핑거·피크·슬랩)</td><td>느리고 둥글다. 손가락 살이 넓게 닿는다</td></tr>
+          <tr><td>감쇠</td><td>길다(서스테인 수 초)</td><td>짧다. 음이 금방 사그라든다</td></tr>
+          <tr><td>전형적 쓰임</td><td>록·펑크·팝·R&amp;B</td><td>재즈·클래식·로커빌리</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>일렉 베이스 안에서도 음색 차이의 대부분은 <b>세 가지</b>에서 나옵니다. (1) <b>오른손이 어떻게 줄을 떠나게 하는가</b> — 손가락 살은 부드럽게, 피크는 날카롭게, 엄지 슬랩은 줄을 프렛에 때려 금속성 잡음을 더합니다. (2) <b>어디를 뜯는가</b> — 브리지 쪽은 얇고 단단하게, 넥 쪽은 굵고 둥글게. 이유는 <a href="tone.html">13장</a>의 빗살 필터로 설명합니다. (3) <b>줄의 종류</b> — 라운드와운드는 표면이 거칠어 고역이 살아 있고, 플랫와운드는 표면이 매끈해 고역이 눌린 "둥둥" 소리가 납니다.</p>
+    <div class="sim" id="sim-ins-tone">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 음, 다른 주법</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ins-tn-cv"></canvas><div id="ins-tn-fb"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>주법 · 줄</span><div class="seg" id="ins-tn-tone"></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-tn-play">▶ 같은 프레이즈로 비교</button><button class="btn" id="ins-tn-stop">■ 정지</button></div>
+          <label class="check"><input type="checkbox" id="ins-tn-auto" checked> 재생할 때 주법을 차례로 바꾸기</label>
+        </div>
+      </div>
+      <div class="sim-note">지판을 눌러도 고른 주법으로 소리가 납니다 · 모델: 카플러스–스트롱 현에 주법별 밝기·감쇠·뜯는 위치를 주고, 픽업·앰프 대역과 어택 잡음을 필터로 흉내 냈습니다. 실제 악기의 몸통 공진과 줄의 비조화성은 들어 있지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="role">
+    <h2>밴드에서 베이스가 하는 일</h2>
+    <p>베이스는 혼자 들을 때와 밴드에서 들을 때가 가장 다른 악기입니다. 솔로로 들으면 둔탁한 저음이지만, 빠지는 순간 음악 전체가 공중에 뜹니다. 베이스가 동시에 맡는 일은 세 가지입니다.</p>
+    <ul>
+      <li><b>화성의 바닥</b> — 어떤 음을 가장 낮은 자리에 두느냐가 화음의 성격을 정합니다. 같은 C·E·G라도 베이스가 C를 치면 안정된 C 화음이고, E를 치면 흔들리는 1전위(C/E), G를 치면 다음으로 가고 싶어 하는 2전위(C/G)가 됩니다.</li>
+      <li><b>리듬의 척추</b> — 베이스는 킥 드럼과 같은 시간 격자를 공유합니다. 둘이 같은 칸에 있으면 단단하고, 일부러 어긋나면 밀고 당기는 느낌이 생깁니다(<a href="groove.html">10장</a>).</li>
+      <li><b>음역의 자리 정리</b> — 기타·건반·보컬이 쓰는 영역을 비워 두고 아래를 맡음으로써 믹스에 자리가 생깁니다.</li>
+    </ul>
+    <div class="sim" id="sim-ins-band">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>베이스를 뺐다 넣었다</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="ins-bd-tab"></div><div id="ins-bd-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>파트</span><div class="ins-roles">
+            <label><input type="checkbox" id="ins-bd-drum" checked><span>드럼<small>록 8비트</small></span></label>
+            <label><input type="checkbox" id="ins-bd-keys" checked><span>건반<small>코드 패드</small></span></label>
+            <label><input type="checkbox" id="ins-bd-bass" checked><span>베이스<small>근음 8분음</small></span></label>
+          </div></div>
+          <label class="ctrl"><span>템포 <output id="ins-bd-bpm-out"></output></span><input type="range" id="ins-bd-bpm" min="60" max="140" step="1" value="96"></label>
+          <div class="ctrl"><span>베이스가 칠 음</span><div class="seg" id="ins-bd-note"><button data-value="root" class="on">근음 C</button><button data-value="third">3도 E</button><button data-value="fifth">5도 G</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ins-bd-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드</span><span class="v" id="ins-bd-chord">—</span></div>
+        <div class="stat"><span class="k">들리는 화음</span><span class="v" id="ins-bd-sym">—</span></div>
+      </div>
+      <div class="sim-note">해볼 것: 베이스만 끄고 들어 보세요. 그다음 베이스가 칠 음을 3도·5도로 바꿔 보세요. 건반이 치는 음은 그대로인데 화음의 이름이 달라집니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 첫 자세.</b> 서서 칠 때는 스트랩을 조절해 <b>앉았을 때와 같은 높이</b>에 베이스가 오게 하세요. 둘이 다르면 손 모양을 두 벌 익히게 됩니다. 왼손 엄지는 넥 뒤 가운데, 손가락 관절은 세워서 손끝으로 누릅니다. 오른손은 검지·중지 끝을 줄에 얹고 손바닥 옆이나 엄지를 쉬는 줄에 대어 뮤팅합니다. 자세한 내용은 <a href="hands.html">3장</a>에서 다룹니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>줄이 진동하는 구간은 <b>너트에서 새들까지</b>이고, 이 길이가 스케일 길이다. 일렉 베이스의 표준은 34″(864 mm).</li>
+      <li>4현 표준 튜닝은 낮은 줄부터 <b>E₁ A₁ D₂ G₂</b>(41.2 / 55.0 / 73.4 / 98.0 Hz)로, 기타의 저음 네 줄과 음 이름이 같고 한 옥타브 아래다. 가장 가는 줄이 1번이다.</li>
+      <li>\(T=\mu(2Lf)^2\). 기타보다 한 옥타브 낮은 음을 내기 위해 베이스는 길이를 1.33배 늘리고 나머지는 줄의 무게(\(\mu\))로 채웠다. 줄 한 벌의 장력 합계는 70–90 kgf다.</li>
+      <li>굵은 줄은 강성 때문에 배음이 정수배보다 높아진다(<b>비조화성</b>, \(f_n=nf_0\sqrt{1+Bn^2}\), \(B\propto d^4/TL^2\)). <b>와운드</b> 줄은 가는 심선으로 강성을 낮추고 감은 철사로 질량만 더해 이 문제를 피한다.</li>
+      <li>4현의 음역은 약 2옥타브 반. 5현은 아래로(B₀ 30.9 Hz), 6현은 위아래로 넓히며, 진짜 이득은 음역보다 <b>손을 덜 움직여도 된다</b>는 점이다.</li>
+      <li>일렉 베이스의 소리는 몸통이 아니라 픽업이 만든다. 음색의 대부분은 <b>어떻게 뜯는가 · 어디를 뜯는가 · 어떤 줄인가</b>에서 나온다.</li>
+      <li>밴드에서 베이스는 화성의 바닥(어떤 음이 가장 아래 있는가), 리듬의 척추(킥과의 관계), 음역의 자리 정리를 동시에 맡는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>4현 베이스의 <b>3번 줄</b> 개방현은 어떤 음인가?</p><div class="opts">
+        <button class="opt">E₁</button><button class="opt" data-correct>A₁</button><button class="opt">D₂</button><button class="opt">G₂</button>
+      </div><div class="quiz-exp">줄 번호는 가장 가는 줄이 1번이다. 낮은 쪽부터 E(4번) A(3번) D(2번) G(1번)이므로 3번 줄은 A₁(55 Hz)이다.</div></div>
+
+      <div class="quiz-q"><p>같은 줄, 같은 음높이를 유지한 채 스케일 길이만 34″에서 30″로 줄이면 장력은?</p><div class="opts">
+        <button class="opt">그대로다</button><button class="opt">약 12% 줄어든다</button><button class="opt" data-correct>약 22% 줄어든다</button><button class="opt">약 22% 늘어난다</button>
+      </div><div class="quiz-exp">\(T=\mu(2Lf)^2 \propto L^2\)이므로 \((30/34)^2 = 0.778\), 약 22% 감소한다. 숏스케일 베이스가 물렁하게 느껴지는 이유다.</div></div>
+
+      <div class="quiz-q"><p>베이스 줄을 <b>와운드</b>(심선에 철사를 감는 방식)로 만드는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">표면이 거칠어 소리가 커지므로</button>
+        <button class="opt" data-correct>강성을 낮게 유지한 채 질량만 늘릴 수 있으므로</button>
+        <button class="opt">장력을 줄일 수 있으므로</button>
+        <button class="opt">녹이 잘 슬지 않으므로</button>
+      </div><div class="quiz-exp">비조화 계수는 심선 지름의 네제곱에 비례한다(\(B \propto d^4\)). 통짜 줄을 굵게 하면 질량은 \(d^2\)로 늘지만 강성은 \(d^4\)로 늘어 배음이 크게 어긋난다. 와운드는 심선을 가늘게 유지해 강성을 낮추고, 감은 철사로 \(\mu\)만 키운다.</div></div>
+
+      <div class="quiz-q"><p>건반이 C·E·G를 치고 있을 때 베이스가 <b>E</b>를 치면 들리는 화음은?</p><div class="opts">
+        <button class="opt">Em</button><button class="opt" data-correct>C/E (C 화음 1전위)</button><button class="opt">E7</button><button class="opt">Am</button>
+      </div><div class="quiz-exp">구성음은 그대로 C 장3화음이지만 가장 낮은 음이 E로 바뀌어 1전위가 된다. 슬래시 코드 C/E로 적고, 근음 C를 칠 때보다 불안정해 다음 화음으로 이어지려는 성격이 생긴다.</div></div>
+
+      <div class="quiz-q"><p>작은 노트북 스피커로 베이스의 개방 E(41 Hz)를 들어도 음높이를 알아들을 수 있는 이유는?</p><div class="opts">
+        <button class="opt">스피커가 41 Hz를 충분히 재생하므로</button>
+        <button class="opt">41 Hz가 사람 귀에 가장 민감한 대역이므로</button>
+        <button class="opt" data-correct>배음(82·123·164 Hz…)의 간격에서 뇌가 기본음을 복원하므로</button>
+        <button class="opt">비조화성 때문에 기본음이 올라가므로</button>
+      </div><div class="quiz-exp">기본음이 재생되지 않아도 배음들이 일정한 간격(= 기본 주파수)으로 늘어서 있으면 청각이 그 간격에 해당하는 음높이를 만들어 낸다. 이를 '잃어버린 기본음'이라 하며 2장에서 직접 들어 본다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 네 줄 들어 보기 */
+(function () {
+  const bass = BS.bass({ tone: "finger" });
+  let tuning = "standard", octUp = false;
+  const fb = BS.fretboard("#ins-str-fb", { frets: 7, labels: "notes", tuning, bass, play: false,
+    onClick(s, f, midi) { hit(s, f, midi); return false; } });
+  const btns = document.getElementById("ins-str-btns");
+  function hit(s, f, midi) {
+    const t = BS.tuningNotes(tuning);
+    MB.stat("ins-str-name", MB.noteName(midi) + " · " + BS.stringLabel(s, tuning));
+    const hz = MB.mtof(midi);
+    MB.stat("ins-str-f", MB.fmt(hz, 4) + " Hz");
+    MB.stat("ins-str-wl", MB.fmt(343 / hz, 3) + " m");
+    bass.pluck(s, f, { ring: 4 });
+    if (octUp) MB.play(midi + 12, { inst: "ebass", dur: 1.6, vel: 0.5, bs: { tone: "pick" } });
+    fb.flash(s, f);
+    btns.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.s === s && f === 0));
+  }
+  function build() {
+    const t = BS.tuningNotes(tuning);
+    btns.innerHTML = t.map((m, s) => `<button data-s="${s}">${BS.stringNumber(s, tuning)}번 줄 ${MB.noteName(m)}<small>${MB.fmt(MB.mtof(m), 4)} Hz</small></button>`).reverse().join("");
+  }
+  btns.addEventListener("click", (e) => { const b = e.target.closest("button[data-s]"); if (!b) return; MB.ctx(); const s = +b.dataset.s; hit(s, 0, BS.tuningNotes(tuning)[s]); });
+  MB.seg("ins-str-tun", (v) => { tuning = v; bass.tuning = v; fb.setTuning(v); build(); });
+  MB.check("ins-str-oct", (v) => { octUp = v; });
+  let seq = null;
+  document.getElementById("ins-str-all").addEventListener("click", function () {
+    MB.ctx(); if (seq) clearInterval(seq);
+    const t = BS.tuningNotes(tuning); let i = 0;
+    const step = () => { if (i >= t.length) { clearInterval(seq); seq = null; return; } hit(i, 0, t[i]); i++; };
+    step(); seq = setInterval(step, 900);
+  });
+  document.getElementById("ins-str-stop").addEventListener("click", () => { if (seq) { clearInterval(seq); seq = null; } bass.stop(); });
+  build();
+})();
+
+/* ------------------------------------------------------------ 2. 장력 계산기 */
+(function () {
+  // 니켈 라운드와운드 롱스케일 줄의 단위 길이 질량(kg/m). 제조사 공개 장력표에서 역산한 대표값.
+  const MU = { 40: 0.00543, 45: 0.00671, 50: 0.00823, 55: 0.01010, 60: 0.01170, 65: 0.01342, 70: 0.01577,
+               75: 0.01880, 80: 0.02228, 85: 0.02480, 90: 0.02790, 95: 0.03120, 100: 0.03541, 105: 0.03870, 110: 0.04250, 130: 0.05960 };
+  const SETS = {
+    light:  { name: "라이트 40–95", g: [95, 75, 55, 40] },
+    medium: { name: "미디엄 45–105", g: [105, 85, 65, 45] },
+    heavy:  { name: "헤비 50–110", g: [110, 90, 70, 50] },
+  };
+  const LENS = [[762, "30″ 숏"], [813, "32″ 미디엄"], [864, "34″ 롱(표준)"], [889, "35″ 엑스트라 롱"], [1050, "41″ 업라이트"]];
+  const OPEN = [28, 33, 38, 43];
+  let setKey = "medium", Li = 2, semis = 0;
+  const list = document.getElementById("ins-ten-list");
+  const tension = (mu, L, f) => mu * Math.pow(2 * (L / 1000) * f, 2); // N
+  function render() {
+    const set = SETS[setKey], L = LENS[Li][0];
+    const rows = OPEN.map((m, s) => {
+      const f = MB.mtof(m + semis), mu = MU[set.g[3 - s]];
+      return { s, m: m + semis, g: set.g[3 - s], T: tension(mu, L, f) };
+    });
+    const total = rows.reduce((a, r) => a + r.T, 0);
+    const max = Math.max(...rows.map((r) => r.T), 1);
+    list.innerHTML = rows.slice().reverse().map((r) =>
+      `<div class="row"><b>.${String(r.g).padStart(3, "0")}</b><span class="bar"><i style="width:${(r.T / max * 100).toFixed(1)}%"></i></span><span class="n">${(r.T / 9.80665).toFixed(1)} kgf</span></div>`).join("")
+      + `<div class="row tot"><b>합계</b><span>${LENS[Li][1]} · ${MB.noteName(OPEN[0] + semis)} 튜닝</span><span class="n">${(total / 9.80665).toFixed(1)} kgf</span></div>`;
+    MB.stat("ins-ten-total", (total / 9.80665).toFixed(1) + " kgf (" + Math.round(total) + " N)");
+    MB.stat("ins-ten-e", (rows[0].T / 9.80665).toFixed(1) + " kgf");
+    MB.stat("ins-ten-vs", "기타 한 벌 ≈ 72 kgf → " + (total / 9.80665 / 72).toFixed(2) + "배");
+    document.getElementById("ins-ten-L-out").textContent = LENS[Li][1];
+    document.getElementById("ins-ten-tune-out").textContent = semis === 0 ? "표준 E" : MB.signed(semis, 0) + "반음 (" + MB.noteName(28 + semis) + ")";
+  }
+  MB.range("ins-ten-L", null, (v) => { Li = Math.round(v); render(); });
+  MB.range("ins-ten-tune", null, (v) => { semis = Math.round(v); render(); });
+  MB.seg("ins-ten-set", (v) => { setKey = v; render(); });
+  document.getElementById("ins-ten-play").addEventListener("click", () => {
+    MB.ctx();
+    // 스케일이 짧을수록 장력이 낮아 배음이 적고 둔해진다는 느낌을 밝기로 흉내 낸다.
+    const bright = 0.26 + 0.2 * (LENS[Li][0] / 864);
+    MB.play(28 + semis, { inst: "ebass", dur: 2.4, bs: { tone: "finger", bright, ring: 4 } });
+  });
+  render();
+})();
+
+/* ------------------------------------------------------------ 3. 비조화성 */
+(function () {
+  let B = 4.5e-5, f0m = 28, N = 16;
+  const view = MB.canvas("#ins-inh-cv", draw, { aspect: 0.46 });
+  function partials() {
+    const f0 = MB.mtof(f0m), out = [];
+    for (let n = 1; n <= N; n++) out.push({ n, f: n * f0 * Math.sqrt(1 + B * n * n), ideal: n * f0 });
+    return out;
+  }
+  function draw(ctx, w, h) {
+    const ps = partials(), P = MB.palette();
+    const maxF = ps[ps.length - 1].ideal * 1.08;
+    const c = MB.chart(ctx, null, { x: [0, maxF], y: [0, 1.05], xLabel: "주파수 (Hz)", yLabel: "세기",
+      xFmt: (v) => Math.round(v), yTicks: 0,
+      series: [], vlines: ps.map((p) => ({ x: p.ideal, color: P.faint, dash: [3, 4] })) });
+    ps.forEach((p) => {
+      const x = c.X(p.f), y0 = c.Y(0), y1 = c.Y(1 / p.n);
+      ctx.strokeStyle = P.accent; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke();
+      ctx.fillStyle = P.accent; ctx.beginPath(); ctx.arc(x, y1, 3.2, 0, 7); ctx.fill();
+    });
+    ctx.fillStyle = P.dim; ctx.font = "12px " + MB.color("font");
+    ctx.fillText("점선 = 정수배 배음 자리", c.box.x + 8, c.box.y + 14);
+  }
+  function cents() { const p = partials()[N - 1]; return MB.cents(p.f / p.ideal); }
+  function update() {
+    document.getElementById("ins-inh-B-out").textContent = B === 0 ? "0 (이상적인 줄)" : MB.fmt(B, 2);
+    document.getElementById("ins-inh-n-out").textContent = N + "개";
+    MB.stat("ins-inh-cents", N + "번째 배음 " + MB.signed(cents(), 1) + " 센트");
+    view.redraw();
+  }
+  function ring(stretch, when) {
+    const ctx = MB.ctx(); if (!ctx) return 0;
+    const t = when != null ? when : ctx.currentTime + 0.03;
+    const g = ctx.createGain(); g.gain.value = 0.7; g.connect(MB.out);
+    partials().forEach((p) => {
+      const f = stretch ? p.f : p.ideal;
+      if (f > 16000) return;
+      const o = ctx.createOscillator(); o.frequency.value = f;
+      const a = ctx.createGain(), amp = 0.5 / p.n;
+      a.gain.setValueAtTime(0.0001, t); a.gain.linearRampToValueAtTime(amp, t + 0.006);
+      a.gain.setTargetAtTime(0, t + 0.006, 0.9 / Math.pow(p.n, 0.35));
+      o.connect(a); a.connect(g); o.start(t); o.stop(t + 3.2);
+    });
+    return t;
+  }
+  MB.range("ins-inh-B", null, (v) => { B = v * 1e-5; update(); });
+  MB.range("ins-inh-n", null, (v) => { N = Math.round(v); update(); });
+  MB.seg("ins-inh-note", (v) => { f0m = +v; update(); });
+  document.getElementById("ins-inh-play").addEventListener("click", () => { MB.ctx(); ring(true); });
+  document.getElementById("ins-inh-cmp").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const t = ctx.currentTime + 0.05;
+    ring(false, t); ring(true, t + 1.9);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 음역 비교 */
+(function () {
+  let tuning = "standard", frets = 20;
+  const bass = BS.bass({ tone: "finger", tuning });
+  const fb = BS.fretboard("#ins-rng-fb", { frets: 12, labels: "notes", tuning, bass });
+  const view = document.getElementById("ins-rng-view");
+  const INSTR = [
+    { name: "피아노", lo: 21, hi: 108, cls: "f-surface" },
+    { name: "기타", lo: 40, hi: 88, cls: "f-acc2-soft" },
+    { name: "베이스", lo: 28, hi: 63, cls: "f-acc-soft" },
+  ];
+  let markM = null;
+  function range() { const t = BS.tuningNotes(tuning); return [t[0], t[t.length - 1] + frets]; }
+  function render() {
+    const [lo, hi] = range();
+    INSTR[2].lo = lo; INSTR[2].hi = hi;
+    const L = 18, R = 96, span = [21, 108];
+    const X = (m) => L + ((m - span[0]) / (span[1] - span[0])) * (R - L);
+    const rows = INSTR.map((d, i) => {
+      const y = 14 + i * 22;
+      return `<rect x="${X(d.lo).toFixed(2)}" y="${y}" width="${(X(d.hi) - X(d.lo)).toFixed(2)}" height="13" rx="4" class="${d.cls}" stroke="var(--border)"/>`
+        + `<text x="2" y="${y + 10}" class="t-mono" style="font-size:7px">${d.name}</text>`
+        + `<text x="${(X(d.hi) + 1).toFixed(2)}" y="${y + 10}" class="t-mono" style="font-size:6.5px">${MB.noteName(d.hi)}</text>`
+        + `<text x="${(X(d.lo) - 1).toFixed(2)}" y="${y + 10}" text-anchor="end" class="t-mono" style="font-size:6.5px">${MB.noteName(d.lo)}</text>`;
+    }).join("");
+    const ticks = [24, 36, 48, 60, 72, 84, 96, 108].map((m) =>
+      `<line x1="${X(m).toFixed(2)}" y1="10" x2="${X(m).toFixed(2)}" y2="82" class="s-line" stroke-dasharray="2 3"/>`
+      + `<text x="${X(m).toFixed(2)}" y="89" text-anchor="middle" class="t-dim" style="font-size:6px">${MB.noteName(m)}</text>`).join("");
+    const cursor = markM != null ? `<line x1="${X(markM).toFixed(2)}" y1="8" x2="${X(markM).toFixed(2)}" y2="84" class="s-acc" stroke-width="1.2"/>` : "";
+    view.innerHTML = `<svg viewBox="0 0 100 94" role="img" aria-label="악기별 음역 비교">${ticks}${rows}${cursor}</svg>`;
+    MB.stat("ins-rng-olo", MB.noteName(lo) + " · " + MB.fmt(MB.mtof(lo), 4) + " Hz");
+    MB.stat("ins-rng-ohi", MB.noteName(hi) + " · " + MB.fmt(MB.mtof(hi), 4) + " Hz");
+    MB.stat("ins-rng-oct", ((hi - lo) / 12).toFixed(2) + " 옥타브 (" + (hi - lo) + "반음)");
+    document.getElementById("ins-rng-fr-out").textContent = frets + "프렛";
+  }
+  fb.bass.on((ev) => { if (ev.midi != null) { markM = ev.midi; render(); } });
+  MB.seg("ins-rng-tun", (v) => { tuning = v; bass.tuning = v; fb.setTuning(v); render(); });
+  MB.range("ins-rng-fr", null, (v) => { frets = Math.round(v); render(); });
+  document.getElementById("ins-rng-lo").addEventListener("click", () => { MB.ctx(); const [lo] = range(); markM = lo; render(); bass.note(lo, { ring: 4 }); });
+  document.getElementById("ins-rng-hi").addEventListener("click", () => { MB.ctx(); const [, hi] = range(); markM = hi; render(); bass.note(hi, { ring: 3 }); });
+  document.getElementById("ins-rng-sweep").addEventListener("click", () => {
+    MB.ctx(); const [lo, hi] = range(); let m = lo;
+    const id = setInterval(() => { if (m > hi) { clearInterval(id); return; } markM = m; render(); bass.note(m, { dur: 0.16, vel: 0.7 }); m += 2; }, 110);
+  });
+  render();
+})();
+
+/* ------------------------------------------------------------ 5. 주법 비교 */
+(function () {
+  const KEYS = ["finger", "pick", "muted", "flat", "slap", "pop", "upright"];
+  let tone = "finger", auto = true, sched = null;
+  const seg = document.getElementById("ins-tn-tone");
+  seg.innerHTML = KEYS.map((k, i) => `<button data-value="${k}"${i ? "" : ' class="on"'}>${BS.TONE_NAMES[k]}</button>`).join("");
+  const bass = BS.bass({ tone });
+  const fb = BS.fretboard("#ins-tn-fb", { frets: 7, labels: "none", bass });
+  const live = MB.liveView("#ins-tn-cv", { mode: "spectrum", fmin: 25, fmax: 6000, log: true, aspect: 0.34 });
+  MB.seg("ins-tn-tone", (v) => { tone = v; bass.tone = v; fb.bass.tone = v; });
+  const PHRASE = [ // E 마이너 펜타토닉 한 소절
+    { t: 0, d: 0.5, s: 0, f: 0 }, { t: 0.5, d: 0.5, s: 0, f: 3 },
+    { t: 1, d: 0.5, s: 1, f: 0 }, { t: 1.5, d: 0.5, s: 1, f: 2 },
+    { t: 2, d: 0.5, s: 1, f: 5 }, { t: 2.5, d: 0.5, s: 2, f: 2 },
+    { t: 3, d: 1, s: 0, f: 0 },
+  ];
+  document.getElementById("ins-tn-play").addEventListener("click", function () {
+    MB.ctx();
+    if (sched && sched.running) { sched.stop(); return; }
+    let i = 0;
+    const order = auto ? KEYS : [tone];
+    const run = () => {
+      if (i >= order.length) { sched = null; return; }
+      const k = order[i++];
+      bass.tone = k; seg.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.value === k));
+      sched = BS.playTab(PHRASE, { bpm: 92, bass, onNote: (_, n) => fb.flash(n.s, n.f), onEnd: run, onStop: () => { sched = null; } });
+      sched.start();
+    };
+    run();
+  });
+  document.getElementById("ins-tn-stop").addEventListener("click", () => { if (sched) sched.stop(); bass.stop(); });
+  MB.check("ins-tn-auto", (v) => { auto = v; });
+  if (live) live.start && live.start();
+})();
+
+/* ------------------------------------------------------------ 6. 밴드 */
+(function () {
+  const PROG = "C | Am | F | G";
+  let pick = "root";
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#ins-bd-tab", [], { beatsPerBar: 4, beatWidth: 42 });
+  const staff = BS.staff("#ins-bd-staff", [], { beatsPerBar: 4 });
+  const SHIFT = { root: 0, third: 4, fifth: 7 };
+  function notes() {
+    const chords = BS.parseProgression(PROG);
+    const base = BS.line(chords, "root8");
+    if (pick === "root") return BS.withTab(base, { tuning: bass.tuning });
+    return BS.withTab(base.map((n) => Object.assign({}, n, { m: n.m + SHIFT[pick] })), { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => +document.getElementById("ins-bd-bpm").value,
+    progression: () => PROG, groove: () => (document.getElementById("ins-bd-drum").checked ? "rock8" : "none"),
+    keys: () => document.getElementById("ins-bd-keys").checked,
+    bass: () => document.getElementById("ins-bd-bass").checked,
+    notes: () => notes(), bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); },
+    onChord(i, c) {
+      MB.stat("ins-bd-chord", c.name);
+      const b = pick === "root" ? c.root : MB.mod(c.root + SHIFT[pick], 12);
+      MB.stat("ins-bd-sym", pick === "root" ? c.name : c.name + "/" + MB.pcName(b, c.flat));
+    },
+    onStop() { document.getElementById("ins-bd-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += c.beats || 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+  }
+  ["ins-bd-drum", "ins-bd-keys", "ins-bd-bass"].forEach((id) => MB.check(id, refresh));
+  MB.seg("ins-bd-note", (v) => { pick = v; refresh(); });
+  MB.range("ins-bd-bpm", (v) => Math.round(v) + " BPM", () => {});
+  document.getElementById("ins-bd-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>

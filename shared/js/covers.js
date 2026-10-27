@@ -135,6 +135,66 @@
       s += cymbal(182, 61, 14, 2.4) + `<g class="dr-hat" style="animation-delay:.01s">${cymbal(182, 57.5, 14, 2.6)}</g>`;
       return svg(s);
     },
+    // 베이스: 비스듬히 놓인 4현 일렉 베이스(더블 컷어웨이 솔리드 바디, 34″ 롱 스케일).
+    // 프렛은 너트에서 줄 길이 × (1 − 2^(−n/12))만큼 떨어진 자리에 놓이고, 굵은 줄일수록 선이 두껍고 진폭도 크다.
+    // 오른손 두 손가락이 번갈아 뜯으며(0.3초마다 = 100 BPM의 8분음표), 뜯긴 줄의 진동 폭이 부풀었다 잦아든다.
+    // 오른쪽 아래에는 뜯는 음의 도수 R·5·8·5가 박마다 차례로 켜진다.
+    bass() {
+      const nut = 124, L = 124, f = (v) => +v.toFixed(2);
+      const fret = (n) => f(nut * 2 ** (-n / 12));
+      const half = (x) => 4.9 + (2.6 * (nut - x)) / (nut - 38); // 너트 4.9 → 힐 7.5
+      const lo = (k) => f(-4.5 + 3 * k); // 브리지 위 k번째 줄(0: 4번 줄 E)
+      const hi = (k) => f(-2.7 + 1.8 * k); // 너트 위
+      const chrome = "#c9ced6";
+      let g = "";
+      // 바디: 위·아래 컷어웨이가 있는 솔리드 바디. 넥이 지나는 구간은 직선으로 두고 넥이 덮는다.
+      g += `<path d="M-36 2C-37-15-27-28-11-29C-1-30 5-26 13-25C21-24 27-30 37-31C48-32 57-27 58-19C58-14 54-11 48-10L40-9V9L46 11C51 12 53 15 51 19C47 25 40 27 32 26C24 25 19 22 11 23C2 24-3 29-13 28C-28 27-36 16-36 2Z" fill="url(#bs-body)" stroke="#dff5ee" stroke-width="1.4"/>`;
+      // 픽업 둘과 브리지, 컨트롤 노브 셋
+      [[9, 11], [27, 9]].forEach(([x, h]) => {
+        g += `<rect x="${x - 3.2}" y="${-h}" width="6.4" height="${h * 2}" rx="1.6" fill="#17110f" stroke="${chrome}" stroke-width=".6"/>`;
+        range(4).forEach((k) => { g += `<circle cx="${x}" cy="${f(lo(k) * (h / 9))}" r=".9" fill="${chrome}"/>`; });
+      });
+      g += `<rect x="-5" y="-7.5" width="9" height="15" rx="1.4" fill="${chrome}"/>`;
+      range(4).forEach((k) => { g += `<path d="M-4 ${lo(k)}H3" stroke="#6d737c" stroke-width=".7"/>`; });
+      [[-7, 17], [-15, 20], [-23, 22]].forEach(([x, y]) => { g += `<circle cx="${x}" cy="${y}" r="2.9" fill="#1b1512" stroke="${chrome}" stroke-width=".7"/><path d="M${x} ${y - 2.4}V${y - .6}" stroke="#eef4f2" stroke-width=".8" stroke-linecap="round"/>`; });
+      // 지판: 20프렛과 3·5·7·9·12(쌍)·15·17·19 자리표
+      g += `<path d="M38 ${f(-half(38))}L${nut} ${f(-half(nut))}V${f(half(nut))}L38 ${f(half(38))}Z" fill="#2a1a12" stroke="#dff5ee" stroke-width=".6"/>`;
+      range(20).forEach((i) => { const x = fret(i + 1), h = f(half(x)); g += `<path d="M${x} ${-h}V${h}" stroke="#e9dcc8" stroke-width=".55"/>`; });
+      [3, 5, 7, 9, 12, 15, 17, 19].forEach((n) => {
+        const x = f((fret(n - 1) + fret(n)) / 2);
+        g += (n === 12 ? [-2.1, 2.1] : [0]).map((y) => `<circle cx="${x}" cy="${y}" r=".95" fill="#f6ecd9"/>`).join("");
+      });
+      // 너트와 헤드스톡(튜너 넷이 한쪽에), 큰 튜닝 키
+      g += `<rect x="${nut}" y="-5" width="1.6" height="10" rx=".4" fill="#fff8ea"/>`;
+      g += `<path d="M${nut} -5 154-8.4Q161-8.9 161-4V4.6Q161 7.6 156 7.2L${nut} 5Z" fill="#20362f" stroke="#dff5ee" stroke-width=".7"/>`;
+      const posts = [131, 139.5, 148, 156.5];
+      posts.forEach((x) => {
+        g += `<circle cx="${x}" cy="-5" r="1.5" fill="${chrome}"/><path d="M${x} -6.5V-10" stroke="${chrome}" stroke-width="1.1"/><ellipse cx="${x}" cy="-12.4" rx="2.1" ry="2.6" fill="#e3e8ee" stroke="#8d939b" stroke-width=".5"/>`;
+      });
+      // 네 줄: 브리지에서 너트를 지나 튜너로. 줄마다 기본 진동의 배(腹)를 겹쳐 둔다.
+      const widths = [1.7, 1.35, 1.05, 0.8], amp = [4.6, 4, 3.4, 2.8];
+      range(4).forEach((k) => {
+        const px = posts[3 - k], m = f(nut / 2), y = f((lo(k) + hi(k)) / 2);
+        g += `<path d="M0 ${lo(k)}L${nut} ${hi(k)}L${px} -5" fill="none" stroke="#fff6e4" stroke-width="${widths[k]}" stroke-linejoin="round"/>`;
+        g += `<path class="bs-ring" opacity="0" style="animation-delay:${(k * 0.3).toFixed(2)}s" d="M0 ${lo(k)}Q${m} ${f(y - amp[k])} ${nut} ${hi(k)}Q${m} ${f(y + amp[k])} 0 ${lo(k)}Z" fill="#aef0dc" fill-opacity=".5"/>`;
+      });
+      // 오른손 두 손가락이 픽업 위에서 번갈아 줄을 뜯는다
+      [0, 0.3].forEach((d, i) => {
+        g += `<g class="bs-finger" style="animation-delay:${d}s"><path d="M${13 + i * 7.4} 20V8.6a3.2 3.2 0 0 1 6.4 0V20Z" fill="#f6d9c2" stroke="#b9876a" stroke-width=".7" stroke-linejoin="round"/></g>`;
+      });
+      let s = `<defs><linearGradient id="bs-body" gradientUnits="userSpaceOnUse" x1="-30" y1="-28" x2="40" y2="26"><stop offset="0" stop-color="#0d2e28"/><stop offset=".35" stop-color="#2f7d6b"/><stop offset=".62" stop-color="#6fd8bb"/><stop offset=".85" stop-color="#2a6f5f"/><stop offset="1" stop-color="#0b2620"/></linearGradient></defs>`;
+      s += `<g transform="translate(40.4 90.4) rotate(-20) scale(.78)">${g}</g>`;
+      // 왼쪽 위로 떠오르는 낮은 음표와 낮은음자리표
+      const note = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="3.9" ry="2.9" transform="rotate(-20 ${x} ${y})"/><path d="M${x - 3.5} ${y + 0.8}V${y - 13}" stroke="${W}" stroke-width="1.3"/>`;
+      s += `<g class="cv-bob" fill="${W}" fill-opacity=".92">${note(22, 30)}${note(38, 25)}<path d="M18.5 15.6 41.6 8.6V11.4L18.5 18.4Z"/></g>`;
+      s += `<g class="cv-bob" style="animation-delay:.6s" fill="${W}" fill-opacity=".92"><path d="M62 10a6 6 0 0 1 6 6c0 7-6 12-12 15 5-5 9-9 9-14a3 3 0 0 0-3-4 2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 1 0-7.8Z"/><circle cx="72" cy="14" r="1.4"/><circle cx="72" cy="19" r="1.4"/></g>`;
+      // 오른쪽 아래: 뜯는 음의 도수가 박마다 켜진다 (R 5 8 5)
+      ["R", "5", "8", "5"].forEach((c, i) => {
+        const x = 128 + i * 19;
+        s += `<g class="bs-beat" style="animation-delay:${(i * 0.6).toFixed(1)}s"><circle cx="${x}" cy="112" r="7.6" fill="none" stroke="${W}" stroke-opacity=".55" stroke-width="1.4"/><text x="${x}" y="115.4" text-anchor="middle" font-size="9" font-weight="700" fill="${W}" fill-opacity=".8">${c}</text></g>`;
+      });
+      return svg(s);
+    },
     // DRAM 셀 어레이: 워드라인·비트라인 위에서 비트가 깜박인다
     memory() {
       const r = rnd(7); let s = "";

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://music.euiyun.com/</loc></url>
+  <url><loc>https://music.euiyun.com/bass/</loc></url>
+  <url><loc>https://music.euiyun.com/bass/chapters/instrument.html</loc></url>
   <url><loc>https://music.euiyun.com/drums/</loc></url>
   <url><loc>https://music.euiyun.com/drums/chapters/beat.html</loc></url>
   <url><loc>https://music.euiyun.com/drums/chapters/counting.html</loc></url>

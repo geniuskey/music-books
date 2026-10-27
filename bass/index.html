@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>BassBook · 베이스 교과서</title>
+<meta name="description" content="듣고 뜯으며 배우는 인터랙티브 베이스 교과서. 굵은 현의 물리와 튜닝, 4도 지판과 TAB·낮은음자리표, 근음과 코드톤, 반음 어프로치와 워킹 베이스, 킥 드럼과 맞물리는 그루브, 장르 베이스라인, 슬랩과 톤까지 브라우저의 가상 베이스로 직접 연주하며 배운다.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bass.css">
+<script src="js/common.js"></script>
+<script src="js/bass.js"></script>
+<style>
+  .paths { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .path { padding: 18px 20px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); }
+  .path h3 { margin: 0 0 6px; font-size: 17px; }
+  .path p { margin: 0 0 10px; color: var(--text-dim); font-size: 14.5px; }
+  .path .steps { display: flex; flex-wrap: wrap; gap: 6px; }
+  .path .steps a { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .path .steps a:hover { text-decoration: none; filter: brightness(1.1); }
+  .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .hero-badges span { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--bg-elev); }
+  .hero-inst { border-radius: 20px; border: 1px solid var(--border); background: var(--bg-elev); box-shadow: var(--shadow); overflow: hidden; min-width: 0; }
+  .hero-inst .bs-staff { padding: 8px 10px 0; background: var(--canvas-bg); }
+  .hero-inst .bs-tab { padding: 0 10px; background: var(--canvas-bg); }
+  .hero-inst .bs-fb { padding: 2px 10px 6px; background: var(--canvas-bg); }
+  .hero-inst .bs-chips { padding: 12px 14px 4px; }
+  .hero-inst .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 14px 14px; font-size: 13px; color: var(--text-dim); }
+  .hero-inst .foot b { color: var(--text); }
+  .feat { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .feat a { display: block; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+  .feat a:hover { border-color: var(--accent); text-decoration: none; }
+  .feat a b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat a span { color: var(--text-dim); font-size: 14px; }
+  .feat a small { display: block; font-family: var(--mono); color: var(--accent); font-size: 11.5px; margin-bottom: 6px; letter-spacing: .06em; }
+  .myth { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .myth div { padding: 16px 18px; border-radius: var(--radius); background: var(--bg-elev); border: 1px solid var(--border); font-size: 14.5px; color: var(--text-dim); }
+  .myth div b { display: block; color: var(--text); font-size: 15.5px; margin-bottom: 6px; }
+  .myth div b::before { content: "오해 · "; color: var(--bad); }
+  .myth div a { font-size: 13px; }
+  .chain { overflow-x: auto; }
+  .chain svg { min-width: 760px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../shared/css/book-shell.css">
+<script defer src="../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-root="">
+
+<section class="home-hero">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">Interactive Bass Textbook</div>
+      <h1>낮은 한 줄에서<br><span class="grad">밴드를 떠받치는 그루브까지</span></h1>
+      <p>베이스는 왜 잘 들리지 않는데 빠지면 바로 티가 날까? 같은 코드 위에서 어떤 음을 고르느냐로 장르가 갈리는 이유는 뭘까? BassBook은 베이스를 <b>굵은 현의 물리·두 손의 분업·4도 지판의 격자·코드와 음의 선택·킥 드럼과 맞물리는 시간</b>으로 풀어 봅니다. 모든 장에 <b>직접 뜯고 들으며 조작하는</b> 가상 베이스가 있고, 드럼과 건반을 함께 울려 밴드 속에서 들어 볼 수 있습니다.</p>
+      <div class="cta">
+        <a class="primary" href="chapters/instrument.html">1장부터 시작하기 →</a>
+        <a class="ghost" href="chapters/roots.html">첫 베이스라인</a>
+        <a class="ghost" href="chapters/studio.html">베이스 스튜디오</a>
+      </div>
+      <div class="hero-badges">
+        <span>15개 챕터</span><span>가상 베이스 · 지판 · TAB · 낮은음자리표</span><span>드럼·건반 합주</span><span>입문~중급</span>
+      </div>
+    </div>
+    <div class="hero-inst" id="hero">
+      <div id="hero-staff"></div>
+      <div id="hero-tab"></div>
+      <div id="hero-fb"></div>
+      <div class="bs-chips" id="hero-chips"></div>
+      <div class="foot">
+        <button class="btn primary" id="hero-play">▶ 재생</button>
+        <span id="hero-msg">라인 스타일을 고르거나 지판을 눌러 보세요</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section">
+  <h2>베이스를 이루는 층</h2>
+  <p class="sub">베이스 연주는 층층이 쌓인 선택입니다. <b>굵고 긴 줄이 떠는</b> 물리에서 출발해, <b>두 손</b>의 분업(뜯기와 뮤팅)을 익히고, <b>4도로 쌓인 지판</b>과 악보를 읽은 뒤, <b>근음과 코드톤</b>으로 어떤 음을 칠지 고르고, <b>킥 드럼과 맞물려</b> 그루브를 만들고, 마지막으로 <b>장르와 톤</b>을 입힙니다. 목차가 바로 이 층입니다.</p>
+  <figure class="diagram chain">
+    <svg viewBox="0 0 1100 230" role="img" aria-label="베이스를 이루는 층">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g transform="translate(15,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M14 76 Q60 34 106 76" fill="none" stroke="var(--accent)" stroke-width="3"/>
+        <path d="M14 76 Q60 118 106 76" fill="none" stroke="var(--accent)" stroke-width="3" opacity=".45"/>
+        <path d="M14 76 H106" stroke="var(--text-dim)" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <g fill="var(--accent-2)"><circle cx="14" cy="76" r="4"/><circle cx="106" cy="76" r="4"/></g>
+        <text x="60" y="36" text-anchor="middle" class="t-mono">34″ · 41 Hz</text>
+        <text x="60" y="146" text-anchor="middle" class="t">굵은 줄의 물리</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.01·02</text></g>
+      <path d="M140 90 H170" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(178,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)" stroke-width="1.4"><line x1="16" y1="44" x2="104" y2="44"/><line x1="16" y1="58" x2="104" y2="58"/><line x1="16" y1="72" x2="104" y2="72"/><line x1="16" y1="86" x2="104" y2="86"/></g>
+        <path d="M74 104 V78 a7 7 0 0 1 14 0 V104Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+        <path d="M54 104 V64 a7 7 0 0 1 14 0 V104Z" fill="var(--accent-soft)" stroke="var(--accent-2)" stroke-width="1.6"/>
+        <text x="60" y="34" text-anchor="middle" class="t-mono">i · m 교대</text>
+        <text x="60" y="146" text-anchor="middle" class="t">두 손의 분업</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.03</text></g>
+      <path d="M303 90 H333" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(341,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g stroke="var(--text-dim)"><line x1="12" y1="40" x2="108" y2="40"/><line x1="12" y1="56" x2="108" y2="56"/><line x1="12" y1="72" x2="108" y2="72"/><line x1="12" y1="88" x2="108" y2="88"/></g>
+        <g stroke="var(--text-faint)" stroke-dasharray="2 4"><line x1="36" y1="34" x2="36" y2="94"/><line x1="60" y1="34" x2="60" y2="94"/><line x1="84" y1="34" x2="84" y2="94"/></g>
+        <g font-family="var(--mono)" font-size="13" font-weight="700" fill="var(--accent)"><text x="20" y="92">3</text><text x="44" y="76">5</text><text x="68" y="60">3</text><text x="92" y="92">5</text></g>
+        <text x="60" y="146" text-anchor="middle" class="t">지판 · TAB · 보표</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.04·05</text></g>
+      <path d="M466 90 H496" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(504,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g font-family="var(--mono)" font-weight="800" font-size="19"><text x="18" y="58" fill="var(--bad)">R</text><text x="48" y="58" fill="var(--accent)">3</text><text x="78" y="58" fill="var(--accent)">5</text><text x="18" y="94" fill="var(--accent-2)">7</text><text x="48" y="94" fill="var(--accent-2)">8</text><text x="78" y="94" fill="var(--text-dim)">A</text></g>
+        <text x="60" y="146" text-anchor="middle" class="t">근음 · 코드톤</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.06·07·08·09</text></g>
+      <path d="M629 90 H659" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(667,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <g fill="var(--accent-soft)" stroke="var(--accent)"><rect x="14" y="34" width="18" height="16" rx="3"/><rect x="38" y="34" width="18" height="16" rx="3"/><rect x="62" y="34" width="18" height="16" rx="3"/><rect x="86" y="34" width="18" height="16" rx="3"/></g>
+        <g fill="var(--accent)"><rect x="14" y="58" width="18" height="16" rx="3"/><rect x="62" y="58" width="18" height="16" rx="3"/></g>
+        <text x="60" y="30" text-anchor="middle" class="t-mono">킥</text>
+        <text x="60" y="92" text-anchor="middle" class="t-mono" style="font-size:11px">같은 칸에 맞물린다</text>
+        <text x="60" y="146" text-anchor="middle" class="t">그루브</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.10</text></g>
+      <path d="M792 90 H822" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(830,30)"><rect width="120" height="120" rx="12" class="f-surface"/>
+        <path d="M14 92 Q30 50 46 92 T78 92 T110 92" fill="none" stroke="var(--accent)" stroke-width="2.4"/>
+        <g fill="var(--accent-2)"><circle cx="30" cy="66" r="4"/><circle cx="62" cy="66" r="4"/><circle cx="94" cy="66" r="4"/></g>
+        <text x="60" y="40" text-anchor="middle" class="t-mono">모타운 · 펑크</text>
+        <text x="60" y="146" text-anchor="middle" class="t">장르 · 테크닉</text><text x="60" y="164" text-anchor="middle" class="t-mono">Ch.11·12</text></g>
+      <path d="M955 90 H985" class="s-acc" marker-end="url(#arr)"/>
+      <g transform="translate(990,30)"><rect width="100" height="120" rx="12" class="f-acc2-soft"/>
+        <text x="50" y="52" text-anchor="middle" class="t-mono">톤 · 믹스</text><text x="50" y="72" text-anchor="middle" class="t-mono">스튜디오</text><text x="50" y="92" text-anchor="middle" class="t-mono">퀴즈</text>
+        <text x="50" y="146" text-anchor="middle" class="t">연주</text><text x="50" y="164" text-anchor="middle" class="t-mono">Ch.13·14·15</text></g>
+      <text x="550" y="222" text-anchor="middle" class="t-dim">줄이 떨고 → 두 손이 나눠 맡고 → 지판을 읽고 → 칠 음을 고르고 → 킥과 맞물리고 → 장르의 옷을 입고 → 톤을 다듬는다</text>
+    </svg>
+    <figcaption><b>그림 0-1.</b> 베이스를 이루는 층. 각 블록이 해당 챕터와 연결됩니다.</figcaption>
+  </figure>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>대표 실험</h2>
+  <p class="sub">책 곳곳에 직접 소리를 내는 시뮬레이터가 있습니다. 먼저 이것들부터 만져 보세요.</p>
+  <div class="feat" id="feat">
+    <a href="chapters/instrument.html"><small>CH.01 · 악기</small><b>장력 계산기</b><span>굵기·길이·음높이를 바꾸면 줄이 얼마나 센 힘으로 당겨지는지, 왜 베이스는 길어야 하는지 봅니다.</span></a>
+    <a href="chapters/tuning.html"><small>CH.02 · 튜닝</small><b>41 Hz를 듣는 법</b><span>기본음을 지우고 배음만 남겨도 같은 음높이가 들리는 '잃어버린 기본음'을 직접 확인합니다.</span></a>
+    <a href="chapters/fretboard.html"><small>CH.04 · 지판</small><b>4도 격자 훈련기</b><span>옥타브·5도 모양 하나로 지판 전체를 잇고, 음 이름 찾기를 시간 재며 연습합니다.</span></a>
+    <a href="chapters/approach.html"><small>CH.08 · 연결음</small><b>워킹 베이스 생성기</b><span>코드 진행을 적으면 4분음 워킹 라인을 만들고, 어떤 음이 왜 거기 있는지 도수로 보여 줍니다.</span></a>
+    <a href="chapters/groove.html"><small>CH.10 · 그루브</small><b>킥과 맞물리기</b><span>킥 드럼 칸과 베이스 칸을 겹쳐 놓고, 어긋났을 때 그루브가 어떻게 무너지는지 듣습니다.</span></a>
+    <a href="chapters/tone.html"><small>CH.13 · 톤</small><b>픽업 빗살 필터</b><span>뜯는 자리를 옮기면 어떤 배음이 사라지는지 스펙트럼과 소리로 함께 확인합니다.</span></a>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>이런 오해, 한 번쯤 해 보셨죠?</h2>
+  <p class="sub">이 책을 다 읽고 나면 아래 문장들이 왜 틀렸는지 설명할 수 있게 됩니다.</p>
+  <div class="myth">
+    <div><b>베이스는 기타의 쉬운 버전이다</b>줄이 네 개라 짚을 음은 적지만, 고를 음이 적다는 건 한 음의 책임이 크다는 뜻입니다. 화성과 리듬을 동시에 결정하는 자리입니다. <a href="chapters/roots.html">6장 →</a></div>
+    <div><b>근음만 치면 된다</b>근음은 출발점입니다. 3도 하나로 장단이 갈리고, 다음 코드 반음 앞 음 하나로 진행이 끌려갑니다. <a href="chapters/approach.html">8장 →</a></div>
+    <div><b>작은 스피커에서 안 들리니 상관없다</b>기본음 41 Hz가 안 들려도 배음 덕분에 음높이는 전달됩니다. 그래서 어떤 음을 골랐는지가 더 중요합니다. <a href="chapters/tuning.html">2장 →</a></div>
+    <div><b>왼손이 어려운 악기다</b>베이스에서 더 어려운 쪽은 <b>안 울리게 하는</b> 일입니다. 뮤팅과 음 길이가 소리의 절반을 만듭니다. <a href="chapters/hands.html">3장 →</a></div>
+    <div><b>슬랩이 고급 기술이다</b>슬랩은 음색을 고르는 한 방법일 뿐입니다. 정확한 데드 노트와 쉼이 없으면 슬랩도 지저분하게 들립니다. <a href="chapters/techniques.html">12장 →</a></div>
+    <div><b>베이스와 킥은 같이 치면 된다</b>장르마다 둘이 겹치는 자리와 엇갈리는 자리가 다릅니다. 레게는 비우고 모타운은 밀어붙입니다. <a href="chapters/groove.html">10장 →</a></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>챕터</h2>
+  <p class="sub">앞에서부터 차례로 읽어도 좋고, 궁금한 장만 골라 읽어도 됩니다. 모든 장에 소리 나는 시뮬레이터와 확인 퀴즈가 있습니다. 상단 스피커 버튼으로 언제든 소리를 끌 수 있습니다.</p>
+  <div class="ch-grid" id="ch-grid"></div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>추천 학습 경로</h2>
+  <p class="sub">목적에 맞게 골라 읽으세요.</p>
+  <div class="paths">
+    <div class="path"><h3>🎸 베이스가 처음이에요</h3><p>줄과 튜닝, 두 손의 자세, 지판 읽기, 근음으로 치는 첫 베이스라인.</p><div class="steps"><a href="chapters/tuning.html">02</a><a href="chapters/hands.html">03</a><a href="chapters/fretboard.html">04</a><a href="chapters/roots.html">06</a></div></div>
+    <div class="path"><h3>🥁 밴드에서 치고 싶어요</h3><p>킥과 맞물리는 그루브, 장르별 라인, 코드 진행 위에서 라인 만들기.</p><div class="steps"><a href="chapters/roots.html">06</a><a href="chapters/groove.html">10</a><a href="chapters/styles.html">11</a><a href="chapters/studio.html">14</a></div></div>
+    <div class="path"><h3>🎼 재즈·워킹이 궁금해요</h3><p>코드톤과 아르페지오, 반음 어프로치, 4분음 워킹 베이스, 선법의 색.</p><div class="steps"><a href="chapters/chord-tones.html">07</a><a href="chapters/approach.html">08</a><a href="chapters/scales.html">09</a><a href="chapters/studio.html">14</a></div></div>
+    <div class="path"><h3>📐 소리의 과학이 궁금해요</h3><p>현의 장력과 비조화성, 잃어버린 기본음, 픽업 빗살 필터와 컴프레서.</p><div class="steps"><a href="chapters/instrument.html">01</a><a href="chapters/tuning.html">02</a><a href="chapters/techniques.html">12</a><a href="chapters/tone.html">13</a></div></div>
+  </div>
+</section>
+
+<section class="home-section" style="padding-top:0">
+  <h2>함께 읽으면 좋은 책</h2>
+  <p class="sub">화성·리듬·음향의 원리를 더 깊이 알고 싶다면 음악 기초 교과서를 옆에 펴 두세요. 이 책의 소리 엔진도 MusicBook과 같습니다.</p>
+  <div class="paths">
+    <div class="path"><h3>MusicBook — 음악 기초</h3><p>소리와 배음, 음계와 화음, 코드 진행, 리듬과 박자. 베이스가 고르는 음의 근거가 되는 이론.</p><div class="steps"><a href="../fundamentals/">음악 기초 →</a><a href="../fundamentals/chapters/chords.html">화음의 구조</a><a href="../fundamentals/chapters/progressions.html">코드 진행</a></div></div>
+    <div class="path"><h3>DrumBook · GuitarBook · PianoBook</h3><p>베이스의 짝은 킥 드럼입니다. 밴드의 다른 자리에서 같은 그루브가 어떻게 보이는지 보세요.</p><div class="steps"><a href="../drums/">드럼 →</a><a href="../guitar/">기타 →</a><a href="../piano/">피아노 →</a><a href="../">음악 서가 →</a></div></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  document.getElementById("ch-grid").innerHTML = MB.CHAPTERS.map((c) =>
+    `<a class="ch-card" href="chapters/${c.slug}.html"><span class="num">CHAPTER ${c.num}</span><h3>${c.title}</h3><p>${c.desc}</p><div class="tags">${c.tags.map((t) => t === "sim" ? '<span class="t-sim">시뮬레이터</span>' : `<span>${t}</span>`).join("")}</div></a>`).join("");
+
+  // 히어로: 같은 코드 진행 위에서 라인 스타일만 바꿔 보는 가상 베이스 + 드럼
+  const STYLES = [
+    { k: "root8", g: "rock8", bpm: 96, note: "박마다 근음 8분음. 모든 베이스라인의 출발점." },
+    { k: "rootFifth", g: "motown", bpm: 92, note: "근음과 5도만 번갈아. 컨트리·올드 팝의 투비트." },
+    { k: "octave", g: "disco", bpm: 112, note: "근음과 한 옥타브 위를 오간다. 디스코의 서명." },
+    { k: "motown", g: "motown", bpm: 104, note: "점8분 + 16분으로 밀어붙이는 모타운식 라인." },
+    { k: "walk", g: "swing", bpm: 132, note: "4분음으로 걸어 다음 코드로 끌고 간다. 재즈." },
+    { k: "arp", g: "pop", bpm: 88, note: "1–3–5–8 아르페지오. 코드의 뼈대를 그대로." },
+  ];
+  const PROG = "C | Am | F | G7";
+  const bass = BS.bass({ tone: "finger" });
+  const staff = BS.staff("#hero-staff", [], { beatsPerBar: 4, barsPerLine: 4, chords: [] });
+  const tab = BS.tab("#hero-tab", [], { beatsPerBar: 4, barsPerLine: 4, rhythm: false });
+  const fb = BS.fretboard("#hero-fb", { frets: 7, from: 0, labels: "none", bass });
+  const chips = document.getElementById("hero-chips"), msg = document.getElementById("hero-msg"), btn = document.getElementById("hero-play");
+  chips.innerHTML = STYLES.map((s, i) => `<button data-k="${s.k}" class="${i ? "" : "on"}">${BS.LINE_STYLES[s.k]}</button>`).join("");
+  let cur = STYLES[0];
+  const band = BS.band({
+    bpm: () => cur.bpm, progression: () => PROG, style: () => cur.k, groove: () => cur.g, keys: () => true,
+    swing: () => (cur.k === "walk" ? 0.17 : 0), bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); if (n.s != null && n.f != null && n.f <= 7) fb.flash(n.s, n.f); },
+    onStop() { btn.textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function show() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += c.beats || 4; return o; });
+    tab.setNotes(band.notes, labels);
+    staff.setNotes(band.notes, labels);
+    chips.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.k === cur.k));
+    msg.innerHTML = `<b>${BS.LINE_STYLES[cur.k]}</b> · ${PROG.replace(/\s*\|\s*/g, " | ")} · ${cur.bpm} BPM · ${cur.note}`;
+  }
+  chips.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    MB.ctx(); cur = STYLES.find((s) => s.k === b.dataset.k); show();
+    if (band.running) { band.stop(); band.start(); btn.textContent = "■ 정지"; }
+  });
+  btn.addEventListener("click", () => { MB.ctx(); if (band.running) { band.stop(); return; } band.start(); btn.textContent = "■ 정지"; });
+  show();
+})();
+</script>
+</body>
+</html>

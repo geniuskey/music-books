@@ -126,4 +126,12 @@ svg.cover-art * { animation-play-state: paused; }
 .dr-crash { transform-box: fill-box; transform-origin: center; animation: dr-crash 2.4s ease-out infinite; }
 @keyframes dr-crash { 0% { transform: rotate(8deg); } 10% { transform: rotate(-5deg); } 22% { transform: rotate(3deg); } 36% { transform: rotate(-1.5deg); } 50%, 100% { transform: none; } }
 
+/* bass: two fingers alternate every eighth note (0.3 s); each plucked string's envelope swells and decays, and the degree chips light beat by beat over one 2.4 s bar. */
+.bs-finger { animation: bs-finger .6s ease-in-out infinite; }
+@keyframes bs-finger { 0%, 100% { transform: none; } 45% { transform: translateY(-7px); } }
+.bs-ring { transform-box: fill-box; transform-origin: center; animation: bs-ring 1.2s ease-out infinite; }
+@keyframes bs-ring { 0% { opacity: .85; transform: none; } 70% { opacity: .3; transform: scaleY(.4); } 100% { opacity: 0; transform: scaleY(.15); } }
+.bs-beat { animation: bs-beat 2.4s ease-out infinite; }
+@keyframes bs-beat { 0% { opacity: 1; } 22%, 100% { opacity: .35; } }
+
 @media (prefers-reduced-motion: reduce) { .cover-art * { animation: none !important; } .cover-art { transition: none; } }

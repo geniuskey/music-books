@@ -103,5 +103,31 @@ window.MUSIC_BOOKS = [
     "url": "drums/",
     "chapters": 15,
     "simulators": 111
+  },
+  {
+    "id": "bassbook",
+    "title": "BassBook",
+    "subtitle": "베이스 교과서",
+    "headline": "낮은 한 줄에서 밴드를 떠받치는 그루브까지",
+    "description": "굵은 현의 물리와 튜닝, 4도 지판과 TAB·낮은음자리표, 근음과 코드톤, 반음 어프로치와 워킹 베이스, 킥 드럼과 맞물리는 그루브, 모타운부터 펑크까지의 장르 베이스라인, 슬랩과 톤까지 — 브라우저의 가상 베이스로 직접 뜯으며 배우는 베이스 교과서.",
+    "stage": "instruments",
+    "status": "published",
+    "color": "#2f7d6b",
+    "colorDark": "#5fc7ab",
+    "topics": [
+      "지판·TAB",
+      "근음·코드톤",
+      "워킹 베이스",
+      "그루브",
+      "장르 라인",
+      "슬랩·톤"
+    ],
+    "motif": "bass",
+    "code": "BAS",
+    "legacyUrl": null,
+    "slug": "bass",
+    "url": "bass/",
+    "chapters": 1,
+    "simulators": 6
   }
 ];
