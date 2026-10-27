@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>연결음과 워킹 베이스 · BassBook</title>
+<meta name="description" content="반음 어프로치와 도미넌트 어프로치, 경과음으로 선을 잇는 법, 4분음 워킹 베이스의 네 박 설계 규칙, 재즈 블루스 12마디를 걷는 법, 그리고 다음 음을 고르는 훈련.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .ap-roles { display: grid; gap: 6px; padding: 10px 12px; }
+  .ap-roles .bar { display: grid; grid-template-columns: 70px repeat(4, minmax(0, 1fr)); gap: 5px; align-items: center; }
+  .ap-roles .bar .nm { font: 700 14px var(--mono); }
+  .ap-roles .bar .cell { text-align: center; padding: 8px 2px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 14px var(--mono); line-height: 1.2; }
+  .ap-roles .bar .cell small { display: block; font: 500 10.5px var(--font); color: var(--text-dim); }
+  .ap-roles .bar .cell.R { border-color: var(--bad); color: var(--bad); }
+  .ap-roles .bar .cell.A { border-color: var(--accent-2); color: var(--accent-2); }
+  .ap-roles .bar .cell.T { border-color: var(--accent); color: var(--accent); }
+  .ap-roles .bar .cell.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+  .ap-opts { display: grid; gap: 6px; }
+  .ap-opts button { font: inherit; font-size: 13.5px; text-align: left; padding: 8px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .ap-opts button small { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .ap-opts button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .ap-opts button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .ap-opts button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .ap-quest { text-align: center; padding: 14px 10px 2px; }
+  .ap-quest b { display: block; font: 800 26px var(--mono); letter-spacing: -.02em; }
+  .ap-quest span { color: var(--text-dim); font-size: 13.5px; }
+  .ap-blues { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; padding: 10px 12px; }
+  .ap-blues div { text-align: center; padding: 10px 4px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); font: 700 14px var(--mono); }
+  .ap-blues div small { display: block; font: 500 10.5px var(--font); color: var(--text-dim); }
+  .ap-blues div.now { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="approach">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 08</div>
+    <h1>연결음과 워킹 베이스</h1>
+    <p class="lead">코드톤까지 익히면 "맞는 음"을 칠 수 있습니다. 하지만 좋은 베이스라인은 맞는 음의 나열이 아니라 <b>다음 음으로 끌려가는 선</b>입니다. 그 끌림을 만드는 것이 코드 밖의 음, 즉 <b>어프로치 노트</b>와 <b>경과음</b>입니다. 이 장의 목표는 분명합니다. 한 마디의 마지막 음을 바꾸는 것만으로 진행 전체가 살아나는 경험을 하고, 그 원리를 4분음 워킹 베이스로 확장하는 것입니다.</p>
+    <ul class="objectives">
+      <li>반음 어프로치(위·아래)와 도미넌트 어프로치의 차이를 듣고 설명한다.</li>
+      <li>경과음과 이웃음을 써서 두 코드톤 사이를 잇는다.</li>
+      <li>워킹 베이스의 네 박 설계(1박 근음, 2·3박 연결, 4박 어프로치)를 적용한다.</li>
+      <li>재즈 블루스 12마디를 코드 변화에 맞춰 걷는다.</li>
+      <li>다음 코드가 주어졌을 때 4박에 둘 음을 즉석에서 고른다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="approach">
+    <h2>어프로치 노트: 마지막 한 음</h2>
+    <p><b>어프로치 노트</b><span class="en">(Approach note)</span>는 다음 코드의 근음 <b>바로 직전</b>에 두어 그 근음을 강하게 가리키는 음입니다. 코드 안의 음일 필요가 없습니다. 오히려 코드 밖의 음이 더 강하게 끌어당깁니다. 네 가지가 표준입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>종류</th><th>어디서</th><th>끌림</th><th>느낌</th></tr></thead>
+        <tbody>
+          <tr><td><b>아래 반음</b></td><td>다음 근음 −1</td><td>가장 강하다</td><td>올라가 안착 · 재즈의 기본</td></tr>
+          <tr><td><b>위 반음</b></td><td>다음 근음 +1</td><td>강하다</td><td>내려와 안착 · 조금 더 어둡다</td></tr>
+          <tr><td><b>도미넌트(5도 위)</b></td><td>다음 근음 +7 또는 −5</td><td>중간</td><td>"V–I"를 흉내 낸 안정적 도착</td></tr>
+          <tr><td><b>음계 한 음</b></td><td>조성 안에서 한 칸 위·아래</td><td>약하다</td><td>매끄럽고 조용하다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>아래 반음이 가장 강한 이유는 간단합니다. 반음은 음계에서 가장 작은 거리이고, 특히 <b>아래에서 위로</b>의 반음은 조성 음악의 이끎음<span class="en">(Leading tone)</span>과 같은 움직임이라 귀가 도착점을 미리 알아차립니다. 그래서 어프로치 노트 하나만으로도 밴드 전체가 "다음 마디가 온다"고 느낍니다.</p>
+    <div class="callout warn">
+      <p><b>어프로치는 짧아야 한다.</b> 어프로치 노트는 코드 밖의 음이므로 오래 끌면 "틀린 음"으로 들립니다. 4분음 한 개, 길어야 8분음 두 개가 한계입니다. 박으로 말하면 <b>마디의 마지막 박</b>, 그것도 뒤쪽입니다. 반대로 1박에 코드 밖 음을 두면 거의 항상 실수로 들립니다.</p>
+    </div>
+
+    <div class="sim" id="sim-ap-approach">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마지막 한 음만 바꿔 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="ap-ap-tab"></div><div id="ap-ap-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>4박에 둘 음</span><div class="ap-opts" id="ap-ap-kind">
+            <button data-v="none" class="on">근음 그대로<small>어프로치 없음</small></button>
+            <button data-v="below">아래 반음<small>다음 근음 −1</small></button>
+            <button data-v="above">위 반음<small>다음 근음 +1</small></button>
+            <button data-v="dom">도미넌트<small>다음 근음의 5도 위</small></button>
+            <button data-v="scale">음계 한 음<small>조성 안에서 한 칸</small></button>
+          </div></div>
+          <div class="ctrl"><span>진행</span><div class="seg" id="ap-ap-prog"><button data-value="C | Am | Dm | G7" class="on">C–Am–Dm–G7</button><button data-value="C | A7 | Dm | G7">C–A7–Dm–G7</button><button data-value="F | Bb | C | F">F–B♭–C–F</button></div></div>
+          <label class="ctrl"><span>템포 <output id="ap-ap-bpm-out"></output></span><input type="range" id="ap-ap-bpm" min="60" max="160" step="1" value="100"></label>
+          <div class="btn-row"><button class="btn primary" id="ap-ap-play">▶ 재생</button><button class="btn" id="ap-ap-ab">▶ 없음↔아래 반음 번갈아</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">4박의 음</span><span class="v" id="ap-ap-notes">—</span></div>
+        <div class="stat"><span class="k">다음 근음까지</span><span class="v" id="ap-ap-dist">—</span></div>
+      </div>
+      <div class="sim-note">1–3박은 근음 그대로입니다. 바뀌는 것은 마디마다 마지막 한 음뿐입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="passing">
+    <h2>경과음: 사이를 메우는 음</h2>
+    <p><b>경과음</b><span class="en">(Passing tone)</span>은 두 코드톤 사이를 <b>지나가며</b> 메우는 음입니다. 어프로치가 "다음 코드를 가리키는 음"이라면 경과음은 "지금 코드 안에서 이동을 매끄럽게 하는 음"입니다. 규칙은 하나뿐입니다. <b>지나가야 합니다</b> — 들어온 방향으로 계속 나가야지 되돌아오면 어색합니다.</p>
+    <div class="formula">
+      $$\underbrace{\text{C}}_{\text{R}}\;\to\;\underbrace{\text{D}}_{\text{경과}}\;\to\;\underbrace{\text{E}}_{\text{3도}}\;\to\;\underbrace{\text{F}}_{\text{경과}}\;\to\;\underbrace{\text{G}}_{\text{5도}}$$
+      <div class="where">C 화음 위에서 음계음으로 걸어 올라간 예입니다. D와 F는 C 화음에 없지만 <b>지나가는 중</b>이라 자연스럽게 들립니다.</div>
+    </div>
+    <p>경과음을 반음으로 쓰면 색이 더 짙어집니다. 예를 들어 C에서 E로 갈 때 C–C♯–D–D♯–E처럼 <b>반음으로 채워 걷는</b> 것이 재즈 워킹의 전형적인 소리입니다. 다만 반음 경과음은 박의 <b>약한 자리</b>(2박·4박, 또는 8분음 뒷박)에 두어야 합니다. 강박에 두면 조성이 흔들립니다.</p>
+    <p>이웃음<span class="en">(Neighbor tone)</span>은 경과음의 사촌입니다. 코드톤에서 한 칸 나갔다가 <b>제자리로 돌아오는</b> 음입니다(C–D–C). 자리를 유지하면서 선에 움직임을 주고 싶을 때 씁니다.</p>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="walking">
+    <h2>워킹 베이스의 네 박</h2>
+    <p><b>워킹 베이스</b><span class="en">(Walking bass)</span>는 4분음을 쉬지 않고 걷는 라인입니다. 재즈의 기본 반주이지만 블루스·로커빌리·가스펠에서도 씁니다. 겉으로는 자유로워 보이지만 <b>네 박의 역할</b>은 거의 정해져 있습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>박</th><th>역할</th><th>고르는 음</th><th>왜</th></tr></thead>
+        <tbody>
+          <tr><td><b>1박</b></td><td>코드를 선언</td><td>근음 (가끔 3도·5도)</td><td>밴드가 화성 변화를 여기서 듣는다</td></tr>
+          <tr><td><b>2박</b></td><td>움직임 시작</td><td>코드톤 또는 음계음</td><td>목표 방향으로 한 걸음</td></tr>
+          <tr><td><b>3박</b></td><td>다리</td><td>코드톤 · 경과음</td><td>4박의 어프로치가 닿을 자리로</td></tr>
+          <tr><td><b>4박</b></td><td>다음을 가리킴</td><td><b>어프로치 노트</b></td><td>다음 마디 1박으로 끌어당긴다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>실전에서 머릿속으로 하는 계산은 이렇습니다. <b>"다음 코드의 근음이 어디지? 그 반음 아래(또는 위)가 어디지? 지금 자리에서 거기까지 세 걸음으로 어떻게 가지?"</b> 이 세 질문이 전부입니다. 음을 하나하나 고르는 것이 아니라 <b>도착점을 먼저 정하고 길을 역산</b>합니다.</p>
+    <div class="callout tip">
+      <p><b>연습법 · 두 음만으로 시작하기.</b> 처음부터 네 박을 다 채우려 하지 마세요. ① 1박 근음, 4박 아래 반음 어프로치만 치고 2·3박은 쉽니다. ② 익숙해지면 3박에 5도를 넣습니다. ③ 마지막으로 2박을 채웁니다. 이 순서로 하면 선의 뼈대가 먼저 몸에 익습니다. 템포는 60 BPM부터, 코드는 두 개짜리 진행(예: Dm7–G7)부터.</p>
+    </div>
+
+    <div class="sim" id="sim-ap-walk">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>워킹 베이스 만들기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><div class="ap-roles" id="ap-wk-roles"></div><div id="ap-wk-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>진행</span><div class="seg" id="ap-wk-prog"><button data-value="Dm7 | G7 | Cmaj7 | Cmaj7" class="on">ii–V–I</button><button data-value="Cmaj7 | Am7 | Dm7 | G7">I–vi–ii–V</button><button data-value="Am7 | D7 | Gmaj7 | Gmaj7">ii–V–I (G조)</button><button data-value="C7 | F7 | C7 | G7">블루스 4마디</button></div></div>
+          <div class="ctrl"><span>4박 어프로치</span><div class="seg" id="ap-wk-ap"><button data-value="below" class="on">아래 반음</button><button data-value="above">위 반음</button><button data-value="dom">도미넌트</button><button data-value="mix">섞어서</button></div></div>
+          <div class="ctrl"><span>채우는 박</span><div class="seg" id="ap-wk-fill"><button data-value="2">1·4박만</button><button data-value="3">1·3·4박</button><button data-value="4" class="on">네 박 모두</button></div></div>
+          <label class="ctrl"><span>템포 <output id="ap-wk-bpm-out"></output></span><input type="range" id="ap-wk-bpm" min="70" max="200" step="1" value="132"></label>
+          <label class="check"><input type="checkbox" id="ap-wk-swing" checked> 스윙(라이드 심벌)</label>
+          <div class="btn-row"><button class="btn primary" id="ap-wk-play">▶ 재생</button><button class="btn" id="ap-wk-new">↻ 다른 선으로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">도약의 최대</span><span class="v" id="ap-wk-jump">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="ap-wk-range">—</span></div>
+        <div class="stat"><span class="k">현재 마디</span><span class="v" id="ap-wk-now">—</span></div>
+      </div>
+      <div class="sim-note">격자의 색: <b>빨강 = 근음</b>, <b>초록 = 코드톤·음계음</b>, <b>주황 = 어프로치</b> · 모델: 도착점(다음 근음의 어프로치)을 먼저 정하고 거기까지 가장 적게 움직이는 코드톤·음계음으로 2·3박을 채웁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="blues">
+    <h2>재즈 블루스 12마디 걷기</h2>
+    <p>워킹을 실제로 써 볼 가장 좋은 연습장은 <b>12마디 블루스</b>입니다. 진행이 짧고 반복되며, 모든 코드가 속7화음이라 어프로치를 넣을 자리가 많습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>마디</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead>
+        <tbody>
+          <tr><td>기본형</td><td>I7</td><td>I7</td><td>I7</td><td>I7</td><td>IV7</td><td>IV7</td><td>I7</td><td>I7</td><td>V7</td><td>IV7</td><td>I7</td><td>V7</td></tr>
+          <tr><td>재즈형</td><td>I7</td><td>IV7</td><td>I7</td><td>v7–I7</td><td>IV7</td><td>♯iv°</td><td>I7</td><td>VI7</td><td>ii7</td><td>V7</td><td>I7–VI7</td><td>ii7–V7</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>재즈형에서 늘어난 코드들은 전부 <b>더 많은 어프로치 기회</b>를 만들기 위한 것입니다. 8마디의 VI7(C조라면 A7)은 9마디 ii7(Dm7)의 도미넌트이고, 11–12마디의 I7–VI7–ii7–V7은 <b>턴어라운드</b>로 곡을 처음으로 돌려보냅니다. 베이스 입장에서는 한 마디에 코드가 둘이면 어프로치를 2박마다 넣게 됩니다.</p>
+    <div class="sim" id="sim-ap-blues">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>12마디 블루스 워킹</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="ap-blues" id="ap-bl-grid"></div><div id="ap-bl-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>형태</span><div class="seg" id="ap-bl-form"><button data-value="basic" class="on">기본형</button><button data-value="jazz">재즈형</button></div></div>
+          <label class="ctrl"><span>조 <output id="ap-bl-key-out"></output></span><input type="range" id="ap-bl-key" min="0" max="11" step="1" value="5"></label>
+          <label class="ctrl"><span>템포 <output id="ap-bl-bpm-out"></output></span><input type="range" id="ap-bl-bpm" min="70" max="220" step="2" value="138"></label>
+          <div class="ctrl"><span>라인</span><div class="seg" id="ap-bl-style"><button data-value="walk" class="on">워킹(4분음)</button><button data-value="rootFifth">투비트</button><button data-value="arp7">7화음 아르페지오</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ap-bl-play">▶ 재생</button><button class="btn" id="ap-bl-new">↻ 다른 선으로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">진행</span><span class="v" id="ap-bl-prog">—</span></div>
+        <div class="stat"><span class="k">현재 마디</span><span class="v" id="ap-bl-now">—</span></div>
+      </div>
+      <div class="sim-note">한 바퀴가 12마디입니다. 투비트로 한 바퀴 돈 뒤 워킹으로 바꿔 보세요 — 재즈 연주에서 실제로 하는 일입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="game">
+    <h2>다음 음 고르기</h2>
+    <p>워킹을 실시간으로 하려면 "계산"이 "반응"이 되어야 합니다. 아래 훈련은 그 전환을 돕습니다. 지금 치고 있는 음과 다음 코드가 주어지면, <b>4박에 둘 음</b>을 고르세요.</p>
+    <div class="sim" id="sim-ap-game">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>4박에 무엇을 둘까</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view">
+          <div class="ap-quest" id="ap-gm-quest"><b>—</b><span>시작을 누르세요</span></div>
+          <div id="ap-gm-fb"></div>
+          <div class="sim-msg" id="ap-gm-msg">다음 코드로 가장 강하게 끌어당기는 음을 지판에서 누르세요.</div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>요구하는 어프로치</span><div class="seg" id="ap-gm-want"><button data-value="below" class="on">아래 반음</button><button data-value="above">위 반음</button><button data-value="dom">도미넌트</button><button data-value="any">아무거나(셋 중 하나)</button></div></div>
+          <label class="check"><input type="checkbox" id="ap-gm-hear" checked> 문제를 낼 때 1–3박을 들려주기</label>
+          <div class="btn-row"><button class="btn primary" id="ap-gm-go">▶ 시작</button><button class="btn" id="ap-gm-next">다음 →</button><button class="btn" id="ap-gm-hint">? 힌트</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="ap-gm-score">0 / 0</span></div>
+        <div class="stat"><span class="k">평균 시간</span><span class="v" id="ap-gm-avg">—</span></div>
+      </div>
+      <div class="sim-note">정답을 누르면 네 박이 모두 연주되어 그 선이 어떻게 들리는지 바로 확인할 수 있습니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li><b>어프로치 노트</b>는 다음 근음 바로 앞에 두어 도착점을 가리키는 음이다. 아래 반음이 가장 강하고, 위 반음·도미넌트·음계음 순으로 약해진다.</li>
+      <li>어프로치는 코드 밖의 음이므로 <b>짧아야</b> 한다. 마디의 마지막 박, 길어야 8분음 두 개.</li>
+      <li><b>경과음</b>은 두 코드톤 사이를 지나가며 메운다. 들어온 방향으로 계속 나가야 하고, 반음 경과음은 약박에 둔다.</li>
+      <li>워킹 베이스의 네 박: 1박 <b>근음</b>(선언) → 2박 움직임 → 3박 다리 → 4박 <b>어프로치</b>(다음을 가리킴).</li>
+      <li>실전의 사고 순서는 <b>도착점 먼저, 길은 역산</b>이다. 다음 근음과 그 어프로치를 정하고 2·3박을 채운다.</li>
+      <li>12마디 블루스는 워킹 연습장이다. 재즈형에서 늘어난 코드는 모두 어프로치 기회를 늘린다.</li>
+      <li>연습은 1박·4박만으로 시작해 3박, 2박 순으로 채운다. 뼈대가 먼저다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>다음 마디가 <b>F</b>로 바뀐다. 가장 강한 <b>아래 반음 어프로치</b>는?</p><div class="opts">
+        <button class="opt" data-correct>E</button><button class="opt">F♯</button><button class="opt">C</button><button class="opt">G</button>
+      </div><div class="quiz-exp">F의 반음 아래는 E다. 아래에서 위로 올라가는 반음은 이끎음의 움직임과 같아 도착점을 가장 강하게 가리킨다. F♯은 위 반음, C는 도미넌트 어프로치다.</div></div>
+
+      <div class="quiz-q"><p>어프로치 노트를 마디 <b>1박</b>에 두면 보통 어떻게 들리는가?</p><div class="opts">
+        <button class="opt">더 강하게 들린다</button><button class="opt" data-correct>코드 밖의 음이 강박에 놓여 실수처럼 들린다</button><button class="opt">아무 차이 없다</button><button class="opt">화음이 바뀐다</button>
+      </div><div class="quiz-exp">1박은 밴드가 화성 변화를 확인하는 자리다. 여기에 코드 밖의 음을 길게 두면 조성이 흔들려 틀린 음으로 들린다. 어프로치는 짧고 약한 자리에 둔다.</div></div>
+
+      <div class="quiz-q"><p>워킹 베이스에서 <b>3박</b>의 주된 역할은?</p><div class="opts">
+        <button class="opt">코드를 선언한다</button><button class="opt">다음 마디를 가리킨다</button>
+        <button class="opt" data-correct>4박의 어프로치 노트에 닿을 수 있는 자리로 옮겨 놓는다</button>
+        <button class="opt">반드시 근음을 친다</button>
+      </div><div class="quiz-exp">도착점(4박의 어프로치)이 먼저 정해지고, 3박은 거기에 한 걸음으로 닿을 수 있는 코드톤이나 경과음이 된다. 선언은 1박, 가리킴은 4박의 일이다.</div></div>
+
+      <div class="quiz-q"><p>C 화음 위에서 C–D–E–F–G로 걸을 때 D와 F는 무엇인가?</p><div class="opts">
+        <button class="opt">어프로치 노트</button><button class="opt" data-correct>경과음 — 코드톤 사이를 지나간다</button><button class="opt">이웃음</button><button class="opt">틀린 음</button>
+      </div><div class="quiz-exp">D와 F는 C 화음(C-E-G)에 없지만 코드톤 사이를 같은 방향으로 지나가므로 경과음이다. 되돌아오면(C–D–C) 이웃음이 된다.</div></div>
+
+      <div class="quiz-q"><p>12마디 블루스 재즈형의 <b>8마디 VI7</b>(C조에서 A7)이 하는 일은?</p><div class="opts">
+        <button class="opt">곡을 끝낸다</button>
+        <button class="opt" data-correct>9마디 ii7(Dm7)의 도미넌트로서 그쪽으로 끌어당긴다</button>
+        <button class="opt">조를 바꾼다</button>
+        <button class="opt">아무 기능이 없다</button>
+      </div><div class="quiz-exp">A7은 D를 근음으로 하는 화음의 V7이다(세컨더리 도미넌트). 그래서 9마디 Dm7으로 강하게 이어지고, 베이스는 8마디 4박에 D의 어프로치(C♯ 또는 E♭)를 둘 수 있다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 공통: 어프로치 계산 */
+function apNote(kind, nextRoot, cur, rnd) {
+  // 다음 근음(MIDI) 기준 어프로치 음을 돌려준다. cur는 직전 음(옥타브 선택용)
+  const pick = kind === "mix" ? ["below", "above", "dom"][Math.floor((rnd ? rnd() : Math.random()) * 3)] : kind;
+  let m;
+  if (pick === "below") m = nextRoot - 1;
+  else if (pick === "above") m = nextRoot + 1;
+  else m = nextRoot + 7;
+  if (cur != null && Math.abs(m - cur) > 7) m += m > cur ? -12 : 12;
+  while (m < 28) m += 12;
+  while (m > 55) m -= 12;
+  return { m, kind: pick };
+}
+
+/* ------------------------------------------------------------ 1. 마지막 한 음 */
+(function () {
+  let kind = "none", prog = "C | Am | Dm | G7", bpm = 100, ab = null;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#ap-ap-tab", [], { beatsPerBar: 4 });
+  const staff = BS.staff("#ap-ap-staff", [], { beatsPerBar: 4, chords: [] });
+  function notes() {
+    const cs = BS.parseProgression(prog);
+    const roots = [];
+    let prev = null;
+    cs.forEach((c) => { const m = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: 28, near: prev != null ? prev : 36 }); roots.push(m); prev = m; });
+    const out = [];
+    cs.forEach((c, i) => {
+      const r = roots[i], nr = roots[(i + 1) % cs.length];
+      for (let b = 0; b < 3; b++) out.push({ t: i * 4 + b, d: 1, m: r, role: "R" });
+      let m = r, role = "R";
+      if (kind !== "none") {
+        if (kind === "scale") { m = nr > r ? nr - 2 : nr + 2; role = "음계"; }
+        else { const a = apNote(kind, nr, r); m = a.m; role = kind === "below" ? "♭" : kind === "above" ? "♯" : "5"; }
+      }
+      out.push({ t: i * 4 + 3, d: 1, m, role, vel: 0.82 });
+    });
+    return BS.withTab(out, { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => prog, notes: () => notes(), groove: () => "pop", keys: () => true, bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); },
+    onStop() { document.getElementById("ap-ap-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+    const fourth = band.notes.filter((n) => Math.abs((n.t % 4) - 3) < 1e-6);
+    MB.stat("ap-ap-notes", fourth.map((n) => MB.noteName(n.m)).join(" · "));
+    const firsts = band.notes.filter((n) => n.t % 4 === 0).map((n) => n.m);
+    MB.stat("ap-ap-dist", fourth.map((n, i) => Math.abs(n.m - firsts[(i + 1) % firsts.length]) + "반음").join(" · "));
+  }
+  const kindBox = document.getElementById("ap-ap-kind");
+  kindBox.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    kind = b.dataset.v; kindBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); refresh();
+  });
+  MB.seg("ap-ap-prog", (v) => { prog = v; refresh(); });
+  MB.range("ap-ap-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  function stopAb() { if (ab) { clearInterval(ab); ab = null; } }
+  document.getElementById("ap-ap-play").addEventListener("click", function () {
+    MB.ctx(); stopAb(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  document.getElementById("ap-ap-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stopAb(); band.stop(); return; }
+    let k = 0;
+    const flip = () => {
+      kind = k++ % 2 ? "below" : "none";
+      kindBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x.dataset.v === kind));
+      refresh();
+    };
+    flip(); if (!band.running) { band.start(); document.getElementById("ap-ap-play").textContent = "■ 정지"; }
+    ab = setInterval(flip, (60 / bpm) * 16000);
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 2. 워킹 생성기 */
+(function () {
+  let prog = "Dm7 | G7 | Cmaj7 | Cmaj7", apKind = "below", fill = 4, bpm = 132, swing = true, seed = 7;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#ap-wk-tab", [], { beatsPerBar: 4 });
+  const rolesEl = document.getElementById("ap-wk-roles");
+  function build() {
+    const cs = BS.parseProgression(prog), rnd = MB.rng(seed);
+    const roots = [];
+    let prev = 36;
+    cs.forEach((c) => { const m = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: 28, near: prev }); roots.push(m); prev = m; });
+    const out = [];
+    cs.forEach((c, i) => {
+      const r = roots[i], nr = roots[(i + 1) % cs.length];
+      const iv = MB.CHORDS[c.q].iv.filter((x) => x < 12);
+      const tones = iv.map((x) => r + x).concat([r + 12]);
+      const a = apNote(apKind, nr, r, rnd);
+      out.push({ t: i * 4, d: 1, m: r, role: "R", cls: "R" });
+      if (fill >= 3) {
+        // 3박: 어프로치 음에 가장 가까운 코드톤
+        const b3 = tones.slice().sort((x, y) => Math.abs(x - a.m) - Math.abs(y - a.m))[0];
+        if (fill >= 4) {
+          // 2박: 근음과 3박 사이를 잇는 코드톤
+          const mid = (r + b3) / 2;
+          const b2 = tones.filter((x) => x !== r && x !== b3).sort((x, y) => Math.abs(x - mid) - Math.abs(y - mid))[0] || b3;
+          out.push({ t: i * 4 + 1, d: 1, m: b2, role: BS.intervalLabel(b2 - r), cls: "T" });
+        }
+        out.push({ t: i * 4 + 2, d: 1, m: b3, role: BS.intervalLabel(b3 - r), cls: "T" });
+      }
+      out.push({ t: i * 4 + 3, d: 1, m: a.m, role: a.kind === "below" ? "♭ap" : a.kind === "above" ? "♯ap" : "5ap", cls: "A" });
+    });
+    return BS.withTab(out, { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => prog, notes: () => build(),
+    groove: () => (swing ? "swing" : "pop"), swing: () => (swing ? 0.17 : 0), keys: () => true, bassInst: bass,
+    onNote(n) {
+      tab.highlightAt(n.t);
+      rolesEl.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+      const cell = rolesEl.querySelector(`.cell[data-t="${n.t}"]`); if (cell) cell.classList.add("now");
+      MB.stat("ap-wk-now", MB.noteName(n.m) + " · " + (n.role || ""));
+    },
+    onStop() { document.getElementById("ap-wk-play").textContent = "▶ 재생"; tab.clear(); rolesEl.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); },
+  });
+  function refresh() {
+    band.refresh();
+    const cs = band.chords, ns = band.notes;
+    rolesEl.innerHTML = cs.map((c, i) =>
+      `<div class="bar"><span class="nm">${c.name}</span>` +
+      [0, 1, 2, 3].map((b) => {
+        const n = ns.find((x) => Math.abs(x.t - (i * 4 + b)) < 1e-6);
+        return n ? `<span class="cell ${n.cls}" data-t="${i * 4 + b}">${MB.pcName(n.m)}<small>${n.role}</small></span>`
+                 : `<span class="cell" data-t="${i * 4 + b}">·<small>쉼</small></span>`;
+      }).join("") + `</div>`).join("");
+    let t = 0;
+    tab.setNotes(ns, cs.map((c) => { const o = { t, name: c.name }; t += 4; return o; }));
+    const ms = ns.map((n) => n.m);
+    const jumps = ms.slice(1).map((m, i) => Math.abs(m - ms[i]));
+    MB.stat("ap-wk-jump", jumps.length ? Math.max(...jumps) + "반음" : "—");
+    MB.stat("ap-wk-range", MB.noteName(Math.min(...ms)) + " – " + MB.noteName(Math.max(...ms)));
+  }
+  MB.seg("ap-wk-prog", (v) => { prog = v; refresh(); });
+  MB.seg("ap-wk-ap", (v) => { apKind = v; refresh(); });
+  MB.seg("ap-wk-fill", (v) => { fill = +v; refresh(); });
+  MB.range("ap-wk-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("ap-wk-swing", (v) => { swing = v; });
+  document.getElementById("ap-wk-new").addEventListener("click", () => { seed = 1 + Math.floor(Math.random() * 9999); refresh(); });
+  document.getElementById("ap-wk-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 3. 12마디 블루스 */
+(function () {
+  const FORMS = {
+    basic: [[0, "7"], [0, "7"], [0, "7"], [0, "7"], [5, "7"], [5, "7"], [0, "7"], [0, "7"], [7, "7"], [5, "7"], [0, "7"], [7, "7"]],
+    jazz: [[0, "7"], [5, "7"], [0, "7"], [0, "m7"], [5, "7"], [6, "dim"], [0, "7"], [9, "7"], [2, "m7"], [7, "7"], [0, "7"], [2, "m7"]],
+  };
+  let form = "basic", key = 5, bpm = 138, style = "walk", seed = 11, idx = -1;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#ap-bl-tab", [], { beatsPerBar: 4, barsPerLine: 4 });
+  const grid = document.getElementById("ap-bl-grid");
+  function chordList() {
+    const flat = MB.prefersFlats(key);
+    return FORMS[form].map(([iv, q]) => {
+      const root = MB.mod(key + iv, 12);
+      const quality = q === "7" ? "dom7" : q === "m7" ? "min7" : "dim";
+      return { root, q: quality, bass: root, name: MB.chordSymbol(root, quality, flat), beats: 4, flat };
+    });
+  }
+  function refresh() {
+    const cs = chordList();
+    grid.innerHTML = cs.map((c, i) => `<div data-i="${i}">${c.name}<small>${i + 1}마디</small></div>`).join("");
+    band.refresh();
+    let t = 0;
+    tab.setNotes(band.notes, cs.map((c) => { const o = { t, name: c.name }; t += 4; return o; }));
+    MB.stat("ap-bl-prog", cs.map((c) => c.name).join(" "));
+    document.getElementById("ap-bl-key-out").textContent = MB.pcName(key, MB.prefersFlats(key)) + " 블루스";
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => chordList(), style: () => style, seed: () => seed,
+    groove: () => (style === "rootFifth" ? "swing" : "swing"), swing: () => 0.17, keys: () => true, bassInst: bass,
+    onChord(i, c) { idx = i; grid.querySelectorAll("div").forEach((d, k) => d.classList.toggle("now", k === i)); MB.stat("ap-bl-now", (i + 1) + "마디 · " + c.name); },
+    onNote(n) { tab.highlightAt(n.t); },
+    onStop() { document.getElementById("ap-bl-play").textContent = "▶ 재생"; tab.clear(); grid.querySelectorAll("div").forEach((d) => d.classList.remove("now")); },
+  });
+  MB.seg("ap-bl-form", (v) => { form = v; refresh(); });
+  MB.seg("ap-bl-style", (v) => { style = v; refresh(); });
+  MB.range("ap-bl-key", null, (v) => { key = Math.round(v); refresh(); });
+  MB.range("ap-bl-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  document.getElementById("ap-bl-new").addEventListener("click", () => { seed = 1 + Math.floor(Math.random() * 9999); refresh(); });
+  document.getElementById("ap-bl-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 4. 다음 음 고르기 */
+(function () {
+  let want = "below", hear = true, q = null, ok = 0, n = 0, times = [], t0 = 0, live = false;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#ap-gm-fb", { frets: 12, labels: "notes", bass, play: false, onClick: answer });
+  const quest = document.getElementById("ap-gm-quest"), msg = document.getElementById("ap-gm-msg");
+  function next() {
+    if (!live) return;
+    const curPc = Math.floor(Math.random() * 12);
+    let nextPc; do { nextPc = Math.floor(Math.random() * 12); } while (nextPc === curPc);
+    const curM = BS.bassNote(curPc, { lo: 31 });
+    const nextM = BS.bassNote(nextPc, { lo: 31, near: curM });
+    const targets = {
+      below: MB.mod(nextPc - 1, 12), above: MB.mod(nextPc + 1, 12), dom: MB.mod(nextPc + 7, 12),
+    };
+    q = { curM, nextM, curPc, nextPc, targets };
+    fb.clear();
+    fb.mark(BS.positionsOf(curM, { maxFret: 12 }).map((p) => ({ s: p.s, f: p.f, cls: "ghost", label: "지금" })));
+    quest.innerHTML = `<b>${MB.pcName(curPc)} &nbsp;→&nbsp; ${MB.pcName(nextPc)}</b><span>지금 ${MB.pcName(curPc)}을(를) 치고 있습니다. 다음 마디는 ${MB.pcName(nextPc)} — 4박에 둘 음은?</span>`;
+    msg.className = "sim-msg";
+    msg.textContent = want === "any" ? "아래 반음·위 반음·도미넌트 중 아무거나 누르세요." : "요구한 어프로치에 맞는 음을 누르세요.";
+    if (hear) for (let b = 0; b < 3; b++) bass.note(curM, { when: MB.now() + 0.1 + b * 0.42, dur: 0.38 });
+    t0 = performance.now();
+  }
+  function answer(s, f) {
+    if (!live || !q) return true;
+    const m = BS.midiAt(s, f), pc = MB.mod(m, 12);
+    bass.pluck(s, f, { dur: 0.6 });
+    n++;
+    const good = want === "any" ? Object.values(q.targets).includes(pc) : pc === q.targets[want];
+    if (good) {
+      ok++; times.push(performance.now() - t0);
+      fb.mark([{ s, f, cls: "ok", label: MB.pcName(pc) }]);
+      msg.className = "sim-msg ok"; msg.textContent = "좋습니다 — " + MB.pcName(pc) + "에서 " + MB.pcName(q.nextPc) + "으로 이어집니다. 들어 보세요.";
+      const t = MB.now() + 0.3;
+      for (let b = 0; b < 3; b++) bass.note(q.curM, { when: t + b * 0.42, dur: 0.38 });
+      bass.note(m, { when: t + 3 * 0.42, dur: 0.38 });
+      bass.note(q.nextM, { when: t + 4 * 0.42, dur: 0.8, vel: 0.95 });
+    } else {
+      fb.mark([{ s, f, cls: "bad", label: MB.pcName(pc) }]);
+      const tp = want === "any" ? q.targets.below : q.targets[want];
+      fb.mark(BS.positionsOf(BS.bassNote(tp, { lo: 31, near: q.curM }), { maxFret: 12 }).map((p) => ({ s: p.s, f: p.f, cls: "mark", label: MB.pcName(tp) })));
+      msg.className = "sim-msg bad";
+      msg.textContent = MB.pcName(q.nextPc) + "의 " + (want === "above" ? "위 반음" : want === "dom" ? "도미넌트(5도 위)" : "아래 반음") + "은(는) " + MB.pcName(tp) + "입니다.";
+    }
+    MB.stat("ap-gm-score", ok + " / " + n);
+    MB.stat("ap-gm-avg", times.length ? (times.reduce((a, b) => a + b, 0) / times.length / 1000).toFixed(2) + "초" : "—");
+    setTimeout(next, good ? 2600 : 2200);
+    return false;
+  }
+  MB.seg("ap-gm-want", (v) => { want = v; if (live) next(); });
+  MB.check("ap-gm-hear", (v) => { hear = v; });
+  document.getElementById("ap-gm-go").addEventListener("click", () => { MB.ctx(); live = true; ok = n = 0; times = []; MB.stat("ap-gm-score", "0 / 0"); next(); });
+  document.getElementById("ap-gm-next").addEventListener("click", () => { MB.ctx(); next(); });
+  document.getElementById("ap-gm-hint").addEventListener("click", () => {
+    if (!q) return;
+    const tp = want === "any" ? q.targets.below : q.targets[want];
+    msg.className = "sim-msg";
+    msg.textContent = MB.pcName(q.nextPc) + "에서 " + (want === "above" ? "반음 위" : want === "dom" ? "완전 5도 위" : "반음 아래") + "로 세어 보세요.";
+  });
+})();
+</script>
+</body>
+</html>
