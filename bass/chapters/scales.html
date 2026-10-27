@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>스케일과 박스 · BassBook</title>
+<meta name="description" content="장음계·단음계·펜타토닉·블루스 스케일의 지판 박스, 선법이 같은 코드 위에서 만드는 색의 차이, 스케일로 필과 짧은 연결구 만들기, 그리고 지판 위 음계 훈련.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .sc-list { display: grid; gap: 5px; }
+  .sc-list button { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; font: inherit; font-size: 13.5px; text-align: left; padding: 7px 11px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .sc-list button small { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .sc-list button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .sc-degs { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px; }
+  .sc-degs span { font: 700 13px var(--mono); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+  .sc-degs span.root { border-color: var(--bad); color: var(--bad); }
+  .sc-degs span.ct { border-color: var(--accent); color: var(--accent); }
+  .sc-degs span.color { border-color: var(--accent-2); color: var(--accent-2); }
+  .sc-mode-note { padding: 10px 14px; border-top: 1px solid var(--border); font-size: 14.5px; line-height: 1.65; min-height: 76px; }
+  .sc-mode-note b { color: var(--accent); }
+  .sc-fill { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 6px; }
+  .sc-fill button { font: inherit; font-size: 13px; padding: 8px 6px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.35; }
+  .sc-fill button small { display: block; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .sc-fill button.on { border-color: var(--accent); background: var(--accent-soft); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="scales">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 09</div>
+    <h1>스케일과 박스</h1>
+    <p class="lead">베이스 연주자에게 음계는 솔로를 위한 재료이기 전에 <b>"지금 쓸 수 있는 음의 목록"</b>입니다. 코드톤이 뼈대라면 음계는 그 사이를 채우는 살입니다. 다행히 베이스 지판에서 음계는 손 안에 들어오는 <b>박스</b> 몇 개로 정리되고, 4도 조율 덕분에 그 박스는 어느 자리에서나 같은 모양입니다. 이 장에서는 꼭 필요한 음계만 골라 지판 모양으로 익히고, 선법이 같은 코드 위에서 만드는 색의 차이를 듣고, 음계로 필을 만듭니다.</p>
+    <ul class="objectives">
+      <li>장음계·자연단음계의 지판 박스를 한 손 위치에서 짚는다.</li>
+      <li>마이너 펜타토닉과 블루스 스케일이 왜 "안전한"지 설명한다.</li>
+      <li>도리안·에올리안·프리지안·믹솔리디안이 같은 코드 위에서 만드는 색을 듣고 구분한다.</li>
+      <li>코드톤 · 음계음 · 코드 밖 음의 역할을 구분해 쓴다.</li>
+      <li>음계로 한두 박짜리 필과 연결구를 만든다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="boxes">
+    <h2>지판 박스: 한 손 위치에서</h2>
+    <p>음계를 "도-레-미-파-솔-라-시-도"로 외우면 베이스에서는 쓰기 어렵습니다. 연주 중에는 <b>지금 손이 있는 자리에서 어느 점을 짚을 수 있는가</b>만 알면 되기 때문입니다. 그래서 음계는 이름이 아니라 <b>모양</b>으로 익힙니다.</p>
+    <p>장음계는 근음이 4번 줄에 있을 때 두 줄에 걸쳐 이런 모양이 됩니다(숫자는 근음에서의 프렛 차이).</p>
+    <div class="formula">
+      $$\begin{array}{lccc}
+      \text{2번 줄 (D):} & & +1 & +2 \quad (\text{7도} \cdot \text{옥타브})\\
+      \text{3번 줄 (A):} & \;\;0 & +2 & +4 \quad (\text{4도} \cdot \text{5도} \cdot \text{6도})\\
+      \text{4번 줄 (E):} & \;\;0 & +2 & +4 \quad (\text{근음} \cdot \text{2도} \cdot \text{3도})
+      \end{array}$$
+      <div class="where">근음을 4번 줄에 둘 때의 상대 프렛입니다. 줄 사이가 완전 4도(5반음)이므로, 한 줄 올라가면 같은 프렛이 4도가 되어 아래 두 줄의 모양이 똑같아집니다. 박스 전체는 <b>다섯 프렛</b>을 쓰므로 검지–약지–새끼를 살짝 벌리거나(높은 자리) 한 칸 이동해서(낮은 자리) 짚습니다.</div>
+    </div>
+    <p>중요한 것은 이 모양이 <b>어느 줄, 어느 프렛에서나 같다</b>는 점입니다. 기타는 2번 줄에서 모양이 한 칸 어긋나지만 베이스는 그렇지 않습니다(<a href="fretboard.html">4장</a>). 모양 하나를 익히면 12개 조가 전부 해결됩니다.</p>
+
+    <div class="sim" id="sim-sc-boxes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음계 박스 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="sc-bx-fb"></div><div class="sc-degs" id="sc-bx-degs"></div><div id="sc-bx-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음계</span><div class="sc-list" id="sc-bx-list"></div></div>
+          <label class="ctrl"><span>근음 <output id="sc-bx-root-out"></output></span><input type="range" id="sc-bx-root" min="0" max="11" step="1" value="0"></label>
+          <div class="ctrl"><span>보기</span><div class="seg" id="sc-bx-view"><button data-value="box" class="on">한 손 박스</button><button data-value="all">지판 전체</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="sc-bx-up">▶ 올라가기</button><button class="btn" id="sc-bx-updown">▶ 올라갔다 내려오기</button><button class="btn" id="sc-bx-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음</span><span class="v" id="sc-bx-notes">—</span></div>
+        <div class="stat"><span class="k">반음 구조</span><span class="v" id="sc-bx-steps">—</span></div>
+        <div class="stat"><span class="k">박스 범위</span><span class="v" id="sc-bx-span">—</span></div>
+      </div>
+      <div class="sim-note">도수 칩의 색: <b>빨강 = 근음</b>, <b>초록 = 코드톤(3·5·7도)</b>, <b>주황 = 색을 만드는 음</b>. 지판을 눌러 근음을 옮기면 모양이 그대로 따라옵니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="penta">
+    <h2>펜타토닉: 다섯 음이 안전한 이유</h2>
+    <p>마이너 펜타토닉은 R ♭3 4 5 ♭7의 다섯 음입니다. 자연단음계(R 2 ♭3 4 5 ♭6 ♭7)에서 <b>2도와 ♭6도를 뺀 것</b>인데, 하필 그 둘을 뺀 데는 이유가 있습니다. 그 두 음이 주변 음과 <b>반음</b>을 이루는 음이기 때문입니다.</p>
+    <div class="formula">
+      $$\text{자연단음계: } \underbrace{2}_{\text{R}\to 2}\;\underbrace{1}_{2\to\flat 3}\;\underbrace{2}_{\flat 3\to 4}\;\underbrace{2}_{4\to 5}\;\underbrace{1}_{5\to\flat 6}\;\underbrace{2}_{\flat 6\to\flat 7}\;\underbrace{2}_{\flat 7\to\text{R}}$$
+      <div class="where">반음(1) 두 곳이 2→♭3과 5→♭6입니다. 2도와 ♭6도를 빼면 남은 간격은 3-2-2-3-2가 되어 <b>반음이 하나도 없습니다</b>.</div>
+    </div>
+    <p>반음이 없다는 것은 <b>어떤 두 음을 동시에 울려도 심하게 부딪히지 않는다</b>는 뜻입니다. 그래서 펜타토닉은 화음 위에서 아무 음이나 집어도 큰 사고가 나지 않습니다. 초보자가 솔로를 시작할 때 펜타토닉부터 배우는 이유이고, 베이스에서 필을 만들 때 가장 먼저 손이 가는 음 목록인 이유이기도 합니다.</p>
+    <p><b>블루스 스케일</b>은 여기에 ♭5(블루 노트)를 더한 여섯 음입니다. ♭5는 4도와 5도 사이에 끼어 반음 충돌을 만드는데, 그 긴장이 바로 블루스의 소리입니다. 베이스에서는 <b>지나가는 음</b>으로만 쓰세요. 길게 끌면 틀린 음이 됩니다.</p>
+    <div class="callout tip">
+      <p><b>연습법 · 펜타토닉 한 박스.</b> 마이너 펜타토닉의 가장 쓸모 있는 박스는 근음이 4번 줄에 있을 때입니다. 4번 줄 <b>0 · 3</b>, 3번 줄 <b>0 · 2</b>, 2번 줄 <b>0 · 2</b>(근음 기준 상대 프렛)로 외우세요. 이 한 박스로 필의 90%를 만들 수 있습니다. 블루스 스케일을 더하려면 3번 줄에 <b>+1</b> 한 점을 추가하면 됩니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="modes">
+    <h2>선법: 같은 코드 위의 다른 색</h2>
+    <p>코드가 Dm7이라고 해서 쓸 수 있는 음계가 하나인 것은 아닙니다. D를 근음으로 하는 단음계 계열만 해도 여럿이고, 각각은 <b>한두 음만</b> 다릅니다. 그런데 그 한두 음이 전체 분위기를 정합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>선법</th><th>단음계와의 차이</th><th>색</th><th>어울리는 코드</th></tr></thead>
+        <tbody>
+          <tr><td><b>에올리안</b>(자연단음계)</td><td>기준</td><td>표준적인 어두움</td><td>m, m7 (vi 자리)</td></tr>
+          <tr><td><b>도리안</b></td><td>6도가 반음 높다(<b>장6도</b>)</td><td>어둡지만 밝은 기운 · 세련됨</td><td>m7 (ii 자리), 펑크·재즈</td></tr>
+          <tr><td><b>프리지안</b></td><td>2도가 반음 낮다(<b>♭2</b>)</td><td>스페인풍 · 긴장</td><td>m, sus♭9, 플라멩코</td></tr>
+          <tr><td><b>화성단음계</b></td><td>7도가 반음 높다</td><td>고전적 · 이국적</td><td>단조의 V7 위</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>장음계 쪽도 같습니다. <b>믹솔리디안</b>은 장음계에서 7도만 반음 낮춘 것이고, 그래서 속7화음(G7 등)과 정확히 맞습니다. <b>리디안</b>은 4도를 반음 올린 것으로 떠 있는 느낌을 줍니다.</p>
+    <div class="callout deep">
+      <p><b>베이스에서 선법이 실제로 하는 일.</b> 솔로 악기는 선법의 특징음을 길게 끌어 색을 드러내지만, 베이스는 그렇게 하지 않습니다. 베이스에서 선법은 주로 <b>경과음과 어프로치의 선택지를 정하는 규칙</b>으로 작동합니다. 예를 들어 Dm7에서 B(장6도)를 경과음으로 쓸 수 있는지는 도리안이냐 에올리안이냐에 달려 있고, 그 한 음이 지나가는 순간 라인의 분위기가 바뀝니다. 그래서 선법은 "외워서 연주할 음계"가 아니라 "<b>이 음을 써도 되는가</b>"의 기준표에 가깝습니다.</p>
+    </div>
+
+    <div class="sim" id="sim-sc-modes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>선법 바꿔 가며 걷기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="sc-md-fb"></div><div id="sc-md-tab"></div><div class="sc-mode-note" id="sc-md-note"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>코드(한 코드 뱀프)</span><div class="seg" id="sc-md-chord"><button data-value="Dm7" class="on">Dm7</button><button data-value="G7">G7</button><button data-value="Cmaj7">Cmaj7</button><button data-value="Am">Am</button></div></div>
+          <div class="ctrl"><span>선법</span><div class="sc-list" id="sc-md-list"></div></div>
+          <label class="ctrl"><span>템포 <output id="sc-md-bpm-out"></output></span><input type="range" id="sc-md-bpm" min="70" max="170" step="1" value="104"></label>
+          <label class="check"><input type="checkbox" id="sc-md-keys" checked> 건반과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="sc-md-play">▶ 재생</button><button class="btn" id="sc-md-cmp">▶ 두 선법 번갈아</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">특징음</span><span class="v" id="sc-md-char">—</span></div>
+        <div class="stat"><span class="k">코드와 충돌하는 음</span><span class="v" id="sc-md-clash">—</span></div>
+      </div>
+      <div class="sim-note">라인은 코드톤과 선법의 음만으로 걷습니다. 선법을 바꾸면 쓰는 음이 한두 개 달라지고, 그 한두 음이 분위기를 정합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="fills">
+    <h2>필: 한두 박으로 말하기</h2>
+    <p>베이스의 필<span class="en">(Fill)</span>은 드럼의 필과 같은 일을 합니다. <b>다음 구간이 온다</b>는 신호입니다. 그래서 길이보다 <b>위치</b>가 중요합니다. 보통 네 마디·여덟 마디의 마지막 1~2박에 둡니다.</p>
+    <ul>
+      <li><b>짧게</b> — 한 박에서 두 박. 길면 베이스가 비는 동안 음악이 떠 버립니다.</li>
+      <li><b>도착점이 분명하게</b> — 필의 끝은 다음 마디 1박의 근음으로 착지해야 합니다. 8장의 어프로치가 그대로 적용됩니다.</li>
+      <li><b>음역은 올렸다가 내려오기</b> — 올라갔다가 다음 근음으로 내려오면 "준비 → 착지"가 또렷합니다.</li>
+      <li><b>쉬는 것도 필이다</b> — 한 박을 통째로 비우면 다음 1박이 훨씬 강하게 들립니다.</li>
+    </ul>
+    <div class="sim" id="sim-sc-fill">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>필 만들기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="sc-fl-tab"></div><div id="sc-fl-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>필의 재료</span><div class="sc-fill" id="sc-fl-kind">
+            <button data-v="rest" class="on">쉼<small>한 박 비우기</small></button>
+            <button data-v="penta">펜타토닉<small>8분음 네 개</small></button>
+            <button data-v="chrom">반음 걷기<small>아래에서 올라오기</small></button>
+            <button data-v="oct">옥타브 도약<small>위로 갔다 내려오기</small></button>
+            <button data-v="blues">블루스<small>♭5를 지나며</small></button>
+            <button data-v="arp16">16분 아르페지오<small>빠르게 쓸어 올리기</small></button>
+          </div></div>
+          <div class="ctrl"><span>필의 길이</span><div class="seg" id="sc-fl-len"><button data-value="1" class="on">1박</button><button data-value="2">2박</button></div></div>
+          <label class="ctrl"><span>템포 <output id="sc-fl-bpm-out"></output></span><input type="range" id="sc-fl-bpm" min="70" max="160" step="1" value="98"></label>
+          <label class="check"><input type="checkbox" id="sc-fl-every"> 마디마다 넣기(권장하지 않음 — 들어 보세요)</label>
+          <div class="btn-row"><button class="btn primary" id="sc-fl-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">필의 음</span><span class="v" id="sc-fl-notes">—</span></div>
+        <div class="stat"><span class="k">착지까지</span><span class="v" id="sc-fl-land">—</span></div>
+      </div>
+      <div class="sim-note">"마디마다 넣기"를 켜 보세요. 같은 필이 네 번 반복되면 신호가 아니라 소음이 됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="game">
+    <h2>음계 안에 있는 음 가려내기</h2>
+    <p>실전에서 음계 지식이 쓰이는 방식은 "음계를 연주하기"가 아니라 <b>"이 음을 써도 되는가"를 즉시 판단하기</b>입니다. 아래 훈련이 그것을 다룹니다.</p>
+    <div class="sim" id="sim-sc-game">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>안에 있나, 밖에 있나</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="sc-gm-fb"></div><div class="sim-msg" id="sc-gm-msg">시작을 누르면 지판에 음이 하나 표시됩니다. 그 음이 음계 안에 있는지 판단하세요.</div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음계</span><div class="seg" id="sc-gm-scale"><button data-value="major" class="on">장음계</button><button data-value="minor">자연단음계</button><button data-value="minorPent">마이너 펜타토닉</button><button data-value="mixolydian">믹솔리디안</button><button data-value="dorian">도리안</button></div></div>
+          <label class="ctrl"><span>근음 <output id="sc-gm-root-out"></output></span><input type="range" id="sc-gm-root" min="0" max="11" step="1" value="0"></label>
+          <div class="ctrl"><span>답</span><div class="seg" id="sc-gm-ans"><button data-value="in">안에 있다</button><button data-value="out">밖에 있다</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="sc-gm-go">▶ 시작</button><button class="btn" id="sc-gm-next">다음 →</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="sc-gm-score">0 / 0</span></div>
+        <div class="stat"><span class="k">평균 시간</span><span class="v" id="sc-gm-avg">—</span></div>
+        <div class="stat"><span class="k">이번 음</span><span class="v" id="sc-gm-note">—</span></div>
+      </div>
+      <div class="sim-note">"안에 있다"·"밖에 있다" 버튼을 누르면 채점됩니다. 1초 안에 판단할 수 있을 때까지가 목표입니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>음계는 이름이 아니라 <b>지판 모양</b>으로 익힌다. 4도 조율이라 모양이 어디서나 같고, 모양 하나가 12개 조를 해결한다.</li>
+      <li>장음계 박스: 4번 줄 0·2·4, 3번 줄 −1·+1·+2, 2번 줄 0·+2(근음 기준 상대 프렛). 한 손 위치에서 전부 닿는다.</li>
+      <li>마이너 펜타토닉은 자연단음계에서 <b>반음을 만드는 두 음</b>(2도·♭6도)을 뺀 것이다. 반음이 없어 어떤 음을 집어도 크게 부딪히지 않는다.</li>
+      <li>블루스 스케일의 ♭5는 지나가는 음이다. 길게 끌면 틀린 음으로 들린다.</li>
+      <li>선법은 한두 음만 다르고 그 한두 음이 색을 정한다. 도리안은 장6도, 프리지안은 ♭2, 믹솔리디안은 ♭7.</li>
+      <li>베이스에서 선법은 "연주할 음계"가 아니라 <b>경과음·어프로치로 무엇을 써도 되는가</b>의 기준표다.</li>
+      <li>필은 짧고(1–2박), 위치는 구간의 끝, 도착점은 다음 1박의 근음. <b>쉬는 것도 필</b>이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>마이너 펜타토닉이 자연단음계에서 <b>빼는 두 음</b>은?</p><div class="opts">
+        <button class="opt">♭3도와 ♭7도</button><button class="opt" data-correct>2도와 ♭6도</button><button class="opt">4도와 5도</button><button class="opt">R과 5도</button>
+      </div><div class="quiz-exp">자연단음계의 반음은 2→♭3과 5→♭6 두 곳에 있다. 그 반음을 만드는 2도와 ♭6도를 빼면 남은 간격이 3-2-2-3-2가 되어 반음이 사라진다.</div></div>
+
+      <div class="quiz-q"><p><b>도리안</b>이 자연단음계와 다른 점은?</p><div class="opts">
+        <button class="opt">2도가 반음 낮다</button><button class="opt" data-correct>6도가 반음 높다(장6도)</button><button class="opt">7도가 반음 높다</button><button class="opt">5도가 반음 낮다</button>
+      </div><div class="quiz-exp">도리안은 R 2 ♭3 4 5 <b>6</b> ♭7이다. 장6도 하나가 어두운 음계에 밝은 기운을 주고, 그래서 ii 자리의 m7이나 펑크·재즈의 모달 뱀프에서 많이 쓰인다.</div></div>
+
+      <div class="quiz-q"><p>블루스 스케일의 ♭5를 베이스에서 쓰는 올바른 방법은?</p><div class="opts">
+        <button class="opt">마디 1박에 길게 둔다</button><button class="opt" data-correct>약한 자리에서 지나가는 음으로 짧게 쓴다</button><button class="opt">코드톤 대신 쓴다</button><button class="opt">근음과 함께 울린다</button>
+      </div><div class="quiz-exp">♭5는 4도와 5도 사이에 끼어 반음 충돌을 만드는 음이다. 그 긴장이 블루스의 소리이지만, 강박에 길게 두면 해결되지 않은 불협으로 들린다.</div></div>
+
+      <div class="quiz-q"><p>베이스에서 선법 지식이 가장 직접적으로 쓰이는 곳은?</p><div class="opts">
+        <button class="opt">음계를 빠르게 오르내리는 솔로</button>
+        <button class="opt" data-correct>경과음과 어프로치로 어떤 음을 써도 되는지 판단할 때</button>
+        <button class="opt">코드 기호를 읽을 때</button>
+        <button class="opt">튜닝할 때</button>
+      </div><div class="quiz-exp">베이스는 특징음을 길게 끌어 색을 드러내는 자리가 아니다. 선법은 라인을 채우는 음의 허용 목록으로 작동하며, 그 한두 음이 지나가는 순간 분위기를 바꾼다.</div></div>
+
+      <div class="quiz-q"><p>여덟 마디 구간의 베이스 필에 대해 옳은 것은?</p><div class="opts">
+        <button class="opt">길수록 좋다</button><button class="opt">마디마다 넣는 것이 좋다</button>
+        <button class="opt" data-correct>1–2박으로 짧게, 구간의 끝에 두고, 다음 1박의 근음으로 착지한다</button>
+        <button class="opt">반드시 가장 높은 음역에서 친다</button>
+      </div><div class="quiz-exp">필은 "다음 구간이 온다"는 신호다. 신호가 매번 나오면 신호가 아니게 되고, 길면 베이스가 비는 동안 음악이 뜬다. 한 박을 통째로 쉬는 것도 훌륭한 필이다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 음계 박스 */
+(function () {
+  const SCALES = ["major", "minor", "majorPent", "minorPent", "blues", "dorian", "mixolydian", "lydian", "phrygian", "harmonicMinor"];
+  const CT = [0, 3, 4, 7, 10, 11];
+  let key = "major", rootPc = 0, view = "box", root = { s: 0, f: 3 }, timer = null;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#sc-bx-fb", { frets: 14, labels: "none", bass, play: false,
+    onClick(s, f) { root = { s, f }; rootPc = MB.mod(BS.midiAt(s, f), 12); rootR.set(rootPc, false); show(); bass.pluck(s, f, { dur: 0.6 }); return false; } });
+  const staff = BS.staff("#sc-bx-staff", [], { beatsPerBar: 16, barsPerLine: 1 });
+  const list = document.getElementById("sc-bx-list");
+  list.innerHTML = SCALES.map((k, i) => `<button data-k="${k}"${i ? "" : ' class="on"'}><span>${MB.SCALES[k].name}</span><small>${MB.SCALES[k].steps.length}음</small></button>`).join("");
+  function boxNotes() {
+    const steps = MB.SCALES[key].steps;
+    const rm = BS.midiAt(root.s, root.f);
+    // 한 손 박스: 근음 줄부터 위로, 프렛은 근음 −1 ~ 근음 +4
+    const out = [];
+    for (let s = root.s; s < 4; s++) {
+      for (let f = root.f; f <= root.f + 4; f++) {
+        const iv = MB.mod(BS.midiAt(s, f) - rm, 12);
+        if (steps.includes(iv)) out.push({ s, f, iv, midi: BS.midiAt(s, f) });
+      }
+    }
+    return out.sort((a, b) => a.midi - b.midi);
+  }
+  function show() {
+    const steps = MB.SCALES[key].steps;
+    fb.clear();
+    if (view === "all") fb.showScale(rootPc, steps, { from: 0, to: 14, label: "none" });
+    else fb.mark(boxNotes().map((p) => ({ s: p.s, f: p.f, cls: p.iv === 0 ? "root" : CT.includes(p.iv) ? "mark" : "alt", label: BS.intervalLabel(p.iv) })));
+    document.getElementById("sc-bx-degs").innerHTML = steps.map((iv) =>
+      `<span class="${iv === 0 ? "root" : CT.includes(iv) ? "ct" : "color"}">${BS.intervalLabel(iv)}</span>`).join("");
+    const ns = boxNotes();
+    staff.setNotes(ns.map((p, i) => ({ t: i, d: 1, m: p.midi })));
+    MB.stat("sc-bx-notes", steps.map((iv) => MB.pcName(rootPc + iv, MB.prefersFlats(rootPc))).join(" "));
+    MB.stat("sc-bx-steps", steps.map((iv, i) => (i ? iv - steps[i - 1] : null)).filter((x) => x != null).concat(12 - steps[steps.length - 1]).join("-"));
+    const fs = ns.map((p) => p.f);
+    MB.stat("sc-bx-span", ns.length ? (Math.max(...fs) - Math.min(...fs)) + "프렛 · " + ns.length + "음" : "—");
+    document.getElementById("sc-bx-root-out").textContent = MB.pcName(rootPc, MB.prefersFlats(rootPc));
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } bass.stop(); staff.clear(); }
+  function run(updown) {
+    MB.ctx(); stop();
+    const ns = boxNotes();
+    const seq = updown ? ns.concat(ns.slice(0, -1).reverse()) : ns;
+    let i = 0;
+    const step = () => {
+      if (i >= seq.length) { stop(); return; }
+      const p = seq[i];
+      bass.pluck(p.s, p.f, { dur: 0.28 }); fb.flash(p.s, p.f); staff.highlightAt(ns.indexOf(p)); i++;
+    };
+    step(); timer = setInterval(step, 300);
+  }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    key = b.dataset.k; list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); show();
+  });
+  function placeRoot() {
+    const p = BS.positionsOf(BS.bassNote(rootPc, { lo: 28 }), { maxFret: 10 }).sort((a, b) => a.f - b.f)[0];
+    if (p) root = p;
+  }
+  const rootR = MB.range("sc-bx-root", null, (v) => { rootPc = Math.round(v); placeRoot(); show(); });
+  MB.seg("sc-bx-view", (v) => { view = v; show(); });
+  placeRoot();
+  document.getElementById("sc-bx-up").addEventListener("click", () => run(false));
+  document.getElementById("sc-bx-updown").addEventListener("click", () => run(true));
+  document.getElementById("sc-bx-stop").addEventListener("click", stop);
+  show();
+})();
+
+/* ------------------------------------------------------------ 2. 선법 */
+(function () {
+  const MODES = [
+    { k: "minor", char: "기준(자연단음계)", note: "표준적인 어두움. vi 자리의 m·m7에 잘 맞는다." },
+    { k: "dorian", char: "장6도", note: "<b>장6도</b> 하나가 어둠 속에 밝은 기운을 만든다. ii 자리의 m7, 펑크·재즈의 모달 뱀프." },
+    { k: "phrygian", char: "♭2", note: "<b>♭2</b>가 근음 바로 위에서 눌러 스페인풍의 긴장을 만든다. 플라멩코·메탈." },
+    { k: "harmonicMinor", char: "장7도", note: "<b>장7도</b>가 근음을 강하게 가리킨다. 단조의 V7 위에서 쓴다." },
+    { k: "mixolydian", char: "♭7", note: "장음계에서 <b>7도만 반음 낮춘</b> 것. 속7화음과 정확히 맞는다." },
+    { k: "major", char: "기준(장음계)", note: "맑고 안정적. I·IV 자리의 maj7." },
+    { k: "lydian", char: "♯4", note: "<b>♯4</b>가 떠 있는 느낌을 만든다. maj7♯11." },
+  ];
+  let chord = "Dm7", mode = "minor", bpm = 104, withKeys = true, cmp = null;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#sc-md-fb", { frets: 12, labels: "none", bass });
+  const tab = BS.tab("#sc-md-tab", [], { beatsPerBar: 4 });
+  const list = document.getElementById("sc-md-list");
+  list.innerHTML = MODES.map((m, i) => `<button data-k="${m.k}"${i ? "" : ' class="on"'}><span>${MB.SCALES[m.k].name}</span><small>${m.char}</small></button>`).join("");
+  function notes() {
+    const c = BS.parseChord(chord);
+    const steps = MB.SCALES[mode].steps;
+    const rm = BS.bassNote(c.root, { lo: 31 });
+    const pool = steps.map((iv) => rm + iv).concat(steps.map((iv) => rm + iv + 12)).filter((m) => m >= 28 && m <= 52);
+    const iv = MB.CHORDS[c.q].iv.filter((x) => x < 12);
+    const tones = iv.map((x) => rm + x);
+    const rnd = MB.rng(5);
+    const out = [];
+    for (let b = 0; b < 16; b++) {
+      let m;
+      if (b % 4 === 0) m = rm;
+      else if (b % 2 === 0) m = tones[Math.floor(rnd() * tones.length)];
+      else {
+        const prev = out.length ? out[out.length - 1].m : rm;
+        const near = pool.filter((x) => Math.abs(x - prev) <= 4 && x !== prev);
+        m = near.length ? near[Math.floor(rnd() * near.length)] : pool[Math.floor(rnd() * pool.length)];
+      }
+      out.push({ t: b, d: 1, m });
+    }
+    return BS.withTab(out, { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => chord + " | " + chord + " | " + chord + " | " + chord,
+    notes: () => notes(), groove: () => "swing", swing: () => 0.14, keys: () => withKeys, bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); if (n.f != null && n.f <= 12) fb.flash(n.s, n.f); },
+    onStop() { document.getElementById("sc-md-play").textContent = "▶ 재생"; tab.clear(); },
+  });
+  function refresh() {
+    const c = BS.parseChord(chord);
+    const steps = MB.SCALES[mode].steps;
+    fb.clear(); fb.showScale(c.root, steps, { from: 0, to: 12, label: "none" });
+    band.refresh();
+    tab.setNotes(band.notes, [{ t: 0, name: chord }]);
+    const M = MODES.find((m) => m.k === mode);
+    document.getElementById("sc-md-note").innerHTML = `<b>${MB.SCALES[mode].name}</b> — ${M.note}`;
+    MB.stat("sc-md-char", M.char);
+    const chordIvs = MB.CHORDS[c.q].iv.filter((x) => x < 12);
+    const clash = steps.filter((iv) => chordIvs.some((x) => MB.mod(iv - x, 12) === 1 && !chordIvs.includes(iv)));
+    MB.stat("sc-md-clash", clash.length ? clash.map((iv) => MB.pcName(c.root + iv)).join(" · ") + " (짧게만)" : "없음");
+  }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    mode = b.dataset.k; list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); refresh();
+  });
+  MB.seg("sc-md-chord", (v) => { chord = v; refresh(); });
+  MB.range("sc-md-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("sc-md-keys", (v) => { withKeys = v; refresh(); });
+  function stopCmp() { if (cmp) { clearInterval(cmp); cmp = null; } }
+  document.getElementById("sc-md-play").addEventListener("click", function () {
+    MB.ctx(); stopCmp(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  document.getElementById("sc-md-cmp").addEventListener("click", () => {
+    MB.ctx(); if (cmp) { stopCmp(); band.stop(); return; }
+    const pair = chord === "Cmaj7" ? ["major", "lydian"] : chord === "G7" ? ["mixolydian", "major"] : ["minor", "dorian"];
+    let k = 0;
+    const flip = () => {
+      mode = pair[k++ % 2];
+      list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x.dataset.k === mode));
+      refresh();
+    };
+    flip(); if (!band.running) { band.start(); document.getElementById("sc-md-play").textContent = "■ 정지"; }
+    cmp = setInterval(flip, (60 / bpm) * 16000);
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 3. 필 */
+(function () {
+  const PROG = "C | Am | F | G";
+  let kind = "rest", len = 1, bpm = 98, every = false;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#sc-fl-tab", [], { beatsPerBar: 4 });
+  const staff = BS.staff("#sc-fl-staff", [], { beatsPerBar: 4, chords: [] });
+  function fillNotes(start, r, nextR, c) {
+    const out = [];
+    const pent = [0, 3, 5, 7, 10];
+    const push = (dt, d, m) => out.push({ t: start + dt, d, m: MB.clamp(m, 28, 55), vel: 0.8 });
+    if (kind === "rest") return out;
+    if (kind === "penta") {
+      const seq = len === 1 ? [0, 3, 5, 7] : [0, 3, 5, 7, 10, 7, 5, 3];
+      seq.forEach((iv, i) => push(i * (len / seq.length), len / seq.length, r + iv));
+    } else if (kind === "chrom") {
+      const n = len === 1 ? 4 : 8;
+      for (let i = 0; i < n; i++) push(i * (len / n), len / n, nextR - (n - i));
+    } else if (kind === "oct") {
+      const seq = len === 1 ? [12, 7] : [12, 10, 7, 5];
+      seq.forEach((iv, i) => push(i * (len / seq.length), len / seq.length, r + iv));
+    } else if (kind === "blues") {
+      const seq = len === 1 ? [0, 3, 5, 6] : [0, 3, 5, 6, 7, 10, 7, 5];
+      seq.forEach((iv, i) => push(i * (len / seq.length), len / seq.length, r + iv));
+    } else if (kind === "arp16") {
+      const iv = MB.CHORDS[c.q].iv.filter((x) => x <= 12).concat(12);
+      const seq = [];
+      while (seq.length < len * 4) seq.push(iv[seq.length % iv.length] + (Math.floor(seq.length / iv.length) ? 12 : 0));
+      seq.forEach((x, i) => push(i * 0.25, 0.25, r + x));
+    } else pent.forEach((iv, i) => push(i * (len / pent.length), len / pent.length, r + iv));
+    return out;
+  }
+  function notes() {
+    const cs = BS.parseProgression(PROG);
+    const roots = []; let prev = 36;
+    cs.forEach((c) => { const m = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: 28, near: prev }); roots.push(m); prev = m; });
+    const out = [];
+    cs.forEach((c, i) => {
+      const r = roots[i], nr = roots[(i + 1) % cs.length];
+      const fillAt = (every || i === cs.length - 1) ? 4 - len : 99;
+      for (let b = 0; b * 0.5 < fillAt; b++) out.push({ t: i * 4 + b * 0.5, d: 0.5, m: r, vel: b % 2 === 0 ? 0.9 : 0.76 });
+      if (fillAt < 99) fillNotes(i * 4 + fillAt, r, nr, c).forEach((n) => out.push(n));
+    });
+    return BS.withTab(out, { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => PROG, notes: () => notes(), groove: () => "rock8", keys: () => true, bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); },
+    onStop() { document.getElementById("sc-fl-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+    const last = band.notes.filter((n) => n.t >= 16 - len);
+    MB.stat("sc-fl-notes", last.length ? last.map((n) => MB.pcName(n.m)).join(" ") : "쉼 (아무것도 치지 않음)");
+    const first = band.notes[0];
+    MB.stat("sc-fl-land", last.length && first ? Math.abs(last[last.length - 1].m - first.m) + "반음" : "—");
+  }
+  const kindBox = document.getElementById("sc-fl-kind");
+  kindBox.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    kind = b.dataset.v; kindBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); refresh();
+  });
+  MB.seg("sc-fl-len", (v) => { len = +v; refresh(); });
+  MB.range("sc-fl-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("sc-fl-every", (v) => { every = v; refresh(); });
+  document.getElementById("sc-fl-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 4. 안/밖 게임 */
+(function () {
+  let scale = "major", rootPc = 0, q = null, ok = 0, n = 0, times = [], t0 = 0, live = false;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#sc-gm-fb", { frets: 12, labels: "none", bass, play: false,
+    onClick(s, f) { bass.pluck(s, f, { dur: 0.6 }); return false; } });
+  const msg = document.getElementById("sc-gm-msg");
+  function next() {
+    if (!live) return;
+    const s = Math.floor(Math.random() * 4), f = Math.floor(Math.random() * 13);
+    const midi = BS.midiAt(s, f), iv = MB.mod(midi - rootPc, 12);
+    q = { s, f, midi, inScale: MB.SCALES[scale].steps.includes(iv), iv };
+    fb.clear(); fb.mark([{ s, f, cls: "mark", label: "?" }]);
+    MB.stat("sc-gm-note", "? · " + BS.stringLabel(s) + " " + f + "프렛");
+    msg.className = "sim-msg";
+    msg.textContent = MB.pcName(rootPc) + " " + MB.SCALES[scale].name + " 안에 있을까요?";
+    bass.pluck(s, f, { dur: 0.7 });
+    t0 = performance.now();
+  }
+  document.getElementById("sc-gm-ans").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-value]"); if (!b || !q || !live) return;
+    MB.ctx(); n++;
+    const good = (b.dataset.value === "in") === q.inScale;
+    if (good) { ok++; times.push(performance.now() - t0); }
+    fb.clear();
+    fb.showScale(rootPc, MB.SCALES[scale].steps, { from: 0, to: 12, label: "none" });
+    fb.mark([{ s: q.s, f: q.f, cls: good ? "ok" : "bad", label: MB.pcName(q.midi) }]);
+    msg.className = "sim-msg " + (good ? "ok" : "bad");
+    msg.textContent = MB.pcName(q.midi) + "은(는) 근음에서 " + BS.intervalLabel(q.iv) + " — " + (q.inScale ? "음계 안에 있습니다." : "음계 밖입니다.");
+    MB.stat("sc-gm-score", ok + " / " + n);
+    MB.stat("sc-gm-avg", times.length ? (times.reduce((a, c) => a + c, 0) / times.length / 1000).toFixed(2) + "초" : "—");
+    MB.stat("sc-gm-note", MB.noteName(q.midi) + " · " + BS.intervalLabel(q.iv));
+    setTimeout(next, good ? 900 : 1900);
+  });
+  MB.seg("sc-gm-scale", (v) => { scale = v; if (live) next(); });
+  MB.range("sc-gm-root", null, (v) => { rootPc = Math.round(v); document.getElementById("sc-gm-root-out").textContent = MB.pcName(rootPc); if (live) next(); });
+  document.getElementById("sc-gm-go").addEventListener("click", () => { MB.ctx(); live = true; ok = n = 0; times = []; MB.stat("sc-gm-score", "0 / 0"); next(); });
+  document.getElementById("sc-gm-next").addEventListener("click", () => { MB.ctx(); next(); });
+  document.getElementById("sc-gm-root-out").textContent = MB.pcName(0);
+})();
+</script>
+</body>
+</html>
