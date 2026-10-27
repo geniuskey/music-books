@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>그루브와 킥 드럼 · BassBook</title>
+<meta name="description" content="킥 드럼과 베이스가 맞물리는 자리, 음 길이와 쉼이 만드는 리듬, 고스트 노트, 16분음 펑크 그루브, 싱코페이션과 앤티시페이션을 스텝 격자에서 직접 짜고 들어 본다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .gr-seq { padding: 10px 12px; overflow-x: auto; }
+  .gr-seq .row { display: grid; grid-template-columns: 64px repeat(16, minmax(0, 1fr)); gap: 3px; align-items: center; margin-bottom: 4px; min-width: 560px; }
+  .gr-seq .lab { font: 600 12px var(--mono); color: var(--text-dim); }
+  .gr-seq .cell { height: 26px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg-elev); display: grid; place-items: center; font: 700 11px var(--mono); color: var(--text-dim); }
+  .gr-seq button.cell { cursor: pointer; }
+  .gr-seq .cell.beat { background: var(--surface); }
+  .gr-seq .cell.kick { background: color-mix(in srgb, var(--accent-2) 55%, var(--bg-elev)); border-color: var(--accent-2); color: var(--on-accent, #fff); }
+  .gr-seq .cell.snare { background: color-mix(in srgb, var(--text-dim) 35%, var(--bg-elev)); }
+  .gr-seq .cell.hat { background: color-mix(in srgb, var(--text-faint) 40%, var(--bg-elev)); }
+  .gr-seq .cell.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+  .gr-seq .cell.ghost { background: color-mix(in srgb, var(--accent) 28%, var(--bg-elev)); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); color: var(--accent); }
+  .gr-seq .cell.lock { box-shadow: 0 0 0 2.5px var(--accent-2); }
+  .gr-seq .cell.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+  .gr-seq .nums { display: grid; grid-template-columns: 64px repeat(16, minmax(0, 1fr)); gap: 3px; min-width: 560px; }
+  .gr-seq .nums span { text-align: center; font: 11px var(--mono); color: var(--text-faint); }
+  .gr-legend { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 12px 10px; font-size: 12.5px; color: var(--text-dim); }
+  .gr-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+  .gr-meter { display: grid; gap: 6px; padding: 8px 12px; }
+  .gr-meter .row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 58px; gap: 8px; align-items: center; font-size: 13px; }
+  .gr-meter .bar { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .gr-meter .bar i { display: block; height: 100%; background: var(--accent); }
+  .gr-meter .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="groove">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 10</div>
+    <h1>그루브와 킥 드럼</h1>
+    <p class="lead">여기까지는 "어떤 음을 칠까"의 문제였습니다. 이 장부터는 "<b>언제 칠까</b>"입니다. 베이스의 짝은 기타도 건반도 아닌 <b>킥 드럼</b>입니다. 둘은 같은 저역을 나눠 쓰고, 같은 시간 격자 위에 있으며, 겹칠 때와 엇갈릴 때 전혀 다른 느낌을 만듭니다. 이 장에서는 스텝 격자 위에서 킥과 베이스를 직접 겹쳐 보고, 음을 빼는 것이 넣는 것보다 중요하다는 사실을 귀로 확인합니다.</p>
+    <ul class="objectives">
+      <li>킥과 베이스가 같은 칸에 있을 때와 엇갈릴 때의 차이를 듣고 설명한다.</li>
+      <li>음을 <b>빼는 것</b>이 그루브를 만드는 방식을 이해하고, 빈 자리를 설계한다.</li>
+      <li>고스트 노트(데드 노트)로 16분음 격자를 느끼게 만든다.</li>
+      <li>16분음 펑크 그루브의 구조(킥·고스트·악센트)를 분해한다.</li>
+      <li>싱코페이션과 앤티시페이션(마디 앞당기기)을 쓴다.</li>
+      <li>드럼 그루브에 맞는 베이스 패턴을 직접 짜고 맞물림 정도를 수치로 확인한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="lock">
+    <h2>킥과 맞물리기</h2>
+    <p>드럼의 킥과 베이스는 <b>주파수 영역이 겹칩니다</b>. 킥의 기본 성분은 보통 50–80 Hz이고 베이스의 저음 영역도 41–100 Hz입니다. 두 소리가 같은 순간에 나면 저역이 합쳐져 한 덩어리로 들리고, 다른 순간에 나면 번갈아 때리는 느낌이 납니다. 어느 쪽도 틀리지 않지만 <b>장르마다 선택이 다릅니다</b>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>관계</th><th>소리</th><th>장르 예</th></tr></thead>
+        <tbody>
+          <tr><td><b>완전히 겹침</b></td><td>저역이 뭉쳐 단단하다. 펀치가 크다</td><td>록, 메탈, EDM, 모던 팝</td></tr>
+          <tr><td><b>부분적으로 겹침</b></td><td>중요한 자리(1박)만 함께, 나머지는 엇갈려 움직임이 생긴다</td><td>펑크, R&amp;B, 소울</td></tr>
+          <tr><td><b>거의 겹치지 않음</b></td><td>둘이 번갈아 때려 대화하는 느낌</td><td>레게, 라틴, 재즈</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>실전에서의 출발점은 명확합니다. <b>킥이 치는 자리에 베이스가 있으면 일단 단단하게 들립니다.</b> 거기서 시작해 일부러 칸을 비우거나 옮기며 개성을 만듭니다. 반대로 아무 생각 없이 엇갈리면 저역이 계속 번갈아 울려 흐릿해집니다.</p>
+    <div class="callout deep">
+      <p><b>왜 겹치면 더 커지는가.</b> 같은 순간에 나는 두 저음은 위상이 비슷하면 진폭이 더해져 최대 +6 dB까지 커집니다. 반대로 살짝 어긋나면(수십 ms) 서로를 가리는 마스킹이 일어나 둘 다 흐려집니다. 이것이 믹스 엔지니어가 킥과 베이스에 사이드체인 컴프레서를 거는 이유이고, 연주자가 <b>애초에 겹치거나 확실히 비키는</b> 선택을 해야 하는 이유입니다. 가장 나쁜 것은 "거의 겹치는" 상태입니다.</p>
+    </div>
+
+    <div class="sim" id="sim-gr-lock">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>그루브 짜기: 킥과 베이스</h3></div>
+      <div class="sim-body">
+        <div class="sim-view">
+          <div class="gr-seq" id="gr-lk-seq"></div>
+          <div class="gr-legend">
+            <span><i style="background:color-mix(in srgb,var(--accent-2) 55%,var(--bg-elev))"></i>킥</span>
+            <span><i style="background:var(--accent)"></i>베이스</span>
+            <span><i style="background:color-mix(in srgb,var(--accent) 28%,var(--bg-elev))"></i>고스트</span>
+            <span><i style="box-shadow:0 0 0 2.5px var(--accent-2);background:var(--accent);margin-left:4px"></i>킥과 맞물린 베이스</span>
+          </div>
+          <div class="gr-meter" id="gr-lk-meter"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>드럼 그루브</span><div class="seg" id="gr-lk-groove"><button data-value="rock8" class="on">록 8비트</button><button data-value="funk16">펑크 16</button><button data-value="motown">모타운</button><button data-value="four">4온더플로어</button><button data-value="reggae">레게</button><button data-value="hiphop">힙합</button></div></div>
+          <div class="ctrl"><span>빠른 채우기</span><div class="seg" id="gr-lk-fill"><button data-value="kick">킥을 그대로 따라</button><button data-value="eighth" class="on">8분음 근음</button><button data-value="one">1박만</button><button data-value="clear">비우기</button></div></div>
+          <label class="ctrl"><span>템포 <output id="gr-lk-bpm-out"></output></span><input type="range" id="gr-lk-bpm" min="60" max="160" step="1" value="98"></label>
+          <label class="check"><input type="checkbox" id="gr-lk-drum" checked> 드럼 소리</label>
+          <div class="btn-row"><button class="btn primary" id="gr-lk-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">베이스 음 수</span><span class="v" id="gr-lk-n">—</span></div>
+        <div class="stat"><span class="k">킥과 맞물린 비율</span><span class="v" id="gr-lk-lock">—</span></div>
+        <div class="stat"><span class="k">가장 긴 빈 구간</span><span class="v" id="gr-lk-gap">—</span></div>
+      </div>
+      <div class="sim-note">베이스 줄의 칸을 누르면 <b>근음 → 5도 → 옥타브 → 고스트 → 쉼</b> 순서로 바뀝니다. 드럼 줄은 고른 그루브를 보여 주기만 합니다 · 해볼 것: "킥을 그대로 따라"로 한 번 듣고, 칸 두세 개를 지워 보세요.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="space">
+    <h2>빈 자리가 그루브를 만든다</h2>
+    <p>초보자의 베이스라인이 답답하게 들리는 가장 흔한 이유는 음이 틀려서가 아니라 <b>음이 너무 많아서</b>입니다. 리듬은 소리가 나는 순간뿐 아니라 <b>소리가 없는 순간</b>으로도 만들어집니다. 빈 자리가 있어야 그 앞뒤의 음이 들립니다.</p>
+    <p>빼는 데에도 순서가 있습니다.</p>
+    <ol>
+      <li><b>1박은 남긴다</b> — 화성과 박의 기준점입니다. 여기를 비우는 것은 고급 기술입니다(레게의 원 드롭).</li>
+      <li><b>약박의 반복을 먼저 지운다</b> — 같은 음이 연달아 두 번 나오면 뒤쪽을 지워 보세요.</li>
+      <li><b>스네어 바로 뒤를 비운다</b> — 2·4박 직후의 여백은 거의 항상 효과가 좋습니다.</li>
+      <li><b>지운 자리를 고스트 노트로 바꿔 본다</b> — 완전히 비우는 것과 음정 없는 '툭'을 두는 것은 다릅니다(다음 절).</li>
+    </ol>
+    <div class="sim" id="sim-gr-space">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음을 빼면서 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="gr-sp-tab"></div><canvas id="gr-sp-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음의 밀도 <output id="gr-sp-dens-out"></output></span><input type="range" id="gr-sp-dens" min="2" max="16" step="1" value="8"></label>
+          <div class="ctrl"><span>빼는 방식</span><div class="seg" id="gr-sp-how"><button data-value="even" class="on">고르게</button><button data-value="offbeat">뒷박부터</button><button data-value="after2">2·4박 뒤부터</button></div></div>
+          <label class="ctrl"><span>템포 <output id="gr-sp-bpm-out"></output></span><input type="range" id="gr-sp-bpm" min="60" max="150" step="1" value="92"></label>
+          <div class="btn-row"><button class="btn primary" id="gr-sp-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">한 마디 음 수</span><span class="v" id="gr-sp-n">—</span></div>
+        <div class="stat"><span class="k">소리가 나는 시간 비율</span><span class="v" id="gr-sp-duty">—</span></div>
+      </div>
+      <div class="sim-note">밀도를 16에서 4까지 천천히 내려 보세요. 어느 지점에서 "꽉 찬 소리"가 "그루브"로 바뀌는지 찾는 것이 목적입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="ghost">
+    <h2>고스트 노트</h2>
+    <p><b>고스트 노트</b><span class="en">(Ghost note)</span>는 왼손으로 줄을 살짝 덮은 채 뜯어 내는 <b>음정 없는 타격</b>입니다. 데드 노트라고도 합니다. 악보와 TAB에서는 <b>×</b>로 적습니다.</p>
+    <p>고스트 노트가 하는 일은 셋입니다.</p>
+    <ul>
+      <li><b>격자를 느끼게 한다</b> — 16분음 자리에 '툭' 소리가 있으면 듣는 사람이 그 격자를 인식합니다. 음정이 없으니 화성을 흐리지도 않습니다.</li>
+      <li><b>손의 움직임을 유지한다</b> — 오른손이 쉬지 않고 16분음을 긁고 있으면 다음 악센트의 타이밍이 정확해집니다. 드러머가 하이햇으로 하는 일과 같습니다.</li>
+      <li><b>악센트를 돋보이게 한다</b> — 작은 소리 사이에 큰 소리가 있어야 큰 소리가 큽니다.</li>
+    </ul>
+    <div class="callout tip">
+      <p><b>연습법 · 고스트 노트 내는 법.</b> 왼손 손가락을 프렛 <b>사이</b>에 얹되 <b>누르지 않습니다</b>. 줄에 닿아 있기만 하면 됩니다. 두세 손가락을 동시에 얹으면 배음까지 죽어 더 깔끔합니다. 그 상태로 평소처럼 뜯으면 "툭" 소리만 납니다. 음정이 희미하게 들리면 너무 세게 누른 것이고, 아무 소리도 안 나면 너무 약하게 얹은 것입니다.</p>
+    </div>
+    <div class="sim" id="sim-gr-ghost">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>고스트 노트 더하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="gr-gh-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>기본 패턴</span><div class="seg" id="gr-gh-pat"><button data-value="a" class="on">1 · + · 3 · +</button><button data-value="b">1 · · a 3 e · ·</button><button data-value="c">모타운식</button></div></div>
+          <label class="ctrl"><span>고스트 노트 채우기 <output id="gr-gh-g-out"></output></span><input type="range" id="gr-gh-g" min="0" max="100" step="10" value="0"></label>
+          <label class="ctrl"><span>고스트 세기 <output id="gr-gh-v-out"></output></span><input type="range" id="gr-gh-v" min="10" max="70" step="5" value="35"></label>
+          <label class="ctrl"><span>템포 <output id="gr-gh-bpm-out"></output></span><input type="range" id="gr-gh-bpm" min="60" max="130" step="1" value="94"></label>
+          <label class="check"><input type="checkbox" id="gr-gh-drum" checked> 드럼과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="gr-gh-play">▶ 재생</button><button class="btn" id="gr-gh-ab">▶ 없음↔가득 번갈아</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">실제 음</span><span class="v" id="gr-gh-real">—</span></div>
+        <div class="stat"><span class="k">고스트</span><span class="v" id="gr-gh-ghost">—</span></div>
+      </div>
+      <div class="sim-note">고스트를 가득 채우면 16분음 격자가 들리기 시작합니다. 세기를 70%까지 올리면 "고스트"가 아니라 그냥 음이 되어 지저분해집니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="sixteenth">
+    <h2>16분음 펑크 그루브</h2>
+    <p>펑크의 베이스라인은 겉으로는 복잡하지만 <b>세 겹</b>으로 분해됩니다.</p>
+    <ol>
+      <li><b>악센트</b> — 보통 한 마디에 3–5개. 킥과 겹치거나 일부러 반 칸 비킨 자리에 둡니다. 여기만 실제 음정입니다.</li>
+      <li><b>고스트</b> — 악센트 사이를 메우는 음정 없는 타격. 16분음 격자를 유지합니다.</li>
+      <li><b>쉼</b> — 뜻밖에 많습니다. 특히 1박 뒤의 여백이 펑크의 서명입니다.</li>
+    </ol>
+    <p>그리고 음 길이가 결정적입니다. 펑크의 음은 <b>짧습니다</b>. 16분음 하나 길이(120 BPM에서 125 ms)를 넘기지 않는 경우가 많습니다. 짧은 음이 공간을 만들고, 공간이 다음 음을 때릴 자리를 만듭니다.</p>
+    <div class="sim" id="sim-gr-16">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>펑크 그루브 한 겹씩</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="gr-seq" id="gr-16-seq"></div><div id="gr-16-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>쌓을 층</span><div class="seg" id="gr-16-layer"><button data-value="1">악센트만</button><button data-value="2">+ 고스트</button><button data-value="3" class="on">+ 옥타브·5도</button></div></div>
+          <label class="ctrl"><span>음 길이 <output id="gr-16-gate-out"></output></span><input type="range" id="gr-16-gate" min="20" max="100" step="5" value="45"></label>
+          <label class="ctrl"><span>템포 <output id="gr-16-bpm-out"></output></span><input type="range" id="gr-16-bpm" min="70" max="130" step="1" value="104"></label>
+          <div class="ctrl"><span>주법</span><div class="seg" id="gr-16-tone"><button data-value="finger" class="on">손가락</button><button data-value="pick">피크</button><button data-value="slap">슬랩</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="gr-16-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">한 음의 길이</span><span class="v" id="gr-16-ms">—</span></div>
+        <div class="stat"><span class="k">악센트 / 고스트 / 쉼</span><span class="v" id="gr-16-mix">—</span></div>
+      </div>
+      <div class="sim-note">층을 하나씩 쌓으며 들어 보세요. 악센트만 들을 때 이미 그루브의 뼈대가 있습니다 — 나머지는 장식입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="synco">
+    <h2>싱코페이션과 앤티시페이션</h2>
+    <p><b>싱코페이션</b><span class="en">(Syncopation)</span>은 강박이 아닌 자리에 악센트를 두는 것입니다. 기대를 벗어나기 때문에 움직임이 생깁니다. 베이스에서 가장 많이 쓰는 형태는 <b>앤티시페이션</b><span class="en">(Anticipation)</span>, 즉 <b>다음 마디의 음을 반 박 또는 한 칸 앞당겨 치는 것</b>입니다.</p>
+    <div class="formula">
+      $$\underbrace{\text{C}\;\;\text{C}\;\;\text{C}\;\;\text{C}}_{\text{1마디}}\;\Big|\;\underbrace{\text{F}\;\;\text{F}\;\;\text{F}\;\;\text{F}}_{\text{2마디}} \quad\longrightarrow\quad \underbrace{\text{C}\;\;\text{C}\;\;\text{C}\;\;\text{C}\;\underbrace{\text{F}}_{\text{4박 뒤}}}_{}\;\Big|\;\underbrace{-\;\;\text{F}\;\;\text{F}\;\;\text{F}}_{}$$
+      <div class="where">2마디의 F를 1마디 4박의 뒷박으로 앞당기고, 2마디 1박은 비웁니다. 화성 변화가 반 박 일찍 일어나 음악이 앞으로 기울어집니다.</div>
+    </div>
+    <p>앤티시페이션이 특별히 효과적인 이유는 <b>베이스가 화성의 바닥</b>이기 때문입니다. 베이스가 먼저 F로 가면 밴드 전체가 F로 간 것처럼 들립니다. 반대로 과하게 쓰면 1박이 어디인지 모호해지므로, 보통 4마디나 8마디의 <b>마지막 자리</b>처럼 구조적으로 중요한 지점에 씁니다.</p>
+    <div class="sim" id="sim-gr-synco">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>앞당기기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="gr-sy-tab"></div><div id="gr-sy-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>앞당기는 양</span><div class="seg" id="gr-sy-amt"><button data-value="0" class="on">없음</button><button data-value="0.5">8분음 하나</button><button data-value="0.25">16분음 하나</button><button data-value="1">4분음 하나</button></div></div>
+          <div class="ctrl"><span>어디에</span><div class="seg" id="gr-sy-where"><button data-value="all">모든 마디</button><button data-value="last" class="on">마지막 마디만</button><button data-value="even">짝수 마디</button></div></div>
+          <label class="ctrl"><span>템포 <output id="gr-sy-bpm-out"></output></span><input type="range" id="gr-sy-bpm" min="60" max="150" step="1" value="96"></label>
+          <label class="check"><input type="checkbox" id="gr-sy-rest" checked> 앞당긴 뒤 다음 1박은 비우기</label>
+          <div class="btn-row"><button class="btn primary" id="gr-sy-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">코드 변화 시각</span><span class="v" id="gr-sy-when">—</span></div>
+        <div class="stat"><span class="k">앞당긴 마디</span><span class="v" id="gr-sy-bars">—</span></div>
+      </div>
+      <div class="sim-note">"모든 마디"로 두고 들어 보세요. 효과가 강하지만 1박의 자리가 흐려집니다 — 그래서 보통 아껴 씁니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>킥과 베이스는 같은 저역을 나눠 쓴다. 겹치면 단단해지고(최대 +6 dB), 확실히 비키면 대화가 되며, <b>"거의 겹치는" 상태가 가장 나쁘다</b>.</li>
+      <li>출발점은 킥을 따라가는 것. 거기서 칸을 비우거나 옮기며 개성을 만든다.</li>
+      <li>그루브는 음을 넣어서가 아니라 <b>빼서</b> 만들어진다. 1박은 남기고, 약박의 반복부터 지운다.</li>
+      <li><b>고스트 노트</b>는 음정 없는 타격으로 16분음 격자를 들리게 하고, 오른손의 움직임을 유지하며, 악센트를 돋보이게 한다.</li>
+      <li>펑크 그루브는 <b>악센트 · 고스트 · 쉼</b> 세 겹이다. 악센트만 들어도 뼈대가 서야 한다.</li>
+      <li>펑크의 음은 짧다. 짧은 음이 공간을 만들고 공간이 다음 타격의 자리를 만든다.</li>
+      <li><b>앤티시페이션</b>은 다음 마디의 음을 앞당겨 치는 것이다. 베이스가 화성의 바닥이라 효과가 크지만, 과하면 1박이 흐려지므로 구조적으로 중요한 자리에 쓴다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>킥과 베이스의 관계로 <b>가장 피해야 할</b> 것은?</p><div class="opts">
+        <button class="opt">정확히 같은 칸에 둔다</button>
+        <button class="opt">완전히 다른 칸에 둔다</button>
+        <button class="opt" data-correct>수십 ms만 어긋나게 둔다</button>
+        <button class="opt">1박에서만 겹친다</button>
+      </div><div class="quiz-exp">정확히 겹치면 진폭이 더해져 단단해지고, 확실히 비키면 번갈아 들린다. 수십 ms만 어긋나면 서로를 가리는 마스킹이 일어나 둘 다 흐려진다.</div></div>
+
+      <div class="quiz-q"><p>베이스라인이 답답하게 들릴 때 가장 먼저 시도할 것은?</p><div class="opts">
+        <button class="opt">음을 더 넣는다</button><button class="opt" data-correct>약박에서 반복되는 음을 지운다</button><button class="opt">음역을 올린다</button><button class="opt">템포를 높인다</button>
+      </div><div class="quiz-exp">리듬은 소리와 침묵이 함께 만든다. 같은 음이 연달아 나오는 약박부터 지우면 남은 음이 또렷해진다. 1박은 화성과 박의 기준점이므로 마지막까지 남긴다.</div></div>
+
+      <div class="quiz-q"><p>고스트 노트가 <b>화성을 흐리지 않는</b> 이유는?</p><div class="opts">
+        <button class="opt">아주 작게 치기 때문에</button>
+        <button class="opt" data-correct>줄을 누르지 않아 음정이 없는 타격이기 때문에</button>
+        <button class="opt">고역만 나기 때문에</button>
+        <button class="opt">드럼 소리에 묻히기 때문에</button>
+      </div><div class="quiz-exp">왼손이 줄에 얹혀만 있으므로 정상파가 만들어지지 않아 뚜렷한 기본 주파수가 생기지 않는다. 리듬 정보만 전달되고 화성에는 영향을 주지 않는다.</div></div>
+
+      <div class="quiz-q"><p>펑크 베이스의 음 길이에 대해 옳은 것은?</p><div class="opts">
+        <button class="opt">길게 끌어 저역을 채운다</button>
+        <button class="opt" data-correct>짧게 끊어 공간을 만든다</button>
+        <button class="opt">길이는 상관없다</button>
+        <button class="opt">음마다 다르게 하는 것이 원칙이다</button>
+      </div><div class="quiz-exp">펑크의 음은 보통 16분음 하나 길이를 넘기지 않는다. 짧은 음이 만든 공간이 다음 타격의 자리를 만들고, 그래서 같은 음표를 쳐도 훨씬 탄력 있게 들린다.</div></div>
+
+      <div class="quiz-q"><p><b>앤티시페이션</b>이란?</p><div class="opts">
+        <button class="opt">다음 마디 음을 한 박 늦게 치는 것</button>
+        <button class="opt" data-correct>다음 마디 음을 반 박(또는 한 칸) 앞당겨 치는 것</button>
+        <button class="opt">모든 음을 조금씩 늦게 치는 것</button>
+        <button class="opt">마디 첫 박을 두 번 치는 것</button>
+      </div><div class="quiz-exp">화성 변화를 앞당겨 음악을 앞으로 기울이는 기법이다. 베이스가 화성의 바닥이라 베이스만 앞당겨도 밴드 전체가 먼저 간 것처럼 들린다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 그루브 짜기 */
+(function () {
+  const VALS = [null, "R", "5", "8", "g"]; // 쉼 · 근음 · 5도 · 옥타브 · 고스트
+  const IV = { R: 0, "5": 7, "8": 12 };
+  let groove = "rock8", bpm = 98, drum = true;
+  let cells = Array.from({ length: 16 }, (_, i) => (i % 2 === 0 ? 1 : 0));
+  const bass = BS.bass({ tone: "finger" });
+  const seq = document.getElementById("gr-lk-seq"), meter = document.getElementById("gr-lk-meter");
+  const ROOT = 36; // C2
+  function drumRow(name) {
+    const evs = BS.drumEvents(groove, 1, 4).filter((e) => e.drum === name);
+    const out = Array(16).fill(0);
+    evs.forEach((e) => { const i = Math.round(e.t * 4); if (i >= 0 && i < 16) out[i] = e.vel; });
+    return out;
+  }
+  function render() {
+    const kick = drumRow("kick"), snare = drumRow("snare"), hat = drumRow("hat").map((v, i) => v || drumRow("ride")[i] || drumRow("rim")[i]);
+    const rows = [
+      ["하이햇", hat, "hat"], ["스네어", snare, "snare"], ["킥", kick, "kick"],
+    ].map(([lab, arr, cls]) =>
+      `<div class="row"><span class="lab">${lab}</span>` + arr.map((v, i) =>
+        `<span class="cell ${i % 4 === 0 ? "beat " : ""}${v ? cls : ""}"></span>`).join("") + `</div>`).join("");
+    const bassRow = `<div class="row"><span class="lab">베이스</span>` + cells.map((k, i) => {
+      const v = VALS[k];
+      const lock = v && v !== "g" && kick[i] ? " lock" : "";
+      return `<button class="cell ${i % 4 === 0 ? "beat " : ""}${v === "g" ? "ghost" : v ? "on" : ""}${lock}" data-i="${i}">${v === "g" ? "×" : v || ""}</button>`;
+    }).join("") + `</div>`;
+    const nums = `<div class="nums"><span></span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span>${i % 4 === 0 ? i / 4 + 1 : i % 4 === 2 ? "+" : "·"}</span>`).join("") + `</div>`;
+    seq.innerHTML = rows + bassRow + nums;
+    // 지표
+    const notes = cells.filter((k) => VALS[k] && VALS[k] !== "g").length;
+    const hits = cells.map((k, i) => (VALS[k] && VALS[k] !== "g" ? i : -1)).filter((i) => i >= 0);
+    const locked = hits.filter((i) => kick[i]).length;
+    const kicks = kick.filter(Boolean).length;
+    let gap = 0, run = 0;
+    for (let i = 0; i < 32; i++) { const k = cells[i % 16]; if (VALS[k]) { gap = Math.max(gap, run); run = 0; } else run++; }
+    MB.stat("gr-lk-n", notes + "개 (고스트 " + cells.filter((k) => VALS[k] === "g").length + "개)");
+    MB.stat("gr-lk-lock", hits.length ? Math.round(locked / hits.length * 100) + "% · 킥 " + kicks + "개 중 " + locked + "개" : "—");
+    MB.stat("gr-lk-gap", (gap / 4).toFixed(2) + "박");
+    meter.innerHTML = [
+      ["베이스 ∩ 킥", hits.length ? locked / hits.length : 0, locked + "/" + hits.length],
+      ["킥 중 덮은 비율", kicks ? locked / kicks : 0, locked + "/" + kicks],
+      ["빈 칸 비율", cells.filter((k) => !VALS[k]).length / 16, cells.filter((k) => !VALS[k]).length + "/16"],
+    ].map(([lab, v, n]) => `<div class="row"><span>${lab}</span><span class="bar"><i style="width:${(v * 100).toFixed(0)}%"></i></span><span class="n">${n}</span></div>`).join("");
+  }
+  function events() {
+    const out = [];
+    cells.forEach((k, i) => {
+      const v = VALS[k]; if (!v) return;
+      out.push({ t: i / 4, kind: "bass", v });
+    });
+    if (drum) BS.drumEvents(groove, 1, 4).forEach((e) => out.push(e));
+    return out;
+  }
+  let sched = null;
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); }
+  document.getElementById("gr-lk-play").addEventListener("click", function () {
+    MB.ctx(); if (sched) { stop(); this.textContent = "▶ 재생"; return; }
+    const btn = this;
+    sched = BS.scheduler(events(), { bpm: () => bpm, loop: true, length: 4,
+      onEvent(e, when) {
+        if (e.kind === "drum") { MB.drum(e.drum, when, { vel: e.vel * 0.8 }); return; }
+        if (e.v === "g") { bass.dead(1, { when, vel: 0.5 }); return; }
+        const m = ROOT + IV[e.v];
+        const p = BS.bestPosition(m, { tuning: bass.tuning, hand: 3 });
+        if (p) bass.pluck(p.s, p.f, { when, dur: 0.16, vel: e.t % 1 === 0 ? 0.95 : 0.82 });
+      },
+      onUI(e) {
+        if (e.kind === "drum") return;
+        seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+        seq.querySelectorAll(`.cell[data-i="${Math.round(e.t * 4)}"]`).forEach((c) => c.classList.add("now"));
+      },
+      onStop: () => { sched = null; btn.textContent = "▶ 재생"; },
+    });
+    sched.start(); this.textContent = "■ 정지";
+  });
+  seq.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    MB.ctx();
+    const i = +b.dataset.i;
+    cells[i] = (cells[i] + 1) % VALS.length;
+    render();
+    const v = VALS[cells[i]];
+    if (v === "g") bass.dead(1, { vel: 0.5 });
+    else if (v) { const p = BS.bestPosition(ROOT + IV[v], { tuning: bass.tuning, hand: 3 }); if (p) bass.pluck(p.s, p.f, { dur: 0.3 }); }
+    if (sched) sched.setEvents(events());
+  });
+  MB.seg("gr-lk-groove", (v) => { groove = v; render(); if (sched) sched.setEvents(events()); });
+  MB.seg("gr-lk-fill", (v) => {
+    const kick = drumRow("kick");
+    if (v === "kick") cells = kick.map((k) => (k ? 1 : 0));
+    else if (v === "eighth") cells = Array.from({ length: 16 }, (_, i) => (i % 2 === 0 ? 1 : 0));
+    else if (v === "one") cells = Array.from({ length: 16 }, (_, i) => (i === 0 ? 1 : 0));
+    else cells = Array(16).fill(0);
+    render(); if (sched) sched.setEvents(events());
+  });
+  MB.range("gr-lk-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("gr-lk-drum", (v) => { drum = v; if (sched) sched.setEvents(events()); });
+  render();
+})();
+
+/* ------------------------------------------------------------ 2. 빈 자리 */
+(function () {
+  let dens = 8, how = "even", bpm = 92;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#gr-sp-tab", [], { beatsPerBar: 4 });
+  const live = MB.liveView("#gr-sp-cv", { mode: "wave", yScale: 1.3, aspect: 0.24, idleText: "재생하면 파형이 나타납니다 — 빈 구간을 보세요" });
+  function slots() {
+    // 16칸 중 dens개를 고르는 우선순위
+    const order = {
+      even: [0, 8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15],
+      offbeat: [0, 4, 8, 12, 2, 6, 10, 14, 1, 5, 9, 13, 3, 7, 11, 15],
+      after2: [0, 2, 8, 10, 4, 6, 12, 14, 1, 3, 9, 11, 5, 7, 13, 15],
+    }[how];
+    return order.slice(0, dens).sort((a, b) => a - b);
+  }
+  function notes() {
+    const cs = BS.parseProgression("C | Am | F | G");
+    const out = [];
+    const picks = slots();
+    cs.forEach((c, i) => {
+      const r = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: 31 });
+      picks.forEach((s) => out.push({ t: i * 4 + s / 4, d: 0.25, m: r, vel: s % 4 === 0 ? 0.95 : 0.78 }));
+    });
+    return BS.withTab(out, { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => "C | Am | F | G", notes: () => notes(),
+    groove: () => "rock8", keys: () => true, bassInst: bass, legato: () => 0.7,
+    onNote(n) { tab.highlightAt(n.t); },
+    onStop() { document.getElementById("gr-sp-play").textContent = "▶ 재생"; tab.clear(); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    tab.setNotes(band.notes, band.chords.map((c) => { const o = { t, name: c.name }; t += 4; return o; }));
+    document.getElementById("gr-sp-dens-out").textContent = dens + " / 16칸";
+    MB.stat("gr-sp-n", dens + "개");
+    MB.stat("gr-sp-duty", Math.round(dens / 16 * 70) + "% (음 길이 16분음의 70%일 때)");
+  }
+  MB.range("gr-sp-dens", null, (v) => { dens = Math.round(v); refresh(); });
+  MB.seg("gr-sp-how", (v) => { how = v; refresh(); });
+  MB.range("gr-sp-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); refresh(); });
+  document.getElementById("gr-sp-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  if (live) live.redraw();
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 3. 고스트 노트 */
+(function () {
+  const PATS = {
+    a: [0, 4, 8, 12],
+    b: [0, 3, 6, 8, 11],
+    c: [0, 3, 4, 6, 8, 11, 12, 14],
+  };
+  let pat = "a", fill = 0, gv = 0.35, bpm = 94, drum = true, ab = null;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#gr-gh-tab", [], { beatsPerBar: 4 });
+  const ROOT = 36;
+  function notes() {
+    const hits = PATS[pat];
+    const out = [];
+    const p = BS.bestPosition(ROOT, { tuning: bass.tuning, hand: 3 });
+    const p5 = BS.bestPosition(ROOT + 7, { tuning: bass.tuning, hand: 3 });
+    for (let bar = 0; bar < 2; bar++) {
+      for (let i = 0; i < 16; i++) {
+        const t = bar * 4 + i / 4;
+        if (hits.includes(i)) { const q = i % 8 === 0 ? p : (i % 4 === 3 ? p5 : p); out.push({ t, d: 0.25, s: q.s, f: q.f, vel: i === 0 ? 0.95 : 0.85 }); }
+        else if (Math.random() < 0 || (fill > 0 && ((i * 37) % 100) / 100 < fill)) out.push({ t, d: 0.25, s: p.s, f: null, tech: "dead", vel: gv });
+      }
+    }
+    return out;
+  }
+  let cur = notes(), sched = null;
+  function refresh() {
+    cur = notes();
+    tab.setNotes(cur);
+    document.getElementById("gr-gh-g-out").textContent = fill === 0 ? "없음" : Math.round(fill * 100) + "%";
+    document.getElementById("gr-gh-v-out").textContent = Math.round(gv * 100) + "%";
+    MB.stat("gr-gh-real", cur.filter((n) => n.f != null).length + "개");
+    MB.stat("gr-gh-ghost", cur.filter((n) => n.f == null).length + "개");
+    if (sched) sched.setEvents(cur.map((n, i) => Object.assign({ i, kind: "bass" }, n)));
+  }
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); }
+  function play() {
+    stop(); refresh();
+    sched = BS.playTab(cur, { bpm, bass, tab, loop: true, groove: drum ? "funk16" : null,
+      onStop: () => { sched = null; document.getElementById("gr-gh-play").textContent = "▶ 재생"; } });
+    sched.start(); document.getElementById("gr-gh-play").textContent = "■ 정지";
+  }
+  MB.seg("gr-gh-pat", (v) => { pat = v; refresh(); });
+  const fillR = MB.range("gr-gh-g", null, (v) => { fill = v / 100; refresh(); });
+  MB.range("gr-gh-v", null, (v) => { gv = v / 100; refresh(); });
+  MB.range("gr-gh-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("gr-gh-drum", (v) => { drum = v; });
+  document.getElementById("gr-gh-play").addEventListener("click", () => { MB.ctx(); if (sched) { stop(); document.getElementById("gr-gh-play").textContent = "▶ 재생"; return; } play(); });
+  document.getElementById("gr-gh-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); document.getElementById("gr-gh-play").textContent = "▶ 재생"; return; }
+    let k = 0;
+    const flip = () => { fillR.set(k++ % 2 ? 100 : 0); };
+    flip(); play(); ab = setInterval(flip, (60 / bpm) * 8000);
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 4. 펑크 16분음 */
+(function () {
+  // 악센트(실제 음) · 고스트 · 쉼 세 겹으로 분해한 한 마디
+  const ACC = [0, 6, 10, 14];
+  const GHOST = [2, 3, 5, 8, 9, 12, 13];
+  const EXTRA = { 6: 12, 10: 7, 14: 0 }; // 악센트 칸의 음정(반음)
+  let layer = 3, gate = 0.45, bpm = 104, tone = "finger", sched = null;
+  const bass = BS.bass({ tone });
+  const tab = BS.tab("#gr-16-tab", [], { beatsPerBar: 4 });
+  const seq = document.getElementById("gr-16-seq");
+  const ROOT = 33; // A1
+  function notes() {
+    const out = [];
+    for (let bar = 0; bar < 2; bar++) {
+      ACC.forEach((i) => {
+        const iv = layer >= 3 ? (EXTRA[i] || 0) : 0;
+        const p = BS.bestPosition(ROOT + iv, { tuning: bass.tuning, hand: 3 });
+        out.push({ t: bar * 4 + i / 4, d: 0.25, s: p.s, f: p.f, vel: i === 0 ? 0.98 : 0.88 });
+      });
+      if (layer >= 2) GHOST.forEach((i) => {
+        const p = BS.bestPosition(ROOT, { tuning: bass.tuning, hand: 3 });
+        out.push({ t: bar * 4 + i / 4, d: 0.25, s: p.s, f: null, tech: "dead", vel: 0.32 });
+      });
+    }
+    return out.sort((a, b) => a.t - b.t);
+  }
+  function render() {
+    const kick = BS.drumEvents("funk16", 1, 4).filter((e) => e.drum === "kick").map((e) => Math.round(e.t * 4));
+    const rowKick = `<div class="row"><span class="lab">킥</span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span class="cell ${i % 4 === 0 ? "beat " : ""}${kick.includes(i) ? "kick" : ""}"></span>`).join("") + `</div>`;
+    const rowBass = `<div class="row"><span class="lab">베이스</span>` + Array.from({ length: 16 }, (_, i) => {
+      if (ACC.includes(i)) return `<span class="cell ${i % 4 === 0 ? "beat " : ""}on" data-i="${i}">${layer >= 3 ? BS.intervalLabel(EXTRA[i] || 0) : "R"}</span>`;
+      if (layer >= 2 && GHOST.includes(i)) return `<span class="cell ${i % 4 === 0 ? "beat " : ""}ghost" data-i="${i}">×</span>`;
+      return `<span class="cell ${i % 4 === 0 ? "beat " : ""}" data-i="${i}"></span>`;
+    }).join("") + `</div>`;
+    const nums = `<div class="nums"><span></span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span>${i % 4 === 0 ? i / 4 + 1 : i % 4 === 2 ? "+" : "·"}</span>`).join("") + `</div>`;
+    seq.innerHTML = rowKick + rowBass + nums;
+    tab.setNotes(notes());
+    const spb = 60 / bpm;
+    MB.stat("gr-16-ms", Math.round(spb * 0.25 * gate * 1000) + " ms");
+    const g = layer >= 2 ? GHOST.length : 0;
+    MB.stat("gr-16-mix", ACC.length + " / " + g + " / " + (16 - ACC.length - g));
+    document.getElementById("gr-16-gate-out").textContent = Math.round(gate * 100) + "% (16분음 기준)";
+  }
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); }
+  document.getElementById("gr-16-play").addEventListener("click", function () {
+    MB.ctx(); if (sched) { stop(); this.textContent = "▶ 재생"; return; }
+    const btn = this;
+    sched = BS.playTab(notes().map((n) => Object.assign({}, n, { d: 0.25 * gate })), {
+      bpm, bass, tab, loop: true, groove: "funk16",
+      onNote(_, n) {
+        seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+        const cell = seq.querySelector(`.cell[data-i="${Math.round((n.t % 4) * 4)}"]`); if (cell) cell.classList.add("now");
+      },
+      onStop: () => { sched = null; btn.textContent = "▶ 재생"; },
+    });
+    sched.start(); this.textContent = "■ 정지";
+  });
+  MB.seg("gr-16-layer", (v) => { layer = +v; render(); });
+  MB.range("gr-16-gate", null, (v) => { gate = v / 100; render(); });
+  MB.range("gr-16-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); render(); });
+  MB.seg("gr-16-tone", (v) => { tone = v; bass.tone = v; });
+  render();
+})();
+
+/* ------------------------------------------------------------ 5. 앤티시페이션 */
+(function () {
+  const PROG = "C | Am | F | G";
+  let amt = 0, where = "last", bpm = 96, restAfter = true;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#gr-sy-tab", [], { beatsPerBar: 4 });
+  const staff = BS.staff("#gr-sy-staff", [], { beatsPerBar: 4, chords: [] });
+  function applies(i, n) { return amt > 0 && (where === "all" || (where === "last" && i === n - 1) || (where === "even" && i % 2 === 1)); }
+  function notes() {
+    const cs = BS.parseProgression(PROG);
+    const roots = []; let prev = 36;
+    cs.forEach((c) => { const m = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: 28, near: prev }); roots.push(m); prev = m; });
+    const out = [];
+    cs.forEach((c, i) => {
+      const r = roots[i], nr = roots[(i + 1) % cs.length];
+      const early = applies(i, cs.length);
+      for (let k = 0; k < 8; k++) {
+        const t = i * 4 + k / 2;
+        if (early && t >= (i + 1) * 4 - amt) continue;
+        out.push({ t, d: 0.5, m: r, vel: k % 2 === 0 ? 0.9 : 0.76 });
+      }
+      if (early) out.push({ t: (i + 1) * 4 - amt, d: amt + (restAfter ? 1 : 0), m: nr, vel: 0.98 });
+    });
+    // 앞당긴 마디 다음의 1박 비우기
+    const filtered = restAfter ? out.filter((n, idx) => {
+      const bar = Math.floor(n.t / 4);
+      const prevBar = (bar + cs.length - 1) % cs.length;
+      return !(Math.abs(n.t - bar * 4) < 1e-6 && applies(prevBar, cs.length) && idx > 0);
+    }) : out;
+    return BS.withTab(filtered.sort((a, b) => a.t - b.t), { tuning: bass.tuning });
+  }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => PROG, notes: () => notes(), groove: () => "rock8", keys: () => true, bassInst: bass,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); },
+    onStop() { document.getElementById("gr-sy-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function refresh() {
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+    const n = band.chords.length;
+    const bars = [];
+    for (let i = 0; i < n; i++) if (applies(i, n)) bars.push(i + 1);
+    MB.stat("gr-sy-when", amt === 0 ? "마디 1박 정각" : amt + "박 앞당김");
+    MB.stat("gr-sy-bars", bars.length ? bars.join(", ") + "마디" : "없음");
+  }
+  MB.seg("gr-sy-amt", (v) => { amt = +v; refresh(); });
+  MB.seg("gr-sy-where", (v) => { where = v; refresh(); });
+  MB.range("gr-sy-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("gr-sy-rest", (v) => { restAfter = v; refresh(); });
+  document.getElementById("gr-sy-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>
