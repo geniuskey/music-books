@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>슬랩과 테크닉 · BassBook</title>
+<meta name="description" content="해머온·풀오프·슬라이드의 레가토, 엄지 슬랩과 팝의 물리와 패턴 만들기, 자연 하모닉스의 마디 위치와 음높이, 벤딩과 비브라토, 그리고 베이스에서 코드와 더블스톱을 쓰는 법.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .tq-seq { padding: 10px 12px; overflow-x: auto; }
+  .tq-seq .row { display: grid; grid-template-columns: 70px repeat(16, minmax(0, 1fr)); gap: 3px; align-items: center; margin-bottom: 4px; min-width: 560px; }
+  .tq-seq .lab { font: 600 12px var(--mono); color: var(--text-dim); }
+  .tq-seq .cell { height: 28px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg-elev); display: grid; place-items: center; font: 700 12px var(--mono); color: var(--text-dim); cursor: pointer; }
+  .tq-seq .cell.beat { background: var(--surface); }
+  .tq-seq .cell.T { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+  .tq-seq .cell.P { background: var(--accent-2); border-color: var(--accent-2); color: var(--on-accent, #fff); }
+  .tq-seq .cell.g { background: color-mix(in srgb, var(--accent) 24%, var(--bg-elev)); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); color: var(--accent); }
+  .tq-seq .cell.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+  .tq-seq .nums { display: grid; grid-template-columns: 70px repeat(16, minmax(0, 1fr)); gap: 3px; min-width: 560px; }
+  .tq-seq .nums span { text-align: center; font: 11px var(--mono); color: var(--text-faint); }
+  .tq-harm { padding: 8px 12px; }
+  .tq-harm svg { display: block; width: 100%; height: auto; }
+  .tq-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tq-chips button { font: inherit; font-size: 13px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+  .tq-chips button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+  .tq-ds { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 6px; }
+  .tq-ds button { font: inherit; font-size: 13px; padding: 9px 6px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.35; }
+  .tq-ds button small { display: block; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .tq-ds button.on { border-color: var(--accent); background: var(--accent-soft); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="techniques">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 12</div>
+    <h1>슬랩과 테크닉</h1>
+    <p class="lead">지금까지의 기술은 "어떤 음을 언제"에 관한 것이었습니다. 이 장은 <b>그 음을 어떻게 내는가</b>에 관한 것입니다. 같은 음표라도 해머온으로 이으면 부드럽고, 엄지로 때리면 금속이 울리고, 하모닉스로 내면 유리처럼 맑습니다. 각 기술이 물리적으로 무엇을 바꾸는지 알면 "언제 쓸지"도 자연스럽게 정해집니다.</p>
+    <ul class="objectives">
+      <li>해머온·풀오프·슬라이드가 음을 잇는 원리와 소리의 차이를 안다.</li>
+      <li>슬랩과 팝이 만드는 소리의 정체(프렛 타격음과 급격한 어택)를 설명한다.</li>
+      <li>슬랩 패턴을 스텝 격자에서 짜고 연주한다.</li>
+      <li>자연 하모닉스의 마디 위치를 \(L/n\)로 계산하고 어떤 음이 나는지 안다.</li>
+      <li>벤딩이 음높이를 올리는 원리와 베이스에서 쓰기 어려운 이유를 안다.</li>
+      <li>더블스톱과 코드를 베이스에서 언제·어느 음역에서 쓰는지 판단한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="legato">
+    <h2>레가토: 해머온 · 풀오프 · 슬라이드</h2>
+    <p>세 기술 모두 <b>오른손을 한 번만 쓰고 왼손으로 음을 바꾸는</b> 방법입니다. 공통된 효과는 두 번째 음의 어택이 약해져 선이 부드럽게 이어진다는 것입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>기술</th><th>동작</th><th>물리적으로</th><th>소리</th></tr></thead>
+        <tbody>
+          <tr><td><b>해머온</b> (h)</td><td>손가락을 프렛에 내리찍는다</td><td>진동 중인 줄의 유효 길이가 짧아진다. 손가락의 충격이 새 진동을 더한다</td><td>음이 올라가며 부드럽게 이어짐</td></tr>
+          <tr><td><b>풀오프</b> (p)</td><td>누르던 손가락을 옆으로 당기며 뗀다</td><td>떼는 순간 손가락이 줄을 살짝 뜯는다 — 작은 피킹</td><td>음이 내려가며 부드럽게 이어짐</td></tr>
+          <tr><td><b>슬라이드</b> (/ \)</td><td>누른 채 프렛 위를 미끄러진다</td><td>유효 길이가 연속적으로 변한다. 중간의 모든 음높이를 지난다</td><td>이어진 미끄러짐 · 프렛 긁히는 잡음이 더해진다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>베이스에서 레가토는 기타보다 <b>더 유용하고 더 어렵습니다</b>. 유용한 이유는 음을 하나씩 뜯으면 어택이 강해 선이 뚝뚝 끊기기 때문이고, 어려운 이유는 줄이 굵고 장력이 세서 손가락 힘이 더 필요하기 때문입니다. 특히 해머온은 손가락이 <b>프렛 바로 뒤</b>를 수직으로 때려야 소리가 납니다.</p>
+    <div class="callout tip">
+      <p><b>연습법 · 해머온 소리 키우기.</b> 오른손을 쓰지 않고 <b>왼손만으로</b> 해머온 소리를 내 보세요. 4번 줄 5프렛을 검지로 누른 채 8프렛을 새끼로 내리찍습니다. 소리가 거의 안 나면 ① 손가락이 프렛에서 멀거나 ② 손가락을 들어 올린 높이가 낮거나 ③ 손목이 꺾여 힘이 전달되지 않는 것입니다. 하루 2분이면 2주 안에 또렷해집니다.</p>
+    </div>
+    <div class="sim" id="sim-tq-legato">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>이어 치기 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-lg-tab"></div><canvas id="tq-lg-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>이어 치는 방법</span><div class="tq-chips" id="tq-lg-kind">
+            <button data-v="pick" class="on">모두 뜯기</button><button data-v="hp">해머온·풀오프</button><button data-v="slide">슬라이드</button><button data-v="mix">섞어서</button>
+          </div></div>
+          <label class="ctrl"><span>템포 <output id="tq-lg-bpm-out"></output></span><input type="range" id="tq-lg-bpm" min="60" max="160" step="1" value="96"></label>
+          <label class="check"><input type="checkbox" id="tq-lg-drum"> 드럼과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="tq-lg-play">▶ 재생</button><button class="btn" id="tq-lg-ab">▶ 뜯기↔레가토 번갈아</button><button class="btn" id="tq-lg-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">오른손 타격</span><span class="v" id="tq-lg-hits">—</span></div>
+        <div class="stat"><span class="k">음 수</span><span class="v" id="tq-lg-n">—</span></div>
+      </div>
+      <div class="sim-note">같은 음표를 치되 오른손을 쓰는 횟수만 달라집니다. 파형에서 어택의 크기 차이를 보세요 · 모델: 레가토 음은 세기를 낮추고, 슬라이드는 앞 음의 음높이를 끌어 올려 흉내 냅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="slap">
+    <h2>슬랩과 팝</h2>
+    <p><b>슬랩</b><span class="en">(Slap)</span>은 엄지 옆면으로 줄을 <b>지판 쪽으로 때리는</b> 동작입니다. 손가락으로 뜯을 때와 결정적으로 다른 점은, 줄이 <b>마지막 프렛에 부딪힌다</b>는 것입니다. 그래서 소리에 두 가지 성분이 더해집니다.</p>
+    <ul>
+      <li><b>프렛 타격음</b> — 줄이 금속 프렛을 때리는 짧고 날카로운 잡음. 2–5 kHz에 넓게 퍼집니다. 이것이 슬랩의 "틱" 소리입니다.</li>
+      <li><b>급격한 어택</b> — 손가락 살이 천천히 줄을 놓아 주는 것과 달리, 엄지 타격은 줄을 순간적으로 크게 변위시킵니다. 어택 시간이 짧으면 고역 배음이 많아집니다.</li>
+    </ul>
+    <p><b>팝</b><span class="en">(Pop)</span>은 검지나 중지를 줄 아래에 걸어 <b>위로 당겼다 놓는</b> 동작입니다. 줄이 지판으로 튕겨 내려오며 프렛을 때리므로 역시 타격음이 생기고, 변위가 커서 음량도 큽니다. 보통 가는 줄(1·2번)에 씁니다.</p>
+    <div class="callout warn">
+      <p><b>슬랩은 음량이 아니라 음색이다.</b> 초보자가 슬랩을 세게 때려 음량을 키우려 하면 음정이 흔들리고(줄이 과도하게 늘어남) 프렛이 상합니다. 슬랩의 음량은 손목의 <b>속도</b>에서 나오지 팔 힘에서 나오지 않습니다. 또 슬랩의 생명은 그 사이의 <b>데드 노트</b>입니다. 때리는 음만큼 죽이는 음이 많아야 패턴이 들립니다.</p>
+    </div>
+    <div class="sim" id="sim-tq-slap">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>슬랩 패턴 짜기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><div class="tq-seq" id="tq-sl-seq"></div><div id="tq-sl-tab"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>빠른 설정</span><div class="tq-chips" id="tq-sl-pre">
+            <button data-v="basic" class="on">기본 (T · · P)</button><button data-v="ghost">고스트 가득</button><button data-v="octave">옥타브 팝</button><button data-v="clear">비우기</button>
+          </div></div>
+          <label class="ctrl"><span>템포 <output id="tq-sl-bpm-out"></output></span><input type="range" id="tq-sl-bpm" min="60" max="140" step="1" value="96"></label>
+          <label class="ctrl"><span>음 길이 <output id="tq-sl-gate-out"></output></span><input type="range" id="tq-sl-gate" min="15" max="80" step="5" value="35"></label>
+          <label class="check"><input type="checkbox" id="tq-sl-drum" checked> 드럼과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="tq-sl-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">슬랩 / 팝 / 고스트</span><span class="v" id="tq-sl-mix">—</span></div>
+        <div class="stat"><span class="k">음 길이</span><span class="v" id="tq-sl-ms">—</span></div>
+      </div>
+      <div class="sim-note">칸을 누르면 <b>쉼 → T(슬랩) → P(팝) → ×(고스트)</b> 순서로 바뀝니다. T는 4번 줄 근음, P는 1번 줄 옥타브로 연주합니다 · 모델: 슬랩·팝 음색은 카플러스–스트롱 현에 대역 잡음 어택과 금속성 울림을 더해 흉내 냈습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="harmonics">
+    <h2>하모닉스</h2>
+    <p>줄 위의 정확히 \(1/n\) 지점을 <b>누르지 않고 살짝 닿은 채</b> 뜯으면, 그 지점이 마디<span class="en">(Node)</span>가 되는 진동만 살아남습니다. 그 결과 n번째 배음, 즉 기본음의 <b>n배 주파수</b>가 납니다.</p>
+    <div class="formula">
+      $$f_n = n\,f_0, \qquad \text{마디 위치} = \frac{k}{n}L \;\;(k=1,\dots,n-1)$$
+      <div class="where">예를 들어 \(n=3\)이면 마디가 \(L/3\)와 \(2L/3\)에 있습니다. 두 자리 모두에서 3배음(완전 12도 위)이 납니다.</div>
+    </div>
+    <p>프렛 번호로 바꾸면 익숙한 자리들이 나옵니다. \(d_n=L(1-2^{-n/12})\)를 뒤집어 풀면 됩니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>프렛</th><th>마디 위치</th><th>배음</th><th>음정</th><th>E 줄에서</th></tr></thead>
+        <tbody>
+          <tr><td>12</td><td>L/2</td><td>2</td><td>한 옥타브 위</td><td>E₂ 82.4 Hz</td></tr>
+          <tr><td>7 (또는 19)</td><td>L/3</td><td>3</td><td>옥타브 + 완전 5도</td><td>B₂ 123.5 Hz</td></tr>
+          <tr><td>5 (또는 24)</td><td>L/4</td><td>4</td><td>두 옥타브 위</td><td>E₃ 164.8 Hz</td></tr>
+          <tr><td>4 (또는 9, 16)</td><td>L/5</td><td>5</td><td>두 옥타브 + 장3도</td><td>G♯₃ 206.0 Hz</td></tr>
+          <tr><td>약 3.2</td><td>L/6</td><td>6</td><td>두 옥타브 + 완전 5도</td><td>B₃ 247.0 Hz</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>표에서 5배음이 흥미롭습니다. 순정 장3도(5:4)라 평균율의 장3도보다 <b>14센트 낮습니다</b>. 하모닉스로 코드를 만들면 피아노와 미묘하게 어긋나는 이유입니다. 또 하모닉스는 <b>기본음이 없는</b> 순수한 음에 가까워서, 앰프로 크게 내면 유리 같은 맑은 소리가 납니다.</p>
+    <div class="sim" id="sim-tq-harm">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하모닉스 마디 찾기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="tq-harm" id="tq-hm-view"></div><canvas id="tq-hm-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>줄</span><div class="seg" id="tq-hm-str"><button data-value="0" class="on">4번 E</button><button data-value="1">3번 A</button><button data-value="2">2번 D</button><button data-value="3">1번 G</button></div></div>
+          <label class="ctrl"><span>배음 n <output id="tq-hm-n-out"></output></span><input type="range" id="tq-hm-n" min="2" max="7" step="1" value="2"></label>
+          <div class="ctrl"><span>마디 자리</span><div class="tq-chips" id="tq-hm-nodes"></div></div>
+          <div class="btn-row"><button class="btn primary" id="tq-hm-play">▶ 하모닉스</button><button class="btn" id="tq-hm-open">▶ 개방현과 비교</button><button class="btn" id="tq-hm-seq">▶ 2–7배음 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">나는 음</span><span class="v" id="tq-hm-note">—</span></div>
+        <div class="stat"><span class="k">주파수</span><span class="v" id="tq-hm-f">—</span></div>
+        <div class="stat"><span class="k">평균율과의 차이</span><span class="v" id="tq-hm-cents">—</span></div>
+      </div>
+      <div class="sim-note">그림의 곡선이 그 배음의 진동 모양이고, 점이 마디(움직이지 않는 자리)입니다 · 모델: 하모닉스는 밝은 음색의 현을 해당 배음 주파수로 울려 흉내 냈습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="bend">
+    <h2>벤딩과 비브라토</h2>
+    <p>줄을 지판과 평행하게 밀면 길이가 늘어나 장력이 올라가고, 1장의 \(f=\frac{1}{2L}\sqrt{T/\mu}\)에 따라 음높이가 올라갑니다. 베이스에서 벤딩이 어려운 이유는 분명합니다. <b>줄이 굵고 장력이 세기 때문</b>입니다. 같은 변위에 대해 장력 변화는 비슷하지만, 원래 장력이 크므로 <b>상대적 변화</b>가 작아 음높이가 덜 올라갑니다.</p>
+    <div class="formula">
+      $$\frac{\Delta f}{f}=\frac{1}{2}\frac{\Delta T}{T},\qquad \Delta T \approx \frac{EA}{L}\cdot\frac{2d^2}{L}$$
+      <div class="where">\(d\)는 줄을 민 거리입니다. 음높이 변화는 장력 변화율의 절반에 비례합니다. 베이스 E 줄은 장력 \(T\)가 180 N 안팎이라 같은 \(\Delta T\)에서 \(\Delta f/f\)가 기타보다 작습니다.</div>
+    </div>
+    <p>그래서 베이스에서는 반음 이상의 벤딩을 자주 쓰지 않습니다. 대신 <b>4분음</b> 정도의 작은 벤딩으로 음에 표정을 주거나, 슬라이드로 음정을 바꿉니다. <b>비브라토</b>는 작은 벤딩을 주기적으로 반복하는 것이고, 베이스에서는 보통 1초에 4–6번, 폭 ±15–30센트 정도입니다. 그보다 깊으면 음정이 흔들려 들립니다.</p>
+    <div class="sim" id="sim-tq-bend">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>벤딩과 비브라토</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tq-bd-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>종류</span><div class="seg" id="tq-bd-kind"><button data-value="bend" class="on">벤딩</button><button data-value="vib">비브라토</button><button data-value="both">벤딩 후 비브라토</button></div></div>
+          <label class="ctrl"><span>벤딩 폭 <output id="tq-bd-amt-out"></output></span><input type="range" id="tq-bd-amt" min="0" max="200" step="5" value="100"></label>
+          <label class="ctrl"><span>올리는 시간 <output id="tq-bd-time-out"></output></span><input type="range" id="tq-bd-time" min="30" max="600" step="10" value="150"></label>
+          <label class="ctrl"><span>비브라토 속도 <output id="tq-bd-rate-out"></output></span><input type="range" id="tq-bd-rate" min="2" max="9" step="0.5" value="5"></label>
+          <label class="ctrl"><span>비브라토 폭 <output id="tq-bd-dep-out"></output></span><input type="range" id="tq-bd-dep" min="5" max="80" step="5" value="22"></label>
+          <div class="btn-row"><button class="btn primary" id="tq-bd-play">▶ 들어 보기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">도달 음높이</span><span class="v" id="tq-bd-note">—</span></div>
+        <div class="stat"><span class="k">필요한 장력 증가</span><span class="v" id="tq-bd-dT">—</span></div>
+        <div class="stat"><span class="k">밀어야 하는 거리</span><span class="v" id="tq-bd-d">—</span></div>
+      </div>
+      <div class="sim-note">그래프는 시간에 따른 음높이(센트)입니다 · 모델: 장력 추정은 .105″ E 줄, 34″ 스케일, 12프렛 기준 단순 기하 모델입니다. 실제로는 줄이 새들·너트에서 미끄러져 더 적은 힘으로도 벤딩이 됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="chords">
+    <h2>더블스톱과 코드</h2>
+    <p>베이스로 화음을 치면 대개 탁하게 들립니다. 이유는 <b>임계대역</b><span class="en">(Critical band)</span>입니다. 두 음의 주파수 간격이 임계대역보다 좁으면 귀의 같은 부위가 함께 자극되어 거칠게 느껴지는데, 임계대역의 <b>폭은 저음에서 상대적으로 넓습니다</b>. 그래서 같은 장3도라도 낮은 음역에서는 훨씬 탁합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>음정</th><th>낮은 음역(E₁–A₁)</th><th>중간(E₂–A₂)</th><th>높은 음역(E₃ 이상)</th></tr></thead>
+        <tbody>
+          <tr><td>완전 5도</td><td>쓸 만하다</td><td>좋다</td><td>좋다</td></tr>
+          <tr><td>옥타브</td><td>좋다</td><td>좋다</td><td>좋다</td></tr>
+          <tr><td>장·단 3도</td><td>매우 탁하다</td><td>조심해서</td><td>좋다</td></tr>
+          <tr><td>장·단 2도</td><td>쓰지 않는다</td><td>효과음으로만</td><td>가능</td></tr>
+          <tr><td>장·단 6도, 10도</td><td>—</td><td>좋다</td><td>매우 좋다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>실전의 요령은 <b>간격을 벌리는 것</b>입니다. 3도가 탁하면 한 음을 한 옥타브 올려 10도로 만듭니다(예: C–E 대신 C–E 한 옥타브 위). 재즈 베이스의 전형적인 코드 보이싱이 근음과 10도인 이유입니다.</p>
+    <div class="sim" id="sim-tq-chord">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>어느 음역에서 화음이 맑은가</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tq-ch-fb"></div><canvas id="tq-ch-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>음정</span><div class="tq-ds" id="tq-ch-iv">
+            <button data-v="3" class="on">단3도<small>3반음</small></button><button data-v="4">장3도<small>4반음</small></button>
+            <button data-v="7">완전 5도<small>7반음</small></button><button data-v="12">옥타브<small>12반음</small></button>
+            <button data-v="15">단10도<small>15반음</small></button><button data-v="16">장10도<small>16반음</small></button>
+          </div></div>
+          <label class="ctrl"><span>아래 음 <output id="tq-ch-lo-out"></output></span><input type="range" id="tq-ch-lo" min="28" max="48" step="1" value="28"></label>
+          <label class="check"><input type="checkbox" id="tq-ch-arp"> 동시에 말고 차례로</label>
+          <div class="btn-row"><button class="btn primary" id="tq-ch-play">▶ 울려 보기</button><button class="btn" id="tq-ch-sweep">▶ 음역을 올리며</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">두 음</span><span class="v" id="tq-ch-notes">—</span></div>
+        <div class="stat"><span class="k">주파수 간격</span><span class="v" id="tq-ch-gap">—</span></div>
+        <div class="stat"><span class="k">임계대역 대비</span><span class="v" id="tq-ch-cb">—</span></div>
+      </div>
+      <div class="sim-note">"임계대역 대비"가 1보다 작으면 두 음이 같은 임계대역 안에 들어와 거칠게 들립니다 · 모델: 임계대역 폭은 \(25+75(1+1.4(f/1000)^2)^{0.69}\) Hz 근사식(Zwicker)을 썼습니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>해머온·풀오프·슬라이드는 오른손을 한 번만 쓰고 왼손으로 음을 바꾼다. 어택이 약해져 선이 이어진다.</li>
+      <li>슬랩 소리의 정체는 <b>줄이 프렛을 때리는 잡음</b>과 <b>급격한 어택</b>이다. 음량은 팔 힘이 아니라 손목 속도에서 나온다.</li>
+      <li>슬랩의 생명은 그 사이의 <b>데드 노트</b>다. 때리는 음만큼 죽이는 음이 많아야 패턴이 들린다.</li>
+      <li>하모닉스는 \(1/n\) 지점을 살짝 닿아 n배음만 남기는 것이다. 12·7·5·4프렛이 각각 2·3·4·5배음이고, 5배음은 평균율보다 14센트 낮다.</li>
+      <li>벤딩의 음높이 변화는 <b>장력 변화율의 절반</b>에 비례한다. 베이스는 원래 장력이 커서 같은 변위로 덜 올라간다 — 작게 쓰고 슬라이드로 대신한다.</li>
+      <li>비브라토는 1초에 4–6회, ±15–30센트 정도. 그보다 깊으면 음정이 흔들려 들린다.</li>
+      <li>저음에서 화음이 탁한 이유는 <b>임계대역</b>이다. 3도가 탁하면 한 음을 옥타브 올려 <b>10도</b>로 벌린다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>슬랩의 "틱" 하는 금속성 소리는 무엇에서 나오는가?</p><div class="opts">
+        <button class="opt">엄지와 줄의 마찰</button>
+        <button class="opt" data-correct>줄이 지판의 프렛을 때리는 소리</button>
+        <button class="opt">픽업이 포화되는 소리</button>
+        <button class="opt">브리지의 공진</button>
+      </div><div class="quiz-exp">엄지가 줄을 지판 쪽으로 때리면 줄이 마지막 프렛에 부딪힌다. 그 짧고 넓은 대역의 잡음이 슬랩의 특징적인 어택이다.</div></div>
+
+      <div class="quiz-q"><p>E 줄(개방 41.2 Hz)의 <b>7프렛 하모닉스</b>는 몇 Hz인가?</p><div class="opts">
+        <button class="opt">61.8 Hz</button><button class="opt">82.4 Hz</button><button class="opt" data-correct>123.5 Hz</button><button class="opt">164.8 Hz</button>
+      </div><div class="quiz-exp">7프렛은 줄 길이의 1/3 지점이므로 3배음이 난다. 41.2 × 3 = 123.5 Hz, 즉 B₂다. 개방현을 7프렛 눌러서 낸 음(B₁ 61.7 Hz)보다 한 옥타브 위다.</div></div>
+
+      <div class="quiz-q"><p>베이스에서 기타만큼 벤딩을 쓰지 않는 주된 이유는?</p><div class="opts">
+        <button class="opt">줄이 끊어지기 때문에</button>
+        <button class="opt" data-correct>장력이 커서 같은 변위에 대한 음높이 변화가 작기 때문에</button>
+        <button class="opt">저음은 음높이 변화가 들리지 않기 때문에</button>
+        <button class="opt">프렛이 넓기 때문에</button>
+      </div><div class="quiz-exp">\(\Delta f/f = \frac{1}{2}\Delta T/T\)이므로 원래 장력 \(T\)가 크면 같은 \(\Delta T\)에 대한 상대 변화가 작다. 베이스 E 줄은 180 N 안팎으로 기타 E 줄의 두 배가 넘는다.</div></div>
+
+      <div class="quiz-q"><p>낮은 음역에서 장3도 더블스톱이 탁하게 들리는 이유는?</p><div class="opts">
+        <button class="opt">평균율이 틀려서</button>
+        <button class="opt" data-correct>저음에서는 두 음의 주파수 간격이 임계대역보다 좁아 같은 부위가 함께 자극되기 때문에</button>
+        <button class="opt">베이스 픽업이 왜곡되기 때문에</button>
+        <button class="opt">배음이 없기 때문에</button>
+      </div><div class="quiz-exp">임계대역의 폭은 중심 주파수에 따라 달라지고, 저음에서는 음정 간격 대비 상대적으로 넓다. 그래서 같은 장3도라도 E₁ 근처에서는 거칠게, E₃ 근처에서는 맑게 들린다. 한 음을 옥타브 올려 10도로 벌리면 해결된다.</div></div>
+
+      <div class="quiz-q"><p>베이스 비브라토의 적절한 폭과 속도는?</p><div class="opts">
+        <button class="opt">±100센트, 초당 10회</button><button class="opt" data-correct>±15–30센트, 초당 4–6회</button><button class="opt">±5센트, 초당 1회</button><button class="opt">정해진 값이 없다</button>
+      </div><div class="quiz-exp">그보다 깊거나 빠르면 표정이 아니라 음정 불안으로 들린다. 베이스는 저음이라 음정 변화가 더 두드러지므로 기타보다 얕게 건다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 1. 레가토 */
+(function () {
+  let kind = "pick", bpm = 96, drum = false, sched = null, ab = null;
+  const bass = BS.bass({ tone: "finger" });
+  const tab = BS.tab("#tq-lg-tab", [], { beatsPerBar: 4 });
+  const live = MB.liveView("#tq-lg-cv", { mode: "wave", yScale: 1.3, aspect: 0.26, idleText: "재생하면 파형이 나타납니다 — 어택의 크기를 비교하세요" });
+  const BASE = [
+    { t: 0, s: 0, f: 5 }, { t: 0.5, s: 0, f: 7 }, { t: 1, s: 1, f: 5 }, { t: 1.5, s: 1, f: 7 },
+    { t: 2, s: 1, f: 9 }, { t: 2.5, s: 1, f: 7 }, { t: 3, s: 1, f: 5 }, { t: 3.5, s: 0, f: 7 },
+    { t: 4, s: 0, f: 5 }, { t: 4.5, s: 0, f: 3 }, { t: 5, s: 0, f: 5 }, { t: 5.5, s: 1, f: 5 },
+    { t: 6, s: 1, f: 7 }, { t: 7, s: 0, f: 5 },
+  ];
+  function notes() {
+    return BASE.map((n, i) => {
+      const o = Object.assign({ d: 0.5 }, n);
+      const prev = BASE[i - 1];
+      if (!prev || prev.s !== n.s) return o;
+      if (kind === "hp" || (kind === "mix" && i % 2 === 1)) o.tech = n.f > prev.f ? "h" : "p";
+      else if (kind === "slide" || (kind === "mix" && i % 3 === 0)) o.tech = n.f > prev.f ? "/" : "\\";
+      return o;
+    });
+  }
+  function refresh() {
+    const ns = notes();
+    tab.setNotes(ns);
+    const hits = ns.filter((n) => !n.tech).length;
+    MB.stat("tq-lg-hits", hits + "회");
+    MB.stat("tq-lg-n", ns.length + "개");
+  }
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); }
+  function play() {
+    stop(); refresh();
+    sched = BS.playTab(notes(), { bpm, bass, tab, loop: true, groove: drum ? "rock8" : null, onStop: () => { sched = null; } });
+    sched.start();
+  }
+  const kindBox = document.getElementById("tq-lg-kind");
+  kindBox.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    kind = b.dataset.v; kindBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); refresh();
+    if (sched) { sched.setEvents(notes().map((n, i) => Object.assign({ i, kind: "bass" }, n))); }
+  });
+  MB.range("tq-lg-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  MB.check("tq-lg-drum", (v) => { drum = v; });
+  document.getElementById("tq-lg-play").addEventListener("click", () => { MB.ctx(); if (sched) { stop(); return; } play(); });
+  document.getElementById("tq-lg-stop").addEventListener("click", stop);
+  document.getElementById("tq-lg-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); return; }
+    let k = 0;
+    const flip = () => {
+      kind = k++ % 2 ? "hp" : "pick";
+      kindBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x.dataset.v === kind));
+      refresh();
+    };
+    flip(); play(); ab = setInterval(flip, (60 / bpm) * 8000);
+  });
+  if (live) live.redraw();
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 2. 슬랩 */
+(function () {
+  const VALS = [null, "T", "P", "g"];
+  const PRE = {
+    basic: { 0: "T", 6: "P", 8: "T", 14: "P" },
+    ghost: { 0: "T", 2: "g", 3: "g", 6: "P", 8: "T", 10: "g", 11: "g", 12: "T", 14: "P", 15: "g" },
+    octave: { 0: "T", 4: "P", 6: "T", 8: "P", 10: "T", 14: "P" },
+    clear: {},
+  };
+  let cells = Array(16).fill(0), bpm = 96, gate = 0.35, drum = true, sched = null;
+  const bass = BS.bass({ tone: "slap" });
+  const tab = BS.tab("#tq-sl-tab", [], { beatsPerBar: 4 });
+  const seq = document.getElementById("tq-sl-seq");
+  const ROOT = 33; // A1
+  function setPre(k) { const m = PRE[k]; cells = Array.from({ length: 16 }, (_, i) => VALS.indexOf(m[i] || null)); }
+  function notes() {
+    const out = [];
+    const low = BS.bestPosition(ROOT, { tuning: bass.tuning, hand: 3 });
+    const hi = BS.positionsOf(ROOT + 12, { maxFret: 12 }).slice(-1)[0] || BS.bestPosition(ROOT + 12, { tuning: bass.tuning, hand: 3 });
+    for (let bar = 0; bar < 2; bar++) cells.forEach((k, i) => {
+      const v = VALS[k]; if (!v) return;
+      const t = bar * 4 + i / 4;
+      if (v === "g") { out.push({ t, d: 0.25, s: low.s, f: null, tech: "dead", vel: 0.4 }); return; }
+      const p = v === "T" ? low : hi;
+      out.push({ t, d: 0.25 * gate * 4, s: p.s, f: p.f, tech: v === "T" ? "slap" : "pop", vel: i % 4 === 0 ? 0.98 : 0.88 });
+    });
+    return out;
+  }
+  function render() {
+    const row = `<div class="row"><span class="lab">슬랩</span>` + cells.map((k, i) => {
+      const v = VALS[k];
+      return `<button class="cell ${i % 4 === 0 ? "beat " : ""}${v || ""}" data-i="${i}">${v === "g" ? "×" : v || ""}</button>`;
+    }).join("") + `</div>`;
+    const nums = `<div class="nums"><span></span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span>${i % 4 === 0 ? i / 4 + 1 : i % 4 === 2 ? "+" : "·"}</span>`).join("") + `</div>`;
+    seq.innerHTML = row + nums;
+    tab.setNotes(notes());
+    const c = (x) => cells.filter((k) => VALS[k] === x).length;
+    MB.stat("tq-sl-mix", c("T") + " / " + c("P") + " / " + c("g"));
+    MB.stat("tq-sl-ms", Math.round((60 / bpm) * 0.25 * gate * 4 * 1000) + " ms");
+    document.getElementById("tq-sl-gate-out").textContent = Math.round(gate * 100) + "%";
+  }
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); tab.clear(); seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); }
+  seq.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    MB.ctx();
+    const i = +b.dataset.i;
+    cells[i] = (cells[i] + 1) % VALS.length;
+    render();
+    const v = VALS[cells[i]];
+    const low = BS.bestPosition(ROOT, { tuning: bass.tuning, hand: 3 });
+    if (v === "g") bass.dead(low.s, { vel: 0.45 });
+    else if (v === "T") bass.pluck(low.s, low.f, { dur: 0.2, tone: "slap" });
+    else if (v === "P") { const hi = BS.positionsOf(ROOT + 12, { maxFret: 12 }).slice(-1)[0]; bass.pluck(hi.s, hi.f, { dur: 0.2, tone: "pop" }); }
+    if (sched) sched.setEvents(notes().map((n, k) => Object.assign({ i: k, kind: "bass" }, n)));
+  });
+  document.getElementById("tq-sl-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    document.getElementById("tq-sl-pre").querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    setPre(b.dataset.v); render();
+    if (sched) sched.setEvents(notes().map((n, k) => Object.assign({ i: k, kind: "bass" }, n)));
+  });
+  MB.range("tq-sl-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); render(); });
+  MB.range("tq-sl-gate", null, (v) => { gate = v / 100; render(); });
+  MB.check("tq-sl-drum", (v) => { drum = v; });
+  document.getElementById("tq-sl-play").addEventListener("click", function () {
+    MB.ctx(); if (sched) { stop(); this.textContent = "▶ 재생"; return; }
+    const btn = this;
+    sched = BS.playTab(notes(), { bpm, bass, tab, loop: true, groove: drum ? "funk16" : null,
+      onNote(_, n) {
+        seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+        const cell = seq.querySelector(`.cell[data-i="${Math.round((n.t % 4) * 4)}"]`); if (cell) cell.classList.add("now");
+      },
+      onStop: () => { sched = null; btn.textContent = "▶ 재생"; } });
+    sched.start(); this.textContent = "■ 정지";
+  });
+  setPre("basic"); render();
+})();
+
+/* ------------------------------------------------------------ 3. 하모닉스 */
+(function () {
+  let s = 0, n = 2, k = 1, timer = null;
+  const bass = BS.bass({ tone: "finger" });
+  const view = document.getElementById("tq-hm-view"), chips = document.getElementById("tq-hm-nodes");
+  function openMidi() { return BS.STANDARD[s]; }
+  function harmFreq() { return MB.mtof(openMidi()) * n; }
+  function fretOf(frac) { return 12 * Math.log2(1 / (1 - frac)); } // 마디 위치(비율) → 프렛 번호
+  function drawShape() {
+    const W = 600, H = 90, pad = 20;
+    const pts = [];
+    for (let i = 0; i <= 200; i++) {
+      const x = i / 200;
+      pts.push(`${(pad + x * (W - 2 * pad)).toFixed(1)},${(H / 2 - 30 * Math.sin(n * Math.PI * x)).toFixed(1)}`);
+    }
+    const pts2 = pts.map((p) => { const [a, b] = p.split(","); return `${a},${(H - b).toFixed(1)}`; });
+    const nodes = [];
+    for (let j = 1; j < n; j++) {
+      const x = j / n;
+      nodes.push(`<circle cx="${(pad + x * (W - 2 * pad)).toFixed(1)}" cy="${H / 2}" r="${j === k ? 6 : 4}" fill="${j === k ? "var(--accent)" : "var(--text-faint)"}"/>`
+        + `<text x="${(pad + x * (W - 2 * pad)).toFixed(1)}" y="${H / 2 + 24}" text-anchor="middle" class="t-mono" style="font-size:10px">${fretOf(x).toFixed(1)}프렛</text>`);
+    }
+    view.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="하모닉스 진동 모양">
+      <line x1="${pad}" y1="${H / 2}" x2="${W - pad}" y2="${H / 2}" stroke="var(--border)"/>
+      <polyline points="${pts.join(" ")}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>
+      <polyline points="${pts2.join(" ")}" fill="none" stroke="var(--accent)" stroke-width="1.8" opacity=".4"/>
+      ${nodes.join("")}
+      <text x="${pad}" y="${H - 4}" class="t-mono" style="font-size:10px">너트</text>
+      <text x="${W - pad}" y="${H - 4}" text-anchor="end" class="t-mono" style="font-size:10px">새들</text></svg>`;
+  }
+  function drawSpec(ctx, w, h) {
+    const P = MB.palette(), f0 = MB.mtof(openMidi());
+    const c = MB.chart(ctx, null, { x: [0, f0 * 8.5], y: [0, 1.05], xLabel: "주파수 (Hz)", yTicks: 0, yLabel: "세기",
+      xFmt: (v) => Math.round(v), series: [] });
+    for (let i = 1; i <= 8; i++) {
+      const x = c.X(f0 * i), on = i % n === 0;
+      ctx.strokeStyle = on ? P.accent : P.faint; ctx.lineWidth = on ? 3.5 : 1.5;
+      ctx.beginPath(); ctx.moveTo(x, c.Y(0)); ctx.lineTo(x, c.Y(on ? 1 / (i / n) : 0.14)); ctx.stroke();
+    }
+    ctx.fillStyle = P.dim; ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
+    ctx.fillText(n + "의 배수인 배음만 살아남는다", c.box.x + 8, c.box.y + 14);
+  }
+  const spec = MB.canvas("#tq-hm-cv", drawSpec, { aspect: 0.32, minHeight: 140 });
+  function update() {
+    if (k >= n) k = 1;
+    chips.innerHTML = Array.from({ length: n - 1 }, (_, j) =>
+      `<button data-k="${j + 1}"${j + 1 === k ? ' class="on"' : ""}>${fretOf((j + 1) / n).toFixed(1)}프렛</button>`).join("");
+    drawShape(); spec.redraw();
+    const f = harmFreq(), m = MB.ftom(f);
+    MB.stat("tq-hm-note", MB.noteName(Math.round(m)) + " (" + n + "배음)");
+    MB.stat("tq-hm-f", MB.fmt(f, 5) + " Hz");
+    MB.stat("tq-hm-cents", MB.signed(MB.cents(f / MB.mtof(Math.round(m))), 1) + " 센트");
+    document.getElementById("tq-hm-n-out").textContent = n + "배음";
+  }
+  function playHarm(nn) {
+    MB.ctx();
+    const f = MB.mtof(BS.STANDARD[s]) * nn;
+    MB.play({ freq: f }, { inst: "ebass", dur: 2.6, vel: 0.8, bs: { tone: "finger", bright: 0.92, pos: 0.5, ring: 3.5 } });
+  }
+  chips.addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (!b) return; k = +b.dataset.k; update(); playHarm(n); });
+  MB.seg("tq-hm-str", (v) => { s = +v; update(); });
+  MB.range("tq-hm-n", null, (v) => { n = Math.round(v); k = 1; update(); });
+  document.getElementById("tq-hm-play").addEventListener("click", () => playHarm(n));
+  document.getElementById("tq-hm-open").addEventListener("click", () => {
+    MB.ctx(); bass.pluck(s, 0, { ring: 3 });
+    setTimeout(() => playHarm(n), 1200);
+  });
+  document.getElementById("tq-hm-seq").addEventListener("click", () => {
+    MB.ctx(); if (timer) clearInterval(timer);
+    let i = 2;
+    const step = () => { if (i > 7) { clearInterval(timer); timer = null; return; } n = i; k = 1; update(); playHarm(i); i++; };
+    step(); timer = setInterval(step, 1100);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 벤딩 */
+(function () {
+  let kind = "bend", amt = 100, up = 0.15, rate = 5, dep = 22;
+  const bass = BS.bass({ tone: "finger" });
+  const BASE = 33 + 12; // A2, 3번 줄 12프렛
+  function curve() {
+    const T = 2.4, N = 300, out = [];
+    for (let i = 0; i < N; i++) {
+      const t = (i / (N - 1)) * T;
+      let c = 0;
+      if (kind === "bend" || kind === "both") c = amt * MB.clamp(t / up, 0, 1);
+      if (kind === "vib") c = dep * Math.sin(2 * Math.PI * rate * Math.max(0, t - 0.2));
+      if (kind === "both" && t > up) c = amt + dep * Math.sin(2 * Math.PI * rate * (t - up));
+      out.push([t, c]);
+    }
+    return out;
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), data = curve();
+    const ys = data.map((d) => d[1]);
+    const lo = Math.min(-30, Math.min(...ys) - 10), hi = Math.max(30, Math.max(...ys) + 10);
+    MB.chart(ctx, null, { x: [0, 2.4], y: [lo, hi], xLabel: "시간 (초)", yLabel: "음높이 (센트)",
+      xFmt: (v) => v.toFixed(1),
+      hlines: [{ y: 0, color: P.faint }, { y: 100, color: P.faint, dash: [4, 4] }, { y: 200, color: P.faint, dash: [4, 4] }],
+      series: [{ data, color: P.accent, width: 2.4 }] });
+  }
+  const view = MB.canvas("#tq-bd-cv", draw, { aspect: 0.36, minHeight: 170 });
+  function update() {
+    document.getElementById("tq-bd-amt-out").textContent = amt + " 센트 (" + (amt / 100).toFixed(2) + "반음)";
+    document.getElementById("tq-bd-time-out").textContent = Math.round(up * 1000) + " ms";
+    document.getElementById("tq-bd-rate-out").textContent = rate + " 회/초";
+    document.getElementById("tq-bd-dep-out").textContent = "± " + dep + " 센트";
+    const peak = kind === "vib" ? dep : amt;
+    MB.stat("tq-bd-note", MB.noteName(BASE) + " → " + MB.fmt(MB.mtof(BASE) * Math.pow(2, peak / 1200), 5) + " Hz");
+    // 단순 기하 모델: .105″ E 줄 기준, 12프렛에서 줄을 d만큼 밀 때 길이 증가로부터 ΔT 추정
+    const T0 = 180, L = 0.432, dTdf = 2 * (peak / 1200) * Math.LN2; // Δf/f ≈ ΔT/(2T)
+    const dT = T0 * dTdf;
+    const EA = 1.4e5; // 유효 EA (N) — 와운드 줄의 실측 강성 근사
+    const d = Math.sqrt(Math.max(0, dT * L * L / (2 * EA)));
+    MB.stat("tq-bd-dT", "+" + dT.toFixed(1) + " N (" + (dT / T0 * 100).toFixed(1) + "%)");
+    MB.stat("tq-bd-d", (d * 1000).toFixed(1) + " mm");
+    view.redraw();
+  }
+  MB.seg("tq-bd-kind", (v) => { kind = v; update(); });
+  MB.range("tq-bd-amt", null, (v) => { amt = Math.round(v); update(); });
+  MB.range("tq-bd-time", null, (v) => { up = v / 1000; update(); });
+  MB.range("tq-bd-rate", null, (v) => { rate = v; update(); });
+  MB.range("tq-bd-dep", null, (v) => { dep = Math.round(v); update(); });
+  document.getElementById("tq-bd-play").addEventListener("click", () => {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const p = BS.positionsOf(BASE, { maxFret: 14 })[0];
+    const v = bass.pluck(p.s, p.f, { ring: 3.5, vel: 0.9 });
+    if (!v) return;
+    const t0 = MB.now() + 0.02;
+    if (kind === "bend" || kind === "both") v.bend(amt, t0, up);
+    if (kind === "vib") for (let i = 0; i < 20; i++) v.bend(i % 2 ? -dep : dep, t0 + 0.2 + i * (0.5 / rate), 0.5 / rate);
+    if (kind === "both") for (let i = 0; i < 16; i++) v.bend(amt + (i % 2 ? -dep : dep), t0 + up + i * (0.5 / rate), 0.5 / rate);
+    v.release(t0 + 2.4, 0.2);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 더블스톱 */
+(function () {
+  let iv = 3, lo = 28, arp = false, timer = null;
+  const bass = BS.bass({ tone: "finger" });
+  const fb = BS.fretboard("#tq-ch-fb", { frets: 14, labels: "notes", bass, play: false,
+    onClick(s, f) { lo = BS.midiAt(s, f); loR.set(MB.clamp(lo, 28, 48), false); show(); ring(); return false; } });
+  // Zwicker 임계대역 폭 근사
+  const cb = (f) => 25 + 75 * Math.pow(1 + 1.4 * Math.pow(f / 1000, 2), 0.69);
+  function draw(ctx, w, h) {
+    const P = MB.palette();
+    const data = [];
+    for (let m = 28; m <= 55; m++) {
+      const f1 = MB.mtof(m), f2 = MB.mtof(m + iv);
+      data.push([m, (f2 - f1) / cb((f1 + f2) / 2)]);
+    }
+    MB.chart(ctx, null, { x: [28, 55], y: [0, Math.max(2.5, Math.max(...data.map((d) => d[1])) * 1.1)],
+      xLabel: "아래 음", yLabel: "주파수 간격 ÷ 임계대역", xFmt: (v) => MB.noteName(Math.round(v)),
+      hlines: [{ y: 1, color: P.warn, dash: [5, 4] }],
+      series: [{ data, color: P.accent, width: 2.4 }],
+      points: [{ x: lo, y: (MB.mtof(lo + iv) - MB.mtof(lo)) / cb((MB.mtof(lo) + MB.mtof(lo + iv)) / 2), color: P.accent2, r: 6 }] });
+  }
+  const view = MB.canvas("#tq-ch-cv", draw, { aspect: 0.34, minHeight: 160 });
+  function show() {
+    const hi = lo + iv;
+    fb.clear();
+    const p1 = BS.positionsOf(lo, { maxFret: 14 })[0], p2 = BS.positionsOf(hi, { maxFret: 14 }).filter((p) => !p1 || p.s !== p1.s)[0] || BS.positionsOf(hi, { maxFret: 14 })[0];
+    const marks = [];
+    if (p1) marks.push({ s: p1.s, f: p1.f, cls: "root", label: MB.pcName(lo) });
+    if (p2) marks.push({ s: p2.s, f: p2.f, cls: "mark", label: MB.pcName(hi) });
+    fb.mark(marks);
+    const f1 = MB.mtof(lo), f2 = MB.mtof(hi), ratio = (f2 - f1) / cb((f1 + f2) / 2);
+    MB.stat("tq-ch-notes", MB.noteName(lo) + " + " + MB.noteName(hi));
+    MB.stat("tq-ch-gap", MB.fmt(f2 - f1, 4) + " Hz");
+    MB.stat("tq-ch-cb", ratio.toFixed(2) + (ratio < 1 ? " — 거칠다" : ratio < 1.6 ? " — 보통" : " — 맑다"));
+    document.getElementById("tq-ch-lo-out").textContent = MB.noteName(lo);
+    view.redraw();
+  }
+  function ring() {
+    MB.ctx();
+    const hi = lo + iv;
+    const p1 = BS.positionsOf(lo, { maxFret: 14 })[0], p2 = BS.positionsOf(hi, { maxFret: 14 }).filter((p) => !p1 || p.s !== p1.s)[0];
+    if (p1) bass.pluck(p1.s, p1.f, { ring: 3 });
+    if (p2) bass.pluck(p2.s, p2.f, { when: MB.now() + (arp ? 0.38 : 0.015), ring: 3 });
+  }
+  const ivBox = document.getElementById("tq-ch-iv");
+  ivBox.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    iv = +b.dataset.v; ivBox.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); show(); ring();
+  });
+  const loR = MB.range("tq-ch-lo", null, (v) => { lo = Math.round(v); show(); });
+  MB.check("tq-ch-arp", (v) => { arp = v; });
+  document.getElementById("tq-ch-play").addEventListener("click", ring);
+  document.getElementById("tq-ch-sweep").addEventListener("click", () => {
+    MB.ctx(); if (timer) clearInterval(timer);
+    let m = 28;
+    const step = () => { if (m > 46) { clearInterval(timer); timer = null; return; } loR.set(m); ring(); m += 3; };
+    step(); timer = setInterval(step, 1100);
+  });
+  show();
+})();
+</script>
+</body>
+</html>
