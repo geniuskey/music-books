@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>장르 베이스라인 · BassBook</title>
+<meta name="description" content="모타운·록·펑크·디스코·레게·라틴·재즈·컨트리·힙합·메탈의 베이스라인이 무엇으로 갈리는가. 열 가지 장르의 패턴을 스텝 격자에서 비교하고, 같은 진행에 다른 장르를 입혀 듣고, 청음으로 가려낸다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .st-seq { padding: 10px 12px; overflow-x: auto; }
+  .st-seq .row { display: grid; grid-template-columns: 70px repeat(16, minmax(0, 1fr)); gap: 3px; align-items: center; margin-bottom: 4px; min-width: 560px; }
+  .st-seq .lab { font: 600 12px var(--mono); color: var(--text-dim); }
+  .st-seq .cell { height: 26px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg-elev); display: grid; place-items: center; font: 700 11px var(--mono); color: var(--text-dim); }
+  .st-seq .cell.beat { background: var(--surface); }
+  .st-seq .cell.kick { background: color-mix(in srgb, var(--accent-2) 55%, var(--bg-elev)); border-color: var(--accent-2); }
+  .st-seq .cell.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+  .st-seq .cell.ghost { background: color-mix(in srgb, var(--accent) 28%, var(--bg-elev)); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); color: var(--accent); }
+  .st-seq .cell.diff { box-shadow: 0 0 0 2.5px var(--warn); }
+  .st-seq .cell.now { outline: 2px solid var(--warn); outline-offset: 1px; }
+  .st-seq .nums { display: grid; grid-template-columns: 70px repeat(16, minmax(0, 1fr)); gap: 3px; min-width: 560px; }
+  .st-seq .nums span { text-align: center; font: 11px var(--mono); color: var(--text-faint); }
+  .st-list { display: grid; gap: 5px; }
+  .st-list button { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; font: inherit; font-size: 13.5px; text-align: left; padding: 7px 11px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .st-list button small { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+  .st-list button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .st-info { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 14.5px; line-height: 1.7; min-height: 104px; }
+  .st-info h4 { margin: 0 0 4px; font-size: 16px; }
+  .st-info dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; margin: 8px 0 0; font-size: 13.5px; }
+  .st-info dt { color: var(--text-dim); }
+  .st-info dd { margin: 0; }
+  .st-quiz { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .st-quiz button { font: 600 14px var(--font); padding: 14px 6px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .st-quiz button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .st-quiz button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="styles">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 11</div>
+    <h1>장르 베이스라인</h1>
+    <p class="lead">같은 코드 진행 위에서 모타운과 레게가 전혀 다르게 들리는 이유는 음이 달라서가 아닙니다. 둘 다 대개 근음과 5도를 씁니다. 다른 것은 <b>어느 칸에 두는가 · 얼마나 길게 끄는가 · 무엇을 비우는가</b>입니다. 이 장에서는 열 가지 장르의 베이스라인을 같은 격자 위에 올려놓고 비교합니다. 장르는 외우는 것이 아니라 <b>몇 개의 선택</b>으로 분해해서 이해하는 것입니다.</p>
+    <ul class="objectives">
+      <li>장르를 가르는 네 가지 변수(자리 · 길이 · 음역 · 주법)를 말할 수 있다.</li>
+      <li>열 가지 장르의 전형적인 베이스 패턴을 스텝 격자로 읽고 연주한다.</li>
+      <li>두 장르를 겹쳐 놓고 <b>다른 칸만</b> 찾아내 장르의 정체를 짚는다.</li>
+      <li>같은 코드 진행에 장르만 바꿔 입히고 그 차이를 듣는다.</li>
+      <li>베이스만 듣고 장르를 가려낸다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="vars">
+    <h2>장르를 가르는 네 가지</h2>
+    <p>장르별 베이스라인을 비교하면 결국 네 가지 선택으로 수렴합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>변수</th><th>무엇을 정하는가</th><th>양 극단</th></tr></thead>
+        <tbody>
+          <tr><td><b>자리</b></td><td>16분 격자의 어느 칸에 음을 두는가</td><td>8분음 정박(록) ↔ 1박을 비움(레게)</td></tr>
+          <tr><td><b>길이</b></td><td>음을 얼마나 끄는가(게이트)</td><td>짧게 끊음(펑크, 20–40%) ↔ 길게 이음(신스팝, 95%)</td></tr>
+          <tr><td><b>음역·음 선택</b></td><td>근음 중심인가, 옥타브·코드톤을 쓰는가</td><td>한 음 페달(메탈) ↔ 멜로디(모타운)</td></tr>
+          <tr><td><b>주법·음색</b></td><td>손가락·피크·슬랩, 라운드·플랫</td><td>플랫와운드 손가락(모타운) ↔ 피크 라운드(펑크록)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>그리고 모든 장르에 공통된 사실이 하나 있습니다. <b>드럼과의 관계가 먼저 정해지고 베이스는 거기에 맞춥니다.</b> 레게 베이스가 1박을 비우는 이유는 드럼의 원 드롭이 1박을 비우기 때문이고, 디스코 베이스가 옥타브를 8분음으로 오가는 이유는 킥이 네 박을 모두 때리기 때문입니다. 장르를 익힌다는 것은 <b>그 장르의 드럼 패턴을 익힌다</b>는 뜻이기도 합니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="dict">
+    <h2>장르 사전</h2>
+    <p>아래 패턴은 특정 곡의 전사가 아니라, 각 장르에서 <b>반복적으로 나타나는 구조</b>를 일반화한 것입니다. 실제 연주에서는 여기에 변형과 필이 얹힙니다.</p>
+    <div class="sim" id="sim-st-dict">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>열 가지 장르 패턴</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="st-seq" id="st-dc-seq"></div><div id="st-dc-tab"></div><div class="st-info" id="st-dc-info"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>장르</span><div class="st-list" id="st-dc-list"></div></div>
+          <label class="ctrl"><span>템포 <output id="st-dc-bpm-out"></output></span><input type="range" id="st-dc-bpm" min="50" max="200" step="1" value="100"></label>
+          <label class="check"><input type="checkbox" id="st-dc-drum" checked> 드럼과 함께</label>
+          <label class="check"><input type="checkbox" id="st-dc-keys"> 건반과 함께</label>
+          <div class="btn-row"><button class="btn primary" id="st-dc-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 수 / 한 마디</span><span class="v" id="st-dc-n">—</span></div>
+        <div class="stat"><span class="k">음 길이</span><span class="v" id="st-dc-gate">—</span></div>
+        <div class="stat"><span class="k">킥과 맞물린 비율</span><span class="v" id="st-dc-lock">—</span></div>
+      </div>
+      <div class="sim-note">격자의 숫자는 근음에서의 도수입니다(R · 3 · 5 · 8 · ♭7 …). <b>×</b>는 고스트 노트 · 주황 테두리는 킥 드럼이 있는 칸입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="diff">
+    <h2>두 장르를 겹쳐 놓으면</h2>
+    <p>장르의 정체는 보통 <b>두세 칸</b>에 있습니다. 디스코와 록 8비트는 같은 8분음 격자를 쓰지만 디스코는 뒷박을 옥타브로 올립니다. 모타운과 록은 같은 자리에서 시작하지만 모타운은 16분음을 끼워 넣습니다. 아래에서 두 장르를 겹쳐 놓고 <b>다른 칸만</b> 찾아보세요.</p>
+    <div class="sim" id="sim-st-diff">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장르를 가르는 칸 찾기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="st-seq" id="st-df-seq"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>장르 A</span><div class="st-list" id="st-df-a"></div></div>
+          <div class="ctrl"><span>장르 B</span><div class="st-list" id="st-df-b"></div></div>
+          <label class="ctrl"><span>템포 <output id="st-df-bpm-out"></output></span><input type="range" id="st-df-bpm" min="60" max="180" step="1" value="104"></label>
+          <div class="btn-row"><button class="btn primary" id="st-df-a-play">▶ A</button><button class="btn" id="st-df-b-play">▶ B</button><button class="btn" id="st-df-ab">▶ 번갈아</button><button class="btn" id="st-df-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">다른 칸</span><span class="v" id="st-df-n">—</span></div>
+        <div class="stat"><span class="k">A에만 있는 음</span><span class="v" id="st-df-only-a">—</span></div>
+        <div class="stat"><span class="k">B에만 있는 음</span><span class="v" id="st-df-only-b">—</span></div>
+      </div>
+      <div class="sim-note">같은 템포·같은 음으로 맞춰 놓아 리듬의 차이만 들리게 했습니다. 실제로는 템포와 음색도 장르의 일부입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="same">
+    <h2>같은 진행, 다른 장르</h2>
+    <p>장르 패턴은 특정 코드에 묶여 있지 않습니다. 같은 진행 위에 어떤 장르든 입힐 수 있고, 그것이 편곡의 가장 빠른 손잡이입니다.</p>
+    <div class="callout tip">
+      <p><b>연습법 · 장르 바꿔 치기.</b> 아는 곡 하나를 골라 코드 진행만 남기고 장르를 바꿔 쳐 보세요. 발라드를 레게로, 록을 보사노바로. 10분이면 그 장르의 핵심 선택이 무엇인지 몸으로 알게 됩니다. 밴드 합주 때 "이 부분만 하프타임으로"처럼 말할 수 있는 어휘도 여기서 생깁니다.</p>
+    </div>
+    <div class="sim" id="sim-st-same">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>진행에 장르 입히기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="st-sm-tab"></div><div id="st-sm-staff"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>진행</span><div class="seg" id="st-sm-prog"><button data-value="C | Am | F | G" class="on">C–Am–F–G</button><button data-value="Am | F | C | G">Am–F–C–G</button><button data-value="Dm7 | G7 | Cmaj7 | Cmaj7">ii–V–I</button><button data-value="A | A | D | A">A–A–D–A (블루스)</button></div></div>
+          <div class="ctrl"><span>장르</span><div class="st-list" id="st-sm-list"></div></div>
+          <label class="ctrl"><span>템포 <output id="st-sm-bpm-out"></output></span><input type="range" id="st-sm-bpm" min="50" max="200" step="1" value="100"></label>
+          <label class="check"><input type="checkbox" id="st-sm-auto" checked> 장르를 고르면 그 장르의 기본 템포로</label>
+          <div class="btn-row"><button class="btn primary" id="st-sm-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">장르</span><span class="v" id="st-sm-name">—</span></div>
+        <div class="stat"><span class="k">현재 코드</span><span class="v" id="st-sm-chord">—</span></div>
+      </div>
+      <div class="sim-note">코드가 바뀌면 패턴의 도수가 그 코드의 음으로 옮겨집니다. 코드에 없는 도수(예: 장3도)는 가장 가까운 코드톤으로 바뀝니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="quiz-sim">
+    <h2>베이스만 듣고 가려내기</h2>
+    <p>드럼 없이 베이스만 들어도 장르는 거의 드러납니다. 자리와 길이가 이미 장르의 지문이기 때문입니다.</p>
+    <div class="sim" id="sim-st-quiz">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>장르 청음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="st-quiz" id="st-qz-opts"></div><div class="sim-msg" id="st-qz-msg">"문제 내기"를 누르면 베이스라인 하나를 두 마디 들려줍니다.</div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>보기 수</span><div class="seg" id="st-qz-n"><button data-value="3">3개</button><button data-value="4" class="on">4개</button><button data-value="6">6개</button></div></div>
+          <label class="check"><input type="checkbox" id="st-qz-drum"> 드럼도 함께(쉬움)</label>
+          <div class="btn-row"><button class="btn primary" id="st-qz-go">▶ 문제 내기</button><button class="btn" id="st-qz-again">↻ 다시 듣기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 수</span><span class="v" id="st-qz-score">0 / 0</span></div>
+      </div>
+      <div class="sim-note">틀리면 정답 패턴을 한 번 더 들려줍니다. 어느 칸이 달랐는지 떠올려 보세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>장르는 음이 아니라 <b>자리 · 길이 · 음역 · 주법</b>으로 갈린다. 대부분의 장르가 근음과 5도를 쓴다.</li>
+      <li>드럼 패턴이 먼저고 베이스가 거기에 맞춘다. 레게가 1박을 비우는 것은 드럼이 비우기 때문이다.</li>
+      <li><b>록 8비트</b>는 8분음 정박, <b>디스코</b>는 근음과 옥타브의 교대, <b>펑크</b>는 짧은 악센트와 고스트, <b>모타운</b>은 16분음을 끼운 멜로디, <b>레게</b>는 1박을 비우고 길게 끈다.</li>
+      <li><b>라틴 툼바오</b>는 2박 뒷박과 4박, <b>재즈 투비트</b>는 근음–5도 2분음, <b>워킹</b>은 4분음, <b>메탈</b>은 한 음 페달, <b>힙합</b>은 드물고 길다.</li>
+      <li>장르 차이는 보통 <b>두세 칸</b>에 있다. 겹쳐 놓고 다른 칸을 찾으면 그것이 장르의 정체다.</li>
+      <li>같은 진행에 장르만 바꿔 입히는 연습이 편곡 어휘를 가장 빨리 늘린다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>디스코 베이스라인의 가장 뚜렷한 특징은?</p><div class="opts">
+        <button class="opt">1박을 비운다</button>
+        <button class="opt" data-correct>근음과 한 옥타브 위를 8분음으로 번갈아 친다</button>
+        <button class="opt">한 음만 16분음으로 계속 친다</button>
+        <button class="opt">4분음으로 걷는다</button>
+      </div><div class="quiz-exp">킥이 네 박을 모두 때리므로(4온더플로어) 베이스는 옥타브를 오가며 움직임을 만든다. 1박을 비우는 것은 레게, 한 음 페달은 메탈, 4분음 걷기는 재즈 워킹이다.</div></div>
+
+      <div class="quiz-q"><p>레게 베이스가 <b>1박을 비우는</b> 가장 직접적인 이유는?</p><div class="opts">
+        <button class="opt">베이스 음역이 낮아서</button>
+        <button class="opt" data-correct>드럼의 원 드롭이 1박을 비우고 3박에 킥·스네어를 두기 때문에</button>
+        <button class="opt">기타가 1박을 치기 때문에</button>
+        <button class="opt">템포가 느리기 때문에</button>
+      </div><div class="quiz-exp">레게의 드럼 패턴인 원 드롭은 1박을 비우고 3박에 킥과 스네어(림)를 동시에 둔다. 베이스가 1박을 비우는 것은 그 구조를 따르는 선택이다.</div></div>
+
+      <div class="quiz-q"><p>펑크 베이스의 <b>음 길이</b>는 보통 어떤가?</p><div class="opts">
+        <button class="opt">온음표로 길게 끈다</button><button class="opt" data-correct>16분음 하나를 넘기지 않을 만큼 짧다</button><button class="opt">4분음 길이로 일정하다</button><button class="opt">음마다 무작위로 다르다</button>
+      </div><div class="quiz-exp">짧은 음이 공간을 만들고, 그 공간이 다음 악센트의 자리를 만든다. 고스트 노트로 사이를 메우되 실제 음정이 있는 음은 짧게 끊는다.</div></div>
+
+      <div class="quiz-q"><p>두 장르의 패턴을 겹쳐 비교할 때 <b>장르의 정체</b>가 드러나는 곳은?</p><div class="opts">
+        <button class="opt">모든 칸이 다르다</button><button class="opt" data-correct>보통 두세 칸만 다르고, 그 칸이 장르를 정한다</button><button class="opt">1박만 다르다</button><button class="opt">음의 높이만 다르다</button>
+      </div><div class="quiz-exp">대부분의 장르가 근음과 5도를 8분·16분 격자 위에 둔다. 차이는 소수의 칸(그리고 음 길이)에 집중되며, 그 소수가 장르를 결정한다.</div></div>
+
+      <div class="quiz-q"><p>모타운식 베이스라인의 특징으로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">한 음만 반복한다</button>
+        <button class="opt" data-correct>16분음과 경과음을 끼워 넣어 거의 멜로디처럼 움직인다</button>
+        <button class="opt">1박과 3박만 친다</button>
+        <button class="opt">항상 슬랩으로 친다</button>
+      </div><div class="quiz-exp">모타운 베이스는 근음에 머물지 않고 코드톤과 경과음 사이를 16분음으로 오가며 멜로디에 가까운 선을 만든다. 보통 플랫와운드 줄을 손가락으로 쳐 둥근 음색을 쓴다.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ------------------------------------------------------------ 장르 사전 (공유 데이터) */
+// steps: [16분 칸, 근음에서의 반음 또는 "g"(고스트)] · gate: 다음 칸까지 중 소리 나는 비율
+var ST_GENRES = [
+  { k: "rock8", name: "록 8비트", groove: "rock8", bpm: 140, tone: "pick", gate: 0.75, lo: 33,
+    steps: [[0, 0], [2, 0], [4, 0], [6, 0], [8, 0], [10, 0], [12, 0], [14, 0]],
+    desc: "8분음 정박으로 근음을 민다. 킥과 겹치는 칸이 많아 저역이 단단하다.",
+    pick: "자리: 8분음 정박 · 길이: 중간 · 음: 근음 중심 · 주법: 피크 또는 손가락" },
+  { k: "motown", name: "모타운 / 소울", groove: "motown", bpm: 116, tone: "flat", gate: 0.8, lo: 33,
+    steps: [[0, 0], [3, 0], [4, 7], [6, 12], [8, 0], [10, 0], [11, 2], [12, 4], [14, 7]],
+    desc: "16분음과 경과음을 끼워 거의 멜로디처럼 움직인다. 플랫와운드를 손가락으로 쳐 둥근 음색을 쓴다.",
+    pick: "자리: 8분 + 16분 · 길이: 길게 이음 · 음: 코드톤·경과음 · 주법: 손가락, 플랫와운드" },
+  { k: "funk16", name: "펑크 16비트", groove: "funk16", bpm: 104, tone: "finger", gate: 0.35, lo: 33,
+    steps: [[0, 0], [2, "g"], [3, "g"], [6, 12], [8, "g"], [10, 7], [12, "g"], [13, "g"], [14, 0]],
+    desc: "짧은 악센트 서너 개와 고스트 노트. 쉼이 많고 음이 짧다. 빈 자리가 그루브를 만든다.",
+    pick: "자리: 16분 악센트 · 길이: 아주 짧게 · 음: 근음·옥타브·5도 · 주법: 손가락 또는 슬랩" },
+  { k: "disco", name: "디스코 옥타브", groove: "disco", bpm: 120, tone: "finger", gate: 0.6, lo: 33,
+    steps: [[0, 0], [2, 12], [4, 0], [6, 12], [8, 0], [10, 12], [12, 0], [14, 12]],
+    desc: "근음과 한 옥타브 위를 8분음으로 오간다. 킥이 네 박을 모두 때리므로 베이스가 움직임을 맡는다.",
+    pick: "자리: 8분음 · 길이: 중간 · 음: 근음 ↔ 옥타브 · 주법: 손가락" },
+  { k: "reggae", name: "레게 원 드롭", groove: "reggae", bpm: 74, tone: "flat", gate: 0.95, lo: 28,
+    steps: [[4, 0], [6, 0], [10, 7], [12, 0], [14, -2]],
+    desc: "1박을 비우고 2박부터 들어온다. 음이 길고 저역이 두껍다. 드럼의 원 드롭과 짝을 이룬다.",
+    pick: "자리: 1박 비움 · 길이: 아주 길게 · 음: 근음·5도·♭7 · 주법: 손가락, 플랫와운드, 톤 노브를 내린다" },
+  { k: "tumbao", name: "라틴 툼바오", groove: "tumbao", bpm: 96, tone: "finger", gate: 0.85, lo: 33,
+    steps: [[6, 7], [12, 0], [15, 0]],
+    desc: "2박 뒷박의 5도와 4박의 근음. 4박 뒤에서 다음 코드를 앞당겨 친다(앤티시페이션).",
+    pick: "자리: 2박 뒷박·4박 · 길이: 길게 · 음: 5도 → 근음 · 주법: 손가락" },
+  { k: "twofeel", name: "재즈 투비트", groove: "swing", bpm: 150, tone: "upright", gate: 0.9, lo: 28,
+    steps: [[0, 0], [8, 7]],
+    desc: "2분음으로 근음과 5도만. 곡의 앞부분이나 조용한 구간에서 쓰고, 뒤에서 워킹으로 바꾼다.",
+    pick: "자리: 1박·3박 · 길이: 길게 · 음: 근음–5도 · 주법: 손가락, 업라이트" },
+  { k: "walk", name: "재즈 워킹", groove: "swing", bpm: 160, tone: "upright", gate: 0.9, lo: 28,
+    steps: [[0, 0], [4, 4], [8, 7], [12, -1]],
+    desc: "4분음으로 쉬지 않고 걷는다. 4박은 다음 근음의 반음 아래로 두어 끌어당긴다.",
+    pick: "자리: 4분음 전부 · 길이: 길게 · 음: 코드톤 + 어프로치 · 주법: 손가락, 업라이트" },
+  { k: "hiphop", name: "힙합 / 네오소울", groove: "hiphop", bpm: 86, tone: "muted", gate: 0.9, lo: 28,
+    steps: [[0, 0], [6, 0], [10, 7], [14, 10]],
+    desc: "음이 드물고 길다. 박을 꽉 채우지 않고 뒤로 기대어 앉는다. 고역을 눌러 둔탁하게 쓴다.",
+    pick: "자리: 드물게 · 길이: 길게 · 음: 근음·5도·♭7 · 주법: 팜 뮤트, 톤 노브를 내린다" },
+  { k: "metal", name: "메탈 페달", groove: "rock8", bpm: 168, tone: "pick", gate: 0.45, lo: 28,
+    steps: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0]],
+    desc: "한 음을 16분음으로 계속 민다. 기타의 리프와 완전히 겹쳐 하나의 덩어리를 만든다.",
+    pick: "자리: 16분음 전부 · 길이: 짧게 · 음: 근음 하나 · 주법: 피크" },
+];
+function stGenre(k) { return ST_GENRES.find((g) => g.k === k); }
+function stKick(groove) {
+  const out = Array(16).fill(0);
+  BS.drumEvents(groove, 1, 4).filter((e) => e.drum === "kick" && e.vel > 0.4).forEach((e) => { const i = Math.round(e.t * 4); if (i < 16) out[i] = 1; });
+  return out;
+}
+/** 장르 패턴을 코드에 맞춰 음표로. 코드에 없는 도수는 가장 가까운 코드톤으로 바꾼다. */
+function stNotes(g, chords, bars) {
+  const out = [];
+  let prev = null;
+  chords.forEach((c, ci) => {
+    const r = BS.bassNote(c.bass != null ? c.bass : c.root, { lo: g.lo, near: prev != null ? prev : g.lo + 5 });
+    prev = r;
+    const next = chords[(ci + 1) % chords.length];
+    const nr = BS.bassNote(next.bass != null ? next.bass : next.root, { lo: g.lo, near: r });
+    const iv = MB.CHORDS[c.q].iv.filter((x) => x < 12);
+    g.steps.forEach(([s, v]) => {
+      const t = ci * 4 + s / 4;
+      if (v === "g") { out.push({ t, d: 0.25, m: r, tech: "dead", vel: 0.32 }); return; }
+      let m;
+      if (v === -1) m = nr - 1;            // 다음 근음의 반음 아래(워킹)
+      else if (v === -2) m = r - 2;        // 근음 아래 장2도(레게의 ♭7)
+      else if (v === 0 || v === 12) m = r + v;
+      else {
+        const want = MB.mod(v, 12);
+        const has = iv.includes(want) ? want : iv.slice().sort((a, b) => Math.abs(a - want) - Math.abs(b - want))[0];
+        m = r + has + (v >= 12 ? 12 : 0);
+      }
+      out.push({ t, d: 0.25, m: MB.clamp(m, 28, 55), vel: s % 4 === 0 ? 0.95 : 0.82 });
+    });
+  });
+  return out;
+}
+
+/* ------------------------------------------------------------ 1. 장르 사전 */
+(function () {
+  let cur = ST_GENRES[0], bpm = cur.bpm, drum = true, keys = false;
+  const bass = BS.bass({ tone: cur.tone });
+  const tab = BS.tab("#st-dc-tab", [], { beatsPerBar: 4 });
+  const seq = document.getElementById("st-dc-seq"), info = document.getElementById("st-dc-info");
+  const list = document.getElementById("st-dc-list");
+  list.innerHTML = ST_GENRES.map((g, i) => `<button data-k="${g.k}"${i ? "" : ' class="on"'}><span>${g.name}</span><small>${g.bpm} BPM</small></button>`).join("");
+  const bpmR = MB.range("st-dc-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); refresh(); });
+  function render() {
+    const kick = stKick(cur.groove);
+    const map = new Map(cur.steps.map(([s, v]) => [s, v]));
+    const rowK = `<div class="row"><span class="lab">킥</span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span class="cell ${i % 4 === 0 ? "beat " : ""}${kick[i] ? "kick" : ""}"></span>`).join("") + `</div>`;
+    const rowB = `<div class="row"><span class="lab">베이스</span>` + Array.from({ length: 16 }, (_, i) => {
+      const v = map.get(i);
+      const cls = v === undefined ? "" : v === "g" ? "ghost" : "on";
+      const lab = v === undefined ? "" : v === "g" ? "×" : v === -1 ? "ap" : v === -2 ? "♭7" : v === 12 ? "8" : BS.intervalLabel(v);
+      return `<span class="cell ${i % 4 === 0 ? "beat " : ""}${cls}${v !== undefined && v !== "g" && kick[i] ? " diff" : ""}" data-i="${i}">${lab}</span>`;
+    }).join("") + `</div>`;
+    const nums = `<div class="nums"><span></span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span>${i % 4 === 0 ? i / 4 + 1 : i % 4 === 2 ? "+" : "·"}</span>`).join("") + `</div>`;
+    seq.innerHTML = rowK + rowB + nums;
+    info.innerHTML = `<h4>${cur.name}</h4><p>${cur.desc}</p><dl><dt>구성</dt><dd>${cur.pick}</dd><dt>드럼</dt><dd>${BS.GROOVE_NAMES[cur.groove]}</dd></dl>`;
+    const real = cur.steps.filter(([, v]) => v !== "g");
+    const locked = real.filter(([s]) => kick[s]).length;
+    MB.stat("st-dc-n", real.length + "개 (고스트 " + (cur.steps.length - real.length) + "개)");
+    MB.stat("st-dc-gate", Math.round(cur.gate * 100) + "% · " + Math.round((60 / bpm) * 0.25 * cur.gate * 1000) + " ms");
+    MB.stat("st-dc-lock", real.length ? Math.round(locked / real.length * 100) + "%" : "—");
+  }
+  function chords() { return BS.parseProgression("C | C | C | C"); }
+  const band = BS.band({
+    bpm: () => bpm, progression: () => chords(),
+    notes: () => BS.withTab(stNotes(cur, chords()).map((n) => Object.assign({}, n, { d: 0.25 * cur.gate * 4 })), { tuning: bass.tuning }),
+    groove: () => (drum ? cur.groove : "none"), swing: () => (cur.groove === "swing" ? 0.17 : 0),
+    keys: () => keys, bassInst: bass, legato: () => cur.gate,
+    onNote(n) {
+      tab.highlightAt(n.t);
+      seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+      const cell = seq.querySelector(`.cell[data-i="${Math.round((n.t % 4) * 4)}"]`); if (cell) cell.classList.add("now");
+    },
+    onStop() { document.getElementById("st-dc-play").textContent = "▶ 재생"; tab.clear(); seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); },
+  });
+  function refresh() { render(); band.refresh(); tab.setNotes(band.notes); }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    cur = stGenre(b.dataset.k); bass.tone = cur.tone;
+    list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    bpmR.set(cur.bpm);
+  });
+  MB.check("st-dc-drum", (v) => { drum = v; refresh(); });
+  MB.check("st-dc-keys", (v) => { keys = v; refresh(); });
+  document.getElementById("st-dc-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 2. 두 장르 겹치기 */
+(function () {
+  let a = "rock8", b = "disco", bpm = 104, sched = null, ab = null;
+  const bass = BS.bass({ tone: "finger" });
+  const seq = document.getElementById("st-df-seq");
+  const listA = document.getElementById("st-df-a"), listB = document.getElementById("st-df-b");
+  const opts = (sel) => ST_GENRES.map((g) => `<button data-k="${g.k}"${g.k === sel ? ' class="on"' : ""}><span>${g.name}</span><small>${g.steps.length}타</small></button>`).join("");
+  function render() {
+    const A = stGenre(a), B = stGenre(b);
+    const ma = new Map(A.steps), mb = new Map(B.steps);
+    const row = (lab, m, other) => `<div class="row"><span class="lab">${lab}</span>` + Array.from({ length: 16 }, (_, i) => {
+      const v = m.get(i);
+      const cls = v === undefined ? "" : v === "g" ? "ghost" : "on";
+      const diff = (v === undefined) !== (other.get(i) === undefined) || (v !== undefined && other.get(i) !== undefined && v !== other.get(i));
+      const t = v === undefined ? "" : v === "g" ? "×" : v === -1 ? "ap" : v === -2 ? "♭7" : v === 12 ? "8" : BS.intervalLabel(v);
+      return `<span class="cell ${i % 4 === 0 ? "beat " : ""}${cls}${diff ? " diff" : ""}" data-i="${i}">${t}</span>`;
+    }).join("") + `</div>`;
+    const nums = `<div class="nums"><span></span>` + Array.from({ length: 16 }, (_, i) =>
+      `<span>${i % 4 === 0 ? i / 4 + 1 : i % 4 === 2 ? "+" : "·"}</span>`).join("") + `</div>`;
+    seq.innerHTML = row("A · " + A.name, ma, mb) + row("B · " + B.name, mb, ma) + nums;
+    let n = 0;
+    for (let i = 0; i < 16; i++) { const x = ma.get(i), y = mb.get(i); if (x !== y) n++; }
+    MB.stat("st-df-n", n + " / 16칸");
+    MB.stat("st-df-only-a", A.steps.filter(([s]) => !mb.has(s)).map(([s]) => (s / 4 + 1).toFixed(2).replace(".00", "")).join(", ") || "없음");
+    MB.stat("st-df-only-b", B.steps.filter(([s]) => !ma.has(s)).map(([s]) => (s / 4 + 1).toFixed(2).replace(".00", "")).join(", ") || "없음");
+  }
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (sched) { sched.stop(); sched = null; } bass.stop(); seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now")); }
+  function play(which) {
+    stop();
+    const g = stGenre(which === "a" ? a : b);
+    const cs = BS.parseProgression("C | C");
+    const ns = BS.withTab(stNotes(g, cs).map((n) => Object.assign({}, n, { d: 0.25 * g.gate * 4 })), { tuning: bass.tuning });
+    bass.tone = g.tone;
+    sched = BS.playTab(ns, { bpm, bass, loop: true, groove: g.groove,
+      onNote(_, n) {
+        seq.querySelectorAll(".cell").forEach((c) => c.classList.remove("now"));
+        seq.querySelectorAll(`.row:nth-child(${which === "a" ? 1 : 2}) .cell[data-i="${Math.round((n.t % 4) * 4)}"]`).forEach((c) => c.classList.add("now"));
+      },
+      onStop: () => { sched = null; } });
+    sched.start();
+  }
+  listA.innerHTML = opts(a); listB.innerHTML = opts(b);
+  listA.addEventListener("click", (e) => { const x = e.target.closest("button[data-k]"); if (!x) return; a = x.dataset.k; listA.querySelectorAll("button").forEach((y) => y.classList.toggle("on", y === x)); render(); });
+  listB.addEventListener("click", (e) => { const x = e.target.closest("button[data-k]"); if (!x) return; b = x.dataset.k; listB.querySelectorAll("button").forEach((y) => y.classList.toggle("on", y === x)); render(); });
+  MB.range("st-df-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  document.getElementById("st-df-a-play").addEventListener("click", () => { MB.ctx(); play("a"); });
+  document.getElementById("st-df-b-play").addEventListener("click", () => { MB.ctx(); play("b"); });
+  document.getElementById("st-df-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); return; }
+    let k = 0;
+    const flip = () => play(k++ % 2 ? "b" : "a");
+    flip(); ab = setInterval(flip, (60 / bpm) * 8000);
+  });
+  document.getElementById("st-df-stop").addEventListener("click", stop);
+  render();
+})();
+
+/* ------------------------------------------------------------ 3. 진행에 장르 입히기 */
+(function () {
+  let prog = "C | Am | F | G", cur = ST_GENRES[0], bpm = cur.bpm, auto = true;
+  const bass = BS.bass({ tone: cur.tone });
+  const tab = BS.tab("#st-sm-tab", [], { beatsPerBar: 4 });
+  const staff = BS.staff("#st-sm-staff", [], { beatsPerBar: 4, chords: [] });
+  const list = document.getElementById("st-sm-list");
+  list.innerHTML = ST_GENRES.map((g, i) => `<button data-k="${g.k}"${i ? "" : ' class="on"'}><span>${g.name}</span><small>${g.bpm} BPM</small></button>`).join("");
+  const bpmR = MB.range("st-sm-bpm", (v) => Math.round(v) + " BPM", (v) => { bpm = Math.round(v); });
+  const band = BS.band({
+    bpm: () => bpm, progression: () => prog,
+    notes: () => BS.withTab(stNotes(cur, BS.parseProgression(prog)).map((n) => Object.assign({}, n, { d: 0.25 * cur.gate * 4 })), { tuning: bass.tuning }),
+    groove: () => cur.groove, swing: () => (cur.groove === "swing" ? 0.17 : 0),
+    keys: () => true, bassInst: bass, legato: () => cur.gate,
+    onNote(n) { tab.highlightAt(n.t); staff.highlightAt(n.t); },
+    onChord(i, c) { MB.stat("st-sm-chord", c.name); },
+    onStop() { document.getElementById("st-sm-play").textContent = "▶ 재생"; tab.clear(); staff.clear(); },
+  });
+  function refresh() {
+    bass.tone = cur.tone;
+    band.refresh();
+    let t = 0;
+    const labels = band.chords.map((c) => { const o = { t, name: c.name }; t += 4; return o; });
+    tab.setNotes(band.notes, labels); staff.setNotes(band.notes, labels);
+    MB.stat("st-sm-name", cur.name + " · " + BS.GROOVE_NAMES[cur.groove]);
+  }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    cur = stGenre(b.dataset.k);
+    list.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    if (auto) bpmR.set(cur.bpm, false), bpm = cur.bpm;
+    refresh();
+  });
+  MB.seg("st-sm-prog", (v) => { prog = v; refresh(); });
+  MB.check("st-sm-auto", (v) => { auto = v; });
+  document.getElementById("st-sm-play").addEventListener("click", function () {
+    MB.ctx(); if (band.running) { band.stop(); return; }
+    refresh(); band.start(); this.textContent = "■ 정지";
+  });
+  refresh();
+})();
+
+/* ------------------------------------------------------------ 4. 장르 청음 */
+(function () {
+  let nOpts = 4, withDrum = false, q = null, ok = 0, n = 0, sched = null;
+  const bass = BS.bass({ tone: "finger" });
+  const opts = document.getElementById("st-qz-opts"), msg = document.getElementById("st-qz-msg");
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); }
+  function hear(g) {
+    MB.ctx(); stop();
+    const cs = BS.parseProgression("C | C");
+    const ns = BS.withTab(stNotes(g, cs).map((x) => Object.assign({}, x, { d: 0.25 * g.gate * 4 })), { tuning: bass.tuning });
+    bass.tone = g.tone;
+    sched = BS.playTab(ns, { bpm: g.bpm, bass, loop: true, groove: withDrum ? g.groove : null, onStop: () => { sched = null; } });
+    sched.start();
+  }
+  function ask() {
+    const pool = ST_GENRES.slice().sort(() => Math.random() - 0.5).slice(0, nOpts);
+    const answer = pool[Math.floor(Math.random() * pool.length)];
+    q = { pool, answer };
+    opts.innerHTML = pool.map((g) => `<button data-k="${g.k}">${g.name}</button>`).join("");
+    msg.className = "sim-msg"; msg.textContent = "어느 장르일까요?";
+    hear(answer);
+  }
+  opts.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b || !q) return;
+    n++;
+    const good = b.dataset.k === q.answer.k;
+    if (good) ok++;
+    opts.querySelectorAll("button").forEach((x) => { x.className = x.dataset.k === q.answer.k ? "ok" : (x === b ? "bad" : ""); });
+    msg.className = "sim-msg " + (good ? "ok" : "bad");
+    msg.textContent = (good ? "정답입니다 — " : "아닙니다. 정답은 ") + q.answer.name + ". " + q.answer.pick;
+    MB.stat("st-qz-score", ok + " / " + n);
+    if (!good) setTimeout(() => hear(q.answer), 300);
+  });
+  MB.seg("st-qz-n", (v) => { nOpts = +v; });
+  MB.check("st-qz-drum", (v) => { withDrum = v; });
+  document.getElementById("st-qz-go").addEventListener("click", () => { MB.ctx(); ask(); });
+  document.getElementById("st-qz-again").addEventListener("click", () => { if (q) hear(q.answer); });
+})();
+</script>
+</body>
+</html>
