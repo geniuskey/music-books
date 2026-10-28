@@ -127,7 +127,7 @@ window.MUSIC_BOOKS = [
     "legacyUrl": null,
     "slug": "bass",
     "url": "bass/",
-    "chapters": 1,
-    "simulators": 6
+    "chapters": 15,
+    "simulators": 70
   }
 ];
