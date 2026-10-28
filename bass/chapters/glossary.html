@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>용어집 &amp; 종합 퀴즈 · BassBook</title>
+<meta name="description" content="베이스 용어를 한국어·영어로 검색하고, 소리 나는 용어 카드로 주법과 장르 그루브를 들어 보고, 음정·코드·주법·선법·장르 청음 퀴즈와 지판 퀴즈, 1–14장 종합 퀴즈로 실력을 점검한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/bass.css">
+<script src="../js/common.js"></script>
+<script src="../js/bass.js"></script>
+<style>
+  .gl-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: -8px 0 16px; }
+  .gl-filter button { font: inherit; font-size: 12.5px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+  .gl-filter button.on { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 700; }
+  .gl-count { font-size: 13px; color: var(--text-faint); margin-bottom: 10px; }
+  .gl-item h4 { overflow-wrap: anywhere; }
+  .gl-item .ab { font: 600 12px var(--mono); color: var(--text-faint); margin-left: 6px; }
+  .gl-item .snd { font: inherit; font-size: 12px; border: 1px solid var(--accent); color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 9px; cursor: pointer; margin-left: 8px; vertical-align: 2px; }
+  .gl-item .chs { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .gl-snd-grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); padding: 14px 18px 4px; }
+  .gl-snd-grid .btn { font-size: 13.5px; padding: 8px; line-height: 1.3; }
+  .gl-snd-grid .btn small { display: block; font-size: 11px; color: var(--text-faint); font-weight: 400; }
+  .gl-snd-grid .btn.playing small { color: inherit; }
+  .gl-snd-head { font: 600 12px var(--mono); letter-spacing: .06em; color: var(--text-faint); grid-column: 1 / -1; margin-top: 4px; }
+  .ear-opts { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); padding: 12px 18px; }
+  .ear-opts button { font: inherit; font-size: 14px; padding: 10px 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+  .ear-opts button:hover:not(:disabled) { border-color: var(--accent); }
+  .ear-opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 15%, transparent); font-weight: 700; }
+  .ear-opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .ear-opts button:disabled { cursor: default; }
+  .gl-fq-q { text-align: center; font: 700 17px var(--font); margin: 10px 0 2px; }
+  .gl-fq-q small { display: block; font: 12.5px var(--font); color: var(--text-dim); font-weight: 400; margin-top: 3px; }
+  .gl-fq-view { padding: 8px 12px 4px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="bass"></script>
+</head>
+<body data-chapter="glossary">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 15</div>
+    <h1>용어집 &amp; 종합 퀴즈</h1>
+    <p class="lead">열네 장을 지나오며 쌓인 말들을 한자리에 모았습니다. 용어는 외우라고 있는 것이 아니라 <b>다른 연주자와 같은 말을 쓰기 위해</b> 있습니다. 밴드에서 "거기 고스트 하나 넣고 4박은 반음 아래로 들어가 줘"라는 말이 한 번에 통하면, 그 연습실에서 쓸 수 있는 시간이 늘어납니다. 아래 용어집은 검색과 장별 필터를 지원하고, 많은 항목에는 <b>듣기</b> 버튼이 붙어 있습니다. 그다음은 귀와 지판으로 보는 시험입니다.</p>
+    <ul class="objectives">
+      <li>용어를 한국어·영어로 검색하고, 헷갈리는 것은 해당 장으로 돌아가 복습한다.</li>
+      <li>주법(핑거·피크·슬랩·고스트·하모닉스)과 장르 그루브를 소리로 구별한다.</li>
+      <li>음정·코드 성질·선법을 귀로 맞힌다.</li>
+      <li>지판 위 음 이름과 음정 모양을 3초 안에 찾는다.</li>
+      <li>1–14장 전체를 종합 퀴즈로 점검한다.</li>
+    </ul>
+  </header>
+
+  <section id="glossary">
+    <h2>소리 나는 용어집</h2>
+    <input class="gl-search" id="gl-q" type="search" placeholder="용어 검색 (예: 워킹, 고스트, slap, comb filter)" aria-label="용어 검색">
+    <div class="gl-filter" id="gl-f"></div>
+    <div class="gl-count" id="gl-n"></div>
+    <div class="gl-list" id="gl-list"></div>
+  </section>
+
+  <section id="sounds">
+    <h2>들어 보는 주법과 그루브</h2>
+    <p>이름만으로는 구별이 어려운 것들을 모았습니다. 카드를 누르면 가상 베이스가 연주하고, 아래 지판에 지금 울리는 자리가 번쩍입니다. 라운드와 플랫, 넥과 브리지, 핑거와 피크처럼 <b>짝을 이루는 것끼리 이어서</b> 들어 보세요. 차이는 설명보다 비교에서 분명해집니다.</p>
+    <div class="sim" id="sim-gl-sounds">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>소리 나는 용어 카드</h3></div>
+      <div class="gl-snd-grid" id="gl-snd-grid"></div>
+      <div class="sim-controls" style="padding:10px 18px 14px">
+        <div class="btn-row"><button class="btn" id="gl-snd-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-view"><div id="gl-snd-fb"></div></div>
+      <div class="sim-msg" id="gl-snd-msg">카드를 누르면 소리가 납니다.</div>
+      <div class="sim-note">베이스 소리는 뜯은 줄의 파동을 지연선으로 모사하고(카플러스–스트롱), 주법별 어택 잡음과 EQ·컴프레서를 거친 합성음입니다. 실제 녹음이 아니므로 음색은 진짜 악기와 다르지만, 주법과 리듬의 <b>차이</b>를 구별하기에는 충분합니다.</div>
+    </div>
+  </section>
+
+  <section id="ear">
+    <h2>청음 퀴즈</h2>
+    <p>보기를 보기 전에 먼저 들어 보세요. 문제마다 근음과 템포가 바뀌므로 절대적인 높이가 아니라 <b>관계</b>를 들어야 합니다. 처음에는 <b>음정</b>으로 시작해, 익숙해지면 <b>코드 성질</b>·<b>선법</b>·<b>장르</b>로 넘어가세요.</p>
+    <div class="sim" id="sim-gl-ear">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>귀로 푸는 문제</h3></div>
+      <div class="sim-controls" style="padding:14px 18px">
+        <div class="ctrl"><span>문제 종류</span><div class="seg" id="gl-ear-kind"><button data-value="mix" class="on">섞어서</button><button data-value="interval">음정</button><button data-value="quality">코드 성질</button><button data-value="tech">주법</button><button data-value="mode">선법</button><button data-value="genre">장르</button></div></div>
+        <div class="btn-row"><button class="btn primary" id="gl-ear-play">▶ 문제 듣기</button><button class="btn" id="gl-ear-again">다시 듣기</button><button class="btn" id="gl-ear-next">다음 문제</button></div>
+      </div>
+      <div class="ear-opts" id="gl-ear-opts"></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">문제</span><span class="v" id="gl-ear-n">—</span></div>
+        <div class="stat"><span class="k">점수</span><span class="v" id="gl-ear-s">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="gl-ear-st">0</span></div>
+      </div>
+      <div class="sim-msg" id="gl-ear-msg">▶ 문제 듣기를 누르세요.</div>
+      <div class="sim-note">음정 문제는 근음을 먼저 들려준 뒤 두 번째 음을 냅니다. 코드 성질은 아르페지오, 선법은 한 옥타브 상행, 장르는 드럼과 함께 두 마디입니다. 헷갈리면 7장(코드톤), 9장(선법), 11장(장르), 12장(주법)으로 돌아가세요.</div>
+    </div>
+  </section>
+
+  <section id="fret">
+    <h2>지판 퀴즈</h2>
+    <p>베이스의 지판은 4도 격자라 모양이 어디서나 같습니다. 그래서 외울 것은 적지만, <b>빨라야</b> 쓸모가 있습니다. 코드 기호를 보고 근음을 3초 안에 짚지 못하면 연주 중에는 쓸 수 없습니다. 세 가지 방식으로 점검하세요.</p>
+    <div class="sim" id="sim-gl-fret">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>지판 위에서 3초 안에</h3></div>
+      <div class="sim-controls" style="padding:14px 18px">
+        <div class="ctrl"><span>모드</span><div class="seg" id="gl-fq-mode"><button data-value="note" class="on">음 이름 맞히기</button><button data-value="find">지판에서 찾기</button><button data-value="iv">음정 맞히기</button></div></div>
+        <div class="ctrl"><span>범위</span><div class="seg" id="gl-fq-range"><button data-value="5" class="on">0–5프렛</button><button data-value="12">0–12프렛</button></div></div>
+        <div class="btn-row"><button class="btn primary" id="gl-fq-next">다음 문제</button></div>
+      </div>
+      <div class="gl-fq-view">
+        <div class="gl-fq-q" id="gl-fq-q">'다음 문제'를 누르세요.</div>
+        <div id="gl-fq-fb"></div>
+      </div>
+      <div class="ear-opts" id="gl-fq-opts"></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점수</span><span class="v" id="gl-fq-s">0 / 0</span></div>
+        <div class="stat"><span class="k">연속 정답</span><span class="v" id="gl-fq-st">0</span></div>
+        <div class="stat"><span class="k">평균 응답 시간</span><span class="v" id="gl-fq-t">—</span></div>
+      </div>
+      <div class="sim-msg" id="gl-fq-msg">'지판에서 찾기'에서는 같은 음이 여러 자리에 있으므로, 어느 자리를 눌러도 정답입니다.</div>
+      <div class="sim-note">목표는 <b>3초</b>입니다. 평균 응답 시간이 3초 아래로 내려가면 범위를 0–12프렛으로 넓히세요. 음정 모드의 보기는 4장에서 쓴 약어(R · 3 · 5 · 8 …)가 아니라 이름 전체로 나옵니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>책 전체 핵심 정리</h2>
+    <ol>
+      <li>베이스가 길고 굵은 이유는 메르센 법칙 때문이다. 낮은 음은 <b>긴 줄 · 큰 질량 · 알맞은 장력</b>에서 나온다(1장).</li>
+      <li>41 Hz는 대부분의 스피커가 재생하지 못한다. 우리가 듣는 베이스의 음높이는 <b>배음 간격</b>에서 복원된 것이다(2장).</li>
+      <li>오른손은 두 손가락 교대, 왼손은 포지션에 따라 OFPF 또는 시몬디. 그러나 가장 어려운 기술은 <b>뮤팅</b>이다(3장).</li>
+      <li>지판은 예외 없는 4도 격자다. 옥타브는 두 줄 아래 두 프렛 위, 5도는 한 줄 아래 두 프렛 위 — 이 두 모양이 전부의 출발점이다(4장).</li>
+      <li>베이스 악보는 실음보다 <b>한 옥타브 높게</b> 적는다. TAB은 자리를, 오선보는 길이를 알려 준다(5장).</li>
+      <li>근음은 화음의 바닥이다. 슬래시 코드에서 보듯, 베이스가 무엇을 치느냐가 그 화음이 무엇인지를 바꾼다(6장).</li>
+      <li>3도 한 음이 장단을 가른다. 5도는 중립이고, 7도는 다음 코드로 끌어당긴다(7장).</li>
+      <li>마디의 <b>마지막 한 음</b>이 선을 만든다. 반음 어프로치는 음계 밖 음이라도 바로 해결되므로 자연스럽다(8장).</li>
+      <li>펜타토닉은 충돌하는 음이 없어 안전하고, 선법은 같은 코드 위에 다른 색을 입힌다(9장).</li>
+      <li>그루브는 음을 넣어서가 아니라 <b>빼서</b> 만들어진다. 킥과는 확실히 겹치거나 확실히 비킨다(10장).</li>
+      <li>장르를 가르는 것은 음이 아니라 <b>자리 · 길이 · 음역 · 주법</b> 네 가지다(11장).</li>
+      <li>슬랩은 고급 기술이 아니라 음색 선택이다. 정확한 데드 노트와 쉼이 없으면 슬랩도 지저분하다(12장).</li>
+      <li>작은 스피커에서 안 들리면 저역이 아니라 <b>300–800 Hz</b>를 올린다. 킥과의 충돌은 연주로 푸는 것이 가장 좋다(13장).</li>
+      <li>타이밍은 <b>편향</b>과 <b>흔들림</b> 두 숫자로 본다. 재지 않으면 늘지 않는다(14장).</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>종합 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>베이스의 스케일 길이가 기타보다 훨씬 긴 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">줄을 더 많이 걸기 위해</button>
+        <button class="opt" data-correct>같은 장력으로 더 낮은 음을 내기 위해 — f는 길이에 반비례한다</button>
+        <button class="opt">서스테인을 늘리기 위해</button>
+        <button class="opt">프렛을 더 넓게 만들기 위해</button>
+      </div><div class="quiz-exp">메르센 법칙 f = (1/2L)√(T/μ)에서 길이 L이 길수록 주파수가 낮아진다. 길이를 늘리지 않고 낮추려면 줄을 훨씬 굵게 하거나 장력을 낮춰야 하는데, 둘 다 음색과 연주감을 해친다(1장).</div></div>
+
+      <div class="quiz-q"><p>노트북 스피커에서도 베이스의 <b>음정</b>이 들리는 이유는?</p><div class="opts">
+        <button class="opt">스피커가 41 Hz를 재생하기 때문</button>
+        <button class="opt" data-correct>배음 간격만으로 음높이가 복원되기 때문(잃어버린 기본음)</button>
+        <button class="opt">베이스가 다른 악기보다 크게 녹음되기 때문</button>
+        <button class="opt">귀가 저역에 더 민감하기 때문</button>
+      </div><div class="quiz-exp">기본음이 없어도 2f·3f·4f… 간격이 남아 있으면 귀와 뇌가 f를 음높이로 만들어 낸다. 그래서 작은 스피커에서 베이스를 들리게 하려면 저역이 아니라 중역의 배음을 키운다(2·13장).</div></div>
+
+      <div class="quiz-q"><p>베이스 지판에서 한 옥타브 위 음을 잡는 모양은?</p><div class="opts">
+        <button class="opt">같은 줄 7프렛 위</button>
+        <button class="opt" data-correct>두 줄 아래(가는 쪽), 두 프렛 위</button>
+        <button class="opt">한 줄 아래, 두 프렛 위</button>
+        <button class="opt">줄마다 다르다</button>
+      </div><div class="quiz-exp">두 줄을 건너면 10반음(4도 + 4도 = 10)이 오르고, 두 프렛이 2반음을 더해 12반음이 된다. 기타와 달리 베이스는 예외인 줄이 없어 어디서나 같은 모양이다(4장).</div></div>
+
+      <div class="quiz-q"><p>C 코드가 한 마디, 다음 마디가 F일 때 1마디 4박에 두면 가장 강하게 끌어당기는 음은?</p><div class="opts">
+        <button class="opt">C (근음 유지)</button>
+        <button class="opt">G (5도)</button>
+        <button class="opt" data-correct>E 또는 F♯ — 다음 근음 F의 반음 아래·위</button>
+        <button class="opt">A (6도)</button>
+      </div><div class="quiz-exp">반음 어프로치다. 목표음의 반음 위나 아래는 음계 밖 음이라도 바로 해결되기 때문에 귀에 자연스럽고, 다음 마디 1박으로 가는 힘이 가장 크다(8장).</div></div>
+
+      <div class="quiz-q"><p>베이스라인이 답답하게 들릴 때 가장 먼저 시도할 것은?</p><div class="opts">
+        <button class="opt">음을 더 넣는다</button>
+        <button class="opt" data-correct>약박에서 반복되는 음을 지운다</button>
+        <button class="opt">음역을 한 옥타브 올린다</button>
+        <button class="opt">톤을 밝게 한다</button>
+      </div><div class="quiz-exp">리듬은 소리와 침묵이 함께 만든다. 1박은 화성과 박의 기준점이므로 마지막까지 남기고, 같은 음이 연달아 나오는 약박부터 지운다(10장).</div></div>
+
+      <div class="quiz-q"><p>킥과 베이스의 시간 관계로 <b>가장 피해야 할</b> 것은?</p><div class="opts">
+        <button class="opt">정확히 같은 칸에 둔다</button>
+        <button class="opt">확실히 다른 칸에 둔다</button>
+        <button class="opt" data-correct>수십 ms만 어긋나게 둔다</button>
+        <button class="opt">1박에서만 겹친다</button>
+      </div><div class="quiz-exp">정확히 겹치면 진폭이 더해져 단단해지고, 확실히 비키면 번갈아 들린다. 애매하게 어긋나면 마스킹이 일어나 둘 다 흐려진다(10·13장).</div></div>
+
+      <div class="quiz-q"><p>고스트 노트가 화성을 흐리지 않는 이유는?</p><div class="opts">
+        <button class="opt">아주 작게 치기 때문</button>
+        <button class="opt" data-correct>줄을 누르지 않아 뚜렷한 기본 주파수가 생기지 않기 때문</button>
+        <button class="opt">고역만 나기 때문</button>
+        <button class="opt">드럼에 묻히기 때문</button>
+      </div><div class="quiz-exp">왼손이 줄에 얹혀만 있으면 정상파가 만들어지지 않는다. 리듬 정보만 전달되고 음정은 없으므로 화성에 영향을 주지 않는다(10·12장).</div></div>
+
+      <div class="quiz-q"><p>같은 코드 진행인데 장르가 달라 보이게 만드는 네 가지가 아닌 것은?</p><div class="opts">
+        <button class="opt">음을 두는 자리(리듬)</button>
+        <button class="opt">음의 길이</button>
+        <button class="opt">음역과 음 선택</button>
+        <button class="opt" data-correct>악기의 제조사</button>
+      </div><div class="quiz-exp">자리 · 길이 · 음역과 음 선택 · 주법과 음색, 이 넷이 장르를 가른다. 같은 C–Am–F–G도 모타운, 레게, 디스코로 전혀 다르게 들린다(11장).</div></div>
+
+      <div class="quiz-q"><p>줄의 정확히 가운데를 뜯으면 어떤 배음이 사라지는가?</p><div class="opts">
+        <button class="opt">홀수 배음</button>
+        <button class="opt" data-correct>짝수 배음</button>
+        <button class="opt">3의 배수 배음</button>
+        <button class="opt">사라지는 배음이 없다</button>
+      </div><div class="quiz-exp">뜯는 자리의 비율 p = 1/2이면 sin(nπ/2)가 짝수 n에서 0이 된다. 홀수 배음만 남아 속이 빈 둥근 소리가 난다(13장).</div></div>
+
+      <div class="quiz-q"><p>녹음한 라인이 <b>편향 −30 ms, 흔들림 10 ms</b>였다. 가장 적절한 조치는?</p><div class="opts">
+        <button class="opt">템포를 20% 낮춘다</button>
+        <button class="opt" data-correct>일정하게 서두르고 있으므로 의식적으로 타이밍을 늦춘다</button>
+        <button class="opt">퀀타이즈 강도를 100%로 올린다</button>
+        <button class="opt">줄을 새것으로 바꾼다</button>
+      </div><div class="quiz-exp">흔들림이 10 ms면 매우 안정적이다 — 매번 일정하게 빠른 것이므로 기술이 아니라 치우침의 문제다. 흔들림이 컸다면 반대로 템포를 낮춰야 한다(14장).</div></div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/glossary-data.js"></script>
+<script>
+/* ------------------------------------------------ 공용: 소리 예시 엔진 */
+const GL = (function () {
+  const fb = BS.fretboard("#gl-snd-fb", { frets: 12, labels: "notes", play: true });
+  const b = fb.bass;
+  const msgEl = document.getElementById("gl-snd-msg");
+  let cur = null, curBtn = null;
+  b.on((ev) => { if (ev.s != null && ev.f != null) fb.flash(ev.s, ev.f, 420); });
+
+  function done() { if (curBtn) curBtn.classList.remove("playing"); curBtn = null; }
+  function reset() {
+    if (cur) { try { cur.stop(); } catch (e) {} cur = null; }
+    b.stop(); MB.stopAll(); fb.clear(); done();
+  }
+  /** 이벤트 재생: {t, p:[s, f, opt]} 뜯기 | {t, d, fn} 임의 */
+  function seq(evs, o = {}) {
+    const total = o.length || Math.max(4, Math.ceil(Math.max.apply(null, evs.map((e) => e.t + (e.d || 1))) / 4 - 1e-6) * 4);
+    const list = evs.slice();
+    if (o.groove) BS.drumEvents(o.groove, total / 4).forEach((e) => list.push(e));
+    const sch = BS.scheduler(list, {
+      bpm: o.bpm || 96, loop: false, length: total, swing: o.swing || 0,
+      onEvent(e, when) {
+        if (e.kind === "drum") { MB.drum(e.drum, when, { vel: e.vel * 0.7 }); return; }
+        if (e.p) b.pluck(e.p[0], e.p[1], Object.assign({ when }, e.p[2] || {}));
+        if (e.fn) e.fn(when);
+      },
+      onEnd: done, onStop: done,
+    });
+    cur = sch; sch.start(); return sch;
+  }
+  /** TAB 음표(s, f, tech) 재생 */
+  function T(notes, o = {}) {
+    fb.set(notes.filter((n) => n.f != null).map((n) => ({ s: n.s, f: n.f, cls: "ghost" })));
+    const sch = BS.playTab(notes, { bpm: o.bpm || 96, bass: b, groove: o.groove, swing: o.swing, length: o.length, onEnd: done, onStop: done });
+    cur = sch; sch.start(); return sch;
+  }
+  /** [t, MIDI, 길이, 추가] 목록 재생(자리는 손 이동이 적은 쪽으로) */
+  function M(list, o = {}) {
+    const ns = BS.withTab(list.map(([t, m, d, x]) => Object.assign({ t, d: d || 0.5, m, vel: 0.9 }, x || {})), { tuning: b.tuning });
+    return T(ns, o);
+  }
+  /** 코드 진행 + 스타일로 만든 라인 */
+  function L(prog, style, o = {}) {
+    const cs = BS.parseProgression(prog);
+    return T(BS.withTab(BS.line(cs, style, { lo: o.lo != null ? o.lo : 28 }), { tuning: b.tuning }), o);
+  }
+  const R = 33; // A1 — 예시의 기본 근음
+  const scale = (root, steps, o = {}) => M(steps.concat([12]).map((iv, i) => [i * 0.5, root + iv, 0.5]), Object.assign({ bpm: 132 }, o));
+
+  /* 키 → [이름, 설명, 재생 함수, 묶음] */
+  const S = {
+    /* --- 악기와 튜닝 --- */
+    std: ["표준 튜닝", "개방현 E A D G", () => T([0, 1, 2, 3].map((s, i) => ({ t: i, d: 1, s, f: 0 })).concat([{ t: 4, d: 2, s: 0, f: 0 }, { t: 4, d: 2, s: 1, f: 0 }, { t: 4, d: 2, s: 2, f: 0 }, { t: 4, d: 2, s: 3, f: 0 }]), { bpm: 84 }), "악기"],
+    octave: ["옥타브", "두 줄 아래 두 프렛 위", () => T([{ t: 0, d: 1, s: 0, f: 3 }, { t: 1, d: 1, s: 2, f: 5 }, { t: 2, d: 2, s: 0, f: 3 }, { t: 2, d: 2, s: 2, f: 5 }], { bpm: 84 }), "악기"],
+    beats: ["맥놀이", "약 2 Hz 어긋난 유니즌", () => {
+      fb.set([{ s: 1, f: 5 }, { s: 2, f: 0 }], "ghost");
+      return seq([{ t: 0, p: [1, 5, { vel: 0.9, dur: 3.4 }] }, { t: 0, p: [2, 0, { vel: 0.9, dur: 3.4, bend: 26, bendAt: 0.001, bendTime: 0.004 }] }, { t: 4, d: 1, fn() {} }], { bpm: 60 });
+    }, "악기"],
+    harm: ["자연 하모닉스", "12 · 7 · 5프렛", () => T([{ t: 0, d: 1, s: 1, f: 12, tech: "harm" }, { t: 1, d: 1, s: 1, f: 7, tech: "harm" }, { t: 2, d: 2, s: 1, f: 5, tech: "harm" }], { bpm: 80 }), "악기"],
+
+    /* --- 오른손과 톤 --- */
+    finger: ["손가락 교대 피킹", "검지·중지 8분음", () => M([0, 1, 2, 3, 4, 5, 6, 7].map((k) => [k * 0.5, R, 0.5]), { bpm: 104 }), "주법·톤"],
+    pick: ["피크", "같은 라인, 피크 톤", () => M([0, 1, 2, 3, 4, 5, 6, 7].map((k) => [k * 0.5, R, 0.5, { tone: "pick" }]), { bpm: 104 }), "주법·톤"],
+    neck: ["넥 픽업", "지판 쪽에서 뜯기 — 굵다", () => {
+      fb.set([{ s: 1, f: 0 }, { s: 1, f: 5 }], "ghost");
+      return seq([0, 1, 2, 3].map((k) => ({ t: k, p: [1, k % 2 ? 5 : 0, { pos: 0.28, bright: 0.3, dur: 0.9 }] })), { bpm: 86 });
+    }, "주법·톤"],
+    bridge: ["브리지 픽업", "브리지 쪽에서 뜯기 — 얇다", () => {
+      fb.set([{ s: 1, f: 0 }, { s: 1, f: 5 }], "ghost");
+      return seq([0, 1, 2, 3].map((k) => ({ t: k, p: [1, k % 2 ? 5 : 0, { pos: 0.055, bright: 0.8, dur: 0.9 }] })), { bpm: 86 });
+    }, "주법·톤"],
+    round: ["라운드 와운드", "고역이 살아 있는 요즘 줄", () => M([[0, R, 1], [1, R + 7, 1], [2, R + 12, 2]], { bpm: 86 }), "주법·톤"],
+    flat: ["플랫 와운드", "고역이 눌린 빈티지 줄", () => M([[0, R, 1, { tone: "flat" }], [1, R + 7, 1, { tone: "flat" }], [2, R + 12, 2, { tone: "flat" }]], { bpm: 86 }), "주법·톤"],
+
+    /* --- 테크닉 --- */
+    dead: ["데드 노트", "음정 없는 '툭'", () => T([{ t: 0, d: 0.5, s: 1, f: 0 }, { t: 0.5, d: 0.5, s: 1, f: null, tech: "dead" }, { t: 1, d: 0.5, s: 1, f: 0 }, { t: 1.5, d: 0.5, s: 1, f: null, tech: "dead" }, { t: 2, d: 0.5, s: 1, f: 3 }, { t: 2.5, d: 0.5, s: 1, f: null, tech: "dead" }, { t: 3, d: 1, s: 1, f: 0 }], { bpm: 96 }), "테크닉"],
+    ghost: ["고스트 노트", "16분 격자를 채운다", () => T([0, 1, 2, 3].flatMap((bt) => [
+      { t: bt, d: 0.25, s: 1, f: 0, vel: 0.95 },
+      { t: bt + 0.25, d: 0.25, s: 1, f: null, tech: "dead", vel: 0.35 },
+      { t: bt + 0.5, d: 0.25, s: 1, f: null, tech: "dead", vel: 0.3 },
+      { t: bt + 0.75, d: 0.25, s: bt % 2 ? 3 : 1, f: bt % 2 ? 2 : 3, vel: 0.8 }]), { bpm: 94, groove: "funk16" }), "테크닉"],
+    hammer: ["해머온", "뜯지 않고 올려 잇기", () => T([{ t: 0, d: 0.5, s: 1, f: 3 }, { t: 0.5, d: 0.5, s: 1, f: 5, tech: "h" }, { t: 1, d: 0.5, s: 1, f: 7, tech: "h" }, { t: 1.5, d: 1.5, s: 2, f: 2 }], { bpm: 84 }), "테크닉"],
+    pull: ["풀오프", "손가락을 튕겨 내려 잇기", () => T([{ t: 0, d: 0.5, s: 1, f: 7 }, { t: 0.5, d: 0.5, s: 1, f: 5, tech: "p" }, { t: 1, d: 0.5, s: 1, f: 3, tech: "p" }, { t: 1.5, d: 1.5, s: 1, f: 0 }], { bpm: 84 }), "테크닉"],
+    slide: ["슬라이드", "누른 채 미끄러지기", () => T([{ t: 0, d: 0.5, s: 1, f: 3 }, { t: 0.5, d: 1, s: 1, f: 7, tech: "/" }, { t: 1.5, d: 0.5, s: 1, f: 7 }, { t: 2, d: 2, s: 1, f: 3, tech: "\\" }], { bpm: 80 }), "테크닉"],
+    slap: ["슬랩", "엄지로 때리기", () => T([{ t: 0, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 0.5, d: 0.5, s: 0, f: null, tech: "dead" }, { t: 1, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 2, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 3, d: 1, s: 0, f: 3, tech: "slap" }], { bpm: 92, groove: "funk16" }), "테크닉"],
+    pop: ["팝", "검지로 당겨 놓기", () => T([{ t: 0, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 0.75, d: 0.25, s: 3, f: 0, tech: "pop" }, { t: 1.5, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 1.75, d: 0.25, s: 3, f: 2, tech: "pop" }, { t: 2.5, d: 0.5, s: 0, f: 3, tech: "slap" }, { t: 3, d: 1, s: 3, f: 0, tech: "pop" }], { bpm: 92, groove: "funk16" }), "테크닉"],
+    bend: ["벤딩", "밀어 올려 반음", () => T([{ t: 0, d: 1, s: 2, f: 5 }, { t: 1, d: 2, s: 2, f: 5, tech: "b" }], { bpm: 72 }), "테크닉"],
+    vibrato: ["비브라토", "음을 흔들기", () => T([{ t: 0, d: 3, s: 2, f: 7, tech: "~" }], { bpm: 72 }), "테크닉"],
+    dstop: ["더블스톱", "두 음 동시에 — 음역에 따라", () => T([{ t: 0, d: 1, s: 0, f: 3 }, { t: 0, d: 1, s: 1, f: 2 }, { t: 1.5, d: 2, s: 2, f: 5 }, { t: 1.5, d: 2, s: 3, f: 4 }], { bpm: 76 }), "테크닉"],
+
+    /* --- 코드톤 --- */
+    root8: ["근음 8분음", "박을 붙잡는 손", () => L("C | Am", "root8", { bpm: 104, groove: "rock8" }), "화성"],
+    rootfifth: ["근음–5도", "가장 안전한 두 음", () => L("C | F", "country", { bpm: 100, groove: "rock8" }), "화성"],
+    arp: ["아르페지오", "R–3–5–8", () => L("C | C", "arp", { bpm: 100 }), "화성"],
+    thirds: ["장3도 ↔ 단3도", "한 음이 밝기를 바꾼다", () => M([[0, R, 0.5], [0.5, R + 4, 1.5], [2, R, 0.5], [2.5, R + 3, 1.5]], { bpm: 88 }), "화성"],
+    major: ["장3화음", "R–3–5, 밝다", () => M([[0, R, 0.5], [0.5, R + 4, 0.5], [1, R + 7, 0.5], [1.5, R + 12, 1.5]], { bpm: 100 }), "화성"],
+    minor: ["단3화음", "R–♭3–5, 어둡다", () => M([[0, R, 0.5], [0.5, R + 3, 0.5], [1, R + 7, 0.5], [1.5, R + 12, 1.5]], { bpm: 100 }), "화성"],
+    dom7: ["도미넌트 7화음", "R–3–5–♭7, 끌어당긴다", () => M([[0, R, 0.5], [0.5, R + 4, 0.5], [1, R + 7, 0.5], [1.5, R + 10, 0.5], [2, R + 12, 2]], { bpm: 100 }), "화성"],
+    min7: ["마이너 7화음", "R–♭3–5–♭7", () => M([[0, R, 0.5], [0.5, R + 3, 0.5], [1, R + 7, 0.5], [1.5, R + 10, 0.5], [2, R + 12, 2]], { bpm: 100 }), "화성"],
+    maj7: ["메이저 7화음", "R–3–5–7, 투명하다", () => M([[0, R, 0.5], [0.5, R + 4, 0.5], [1, R + 7, 0.5], [1.5, R + 11, 0.5], [2, R + 12, 2]], { bpm: 100 }), "화성"],
+    twofeel: ["투비트", "한 마디에 두 번", () => L("C | Am | F | G", "rootFifth", { bpm: 132, groove: "swing", swing: 0.167 }), "화성"],
+    walk: ["워킹 베이스", "4분음으로 걷기", () => L("Dm7 | G7 | Cmaj7 | Cmaj7", "walk", { bpm: 140, groove: "swing", swing: 0.167 }), "화성"],
+    approach: ["어프로치 노트", "마지막 박에서 반음 아래로", () => M([[0, 36, 1], [1, 36, 1], [2, 36, 1], [3, 40, 1], [4, 41, 1], [5, 41, 1], [6, 41, 1], [7, 41, 1]], { bpm: 104, groove: "rock8" }), "화성"],
+
+    /* --- 음계 --- */
+    "major-scale": ["장음계", "온–온–반–온–온–온–반", () => scale(R, MB.SCALES.major.steps), "음계"],
+    "minor-scale": ["자연단음계", "에올리안과 같다", () => scale(R, MB.SCALES.minor.steps), "음계"],
+    penta: ["펜타토닉", "충돌하는 음이 없는 다섯 음", () => scale(R, [0, 3, 5, 7, 10], { bpm: 120 }), "음계"],
+    blues: ["블루스 스케일", "♭5를 더한 여섯 음", () => scale(R, [0, 3, 5, 6, 7, 10], { bpm: 120 }), "음계"],
+    dorian: ["도리안", "단조인데 6음이 밝다", () => scale(R, MB.SCALES.dorian.steps), "음계"],
+    mixo: ["믹솔리디안", "장3도 + 단7도", () => scale(R, MB.SCALES.mixolydian.steps), "음계"],
+    fill: ["필", "한두 박으로 말하기", () => M([[0, 36, 1], [1, 36, 1], [2, 36, 1], [3, 38, 0.25], [3.25, 40, 0.25], [3.5, 41, 0.25], [3.75, 43, 0.25], [4, 36, 2]], { bpm: 100, groove: "rock8" }), "음계"],
+
+    /* --- 장르 --- */
+    rock8: ["록 8비트", "근음·5도·옥타브", () => L("A | A", "rock", { bpm: 132, groove: "rock8" }), "장르"],
+    motown: ["모타운", "점8분 + 16분의 선율적 라인", () => L("C | Am", "motown", { bpm: 112, groove: "motown" }), "장르"],
+    funk16: ["펑크 16비트", "악센트 · 고스트 · 쉼", () => T([0, 1].flatMap((bar) => [
+      { t: bar * 4, d: 0.25, s: 0, f: 0, vel: 0.98 },
+      { t: bar * 4 + 0.5, d: 0.2, s: 0, f: null, tech: "dead", vel: 0.3 },
+      { t: bar * 4 + 0.75, d: 0.2, s: 0, f: null, tech: "dead", vel: 0.3 },
+      { t: bar * 4 + 1.5, d: 0.25, s: 2, f: 2, vel: 0.9 },
+      { t: bar * 4 + 2.5, d: 0.25, s: 0, f: 0, vel: 0.95 },
+      { t: bar * 4 + 2.75, d: 0.2, s: 0, f: null, tech: "dead", vel: 0.3 },
+      { t: bar * 4 + 3.5, d: 0.25, s: 1, f: 2, vel: 0.85 }]), { bpm: 104, groove: "funk16" }), "장르"],
+    disco: ["디스코 옥타브", "근음과 옥타브를 번갈아", () => L("D | Bm", "octave", { bpm: 120, groove: "disco" }), "장르"],
+    reggae: ["레게 원 드롭", "1박을 비운다", () => T([0, 1].flatMap((bar) => [
+      { t: bar * 4 + 1.5, d: 0.4, s: 1, f: 0, vel: 0.95 },
+      { t: bar * 4 + 2, d: 0.4, s: 1, f: 3, vel: 0.85 },
+      { t: bar * 4 + 3, d: 0.5, s: 1, f: 0, vel: 0.9 },
+      { t: bar * 4 + 3.5, d: 0.4, s: 0, f: 3, vel: 0.8 }]), { bpm: 76, groove: "reggae" }), "장르"],
+    tumbao: ["라틴 툼바오", "2박 뒷박과 4박", () => T([0, 1].flatMap((bar) => [
+      { t: bar * 4 + 1.5, d: 0.5, s: 1, f: 0, vel: 0.9 },
+      { t: bar * 4 + 3, d: 1, s: 0, f: 5, vel: 0.95 }]), { bpm: 96, groove: "tumbao" }), "장르"],
+    metal: ["메탈 페달", "개방현 16분음", () => T(Array.from({ length: 32 }, (_, i) => ({ t: i * 0.25, d: 0.22, s: 0, f: 0, tone: "pick", vel: i % 4 === 0 ? 0.98 : 0.8 })), { bpm: 150, groove: "rock8" }), "장르"],
+    hiphop: ["힙합 · 네오소울", "느슨한 박, 긴 음", () => T([0, 1].flatMap((bar) => [
+      { t: bar * 4, d: 1.4, s: 0, f: 5, vel: 0.95 },
+      { t: bar * 4 + 1.75, d: 0.6, s: 0, f: 3, vel: 0.8 },
+      { t: bar * 4 + 2.5, d: 1.4, s: 1, f: 0, vel: 0.88 }]), { bpm: 84, groove: "hiphop" }), "장르"],
+    shuffle: ["셔플", "길게–짧게", () => L("A7 | A7", "country", { bpm: 108, groove: "shuffle", swing: 0.167 }), "장르"],
+    swing: ["재즈 스윙", "라이드와 함께 걷기", () => L("Dm7 | G7", "walk", { bpm: 150, groove: "swing", swing: 0.167 }), "장르"],
+  };
+
+  function play(k, btn) {
+    reset(); MB.ctx();
+    const e = S[k]; if (!e) return;
+    curBtn = btn || null; if (curBtn) curBtn.classList.add("playing");
+    msgEl.textContent = e[0] + " — " + e[1];
+    try { e[2](); } catch (err) { console.error(err); done(); }
+  }
+  return { S, play, reset, fb, bass: b, seq, T, M, L };
+})();
+
+/* ------------------------------------------------ 소리 카드 그리드 */
+(function () {
+  const grid = document.getElementById("gl-snd-grid");
+  const groups = {};
+  Object.entries(GL.S).forEach(([k, v]) => (groups[v[3]] = groups[v[3]] || []).push([k, v]));
+  grid.innerHTML = Object.entries(groups).map(([g, items]) =>
+    `<div class="gl-snd-head">${g}</div>` + items.map(([k, v]) =>
+      `<button class="btn" data-k="${k}">${v[0]}<small>${v[1]}</small></button>`).join("")).join("");
+  grid.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    if (b.classList.contains("playing")) { GL.reset(); return; }
+    GL.play(b.dataset.k, b);
+  });
+  document.getElementById("gl-snd-stop").addEventListener("click", () => GL.reset());
+})();
+
+/* ------------------------------------------------ 용어집 목록 */
+(function () {
+  const chs = {}; MB.CHAPTERS.forEach((c) => (chs[c.slug] = c));
+  const T = window.BOOK_GLOSSARY.terms.slice().sort((a, b) => a.ko.localeCompare(b.ko, "ko"));
+  const list = document.getElementById("gl-list"), qEl = document.getElementById("gl-q"), fEl = document.getElementById("gl-f"), nEl = document.getElementById("gl-n");
+  let filt = "all";
+  const used = MB.CHAPTERS.map((c) => c.slug).filter((s) => T.some((t) => t.chapters.includes(s)));
+  fEl.innerHTML = `<button data-c="all" class="on">전체</button><button data-c="snd">▶ 소리 있는 용어</button>` + used.map((s) => `<button data-c="${s}">${chs[s].num} ${chs[s].title}</button>`).join("");
+  fEl.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { filt = b.dataset.c; fEl.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); render(); }));
+  const esc = (s) => String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function render() {
+    const q = qEl.value.trim().toLowerCase();
+    const rows = T.filter((t) => (filt === "all" || (filt === "snd" ? !!t.audio && GL.S[t.audio] : t.chapters.includes(filt))) &&
+      (!q || [t.ko, t.en, t.abbr, t.def].join(" ").toLowerCase().includes(q)));
+    nEl.textContent = `${rows.length}개 / 전체 ${T.length}개 · 소리 예시 ${T.filter((t) => t.audio && GL.S[t.audio]).length}개`;
+    list.innerHTML = rows.map((t) => `<div class="gl-item"><h4>${esc(t.ko)}<span class="en">${esc(t.en)}</span>${t.abbr && t.abbr !== t.ko ? `<span class="ab">${esc(t.abbr)}</span>` : ""}${t.audio && GL.S[t.audio] ? `<button class="snd" data-k="${t.audio}" aria-label="${esc(t.ko)} 듣기">▶ 듣기</button>` : ""}</h4><p>${esc(t.def)}</p><div class="chs">${t.chapters.filter((c) => chs[c]).map((c) => `<a class="ch" href="${c}.html">${chs[c].num}장 · ${chs[c].title} →</a>`).join("")}</div></div>`).join("") || `<p style="color:var(--text-dim)">검색 결과가 없습니다.</p>`;
+  }
+  list.addEventListener("click", (e) => {
+    const b = e.target.closest(".snd"); if (!b) return;
+    GL.play(b.dataset.k, document.querySelector(`#gl-snd-grid button[data-k="${b.dataset.k}"]`));
+    document.getElementById("sim-gl-sounds").scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  qEl.addEventListener("input", render);
+  render();
+})();
+
+/* ------------------------------------------------ 청음 퀴즈 */
+(function () {
+  const bass = BS.bass({ tone: "finger" });
+  const optsEl = document.getElementById("gl-ear-opts"), msgEl = document.getElementById("gl-ear-msg");
+  let kind = "mix", q = null, sched = null, n = 0, score = 0, streak = 0;
+
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const shuffle = (a) => a.map((x) => [Math.random(), x]).sort((p, r) => p[0] - r[0]).map((p) => p[1]);
+  const root = () => 31 + Math.floor(Math.random() * 7); // G1 – C#2
+  function stop() { if (sched) { sched.stop(); sched = null; } bass.stop(); }
+  function note(list, o = {}) {
+    stop();
+    const ns = BS.withTab(list.map(([t, m, d, x]) => Object.assign({ t, d: d || 0.5, m, vel: 0.9 }, x || {})), { tuning: bass.tuning });
+    sched = BS.playTab(ns, { bpm: o.bpm || 92, bass, groove: o.groove, swing: o.swing, onEnd() { sched = null; } });
+    sched.start();
+  }
+  function tabPlay(ns, o = {}) {
+    stop();
+    sched = BS.playTab(ns, { bpm: o.bpm || 92, bass, groove: o.groove, swing: o.swing, onEnd() { sched = null; } });
+    sched.start();
+  }
+
+  const KINDS = {
+    interval: () => {
+      const IV = [["옥타브", 12], ["완전5도", 7], ["완전4도", 5], ["장3도", 4], ["단3도", 3], ["단7도", 10], ["장6도", 9]];
+      const set = shuffle(IV).slice(0, 4), ans = pick(set), r = root();
+      return { q: "두 음의 음정은?", opts: set.map((x) => x[0]), ans: set.indexOf(ans),
+        play: () => note([[0, r, 1], [1, r + ans[1], 2]], { bpm: 80 }), hint: "7장 · 코드톤" };
+    },
+    quality: () => {
+      const Q = [["장3화음", [0, 4, 7, 12]], ["단3화음", [0, 3, 7, 12]], ["도미넌트 7", [0, 4, 7, 10]], ["마이너 7", [0, 3, 7, 10]], ["메이저 7", [0, 4, 7, 11]]];
+      const set = shuffle(Q).slice(0, 4), ans = pick(set), r = root();
+      return { q: "이 아르페지오의 코드 성질은?", opts: set.map((x) => x[0]), ans: set.indexOf(ans),
+        play: () => note(ans[1].map((iv, i) => [i * 0.5, r + iv, i === 3 ? 2 : 0.5]), { bpm: 96 }), hint: "7장 · 코드톤" };
+    },
+    tech: () => {
+      const r = 33;
+      const p = BS.bestPosition(r, { tuning: bass.tuning, hand: 3 });
+      const TE = [
+        ["손가락(핑거)", () => tabPlay([0, 1, 2, 3].map((k) => ({ t: k * 0.5, d: 0.5, s: p.s, f: p.f })).concat([{ t: 2, d: 1, s: p.s, f: p.f + 7 }]), { bpm: 100 })],
+        ["피크", () => tabPlay([0, 1, 2, 3].map((k) => ({ t: k * 0.5, d: 0.5, s: p.s, f: p.f, tone: "pick" })).concat([{ t: 2, d: 1, s: p.s, f: p.f + 7, tone: "pick" }]), { bpm: 100 })],
+        ["슬랩과 팝", () => tabPlay([{ t: 0, d: 0.5, s: 0, f: 0, tech: "slap" }, { t: 0.75, d: 0.25, s: 3, f: 0, tech: "pop" }, { t: 1.5, d: 0.5, s: 0, f: 3, tech: "slap" }, { t: 2, d: 1, s: 3, f: 2, tech: "pop" }], { bpm: 96 })],
+        ["고스트 노트", () => tabPlay([0, 1, 2, 3].flatMap((k) => [{ t: k * 0.5, d: 0.25, s: p.s, f: p.f }, { t: k * 0.5 + 0.25, d: 0.25, s: p.s, f: null, tech: "dead", vel: 0.35 }]), { bpm: 96 })],
+        ["하모닉스", () => tabPlay([{ t: 0, d: 1, s: 1, f: 12, tech: "harm" }, { t: 1, d: 1, s: 1, f: 7, tech: "harm" }, { t: 2, d: 1.5, s: 1, f: 5, tech: "harm" }], { bpm: 86 })],
+        ["레가토(해머온·풀오프)", () => tabPlay([{ t: 0, d: 0.5, s: 1, f: 3 }, { t: 0.5, d: 0.5, s: 1, f: 5, tech: "h" }, { t: 1, d: 0.5, s: 1, f: 7, tech: "h" }, { t: 1.5, d: 0.5, s: 1, f: 5, tech: "p" }, { t: 2, d: 1, s: 1, f: 3, tech: "p" }], { bpm: 88 })],
+      ];
+      const set = shuffle(TE).slice(0, 4), ans = pick(set);
+      return { q: "어떤 주법인가?", opts: set.map((x) => x[0]), ans: set.indexOf(ans), play: ans[1], hint: "3 · 12장 · 주법" };
+    },
+    mode: () => {
+      const MO = [["아이오니안(장음계)", MB.SCALES.major.steps], ["도리안", MB.SCALES.dorian.steps], ["믹솔리디안", MB.SCALES.mixolydian.steps], ["에올리안(자연단음계)", MB.SCALES.minor.steps], ["프리지안", MB.SCALES.phrygian.steps]];
+      const set = shuffle(MO).slice(0, 4), ans = pick(set), r = root();
+      return { q: "어떤 선법인가?", opts: set.map((x) => x[0]), ans: set.indexOf(ans),
+        play: () => note(ans[1].concat([12]).map((iv, i) => [i * 0.5, r + iv, 0.5]), { bpm: 128 }), hint: "9장 · 선법" };
+    },
+    genre: () => {
+      const r = 33, p = BS.bestPosition(r, { tuning: bass.tuning, hand: 3 }), p5 = BS.bestPosition(r + 7, { tuning: bass.tuning, hand: 3 }), p8 = BS.bestPosition(r + 12, { tuning: bass.tuning, hand: 3 });
+      const two = (f) => [0, 1].flatMap(f);
+      const GE = [
+        ["록 8비트", () => tabPlay(two((bar) => [0, 1, 2, 3, 4, 5, 6, 7].map((k) => ({ t: bar * 4 + k * 0.5, d: 0.5, s: k === 6 ? p5.s : k === 7 ? p8.s : p.s, f: k === 6 ? p5.f : k === 7 ? p8.f : p.f, vel: k % 2 ? 0.75 : 0.92 }))), { bpm: 128, groove: "rock8" })],
+        ["디스코 옥타브", () => tabPlay(two((bar) => [0, 1, 2, 3, 4, 5, 6, 7].map((k) => ({ t: bar * 4 + k * 0.5, d: 0.4, s: k % 2 ? p8.s : p.s, f: k % 2 ? p8.f : p.f, vel: 0.88 }))), { bpm: 120, groove: "disco" })],
+        ["레게 원 드롭", () => tabPlay(two((bar) => [{ t: bar * 4 + 1.5, d: 0.4, s: p.s, f: p.f }, { t: bar * 4 + 2, d: 0.4, s: p5.s, f: p5.f }, { t: bar * 4 + 3, d: 0.6, s: p.s, f: p.f }]), { bpm: 76, groove: "reggae" })],
+        ["펑크 16비트", () => tabPlay(two((bar) => [{ t: bar * 4, d: 0.25, s: p.s, f: p.f, vel: 0.98 }, { t: bar * 4 + 0.5, d: 0.2, s: p.s, f: null, tech: "dead", vel: 0.3 }, { t: bar * 4 + 1.5, d: 0.25, s: p5.s, f: p5.f }, { t: bar * 4 + 2.5, d: 0.25, s: p.s, f: p.f }, { t: bar * 4 + 3.5, d: 0.25, s: p8.s, f: p8.f }]), { bpm: 104, groove: "funk16" })],
+        ["재즈 워킹", () => tabPlay(two((bar) => [0, 1, 2, 3].map((k) => { const m = r + [0, 4, 7, 11][k] - (bar ? 2 : 0); const q = BS.bestPosition(m, { tuning: bass.tuning, hand: 3 }); return { t: bar * 4 + k, d: 1, s: q.s, f: q.f, vel: 0.85 }; })), { bpm: 150, groove: "swing", swing: 0.167 })],
+        ["라틴 툼바오", () => tabPlay(two((bar) => [{ t: bar * 4 + 1.5, d: 0.5, s: p5.s, f: p5.f }, { t: bar * 4 + 3, d: 1, s: p.s, f: p.f }]), { bpm: 96, groove: "tumbao" })],
+      ];
+      const set = shuffle(GE).slice(0, 4), ans = pick(set);
+      return { q: "어떤 장르의 베이스라인인가?", opts: set.map((x) => x[0]), ans: set.indexOf(ans), play: ans[1], hint: "11장 · 장르" };
+    },
+  };
+
+  function next() {
+    const k = kind === "mix" ? pick(Object.keys(KINDS)) : kind;
+    q = KINDS[k]();
+    n++;
+    MB.stat("gl-ear-n", n + "번 · " + { interval: "음정", quality: "코드 성질", tech: "주법", mode: "선법", genre: "장르" }[k]);
+    optsEl.innerHTML = q.opts.map((o, i) => `<button type="button" data-i="${i}">${o}</button>`).join("");
+    msgEl.textContent = q.q + " — ▶ 문제 듣기";
+    msgEl.classList.remove("ok", "bad");
+    MB.ctx(); q.play();
+  }
+  optsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b || !q || b.disabled) return;
+    const i = +b.dataset.i, ok = i === q.ans;
+    optsEl.querySelectorAll("button").forEach((x, j) => { x.disabled = true; if (j === q.ans) x.classList.add("right"); else if (j === i) x.classList.add("wrong"); });
+    if (ok) { score++; streak++; } else streak = 0;
+    MB.stat("gl-ear-s", score + " / " + n);
+    MB.stat("gl-ear-st", streak + (streak >= 5 ? " 🔥" : ""));
+    msgEl.textContent = (ok ? "정답! " : "아쉽다 — 정답은 " + q.opts[q.ans] + ". ") + "복습: " + q.hint;
+    msgEl.classList.toggle("ok", ok);
+  });
+  document.getElementById("gl-ear-play").addEventListener("click", () => { MB.ctx(); if (!q) next(); else q.play(); });
+  document.getElementById("gl-ear-again").addEventListener("click", () => { MB.ctx(); if (q) q.play(); });
+  document.getElementById("gl-ear-next").addEventListener("click", () => { MB.ctx(); next(); });
+  MB.seg("gl-ear-kind", (v) => { kind = v; });
+})();
+
+/* ------------------------------------------------ 지판 퀴즈 */
+(function () {
+  const fb = BS.fretboard("#gl-fq-fb", { frets: 12, labels: "none", play: false, onClick: (s, f, m) => click(s, f, m) });
+  const bass = fb.bass;
+  const qEl = document.getElementById("gl-fq-q"), optsEl = document.getElementById("gl-fq-opts"), msgEl = document.getElementById("gl-fq-msg");
+  const IV_NAMES = { 0: "완전1도(근음)", 1: "단2도", 2: "장2도", 3: "단3도", 4: "장3도", 5: "완전4도", 6: "증4도(♭5)", 7: "완전5도", 8: "단6도", 9: "장6도", 10: "단7도", 11: "장7도", 12: "옥타브" };
+  let mode = "note", hi = 5, q = null, score = 0, n = 0, streak = 0, t0 = 0, times = [];
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const shuffle = (a) => a.map((x) => [Math.random(), x]).sort((p, r) => p[0] - r[0]).map((p) => p[1]);
+  const rnd = (lo, h) => lo + Math.floor(Math.random() * (h - lo + 1));
+
+  function next(depth) {
+    fb.clear(); optsEl.innerHTML = ""; msgEl.classList.remove("ok");
+    const s = rnd(0, bass.tuning.length - 1), f = rnd(0, hi);
+    if (mode === "note") {
+      const midi = bass.tuning[s] + f, pc = MB.mod(midi, 12);
+      const wrong = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]).slice(0, 3).map((d) => MB.mod(pc + d, 12));
+      const opts = shuffle([pc].concat(wrong)).map((p) => MB.pcName(p));
+      q = { kind: "note", ans: opts.indexOf(MB.pcName(pc)), opts };
+      fb.mark([{ s, f, label: "?" }], "mark");
+      qEl.innerHTML = "표시된 자리의 음 이름은?<small>" + BS.stringLabel(s, bass.tuning) + " · " + (f === 0 ? "개방현" : f + "프렛") + "</small>";
+      render(opts);
+    } else if (mode === "find") {
+      const midi = bass.tuning[s] + f, pc = MB.mod(midi, 12);
+      q = { kind: "find", pc };
+      qEl.innerHTML = "<b>" + MB.pcName(pc) + "</b> 음을 지판에서 찾아 누르세요<small>같은 음이 여러 자리에 있습니다 — 어디든 정답</small>";
+      msgEl.textContent = "0–" + hi + "프렛 안에서 찾으세요.";
+    } else {
+      const iv = pick([3, 4, 5, 7, 9, 10, 12]);
+      const shape = BS.shape(s, f, [0, iv], { tuning: bass.tuning });
+      if ((shape.length < 2 || shape.some((x) => x.f > hi + 2)) && (depth || 0) < 12) { next((depth || 0) + 1); return; }
+      const wrong = shuffle([3, 4, 5, 7, 9, 10, 12].filter((x) => x !== iv)).slice(0, 3);
+      const opts = shuffle([iv].concat(wrong)).map((x) => IV_NAMES[x]);
+      q = { kind: "iv", ans: opts.indexOf(IV_NAMES[iv]), opts };
+      fb.set([{ s: shape[0].s, f: shape[0].f, label: "R", cls: "root" }, { s: shape[1].s, f: shape[1].f, label: "?", cls: "mark" }]);
+      qEl.innerHTML = "두 자리의 음정은?<small>빨간 점이 근음입니다</small>";
+      render(opts);
+      bass.pluck(shape[0].s, shape[0].f, { dur: 0.5 });
+      bass.pluck(shape[1].s, shape[1].f, { when: MB.now() + 0.55, dur: 0.9 });
+    }
+    t0 = performance.now(); n++;
+  }
+  function render(opts) {
+    optsEl.innerHTML = opts.map((o, i) => `<button type="button" data-i="${i}">${o}</button>`).join("");
+  }
+  function mark(ok, text) {
+    if (ok) { score++; streak++; } else streak = 0;
+    times.push((performance.now() - t0) / 1000);
+    MB.stat("gl-fq-s", score + " / " + n);
+    MB.stat("gl-fq-st", streak + (streak >= 5 ? " 🔥" : ""));
+    MB.stat("gl-fq-t", (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) + " 초");
+    msgEl.textContent = text;
+    msgEl.classList.toggle("ok", ok);
+  }
+  function click(s, f, midi) {
+    if (!q || q.kind !== "find") return false;
+    MB.ctx(); bass.pluck(s, f); fb.flash(s, f);
+    const ok = MB.mod(midi, 12) === q.pc;
+    fb.mark([{ s, f, label: MB.pcName(midi) }], ok ? "ok" : "bad");
+    if (ok) { mark(true, "정답! " + BS.stringLabel(s, bass.tuning) + " " + f + "프렛 = " + MB.noteName(midi) + " · '다음 문제'를 누르세요."); q = null; }
+    else msgEl.textContent = "그 자리는 " + MB.pcName(midi) + "입니다. 다시 찾아보세요.";
+    return false;
+  }
+  optsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b || !q || b.disabled) return;
+    const i = +b.dataset.i, ok = i === q.ans;
+    optsEl.querySelectorAll("button").forEach((x, j) => { x.disabled = true; if (j === q.ans) x.classList.add("right"); else if (j === i) x.classList.add("wrong"); });
+    mark(ok, ok ? "정답! '다음 문제'를 누르세요." : "정답은 " + q.opts[q.ans] + "입니다. 4장의 옥타브·5도 모양을 다시 보세요.");
+    q = null;
+  });
+  document.getElementById("gl-fq-next").addEventListener("click", () => { MB.ctx(); next(); });
+  MB.seg("gl-fq-mode", (v) => { mode = v; q = null; fb.clear(); optsEl.innerHTML = ""; qEl.textContent = "'다음 문제'를 누르세요."; });
+  MB.seg("gl-fq-range", (v) => { hi = +v; fb.setRange(0, hi === 5 ? 7 : 12); });
+  fb.setRange(0, 7);
+})();
+</script>
+</body>
+</html>
