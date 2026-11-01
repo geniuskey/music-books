@@ -398,8 +398,8 @@
     <div class="table-wrap"><table>
       <thead><tr><th>두 음 (평균율)</th><th class="num">f₁ · f₂ (Hz)</th><th class="num">f₂ − f₁</th><th class="num">2f₁ − f₂</th><th>결과</th></tr></thead>
       <tbody>
-        <tr><td>E3 + B3 (완전5도, 파워 코드)</td><td class="num">164.8 · 246.9</td><td class="num">82.1</td><td class="num">82.7</td><td>두 성분이 E2(82.4 Hz) 근처에 모여 0.55 Hz로 아주 느리게 일렁임 → 한 옥타브 아래 근음처럼 들림</td></tr>
-        <tr><td>E3 + G♯3 (장3도)</td><td class="num">164.8 · 207.7</td><td class="num">42.8</td><td class="num">122.0</td><td>2(f₂ − f₁) = 85.7과 3f₁ − 2f₂ = 79.1이 6.6 Hz로 맥놀이 → 거칠고 탁함</td></tr>
+        <tr><td>E3 + B3 (완전5도, 파워 코드)</td><td class="num">164.8 · 246.9</td><td class="num">82.1</td><td class="num">82.7</td><td>새 성분이 모두 E2(82.4 Hz)의 배음 자리 근처에 모임. 가장 가까운 쌍(2f₁ − f₂ = 82.7과 3f₂ − 4f₁ = 81.6)도 1.1 Hz로 아주 느리게 일렁일 뿐 → 한 옥타브 아래 근음처럼 들림</td></tr>
+        <tr><td>E3 + G♯3 (장3도)</td><td class="num">164.8 · 207.7</td><td class="num">42.8</td><td class="num">122.0</td><td>3f₁ − 2f₂ = 79.1과 6f₂ − 7f₁ = 92.2처럼 성분들이 13.1 Hz(= 8f₂ − 10f₁) 간격으로 어긋나 맥놀이 → 거칠고 탁함</td></tr>
         <tr><td>E3 + G♯3 (순정 5:4라면)</td><td class="num">164.8 · 206.0</td><td class="num">41.2</td><td class="num">123.6</td><td>모든 성분이 41.2 Hz의 정수배 → 맥놀이 없음(기타 프렛으로는 불가능)</td></tr>
       </tbody>
     </table></div>
@@ -421,7 +421,7 @@
         <div class="stat"><span class="k">차음 f₂ − f₁</span><span class="v" id="tn-imd-r2">—</span></div>
         <div class="stat"><span class="k">가장 가까운 성분 쌍의 맥놀이</span><span class="v" id="tn-imd-r3">—</span></div>
       </div>
-      <div class="sim-note">그래프: 두 사인파를 소프트 클리퍼(tanh)에 넣은 출력의 스펙트럼(0–1.2 kHz, dB). 주색 = 원래 두 음과 그 배음 자리, 주황 = 상호변조로 새로 생긴 자리(차음 위치는 표시). 오른쪽 수치는 −50 dB보다 강한 성분들 가운데 1–15 Hz 간격으로 붙은 쌍의 간격, 즉 들리는 맥놀이의 빠르기입니다. 해볼 것: ① 완전5도와 장3도를 같은 드라이브에서 비교 ② 장3도를 '순정'으로 바꾸면 맥놀이가 사라지는 것 ③ 드라이브 0에서는 어떤 음정이든 깨끗한 것. 모델: 사인파 두 개(각 진폭 0.3)의 합 → \(\tanh(Dx)\) → 음량 보정, 22.05 kHz에서 1.5초 계산해 한 창 FFT(Hann, 32768점). 실제 기타는 배음이 많아 상호변조가 훨씬 복잡하지만 원리는 같습니다.</div>
+      <div class="sim-note">그래프: 두 사인파를 소프트 클리퍼(tanh)에 넣은 출력의 스펙트럼(0–1.2 kHz, dB). 주색 = 원래 두 음과 그 배음 자리, 주황 = 상호변조로 새로 생긴 자리. tanh는 대칭 클리퍼라 홀수 차 성분(3차, 5차 …)만 만들고, 2차 차음 f₂ − f₁은 생기지 않습니다. 오른쪽 수치는 −50 dB보다 강한 성분들 가운데 1–15 Hz 간격으로 붙은 쌍의 간격, 즉 들리는 맥놀이의 빠르기입니다. 해볼 것: ① 완전5도와 장3도를 같은 드라이브에서 비교 ② 장3도를 '순정'으로 바꾸면 맥놀이가 사라지는 것 ③ 드라이브 0에서는 어떤 음정이든 깨끗한 것. 모델: 사인파 두 개(각 진폭 0.3)의 합 → \(\tanh(Dx)\) → 음량 보정, 22.05 kHz에서 1.5초 계산해 한 창 FFT(Hann, 32768점). 삼각형의 높이와 맥놀이 수치는 FFT 칸을 읽지 않고, 같은 식의 2차원 푸리에 계수로 각 성분 \(|m f_1 + n f_2|\)의 진폭을 직접 계산합니다. 실제 기타는 배음이 많아 상호변조가 훨씬 복잡하지만 원리는 같습니다.</div>
     </div>
     <div class="callout tip"><strong>연습법 · 게인에 맞는 보이싱</strong> 드라이브를 걸었다면 6·5번 줄에서는 근음–5도(–옥타브)의 파워 코드를, 3도가 필요하면 높은 줄(3·2·1번)의 작은 모양으로 치세요. 게인을 올린 상태에서 개방 E 코드(022100)와 E5(022xxx)를 번갈아 치며 차이를 들어 보면 왜 록 기타가 파워 코드를 쓰는지 바로 이해됩니다. 반대로 클린 톤이나 약한 크런치에서는 3도와 7도가 들어간 풍성한 코드가 잘 살아납니다.</div>
   </section>
@@ -556,7 +556,7 @@
       </div><div class="quiz-exp">기함수 곡선의 테일러 급수에는 홀수 차수 항만 있고, \(\cos^{2k+1}\omega t\)는 홀수 배수 주파수만 만든다. 짝수 배음이 생기려면 곡선이 비대칭(예: 바이어스가 걸린 진공관 단)이어야 한다.</div></div>
       <div class="quiz-q"><p>강한 디스토션에서 개방 E 코드(E–B–E–G♯–B–E)가 E5 파워 코드보다 탁하게 들리는 가장 큰 이유는?</p><div class="opts">
         <button class="opt">줄이 많아서 음량이 너무 커지기 때문</button><button class="opt">G♯이 E 장조에 없는 음이기 때문</button><button class="opt" data-correct>평균율 장3도가 만드는 상호변조 성분들이 서로 어긋난 자리에 흩어져 맥놀이를 만들기 때문</button><button class="opt">개방현이 프렛 음보다 덜 일그러지기 때문</button>
-      </div><div class="quiz-exp">5도(≈3:2)의 상호변조 성분은 모두 근음 한 옥타브 아래의 배음 자리 근처에 모여 하나의 굵은 음처럼 들린다. 평균율 장3도(1.2599, 순정 1.25와 차이)에서는 \(2(f_2-f_1)\)과 \(3f_1-2f_2\) 같은 성분들이 수 Hz 간격으로 어긋나 거친 맥놀이가 생긴다.</div></div>
+      </div><div class="quiz-exp">5도(≈3:2)의 상호변조 성분은 모두 근음 한 옥타브 아래의 배음 자리 근처에 모여 하나의 굵은 음처럼 들린다. 평균율 장3도(1.2599, 순정 1.25와 차이)에서는 \(3f_1-2f_2\)와 \(6f_2-7f_1\) 같은 성분들이 약 13 Hz 간격으로 어긋나 거친 맥놀이가 생긴다.</div></div>
       <div class="quiz-q"><p>"리버브 → 드라이브" 순서가 "드라이브 → 리버브"와 다른 소리를 내는 근본 이유는?</p><div class="opts">
         <button class="opt">리버브 페달의 출력이 너무 커서</button><button class="opt" data-correct>드라이브가 비선형이라 컨볼루션(리버브)과 교환 법칙이 성립하지 않기 때문</button><button class="opt">리버브는 시간을 늦추고 드라이브는 시간을 당기기 때문</button><button class="opt">두 순서는 원리상 같은 소리이며 차이는 착각이다</button>
       </div><div class="quiz-exp">\(f(x*h) \ne f(x)*h\). 리버브의 반사들이 섞인 신호가 클리퍼에 들어가면 서로 상호변조해 뭉개진다. 딜레이와 리버브처럼 둘 다 LTI라면 순서를 바꿔도 이론상 같다.</div></div>
@@ -1055,6 +1055,28 @@ const TN = (function () {
   let spec = null, comps = [];
   const freqs = () => { const f1 = MB.mtof(+rootSel.value), iv = +getIv(); return [f1, getTun() === "just" ? f1 * JUST[iv] : f1 * Math.pow(2, iv / 12)]; };
   const Dval = () => Math.pow(10, getDrive() / 20);
+  const G = 128, MM = 12;
+  function imdComps(f1, f2, D) {
+    const re = new Float64Array(G * (2 * MM + 1)), im = new Float64Array(G * (2 * MM + 1));
+    for (let a = 0; a < G; a++) { // θ₂ 방향 DFT (n = −MM..MM)
+      const s1 = Math.sin((2 * Math.PI * a) / G), row = new Float64Array(G);
+      for (let b = 0; b < G; b++) row[b] = D ? Math.tanh(D * 0.3 * (s1 + Math.sin((2 * Math.PI * b) / G))) : 0.3 * (s1 + Math.sin((2 * Math.PI * b) / G));
+      for (let n = -MM; n <= MM; n++) { let r = 0, q = 0; for (let b = 0; b < G; b++) { const ph = (-2 * Math.PI * n * b) / G; r += row[b] * Math.cos(ph); q += row[b] * Math.sin(ph); } re[a * (2 * MM + 1) + n + MM] = r; im[a * (2 * MM + 1) + n + MM] = q; }
+    }
+    const byF = new Map();
+    for (let m = -MM; m <= MM; m++) for (let n = -MM; n <= MM; n++) {
+      const f = m * f1 + n * f2; if (f < 15 || f > 1500) continue;
+      let r = 0, q = 0; // θ₁ 방향 DFT
+      for (let a = 0; a < G; a++) { const ph = (-2 * Math.PI * m * a) / G, x = re[a * (2 * MM + 1) + n + MM], y = im[a * (2 * MM + 1) + n + MM]; r += x * Math.cos(ph) - y * Math.sin(ph); q += x * Math.sin(ph) + y * Math.cos(ph); }
+      r /= G * G; q /= G * G; if (Math.hypot(r, q) < 1e-9) continue;
+      const key = Math.round(f * 1000), c = byF.get(key) || { f, re: 0, im: 0, orig: false };
+      c.re += r; c.im += q; c.orig = c.orig || m === 0 || n === 0; byF.set(key, c);
+    }
+    const list = [...byF.values()].map((c) => ({ f: c.f, orig: c.orig, a: 2 * Math.hypot(c.re, c.im) })).filter((c) => c.a > 1e-7);
+    const mx = Math.max(...list.map((c) => c.a));
+    list.forEach((c) => (c.db = 20 * Math.log10(c.a / mx)));
+    return list.sort((a, b) => a.f - b.f);
+  }
   function synth(sr, n, f1, f2, D, clean) {
     const y = new Float32Array(n), w1 = (2 * Math.PI * f1) / sr, w2 = (2 * Math.PI * f2) / sr;
     const k = clean ? 1 : TN.compGain("soft", D, 0.2) / 0.86;
@@ -1084,17 +1106,10 @@ const TN = (function () {
     const [f1, f2] = freqs(), D = Dval();
     const y = synth(SR, NF, f1, f2, D, getDrive() === 0);
     spec = MB.spectrum(y, "hann", NF);
-    const binHz = SR / NF;
-    let mx = -200; for (let k = 1; k < spec.length; k++) mx = Math.max(mx, spec[k]);
-    const at = (f) => { const k = Math.round(f / binHz); let m = -200; for (let j = k - 2; j <= k + 2; j++) if (spec[j] != null) m = Math.max(m, spec[j]); return m - mx; };
-    const list = [];
-    for (let m = 0; m <= 5; m++) for (let n = -5; n <= 5; n++) {
-      if (m === 0 && n <= 0) continue; const f = Math.abs(m * f1 + n * f2); if (f < 15 || f > 1500) continue;
-      const orig = (m === 0 || n === 0);
-      if (list.some((c) => Math.abs(c.f - f) < 0.005)) { if (orig) list.find((c) => Math.abs(c.f - f) < 0.005).orig = true; continue; }
-      list.push({ f, orig, db: at(f) });
-    }
-    list.sort((a, b) => a.f - b.f);
+    // 성분의 세기는 스펙트럼 칸을 읽지 않고 같은 모델에서 직접 계산한다: tanh(D·0.3(sin θ₁ + sin θ₂))의
+    // 2차원 푸리에 계수 c(m, n)이 주파수 |m f₁ + n f₂| 성분의 진폭이다(칸 읽기는 옆 봉우리의 번짐을 성분으로 착각한다).
+    // 대칭 클리퍼라 m + n이 홀수인 성분만 생긴다. 순정 비율에서 같은 주파수로 겹치는 성분은 위상까지 더한다.
+    const list = imdComps(f1, f2, getDrive() === 0 ? 0 : D);
     comps = list;
     const strong = list.filter((c) => c.db > -50);
     let best = null;
