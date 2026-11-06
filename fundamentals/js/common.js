@@ -1543,7 +1543,7 @@
     const foot = document.createElement("footer");
     foot.className = "sb-foot";
     foot.innerHTML = `MusicBook — 귀로 듣고 손으로 만지며 배우는 음악 교과서 · 모든 소리는 브라우저(Web Audio)에서 실시간으로 합성됩니다.
-      <br>시리즈: <a href="https://books.euiyun.com/">books.euiyun.com</a> · <a href="https://camerabook.euiyun.com/">CameraBook</a> · <a href="https://analogbook.euiyun.com/">AnalogBook</a>
+      <br>시리즈: <a href="https://books.euiyun.com/">books.euiyun.com</a> · <a href="https://system.euiyun.com/camera/">CameraBook</a> · <a href="https://analogbook.euiyun.com/">AnalogBook</a>
       <br>© 2026 <a href="https://github.com/geniuskey">geniuskey</a> ·
       콘텐츠 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko" rel="license">CC BY 4.0</a> ·
       코드 <a href="https://github.com/geniuskey/musicbook/blob/main/LICENSE-MIT">MIT</a> ·
