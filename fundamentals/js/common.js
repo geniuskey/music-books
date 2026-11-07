@@ -1470,7 +1470,7 @@
     </ul>
     <h4 style="margin-top:22px">함께 읽기</h4><ul class="sb-chlist">
       <li><a href="https://analogbook.euiyun.com/"><span class="num">↗</span><span>AnalogBook · 아날로그 회로</span></a></li>
-      <li><a href="https://computerbook.euiyun.com/"><span class="num">↗</span><span>ComputerBook · 컴퓨터 구조</span></a></li>
+      <li><a href="https://computing.euiyun.com/computer/"><span class="num">↗</span><span>ComputerBook · 컴퓨터 구조</span></a></li>
       <li><a href="https://books.euiyun.com/"><span class="num">↗</span><span>전체 책 보기</span></a></li>
     </ul>`;
     const backdrop = document.createElement("div");
