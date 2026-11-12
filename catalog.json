@@ -1,0 +1,191 @@
+{
+  "format": "euiyun-shelf/1",
+  "shelf": {
+    "id": "musicbooks",
+    "title": "MusicBooks",
+    "url": "https://music.euiyun.com/",
+    "field": "music"
+  },
+  "map": {
+    "title": "듣고 연주하며 배우는 음악",
+    "desc": "음·화음·리듬의 기초에서 기타·피아노·드럼·베이스 연주로 이어집니다.",
+    "groups": [
+      {
+        "id": "fundamentals",
+        "name": "음악 기초",
+        "en": "Fundamentals",
+        "desc": "음·화음·리듬을 직접 듣고 구성하기"
+      },
+      {
+        "id": "instruments",
+        "name": "악기",
+        "en": "Instruments",
+        "desc": "기타·피아노·드럼·베이스로 직접 연주하기"
+      }
+    ],
+    "links": [
+      [
+        "musicbook",
+        "guitarbook",
+        "화성·음색을 지판과 연주로 연결하기"
+      ],
+      [
+        "musicbook",
+        "pianobook",
+        "음정·화성을 건반과 반주로 익히기"
+      ],
+      [
+        "musicbook",
+        "drumbook",
+        "박자·리듬을 손발의 연주로 연결하기"
+      ],
+      [
+        "musicbook",
+        "bassbook",
+        "근음·코드톤·리듬을 베이스라인으로 연결하기"
+      ],
+      [
+        "guitarbook",
+        "bassbook",
+        "같은 지판·TAB에서 코드 반주와 베이스라인으로"
+      ],
+      [
+        "drumbook",
+        "bassbook",
+        "킥 드럼과 맞물리는 리듬 섹션의 그루브"
+      ]
+    ]
+  },
+  "books": [
+    {
+      "id": "musicbook",
+      "title": "MusicBook",
+      "subtitle": "음악 기초 교과서",
+      "headline": "귀로 듣고 수식으로 이해한다",
+      "description": "음, 화음, 리듬을 소리로 배웁니다. 배음과 음색, 조율의 수학, 협화와 음계, 화성과 코드 진행, 리듬 시퀀서, 신시사이저와 DSP까지 — 브라우저에서 직접 소리를 만들며 음악을 신호·집합·시계열로 이해합니다.",
+      "stage": "fundamentals",
+      "status": "published",
+      "color": "#0c8599",
+      "colorDark": "#3bc9db",
+      "topics": [
+        "배음·음색",
+        "조율·협화",
+        "음계·화음",
+        "코드 진행",
+        "리듬·시퀀서",
+        "신시사이저·DSP"
+      ],
+      "motif": "music",
+      "code": "MUS",
+      "legacyUrl": "https://musicbook.euiyun.com/",
+      "slug": "fundamentals",
+      "url": "fundamentals/",
+      "chapters": 18,
+      "simulators": 115
+    },
+    {
+      "id": "guitarbook",
+      "title": "GuitarBook",
+      "subtitle": "기타 교과서",
+      "headline": "줄 하나에서 나만의 연주까지",
+      "description": "현의 물리와 튜닝, 지판과 TAB, 오픈·바레 코드와 CAGED, 스트로크와 코드 진행, 스케일과 리드 테크닉, 핑거스타일, 일렉 톤까지 — 브라우저의 가상 기타로 직접 튕기고 긁으며 배우는 기타 교과서.",
+      "stage": "instruments",
+      "status": "published",
+      "color": "#9a6237",
+      "colorDark": "#d9a066",
+      "topics": [
+        "지판·TAB",
+        "코드·CAGED",
+        "스트로크",
+        "스케일·솔로",
+        "핑거스타일",
+        "일렉 톤"
+      ],
+      "motif": "guitar",
+      "code": "GTR",
+      "legacyUrl": null,
+      "slug": "guitar",
+      "url": "guitar/",
+      "chapters": 15,
+      "simulators": 92
+    },
+    {
+      "id": "pianobook",
+      "title": "PianoBook",
+      "subtitle": "피아노 교과서",
+      "headline": "건반 위에서 만나는 화성과 선율",
+      "description": "해머와 현의 물리, 건반과 악보 읽기, 운지와 터치, 음계와 화음, 왼손 반주와 코드 진행, 재즈 보이싱, 페달과 표현, 블루스와 스타일 반주까지 — 브라우저의 가상 피아노로 직접 누르고 들으며 배우는 피아노 교과서.",
+      "stage": "instruments",
+      "status": "published",
+      "color": "#7256a6",
+      "colorDark": "#b49cf0",
+      "topics": [
+        "건반·악보",
+        "운지·터치",
+        "음계·화음",
+        "반주 패턴",
+        "재즈 보이싱",
+        "페달·표현"
+      ],
+      "motif": "piano",
+      "code": "PNO",
+      "legacyUrl": null,
+      "slug": "piano",
+      "url": "piano/",
+      "chapters": 15,
+      "simulators": 108
+    },
+    {
+      "id": "drumbook",
+      "title": "DrumBook",
+      "subtitle": "드럼 교과서",
+      "headline": "첫 박자에서 나만의 그루브까지",
+      "description": "막과 심벌의 물리, 그립과 스트로크, 박의 세분과 드럼 악보, 루디먼트, 록·16비트·셔플·장르 그루브, 필인과 곡의 구조, 홀수 박자와 폴리리듬, 튜닝과 타이밍의 과학까지 — 브라우저의 가상 드럼으로 직접 두드리며 배우는 드럼 교과서.",
+      "stage": "instruments",
+      "status": "published",
+      "color": "#ae4954",
+      "colorDark": "#f0848e",
+      "topics": [
+        "리듬·악보",
+        "루디먼트",
+        "그루브",
+        "필인",
+        "장르",
+        "타이밍"
+      ],
+      "motif": "drums",
+      "code": "DRM",
+      "legacyUrl": null,
+      "slug": "drums",
+      "url": "drums/",
+      "chapters": 15,
+      "simulators": 111
+    },
+    {
+      "id": "bassbook",
+      "title": "BassBook",
+      "subtitle": "베이스 교과서",
+      "headline": "낮은 한 줄에서 밴드를 떠받치는 그루브까지",
+      "description": "굵은 현의 물리와 튜닝, 4도 지판과 TAB·낮은음자리표, 근음과 코드톤, 반음 어프로치와 워킹 베이스, 킥 드럼과 맞물리는 그루브, 모타운부터 펑크까지의 장르 베이스라인, 슬랩과 톤까지 — 브라우저의 가상 베이스로 직접 뜯으며 배우는 베이스 교과서.",
+      "stage": "instruments",
+      "status": "published",
+      "color": "#2f7d6b",
+      "colorDark": "#5fc7ab",
+      "topics": [
+        "지판·TAB",
+        "근음·코드톤",
+        "워킹 베이스",
+        "그루브",
+        "장르 라인",
+        "슬랩·톤"
+      ],
+      "motif": "bass",
+      "code": "BAS",
+      "legacyUrl": null,
+      "slug": "bass",
+      "url": "bass/",
+      "chapters": 15,
+      "simulators": 70
+    }
+  ]
+}
