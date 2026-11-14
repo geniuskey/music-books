@@ -79,7 +79,7 @@ async function pages(directory) {
     const additions = (!existing ? `<link rel="canonical" href="${url}">\n` : '') + tag + '\n';
     html = html.replace(/<\/head>/i, additions + '</head>');
     await writeFile(file, html);
-    urls.push(url);
+    if (!/<meta name="robots" content="noindex"/i.test(html)) urls.push(url);
   }
 }
 await pages(output);
