@@ -1548,7 +1548,7 @@
     foot.className = "sb-foot";
     foot.innerHTML = `BassBook — 듣고 짚으며 배우는 베이스 교과서 · 모든 소리는 브라우저(Web Audio)에서 실시간으로 합성됩니다.
       <br>함께 읽기: <a href="${root}../fundamentals/">MusicBook · 음악 기초</a> · <a href="${root}../guitar/">GuitarBook · 기타</a> · <a href="${root}../drums/">DrumBook · 드럼</a> · <a href="${root}../">음악 서가</a> · <a href="https://books.euiyun.com/">books.euiyun.com</a>
-      <br>© 2026 <a href="https://github.com/geniuskey">geniuskey</a> ·
+      <br>© 2026 <a href="https://euiyun.com">Euiyun Lab</a> ·
       콘텐츠 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko" rel="license">CC BY 4.0</a> ·
       코드 <a href="https://github.com/geniuskey/music-books/blob/main/LICENSE-MIT">MIT</a> ·
       <a href="https://github.com/geniuskey/music-books/blob/main/bass/LICENSE.md">라이선스 안내</a>`;
