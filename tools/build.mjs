@@ -20,7 +20,10 @@ const excluded = new Set(['.git', '.github', '.book-dist', 'node_modules', 'tool
 const generated = new Map();
 for (const entry of book.books) {
   const { meta } = JSON.parse(await readFile(join(root, entry), 'utf8'));
-  if (meta) generated.set(dirname(entry), meta);
+  if (!meta) continue;
+  // Every page of the book shares the 1200x630 card at <slug>/og.png.
+  await readFile(join(root, dirname(entry), 'og.png')).catch(() => { throw new Error(`${dirname(entry)}/og.png is missing`); });
+  generated.set(dirname(entry), meta);
 }
 const katexCss = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@${katexVersion}/dist/katex.min.css">\n`;
 const mathErrors = [];
@@ -42,7 +45,11 @@ function metadata(rel, html, slug, meta, url) {
     // The book home shares a shorter summary than its search description.
     `<meta property="og:description" content="${attr(isHome && meta.summary ? meta.summary : description)}">`,
     `<meta property="og:url" content="${url}">`,
+    `<meta property="og:image" content="${origin}/${slug}/og.png">`,
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:height" content="630">',
     '<meta property="og:locale" content="ko_KR">',
+    '<meta name="twitter:card" content="summary_large_image">',
   ].join('\n') + '\n';
 }
 
