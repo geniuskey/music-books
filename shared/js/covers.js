@@ -195,6 +195,38 @@
       });
       return svg(s);
     },
+    // 합주: 객석에서 내려다본 오케스트라. 지휘자를 중심으로 부채꼴 세 줄(앞 현악기 · 가운데 목관 · 뒤 금관·타악기)이 앉아 있고,
+    // 지휘봉이 한 마디(2.4초)를 젓는 동안 박마다 한 줄씩 차례로 빛난다. 위로는 세 성부의 선율이 겹쳐 흐른다.
+    ensemble() {
+      const cx = 100, cy = 118, f = (v) => +v.toFixed(2);
+      const rows = [
+        { r: 34, n: 9, col: "#f4b6a6", cls: 0 }, // 현
+        { r: 56, n: 11, col: "#a9ecd2", cls: 1 }, // 목관
+        { r: 78, n: 13, col: "#ffe08a", cls: 2 }, // 금관·타악
+      ];
+      let s = `<path d="M18 ${cy} A82 82 0 0 1 182 ${cy}" fill="#000" fill-opacity=".12" stroke="${W}" stroke-opacity=".35" stroke-width="1"/>`;
+      rows.forEach((row) => {
+        let g = "";
+        range(row.n).forEach((i) => {
+          const a = Math.PI * (0.1 + (0.8 * i) / (row.n - 1));
+          const x = f(cx - row.r * Math.cos(a)), y = f(cy - row.r * Math.sin(a));
+          g += `<circle cx="${x}" cy="${y}" r="${row.cls === 2 ? 3.1 : 3.5}" fill="${row.col}"/>`;
+        });
+        s += `<path d="M${f(cx - row.r)} ${cy} A${row.r} ${row.r} 0 0 1 ${f(cx + row.r)} ${cy}" fill="none" stroke="${W}" stroke-opacity=".18" stroke-dasharray="2 3"/>`;
+        s += `<g class="en-row" style="animation-delay:${(row.cls * 0.6).toFixed(1)}s">${g}</g>`;
+      });
+      // 지휘대와 지휘봉
+      s += `<rect x="${cx - 7}" y="${cy - 6}" width="14" height="6" rx="1.5" fill="${W}" fill-opacity=".85"/>`;
+      s += `<g class="en-baton" style="transform-origin:${cx}px ${cy - 7}px"><path d="M${cx} ${cy - 7} L${cx + 15} ${cy - 24}" stroke="${W}" stroke-width="1.6" stroke-linecap="round"/><circle cx="${cx + 15.5}" cy="${cy - 24.5}" r="1.4" fill="${W}"/></g>`;
+      // 위로 흐르는 세 성부
+      const line = (d, col, delay) => `<path class="cv-bob" style="animation-delay:${delay}s" d="${d}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linecap="round" stroke-opacity=".9"/>`;
+      s += line("M14 22 C30 12 44 30 60 20 S90 12 104 22", "#ffe08a", 0);
+      s += line("M96 16 C112 6 126 24 142 14 S172 6 188 16", "#f4b6a6", 0.8);
+      s += line("M40 34 C58 26 74 40 92 32 S128 26 150 34", "#a9ecd2", 1.6);
+      const note = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="3.4" ry="2.5" transform="rotate(-20 ${x} ${y})" fill="${W}"/><path d="M${x + 3} ${y - 0.6}V${y - 11}" stroke="${W}" stroke-width="1.2"/>`;
+      s += `<g class="cv-bob" style="animation-delay:.4s" fill-opacity=".9">${note(172, 44)}${note(26, 50)}</g>`;
+      return svg(s);
+    },
     // DRAM 셀 어레이: 워드라인·비트라인 위에서 비트가 깜박인다
     memory() {
       const r = rnd(7); let s = "";

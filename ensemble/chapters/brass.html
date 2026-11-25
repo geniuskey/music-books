@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>금관악기 · EnsembleBook</title>
+<meta name="description" content="입술이 리드가 되는 금관악기. 자연 배음열과 어긋난 7·11배음, 밸브 조합과 보정 문제, 트롬본의 일곱 포지션, 셈여림이 바꾸는 밝기, 약음기와 막은 음, 금관 5중주를 직접 불고 섞어 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .br-harms { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 6px; }
+  .br-harms button { font: inherit; font-size: 12.5px; padding: 6px 2px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.25; }
+  .br-harms button small { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); }
+  .br-harms button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .br-harms button.off { color: var(--bad); }
+  .br-valves { display: flex; gap: 10px; }
+  .br-valves button { font: 700 15px var(--mono); width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--en-br); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .br-valves button.on { background: var(--en-br); color: #1c1a17; }
+  .br-svg { padding: 6px 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .br-svg svg { display: block; width: 100%; height: auto; }
+  .br-svg .lbl { font: 12px var(--font); fill: var(--text-dim); }
+  .br-svg .mono { font: 600 12px var(--mono); fill: var(--text); }
+  .br-quint-ctrl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="brass">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 04</div>
+    <h1>금관악기</h1>
+    <p class="lead">금관악기에는 리드가 없습니다. 대신 연주자의 <b>입술</b>이 리드입니다. 마우스피스에 댄 두 입술이 공기를 끊어 내보내며 떨고, 그 떨림을 길게 감긴 관의 공명이 붙잡아 한 음으로 고정합니다. 그래서 금관악기는 관 하나로 <b>배음열의 음들</b>만 낼 수 있고, 그 사이의 음은 밸브나 슬라이드로 관 길이를 바꿔서 얻습니다. 이 장에서는 입술과 관이 음을 고르는 원리, 조금 어긋난 자연 배음, 밸브 조합의 산수와 보정 문제, 트롬본의 일곱 포지션, 크게 불수록 밝아지는 금관의 성질, 약음기, 그리고 금관 5중주까지 차례로 불어 봅니다.</p>
+    <ul class="objectives">
+      <li>입술이 리드처럼 떨고, 관의 공명이 그 떨림의 주파수를 정한다는 것을 설명한다.</li>
+      <li>금관의 관이 벨과 마우스피스 덕분에 \(f_n \approx n f_0\)에 가까운 공명을 갖는다는 것과, 7·11·13배음이 평균율에서 크게 어긋난다는 것을 듣는다.</li>
+      <li>밸브 2·1·3이 관을 반음·온음·단3도만큼 늘린다는 것과, 1+3·1+2+3 조합이 왜 높게 나는지 계산한다.</li>
+      <li>트롬본의 일곱 포지션이 반음씩 낮추며, 아래로 갈수록 간격이 넓어지는 이유를 안다.</li>
+      <li>셈여림이 클수록 고역 배음이 살아나 소리가 밝아진다는 것(금관의 '찢어지는' 소리)을 스펙트럼으로 확인한다.</li>
+      <li>호른·트럼펫·트롬본·튜바의 음역과 조옮김, 약음기와 막은 음의 효과를 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="lips">
+    <h2>입술이 리드다</h2>
+    <p>트럼펫 마우스피스에 입술을 대고 바람을 넣으면, 입 안의 압력이 입술을 밀어 열고, 열린 틈으로 빠르게 지나가는 공기와 입술의 탄성이 다시 입술을 닫습니다. 이렇게 1초에 수백 번 열렸다 닫히는 것이 <b>버징</b><span class="en">(Buzzing)</span>입니다. 마우스피스만 떼어 불어 보면 '부우' 하는 모기 같은 소리가 나는데, 아직 음높이가 흐릿합니다. 여기에 관을 붙이면 사정이 달라집니다.</p>
+    <p>관 속에서는 입술이 보낸 압력 펄스가 벨까지 갔다가 일부가 반사되어 돌아옵니다. 돌아온 펄스가 입술이 다시 열리는 순간과 맞으면 입술을 더 세게 흔들어 줍니다. 그래서 입술은 <b>관의 공명 주파수 가운데 하나</b>에 끌려 그 주파수로 떨게 됩니다. 연주자는 입술의 긴장과 바람의 세기로 "몇 번째 공명에 올라탈지"를 고를 뿐, 주파수 자체는 관이 정합니다.</p>
+    <p>그런데 관의 공명이 정수배로 늘어서야 음악이 됩니다. 한쪽(입술 쪽)이 막힌 원통관은 홀수 배음 \(1:3:5:7\)만 공명합니다(클라리넷과 같은 조건, <a href="winds.html">3장</a>). 금관악기는 관의 끝을 나팔처럼 벌린 <b>벨</b><span class="en">(Bell)</span>과 좁은 <b>마우스피스</b>로 공명들을 옮겨, \(2:3:4:5:6\cdots\)에 가깝게 맞춰 놓았습니다. 벨은 낮은 공명을 위로 끌어올리고, 마우스피스는 높은 공명을 아래로 끌어내립니다. 수백 년 동안 장인들이 귀로 다듬은 결과입니다.</p>
+    <div class="formula">
+      $$f_n^{\text{원통(한쪽 막힘)}} = \frac{(2n-1)\,c}{4L} \qquad\longrightarrow\qquad f_n^{\text{금관}} \approx n\,f_0 \;\;(n \ge 2)$$
+      <div class="where">\(c\)는 소리의 속도(약 343 m/s), \(L\)은 관의 길이입니다. B♭ 트럼펫의 관은 약 1.48 m로, 같은 길이의 막힌 원통이라면 첫 공명이 약 58 Hz여야 하지만 실제 트럼펫의 공명은 B♭2(116.5 Hz)의 정수배 근처에 늘어섭니다. 단, 맨 아래 \(n=1\) 자리에는 강한 공명이 없습니다. 그 자리의 '페달 톤'은 위 배음들이 입술을 함께 끌어 만드는 소리입니다.</div>
+    </div>
+
+    <div class="sim" id="sim-br-tube">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>원통관과 금관의 공명</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="br-tb-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>관의 모양</span><div class="seg" id="br-tb-kind"><button data-value="cyl">원통관만(입술 쪽 막힘)</button><button data-value="brass" class="on">벨 + 마우스피스(금관)</button></div></div>
+          <label class="ctrl"><span>관의 길이 <output id="br-tb-L-out"></output></span><input type="range" id="br-tb-L" min="0.9" max="3.8" step="0.01" value="1.48"></label>
+          <div class="btn-row"><button class="btn primary" id="br-tb-play">▶ 공명을 차례로</button><button class="btn" id="br-tb-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">첫 공명들</span><span class="v" id="br-tb-f">—</span></div>
+        <div class="stat"><span class="k">비율</span><span class="v" id="br-tb-r">—</span></div>
+        <div class="stat"><span class="k">기준음 f₀</span><span class="v" id="br-tb-f0">—</span></div>
+      </div>
+      <div class="sim-note">봉우리는 입술이 올라탈 수 있는 관의 공명(입력 임피던스의 최대)을 그린 것입니다. 금관에서는 1.5 kHz쯤 위로 벨이 소리를 그냥 내보내 공명이 약해집니다 · 모델: 원통관은 이상적인 (2n−1)c/4L, 금관은 n·f₀(n ≥ 2)에 봉우리를 둔 도식입니다. 소리는 같은 트럼펫 음색으로 각 공명 주파수를 냅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="series">
+    <h2>자연 배음열: 밸브 없이 낼 수 있는 음</h2>
+    <p>밸브가 발명되기 전(1810년대) 호른과 트럼펫은 관 하나로 배음열의 음만 냈습니다. 이것이 <b>자연 배음열</b><span class="en">(Natural harmonic series)</span>입니다. 기준음 C로 쓰면 2배음부터 C·G·C·E·G·(B♭)·C·D·E·(F♯)·G… 입니다. 아래쪽은 듬성듬성해 화음의 뼈대(으뜸음과 5도)만 나오고, 위로 갈수록 촘촘해져 8배음 위에서야 음계가 이어집니다. 바로크 시대 트럼펫 주자들이 아주 높은 음역(클라리노 음역)에서 선율을 불었던 이유가 여기 있습니다.</p>
+    <p>그리고 몇몇 배음은 평균율과 맞지 않습니다. 배음 \(n\)의 평균율 대비 어긋남은 다음과 같습니다.</p>
+    <div class="formula">
+      $$\Delta_n = 1200\log_2 n \;-\; 100\cdot\operatorname{round}\!\Big(12\log_2 n\Big)\ \text{센트}$$
+      <div class="where">3배음(5도)은 +2센트로 거의 맞고, 5배음(장3도)은 −14센트로 약간 낮습니다. 그러나 <b>7배음은 −31센트</b>(B♭보다 꽤 낮음), <b>11배음은 −49센트</b>(F와 F♯의 정확히 중간), 13배음은 −59센트입니다. 그래서 7·11·13배음은 보통 쓰지 않거나, 입술로 끌어올려(립 벤딩) 씁니다.</div>
+    </div>
+    <p>군대 나팔(뷰글) 신호는 밸브 없는 관 하나로 부는 음악이라, 3·4·5·6·8배음, 곧 도·미·솔의 화음 음만으로 지어집니다. 아래의 '나팔 신호'는 이 책이 그 방식으로 지은 짧은 신호입니다.</p>
+
+    <div class="sim" id="sim-br-series">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>자연 배음 불어 보기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="br-se-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기(관 하나)</span><div class="seg" id="br-se-inst"><button data-value="trumpet" class="on">B♭ 트럼펫</button><button data-value="horn">F 호른</button><button data-value="trombone">트롬본</button></div></div>
+          <div class="ctrl"><span>배음 누르기</span><div class="br-harms" id="br-se-btns"></div></div>
+          <label class="check"><input type="checkbox" id="br-se-et"> 평균율로 고쳐 듣기</label>
+          <div class="btn-row"><button class="btn primary" id="br-se-up">▶ 배음열 오르기</button><button class="btn" id="br-se-call">▶ 나팔 신호</button><button class="btn" id="br-se-cmp">▶ 7배음 ↔ 평균율 B♭</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">배음</span><span class="v" id="br-se-n">—</span></div>
+        <div class="stat"><span class="k">주파수 · 가까운 음</span><span class="v" id="br-se-f">—</span></div>
+        <div class="stat"><span class="k">평균율과의 차</span><span class="v" id="br-se-c">—</span></div>
+      </div>
+      <div class="sim-note">막대는 각 배음이 평균율의 가장 가까운 음에서 몇 센트 벗어나는지입니다(빨강은 20센트 이상). 호른은 관이 길어(약 3.7 m, 기준음 F1) 높은 배음까지 써서 음계에 가까운 선율을 낼 수 있습니다 · 모델: 각 배음을 정확한 n·f₀ 주파수로 냅니다. 실제 악기의 공명은 이보다 몇 센트씩 더 어긋나고, 연주자가 입술로 보정합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="valves">
+    <h2>밸브와 슬라이드: 배음열을 옮기기</h2>
+    <p>배음열 사이의 빈칸을 메우는 방법은 관을 늘려 <b>배음열 전체를 아래로 옮기는</b> 것입니다. 트럼펫·호른·튜바의 밸브는 누르면 공기가 짧은 우회관을 한 번 더 돌게 합니다. 트롬본은 관 자체를 U자 슬라이드로 늘입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>누르는 밸브</th><th>0</th><th>2</th><th>1</th><th>1+2 (또는 3)</th><th>2+3</th><th>1+3</th><th>1+2+3</th></tr></thead>
+        <tbody>
+          <tr><td>낮아지는 반음</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          <tr><td>실제 어긋남(트럼펫)</td><td>0</td><td>0</td><td>0</td><td>+10¢ (3번만: 0)</td><td>+16¢</td><td>+30¢</td><td>+53¢</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>여섯 반음을 낮출 수 있으면 4도 간격인 배음 2와 3 사이(완전5도 = 7반음)를 제외한 모든 빈칸이 메워져, 관 하나로 반음계 전체를 낼 수 있습니다. 문제는 <b>조합</b>입니다. 반음 \(s\)를 낮추려면 관 전체 길이를 \(2^{s/12}\)배로 늘려야 하는데, 각 밸브의 우회관은 <b>원래 관 \(L_0\)</b>를 기준으로 재어 두었습니다.</p>
+    <div class="formula">
+      $$\text{필요한 길이}\;=\;L_0\big(2^{s/12}-1\big), \qquad \text{1번 + 3번}\;=\;L_0\big(2^{2/12}-1\big)+L_0\big(2^{3/12}-1\big) = 0.312\,L_0 \;\lt\; 0.335\,L_0$$
+      <div class="where">1번 밸브를 누르면 관이 이미 길어진 상태라, 그 위에 3번 밸브로 단3도를 더 낮추려면 3번 관이 더 길어야 합니다. 조합할수록 우회관이 모자라 음이 <b>높게</b> 납니다. 1+3은 약 +30센트, 1+2+3은 +53센트로 거의 반음의 절반입니다.</div>
+    </div>
+    <p>그래서 트럼펫에는 1·3번 우회관에 손가락으로 당기는 고리(트리거·킥 슬라이드)가 있고, 튜바·유포니움·호른은 보정용 관을 따로 두는 <b>보정 시스템</b><span class="en">(Compensating system)</span>을 씁니다. 트롬본은 이 문제가 없습니다. 슬라이드를 원하는 만큼 정확히 뺄 수 있기 때문입니다. 슬라이드의 일곱 <b>포지션</b>은 반음씩 낮추고, 관 길이가 지수적으로 늘어나야 하므로 아래 포지션으로 갈수록 간격이 넓어집니다(1→2 포지션 약 8 cm, 6→7 포지션 약 11 cm).</p>
+
+    <div class="sim" id="sim-br-valves">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>밸브 조합과 슬라이드 포지션</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="br-svg" id="br-vl-svg"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="br-vl-mode"><button data-value="valve" class="on">트럼펫(밸브)</button><button data-value="slide">트롬본(슬라이드)</button></div></div>
+          <div class="ctrl" id="br-vl-vwrap"><span>밸브(누르면 켜짐)</span><div class="br-valves" id="br-vl-btns"><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button></div></div>
+          <label class="ctrl" id="br-vl-pwrap" hidden><span>포지션 <output id="br-vl-pos-out"></output></span><input type="range" id="br-vl-pos" min="1" max="7" step="1" value="1"></label>
+          <label class="ctrl"><span>배음 <output id="br-vl-h-out"></output></span><input type="range" id="br-vl-h" min="2" max="8" step="1" value="4"></label>
+          <div class="btn-row"><button class="btn primary" id="br-vl-play">▶ 불기</button><button class="btn" id="br-vl-ab">▶ 실제 ↔ 평균율</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">나는 음(실음)</span><span class="v" id="br-vl-note">—</span></div>
+        <div class="stat"><span class="k">관의 전체 길이</span><span class="v" id="br-vl-len">—</span></div>
+        <div class="stat"><span class="k">평균율과의 차</span><span class="v" id="br-vl-err">—</span></div>
+        <div class="stat"><span class="k">같은 음을 내는 다른 방법</span><span class="v" id="br-vl-alt">—</span></div>
+      </div>
+      <div class="sim-note">트럼펫은 기본 관 1.48 m(B♭), 밸브 관은 각각 원래 관 기준으로 반음·온음·단3도에 맞춘 이상적인 길이입니다(실제 3번 관은 1+3 조합을 위해 조금 길게 만들기도 합니다). 트롬본은 관 약 2.75 m, 슬라이드는 관을 두 겹으로 늘리므로 빼는 거리는 늘어난 길이의 절반입니다 · 배음의 어긋남(5배음 −14¢ 등)도 함께 더했습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="family">
+    <h2>금관 가족: 호른 · 트럼펫 · 트롬본 · 튜바</h2>
+    <p>오케스트라의 금관 섹션은 보통 <b>호른 4, 트럼펫 2–3, 트롬본 3, 튜바 1</b>입니다. 모두 입술과 관이라는 같은 원리지만, 관의 길이·굵기·원뿔의 정도·벨의 방향이 달라 소리가 다릅니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>관 길이</th><th>관 모양</th><th>조옮김</th><th>소리</th></tr></thead>
+        <tbody>
+          <tr><td><b>호른</b></td><td>약 3.7 m (F) / 2.7 m (B♭)</td><td>좁은 관이 점점 넓어지는 원뿔, 큰 벨</td><td>F: 적은 음보다 완전5도 아래</td><td>둥글고 어둡다. 벨이 뒤를 향해 벽에 반사된 소리를 듣는다.</td></tr>
+          <tr><td><b>트럼펫</b></td><td>약 1.48 m (B♭)</td><td>대부분 원통, 끝만 벌어짐</td><td>B♭: 장2도 아래</td><td>밝고 멀리 간다. 벨이 객석을 향한다.</td></tr>
+          <tr><td><b>트롬본</b></td><td>약 2.75 m (B♭)</td><td>슬라이드 구간은 원통</td><td>없음(실음, 낮은음·테너 음자리표)</td><td>여리게는 부드럽고 세게는 가장 '찢어지는' 금관.</td></tr>
+          <tr><td><b>튜바</b></td><td>약 5.5 m (F) – 5.8 m (B♭, C)</td><td>굵은 원뿔</td><td>없음(실음)</td><td>금관과 오케스트라 전체의 바닥.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>호른은 특별합니다. 관이 길어 기준음이 낮으니, 보통 쓰는 음역이 배음열의 촘촘한 위쪽(8–16배음)에 있습니다. 그래서 음이 서로 가까워 <b>음을 빗맞히기 쉽고</b>, 대신 밸브 없이도 선율을 불 수 있었습니다. 오른손을 벨 안에 넣어 음높이와 음색을 다듬는 것도 호른만의 기술입니다. 또 호른은 금관과 목관 모두에 잘 섞여서, 목관 5중주의 한 자리를 차지합니다(<a href="chamber.html">8장</a>).</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 680 190" role="img" aria-label="금관악기의 벨 방향과 소리의 방사">
+        <rect x="0" y="0" width="680" height="190" class="f-surface" rx="10"/>
+        <text x="170" y="22" text-anchor="middle" class="t">트럼펫 · 트롬본: 벨이 앞으로</text>
+        <g transform="translate(40,95)">
+          <rect x="0" y="-5" width="70" height="10" rx="3" fill="var(--en-br)"/>
+          <path d="M70 -5 Q95 -6 110 -24 L110 24 Q95 6 70 5 Z" fill="var(--en-br)"/>
+          <g fill="none" stroke="var(--accent)" stroke-width="2"><path d="M125 -22 Q140 0 125 22"/><path d="M150 -34 Q172 0 150 34"/><path d="M178 -44 Q204 0 178 44"/></g>
+          <path d="M205 0 H260" stroke="var(--accent)" stroke-width="2" marker-end="url(#br-ar)"/>
+          <text x="236" y="22" text-anchor="middle" class="t-mono">고역은 앞으로 곧게</text>
+        </g>
+        <text x="510" y="22" text-anchor="middle" class="t">호른: 벨이 뒤로</text>
+        <g transform="translate(470,110)">
+          <line x1="-80" y1="-70" x2="-80" y2="60" stroke="var(--text-dim)" stroke-width="4"/>
+          <text x="-80" y="76" text-anchor="middle" class="t-dim">무대 뒷벽</text>
+          <rect x="0" y="-5" width="70" height="10" rx="3" fill="var(--en-br)"/>
+          <path d="M0 -5 Q-20 -6 -34 -24 L-34 24 Q-20 6 0 5 Z" fill="var(--en-br)"/>
+          <path d="M-40 0 H-74" stroke="var(--accent)" stroke-width="2" marker-end="url(#br-ar)"/>
+          <path d="M-74 -10 Q20 -50 140 -24" fill="none" stroke="var(--accent-2)" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#br-ar2)"/>
+          <text x="-64" y="-60" class="t-mono">반사음: 고역이 줄어 둥글게</text>
+          <text x="90" y="30" text-anchor="middle" class="t-mono">객석 →</text>
+        </g>
+        <defs><marker id="br-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="br-ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent-2)"/></marker></defs>
+      </svg>
+      <figcaption><b>그림 4-1.</b> 벨의 방향. 고역일수록 벨에서 곧게 앞으로 나갑니다. 트럼펫·트롬본은 객석을 정면으로 겨누고, 호른은 뒤로 나간 소리가 벽에 반사되어 오므로 같은 셈여림에서도 둥글고 멀게 들립니다.</figcaption>
+    </figure>
+    <div id="br-range"></div>
+    <p class="sim-note" style="margin-top:6px">음역표: 옅은 막대는 전체 음역, 진한 막대는 편하게 쓰는 음역(실음), 점선은 조옮김 악기의 <b>기보</b> 음역입니다. 호른의 점선이 실음보다 5도 위, 트럼펫이 장2도 위에 있는 것을 보세요.</p>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="dynamics">
+    <h2>세게 불면 밝아진다: 셈여림과 음색, 약음기</h2>
+    <p>대부분의 악기는 세게 연주해도 배음의 비율이 조금만 바뀝니다. 금관은 다릅니다. pp의 트롬본은 부드럽고 둥근데, ff의 트롬본은 금속성으로 '찢어집니다'. 이 변화는 단순히 큰 소리가 아니라 <b>스펙트럼이 바뀐</b> 것입니다.</p>
+    <ul>
+      <li><b>입술의 움직임</b> — 세게 불면 입술이 더 크게 열렸다 더 빨리 닫혀, 입술을 지나는 공기 흐름이 뾰족한 펄스가 됩니다. 뾰족한 펄스는 고역 배음이 풍부합니다.</li>
+      <li><b>관 속의 비선형 전파</b> — 아주 큰 압력 파형은 마루 부분이 골 부분보다 조금 빨리 달립니다(압력이 높은 곳은 소리 속도가 빠릅니다). 긴 원통 구간을 지나면서 파형의 앞면이 점점 가팔라지다 거의 <b>충격파</b>가 됩니다. 트롬본과 트럼펫의 ff가 쨍하게 들리는 주된 이유입니다.</li>
+    </ul>
+    <p>그래서 금관에서는 셈여림이 음량과 함께 <b>음색</b>을 바꾸는 손잡이입니다. 오케스트라에서 금관 pp는 현악기 사이에 녹아들고, ff는 전체를 뚫고 나옵니다.</p>
+
+    <div class="sim" id="sim-br-dyn">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>셈여림이 바꾸는 스펙트럼</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="br-dy-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="br-dy-inst"><button data-value="horn">호른</button><button data-value="trumpet">트럼펫</button><button data-value="trombone" class="on">트롬본</button><button data-value="tuba">튜바</button></div></div>
+          <label class="ctrl"><span>셈여림 <output id="br-dy-v-out"></output></span><input type="range" id="br-dy-v" min="0" max="7" step="1" value="2"></label>
+          <div class="btn-row"><button class="btn primary" id="br-dy-play">▶ 불기</button><button class="btn" id="br-dy-ab">▶ p ↔ ff (같은 크기로)</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음</span><span class="v" id="br-dy-m">—</span></div>
+        <div class="stat"><span class="k">스펙트럼 무게 중심</span><span class="v" id="br-dy-c">—</span></div>
+        <div class="stat"><span class="k">pp 대비</span><span class="v" id="br-dy-r">—</span></div>
+      </div>
+      <div class="sim-note">흐린 선은 같은 음의 pp 스펙트럼, 진한 막대는 지금 셈여림의 스펙트럼입니다(각각 가장 큰 배음을 0 dB로 맞춤). 'p ↔ ff'는 p를 ff와 비슷한 크기로 키워 번갈아 냅니다. 크기가 같아도 ff가 훨씬 밝게 들립니다 · 모델: 셈여림에 따라 배음 기울기와 벨 차단 주파수가 바뀌는 근사이며, 충격파 자체를 계산하지는 않습니다.</div>
+    </div>
+
+    <p>금관의 음색을 바꾸는 또 하나의 방법은 벨에 무언가를 넣는 것입니다.</p>
+    <ul>
+      <li><b>스트레이트 뮤트</b><span class="en">(Straight mute)</span> — 원뿔 모양의 금속 약음기. 저역을 깎고 1–2 kHz 근처를 공명시켜 코맹맹이처럼 가늘고 쏘는 소리가 됩니다. 악보에는 <i>con sordino</i>(콘 소르디노, 약음기를 끼고)라고 적습니다.</li>
+      <li><b>컵 뮤트·하먼 뮤트</b> — 컵은 더 둥글고 어둡게, 하먼은 재즈에서 듣는 '와' 하는 얇은 소리를 만듭니다.</li>
+      <li><b>막은 음</b><span class="en">(Stopped horn)</span> — 호른 주자가 오른손으로 벨을 완전히 막으면 관의 공명이 바뀌어 음이 약 반음 높아지고(주자는 반음 낮게 짚어 보정), 거칠고 금속적인 소리가 납니다. 악보에는 + 기호로 적습니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-br-mute">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>약음기와 막은 음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="br-mu-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="br-mu-inst"><button data-value="trumpet" class="on">트럼펫</button><button data-value="horn">호른</button><button data-value="trombone">트롬본</button></div></div>
+          <div class="ctrl"><span>벨</span><div class="seg" id="br-mu-art"><button data-value="" class="on">열린 소리</button><button data-value="mute">스트레이트 뮤트</button><button data-value="stopped">막은 음(+)</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="br-mu-play">▶ 선율 불기</button><button class="btn" id="br-mu-ab">▶ 열림 ↔ 지금 번갈아</button><button class="btn" id="br-mu-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">무게 중심(열림)</span><span class="v" id="br-mu-c0">—</span></div>
+        <div class="stat"><span class="k">무게 중심(지금)</span><span class="v" id="br-mu-c1">—</span></div>
+      </div>
+      <div class="sim-note">흐린 선은 열린 소리, 진한 막대는 선택한 상태입니다. 막은 음은 본래 호른의 기법이지만 비교를 위해 다른 악기에도 걸 수 있게 두었습니다 · 모델: 약음기는 1.8 kHz 공명 + 저역 감쇠, 막은 음은 2.6 kHz 공명 + 기본음 약화로 근사했고, 막은 음의 음높이 변화(반음 위)는 주자가 보정했다고 보고 넣지 않았습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 금관의 두 얼굴.</b> 브람스 교향곡 1번 4악장 서주의 호른 주제(알프호른을 떠올리게 하는 선율)는 금관이 얼마나 부드러울 수 있는지, 바그너 〈발퀴레의 기행〉의 금관 주제는 ff 금관이 오케스트라 전체를 어떻게 뚫고 나오는지 보여 줍니다. 같은 악기군이라는 것을 떠올리며 두 곳의 <b>밝기</b>를 비교해 보세요. 무소륵스키–라벨 〈전람회의 그림〉의 '사무엘 골덴베르크와 슈무일레'에서는 약음기 낀 트럼펫의 가늘고 쏘는 소리를 들을 수 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="quintet">
+    <h2>금관 5중주: 다섯 개의 관이 만드는 합창</h2>
+    <p><b>금관 5중주</b><span class="en">(Brass quintet)</span>는 트럼펫 둘·호른·트롬본·튜바로 이루어진 실내악 편성입니다. 현악 4중주처럼 소프라노(제1 트럼펫)·알토(제2 트럼펫)·테너(호른·트롬본)·베이스(튜바)의 네 성부를 다섯 명이 나눕니다. 다섯 악기의 음색이 모두 조금씩 달라서, 같은 화음도 어느 악기가 어느 음을 맡느냐에 따라 색이 달라집니다.</p>
+    <p>아래는 이 책을 위해 지은 〈축제 팡파르〉입니다. 팡파르는 금관이 가장 잘하는 형식입니다. 화음의 음을 위아래로 짚는 선율, 점음표 리듬, 그리고 박마다 울리는 튜바의 근음. 파트를 하나씩 켜고 끄며, 셈여림과 약음기를 바꿔 보세요. p로 약음기를 끼면 같은 곡이 먼 곳에서 들리는 행진처럼 바뀝니다.</p>
+
+    <div class="sim" id="sim-br-quintet">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>금관 5중주 믹서</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="br-qn-roll"></canvas><div id="br-qn-ui"></div></div>
+      </div>
+      <div class="br-quint-ctrl">
+        <div class="seg" id="br-qn-dyn"><button data-value="0.45">p</button><button data-value="0.75" class="on">mf</button><button data-value="1.15">ff</button></div>
+        <div class="seg" id="br-qn-mute"><button data-value="" class="on">열린 소리</button><button data-value="mute">모두 약음기</button></div>
+        <div class="seg" id="br-qn-hall"><button data-value="chamber">실내악 홀</button><button data-value="concert" class="on">콘서트홀</button><button data-value="cathedral">대성당</button></div>
+        <button class="btn primary" id="br-qn-play">▶ 재생</button>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">곡</span><span class="v" id="br-qn-title">—</span></div>
+        <div class="stat"><span class="k">들리는 파트</span><span class="v" id="br-qn-on">—</span></div>
+      </div>
+      <div class="sim-note">트롬본은 베이스 성부를 한 옥타브 위에서, 튜바는 제자리에서 연주해 베이스를 두 옥타브로 겹칩니다. 호른만 솔로로 들어 보면 테너 성부가 생각보다 높은 곳에 있습니다 · 모델: 금관은 입술 버징 톱니 근사 × 벨 포먼트, 셈여림에 따른 밝기 변화와 어택의 음높이 스쿱을 넣었습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 금관의 합창.</b> 가브리엘리(1550년대–1612)의 금관 칸초나들은 베네치아 산 마르코 성당의 서로 마주 보는 두 발코니에서 두 금관 합창단이 주고받도록 쓰였습니다. 위 시뮬레이터에서 홀을 '대성당'으로 바꾸고 들은 뒤, 같은 곡을 '실내악 홀'로 바꿔 보세요. 금관은 잔향이 긴 공간에서 화음이 겹치며 오르간처럼 울립니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>금관악기의 리드는 <b>입술</b>이다. 입술의 떨림을 관의 공명이 붙잡아, 연주자는 몇 번째 공명에 올라탈지를 고른다.</li>
+      <li>벨과 마우스피스가 관의 공명을 \(f_n \approx n f_0\)로 맞춰 놓았다. 관 하나로 낼 수 있는 음이 <b>자연 배음열</b>이다.</li>
+      <li>7배음 −31¢, 11배음 −49¢, 13배음 −59¢로 평균율과 크게 어긋난다. 뷰글 신호는 3·4·5·6·8배음(화음의 음)만으로 짓는다.</li>
+      <li>밸브 2·1·3은 반음·온음·단3도를 낮추고 조합으로 여섯 반음까지 낮춘다. 각 우회관이 원래 관 기준이라 1+3(+30¢), 1+2+3(+53¢)은 높게 난다 — 트리거와 보정 시스템이 필요한 이유.</li>
+      <li>트롬본의 일곱 포지션은 반음씩 낮추고, 관 길이가 지수적으로 늘어야 하므로 아래 포지션일수록 간격이 넓다.</li>
+      <li>금관은 세게 불수록 고역 배음이 살아나 밝아진다(입술 펄스 + 관 속 비선형 전파). 셈여림이 곧 음색이다.</li>
+      <li>약음기는 저역을 깎고 특정 대역을 공명시켜 가늘게, 호른의 막은 음은 거칠고 금속적으로 바꾼다. 호른은 벨이 뒤를 향해 둥글게 들린다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>트럼펫 주자가 입술의 긴장만 바꿔 다른 음을 낼 수 있는 이유는?</p><div class="opts">
+        <button class="opt">입술이 원하는 아무 주파수로나 떨 수 있기 때문</button>
+        <button class="opt" data-correct>관에 여러 공명이 있고, 입술은 그중 하나에 끌려 떨기 때문</button>
+        <button class="opt">마우스피스 안에 여러 리드가 있기 때문</button>
+        <button class="opt">관의 길이가 입술 긴장에 따라 바뀌기 때문</button>
+      </div><div class="quiz-exp">입술의 긴장과 바람은 '몇 번째 공명'에 올라탈지를 정하고, 실제 주파수는 관의 공명이 붙잡는다. 그래서 밸브를 누르지 않고 낼 수 있는 음이 배음열로 한정된다.</div></div>
+      <div class="quiz-q"><p>C를 기준음으로 하는 자연 배음열에서 '평균율에서 가장 크게 어긋나는' 배음은?</p><div class="opts">
+        <button class="opt">3배음 (G)</button><button class="opt">4배음 (C)</button><button class="opt">5배음 (E)</button><button class="opt" data-correct>11배음 (F와 F♯ 사이)</button>
+      </div><div class="quiz-exp">11배음은 평균율의 F보다 약 49센트 높아 F와 F♯의 정확히 중간이다. 3배음은 +2센트, 5배음은 −14센트로 훨씬 가깝다.</div></div>
+      <div class="quiz-q"><p>트럼펫의 1+3 밸브 조합이 높게 나는 이유는?</p><div class="opts">
+        <button class="opt">3번 밸브가 고장 나기 쉬워서</button>
+        <button class="opt" data-correct>각 우회관이 원래 관 길이 기준으로 재어져, 이미 길어진 관을 다시 낮추기엔 모자라서</button>
+        <button class="opt">공기가 두 번 꺾이며 속도가 빨라져서</button>
+        <button class="opt">입술이 더 긴장하게 되어서</button>
+      </div><div class="quiz-exp">다섯 반음을 낮추려면 관이 \(2^{5/12}\)배, 곧 원래의 0.335만큼 더 길어야 하지만 1번(0.122)과 3번(0.189) 관을 더하면 0.312뿐이다. 그래서 약 30센트 높다.</div></div>
+      <div class="quiz-q"><p>트롬본의 6번과 7번 포지션 사이가 1번과 2번 사이보다 넓은 이유는?</p><div class="opts">
+        <button class="opt">팔이 길어져야 해서 일부러 그렇게 만들었다</button>
+        <button class="opt">아래 포지션에서는 배음이 다르게 쓰여서</button>
+        <button class="opt" data-correct>반음 낮추려면 관 길이를 같은 비율(2의 12제곱근)로 늘려야 하고, 관이 길수록 같은 비율의 길이가 크기 때문</button>
+        <button class="opt">실제로는 모두 같은 간격이다</button>
+      </div><div class="quiz-exp">길이는 덧셈이 아니라 곱셈으로 늘어난다. 이미 긴 관을 5.9% 늘리는 것은 짧은 관을 5.9% 늘리는 것보다 많은 길이가 필요하다.</div></div>
+      <div class="quiz-q"><p>같은 크기로 맞춰도 ff 트롬본이 p 트롬본보다 밝게 들리는 이유로 알맞은 것은?</p><div class="opts">
+        <button class="opt">ff에서는 음높이가 올라가기 때문</button>
+        <button class="opt" data-correct>세게 불면 입술 펄스가 뾰족해지고 관 속 비선형 전파로 파형이 가팔라져 고역 배음이 늘기 때문</button>
+        <button class="opt">ff에서는 벨이 넓어지기 때문</button>
+        <button class="opt">ff에서는 비브라토를 넣기 때문</button>
+      </div><div class="quiz-exp">금관에서 셈여림은 스펙트럼의 기울기를 바꾼다. 아주 큰 압력에서는 파형 마루가 더 빨리 달려 앞면이 거의 충격파처럼 가팔라지고, 이것이 '찢어지는' 금속성 소리를 만든다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* 공용: 금관 소리를 정확한 주파수로(분수 MIDI) */
+const BR = {
+  F0: { trumpet: MB.mtof(46), horn: MB.mtof(29), trombone: MB.mtof(34), tuba: MB.mtof(29) },
+  HMAX: { trumpet: 10, horn: 16, trombone: 10 },
+  play(inst, freq, o = {}) { return EN.note(inst, MB.ftom(freq), Object.assign({ dur: 0.9, vel: 0.6 }, o)); },
+  dev(n) { const c = 1200 * Math.log2(n); return c - 100 * Math.round(c / 100); },
+  name(f, flat = true) { return MB.noteName(Math.round(MB.ftom(f)), flat); },
+  timers: [],
+  clear() { BR.timers.forEach(clearTimeout); BR.timers = []; },
+};
+
+/* ------------------------------------------------------------ 1. 원통관과 금관 */
+(function () {
+  let kind = "brass", L = 1.48;
+  const c = 343;
+  function peaks() {
+    const out = [];
+    if (kind === "cyl") { for (let n = 1; n <= 12; n++) { const f = ((2 * n - 1) * c) / (4 * L); if (f < 2400) out.push({ f, n: 2 * n - 1, h: Math.max(0.15, 1 - f / 2600) }); } }
+    else { const f0 = c / (2 * L); for (let n = 2; n <= 24; n++) { const f = n * f0; if (f < 2400) out.push({ f, n, h: f < 1500 ? 0.95 - n * 0.015 : Math.max(0.08, 0.6 * Math.exp(-(f - 1500) / 300)) }); } }
+    return out;
+  }
+  const f0of = () => (kind === "cyl" ? c / (4 * L) : c / (2 * L));
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 40, y: 14, w: w - 54, h: h - 44 };
+    const X = (f) => b.x + (f / 2400) * b.w, Y = (v) => b.y + b.h - v * b.h;
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.lineWidth = 1;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let f = 0; f <= 2400; f += 400) { ctx.beginPath(); ctx.moveTo(X(f), b.y); ctx.lineTo(X(f), b.y + b.h); ctx.stroke(); ctx.fillText(f + " Hz", X(f), b.y + b.h + 6); }
+    const ps = peaks(), col = EN.color("trumpet");
+    ctx.beginPath();
+    for (let i = 0; i <= 600; i++) {
+      const f = (i / 600) * 2400; let v = 0.04;
+      ps.forEach((p) => { const bw = 9 + p.f * 0.02; v += p.h / (1 + ((f - p.f) / bw) ** 2); });
+      i ? ctx.lineTo(X(f), Y(Math.min(1, v))) : ctx.moveTo(X(f), Y(Math.min(1, v)));
+    }
+    ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = P.text; ctx.textBaseline = "bottom";
+    ps.slice(0, 9).forEach((p) => ctx.fillText(String(p.n), X(p.f), Y(Math.min(1, p.h + 0.04)) - 2));
+    ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = P.dim;
+    ctx.fillText(kind === "cyl" ? "막힌 원통: 홀수 배음만 (숫자 = f₀의 몇 배)" : "금관: 2·3·4·5… 정수배 (1 자리는 비어 있음)", b.x + 6, b.y + 2);
+  }
+  const view = MB.canvas("#br-tb-cv", draw, { aspect: 0.42, minHeight: 190 });
+  function update() {
+    document.getElementById("br-tb-L-out").textContent = L.toFixed(2) + " m";
+    const ps = peaks().slice(0, 5);
+    MB.stat("br-tb-f", ps.map((p) => Math.round(p.f)).join(" · ") + " Hz");
+    MB.stat("br-tb-r", ps.map((p) => p.n).join(" : "));
+    const f0 = f0of(); MB.stat("br-tb-f0", f0.toFixed(1) + " Hz (" + BR.name(f0) + ")");
+    view.redraw();
+  }
+  MB.seg("br-tb-kind", (v) => { kind = v; update(); });
+  MB.range("br-tb-L", null, (v) => { L = v; update(); });
+  document.getElementById("br-tb-play").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll();
+    peaks().slice(0, 7).forEach((p, i) => BR.timers.push(setTimeout(() => BR.play("trumpet", p.f, { dur: 0.42, vel: 0.55 }), i * 460)));
+  });
+  document.getElementById("br-tb-stop").addEventListener("click", () => { BR.clear(); MB.stopAll(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 자연 배음열 */
+(function () {
+  let inst = "trumpet", sel = 4, et = false;
+  const btns = document.getElementById("br-se-btns");
+  const N = () => BR.HMAX[inst];
+  const first = () => (inst === "trombone" ? 1 : 2);
+  const freq = (n) => { const f = n * BR.F0[inst]; return et ? MB.mtof(Math.round(MB.ftom(f))) : f; };
+  function render() {
+    let s = "";
+    for (let n = first(); n <= N(); n++) {
+      const d = BR.dev(n), f = n * BR.F0[inst];
+      s += `<button data-n="${n}" class="${n === sel ? "on" : ""} ${Math.abs(d) > 20 ? "off" : ""}">${n}<small>${BR.name(f)}</small></button>`;
+    }
+    btns.innerHTML = s;
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 44, y: 18, w: w - 56, h: h - 48 };
+    const n0 = first(), n1 = N(), cnt = n1 - n0 + 1, bw = b.w / cnt;
+    const Y = (c) => b.y + b.h / 2 - (c / 60) * (b.h / 2);
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-60, -30, 0, 30, 60].forEach((c) => { ctx.beginPath(); ctx.moveTo(b.x, Y(c)); ctx.lineTo(b.x + b.w, Y(c)); ctx.stroke(); ctx.fillText((c > 0 ? "+" : "") + c + "¢", b.x - 4, Y(c)); });
+    for (let n = n0; n <= n1; n++) {
+      const d = BR.dev(n), x = b.x + (n - n0) * bw;
+      ctx.fillStyle = Math.abs(d) > 20 ? P.bad : n === sel ? P.accent : EN.color("trumpet");
+      ctx.globalAlpha = n === sel ? 1 : 0.75;
+      ctx.fillRect(x + bw * 0.2, Math.min(Y(0), Y(d)), bw * 0.6, Math.max(1.5, Math.abs(Y(d) - Y(0))));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = P.text; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillText(String(n), x + bw / 2, b.y + b.h + 6);
+      ctx.fillStyle = P.dim; ctx.textBaseline = "bottom";
+      if (bw > 26 || n % 2 === 0) ctx.fillText(BR.name(n * BR.F0[inst]).replace(/\d/, ""), x + bw / 2, b.y - 2);
+    }
+  }
+  const view = MB.canvas("#br-se-cv", draw, { aspect: 0.42, minHeight: 190 });
+  function show(n) {
+    sel = n; const f = n * BR.F0[inst], d = BR.dev(n);
+    MB.stat("br-se-n", n + (n === 1 ? " (페달 톤)" : "") + "배음");
+    MB.stat("br-se-f", f.toFixed(1) + " Hz · " + BR.name(f) + " (실음)");
+    MB.stat("br-se-c", MB.signed(d, 1) + " ¢" + (et ? " → 0 ¢로 고침" : ""));
+    btns.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.n === n));
+    view.redraw();
+  }
+  btns.addEventListener("click", (e) => { const b = e.target.closest("button[data-n]"); if (!b) return; MB.ctx(); MB.stopAll(); show(+b.dataset.n); BR.play(inst, freq(sel), { dur: 1.1 }); });
+  MB.seg("br-se-inst", (v) => { inst = v; if (sel > N()) sel = 4; render(); show(sel); });
+  MB.check("br-se-et", (v) => { et = v; show(sel); });
+  document.getElementById("br-se-up").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll();
+    for (let n = first(), i = 0; n <= N(); n++, i++) BR.timers.push(setTimeout(() => { show(n); BR.play(inst, freq(n), { dur: 0.36, vel: 0.55 }); }, i * 380));
+  });
+  // 이 책이 지은 나팔 신호: 3·4·5·6·8배음만 쓴다. [배음, 박]
+  const CALL = [[3, 0.5], [4, 0.5], [5, 1], [3, 0.5], [5, 0.5], [6, 2], [5, 0.5], [6, 0.5], [8, 1], [6, 0.5], [5, 0.5], [4, 1], [3, 0.5], [3, 0.5], [4, 2]];
+  document.getElementById("br-se-call").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll();
+    const spb = 60 / 112; let t = 0;
+    CALL.forEach(([n, d]) => { const at = t; BR.timers.push(setTimeout(() => { show(n); BR.play(inst, freq(n), { dur: d * spb * 0.9, vel: 0.7 }); }, at * spb * 1000)); t += d; });
+  });
+  document.getElementById("br-se-cmp").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll();
+    const f7 = 7 * BR.F0[inst], fet = MB.mtof(Math.round(MB.ftom(f7)));
+    [f7, fet, f7, fet].forEach((f, i) => BR.timers.push(setTimeout(() => { show(7); MB.stat("br-se-c", i % 2 ? "평균율 " + BR.name(fet) : MB.signed(BR.dev(7), 1) + " ¢ (7배음)"); BR.play(inst, f, { dur: 0.9, vel: 0.6 }); }, i * 1000)));
+  });
+  render(); show(4);
+})();
+
+/* ------------------------------------------------------------ 3. 밸브와 슬라이드 */
+(function () {
+  let mode = "valve", valves = new Set(), pos = 1, h = 4;
+  const L0 = { valve: 1.48, slide: 2.75 };
+  const VL = { 1: 2, 2: 1, 3: 3 }; // 밸브가 낮추는 반음
+  const inst = () => (mode === "valve" ? "trumpet" : "trombone");
+  const f0 = () => (mode === "valve" ? BR.F0.trumpet : BR.F0.trombone);
+  function state() {
+    let semis, ratio;
+    if (mode === "valve") {
+      semis = [...valves].reduce((s, v) => s + VL[v], 0);
+      ratio = 1 + [...valves].reduce((s, v) => s + (Math.pow(2, VL[v] / 12) - 1), 0);
+    } else { semis = pos - 1; ratio = Math.pow(2, semis / 12); }
+    const f = (h * f0()) / ratio;
+    const target = MB.mtof(Math.round(MB.ftom(h * f0())) - semis);
+    return { semis, ratio, f, target, err: MB.cents(f / target) };
+  }
+  function alts(st) {
+    const want = Math.round(MB.ftom(st.f)), out = [];
+    if (mode === "valve") {
+      const combos = [[], [2], [1], [1, 2], [2, 3], [1, 3], [1, 2, 3]];
+      for (let hh = 2; hh <= 8; hh++) combos.forEach((c) => {
+        const s = c.reduce((a, v) => a + VL[v], 0);
+        if (Math.round(MB.ftom(hh * f0())) - s === want && !(hh === h && c.join() === [...valves].sort().join())) out.push(hh + "배음·" + (c.length ? c.join("+") : "개방"));
+      });
+    } else {
+      for (let hh = 2; hh <= 8; hh++) for (let p = 1; p <= 7; p++) if (Math.round(MB.ftom(hh * f0())) - (p - 1) === want && !(hh === h && p === pos)) out.push(hh + "배음·" + p + "포지션");
+    }
+    return out.slice(0, 3).join(", ") || "없음";
+  }
+  function svg(st) {
+    const el = document.getElementById("br-vl-svg");
+    if (mode === "valve") {
+      const v = [1, 2, 3].map((k) => valves.has(k));
+      el.innerHTML = `<svg viewBox="0 0 600 220" role="img" aria-label="트럼펫 밸브 관">
+        <path d="M30 110 H130" stroke="var(--en-br)" stroke-width="10" fill="none" stroke-linecap="round"/>
+        ${[0, 1, 2].map((i) => {
+          const x = 180 + i * 120, on = v[i], len = [VL[1], VL[2], VL[3]][i];
+          const loop = 28 + len * 18;
+          return `<rect x="${x - 22}" y="78" width="44" height="64" rx="10" fill="${on ? "var(--en-br)" : "var(--bg-elev)"}" stroke="var(--en-br)" stroke-width="2"/>
+            <text x="${x}" y="116" text-anchor="middle" class="mono">${i + 1}</text>
+            <path d="M${x - 14} 142 V${142 + loop} H${x + 14} V142" fill="none" stroke="${on ? "var(--accent)" : "var(--text-faint)"}" stroke-width="${on ? 6 : 3}" ${on ? "" : 'stroke-dasharray="4 4"'}/>
+            <text x="${x}" y="${152 + loop}" text-anchor="middle" class="lbl">${["온음", "반음", "단3도"][i]}</text>
+            ${i < 2 ? `<path d="M${x + 22} 110 H${x + 98}" stroke="var(--en-br)" stroke-width="10"/>` : ""}`;
+        }).join("")}
+        <path d="M502 110 H540 Q560 108 575 80 L575 140 Q560 112 540 110" fill="var(--en-br)" stroke="var(--en-br)" stroke-width="6"/>
+        <text x="30" y="40" class="lbl">마우스피스 →</text><text x="575" y="40" text-anchor="end" class="lbl">→ 벨</text>
+        <text x="300" y="40" text-anchor="middle" class="mono">관 길이 ×${st.ratio.toFixed(3)} (필요 ×${Math.pow(2, st.semis / 12).toFixed(3)})</text>
+      </svg>`;
+    } else {
+      const ext = (L0.slide * (st.ratio - 1)) / 2 * 100; // cm
+      const X = (cm) => 120 + cm * 6.2;
+      let marks = "";
+      for (let p = 1; p <= 7; p++) { const e = (L0.slide * (Math.pow(2, (p - 1) / 12) - 1)) / 2 * 100; marks += `<line x1="${X(e)}" y1="150" x2="${X(e)}" y2="${p === pos ? 172 : 164}" stroke="${p === pos ? "var(--accent)" : "var(--text-dim)"}" stroke-width="2"/><text x="${X(e)}" y="188" text-anchor="middle" class="${p === pos ? "mono" : "lbl"}">${p}</text>`; }
+      el.innerHTML = `<svg viewBox="0 0 600 220" role="img" aria-label="트롬본 슬라이드 포지션">
+        <path d="M40 80 H120 M40 120 H120" stroke="var(--en-br)" stroke-width="7"/>
+        <path d="M${X(0)} 80 H${X(ext) + 20} Q${X(ext) + 40} 100 ${X(ext) + 20} 120 H${X(0)}" fill="none" stroke="var(--accent)" stroke-width="7"/>
+        <rect x="20" y="60" width="26" height="80" rx="6" fill="var(--bg-elev)" stroke="var(--en-br)" stroke-width="2"/>
+        <text x="33" y="52" text-anchor="middle" class="lbl">몸통</text>
+        <line x1="${X(0)}" y1="150" x2="${X(57)}" y2="150" stroke="var(--grid)" stroke-width="2"/>
+        ${marks}
+        <text x="300" y="30" text-anchor="middle" class="mono">${pos}포지션 · 슬라이드 ${ext.toFixed(1)} cm 뺌</text>
+        <text x="${X(57)}" y="206" text-anchor="end" class="lbl">포지션 간격이 점점 넓어진다</text>
+      </svg>`;
+    }
+  }
+  function update() {
+    const st = state();
+    document.getElementById("br-vl-h-out").textContent = h + "배음";
+    document.getElementById("br-vl-pos-out").textContent = pos + "포지션 (−" + (pos - 1) + "반음)";
+    MB.stat("br-vl-note", BR.name(st.f) + " · " + st.f.toFixed(1) + " Hz");
+    MB.stat("br-vl-len", (L0[mode] * st.ratio).toFixed(2) + " m");
+    const tot = st.err; // 밸브 오차 + 배음 오차
+    MB.stat("br-vl-err", MB.signed(tot, 0) + " ¢" + (Math.abs(tot) > 15 ? " ⚠" : ""));
+    MB.stat("br-vl-alt", alts(st));
+    svg(st);
+  }
+  document.getElementById("br-vl-btns").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    const v = +b.dataset.v; valves.has(v) ? valves.delete(v) : valves.add(v); b.classList.toggle("on", valves.has(v));
+    update(); MB.ctx(); MB.stopAll(); BR.play(inst(), state().f, { dur: 0.8 });
+  });
+  MB.seg("br-vl-mode", (v) => { mode = v; document.getElementById("br-vl-vwrap").hidden = v !== "valve"; document.getElementById("br-vl-pwrap").hidden = v === "valve"; update(); });
+  MB.range("br-vl-pos", null, (v) => { pos = v; update(); });
+  MB.range("br-vl-h", null, (v) => { h = v; update(); });
+  document.getElementById("br-vl-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); BR.play(inst(), state().f, { dur: 1.2 }); });
+  document.getElementById("br-vl-ab").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll(); const st = state();
+    [st.f, st.target, st.f, st.target].forEach((f, i) => BR.timers.push(setTimeout(() => BR.play(inst(), f, { dur: 0.85 }), i * 950)));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 음역표 */
+EN.rangeChart("#br-range", { insts: ["horn", "trumpet", "trombone", "tuba"], written: true, lo: 24, hi: 96 });
+
+/* ------------------------------------------------------------ 5. 셈여림과 밝기 */
+(function () {
+  const D = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"];
+  const MID = { horn: 57, trumpet: 65, trombone: 53, tuba: 41 };
+  let inst = "trombone", di = 2;
+  const vel = () => EN.DYN[D[di]];
+  function draw(ctx, w, h) {
+    EN.drawSpectra(ctx, { x: 38, y: 10, w: w - 50, h: h - 34 }, [
+      { inst, m: MID[inst], vel: EN.DYN.pp, color: MB.palette().faint },
+      { inst, m: MID[inst], vel: vel(), label: EN.name(inst) + " " + D[di] },
+    ], { fmin: 30, fmax: 12000, dbMin: -70, stems: true, offset: 0 });
+    const P = MB.palette(); ctx.fillStyle = P.faint; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.textBaseline = "top"; ctx.fillText("■ pp (비교)", 44, 46);
+  }
+  const view = MB.canvas("#br-dy-cv", draw, { aspect: 0.42, minHeight: 190 });
+  function update() {
+    document.getElementById("br-dy-v-out").textContent = D[di] + " (" + EN.DYN_NAMES[D[di]] + ")";
+    const m = MID[inst], c = EN.centroid(inst, m, { vel: vel() }), c0 = EN.centroid(inst, m, { vel: EN.DYN.pp });
+    MB.stat("br-dy-m", MB.noteName(m, true) + " · " + MB.mtof(m).toFixed(0) + " Hz");
+    MB.stat("br-dy-c", Math.round(c) + " Hz (" + (c / MB.mtof(m)).toFixed(1) + "번째 배음쯤)");
+    MB.stat("br-dy-r", "× " + (c / c0).toFixed(2) + " 밝음");
+    view.redraw();
+  }
+  MB.seg("br-dy-inst", (v) => { inst = v; update(); });
+  MB.range("br-dy-v", null, (v) => { di = v; update(); });
+  document.getElementById("br-dy-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); EN.note(inst, MID[inst], { dur: 1.4, vel: vel() }); });
+  document.getElementById("br-dy-ab").addEventListener("click", () => {
+    MB.ctx(); BR.clear(); MB.stopAll();
+    const pv = EN.DYN.p, fv = EN.DYN.ff, boost = Math.pow(fv / pv, 1.5) * 0.8;
+    [0, 1, 0, 1].forEach((k, i) => BR.timers.push(setTimeout(() => {
+      MB.stat("br-dy-r", k ? "ff" : "p (크기만 키움)");
+      EN.note(inst, MID[inst], { dur: 1, vel: k ? fv : pv, level: k ? 1 : boost });
+    }, i * 1150)));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5b. 약음기 */
+(function () {
+  const MID = { trumpet: 67, horn: 60, trombone: 55 };
+  const PHR = EN.parse("mf C4:1 E4:.5 G4:.5 C5:1.5 B4:.5 | A4:1 G4:1 E4:2");
+  let inst = "trumpet", art = "", pl = null, ab = null;
+  function draw(ctx, w, h) {
+    EN.drawSpectra(ctx, { x: 38, y: 10, w: w - 50, h: h - 34 }, [
+      { inst, m: MID[inst], vel: 0.6, art: "", color: MB.palette().faint },
+      { inst, m: MID[inst], vel: 0.6, art, label: EN.name(inst) + " · " + (art ? EN.ARTS[art] : "열림") },
+    ], { fmin: 60, fmax: 12000, dbMin: -70, offset: 0 });
+  }
+  const view = MB.canvas("#br-mu-cv", draw, { aspect: 0.42, minHeight: 190 });
+  function update() {
+    MB.stat("br-mu-c0", Math.round(EN.centroid(inst, MID[inst], { vel: 0.6 })) + " Hz");
+    MB.stat("br-mu-c1", Math.round(EN.centroid(inst, MID[inst], { vel: 0.6, art })) + " Hz");
+    view.redraw();
+    if (pl) pl.refresh();
+  }
+  const shift = () => (inst === "trumpet" ? 0 : inst === "horn" ? -5 : -12);
+  const parts = () => [{ id: "br-mu", inst, notes: EN.shift(PHR, shift()), art }];
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (pl) { pl.stop(); pl = null; } }
+  function start() { stop(); MB.ctx(); pl = EN.player({ parts, bpm: 88, loop: true }); pl.start(); }
+  MB.seg("br-mu-inst", (v) => { inst = v; update(); });
+  const artSeg = MB.seg("br-mu-art", (v) => { art = v; update(); });
+  document.getElementById("br-mu-play").addEventListener("click", () => (pl ? stop() : start()));
+  document.getElementById("br-mu-stop").addEventListener("click", stop);
+  document.getElementById("br-mu-ab").addEventListener("click", () => {
+    if (ab) { stop(); return; }
+    const want = art || "mute"; let open = true;
+    art = ""; start(); update();
+    ab = setInterval(() => { open = !open; art = open ? "" : want; update(); }, (60 / 88) * 8 * 1000);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 6. 금관 5중주 */
+(function () {
+  let dyn = 0.75, art = "", mx = null;
+  const piece = EN.PIECES.fanfare;
+  const base = EN.arrange("fanfare", "brassQuintet");
+  const parts = () => base.map((p) => Object.assign({}, p, { vel: dyn, art, hidden: p.hidden }));
+  const hallSeg = MB.seg("br-qn-hall", (v) => { if (mx) mx.setHall(v); });
+  const getMx = () => mx || (mx = EN.mixer({ hall: hallSeg() }));
+  const roll = EN.roll("#br-qn-roll", { parts: base, beats: piece.beats });
+  const ui = EN.mixerUI("#br-qn-ui", { channels: base, mixer: () => mx, onChange: on });
+  const btn = document.getElementById("br-qn-play");
+  function on() {
+    const any = base.some((p) => ui.state(p.id).solo);
+    const live = base.filter((p) => { const s = ui.state(p.id); return !s.mute && (!any || s.solo); });
+    base.forEach((p) => { p.hidden = !live.includes(p); });
+    MB.stat("br-qn-on", live.length === base.length ? "모두 (" + live.length + ")" : live.map((p) => p.label).join(" · ") || "없음");
+    roll.redraw();
+  }
+  const pl = EN.player({
+    parts, bpm: piece.bpm, loop: true, mixer: getMx, length: piece.beats,
+    onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); },
+  });
+  MB.seg("br-qn-dyn", (v) => { dyn = +v; pl.refresh(); });
+  MB.seg("br-qn-mute", (v) => { art = v; pl.refresh(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  MB.stat("br-qn-title", piece.title + " · " + piece.by);
+  on();
+})();
+</script>
+</body>
+</html>

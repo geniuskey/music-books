@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>총보와 조옮김 악기 · EnsembleBook</title>
+<meta name="description" content="오케스트라 총보는 왜 그 순서로 적힐까. 높은음·낮은음·알토·테너 음자리표, 적힌 음과 다르게 소리 나는 B♭ 클라리넷과 F 호른의 조옮김, 악기별 음역을 직접 계산하고 들으며, 파트를 켜고 끄며 총보를 읽는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .sc-staves { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); padding: 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .sc-staves.two { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .sc-staff { text-align: center; font-size: 12.5px; color: var(--text-dim); min-width: 0; }
+  .sc-staff svg { display: block; width: 100%; height: auto; }
+  .sc-staff b { display: block; color: var(--text); font-size: 13px; }
+  .sc-staff.best b { color: var(--accent); }
+  .sc-staff .sl { stroke: var(--text-dim); stroke-width: 1.1; }
+  .sc-staff .nh { fill: var(--text); }
+  .sc-staff.best .nh { fill: var(--accent); }
+  .sc-staff .clef { fill: var(--text); font-family: "Noto Music", "Bravura", "Segoe UI Symbol", "Apple Symbols", serif; }
+  .sc-staff .acc { fill: var(--text); font-size: 15px; }
+  .sc-staff .cc { fill: var(--text); }
+  .sc-order { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sc-order button { font: inherit; font-size: 13px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .sc-order button.done { opacity: .35; cursor: default; }
+  .sc-order button.bad { border-color: var(--bad); color: var(--bad); }
+  .sc-list { display: grid; gap: 3px; padding: 10px 12px; background: var(--canvas-bg); border-radius: var(--radius-sm); min-height: 120px; font-size: 13.5px; }
+  .sc-list div { display: flex; gap: 8px; align-items: center; }
+  .sc-list div i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+  .sc-list div small { color: var(--text-faint); font-family: var(--mono); }
+  .sc-list .fam { margin-top: 4px; font-size: 11.5px; font-family: var(--mono); color: var(--text-faint); letter-spacing: .05em; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="score">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 06</div>
+    <h1>총보와 조옮김 악기</h1>
+    <p class="lead">지휘자 앞에 펼쳐진 <b>총보</b><span class="en">(Full score)</span>에는 수십 개의 보표가 한 쪽에 위아래로 쌓여 있습니다. 같은 박자를 세로로 읽으면 그 순간 무대 위의 모든 소리가 보입니다. 그런데 처음 보는 사람에게 총보는 이상한 문서입니다. 플루트가 맨 위인데 가장 높은 바이올린은 아래쪽에 있고, 비올라만 처음 보는 음자리표를 쓰고, 같은 화음인데 클라리넷과 호른 줄에는 다른 음이 적혀 있습니다. 이 장에서는 총보의 순서, 네 가지 음자리표, 그리고 <b>적힌 음과 나는 음이 다른</b> 조옮김 악기의 규칙을 하나씩 계산하고 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>총보가 목관 → 금관 → 타악기 → 하프·건반 → 현악기 순서로, 악기군 안에서는 높은 악기부터 적힌다는 것과 그 이유를 안다.</li>
+      <li>높은음·낮은음·알토·테너 음자리표가 각각 어느 줄을 어떤 음으로 정하는지 알고, 같은 음을 네 음자리표로 읽는다.</li>
+      <li>B♭ 클라리넷·트럼펫은 장2도 낮게, F 호른·잉글리시 호른은 완전5도 낮게, 더블베이스는 한 옥타브 낮게 소리 난다는 것을 계산한다.</li>
+      <li>조옮김 표기가 생긴 이유(크기가 다른 같은 가족 악기의 운지를 같게 하기)를 설명한다.</li>
+      <li>음역표로 악기의 전체 음역과 편한 음역을 읽고, 총보를 파트별로 켜고 끄며 듣는다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="order">
+    <h2>총보의 순서</h2>
+    <p>총보는 위에서 아래로 <b>목관악기 → 금관악기 → 타악기 → 하프·건반 → 현악기</b> 순으로 적습니다. 악기군 안에서는 대체로 <b>높은 악기가 위</b>입니다. 목관은 피콜로·플루트·오보에·(잉글리시 호른)·클라리넷·바순, 현은 제1 바이올린·제2 바이올린·비올라·첼로·더블베이스. 협주곡의 독주 악기나 성악은 현악기 바로 위에 끼워 넣습니다.</p>
+    <p>규칙에는 역사가 섞여 있습니다. 금관에서 <b>호른이 트럼펫보다 위</b>에 오는 것은 음역 때문이 아니라, 호른이 목관과 자주 섞여 쓰이고(목관 5중주에도 호른이 들어갑니다) 고전 시대 총보에서 목관 바로 아래에 놓이던 관습 때문입니다. 현악기를 맨 아래에 두는 것도 그렇습니다. 가장 많이 연주하고 가장 자주 읽어야 하는 파트를 지휘자의 눈에 가장 가까운 아래쪽에 모은 것입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 250" role="img" aria-label="총보의 악기 순서">
+        <g font-size="12.5">
+          <rect x="20" y="10" width="600" height="58" rx="8" fill="color-mix(in srgb, var(--en-ww) 14%, transparent)" stroke="var(--en-ww)"/>
+          <text x="34" y="30" class="t" fill="var(--en-ww)" font-weight="700">목관</text>
+          <text x="34" y="52" class="t-dim">피콜로 · 플루트 · 오보에 · 잉글리시 호른 · 클라리넷 · 바순 (높은 → 낮은)</text>
+          <rect x="20" y="74" width="600" height="40" rx="8" fill="color-mix(in srgb, var(--en-br) 14%, transparent)" stroke="var(--en-br)"/>
+          <text x="34" y="99" class="t" fill="var(--en-br)" font-weight="700">금관</text>
+          <text x="90" y="99" class="t-dim">호른 · 트럼펫 · 트롬본 · 튜바 (호른이 먼저!)</text>
+          <rect x="20" y="120" width="600" height="40" rx="8" fill="color-mix(in srgb, var(--en-pc) 14%, transparent)" stroke="var(--en-pc)"/>
+          <text x="34" y="145" class="t" fill="var(--en-pc)" font-weight="700">타악</text>
+          <text x="90" y="145" class="t-dim">팀파니 · 글로켄슈필 · 트라이앵글 · 심벌즈 · 작은북 · 큰북</text>
+          <rect x="20" y="166" width="600" height="30" rx="8" fill="color-mix(in srgb, var(--en-kb) 14%, transparent)" stroke="var(--en-kb)"/>
+          <text x="34" y="186" class="t" fill="var(--en-kb)" font-weight="700">하프·건반</text>
+          <text x="130" y="186" class="t-dim">하프 · 첼레스타 · 피아노 (독주자·성악은 여기)</text>
+          <rect x="20" y="202" width="600" height="40" rx="8" fill="color-mix(in srgb, var(--en-str) 14%, transparent)" stroke="var(--en-str)"/>
+          <text x="34" y="227" class="t" fill="var(--en-str)" font-weight="700">현악</text>
+          <text x="90" y="227" class="t-dim">제1 바이올린 · 제2 바이올린 · 비올라 · 첼로 · 더블베이스</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 6-1.</b> 총보의 세로 순서. 악기군끼리 묶고, 묶음 안에서는 높은 악기부터 적습니다.</figcaption>
+    </figure>
+
+    <div class="sim" id="sim-sc-order">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>총보 순서대로 쌓기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="sc-list" id="sc-or-list"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>총보의 맨 위부터 차례로 누르세요</span><div class="sc-order" id="sc-or-btns"></div></div>
+          <div class="btn-row"><button class="btn primary" id="sc-or-new">↻ 새로 섞기</button><button class="btn" id="sc-or-show">정답 보기</button></div>
+          <div class="sim-msg" id="sc-or-msg">맞게 누르면 그 악기가 화음의 한 음을 냅니다. 끝까지 쌓으면 오케스트라 전체의 D장조 화음이 됩니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">쌓은 줄</span><span class="v" id="sc-or-n">0</span></div>
+        <div class="stat"><span class="k">틀린 횟수</span><span class="v" id="sc-or-bad">0</span></div>
+      </div>
+      <div class="sim-note">각 악기는 D장조 화음(D·F♯·A)의 한 음을 자기 편한 음역에서 냅니다 · 실제 총보에서는 같은 악기가 2–4명일 때 한 보표에 두 파트를 함께 적기도 합니다(예: "2 Fl.").</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="clefs">
+    <h2>네 가지 음자리표</h2>
+    <p>음자리표는 다섯 줄 중 <b>한 줄의 음 이름을 정하는</b> 표지입니다. 나머지 줄과 칸은 그 줄에서 차례로 셉니다. 오케스트라는 네 가지를 씁니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>음자리표</th><th>정하는 줄</th><th>맨 아래 줄</th><th>주로 쓰는 악기</th></tr></thead>
+        <tbody>
+          <tr><td>높은음자리표(G)</td><td>둘째 줄 = G4</td><td>E4</td><td>바이올린, 플루트, 오보에, 클라리넷, 트럼펫, 호른</td></tr>
+          <tr><td>알토 음자리표(C)</td><td>가운데 줄 = C4(가운데 도)</td><td>F3</td><td>비올라</td></tr>
+          <tr><td>테너 음자리표(C)</td><td>넷째 줄 = C4</td><td>D3</td><td>첼로·바순·트롬본의 높은 음역</td></tr>
+          <tr><td>낮은음자리표(F)</td><td>넷째 줄 = F3</td><td>G2</td><td>첼로, 더블베이스, 바순, 트롬본, 튜바, 팀파니</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>왜 이렇게 여러 개가 필요할까요? 보표 하나는 덧줄 없이 9개의 음 자리(줄 5개 + 칸 4개)만 담습니다. 악기의 주 음역이 그 안에 들어오도록 기준을 옮기면 <b>덧줄</b><span class="en">(Ledger lines)</span>이 줄어 빨리 읽힙니다. 비올라의 주 음역(C3–C5)은 높은음자리표로 적으면 아래로, 낮은음자리표로 적으면 위로 덧줄이 쌓이는데, 가운데 도를 가운데 줄에 놓는 알토 음자리표에서는 딱 보표 안에 들어옵니다.</p>
+
+    <div class="sim" id="sim-sc-clef">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 음, 네 음자리표</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="sc-staves" id="sc-cl-view"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="sc-cl-m-out"></output></span><input type="range" id="sc-cl-m" min="36" max="84" step="1" value="60"></label>
+          <label class="ctrl"><span>들려줄 악기</span><select id="sc-cl-inst"></select></label>
+          <label class="check"><input type="checkbox" id="sc-cl-flat"> 플랫으로 적기</label>
+          <div class="btn-row"><button class="btn primary" id="sc-cl-play">▶ 들어 보기</button><button class="btn" id="sc-cl-scale">▶ 비올라 음역 훑기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음 이름 · 주파수</span><span class="v" id="sc-cl-name">—</span></div>
+        <div class="stat"><span class="k">덧줄이 가장 적은 음자리표</span><span class="v" id="sc-cl-best">—</span></div>
+      </div>
+      <div class="sim-note">강조된 보표가 덧줄이 가장 적은 음자리표입니다 · '비올라 음역 훑기'는 C3에서 C5까지 올라가며, 그동안 알토 음자리표의 덧줄이 거의 생기지 않는 것을 보여 줍니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>읽기 연습 · 알토 음자리표.</b> 가운데 줄이 가운데 도(C4)라는 것 하나만 기억하세요. 거기서 한 칸 위가 D4, 한 줄 위가 E4입니다. 높은음자리표로 읽은 뒤 "한 칸 아래, 한 옥타브 아래"로 바꾸는 요령도 있습니다(알토 음자리표의 음 = 같은 자리 높은음자리표 음보다 한 칸 위·한 옥타브 아래). 비올라 파트 한 쪽을 소리 내어 읽어 보면 일주일이면 익숙해집니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="transpose">
+    <h2>조옮김 악기: 적힌 음과 나는 음</h2>
+    <p>B♭ 클라리넷 연주자가 악보의 C를 연주하면 피아노의 <b>B♭</b>이 납니다. 이런 악기를 <b>조옮김 악기</b><span class="en">(Transposing instrument)</span>라 하고, 악기 이름의 음(B♭, F, A, E♭…)은 "적힌 C를 불면 나는 실음"을 뜻합니다. 지휘자와 작곡가는 실제 소리를 <b>실음</b><span class="en">(Concert pitch)</span>, 연주자 악보의 음을 <b>기보음</b><span class="en">(Written pitch)</span>이라 부릅니다.</p>
+    <div class="formula">
+      $$\text{실음} = \text{기보음} + \Delta \qquad \Delta_{\text{B}\flat} = -2,\;\; \Delta_{\text{F}} = -7,\;\; \Delta_{\text{A}} = -3,\;\; \Delta_{\text{E}\flat} = +3 \;\;(\text{반음})$$
+      <div class="where">\(\Delta\)는 적힌 C에서 악기 이름의 음까지의 거리입니다. B♭ 악기는 장2도 아래, F 호른은 완전5도 아래, A 클라리넷은 단3도 아래, E♭ 클라리넷은 단3도 위에서 소리 납니다. 옥타브만 다른 악기(피콜로 +12, 더블베이스 −12, 글로켄슈필 +24)는 덧줄을 줄이려고 옥타브만 옮겨 적습니다.</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>적힌 C를 불면</th><th>실음 = 기보음</th><th>조표</th></tr></thead>
+        <tbody>
+          <tr><td>B♭ 클라리넷 · B♭ 트럼펫</td><td>B♭</td><td>장2도 아래</td><td>실음보다 ♯ 둘 많게(♭ 둘 적게)</td></tr>
+          <tr><td>A 클라리넷</td><td>A</td><td>단3도 아래</td><td>♯ 셋 많게</td></tr>
+          <tr><td>F 호른 · 잉글리시 호른</td><td>F</td><td>완전5도 아래</td><td>♯ 하나 많게 (호른은 관습상 조표 없이 임시표로 적기도 한다)</td></tr>
+          <tr><td>피콜로 · 첼레스타</td><td>한 옥타브 위의 C</td><td>옥타브 위</td><td>같음</td></tr>
+          <tr><td>더블베이스</td><td>한 옥타브 아래의 C</td><td>옥타브 아래</td><td>같음</td></tr>
+          <tr><td>글로켄슈필</td><td>두 옥타브 위의 C</td><td>두 옥타브 위</td><td>같음</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>그래서 오케스트라 전체가 <b>실음 E♭장조</b>로 연주하는 곡에서 B♭ 클라리넷 파트는 F장조로, F 호른 파트는 B♭장조로 적힙니다. 총보를 읽는 사람은 조옮김 악기의 줄을 머릿속에서 다시 옮겨 읽어야 합니다. 그래서 요즘은 모든 파트를 실음으로 적은 <b>실음 총보</b><span class="en">(Score in C)</span>도 흔합니다(파트 악보는 여전히 조옮김으로 나갑니다).</p>
+
+    <div class="sim" id="sim-sc-trans">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>기보음 ↔ 실음 계산기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="sc-staves two" id="sc-tr-view"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>악기</span><select id="sc-tr-inst"></select></label>
+          <label class="ctrl"><span>기보음(악보에 적힌 음) <output id="sc-tr-w-out"></output></span><input type="range" id="sc-tr-w" min="48" max="96" step="1" value="72"></label>
+          <label class="ctrl"><span>실음 조성(오케스트라 전체의 조)</span><select id="sc-tr-key"></select></label>
+          <div class="btn-row"><button class="btn" id="sc-tr-piano">▶ 피아노로 적힌 음</button><button class="btn primary" id="sc-tr-play">▶ 악기의 실음</button><button class="btn" id="sc-tr-both">▶ 둘을 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기보음 → 실음</span><span class="v" id="sc-tr-res">—</span></div>
+        <div class="stat"><span class="k">조옮김</span><span class="v" id="sc-tr-iv">—</span></div>
+        <div class="stat"><span class="k">파트 악보의 조</span><span class="v" id="sc-tr-keyres">—</span></div>
+      </div>
+      <div class="sim-note">'둘을 함께'는 피아니스트가 클라리넷 악보를 그대로 쳤을 때와 실제 클라리넷 소리를 겹쳐 들려줍니다. B♭ 악기라면 장2도로 부딪히는 소리가 납니다 · 음역 밖의 기보음은 회색 경고가 뜨지만 소리는 그대로 냅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="why">
+    <h2>왜 굳이 옮겨 적는가</h2>
+    <p>조옮김 표기는 불편해 보이지만 <b>연주자를 위한</b> 규칙입니다. 클라리넷은 E♭·B♭·A·베이스 클라리넷처럼 크기가 다른 형제가 많습니다. 관의 길이가 달라 같은 손가락 모양에서 나는 음이 다 다르죠. 만약 모두 실음으로 적으면 연주자는 악기를 바꿀 때마다 운지를 처음부터 다시 외워야 합니다. 그래서 <b>"이 운지는 적힌 C"</b>로 정해 두고, 악기 크기의 차이는 악보를 옮겨 적는 쪽이 떠안습니다. 연주자는 어떤 클라리넷을 들어도 같은 악보를 같은 손가락으로 붑니다.</p>
+    <p>금관악기도 같은 사연입니다. 밸브가 생기기 전의 호른과 트럼펫은 관 하나로 <b>자연 배음</b>(<a href="brass.html">4장</a>)만 낼 수 있었고, 곡의 조에 맞춰 길이가 다른 관(크룩)을 끼워 썼습니다. 어느 관이든 배음은 "적힌 C의 배음열"로 똑같이 적고, 관 이름(in D, in E♭, in F…)만 바꿨습니다. 오늘날 F 호른과 B♭ 트럼펫은 그 역사가 굳어진 표준입니다.</p>
+
+    <div class="sim" id="sim-sc-family">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 악보, 다른 형제 악기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="sc-staves two" id="sc-fm-view"></div><canvas id="sc-fm-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>가족</span><div class="seg" id="sc-fm-fam"><button data-value="clarinet" class="on">클라리넷</button><button data-value="trumpet">트럼펫</button><button data-value="horn">호른(크룩)</button></div></div>
+          <div class="ctrl"><span>악기</span><div class="en-pick" id="sc-fm-mem"></div></div>
+          <div class="btn-row"><button class="btn primary" id="sc-fm-play">▶ 같은 악보 불기</button><button class="btn" id="sc-fm-all">▶ 형제 모두 차례로</button><button class="btn" id="sc-fm-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">악보</span><span class="v">C5 D5 E5 F5 G5 (적힌 음, 모두 같음)</span></div>
+        <div class="stat"><span class="k">이 악기의 실음</span><span class="v" id="sc-fm-res">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 보표는 연주자가 보는 악보(모두 같음), 오른쪽 보표는 실제로 나는 소리입니다. 그래프는 형제 악기마다 같은 운지가 내는 실음의 높이입니다 · 모델: 클라리넷·트럼펫·호른 음원 하나로 실음 높이만 바꿔 냈습니다. 실제로는 관이 길수록 음색도 어두워집니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="ranges">
+    <h2>음역표 읽기</h2>
+    <p>편곡의 첫 번째 규칙은 <b>악기가 낼 수 없는 음을 적지 않는 것</b>, 두 번째 규칙은 <b>낼 수는 있지만 힘든 음을 함부로 적지 않는 것</b>입니다. 아래 음역표의 옅은 막대가 전체 음역, 진한 막대가 프로 연주자가 어떤 셈여림에서도 편하게 쓰는 음역입니다. 점선 상자는 조옮김 악기의 <b>기보 음역</b>입니다. 같은 악기의 막대와 점선이 어긋난 만큼이 조옮김입니다.</p>
+    <ul>
+      <li><b>음역 끝은 색이 다르다.</b> 플루트의 가장 낮은 음은 작고 숨 섞인 소리, 오보에의 가장 낮은 음은 거칠고 크게만 나며, 바이올린의 가장 높은 음은 가늘고 날카롭습니다. 같은 악기라도 음역마다 다른 악기라고 생각하는 편이 좋습니다.</li>
+      <li><b>겹치는 구간이 블렌드의 무대다.</b> C4–C5 근처는 거의 모든 선율 악기가 낼 수 있어 겹치기(<a href="blend.html">10장</a>)와 가림(<a href="balance.html">11장</a>)이 가장 많이 일어나는 곳입니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-sc-range">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>오케스트라 음역표</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="sc-rg-chart"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>악기</span><select id="sc-rg-inst"></select></label>
+          <label class="ctrl"><span>표시할 음 <output id="sc-rg-m-out"></output></span><input type="range" id="sc-rg-m" min="24" max="105" step="1" value="60"></label>
+          <label class="check"><input type="checkbox" id="sc-rg-wr" checked> 기보 음역(점선) 함께 보기</label>
+          <div class="btn-row"><button class="btn" id="sc-rg-lo">▶ 최저음</button><button class="btn primary" id="sc-rg-mid">▶ 편한 음역</button><button class="btn" id="sc-rg-hi">▶ 최고음</button><button class="btn" id="sc-rg-who">▶ 이 음을 낼 수 있는 악기들</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">고른 악기의 실음 음역</span><span class="v" id="sc-rg-r">—</span></div>
+        <div class="stat"><span class="k">표시한 음을 낼 수 있는 악기</span><span class="v" id="sc-rg-n">—</span></div>
+      </div>
+      <div class="sim-note">주황 세로선이 표시한 음입니다 · 음역은 교과서적인 대략값입니다. 연주자와 악기(5현 더블베이스, C 확장 바순 등)에 따라 더 넓어집니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="read">
+    <h2>총보를 귀로 읽기</h2>
+    <p>이제 총보 전체를 들어 봅니다. 아래는 〈환희의 송가〉 주제를 이 책이 2관 편성 오케스트라로 나눈 것입니다. 줄은 총보 순서대로 놓여 있고, <b>줄을 누르면 그 파트만 솔로</b>로 들립니다. '기보음으로 보기'를 켜면 조옮김 악기의 줄이 연주자 악보의 높이로 바뀝니다. 클라리넷·호른·트럼펫·더블베이스의 줄만 움직이는 것을 확인해 보세요.</p>
+    <p>총보를 처음 읽을 때는 모든 줄을 다 읽으려 하지 말고 <b>같은 모양의 줄을 묶어</b> 보세요. 이 편곡에서 선율은 플루트(한 옥타브 위)·오보에·트럼펫·제1 바이올린이 함께 부르고, 화음은 클라리넷·호른·제2 바이올린·비올라가, 베이스는 바순·트롬본·첼로·더블베이스가 맡습니다. 줄은 열세 개지만 <b>층은 세 개</b>입니다.</p>
+
+    <div class="sim" id="sim-sc-player">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>총보 플레이어</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="sc-pl-roll"></canvas><div id="sc-pl-ui"></div></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <div class="seg" id="sc-pl-piece"><button data-value="ode" class="on">환희의 송가</button><button data-value="chorale">작은 코랄</button><button data-value="fanfare">축제 팡파르</button></div>
+          <label class="check"><input type="checkbox" id="sc-pl-wr"> 기보음으로 보기</label>
+          <button class="btn" id="sc-pl-all">모두 켜기</button>
+          <button class="btn primary" id="sc-pl-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">줄 수</span><span class="v" id="sc-pl-n">—</span></div>
+        <div class="stat"><span class="k">솔로 중</span><span class="v" id="sc-pl-solo">없음</span></div>
+      </div>
+      <div class="sim-note">주황 테두리 음표는 악기 음역 밖이라 옥타브를 옮긴 음입니다. 팀파니는 으뜸음과 딸림음 두 개로 조율해 베이스의 마디 첫 박을 짚게 했습니다 · 현악 섹션은 연주자 수만큼 넓게 들리도록 섹션 모델(하위 음성 3개)로 냅니다. 휴대 기기에서는 소리가 늦게 나면 파트를 몇 개 꺼 보세요.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 총보를 따라가며 음반 듣기.</b> 베토벤·드보르자크·차이콥스키의 교향곡 총보는 공유 저작물이라 IMSLP 같은 곳에서 구할 수 있습니다. 처음에는 맨 아래 현악기 다섯 줄만 눈으로 따라가세요. 익숙해지면 목관 넷을 더하고, 마지막에 금관과 팀파니를 더합니다. 줄을 놓치면 다음 마디의 <b>제1 바이올린</b> 줄로 돌아오면 됩니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>총보는 목관 → 금관 → 타악 → 하프·건반 → 현 순서이고, 악기군 안에서는 높은 악기가 위다. 금관에서는 관습상 호른이 트럼펫 위에 온다.</li>
+      <li>음자리표는 한 줄의 음 이름을 정한다. 높은음(둘째 줄 G4), 알토(가운데 줄 C4), 테너(넷째 줄 C4), 낮은음(넷째 줄 F3).</li>
+      <li>악기마다 주 음역이 보표 안에 들어오는 음자리표를 써서 덧줄을 줄인다. 비올라는 알토, 첼로·바순·트롬본의 높은 음역은 테너.</li>
+      <li>조옮김 악기의 이름은 "적힌 C를 불면 나는 음"이다. B♭ 악기는 장2도 아래, F 호른·잉글리시 호른은 완전5도 아래, 더블베이스는 옥타브 아래에서 소리 난다.</li>
+      <li>조옮김 표기는 크기가 다른 형제 악기의 운지를 같게 하려는 연주자 중심의 규칙이며, 자연 금관의 크룩 관습에서 굳어졌다.</li>
+      <li>편곡은 음역표에서 시작한다. 전체 음역보다 편한 음역이 중요하고, 같은 악기도 음역마다 색이 다르다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>표준 총보에서 가장 위에 오는 악기군과 가장 아래에 오는 악기군은?</p><div class="opts">
+        <button class="opt">금관 · 타악</button><button class="opt" data-correct>목관 · 현악</button><button class="opt">현악 · 목관</button><button class="opt">타악 · 금관</button>
+      </div><div class="quiz-exp">목관 → 금관 → 타악 → 하프·건반 → 현악 순서다. 가장 많이 읽는 현악 파트를 지휘자의 눈에 가까운 아래쪽에 모은다.</div></div>
+      <div class="quiz-q"><p>알토 음자리표에서 가운데(셋째) 줄의 음은?</p><div class="opts">
+        <button class="opt">G4</button><button class="opt">F3</button><button class="opt" data-correct>C4 (가운데 도)</button><button class="opt">A3</button>
+      </div><div class="quiz-exp">C 음자리표는 두 곡선이 만나는 줄을 C4로 정한다. 알토는 셋째 줄, 테너는 넷째 줄에 놓인다.</div></div>
+      <div class="quiz-q"><p>B♭ 클라리넷 악보에 D5가 적혀 있다. 실제로 나는 음은?</p><div class="opts">
+        <button class="opt">E5</button><button class="opt" data-correct>C5</button><button class="opt">D5</button><button class="opt">B♭4</button>
+      </div><div class="quiz-exp">B♭ 악기의 실음은 기보음보다 장2도(반음 2개) 낮다. D5 − 2 = C5.</div></div>
+      <div class="quiz-q"><p>오케스트라가 실음 F장조로 연주할 때 F 호른 파트는 어떤 조로 적히는가?</p><div class="opts">
+        <button class="opt">F장조</button><button class="opt">B♭장조</button><button class="opt" data-correct>C장조</button><button class="opt">G장조</button>
+      </div><div class="quiz-exp">F 호른은 완전5도 낮게 소리 나므로 기보음은 실음보다 완전5도 높다. F에서 완전5도 위는 C다. 적힌 C가 실음 F가 되는 것, 바로 이름의 뜻이다.</div></div>
+      <div class="quiz-q"><p>조옮김 표기의 가장 중요한 이유는?</p><div class="opts">
+        <button class="opt">작곡가가 실수를 줄이려고</button>
+        <button class="opt" data-correct>크기가 다른 형제 악기를 같은 운지·같은 악보로 연주하게 하려고</button>
+        <button class="opt">악보 인쇄 비용을 줄이려고</button>
+        <button class="opt">음색을 바꾸려고</button>
+      </div><div class="quiz-exp">"이 운지는 적힌 C"로 고정하면 E♭·B♭·A 클라리넷을 바꿔 들어도 연주자는 같은 손가락으로 같은 악보를 읽는다. 옮겨 적는 수고는 악보 쪽이 진다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 공용: 음자리표 보표 그리기 */
+const SC = (function () {
+  const BASE = { treble: 30, bass: 18, alto: 24, tenor: 22 }; // 맨 아래 줄의 음 자리(oct*7+letter)
+  const NAMES = { treble: "높은음자리표", bass: "낮은음자리표", alto: "알토 음자리표", tenor: "테너 음자리표" };
+  function ledgers(m, clef, flat) {
+    const pos = MB.spell(m, flat).pos, b = BASE[clef];
+    if (pos <= b - 2) return Math.floor((b - pos) / 2);
+    if (pos >= b + 10) return Math.floor((pos - b - 8) / 2);
+    return 0;
+  }
+  /** 한 보표 SVG. notes: [{m}] 왼쪽부터 균등 배치 */
+  function staff(clef, notes, o = {}) {
+    const sp = 10, W = o.width || 150, y0 = 34, bot = y0 + 4 * sp, H = 112, b = BASE[clef];
+    const yOf = (pos) => bot - (pos - b) * (sp / 2);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${NAMES[clef]} 보표">`;
+    for (let i = 0; i < 5; i++) s += `<line x1="6" x2="${W - 6}" y1="${y0 + i * sp}" y2="${y0 + i * sp}" class="sl"/>`;
+    if (clef === "treble") s += `<text x="8" y="${y0 + sp * 3.6}" class="clef" font-size="${sp * 5.2}">𝄞</text>`;
+    else if (clef === "bass") s += `<text x="9" y="${y0 + sp * 2.6}" class="clef" font-size="${sp * 3.4}">𝄢</text>`;
+    else {
+      // C 음자리표: 굵은 막대 + 가는 막대 + 가운데 줄(C4)에서 만나는 두 곡선
+      const cy = yOf(28);
+      s += `<g class="cc"><rect x="10" y="${y0}" width="4" height="${4 * sp}"/><rect x="16" y="${y0}" width="1.5" height="${4 * sp}"/>`;
+      s += `<path d="M18 ${cy} L23 ${cy - 6} C26 ${y0 - 2} 33 ${y0 - 1} 33 ${y0 + 7} C33 ${cy - 4} 26 ${cy - 4} 25 ${cy - 8}" fill="none" stroke="var(--text)" stroke-width="2.4"/>`;
+      s += `<path d="M18 ${cy} L23 ${cy + 6} C26 ${bot + 2} 33 ${bot + 1} 33 ${bot - 7} C33 ${cy + 4} 26 ${cy + 4} 25 ${cy + 8}" fill="none" stroke="var(--text)" stroke-width="2.4"/></g>`;
+    }
+    const x0 = 52, dx = (W - x0 - 12) / Math.max(1, notes.length);
+    notes.forEach((n, i) => {
+      const sp_ = MB.spell(n.m, o.flat), pos = sp_.pos, y = yOf(pos), cx = x0 + dx * (i + 0.5);
+      for (let p = b - 2; p >= pos; p -= 2) s += `<line x1="${cx - 9}" x2="${cx + 9}" y1="${yOf(p)}" y2="${yOf(p)}" class="sl"/>`;
+      for (let p = b + 10; p <= pos; p += 2) s += `<line x1="${cx - 9}" x2="${cx + 9}" y1="${yOf(p)}" y2="${yOf(p)}" class="sl"/>`;
+      s += `<ellipse cx="${cx}" cy="${y}" rx="6.4" ry="4.6" transform="rotate(-20 ${cx} ${y})" class="nh"${n.color ? ` style="fill:${n.color}"` : ""}/>`;
+      if (sp_.acc) s += `<text x="${cx - 17}" y="${y + 5}" class="acc">${sp_.acc > 0 ? "♯" : "♭"}</text>`;
+    });
+    return s + `</svg>`;
+  }
+  /** 실음 높이에 맞는 기본 음자리표 */
+  const clefFor = (k, m) => { const c = EN.inst(k).clef; if (c === "alto" || c === "treble" || c === "bass") return c; return m >= 60 ? "treble" : "bass"; };
+  return { staff, ledgers, NAMES, clefFor };
+})();
+
+/* ------------------------------------------------------------ 1. 총보 순서 */
+(function () {
+  const SET = ["flute", "oboe", "clarinet", "bassoon", "horn", "trumpet", "trombone", "tuba", "timpani", "harp", "violin", "viola", "cello", "contrabass"];
+  const ORDER = EN.ORCH_ORDER.filter((k) => SET.includes(k));
+  const CHORD = [62, 66, 69]; // D F♯ A
+  let done = [], bad = 0, shuffled = [];
+  const btns = document.getElementById("sc-or-btns"), list = document.getElementById("sc-or-list"), msg = document.getElementById("sc-or-msg");
+  const noteFor = (k, i) => {
+    const I = EN.inst(k), mid = (I.comfy[0] + I.comfy[1]) / 2;
+    let best = 62, bd = 1e9;
+    for (let m = I.lo; m <= I.hi; m++) if (MB.mod(m, 12) === CHORD[i % 3] % 12 && Math.abs(m - mid) < bd) { bd = Math.abs(m - mid); best = m; }
+    if (k === "timpani") best = 50;
+    return best;
+  };
+  function render() {
+    btns.innerHTML = shuffled.map((k) => `<button data-k="${k}" class="${done.includes(k) ? "done" : ""}">${EN.name(k)}</button>`).join("");
+    let lastFam = "";
+    list.innerHTML = done.length ? done.map((k) => { const f = EN.inst(k).family; const head = f !== lastFam ? `<div class="fam">${EN.FAMILIES[f].name}</div>` : ""; lastFam = f; return `${head}<div style="--c:${EN.color(k)}"><i></i>${EN.name(k)} <small>${EN.inst(k).short}</small></div>`; }).join("") : `<div style="color:var(--text-faint)">아직 비어 있습니다 — 총보 맨 위에 올 악기부터.</div>`;
+    MB.stat("sc-or-n", done.length + " / " + ORDER.length);
+    MB.stat("sc-or-bad", String(bad));
+  }
+  function reset() { done = []; bad = 0; shuffled = SET.slice().sort(() => Math.random() - 0.5); msg.textContent = "맞게 누르면 그 악기가 화음의 한 음을 냅니다."; render(); }
+  btns.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b || done.includes(b.dataset.k)) return;
+    MB.ctx();
+    const k = b.dataset.k, want = ORDER[done.length];
+    if (k === want) {
+      done.push(k);
+      EN.note(k, noteFor(k, done.length - 1), { dur: done.length === ORDER.length ? 3 : 1.2, vel: 0.5 });
+      msg.textContent = done.length === ORDER.length ? "🎉 완성! 이것이 총보의 세로 순서입니다." : `맞습니다. 다음은 ${EN.FAMILIES[EN.inst(ORDER[done.length]).family].name} 중 하나입니다.`;
+      if (done.length === ORDER.length) ORDER.forEach((q, i) => EN.note(q, noteFor(q, i), { dur: 2.6, vel: 0.42, when: MB.now() + 1.4 }));
+    } else {
+      bad++; b.classList.add("bad"); setTimeout(() => b.classList.remove("bad"), 500);
+      msg.textContent = `${EN.name(k)}는 아직입니다. 지금 와야 할 악기는 ${EN.FAMILIES[EN.inst(want).family].name}에 속합니다.`;
+    }
+    render();
+  });
+  document.getElementById("sc-or-new").addEventListener("click", reset);
+  document.getElementById("sc-or-show").addEventListener("click", () => { done = ORDER.slice(); msg.textContent = "정답 순서입니다. 섞어서 다시 해 보세요."; render(); });
+  reset();
+})();
+
+/* ------------------------------------------------------------ 2. 음자리표 */
+(function () {
+  let m = 60, flat = false, timer = null;
+  const KEYS = ["viola", "violin", "cello", "bassoon", "trombone", "clarinet", "flute"];
+  const sel = document.getElementById("sc-cl-inst"); sel.innerHTML = EN.options(KEYS, "viola");
+  const view = document.getElementById("sc-cl-view");
+  function update() {
+    const clefs = ["treble", "alto", "tenor", "bass"];
+    const lg = clefs.map((c) => SC.ledgers(m, c, flat)), mn = Math.min(...lg);
+    view.innerHTML = clefs.map((c, i) => `<div class="sc-staff${lg[i] === mn ? " best" : ""}">${SC.staff(c, [{ m }], { flat })}<b>${SC.NAMES[c]}</b>덧줄 ${lg[i]}개</div>`).join("");
+    document.getElementById("sc-cl-m-out").textContent = MB.noteName(m, flat);
+    MB.stat("sc-cl-name", MB.noteName(m, flat) + " · " + MB.mtof(m).toFixed(1) + " Hz");
+    MB.stat("sc-cl-best", clefs.filter((c, i) => lg[i] === mn).map((c) => SC.NAMES[c]).join(", "));
+  }
+  const r = MB.range("sc-cl-m", null, (v) => { m = v; update(); });
+  MB.check("sc-cl-flat", (v) => { flat = v; update(); });
+  document.getElementById("sc-cl-play").addEventListener("click", () => { MB.ctx(); EN.note(sel.value, EN.fold(sel.value, m), { dur: 1.4, vel: 0.6 }); });
+  document.getElementById("sc-cl-scale").addEventListener("click", () => {
+    MB.ctx(); if (timer) { clearInterval(timer); timer = null; return; }
+    const sc = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72]; let i = 0;
+    timer = setInterval(() => { if (i >= sc.length) { clearInterval(timer); timer = null; return; } r.set(sc[i]); EN.note("viola", sc[i], { dur: 0.36, vel: 0.55 }); i++; }, 380);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 기보음 ↔ 실음 */
+(function () {
+  const KEYS = ["clarinet", "trumpet", "horn", "englishHorn", "piccolo", "contrabass", "glockenspiel", "celesta", "flute", "oboe"];
+  const sel = document.getElementById("sc-tr-inst"); sel.innerHTML = EN.options(KEYS, "clarinet");
+  const keySel = document.getElementById("sc-tr-key");
+  // 조표가 가장 적은 이름으로 장조 표기
+  const MAJ = [["C", 0], ["D♭", -5], ["D", 2], ["E♭", -3], ["E", 4], ["F", -1], ["F♯", 6], ["G", 1], ["A♭", -4], ["A", 3], ["B♭", -2], ["B", 5]];
+  const keyName = (pc) => { const [n, a] = MAJ[MB.mod(pc, 12)]; return `${n}장조 (${a === 0 ? "조표 없음" : a > 0 ? "♯ " + a + "개" : "♭ " + -a + "개"})`; };
+  keySel.innerHTML = MAJ.map(([n], i) => `<option value="${i}"${i === 3 ? " selected" : ""}>${n}장조</option>`).join("");
+  let w = 72;
+  const view = document.getElementById("sc-tr-view");
+  function update() {
+    const k = sel.value, I = EN.inst(k), s = EN.sounding(k, w), flat = [1, 3, 5, 8, 10].includes(MB.mod(+keySel.value, 12)) || [1, 3, 8, 10].includes(MB.mod(+keySel.value - I.transpose, 12));
+    const wClef = I.clef === "bass" ? "bass" : "treble", sClef = s >= 60 ? "treble" : "bass";
+    const outW = I.transpose ? w < I.lo - I.transpose || w > I.hi - I.transpose : !EN.inRange(k, w);
+    view.innerHTML = `<div class="sc-staff">${SC.staff(wClef, [{ m: w, color: outW ? "var(--text-faint)" : "" }], { flat, width: 190 })}<b>기보음 (${I.name} 악보)</b>${MB.noteName(w, flat)}${outW ? " · 음역 밖" : ""}</div>` +
+      `<div class="sc-staff best">${SC.staff(sClef, [{ m: s }], { flat, width: 190 })}<b>실음 (나는 소리)</b>${MB.noteName(s, flat)}</div>`;
+    document.getElementById("sc-tr-w-out").textContent = MB.noteName(w, flat);
+    MB.stat("sc-tr-res", `${MB.noteName(w, flat)} → ${MB.noteName(s, flat)}`);
+    const t = I.transpose;
+    MB.stat("sc-tr-iv", t === 0 ? "없음(실음 악기)" : `${t > 0 ? "위로" : "아래로"} ${MB.intervalName(Math.abs(t))}`);
+    const concert = +keySel.value;
+    MB.stat("sc-tr-keyres", `실음 ${MAJ[concert][0]}장조 → ${keyName(concert - t)}`);
+  }
+  MB.range("sc-tr-w", null, (v) => { w = v; update(); });
+  sel.addEventListener("change", update); keySel.addEventListener("change", update);
+  const pianoW = () => EN.note("piano", w, { dur: 1.6, vel: 0.55 });
+  const inst = () => EN.note(sel.value, EN.sounding(sel.value, w), { dur: 1.6, vel: 0.6 });
+  document.getElementById("sc-tr-piano").addEventListener("click", () => { MB.ctx(); pianoW(); });
+  document.getElementById("sc-tr-play").addEventListener("click", () => { MB.ctx(); inst(); });
+  document.getElementById("sc-tr-both").addEventListener("click", () => { MB.ctx(); pianoW(); inst(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 형제 악기 */
+(function () {
+  const FAM = {
+    clarinet: { inst: "clarinet", mem: [["E♭ 클라리넷", 3], ["C 클라리넷", 0], ["B♭ 클라리넷", -2], ["A 클라리넷", -3], ["베이스 클라리넷(B♭)", -14]] },
+    trumpet: { inst: "trumpet", mem: [["피콜로 트럼펫(B♭)", 10], ["D 트럼펫", 2], ["C 트럼펫", 0], ["B♭ 트럼펫", -2]] },
+    horn: { inst: "horn", mem: [["호른 in B♭ 알토", -2], ["호른 in E♭", -9], ["호른 in F", -7], ["호른 in D", -10], ["호른 in C 바소", -12]] },
+  };
+  const MEL = EN.parse("mf C5:.5 D5 E5 F5 G5:1");
+  let fam = "clarinet", idx = 2, pl = null, seqT = null;
+  const view = document.getElementById("sc-fm-view"), mem = document.getElementById("sc-fm-mem");
+  function draw(ctx, w, h) {
+    const P = MB.palette(), F = FAM[fam], b = { x: 130, y: 8, w: w - 150, h: h - 22 };
+    const X = (m) => b.x + ((m - 40) / 50) * b.w;
+    ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let m = 48; m <= 84; m += 12) { ctx.beginPath(); ctx.moveTo(X(m), b.y); ctx.lineTo(X(m), b.y + b.h); ctx.stroke(); ctx.fillText("C" + (m / 12 - 1), X(m), b.y + b.h + 2); }
+    const rh = b.h / F.mem.length;
+    F.mem.forEach(([nm, t], i) => {
+      const y = b.y + rh * (i + 0.5), s = 72 + t;
+      ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillStyle = i === idx ? P.accent : P.text; ctx.fillText(nm, b.x - 8, y);
+      ctx.fillStyle = i === idx ? P.accent : EN.color(F.inst);
+      ctx.beginPath(); ctx.arc(X(s), y, i === idx ? 6 : 4.5, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.strokeStyle = P.faint; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(72), b.y); ctx.lineTo(X(72), b.y + b.h); ctx.stroke(); ctx.setLineDash([]);
+  }
+  const cv = MB.canvas("#sc-fm-cv", draw, { aspect: 0.3, minHeight: 130 });
+  function update() {
+    const F = FAM[fam], [nm, t] = F.mem[idx];
+    mem.innerHTML = F.mem.map(([n], i) => `<button data-i="${i}" class="${i === idx ? "on" : ""}">${n}</button>`).join("");
+    const sounding = MEL.map((n) => ({ m: n.m + t }));
+    view.innerHTML = `<div class="sc-staff">${SC.staff("treble", MEL, { width: 230 })}<b>연주자가 보는 악보</b>모든 형제가 같음</div>` +
+      `<div class="sc-staff best">${SC.staff(sounding[0].m >= 57 ? "treble" : "bass", sounding, { width: 230, flat: true })}<b>${nm}의 실음</b>${t === 0 ? "적힌 그대로" : (t > 0 ? "위로 " : "아래로 ") + MB.intervalName(Math.abs(t))}</div>`;
+    MB.stat("sc-fm-res", sounding.map((n) => MB.noteName(n.m, true)).join(" "));
+    cv.redraw();
+  }
+  function stop() { if (seqT) { clearTimeout(seqT); seqT = null; } if (pl) { pl.stop(); pl = null; } }
+  function play(cb) { stop(); MB.ctx(); const t = FAM[fam].mem[idx][1]; pl = EN.player({ parts: [{ id: "fm", inst: FAM[fam].inst, notes: EN.shift(MEL, t) }], bpm: 120, onEnd: cb }); pl.start(); }
+  MB.seg("sc-fm-fam", (v) => { fam = v; idx = Math.min(FAM[v].mem.findIndex(([, t]) => t === (v === "horn" ? -7 : -2)), FAM[v].mem.length - 1); if (idx < 0) idx = 0; update(); });
+  mem.addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (!b) return; idx = +b.dataset.i; update(); play(); });
+  document.getElementById("sc-fm-play").addEventListener("click", () => play());
+  document.getElementById("sc-fm-stop").addEventListener("click", stop);
+  document.getElementById("sc-fm-all").addEventListener("click", () => {
+    let i = 0;
+    const next = () => { if (i >= FAM[fam].mem.length) return; idx = i++; update(); play(() => { seqT = setTimeout(next, 250); }); };
+    next();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 음역표 */
+(function () {
+  const ALL = EN.ORCH_ORDER.filter((k) => !EN.inst(k).unpitched);
+  const sel = document.getElementById("sc-rg-inst"); sel.innerHTML = EN.options(ALL, "clarinet");
+  let m = 60, written = true;
+  function update() {
+    EN.rangeChart("#sc-rg-chart", { insts: ALL, written, marks: [{ m, label: MB.noteName(m) }] });
+    const I = EN.inst(sel.value);
+    document.getElementById("sc-rg-m-out").textContent = MB.noteName(m) + " · " + MB.mtof(m).toFixed(0) + " Hz";
+    MB.stat("sc-rg-r", `${MB.noteName(I.lo)}–${MB.noteName(I.hi)} (편한 음역 ${MB.noteName(I.comfy[0])}–${MB.noteName(I.comfy[1])})`);
+    const who = ALL.filter((k) => EN.inRange(k, m));
+    MB.stat("sc-rg-n", who.length + "개");
+  }
+  MB.range("sc-rg-m", null, (v) => { m = v; update(); });
+  MB.check("sc-rg-wr", (v) => { written = v; update(); });
+  sel.addEventListener("change", update);
+  const I = () => EN.inst(sel.value);
+  document.getElementById("sc-rg-lo").addEventListener("click", () => { MB.ctx(); EN.note(sel.value, I().lo, { dur: 1.4, vel: 0.6 }); });
+  document.getElementById("sc-rg-hi").addEventListener("click", () => { MB.ctx(); EN.note(sel.value, I().hi, { dur: 1.4, vel: 0.6 }); });
+  document.getElementById("sc-rg-mid").addEventListener("click", () => {
+    MB.ctx(); const [a, b] = I().comfy, t0 = MB.now() + 0.02;
+    [a, Math.round((a * 2 + b) / 3), Math.round((a + b * 2) / 3), b].forEach((q, i) => EN.note(sel.value, q, { dur: 0.5, vel: 0.6, when: t0 + i * 0.55 }));
+  });
+  document.getElementById("sc-rg-who").addEventListener("click", () => {
+    MB.ctx(); const who = ALL.filter((k) => EN.inRange(k, m)), t0 = MB.now() + 0.02;
+    who.forEach((k, i) => EN.note(k, m, { dur: 0.45, vel: 0.55, when: t0 + i * 0.5 }));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 6. 총보 플레이어 */
+(function () {
+  let piece = "ode", written = false, mx = null, parts = [];
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert" }));
+  const keyPc = (P) => MB.mod(MB.parseNote(P.key.replace("♭", "b") + "4"), 12);
+  function build() {
+    const P = EN.PIECES[piece];
+    const ps = EN.arrange(piece, "orchestra").map((p) => Object.assign(p, { maxSub: 3 }));
+    // 팀파니: 으뜸음·딸림음 두 북. 베이스의 마디 첫 박이 그 음일 때 친다.
+    const tonic = keyPc(P), dom = MB.mod(tonic + 7, 12), bar = P.meter[0];
+    const tm = (pc) => { let q = 38; while (MB.mod(q, 12) !== pc) q++; return q + (q + 12 <= 55 && pc === tonic ? 12 : 0); };
+    const tim = P.lines[P.order[3]].filter((n) => Math.abs(n.t % bar) < 1e-6 && [tonic, dom].includes(MB.mod(n.m, 12)))
+      .map((n) => ({ t: n.t, d: 1, m: tm(MB.mod(n.m, 12)), vel: n.vel * 0.8 }));
+    ps.push({ id: "timpani", label: "팀파니", inst: "timpani", notes: tim, players: 1, vel: 0.8, art: "" });
+    const idx = (k) => EN.ORCH_ORDER.indexOf(k);
+    return ps.map((p, i) => ({ p, i })).sort((a, b) => idx(a.p.inst) - idx(b.p.inst) || a.i - b.i).map((x) => x.p);
+  }
+  const display = () => parts.map((p) => Object.assign({}, p, { notes: written ? p.notes.map((n) => Object.assign({}, n, { m: n.m - EN.inst(p.inst).transpose })) : p.notes, hidden: p.hidden }));
+  const roll = EN.roll("#sc-pl-roll", { parts: [], laneH: 22, onClick: (p) => { const s = ui.state(p.id); ui.setState(p.id, { solo: !(s && s.solo) }); mark(); } });
+  const ui = EN.mixerUI("#sc-pl-ui", { channels: [], mixer: () => mx, pan: false, onChange: () => mark() });
+  const btn = document.getElementById("sc-pl-play");
+  function mark() {
+    const any = parts.some((p) => ui.state(p.id) && ui.state(p.id).solo);
+    parts.forEach((p) => { const s = ui.state(p.id) || {}; p.hidden = !!s.mute || (any && !s.solo); });
+    MB.stat("sc-pl-solo", parts.filter((p) => (ui.state(p.id) || {}).solo).map((p) => p.label).join(" · ") || "없음");
+    roll.set(display(), EN.PIECES[piece].beats);
+  }
+  function load() {
+    parts = build();
+    ui.set(parts); if (mx) ui.sync();
+    MB.stat("sc-pl-n", parts.length + "줄 · " + EN.PIECES[piece].title);
+    mark();
+    if (pl.running) pl.refresh();
+  }
+  const pl = EN.player({
+    parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: getMx, length: () => EN.PIECES[piece].beats,
+    onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); },
+  });
+  MB.seg("sc-pl-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); load(); if (was) pl.start(); });
+  MB.check("sc-pl-wr", (v) => { written = v; mark(); });
+  document.getElementById("sc-pl-all").addEventListener("click", () => { parts.forEach((p) => ui.setState(p.id, { solo: false, mute: false })); mark(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  load();
+})();
+</script>
+</body>
+</html>

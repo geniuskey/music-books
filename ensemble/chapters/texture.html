@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>텍스처와 역할 · EnsembleBook</title>
+<meta name="description" content="합주의 모든 음은 선율·대선율·화성·베이스·리듬 가운데 한 역할을 맡는다. 모노포니·호모포니·폴리포니·헤테로포니, 독주와 투티, 반주 층을 하나씩 쌓아 올리기, 악기를 더해 만드는 크레셴도, 두 무리가 주고받는 안티포니를 직접 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .tx-layers { display: grid; gap: 6px; }
+  .tx-layers label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; padding: 7px 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--bg-elev); font-size: 13.5px; cursor: pointer; }
+  .tx-layers label small { display: block; color: var(--text-dim); font-size: 12px; }
+  .tx-layers label.on { border-color: var(--accent); background: var(--accent-soft); }
+  .tx-roles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .tx-roles div { padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-elev); font-size: 14px; color: var(--text-dim); }
+  .tx-roles div b { display: block; color: var(--text); margin-bottom: 4px; }
+  .tx-roles div b::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; background: var(--c); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="texture">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 13</div>
+    <h1>텍스처와 역할</h1>
+    <p class="lead">천에 날실과 씨실이 있듯 음악에도 짜임이 있습니다. 선이 하나뿐인지, 하나의 선율을 화음이 받치는지, 여러 선율이 동등하게 얽히는지. 그리고 오케스트라의 모든 음은 그 짜임 안에서 <b>선율·대선율·화성·베이스·리듬</b> 가운데 한 역할을 맡습니다. 편곡이란 결국 "이 역할을 누구에게, 얼마나 두껍게 맡길까"의 문제입니다. 이 장에서는 짜임의 종류를 듣고, 〈환희의 송가〉에 반주 층을 하나씩 쌓아 올리고, 악기를 더해 크레셴도를 만들고, 두 무리가 무대 양쪽에서 주고받는 소리를 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>합주의 다섯 역할 — <b>선율·대선율·화성(패드)·베이스·리듬(음형)</b> — 을 구별하고 각 역할에 어울리는 악기를 고른다.</li>
+      <li><b>모노포니·호모포니·폴리포니·헤테로포니</b>를 듣고 구별한다.</li>
+      <li>같은 선율을 독주·섹션·유니즌 겹침·옥타브 투티로 낼 때의 차이를 안다.</li>
+      <li>셈여림만 키우는 크레셴도와 <b>악기를 더하는 크레셴도</b>의 차이를 듣고 설명한다.</li>
+      <li>무대의 두 무리가 주고받는 <b>안티포니</b>가 공간을 어떻게 쓰는지 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="roles">
+    <h2>다섯 가지 역할</h2>
+    <p>베토벤의 교향곡이든 영화 음악이든, 한 순간을 멈춰 놓고 각 악기가 하는 일을 적어 보면 대개 다섯 칸 안에 들어갑니다.</p>
+    <div class="tx-roles">
+      <div style="--c:var(--en-str)"><b>선율</b><span class="en">(Melody)</span> 귀가 따라가는 주인공 선. 가장 잘 들리는 자리(대개 맨 위)와 음색을 준다.</div>
+      <div style="--c:var(--en-br)"><b>대선율</b><span class="en">(Countermelody)</span> 선율과 다른 리듬·방향으로 움직이는 둘째 노래. 선율이 쉴 때 움직인다.</div>
+      <div style="--c:var(--en-ww)"><b>화성 · 패드</b><span class="en">(Harmonic pad)</span> 길게 끄는 화음. 눈에 띄지 않지만 빠지면 텅 빈다. 현·호른·클라리넷.</div>
+      <div style="--c:var(--en-pc)"><b>베이스</b><span class="en">(Bass)</span> 화음의 뿌리와 박. 첼로·더블베이스·바순·튜바가 옥타브로 겹치는 일이 많다.</div>
+      <div style="--c:var(--en-kb)"><b>리듬 · 음형</b><span class="en">(Figuration)</span> 화음을 쪼개 움직이는 아르페지오·반복음·오스티나토. 하프·제2 바이올린·비올라.</div>
+    </div>
+    <p>역할마다 요구하는 것이 다릅니다. 선율은 <b>또렷함</b>(독특한 음색, 비어 있는 음역), 패드는 <b>지속과 섞임</b>(비브라토가 고르고 어택이 부드러운 악기), 베이스는 <b>저역의 힘과 박</b>, 음형은 <b>가벼운 어택</b>(피치카토·하프·스타카토 목관)입니다. 그래서 같은 첼로라도 어떤 곡에서는 베이스, 어떤 곡에서는 대선율을 맡고, 그때마다 주법이 바뀝니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="kinds">
+    <h2>짜임의 네 종류</h2>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 170" role="img" aria-label="모노포니, 호모포니, 폴리포니, 헤테로포니의 모양">
+        <g transform="translate(10,10)"><rect width="165" height="130" rx="10" class="f-surface"/>
+          <path d="M14 70 L40 50 L66 62 L92 40 L118 56 L150 46" fill="none" stroke="var(--en-str)" stroke-width="3"/>
+          <text x="82" y="118" text-anchor="middle" class="t">모노포니</text></g>
+        <g transform="translate(188,10)"><rect width="165" height="130" rx="10" class="f-surface"/>
+          <path d="M14 40 L40 26 L66 36 L92 22 L118 32 L150 26" fill="none" stroke="var(--en-str)" stroke-width="3"/>
+          <g fill="var(--en-ww)" opacity=".8"><rect x="14" y="54" width="44" height="7" rx="3"/><rect x="62" y="58" width="44" height="7" rx="3"/><rect x="110" y="52" width="40" height="7" rx="3"/>
+          <rect x="14" y="72" width="44" height="7" rx="3"/><rect x="62" y="74" width="44" height="7" rx="3"/><rect x="110" y="70" width="40" height="7" rx="3"/>
+          <rect x="14" y="90" width="44" height="7" rx="3"/><rect x="62" y="94" width="44" height="7" rx="3"/><rect x="110" y="88" width="40" height="7" rx="3"/></g>
+          <text x="82" y="118" text-anchor="middle" class="t">호모포니</text></g>
+        <g transform="translate(366,10)"><rect width="165" height="130" rx="10" class="f-surface"/>
+          <path d="M14 36 L36 24 L58 40 L80 30 L102 44 L124 28 L150 36" fill="none" stroke="var(--en-str)" stroke-width="3"/>
+          <path d="M14 66 L30 56 L60 72 L76 60 L110 76 L134 62 L150 68" fill="none" stroke="var(--en-br)" stroke-width="3"/>
+          <path d="M14 96 L50 84 L72 98 L96 88 L130 100 L150 90" fill="none" stroke="var(--en-ww)" stroke-width="3"/>
+          <text x="82" y="118" text-anchor="middle" class="t">폴리포니</text></g>
+        <g transform="translate(544,10)"><rect width="165" height="130" rx="10" class="f-surface"/>
+          <path d="M14 70 L40 50 L66 62 L92 40 L118 56 L150 46" fill="none" stroke="var(--en-str)" stroke-width="3"/>
+          <path d="M14 72 L27 60 L40 52 L53 58 L66 64 L79 50 L92 42 L105 50 L118 58 L134 48 L150 48" fill="none" stroke="var(--en-ww)" stroke-width="2" stroke-dasharray="1 0"/>
+          <text x="82" y="118" text-anchor="middle" class="t">헤테로포니</text></g>
+      </svg>
+      <figcaption><b>그림 13-1.</b> 짜임의 네 모양. 선 하나 · 선 하나와 화음 덩어리 · 동등한 여러 선 · 같은 선의 두 가지 변형.</figcaption>
+    </figure>
+    <ul>
+      <li><b>모노포니</b><span class="en">(Monophony)</span> — 선율 하나. 여러 악기가 함께 불어도 같은 선(유니즌이나 옥타브)이면 모노포니입니다. 그레고리오 성가, 교향곡의 투티 유니즌.</li>
+      <li><b>호모포니</b><span class="en">(Homophony)</span> — 선율 하나 + 그것을 받치는 화음. 성부들이 대체로 같은 리듬으로 움직입니다. 코랄, 대부분의 노래.</li>
+      <li><b>폴리포니</b><span class="en">(Polyphony)</span> — 독립된 선율 여러 개가 동시에. 리듬과 방향이 서로 다르고, 누가 주인공인지 순간마다 바뀝니다. 캐논과 푸가.</li>
+      <li><b>헤테로포니</b><span class="en">(Heterophony)</span> — 같은 선율을 여러 악기가 <b>조금씩 다르게</b>(한쪽은 장식을 붙여서) 동시에. 국악 합주와 여러 민속 음악의 기본 짜임입니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-tx-kinds">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>짜임 듣고 구별하기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="tx-kd-roll"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <div class="seg" id="tx-kd-k"><button data-value="mono" class="on">모노포니</button><button data-value="homo">호모포니</button><button data-value="poly">폴리포니</button><button data-value="hetero">헤테로포니</button></div>
+          <button class="btn primary" id="tx-kd-play">▶ 재생</button><button class="btn" id="tx-kd-quiz">🎯 무엇일까?</button>
+        </div>
+        <div class="sim-msg" id="tx-kd-msg" style="margin-top:8px">예를 고르고 재생하세요.</div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선의 수</span><span class="v" id="tx-kd-n">—</span></div>
+        <div class="stat"><span class="k">따로 시작하는 음의 비율</span><span class="v" id="tx-kd-ind">—</span></div>
+        <div class="stat"><span class="k">예</span><span class="v" id="tx-kd-what" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">'따로 시작하는 음의 비율'은 다른 파트와 같은 박에 시작하지 않는 음의 비율로, 리듬이 얼마나 독립적인지 보여 줍니다. 호모포니는 0에 가깝고 폴리포니는 큽니다 · 예: 〈환희의 송가〉 선율(베토벤), 이 책의 코랄, 파헬벨 〈캐논〉의 세 성부, 장식을 붙인 플루트 변주는 이 책이 지은 것.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="tutti">
+    <h2>독주 · 섹션 · 투티</h2>
+    <p>같은 선율이라도 맡기는 '두께'가 다르면 다른 음악이 됩니다. 오케스트라 악보에서 <b>솔로</b>(solo)는 한 명, 표시가 없으면 섹션 전체, <b>솔리</b>(soli)는 섹션의 몇 명 또는 여러 악기의 작은 무리, <b>투티</b>(tutti)는 모두를 뜻합니다.</p>
+    <ul>
+      <li><b>독주</b>는 비브라토와 표정이 그대로 들려 가장 <b>사적인</b> 소리입니다.</li>
+      <li><b>섹션</b>은 합창 효과로 넓고 매끈해집니다(<a href="together.html">1장</a>). 대신 개인의 표정은 흐려집니다.</li>
+      <li><b>유니즌 겹침</b>(바이올린 + 플루트 + 오보에)은 음량보다 <b>새 음색</b>을 만듭니다.</li>
+      <li><b>옥타브 투티</b>(피콜로부터 더블베이스까지 서너 옥타브로)는 가장 큰 무게를 줍니다. 베토벤 교향곡 5번 첫머리처럼, 화음 없이 선 하나에 모두가 몰릴 때의 힘은 화음보다 강하게 들리기도 합니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-tx-tutti">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>한 선율, 네 가지 두께</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tx-tt-roll"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>두께</span><div class="seg" id="tx-tt-k"><button data-value="solo" class="on">독주</button><button data-value="section">섹션</button><button data-value="unison">유니즌 겹침</button><button data-value="octaves">옥타브 투티</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="tx-tt-play">▶ 재생</button><button class="btn" id="tx-tt-cycle">▶ 넷을 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">연주 인원</span><span class="v" id="tx-tt-n">—</span></div>
+        <div class="stat"><span class="k">음압(상대)</span><span class="v" id="tx-tt-db">—</span></div>
+        <div class="stat"><span class="k">옥타브 폭</span><span class="v" id="tx-tt-oct">—</span></div>
+      </div>
+      <div class="sim-note">선율은 〈환희의 송가〉 앞 네 마디입니다. 음압은 악기 음량 등급과 인원의 비상관 합(독주 바이올린 = 0 dB) · 모델: 섹션은 하위 음성 최대 3개로 근사합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="layers">
+    <h2>반주 층 쌓아 올리기</h2>
+    <p>베토벤은 교향곡 9번 4악장에서 〈환희의 송가〉 주제를 처음에 첼로와 더블베이스만으로 조용히 들려주고, 되풀이할 때마다 비올라, 바순의 대선율, 바이올린을 하나씩 더해 마침내 오케스트라 전체로 키웁니다. 같은 선율 아래에 <b>층을 하나씩 쌓는 것</b>이 오케스트레이션의 가장 기본적인 설계입니다. 아래에서 직접 해 보세요. 반주 층은 모두 코드 진행에서 자동으로 만든 것입니다.</p>
+
+    <div class="sim" id="sim-tx-layers">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>층 쌓기: 〈환희의 송가〉</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tx-ly-roll"></canvas><div id="tx-ly-mx"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>층</span><div class="tx-layers" id="tx-ly-list"></div></div>
+          <div class="btn-row"><button class="btn primary" id="tx-ly-play">▶ 재생</button><button class="btn" id="tx-ly-build">▶ 하나씩 쌓으며</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">켜진 층</span><span class="v" id="tx-ly-on">—</span></div>
+        <div class="stat"><span class="k">악기 수</span><span class="v" id="tx-ly-n">—</span></div>
+      </div>
+      <div class="sim-note">패드는 화음을 가장 적게 움직이도록 이은 세 음(MB.voiceLead), 음형은 화음 구성음의 8분음 아르페지오, 대선율은 화음 구성음 중 선율과 반대로 움직이는 2분음을 고른 것, 베이스는 근음 피치카토, 팀파니는 D·A 화음의 첫 박입니다. '하나씩 쌓으며'는 4마디마다 층을 하나씩 켭니다 · 화성은 이 책이 붙인 것입니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 층마다 귀를 옮기기.</b> 모든 층을 켜고 재생한 뒤, 한 바퀴마다 다른 층 하나에만 귀를 붙여 보세요. 대선율(호른)은 선율이 길게 끄는 곳에서 움직이고, 선율이 바쁠 때는 쉽니다. 이 '틈을 메우는' 성질 덕분에 두 선율이 부딪히지 않고 둘 다 들립니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="crescendo">
+    <h2>악기를 더하는 크레셴도</h2>
+    <p>악보의 <b>크레셴도</b>(cresc., 점점 세게)를 오케스트라로 실현하는 방법은 둘입니다. 연주자들이 <b>더 세게</b> 연주하거나, 편곡자가 <b>악기를 더하거나</b>. 실제 관현악에서는 거의 언제나 둘을 함께 씁니다. 세게 연주하면 금관처럼 음색이 밝아지지만 현이나 플루트는 음량이 크게 늘지 않고, 악기를 더하면 음량과 함께 <b>음역과 색이 넓어져</b> 소리가 '커진다'는 느낌이 훨씬 강해지기 때문입니다.</p>
+    <p>더하는 순서에도 관습이 있습니다. 현이나 부드러운 목관으로 시작해 → 클라리넷·바순·호른으로 가운데를 채우고 → 플루트·오보에로 위를 밝히고 → 트럼펫·트롬본으로 힘을 싣고 → 마지막에 튜바·팀파니·심벌즈로 바닥과 정점을 찍습니다.</p>
+
+    <div class="sim" id="sim-tx-cresc">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>여덟 마디 크레셴도</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="tx-cr-cv"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <div class="seg" id="tx-cr-mode"><button data-value="add" class="on">악기를 더하며</button><button data-value="dyn">셈여림만 키우며</button></div>
+          <label class="ctrl" style="min-width:200px;flex:1"><span>시작 마디 <output id="tx-cr-from-out"></output></span><input type="range" id="tx-cr-from" min="1" max="8" step="1" value="1"></label>
+          <button class="btn primary" id="tx-cr-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 마디</span><span class="v" id="tx-cr-bar">—</span></div>
+        <div class="stat"><span class="k">울리는 악기</span><span class="v" id="tx-cr-n">—</span></div>
+        <div class="stat"><span class="k">셈여림</span><span class="v" id="tx-cr-dyn">—</span></div>
+      </div>
+      <div class="sim-note">막대 높이는 마디마다 울리는 악기 수(색은 악기군), 선은 셈여림입니다. 그림을 누르면 그 마디부터 재생합니다. 곡은 이 책의 〈작은 코랄〉 · 두 방식은 같은 셈여림 곡선을 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="antiphony">
+    <h2>주고받기: 안티포니</h2>
+    <p>16세기 베네치아의 산 마르코 대성당에는 서로 마주 보는 두 성가대석이 있었고, 작곡가들은 두 합창단이 양쪽에서 노래를 <b>주고받게</b> 썼습니다. 이렇게 떨어진 두 무리가 번갈아 연주하는 것을 <b>안티포니</b><span class="en">(Antiphony)</span>라 합니다. 오케스트라에서는 현과 목관, 현과 금관이 짧은 악구를 주고받는 <b>부름과 응답</b><span class="en">(Call and response)</span>으로 아주 흔하게 쓰입니다.</p>
+    <p>주고받기가 효과적인 이유는 세 가지입니다. <b>음색</b>이 바뀌어 같은 악구도 새로 들리고, <b>무대 위치</b>가 바뀌어 소리가 공간을 건너가며, 마지막에 두 무리가 <b>함께</b> 연주할 때 그 합이 특별하게 들립니다. 제1·제2 바이올린을 무대 양쪽에 앉히는 유럽식 배치(<a href="orchestra.html">9장</a>)는 두 바이올린 사이의 이런 주고받기를 살리기 위한 것입니다.</p>
+
+    <div class="sim" id="sim-tx-call">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>부름과 응답</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="tx-cl-stage"></div><canvas id="tx-cl-roll"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>응답하는 무리</span><div class="seg" id="tx-cl-who"><button data-value="winds" class="on">목관</button><button data-value="brass">금관</button></div></div>
+          <div class="ctrl"><span>짜임</span><div class="seg" id="tx-cl-mode"><button data-value="call" class="on">주고받기</button><button data-value="all">처음부터 함께</button></div></div>
+          <label class="ctrl"><span>좌우 넓이 <output id="tx-cl-w-out"></output></span><input type="range" id="tx-cl-w" min="0" max="100" step="5" value="100"></label>
+          <div class="btn-row"><button class="btn primary" id="tx-cl-play">▶ 재생</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금</span><span class="v" id="tx-cl-now">—</span></div>
+        <div class="stat"><span class="k">악구</span><span class="v" id="tx-cl-ph">—</span></div>
+      </div>
+      <div class="sim-note">헤드폰으로 들으면 현(왼쪽 앞)과 응답하는 무리(가운데 뒤)의 자리가 또렷합니다. 좌우 넓이를 0으로 하면 모든 소리가 가운데로 모여 주고받는 느낌이 약해집니다. 악구는 이 책이 지은 것 · 모델: 믹서의 좌우·거리·홀 잔향(콘서트홀).</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 나눠 맡은 선율.</b> 차이콥스키 교향곡 6번 4악장 첫머리의 하강 선율은 제1·제2 바이올린이 <b>음 하나씩 번갈아</b> 나눠 연주하도록 적혀 있습니다. 어느 한 파트만 보면 이상한 지그재그지만, 양쪽에 앉은 두 파트의 소리가 공간에서 합쳐져 하나의 선율이 됩니다. 안티포니를 극단까지 밀어붙인 예입니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>합주의 음은 <b>선율·대선율·화성(패드)·베이스·리듬(음형)</b> 가운데 한 역할을 맡고, 역할마다 어울리는 음색과 주법이 다르다.</li>
+      <li>짜임: <b>모노포니</b>(선 하나) · <b>호모포니</b>(선율 + 같은 리듬의 화음) · <b>폴리포니</b>(독립된 여러 선) · <b>헤테로포니</b>(같은 선의 동시 변형).</li>
+      <li>독주는 표정, 섹션은 넓이, 유니즌 겹침은 새 음색, 옥타브 투티는 무게를 준다.</li>
+      <li>층을 하나씩 쌓는 것이 오케스트레이션의 기본 설계다. 대선율은 선율이 쉬거나 길게 끌 때 움직인다.</li>
+      <li>오케스트라의 크레셴도는 <b>더 세게 + 악기 더하기</b>다. 가운데 → 위 → 힘 → 바닥과 정점 순으로 더하는 것이 관습이다.</li>
+      <li>안티포니(부름과 응답)는 음색과 무대 위치를 바꿔 같은 악구를 새로 들리게 하고, 마지막의 합을 특별하게 만든다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>플루트·오보에·바이올린이 같은 선율을 옥타브와 유니즌으로 함께 연주한다. 짜임은?</p><div class="opts">
+        <button class="opt" data-correct>모노포니</button><button class="opt">호모포니</button><button class="opt">폴리포니</button><button class="opt">헤테로포니</button>
+      </div><div class="quiz-exp">악기가 여럿이어도 선이 하나(유니즌·옥타브 겹침)뿐이면 모노포니다. 화음이 받치면 호모포니, 독립된 선이 여럿이면 폴리포니가 된다.</div></div>
+      <div class="quiz-q"><p>대선율이 선율과 함께 잘 들리게 하는 가장 좋은 방법은?</p><div class="opts">
+        <button class="opt">선율과 같은 리듬으로 움직인다</button><button class="opt">선율과 같은 음역·같은 악기로 연주한다</button>
+        <button class="opt" data-correct>선율이 길게 끌거나 쉴 때 움직이고, 다른 음역·음색을 쓴다</button><button class="opt">선율보다 크게 연주한다</button>
+      </div><div class="quiz-exp">리듬이 엇갈리면 두 선의 시작음이 겹치지 않아 귀가 둘을 따로 따라갈 수 있다. 음역과 음색까지 다르면 마스킹도 줄어든다.</div></div>
+      <div class="quiz-q"><p>같은 곡을 '셈여림만 키우는' 크레셴도보다 '악기를 더하는' 크레셴도가 더 크게 느껴지는 주된 이유는?</p><div class="opts">
+        <button class="opt">악기가 늘면 템포가 빨라져서</button>
+        <button class="opt" data-correct>음량뿐 아니라 음역과 음색의 폭이 함께 넓어져서</button>
+        <button class="opt">셈여림을 키우면 음높이가 낮아져서</button>
+        <button class="opt">차이가 없다</button>
+      </div><div class="quiz-exp">악기를 더하면 비상관 합으로 음압이 늘고, 위·아래 옥타브와 새 음색이 더해져 스펙트럼 전체가 넓어진다. 현이나 플루트는 세게 연주해도 음압이 크게 늘지 않는다.</div></div>
+      <div class="quiz-q"><p>같은 선율을 오보에는 그대로, 플루트는 장식음을 붙여 동시에 연주한다. 짜임은?</p><div class="opts">
+        <button class="opt">모노포니</button><button class="opt">호모포니</button><button class="opt">폴리포니</button><button class="opt" data-correct>헤테로포니</button>
+      </div><div class="quiz-exp">같은 선율의 서로 다른 변형이 동시에 울리는 것이 헤테로포니다. 두 선은 독립된 선율이 아니라 한 선율의 두 모습이다.</div></div>
+      <div class="quiz-q"><p>현과 목관이 짧은 악구를 번갈아 연주하다 마지막에 함께 연주하는 기법은?</p><div class="opts">
+        <button class="opt">오스티나토</button><button class="opt" data-correct>안티포니(부름과 응답)</button><button class="opt">디비지</button><button class="opt">페달 포인트</button>
+      </div><div class="quiz-exp">떨어진 두 무리가 번갈아 연주하는 안티포니다. 음색과 위치가 바뀌어 같은 악구가 새로 들리고, 마지막의 합이 정점이 된다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* 공통 ------------------------------------------------------------ */
+const TX = {
+  at(notes, t) { return notes.find((n) => n.t <= t + 1e-6 && n.t + n.d > t + 1e-6); },
+  win(notes, a, b, shift = -a) { return notes.filter((n) => n.t >= a - 1e-6 && n.t < b - 1e-6).map((n) => Object.assign({}, n, { t: n.t + shift })); },
+  /** 파트들의 '따로 시작하는 음' 비율 */
+  independence(parts) {
+    let tot = 0, alone = 0;
+    parts.forEach((p, i) => p.notes.forEach((n) => { tot++; const shared = parts.some((q, j) => j !== i && q.notes.some((x) => Math.abs(x.t - n.t) < 1e-6)); if (!shared) alone++; }));
+    return tot ? alone / tot : 0;
+  },
+  btn(el, on) { el.textContent = on ? "■ 정지" : "▶ 재생"; },
+};
+
+/* ------------------------------------------------------------ 2. 짜임 */
+(function () {
+  const ODE = EN.PIECES.ode, MEL = TX.win(ODE.lines.S, 0, 16);
+  const DMAJ = [1, 2, 4, 6, 7, 9, 11];
+  function ornament(mel) { // 4분음을 8분음 둘로: 원음 + 다음 음으로 가는 경과음(같으면 위 이웃음)
+    const out = [];
+    mel.forEach((n, i) => {
+      const nx = mel[i + 1];
+      if (n.d < 1 || !nx) { out.push(Object.assign({}, n)); return; }
+      out.push({ t: n.t, d: 0.5, m: n.m, vel: n.vel });
+      let m2;
+      const up = (m) => { let x = m + 1; while (!DMAJ.includes(MB.mod(x, 12))) x++; return x; };
+      const dn = (m) => { let x = m - 1; while (!DMAJ.includes(MB.mod(x, 12))) x--; return x; };
+      if (nx.m > n.m) m2 = up(n.m); else if (nx.m < n.m) m2 = dn(n.m); else m2 = up(n.m);
+      out.push({ t: n.t + 0.5, d: n.d - 0.5, m: m2, vel: n.vel * 0.9 });
+    });
+    return out;
+  }
+  const EX = {
+    mono: { bpm: 96, beats: 16, what: "〈환희의 송가〉 선율을 바이올린과 플루트가 유니즌으로", parts: [{ id: "vn", inst: "violin", notes: EN.shift(MEL, -12), label: "바이올린" }, { id: "fl", inst: "flute", notes: EN.shift(MEL, -12), label: "플루트" }] },
+    homo: { bpm: 72, beats: 16, what: "이 책의 코랄 — 네 성부가 같은 리듬으로", parts: EN.arrange("chorale", "quartet").map((p) => Object.assign(p, { notes: TX.win(p.notes, 0, 16) })) },
+    poly: { bpm: 66, beats: 24, what: "파헬벨 〈캐논〉 — 세 선이 따로 움직인다", parts: [
+      { id: "v1", inst: "violin", label: "바이올린", notes: TX.win(EN.PIECES.canon.lines.V1, 16, 40) },
+      { id: "v2", inst: "viola", label: "비올라", notes: TX.win(EN.PIECES.canon.lines.V2, 16, 40) },
+      { id: "b", inst: "cello", label: "첼로", notes: TX.win(EN.PIECES.canon.lines.B, 16, 40) }] },
+    hetero: { bpm: 96, beats: 16, what: "같은 선율 — 오보에는 그대로, 플루트는 장식을 붙여", parts: [{ id: "ob", inst: "oboe", label: "오보에", notes: EN.shift(MEL, -12) }, { id: "fl", inst: "flute", label: "플루트(장식)", notes: ornament(MEL) }] },
+  };
+  let k = "mono", mx = null, quiz = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.25 }));
+  const roll = EN.roll("#tx-kd-roll", { parts: EX[k].parts, beats: EX[k].beats });
+  const btn = document.getElementById("tx-kd-play"), msg = document.getElementById("tx-kd-msg");
+  const NAMES = { mono: "모노포니", homo: "호모포니", poly: "폴리포니", hetero: "헤테로포니" };
+  const pl = EN.player({ parts: () => EX[k].parts, bpm: () => EX[k].bpm, length: () => EX[k].beats, loop: true, mixer: getMx,
+    onFrame: (b) => roll.at(b), onStart: () => TX.btn(btn, true), onStop: () => { TX.btn(btn, false); roll.clear(); } });
+  function show() {
+    const E = EX[k];
+    roll.set(quiz ? E.parts.map((p) => Object.assign({}, p, { hidden: false })) : E.parts, E.beats);
+    MB.stat("tx-kd-n", quiz ? "?" : String(new Set(E.parts.map((p) => (k === "mono" ? "one" : p.id))).size) + (k === "mono" ? " (악기 " + E.parts.length + ")" : ""));
+    MB.stat("tx-kd-ind", quiz ? "?" : Math.round(TX.independence(E.parts) * 100) + "%");
+    MB.stat("tx-kd-what", quiz ? "들어 보고 맞혀 보세요" : E.what);
+  }
+  const seg = MB.seg("tx-kd-k", (v) => {
+    if (quiz) {
+      msg.textContent = v === quiz ? `🎉 정답! ${NAMES[quiz]}입니다.` : `아쉽습니다. 정답은 ${NAMES[quiz]}입니다.`;
+      v = quiz; quiz = null; seg.set(v, false);
+    }
+    const was = pl.running; if (was) pl.stop(); k = v; show(); if (was) pl.start();
+  });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  document.getElementById("tx-kd-quiz").addEventListener("click", () => {
+    MB.ctx(); getMx();
+    const keys = Object.keys(EX); quiz = keys[Math.floor(Math.random() * keys.length)]; k = quiz;
+    msg.textContent = "재생 중인 짜임을 위 버튼에서 고르세요.";
+    show(); if (pl.running) pl.stop(); pl.start();
+  });
+  show();
+})();
+
+/* ------------------------------------------------------------ 3. 독주 · 투티 */
+(function () {
+  const MEL = TX.win(EN.PIECES.ode.lines.S, 0, 16);
+  const K = {
+    solo:    [{ id: "vn", inst: "violin", oct: -12, players: 1, label: "바이올린 독주" }],
+    section: [{ id: "vn", inst: "violin", oct: -12, players: 14, label: "바이올린 14명" }],
+    unison:  [{ id: "vn", inst: "violin", oct: -12, players: 14, label: "바이올린 14명" }, { id: "fl", inst: "flute", oct: -12, label: "플루트" }, { id: "ob", inst: "oboe", oct: -12, label: "오보에" }],
+    octaves: [{ id: "picc", inst: "piccolo", oct: 12, label: "피콜로" }, { id: "fl", inst: "flute", oct: 0, label: "플루트" }, { id: "vn", inst: "violin", oct: -12, players: 14, label: "바이올린" }, { id: "cl", inst: "clarinet", oct: -12, label: "클라리넷" },
+              { id: "hn", inst: "horn", oct: -24, label: "호른" }, { id: "vc", inst: "cello", oct: -24, players: 8, label: "첼로" }, { id: "bn", inst: "bassoon", oct: -24, label: "바순" }, { id: "cb", inst: "contrabass", oct: -36, players: 6, label: "더블베이스" }],
+  };
+  let k = "solo", mx = null, cyc = null;
+  const parts = () => K[k].map((p) => Object.assign({}, p, { notes: MEL.map((n) => Object.assign({}, n, { m: EN.fold(p.inst, n.m + p.oct) })), maxSub: 3 }));
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.28 }));
+  const roll = EN.roll("#tx-tt-roll", { parts: parts(), beats: 16, laneH: 22 });
+  const btn = document.getElementById("tx-tt-play");
+  const pl = EN.player({ parts, bpm: 92, length: 16, loop: true, mixer: getMx, onFrame: (b) => roll.at(b), onStart: () => TX.btn(btn, true), onStop: () => { TX.btn(btn, false); roll.clear(); } });
+  function show() {
+    const P = parts();
+    roll.set(P, 16);
+    const n = P.reduce((s, p) => s + (p.players || 1), 0);
+    const db = EN.sumDb(P.map((p) => 10 * Math.log10(EN.inst(p.inst).level * (p.players || 1))));
+    const ms = P.flatMap((p) => p.notes.map((x) => x.m));
+    MB.stat("tx-tt-n", n + "명");
+    MB.stat("tx-tt-db", MB.signed(db, 1) + " dB");
+    MB.stat("tx-tt-oct", ((Math.max(...ms) - Math.min(...ms)) / 12).toFixed(1) + " 옥타브");
+    if (pl.running) pl.refresh();
+  }
+  const seg = MB.seg("tx-tt-k", (v) => { k = v; show(); });
+  btn.addEventListener("click", () => { if (cyc) { clearInterval(cyc); cyc = null; } MB.ctx(); getMx(); pl.toggle(); });
+  document.getElementById("tx-tt-cycle").addEventListener("click", () => {
+    if (cyc) { clearInterval(cyc); cyc = null; pl.stop(); return; }
+    MB.ctx(); getMx(); const order = ["solo", "section", "unison", "octaves"]; let i = 0;
+    k = order[0]; seg.set(k, false); show(); pl.start();
+    cyc = setInterval(() => { i++; if (i >= order.length) { clearInterval(cyc); cyc = null; pl.stop(); return; } k = order[i]; seg.set(k, false); show(); }, (60 / 92) * 16 * 1000);
+  });
+  show();
+})();
+
+/* ------------------------------------------------------------ 4. 층 쌓기 */
+(function () {
+  const ODE = EN.PIECES.ode, MEL = ODE.lines.S, CH = ODE.chords, BEATS = ODE.beats;
+  // 패드: 세 음을 가장 적게 움직이도록
+  const pad = [[], [], []];
+  let prev = [62, 66, 69];
+  CH.forEach((c) => { const v = MB.voiceLead(prev, EN.parseChord(c.sym).pcs, [55, 74]); prev = v; v.forEach((m, i) => pad[i].push({ t: c.t, d: c.d, m, vel: 0.36 })); });
+  // 음형: 8분음 아르페지오(근음–3–5–8–5–3)
+  const fig = [];
+  CH.forEach((c) => {
+    const P = EN.parseChord(c.sym); let r = 60; while (MB.mod(r, 12) !== P.root) r++;
+    const iv = P.pcs.map((p) => MB.mod(p - P.root, 12)).sort((a, b) => a - b);
+    const arp = [r, r + iv[1], r + iv[2], r + 12, r + iv[2], r + iv[1]];
+    for (let t = c.t, i = 0; t < c.t + c.d - 1e-6; t += 0.5, i++) fig.push({ t, d: 0.5, m: arp[i % 6], vel: 0.42 });
+  });
+  // 베이스: 근음 피치카토(1·3박)
+  const bass = [];
+  CH.forEach((c) => { const P = EN.parseChord(c.sym); let m = 43; while (MB.mod(m, 12) !== P.root) m++; for (let t = c.t; t < c.t + c.d - 1e-6; t += 2) bass.push({ t, d: 1, m, vel: 0.62, art: "pizz" }); });
+  // 팀파니: D·A 화음의 마디 첫 박
+  const timp = [];
+  CH.forEach((c) => { if (Math.abs(c.t % 4) > 1e-6) return; const r = EN.parseChord(c.sym).root; if (r === 2) timp.push({ t: c.t, d: 1, m: 50, vel: 0.5 }); if (r === 9) timp.push({ t: c.t, d: 1, m: 45, vel: 0.5 }); });
+  // 대선율: 2분음, 화음 구성음 중 선율과 반대 방향·다른 음을 고른다
+  const counter = []; let pc = 62, pmel = MEL[0].m;
+  CH.forEach((c) => {
+    const P = EN.parseChord(c.sym);
+    for (let t = c.t; t < c.t + c.d - 1e-6; t += 2) {
+      const mel = TX.at(MEL, t), mm = mel ? mel.m : pmel, dir = Math.sign(mm - pmel);
+      let best = pc, bc = Infinity;
+      for (let m = 55; m <= 69; m++) {
+        if (!P.pcs.includes(MB.mod(m, 12))) continue;
+        let cost = Math.abs(m - pc) + (MB.mod(m - mm, 12) === 0 ? 5 : 0) + (m === pc ? 1.5 : 0) + (dir && Math.sign(m - pc) === dir ? 2 : 0);
+        if (cost < bc) { bc = cost; best = m; }
+      }
+      counter.push({ t, d: Math.min(2, c.t + c.d - t), m: best, vel: 0.5 }); pc = best; pmel = mm;
+    }
+  });
+  const LAYERS = [
+    { k: "mel", name: "선율", sub: "제1 바이올린 섹션", parts: [{ id: "vn1", inst: "violin", label: "제1 바이올린", notes: MEL, players: 12, maxSub: 3 }] },
+    { k: "bass", name: "베이스", sub: "첼로·더블베이스 피치카토", parts: [{ id: "vc", inst: "cello", label: "첼로", notes: bass }, { id: "cb", inst: "contrabass", label: "더블베이스", notes: EN.shift(bass, -12) }] },
+    { k: "pad", name: "화성 패드", sub: "제2 바이올린·비올라 지속음", parts: [{ id: "vn2", inst: "violin", label: "제2 바이올린", notes: pad[2].concat(pad[1]).sort((a, b) => a.t - b.t), players: 8, maxSub: 2, art: "legato" }, { id: "va", inst: "viola", label: "비올라", notes: pad[0], players: 6, maxSub: 2, art: "legato" }] },
+    { k: "counter", name: "대선율", sub: "호른의 2분음 선", parts: [{ id: "hn", inst: "horn", label: "호른", notes: counter }] },
+    { k: "fig", name: "음형", sub: "하프의 8분음 아르페지오", parts: [{ id: "hp", inst: "harp", label: "하프", notes: fig }] },
+    { k: "timp", name: "팀파니", sub: "D·A 화음의 첫 박", parts: [{ id: "tp", inst: "timpani", label: "팀파니", notes: timp }] },
+  ];
+  const on = new Set(["mel", "bass", "pad"]);
+  let mx = null, build = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.3 }));
+  const parts = () => LAYERS.filter((L) => on.has(L.k)).flatMap((L) => L.parts);
+  const list = document.getElementById("tx-ly-list");
+  function renderList() {
+    list.innerHTML = LAYERS.map((L) => `<label class="${on.has(L.k) ? "on" : ""}"><input type="checkbox" data-k="${L.k}" ${on.has(L.k) ? "checked" : ""}><span>${L.name}<small>${L.sub}</small></span></label>`).join("");
+  }
+  const roll = EN.roll("#tx-ly-roll", { parts: parts(), beats: BEATS, laneH: 24 });
+  const ui = EN.mixerUI("#tx-ly-mx", { channels: parts(), mixer: () => mx, pan: false });
+  const btn = document.getElementById("tx-ly-play");
+  const pl = EN.player({ parts, bpm: 96, length: BEATS, loop: true, mixer: getMx, onFrame: (b) => roll.at(b),
+    onStart: () => TX.btn(btn, true), onStop: () => { TX.btn(btn, false); roll.clear(); if (build) { clearInterval(build); build = null; } } });
+  function update() {
+    const P = parts();
+    roll.set(P, BEATS); ui.set(P); ui.sync();
+    MB.stat("tx-ly-on", LAYERS.filter((L) => on.has(L.k)).map((L) => L.name).join(" · ") || "없음");
+    MB.stat("tx-ly-n", P.length + "파트");
+    if (pl.running) pl.refresh();
+  }
+  list.addEventListener("change", (e) => { const k = e.target.dataset.k; if (!k) return; e.target.checked ? on.add(k) : on.delete(k); renderList(); update(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  document.getElementById("tx-ly-build").addEventListener("click", () => {
+    MB.ctx(); getMx();
+    if (build) { pl.stop(); return; }
+    on.clear(); on.add("mel"); renderList(); update(); ui.sync(); pl.start();
+    let i = 1;
+    build = setInterval(() => { if (i >= LAYERS.length) { clearInterval(build); build = null; return; } on.add(LAYERS[i++].k); renderList(); update(); }, (60 / 96) * 16 * 1000);
+  });
+  renderList(); update();
+})();
+
+/* ------------------------------------------------------------ 5. 크레셴도 */
+(function () {
+  const PIECE = "chorale", BEATS = 32;
+  const PLAN = [
+    { bar: 0, inst: "violin", v: 0, players: 12, label: "제1 바이올린" }, { bar: 0, inst: "violin", v: 1, players: 10, label: "제2 바이올린" }, { bar: 0, inst: "viola", v: 2, players: 8 }, { bar: 0, inst: "cello", v: 3, players: 6 },
+    { bar: 1, inst: "contrabass", v: 3, oct: -1, players: 4 },
+    { bar: 2, inst: "clarinet", v: 1 }, { bar: 2, inst: "bassoon", v: 2 },
+    { bar: 3, inst: "flute", v: 0, oct: 1 }, { bar: 3, inst: "oboe", v: 0 },
+    { bar: 4, inst: "horn", v: 1 }, { bar: 4, inst: "horn", v: 2, label: "호른 2", id: "horn2" },
+    { bar: 5, inst: "trumpet", v: 0 }, { bar: 5, inst: "trombone", v: 3, oct: 1 },
+    { bar: 6, inst: "tuba", v: 3, oct: -1 },
+  ];
+  const velAt = (bar) => 0.2 + bar * 0.1;
+  const base = EN.arrange(PIECE, PLAN.map((p) => ({ v: p.v, inst: p.inst, oct: p.oct, players: p.players, label: p.label, id: p.id })));
+  base.forEach((p, i) => { p.bar = PLAN[i].bar; p.maxSub = 2; });
+  const extra = [
+    { id: "timp", inst: "timpani", label: "팀파니", bar: 6, notes: [{ t: 24, d: 4, m: 43, vel: 0.55, art: "roll" }, { t: 28, d: 2, m: 48, vel: 0.85 }] },
+    { id: "cym", inst: "cymbals", label: "심벌즈", bar: 7, notes: [{ t: 28, d: 2, m: 60, vel: 0.8 }] },
+  ];
+  let mode = "add", from = 0, mx = null, cur = -1;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.3 }));
+  function parts() {
+    const src = mode === "add" ? base.concat(extra) : base.filter((p) => p.bar === 0);
+    return src.map((p) => Object.assign({}, p, { notes: p.notes.filter((n) => mode !== "add" || n.t >= p.bar * 4 - 1e-6).map((n) => Object.assign({}, n, { vel: n.art === "roll" || p.inst === "cymbals" ? n.vel : velAt(Math.floor(n.t / 4)) * (mode === "dyn" ? 1.1 : 1) })) }));
+  }
+  const count = (bar) => (mode === "add" ? base.concat(extra).filter((p) => p.bar <= bar) : base.filter((p) => p.bar === 0));
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 40, y: 14, w: w - 52, h: h - 42 }, bw = b.w / 8;
+    const maxN = base.length + extra.length;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    for (let i = 0; i < 8; i++) {
+      const ps = count(i), x = b.x + i * bw;
+      if (i === cur) { ctx.fillStyle = P.accent + "22"; ctx.fillRect(x, b.y, bw, b.h); }
+      let y = b.y + b.h;
+      ["strings", "woodwinds", "brass", "percussion"].forEach((fam) => {
+        const n = ps.filter((p) => EN.inst(p.inst).family === fam).length, hh = (n / maxN) * b.h;
+        ctx.fillStyle = EN.familyColor(fam); ctx.globalAlpha = i < from ? 0.3 : 0.85;
+        ctx.fillRect(x + 6, y - hh, bw - 12, hh); y -= hh;
+      });
+      ctx.globalAlpha = 1; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillText((i + 1) + "마디", x + bw / 2, b.y + b.h + 6);
+    }
+    ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i < 8; i++) { const x = b.x + (i + 0.5) * bw, y = b.y + b.h - velAt(i) * b.h; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+    ctx.fillStyle = P.text; ctx.textAlign = "left"; ctx.textBaseline = "top";
+    for (let i = 0; i < 8; i += 2) ctx.fillText(EN.dynOf(velAt(i)), b.x + (i + 0.5) * bw + 6, b.y + b.h - velAt(i) * b.h - 16);
+  }
+  const view = MB.canvas("#tx-cr-cv", draw, { aspect: 0.32, minHeight: 190, maxHeight: 300 });
+  const btn = document.getElementById("tx-cr-play");
+  const pl = EN.player({ parts, bpm: 72, length: BEATS, loop: false, mixer: getMx,
+    onFrame: (beat) => { const bar = Math.min(7, Math.floor(beat / 4)); if (bar !== cur) { cur = bar; stat(); view.redraw(); } },
+    onStart: () => TX.btn(btn, true), onStop: () => { TX.btn(btn, false); cur = -1; stat(); view.redraw(); } });
+  function stat() {
+    const bar = cur >= 0 ? cur : from;
+    MB.stat("tx-cr-bar", (bar + 1) + " / 8");
+    MB.stat("tx-cr-n", count(bar).length + "파트");
+    MB.stat("tx-cr-dyn", EN.dynOf(velAt(bar)) + " · " + EN.DYN_NAMES[EN.dynOf(velAt(bar))]);
+  }
+  const fromR = MB.range("tx-cr-from", (v) => v + "마디부터", (v) => { from = v - 1; stat(); view.redraw(); });
+  MB.seg("tx-cr-mode", (v) => { mode = v; if (pl.running) pl.refresh(); stat(); view.redraw(); });
+  const go = () => { MB.ctx(); getMx(); pl.start(from * 4); };
+  btn.addEventListener("click", () => { if (pl.running) pl.stop(); else go(); });
+  view.canvas.addEventListener("click", (e) => { const r = view.canvas.getBoundingClientRect(); const i = Math.floor(((e.clientX - r.left - 40) / (r.width - 52)) * 8); if (i >= 0 && i < 8) { fromR.set(i + 1); if (pl.running) pl.stop(); go(); } });
+  stat();
+})();
+
+/* ------------------------------------------------------------ 6. 부름과 응답 */
+(function () {
+  const PH = [
+    { own: "S", name: "부름 1", mel: "mf G4:.5 B4 D5:1 C5:.5 B4 A4:1 | B4:.5 C5 D5 E5 D5:2", ch: "G | G D" },
+    { own: "R", name: "응답 1", mel: "mf G4:.5 B4 D5:1 C5:.5 B4 A4:1 | B4:.5 C5 D5 E5 D5:2", ch: "G | G D" },
+    { own: "S", name: "부름 2", mel: "mf E5:.5 D5 C5:1 B4:.5 A4 G4:1 | A4:.5 B4 C5 A4 D5:2", ch: "C | D" },
+    { own: "R", name: "응답 2", mel: "mf E5:.5 D5 C5:1 B4:.5 A4 G4:1 | A4:.5 B4 C5 A4 D5:2", ch: "C | D" },
+    { own: "T", name: "함께", mel: "f G5:1 F#5:.5 E5:.5 D5:1 C5:.5 A4:.5 | G4:4", ch: "G D7 | G" },
+  ];
+  // 선율·안성부·베이스를 한 번 만들어 둔다
+  const LINES = { mel: [], inner: [], bass: [] };
+  PH.forEach((p, i) => {
+    const t0 = i * 8, mel = EN.parse(p.mel, { t: t0 });
+    mel.forEach((n) => { n.ph = i; LINES.mel.push(n); });
+    EN.progression(p.ch, 4, t0).forEach((c) => {
+      const P = EN.parseChord(c.sym);
+      let b = 43; while (MB.mod(b, 12) !== P.root) b++;
+      let th = 59; while (MB.mod(th, 12) !== P.third) th++;
+      const vel = p.own === "T" ? 0.7 : 0.5;
+      LINES.bass.push({ t: c.t, d: c.d, m: b, vel, ph: i }); LINES.inner.push({ t: c.t, d: c.d, m: th, vel, ph: i });
+    });
+  });
+  const GROUPS = {
+    S: [["vn", "violin", "mel", "바이올린", 10], ["va", "viola", "inner", "비올라", 6], ["vc", "cello", "bass", "첼로", 6]],
+    winds: [["fl", "flute", "mel", "플루트"], ["cl", "clarinet", "inner", "클라리넷"], ["bn", "bassoon", "bass", "바순"]],
+    brass: [["tpt", "trumpet", "mel", "트럼펫"], ["hn", "horn", "inner", "호른"], ["tbn", "trombone", "bass", "트롬본"]],
+  };
+  let who = "winds", mode = "call", mx = null, width = 1;
+  const getMx = () => { if (!mx) { mx = EN.mixer({ hall: "concert", wet: 0.3 }); mx.setWidth(width); } return mx; };
+  const POS = { vn: [-0.75, 0.15], va: [-0.5, 0.25], vc: [-0.3, 0.2], fl: [0.3, 0.5], cl: [0.5, 0.55], bn: [0.7, 0.5], tpt: [0.3, 0.68], hn: [0.5, 0.72], tbn: [0.7, 0.68] };
+  function parts() {
+    const out = [];
+    const add = (g, owner) => GROUPS[g].forEach(([id, inst, line, label, players]) => out.push({
+      id, inst, label, players: players || 1, maxSub: 2, pan: POS[id][0], dist: POS[id][1],
+      notes: LINES[line].filter((n) => mode === "all" || PH[n.ph].own === "T" || PH[n.ph].own === owner).map((n) => Object.assign({}, n, { m: EN.fold(inst, n.m) })),
+    }));
+    add("S", "S"); add(who, "R");
+    return out;
+  }
+  const stage = EN.stage("#tx-cl-stage", { seats: [] });
+  const roll = EN.roll("#tx-cl-roll", { parts: parts(), beats: 40, laneH: 18 });
+  const btn = document.getElementById("tx-cl-play");
+  const pl = EN.player({ parts, bpm: 100, length: 40, loop: true, mixer: getMx,
+    onNote: (p, n) => { stage.light(p.id); MB.stat("tx-cl-now", PH[n.ph].own === "T" ? "모두 함께" : EN.FAMILIES[EN.inst(p.inst).family].name); MB.stat("tx-cl-ph", PH[n.ph].name); },
+    onFrame: (b) => roll.at(b), onStart: () => TX.btn(btn, true), onStop: () => { TX.btn(btn, false); roll.clear(); } });
+  function show() {
+    const P = parts();
+    stage.set(P.map((p) => ({ id: p.id, inst: p.inst, x: p.pan, y: p.dist, label: p.label })));
+    roll.set(P, 40);
+    if (pl.running) pl.refresh();
+    if (mx) { P.forEach((p) => mx.channel(p.id, { inst: p.inst }).set({ pan: p.pan, dist: p.dist })); }
+  }
+  MB.seg("tx-cl-who", (v) => { who = v; show(); });
+  MB.seg("tx-cl-mode", (v) => { mode = v; show(); });
+  MB.range("tx-cl-w", (v) => v + "%", (v) => { width = v / 100; if (mx) mx.setWidth(width); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); show(); pl.toggle(); });
+  MB.stat("tx-cl-now", "—"); MB.stat("tx-cl-ph", "부름 → 응답 → 부름 → 응답 → 함께");
+  show();
+})();
+</script>
+</body>
+</html>

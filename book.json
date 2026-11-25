@@ -1,7 +1,7 @@
 {
   "id": "musicbooks",
   "title": "MusicBooks",
-  "description": "음악 기초부터 기타·피아노·드럼·베이스까지, 직접 듣고 연주하며 배우는 음악 교과서 서가.",
+  "description": "음악 기초부터 기타·피아노·드럼·베이스, 그리고 합주와 오케스트라까지, 직접 듣고 연주하며 배우는 음악 교과서 서가.",
   "url": "https://music.euiyun.com/",
   "repo": "https://github.com/geniuskey/music-books",
   "field": "music",
@@ -12,17 +12,19 @@
     "guitar/book.json",
     "piano/book.json",
     "drums/book.json",
-    "bass/book.json"
+    "bass/book.json",
+    "ensemble/book.json"
   ],
   "coverTitles": {
     "musicbook": "음악 기초",
     "guitarbook": "기타",
     "pianobook": "피아노",
-    "drumbook": "드럼"
+    "drumbook": "드럼",
+    "ensemblebook": "합주"
   },
   "map": {
     "title": "듣고 연주하며 배우는 음악",
-    "desc": "음·화음·리듬의 기초에서 기타·피아노·드럼·베이스 연주로 이어집니다.",
+    "desc": "음·화음·리듬의 기초에서 기타·피아노·드럼·베이스 연주로, 그리고 여러 악기가 함께하는 합주로 이어집니다.",
     "groups": [
       {
         "id": "fundamentals",
@@ -35,6 +37,12 @@
         "name": "악기",
         "en": "Instruments",
         "desc": "기타·피아노·드럼·베이스로 직접 연주하기"
+      },
+      {
+        "id": "ensemble",
+        "name": "합주",
+        "en": "Ensemble",
+        "desc": "여러 악기를 함께 듣고 편성·배치·편곡하기"
       }
     ],
     "links": [
@@ -67,6 +75,21 @@
         "drumbook",
         "bassbook",
         "킥 드럼과 맞물리는 리듬 섹션의 그루브"
+      ],
+      [
+        "musicbook",
+        "ensemblebook",
+        "배음·음색·심리음향을 여러 악기의 섞임으로"
+      ],
+      [
+        "pianobook",
+        "ensemblebook",
+        "피아노 3중주·5중주와 반주에서 합주로"
+      ],
+      [
+        "bassbook",
+        "ensemblebook",
+        "리듬 섹션의 저음에서 오케스트라의 베이스 성부로"
       ]
     ]
   }

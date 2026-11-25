@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>마스킹과 균형 · EnsembleBook</title>
+<meta name="description" content="한 악기가 다른 악기를 가리는 이유. 임계대역과 동시 마스킹, 위로 퍼지는 가림, 음역이 겹칠 때의 마스킹 지도, 셈여림 표기와 실제 음량의 차이, 독주자가 오케스트라 위로 들리는 비결, 균형을 잡는 관현악법을 듣고 조작한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .bal-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .bal-pick select { width: 100%; }
+  .bal-lv { display: grid; gap: 4px; padding: 10px 12px; }
+  .bal-lv .row { display: grid; grid-template-columns: 104px minmax(0, 1fr) 58px; gap: 8px; align-items: center; font-size: 13px; }
+  .bal-lv .bar { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .bal-lv .bar i { display: block; height: 100%; }
+  .bal-lv .row.on { font-weight: 700; }
+  .bal-lv .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+  .bal-fixes { display: grid; gap: 6px; }
+  .bal-fig svg { display: block; width: 100%; height: auto; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="balance">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 11</div>
+    <h1>마스킹과 균형</h1>
+    <p class="lead">총보에는 모든 음이 적혀 있지만, 객석에서는 모든 음이 들리지 않습니다. 금관이 화음을 세게 불면 그 한가운데에서 클라리넷이 부르는 선율은 연주자가 아무리 애써도 사라집니다. 그런데 바이올린 독주자 한 명은 현악기 수십 명과 목관·금관을 뚫고 맨 뒷자리까지 들립니다. 두 현상은 같은 원리, 즉 귀가 한 소리 때문에 다른 소리를 듣지 못하는 <b>마스킹</b>으로 설명됩니다. 이 장은 귀 속의 주파수 띠인 <b>임계대역</b>에서 출발해, 어떤 소리가 어떤 소리를 얼마나 가리는지 계산하고, 오케스트레이션이 그 가림을 피하는 기술을 시뮬레이터로 확인합니다.</p>
+    <ul class="objectives">
+      <li>달팽이관이 소리를 <b>임계대역</b>으로 나누며, 그 폭이 저음역에서 반음 여러 개에 이른다는 것을 안다(Bark·ERB).</li>
+      <li>마스킹이 같은 임계대역 근처에서 가장 강하고, 큰 소리일수록 <b>위쪽으로 넓게</b> 퍼진다는 것을 그림과 소리로 설명한다.</li>
+      <li>선율이 반주의 음역 안에 있을 때와 위에 있을 때의 차이를 마스킹 지도로 읽는다.</li>
+      <li>셈여림 기호는 연주자에게 주는 지시일 뿐, 악기마다 실제 음압이 크게 다르다는 것을 안다.</li>
+      <li>독주자가 오케스트라 위로 들리는 이유(2–4 kHz의 에너지, 음역, 반주의 배려)를 설명한다.</li>
+      <li>균형을 잡는 다섯 가지 기술 — 셈여림 조정, 음역 분리, 더블링, 반주 얇게 하기, 인원 줄이기 — 를 효과 순으로 고를 수 있다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="bands">
+    <h2>귀 속의 주파수 띠: 임계대역</h2>
+    <p>달팽이관의 기저막은 길이에 따라 떨리는 주파수가 다릅니다. 입구 쪽은 고음에, 안쪽 끝은 저음에 반응하지요. 그런데 한 주파수의 소리가 기저막의 한 점만 떨게 하는 것이 아니라 <b>어느 정도 폭을 가진 구간</b>을 떨게 합니다. 이 폭 안에 들어온 두 성분은 귀가 깨끗이 나누지 못하고, 서로 맥놀이하거나 거칠게 부딪치거나 한쪽이 다른 쪽을 가립니다. 이 폭을 <b>임계대역</b><span class="en">(Critical band)</span>이라 합니다.</p>
+    <div class="formula">
+      $$\mathrm{ERB}(f) = 24.7\,\Big(\frac{4.37\,f}{1000}+1\Big)\ \text{Hz},\qquad z(f) = 13\arctan(0.00076f) + 3.5\arctan\!\Big(\big(\tfrac{f}{7500}\big)^{2}\Big)\ \text{Bark}$$
+      <div class="where">ERB(등가 직사각형 대역폭, Glasberg–Moore)는 한 지점의 띠 폭이고, Bark(Zwicker)는 띠를 하나씩 세어 나간 눈금입니다. 가청 범위 전체가 약 24 Bark입니다. 500 Hz 아래에서는 띠 폭이 거의 100 Hz로 일정하고, 그 위에서는 주파수의 약 1/6–1/5(반음 3–4개)로 커집니다.</div>
+    </div>
+    <p>음악적으로 중요한 결과가 하나 있습니다. 띠 폭이 <b>헤르츠로는 저음에서 좁지만 음정으로는 저음에서 넓다</b>는 것입니다. 100 Hz 근처에서 임계대역은 반음 열 개가 넘습니다. 그래서 낮은 음역에서 3도를 쌓으면 두 음이 한 띠 안에서 부딪쳐 탁해지고, 높은 음역에서는 같은 3도가 깨끗합니다. 화음의 아래는 넓게, 위는 좁게 배치하라는 오래된 규칙(<a href="voicing.html">12장</a>)이 여기서 나옵니다.</p>
+
+    <div class="sim" id="sim-bal-band">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>임계대역의 폭과 음정</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bal-bd-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>아래 음 <output id="bal-bd-m-out"></output></span><input type="range" id="bal-bd-m" min="36" max="96" step="1" value="48"></label>
+          <label class="ctrl"><span>음정 <output id="bal-bd-iv-out"></output></span><input type="range" id="bal-bd-iv" min="1" max="12" step="1" value="4"></label>
+          <div class="ctrl"><span>소리</span><div class="seg" id="bal-bd-src"><button data-value="sine" class="on">순음</button><button data-value="cello">첼로</button><button data-value="horn">호른</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="bal-bd-play">▶ 두 음 함께</button><button class="btn" id="bal-bd-low">▶ 낮게 ↔ 높게 비교</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">이 자리의 ERB</span><span class="v" id="bal-bd-erb">—</span></div>
+        <div class="stat"><span class="k">띠 폭을 음정으로</span><span class="v" id="bal-bd-semi">—</span></div>
+        <div class="stat"><span class="k">두 음의 거리</span><span class="v" id="bal-bd-d">—</span></div>
+      </div>
+      <div class="sim-note">곡선은 주파수마다 임계대역(ERB) 한 칸이 반음 몇 개에 해당하는지입니다. 점이 곡선 <b>아래</b>(두 음의 간격이 한 칸보다 좁음)에 있으면 두 기본음이 한 띠 안에서 부딪칩니다. '낮게 ↔ 높게'는 같은 음정을 두 옥타브 아래와 위에서 번갈아 들려줍니다 · 모델: Glasberg–Moore ERB 공식.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="masking">
+    <h2>동시 마스킹: 위로 퍼지는 가림</h2>
+    <p>큰 소리(<b>마스커</b>)가 울리는 동안에는 그 근처 주파수의 작은 소리(<b>탐침음</b>)가 들리지 않습니다. 이것이 <b>동시 마스킹</b><span class="en">(Simultaneous masking)</span>입니다. 마스커가 만드는 '들을 수 있는 문턱의 산'을 그리면 두 가지 특징이 보입니다.</p>
+    <ul>
+      <li><b>마스커 바로 옆이 가장 높다</b> — 같은 임계대역 안의 성분은 마스커보다 약 10 dB만 작아도 묻힙니다.</li>
+      <li><b>산은 비대칭이다</b> — 아래쪽(낮은 주파수)으로는 Bark당 약 27 dB씩 가파르게 떨어지지만, 위쪽으로는 Bark당 10–20 dB로 완만하게 떨어집니다. 그리고 마스커가 클수록 위쪽 기슭이 더 완만해집니다. 이를 <b>위로 퍼지는 마스킹</b><span class="en">(Upward spread of masking)</span>이라 합니다.</li>
+    </ul>
+    <figure class="diagram bal-fig">
+      <svg viewBox="0 0 760 220" role="img" aria-label="마스킹 곡선: 아래쪽은 가파르고 위쪽은 완만하다">
+        <line x1="60" y1="190" x2="730" y2="190" class="s-dim" stroke="var(--axis)"/><line x1="60" y1="20" x2="60" y2="190" stroke="var(--axis)"/>
+        <path d="M60 182 C200 180 300 175 360 160 C420 140 440 120 470 80 L480 40 L500 82 C560 120 640 150 730 168" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.4"/>
+        <path d="M60 182 C200 180 300 175 360 160 C420 140 440 120 470 80 L480 70 L500 110 C560 150 640 172 730 182" fill="none" stroke="var(--accent-2)" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <line x1="480" y1="190" x2="480" y2="30" stroke="var(--text)" stroke-width="3"/><circle cx="480" cy="30" r="5" fill="var(--text)"/>
+        <text x="488" y="34" class="t">큰 마스커</text>
+        <circle cx="600" cy="140" r="6" fill="var(--bad)"/><text x="610" y="136" class="t-dim">위쪽 탐침음 — 묻힘</text>
+        <circle cx="380" cy="140" r="6" fill="var(--ok)"/><text x="230" y="130" class="t-dim">아래쪽 탐침음 — 들림</text>
+        <text x="440" y="66" text-anchor="end" class="t-mono" style="font-size:11px">−27 dB/Bark</text>
+        <text x="530" y="80" class="t-mono" style="font-size:11px">−10…−20 dB/Bark</text>
+        <text x="640" y="206" class="t-dim">주파수(Bark) →</text>
+        <text x="66" y="30" class="t-dim">레벨</text>
+        <text x="640" y="190" dy="-26" class="t-mono" style="font-size:11px;fill:var(--accent-2)">작은 마스커</text>
+      </svg>
+      <figcaption><b>그림 11-1.</b> 마스킹 곡선. 같은 거리라도 마스커보다 <b>높은</b> 탐침음이 더 쉽게 묻힙니다. 마스커가 클수록(실선) 위쪽 기슭이 넓어집니다.</figcaption>
+    </figure>
+    <p>오케스트라에 옮기면 이렇습니다. 낮고 큰 소리(튜바, 트롬본, 더블베이스, 팀파니)는 <b>자기보다 높은 음역</b>의 소리를 넓게 덮습니다. 반대로 높은 소리는 낮은 소리를 잘 가리지 못합니다. 피콜로가 아무리 세게 불어도 첼로 선율은 들리지만, 트롬본이 ff로 화음을 불면 그 위의 클라리넷은 쉽게 묻힙니다.</p>
+
+    <div class="sim" id="sim-bal-spread">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마스커와 탐침음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bal-sp-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>마스커 주파수 <output id="bal-sp-mf-out"></output></span><input type="range" id="bal-sp-mf" min="0" max="100" step="1" value="40"></label>
+          <label class="ctrl"><span>마스커 레벨 <output id="bal-sp-ml-out"></output></span><input type="range" id="bal-sp-ml" min="40" max="90" step="1" value="75"></label>
+          <label class="ctrl"><span>탐침음 주파수 <output id="bal-sp-pf-out"></output></span><input type="range" id="bal-sp-pf" min="0" max="100" step="1" value="58"></label>
+          <label class="ctrl"><span>탐침음 레벨 <output id="bal-sp-pl-out"></output></span><input type="range" id="bal-sp-pl" min="10" max="80" step="1" value="45"></label>
+          <div class="btn-row"><button class="btn primary" id="bal-sp-play">▶ 마스커 + 탐침음</button><button class="btn" id="bal-sp-probe">▶ 탐침음만</button><button class="btn" id="bal-sp-mirror">⇄ 위·아래 바꾸기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">거리</span><span class="v" id="bal-sp-dz">—</span></div>
+        <div class="stat"><span class="k">이 자리의 문턱</span><span class="v" id="bal-sp-thr">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="bal-sp-res">—</span></div>
+      </div>
+      <div class="sim-note">탐침음은 세 번 짧게 울려 찾기 쉽게 했습니다. 실선은 마스커가 만든 문턱, 점선은 조용할 때의 가청 문턱입니다 · 모델: Bark 축의 퍼짐 함수(아래 27 dB/Bark, 위 24 + 230/f − 0.2·L dB/Bark, Terhardt 근사)와 마스커보다 10 dB 낮은 정점. 레벨은 가상의 dB SPL이므로 실제 볼륨에 따라 들리는 문턱은 다릅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="map">
+    <h2>마스킹 지도: 선율은 어디에 있어야 들리나</h2>
+    <p>실제 악기는 순음이 아니라 수십 개의 배음을 가진 소리입니다. 그래서 한 악기는 자기 음높이만이 아니라 <b>배음이 퍼진 고역 전체</b>에 마스킹의 산을 쌓습니다. 화음을 이루는 여러 악기의 산이 겹치면, 그 위에 올라탄 선율의 배음 중 어떤 것은 산 위로 솟고(들림) 어떤 것은 산 아래에 잠깁니다(묻힘).</p>
+    <p>아래 마스킹 지도에서 선율 악기와 음높이, 반주 악기군과 셈여림을 바꿔 보세요. 선율이 반주 화음의 <b>음역 안</b>에 있으면 배음 대부분이 잠기고, <b>위로 빠져나오면</b> 몇 개만 솟아도 선율이 또렷해집니다. 음높이를 전달하는 데는 낮은 배음 몇 개면 충분하기 때문입니다.</p>
+
+    <div class="sim" id="sim-bal-map">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마스킹 지도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bal-mp-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>선율 악기</span><select id="bal-mp-mel"></select></label>
+          <label class="ctrl"><span>선율 음높이 <output id="bal-mp-m-out"></output></span><input type="range" id="bal-mp-m" min="48" max="91" step="1" value="62"></label>
+          <div class="ctrl"><span>반주 화음(C장조, C3–G4)</span><div class="seg" id="bal-mp-acc"><button data-value="brass" class="on">금관</button><button data-value="strings">현악 섹션</button><button data-value="winds">목관</button></div></div>
+          <label class="ctrl"><span>반주 셈여림 <output id="bal-mp-dyn-out"></output></span><input type="range" id="bal-mp-dyn" min="1" max="7" step="1" value="5"></label>
+          <div class="btn-row"><button class="btn primary" id="bal-mp-play">▶ 재생</button><button class="btn" id="bal-mp-solo">▶ 선율만</button><button class="btn" id="bal-mp-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선율 들림 지수</span><span class="v" id="bal-mp-aud">—</span></div>
+        <div class="stat"><span class="k">가장 많이 솟은 배음</span><span class="v" id="bal-mp-smr">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="bal-mp-res">—</span></div>
+      </div>
+      <div class="sim-note">가로는 Bark(임계대역) 눈금, 세로는 레벨입니다. 들림 지수는 음높이를 실어 나르는 낮은 배음 네 개가 문턱 위로 얼마나 솟았는지의 가중 평균(6 dB 이상 솟으면 만점)입니다. 가는 막대는 반주의 배음, 굵은 막대는 선율의 배음(흐린 것은 묻힌 것), 곡선은 반주가 만든 마스킹 문턱입니다 · 모델: EN.masking의 정적 근사(악기 음량 등급 × 셈여림 × 인원, Bark 비대칭 퍼짐). 시간에 따른 변화(어택이 먼저 들리는 효과)와 귀의 '선율 따라가기'는 들어 있지 않습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 묻힌 선율 찾기.</b> 선율을 클라리넷, 음높이를 D4 근처, 반주를 현악 섹션 f로 두고 재생하세요. 선율이 있다는 것을 알고 들어도 따라가기 어렵습니다. 이제 음높이만 한 옥타브 올려 보세요. 반주는 그대로인데 선율이 앞으로 나옵니다. 반주를 금관으로 바꾸면 사정이 다릅니다. 트럼펫의 1–2 kHz 포먼트가 높은 음역까지 덮어서, 음역을 옮기는 것만으로는 부족하고 금관의 셈여림을 낮춰야 합니다. 이것이 관현악법 교과서들이 "선율은 반주 위에, 또는 반주를 비운 음역에"라고 되풀이하는 이유입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="dynamics">
+    <h2>셈여림 기호와 실제 음량</h2>
+    <p>총보의 <b>f</b>는 "이 악기로서 세게"라는 뜻이지 "몇 dB로"라는 뜻이 아닙니다. 같은 f라도 트럼펫과 플루트의 음압은 10 dB 가까이 차이 나고, 플루트의 낮은 음역 f는 트롬본의 p보다 작을 수 있습니다. 측정 연구들도 악기마다 셈여림 단계 사이의 간격과 전체 폭이 크게 다르다는 것을 보여 줍니다. 금관은 pp에서 ff까지 30–40 dB를 오가지만, 플루트의 낮은 음은 폭이 그 절반도 안 됩니다.</p>
+    <p>그래서 노련한 작곡가는 같은 순간에 <b>악기마다 다른 셈여림</b>을 적습니다. 금관과 목관이 함께 화음을 부는 대목에서 금관에는 p, 목관에는 mf를 주는 식입니다. 지휘자의 일도 여기서 시작합니다. 객석에서 들리는 균형을 듣고 "트럼펫, 거기서 하나 낮게"라고 조정하는 것이지요.</p>
+
+    <div class="sim" id="sim-bal-dyn">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 f, 다른 음량</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="bal-lv" id="bal-dy-view"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>두 악기</span><div class="bal-pick"><select id="bal-dy-a"></select><select id="bal-dy-b"></select></div></div>
+          <label class="ctrl"><span>A의 셈여림 <output id="bal-dy-da-out"></output></span><input type="range" id="bal-dy-da" min="0" max="7" step="1" value="5"></label>
+          <label class="ctrl"><span>B의 셈여림 <output id="bal-dy-db-out"></output></span><input type="range" id="bal-dy-db" min="0" max="7" step="1" value="5"></label>
+          <div class="btn-row"><button class="btn primary" id="bal-dy-play">▶ 함께(3도 간격)</button><button class="btn" id="bal-dy-ab">▶ A → B</button><button class="btn" id="bal-dy-fix">⚖ B로 균형 맞추기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">A 레벨</span><span class="v" id="bal-dy-la">—</span></div>
+        <div class="stat"><span class="k">B 레벨</span><span class="v" id="bal-dy-lb">—</span></div>
+        <div class="stat"><span class="k">차이</span><span class="v" id="bal-dy-diff">—</span></div>
+      </div>
+      <div class="sim-note">막대는 모든 악기를 같은 셈여림(A의 셈여림)으로 연주할 때의 상대 레벨이고, 굵은 줄이 고른 두 악기입니다. '균형 맞추기'는 A와 레벨이 가장 비슷해지는 B의 셈여림을 찾습니다 · 모델: 엔진의 음량 규칙 그대로 — 레벨 = 10·log₁₀(음량 등급) + 30·log₁₀(벨로시티) + 상수. 실제 악기는 음역마다 다르고, 특히 플루트·클라리넷의 낮은 음은 훨씬 작습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="soloist">
+    <h2>독주자는 어떻게 들리나</h2>
+    <p>협주곡에서 바이올린 독주자 한 명은 오케스트라 전체와 마주합니다. 그 소리가 묻히지 않는 데에는 세 가지 이유가 있습니다.</p>
+    <ol>
+      <li><b>2–4 kHz의 에너지</b> — 바이올린 몸통과 브리지는 2.5–3 kHz 부근에 넓은 공명 언덕(<span class="en">bridge hill</span>)을 만듭니다. 이 대역은 귀가 가장 예민한 곳(등청감 곡선의 골)이고, 오케스트라 전체의 스펙트럼은 이 위로 점점 줄어듭니다. 독주자는 반주가 비워 둔 고역의 틈으로 소리를 보냅니다.</li>
+      <li><b>음역</b> — 독주 선율은 대개 반주 화음보다 높은 곳에 놓입니다. 마스킹은 위쪽으로 퍼지므로, 위에 있는 소리는 아래의 큰 소리에 덜 가려집니다.</li>
+      <li><b>작곡가의 배려</b> — 협주곡의 반주는 독주가 나오는 동안 얇아집니다. 금관이 쉬고, 현은 인원을 줄이거나 약음기를 끼고, 화음이 독주보다 낮은 음역으로 내려갑니다.</li>
+    </ol>
+    <p>오페라 가수도 같은 전략을 씁니다. 훈련된 성악가의 목소리에는 2.5–3.5 kHz 근처에 여러 포먼트가 모인 강한 봉우리, 곧 <b>가수 포먼트</b><span class="en">(Singer's formant)</span>가 생깁니다. 마이크 없이 오케스트라 위로 목소리를 보내는 이 기술은 독주 바이올린의 브리지 언덕과 놀랍도록 닮았습니다.</p>
+
+    <div class="sim" id="sim-bal-solo">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>협주곡: 독주 대 합주</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bal-so-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>독주 악기</span><select id="bal-so-inst"></select></label>
+          <label class="ctrl"><span>반주 셈여림 <output id="bal-so-dyn-out"></output></span><input type="range" id="bal-so-dyn" min="1" max="7" step="1" value="4"></label>
+          <div class="ctrl"><span>반주 음역</span><div class="seg" id="bal-so-reg"><button data-value="low" class="on">독주 아래</button><button data-value="same">독주와 같은 음역</button></div></div>
+          <label class="check"><input type="checkbox" id="bal-so-thin"> 반주 얇게(인원 절반 · 약음기)</label>
+          <div class="btn-row"><button class="btn primary" id="bal-so-play">▶ 재생</button><button class="btn" id="bal-so-tutti">▶ 반주만</button><button class="btn" id="bal-so-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">독주 들림 지수</span><span class="v" id="bal-so-aud">—</span></div>
+        <div class="stat"><span class="k">2–4 kHz에서 독주 − 반주</span><span class="v" id="bal-so-band">—</span></div>
+        <div class="stat"><span class="k">반주 인원</span><span class="v" id="bal-so-n">—</span></div>
+      </div>
+      <div class="sim-note">막대는 1/3옥타브 대역별 에너지(독주 = 진한 색, 반주 전체 = 흐린 색)이고, 음영은 2–4 kHz입니다. 반주는 현악 합주(제2 바이올린·비올라·첼로·더블베이스)입니다 · 모델: EN 스펙트럼 × 음량 등급 × 셈여림 × 인원의 비상관 합, 정적인 근사입니다. 실제 독주자는 비브라토와 어택, 무대 앞자리의 직접음 덕도 봅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="fix">
+    <h2>균형을 잡는 기술</h2>
+    <p>묻힌 선율을 살리는 방법은 여러 가지이고, 효과도 비용도 다릅니다. 오케스트라 리허설에서 실제로 쓰는 순서대로 정리하면 다음과 같습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>방법</th><th>원리</th><th>대가</th></tr></thead>
+        <tbody>
+          <tr><td><b>반주 셈여림 낮추기</b></td><td>마스킹 산 전체를 낮춘다</td><td>반주의 힘이 줄어든다. 금관은 작게 불면 색도 어두워진다</td></tr>
+          <tr><td><b>음역 분리</b></td><td>선율을 반주 위로 옮기거나, 반주를 선율 아래로 내린다</td><td>선율의 성격이 바뀐다(높으면 밝고 긴장된다)</td></tr>
+          <tr><td><b>선율 더블링</b></td><td>다른 악기를 겹쳐 배음을 채우고 레벨을 올린다</td><td>+3 dB 남짓뿐이고 음색이 바뀐다. 옥타브 더블링이 더 효과적</td></tr>
+          <tr><td><b>반주 얇게</b></td><td>선율과 같은 음역의 화음 음을 빼서 '구멍'을 낸다</td><td>화음이 성겨진다</td></tr>
+          <tr><td><b>인원 줄이기</b></td><td>현 섹션을 일부만(예: 앞 두 줄만) 연주시킨다</td><td>절반으로 줄여도 −3 dB, 1/4로 줄여야 −6 dB(셈여림 두 단계쯤)이고 소리가 얇아진다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sim" id="sim-bal-fix">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>묻힌 선율 구하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bal-fx-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>처방(여러 개 가능)</span><div class="bal-fixes">
+            <label class="check"><input type="checkbox" id="bal-fx-dyn"> ① 반주를 mf → p로</label>
+            <label class="check"><input type="checkbox" id="bal-fx-oct"> ② 선율을 한 옥타브 위로</label>
+            <label class="check"><input type="checkbox" id="bal-fx-dbl"> ③ 선율에 바이올린을 겹치기</label>
+            <label class="check"><input type="checkbox" id="bal-fx-thin"> ④ 반주의 가운데 음역 비우기</label>
+            <label class="check"><input type="checkbox" id="bal-fx-few"> ⑤ 현 반주 인원을 1/4로</label>
+          </div></div>
+          <div class="btn-row"><button class="btn primary" id="bal-fx-play">▶ 재생</button><button class="btn" id="bal-fx-reset">↺ 처방 모두 끄기</button><button class="btn" id="bal-fx-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선율 들림 지수</span><span class="v" id="bal-fx-aud">—</span></div>
+        <div class="stat"><span class="k">가장 많이 솟은 배음</span><span class="v" id="bal-fx-smr">—</span></div>
+        <div class="stat"><span class="k">처방</span><span class="v" id="bal-fx-used">—</span></div>
+      </div>
+      <div class="sim-note">처음 상태는 클라리넷의 낮은 음역 선율(D4–A4) 위에 금관과 현악 섹션이 같은 음역에서 mf로 화음을 연주하는 장면입니다. 막대 그래프는 처방 하나하나를 따로 켰을 때 선율이 얼마나 들리게 되는지 비교한 것입니다 · 모델: EN.masking의 정적 근사.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 지휘자의 귀로 듣기.</b> 관현악 음반을 들을 때 "지금 주인공은 누구이고, 그 사람이 잘 들리나?"를 물어 보세요. 잘 들린다면 위의 다섯 가지 중 무엇을 썼는지 찾아보세요. 차이콥스키와 말러의 총보는 같은 마디에 악기마다 다른 셈여림을 적어 놓은 예로 가득하고, 드보르자크 교향곡 9번 2악장의 잉글리시 호른 선율은 현이 약음기를 끼고 낮게 깔린 위에서 노래합니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>달팽이관은 소리를 <b>임계대역</b>으로 나눈다. 가청 범위는 약 24 Bark이고, ERB는 500 Hz 아래에서 약 100 Hz, 그 위에서 주파수의 약 1/6–1/5다.</li>
+      <li>임계대역은 저음에서 <b>음정으로 넓다</b>. 낮은 음역의 좁은 화음은 한 띠 안에서 부딪쳐 탁해진다.</li>
+      <li>마스킹은 마스커 근처에서 가장 강하고, 아래쪽보다 <b>위쪽으로</b> 넓게 퍼진다. 마스커가 클수록 더 넓어진다. 낮고 큰 소리는 위의 소리를 덮는다.</li>
+      <li>선율이 반주 음역 안에 있으면 묻히고, 위로 빠져나오면 낮은 배음 몇 개만 솟아도 또렷하다.</li>
+      <li>셈여림 기호는 지시이지 측정값이 아니다. 같은 f에서도 악기마다 음압이 크게 다르므로, 작곡가는 악기마다 다른 셈여림을 적는다.</li>
+      <li>독주자는 2–4 kHz의 에너지(브리지 언덕·가수 포먼트), 높은 음역, 얇아진 반주 덕분에 들린다.</li>
+      <li>균형 처방: 반주 셈여림 · 음역 분리 · 더블링 · 반주 얇게 · 인원 줄이기. 가장 효과적인 것은 대개 음역 분리와 반주 셈여림이고, 인원은 절반으로 줄여도 −3 dB뿐이다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>C2–E2(장3도)를 첼로로 낼 때가 C5–E5보다 탁하게 들리는 이유는?</p><div class="opts">
+        <button class="opt">낮은 음은 배음이 적어서</button>
+        <button class="opt" data-correct>저음역에서 임계대역이 음정으로 넓어, 두 기본음이 한 띠 안에서 부딪치기 때문</button>
+        <button class="opt">첼로가 낮은 음에서 음정이 불안해서</button>
+        <button class="opt">장3도의 주파수비가 저음에서 달라서</button>
+      </div><div class="quiz-exp">65 Hz 근처의 ERB는 약 32 Hz로, 반음 여러 개에 해당한다. C2와 E2(약 65 Hz와 82 Hz)는 한 띠 안에 들어가 거칠게 부딪친다. 같은 3도가 높은 음역에서는 띠 여러 개만큼 떨어져 깨끗하다.</div></div>
+      <div class="quiz-q"><p>같은 레벨 차이라면 어느 쪽이 더 쉽게 묻히는가?</p><div class="opts">
+        <button class="opt">마스커보다 1 Bark 낮은 탐침음</button>
+        <button class="opt" data-correct>마스커보다 1 Bark 높은 탐침음</button>
+        <button class="opt">둘이 똑같다</button>
+        <button class="opt">마스커와 멀수록 더 쉽게 묻힌다</button>
+      </div><div class="quiz-exp">마스킹 곡선은 아래쪽이 가파르고(약 27 dB/Bark) 위쪽이 완만하다(10–20 dB/Bark). 위쪽 탐침음의 문턱이 더 높다 — 위로 퍼지는 마스킹.</div></div>
+      <div class="quiz-q"><p>금관 화음이 f로 울리는 가운데 클라리넷 선율이 묻힌다. 가장 효과가 큰 처방일 가능성이 높은 것은?</p><div class="opts">
+        <button class="opt">현악 반주의 인원을 절반으로 줄인다</button>
+        <button class="opt" data-correct>선율을 반주 화음보다 위의 음역으로 옮긴다</button>
+        <button class="opt">클라리넷에게 더 세게 불라고 한다(f → ff)</button>
+        <button class="opt">홀의 잔향을 늘린다</button>
+      </div><div class="quiz-exp">마스킹은 위로 퍼지므로 반주 위로 빠져나오면 배음이 문턱 위로 솟는다. 인원 절반은 −3 dB, 한 단계 세게는 몇 dB뿐이라 효과가 작다.</div></div>
+      <div class="quiz-q"><p>총보에 트럼펫과 플루트가 모두 f로 적혀 있다. 실제로는?</p><div class="opts">
+        <button class="opt">둘의 음압이 같다</button>
+        <button class="opt" data-correct>트럼펫이 훨씬 크다. 셈여림은 악기마다의 상대적 지시다</button>
+        <button class="opt">플루트가 더 크다</button>
+        <button class="opt">홀에 따라 둘이 정확히 같아진다</button>
+      </div><div class="quiz-exp">셈여림 기호는 '그 악기로서' 세게라는 지시다. 금관은 같은 지시에서 목관보다 큰 음압을 낸다. 그래서 작곡가는 악기마다 다른 셈여림을 적는다.</div></div>
+      <div class="quiz-q"><p>바이올린 독주자가 현악 합주 위로 들리는 데 가장 덜 관련된 것은?</p><div class="opts">
+        <button class="opt">2.5–3 kHz 부근의 브리지 공명 언덕</button>
+        <button class="opt">반주보다 높은 음역</button>
+        <button class="opt">독주 동안 얇아지는 반주</button>
+        <button class="opt" data-correct>독주자가 반주보다 더 많은 비브라토 폭을 쓰기 때문에 음압이 커진다</button>
+      </div><div class="quiz-exp">비브라토는 묶기 단서로 독주를 분리하는 데 도움을 줄 수 있지만 음압을 키우지는 않는다. 독주가 들리는 주된 이유는 고역 에너지, 음역, 반주의 배려다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+const BAL_D = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"];
+const balHz = (f) => (f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 0 : 1) + "k" : String(Math.round(f)));
+/* 마스킹 결과에서 한 무리(id 접두사)의 들리는 에너지 비율과 최대 SMR */
+function balAud(res, pre) {
+  // 들림 지수: 음높이를 실어 나르는 낮은 배음 4개(가중치 .45 .25 .2 .1)가 문턱 위로 솟은 정도(0–6 dB → 0–1).
+  // 같은 선율을 겹친 악기가 있으면 배음 번호마다 더 잘 솟은 쪽을 쓴다.
+  const cs = res.comps.filter((c) => c.id.startsWith(pre)), W = [0.45, 0.25, 0.2, 0.1];
+  const byId = {}; cs.forEach((c) => (byId[c.id] = byId[c.id] || []).push(c));
+  Object.values(byId).forEach((l) => l.sort((x, y) => x.f - y.f));
+  const aud = W.reduce((a, w, k) => a + w * Math.max(0, ...Object.values(byId).map((l) => (l[k] ? MB.clamp((l[k].db - l[k].thr) / 6, 0, 1) : 0))), 0), tot = 1;
+  const best = cs.reduce((b, c) => (c.db - c.thr > b.smr ? { smr: c.db - c.thr, f: c.f } : b), { smr: -99, f: 0 });
+  return { aud: aud / tot, best };
+}
+/* 다른 소리가 만드는 문턱(EN.masking과 같은 퍼짐 함수) */
+function balThr(comps, z, exceptPre) {
+  let e = 0;
+  comps.forEach((c) => { if (c.id.startsWith(exceptPre)) return; const dz = z - c.z; const att = dz < 0 ? 27 * -dz : 12 * dz; e += Math.pow(10, (c.db - 10 - att) / 10); });
+  return 10 * Math.log10(e || 1e-12);
+}
+/* Bark 축 위의 마스킹 그림 */
+function balDrawMap(ctx, w, h, res, melPre) {
+  const P = MB.palette(), b = { x: 36, y: 10, w: w - 46, h: h - 34 };
+  const zmax = EN.bark(12000), X = (z) => b.x + (z / zmax) * b.w, dbMin = 20, dbMax = 95, Y = (d) => b.y + b.h - (MB.clamp(d, dbMin, dbMax) - dbMin) / (dbMax - dbMin) * b.h;
+  ctx.font = "10.5px " + getComputedStyle(document.body).getPropertyValue("--mono");
+  ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.lineWidth = 1;
+  [100, 250, 500, 1000, 2000, 4000, 8000].forEach((f) => { const x = X(EN.bark(f)); ctx.beginPath(); ctx.moveTo(x, b.y); ctx.lineTo(x, b.y + b.h); ctx.stroke(); ctx.fillText(balHz(f), x, b.y + b.h + 4); });
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  [40, 60, 80].forEach((d) => { ctx.beginPath(); ctx.moveTo(b.x, Y(d)); ctx.lineTo(b.x + b.w, Y(d)); ctx.stroke(); ctx.fillText(d, b.x - 4, Y(d)); });
+  // 반주 배음
+  res.comps.forEach((c) => {
+    if (c.id.startsWith(melPre) || c.z > zmax) return;
+    ctx.strokeStyle = EN.color(c.inst || "violin"); ctx.globalAlpha = 0.55; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(X(c.z), Y(dbMin)); ctx.lineTo(X(c.z), Y(c.db)); ctx.stroke();
+  });
+  ctx.globalAlpha = 1;
+  // 문턱 곡선
+  ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.beginPath();
+  for (let i = 0; i <= 240; i++) { const z = (i / 240) * zmax, y = Y(balThr(res.comps, z, melPre)); i ? ctx.lineTo(X(z), y) : ctx.moveTo(X(z), y); }
+  ctx.stroke();
+  // 선율 배음
+  res.comps.forEach((c) => {
+    if (!c.id.startsWith(melPre) || c.z > zmax) return;
+    const col = EN.color(c.inst || "flute");
+    ctx.strokeStyle = c.masked ? P.faint : col; ctx.fillStyle = c.masked ? P.faint : col; ctx.lineWidth = 3.4;
+    ctx.beginPath(); ctx.moveTo(X(c.z), Y(dbMin)); ctx.lineTo(X(c.z), Y(c.db)); ctx.stroke();
+    ctx.beginPath(); ctx.arc(X(c.z), Y(c.db), 3.6, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = P.dim; ctx.font = "11.5px " + getComputedStyle(document.body).getPropertyValue("--font");
+  ctx.fillText("굵은 막대 = 선율 · 가는 막대 = 반주 · 곡선 = 반주의 마스킹 문턱", b.x + 4, b.y + 2);
+}
+/* 다장조 음계를 따라 오르내리는 짧은 선율 */
+function balLine(m, inst) {
+  const sc = [0, 2, 4, 5, 7, 9, 11];
+  let base = m; while (!sc.includes(MB.mod(base, 12))) base--;
+  const deg0 = sc.indexOf(MB.mod(base, 12)), oct = Math.floor(base / 12);
+  const at = (d) => { const dd = deg0 + d; return (oct + Math.floor(dd / 7)) * 12 + sc[MB.mod(dd, 7)]; };
+  const steps = [0, 1, 2, 3, 4, 3, 2, 1, 0, 2, 1, 0];
+  const durs = [1, 0.5, 0.5, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 2];
+  let t = 0;
+  return steps.map((d, i) => { const n = { t, d: durs[i], m: inst ? EN.fold(inst, at(d)) : at(d), vel: EN.DYN.mf }; t += durs[i]; return n; });
+}
+/* 반주 화음(C장조, C3–G4) */
+const BAL_ACC = {
+  brass:   [["trombone", 48, 1], ["horn", 55, 1], ["horn", 60, 1], ["trumpet", 64, 1], ["trumpet", 67, 1]],
+  strings: [["cello", 48, 8], ["viola", 55, 5], ["viola", 60, 5], ["violin", 64, 12], ["violin", 67, 12]],
+  winds:   [["bassoon", 48, 1], ["clarinet", 55, 1], ["clarinet", 60, 1], ["oboe", 64, 1], ["flute", 67, 1]],
+};
+function balAccParts(list, vel, len) {
+  return list.map(([k, m, n], i) => ({ id: "acc" + i, inst: k, players: n, maxSub: 3, notes: [...Array(len / 4)].map((_, j) => ({ t: j * 4, d: 4, m, vel })) }));
+}
+
+/* ------------------------------------------------------------ 1. 임계대역 */
+(function () {
+  let m = 48, iv = 4, src = "sine";
+  const semis = (f) => { const e = EN.erb(f); return 12 * Math.log2((f + e / 2) / Math.max(1, f - e / 2)); };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), data = [];
+    for (let i = 0; i <= 200; i++) { const f = 40 * Math.pow(250, i / 200); data.push([f, semis(f)]); }
+    const f1 = MB.mtof(m);
+    MB.chart(ctx, null, { x: [40, 10000], y: [0, 24], logX: true, xLabel: "아래 음의 주파수 (Hz)", yLabel: "반음",
+      xFmt: (v) => balHz(v), xTicks: [50, 100, 200, 500, 1000, 2000, 5000, 10000],
+      hlines: [{ y: 4, color: P.faint, label: "장3도" }, { y: 12, color: P.faint, label: "옥타브" }],
+      series: [{ data, color: P.accent, width: 2.4, fill: P.accent + "18" }],
+      points: [{ x: f1, y: iv, color: iv < semis(f1) ? P.bad : P.ok, r: 6, label: MB.intervalName(iv) }] });
+  }
+  const view = MB.canvas("#bal-bd-cv", draw, { aspect: 0.48, minHeight: 210 });
+  function update() {
+    const f1 = MB.mtof(m), f2 = MB.mtof(m + iv), e = EN.erb(f1);
+    document.getElementById("bal-bd-m-out").textContent = MB.noteName(m) + " · " + f1.toFixed(0) + " Hz";
+    document.getElementById("bal-bd-iv-out").textContent = MB.intervalName(iv);
+    MB.stat("bal-bd-erb", e.toFixed(0) + " Hz");
+    MB.stat("bal-bd-semi", semis(f1).toFixed(1) + " 반음");
+    const E = (f) => 21.4 * Math.log10(4.37 * f / 1000 + 1), d = E(f2) - E(f1);
+    MB.stat("bal-bd-d", d.toFixed(2) + " ERB" + (d < 1 ? " · 한 띠 안 → 부딪침" : " · 다른 띠"));
+    view.redraw();
+  }
+  function pair(lo, when) {
+    const ctx = MB.ctx(); const t = when || ctx.currentTime + 0.03;
+    if (src === "sine") [lo, lo + iv].forEach((mm) => MB.play(mm, { inst: "sine", dur: 1.4, vel: 0.5, when: t }));
+    else [lo, lo + iv].forEach((mm) => EN.note(src, EN.fold(src, mm), { dur: 1.4, vel: 0.55, vib: 0, when: t }));
+  }
+  MB.range("bal-bd-m", null, (v) => { m = v; update(); });
+  MB.range("bal-bd-iv", null, (v) => { iv = v; update(); });
+  MB.seg("bal-bd-src", (v) => { src = v; });
+  document.getElementById("bal-bd-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); pair(m); });
+  document.getElementById("bal-bd-low").addEventListener("click", () => { const ctx = MB.ctx(); MB.stopAll(); const t = ctx.currentTime + 0.03; pair(Math.max(36, m - 24), t); pair(Math.min(84, m + 24), t + 1.8); pair(Math.max(36, m - 24), t + 3.6); pair(Math.min(84, m + 24), t + 5.4); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 마스커와 탐침음 */
+(function () {
+  const F = (v) => 80 * Math.pow(100, v / 100); // 80 Hz – 8 kHz
+  let mf = F(40), ml = 75, pf = F(58), pl = 45;
+  const quiet = (f) => { const k = f / 1000; return 3.64 * Math.pow(k, -0.8) - 6.5 * Math.exp(-0.6 * Math.pow(k - 3.3, 2)) + 1e-3 * Math.pow(k, 4); };
+  const thr = (f) => {
+    const dz = EN.bark(f) - EN.bark(mf);
+    const up = Math.max(5, 24 + 230 / mf - 0.2 * ml);
+    const att = dz < 0 ? 27 * -dz : up * dz;
+    const L = ml - 10 - att;
+    return 10 * Math.log10(Math.pow(10, L / 10) + Math.pow(10, quiet(f) / 10));
+  };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), mk = [], qt = [];
+    for (let i = 0; i <= 200; i++) { const f = 60 * Math.pow(250, i / 200); mk.push([EN.bark(f), thr(f)]); qt.push([EN.bark(f), quiet(f)]); }
+    const ok = pl > thr(pf);
+    const ticks = [100, 250, 500, 1000, 2000, 4000, 8000];
+    MB.chart(ctx, null, { x: [EN.bark(60), EN.bark(15000)], y: [0, 100], xLabel: "주파수 (Bark 눈금)", yLabel: "레벨 (dB)",
+      xTicks: ticks.map((f) => EN.bark(f)), xFmt: (z) => balHz(ticks.find((f) => Math.abs(EN.bark(f) - z) < 1e-6) || 0),
+      series: [{ data: qt, color: P.faint, width: 1.4, dash: [5, 4] }, { data: mk, color: P.accent, width: 2.4, fill: P.accent + "20" }],
+      points: [{ x: EN.bark(mf), y: ml, color: P.text, r: 6, label: "마스커" }, { x: EN.bark(pf), y: pl, color: ok ? P.ok : P.bad, r: 6, label: ok ? "들림" : "묻힘" }] });
+  }
+  const view = MB.canvas("#bal-sp-cv", draw, { aspect: 0.48, minHeight: 210 });
+  function update() {
+    document.getElementById("bal-sp-mf-out").textContent = Math.round(mf) + " Hz";
+    document.getElementById("bal-sp-ml-out").textContent = ml + " dB";
+    document.getElementById("bal-sp-pf-out").textContent = Math.round(pf) + " Hz";
+    document.getElementById("bal-sp-pl-out").textContent = pl + " dB";
+    const dz = EN.bark(pf) - EN.bark(mf), t = thr(pf);
+    MB.stat("bal-sp-dz", MB.signed(dz, 2) + " Bark (" + (dz > 0 ? "위쪽" : dz < 0 ? "아래쪽" : "같은 자리") + ")");
+    MB.stat("bal-sp-thr", t.toFixed(0) + " dB");
+    MB.stat("bal-sp-res", pl > t ? "들림 (+" + (pl - t).toFixed(0) + " dB)" : "묻힘 (" + (pl - t).toFixed(0) + " dB)");
+    view.redraw();
+  }
+  const amp = (L) => 0.45 * Math.pow(10, (L - 90) / 20);
+  function tone(f, L, t0, dur) {
+    const ctx = MB.ctx(), o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = f; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(amp(L), t0 + 0.02); g.gain.setValueAtTime(amp(L), t0 + dur - 0.02); g.gain.linearRampToValueAtTime(0, t0 + dur);
+    o.connect(g); g.connect(MB.out); o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  function play(withMasker) {
+    const ctx = MB.ctx(); const t = ctx.currentTime + 0.05;
+    if (withMasker) tone(mf, ml, t, 2.4);
+    [0.4, 1.0, 1.6].forEach((d) => tone(pf, pl, t + d, 0.3));
+  }
+  const rMf = MB.range("bal-sp-mf", null, (v) => { mf = F(v); update(); });
+  MB.range("bal-sp-ml", null, (v) => { ml = v; update(); });
+  const rPf = MB.range("bal-sp-pf", null, (v) => { pf = F(v); update(); });
+  MB.range("bal-sp-pl", null, (v) => { pl = v; update(); });
+  document.getElementById("bal-sp-play").addEventListener("click", () => play(true));
+  document.getElementById("bal-sp-probe").addEventListener("click", () => play(false));
+  document.getElementById("bal-sp-mirror").addEventListener("click", () => {
+    // 마스커를 기준으로 탐침음을 (로그 주파수에서) 반대편으로
+    const vM = rMf(), vP = rPf(); rPf.set(MB.clamp(2 * vM - vP, 0, 100));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 마스킹 지도 */
+(function () {
+  const MELS = ["flute", "oboe", "clarinet", "violin", "horn", "trumpet", "cello"];
+  const sel = document.getElementById("bal-mp-mel"); sel.innerHTML = EN.options(MELS, "clarinet");
+  let m = 62, acc = "brass", dyn = 5, mx = null, pl = null, soloMel = false;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.25 }));
+  function sources() {
+    const vel = EN.DYN[BAL_D[dyn]], mm = EN.fold(sel.value, m);
+    return [{ id: "mel", inst: sel.value, m: mm, vel: EN.DYN.f }].concat(BAL_ACC[acc].map(([k, n, p], i) => ({ id: "acc" + i, inst: k, m: n, vel, players: p })));
+  }
+  let res = null;
+  function analyse() {
+    const S = sources();
+    res = EN.masking(S, { top: 16 });
+    res.comps.forEach((c) => { c.inst = S.find((s) => s.id === c.id).inst; });
+  }
+  analyse();
+  const view = MB.canvas("#bal-mp-cv", (ctx, w, h) => balDrawMap(ctx, w, h, res, "mel"), { aspect: 0.52, minHeight: 220 });
+  const parts = () => [{ id: "mel", inst: sel.value, notes: balLine(EN.fold(sel.value, m), sel.value).map((n) => Object.assign(n, { vel: EN.DYN.f })) }].concat(soloMel ? [] : balAccParts(BAL_ACC[acc], EN.DYN[BAL_D[dyn]], 16));
+  function update() {
+    document.getElementById("bal-mp-m-out").textContent = MB.noteName(EN.fold(sel.value, m)) + (EN.fold(sel.value, m) !== m ? " (음역 밖 → 옥타브 이동)" : "");
+    document.getElementById("bal-mp-dyn-out").textContent = BAL_D[dyn];
+    analyse();
+    const A = balAud(res, "mel");
+    MB.stat("bal-mp-aud", Math.round(A.aud * 100) + "%");
+    MB.stat("bal-mp-smr", A.best.smr > -99 ? MB.signed(A.best.smr, 0) + " dB @ " + balHz(A.best.f) + " Hz" : "—");
+    MB.stat("bal-mp-res", A.aud > 0.6 ? "또렷하다" : A.aud > 0.3 ? "들리지만 힘겹다" : "묻힌다");
+    view.redraw();
+    if (pl && pl.running) pl.refresh();
+  }
+  pl = EN.player({ parts, bpm: 80, loop: true, mixer: getMx, length: 16 });
+  sel.addEventListener("change", update);
+  MB.range("bal-mp-m", null, (v) => { m = v; update(); });
+  MB.range("bal-mp-dyn", null, (v) => { dyn = v; update(); });
+  MB.seg("bal-mp-acc", (v) => { acc = v; const was = pl.running; if (was) pl.stop(); update(); if (was) pl.start(); });
+  document.getElementById("bal-mp-play").addEventListener("click", () => { MB.ctx(); getMx(); soloMel = false; pl.running ? pl.stop() : pl.start(); });
+  document.getElementById("bal-mp-solo").addEventListener("click", () => { MB.ctx(); getMx(); soloMel = true; pl.stop(); pl.start(); });
+  document.getElementById("bal-mp-stop").addEventListener("click", () => pl.stop());
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 셈여림과 음량 */
+(function () {
+  const KEYS = ["piccolo", "flute", "oboe", "clarinet", "bassoon", "horn", "trumpet", "trombone", "tuba", "violin", "viola", "cello", "contrabass", "timpani"];
+  const selA = document.getElementById("bal-dy-a"), selB = document.getElementById("bal-dy-b");
+  selA.innerHTML = EN.options(KEYS, "flute"); selB.innerHTML = EN.options(KEYS, "trumpet");
+  let da = 5, db = 5;
+  const L = (k, d) => 76 + 10 * Math.log10(EN.inst(k).level) + 30 * Math.log10(EN.DYN[BAL_D[d]]);
+  function update() {
+    document.getElementById("bal-dy-da-out").textContent = BAL_D[da];
+    document.getElementById("bal-dy-db-out").textContent = BAL_D[db];
+    const rows = KEYS.map((k) => ({ k, l: L(k, da) })).sort((a, b) => b.l - a.l);
+    const W = (d) => MB.clamp((d - 45) / 40, 0, 1) * 100;
+    document.getElementById("bal-dy-view").innerHTML = `<div class="row" style="color:var(--text-dim);font-size:12px"><span>모두 ${BAL_D[da]}일 때</span><span></span><span class="n">dB</span></div>` + rows.map((r) =>
+      `<div class="row${r.k === selA.value || r.k === selB.value ? " on" : ""}"><span>${EN.name(r.k)}</span><span class="bar"><i style="width:${W(r.l).toFixed(0)}%;background:${EN.color(r.k)}"></i></span><span class="n">${r.l.toFixed(1)}</span></div>`).join("");
+    const la = L(selA.value, da), lb = L(selB.value, db);
+    MB.stat("bal-dy-la", EN.name(selA.value) + " " + BAL_D[da] + " · " + la.toFixed(1) + " dB");
+    MB.stat("bal-dy-lb", EN.name(selB.value) + " " + BAL_D[db] + " · " + lb.toFixed(1) + " dB");
+    MB.stat("bal-dy-diff", MB.signed(lb - la, 1) + " dB" + (Math.abs(lb - la) < 2 ? " · 비슷" : lb > la ? " · B가 큼" : " · A가 큼"));
+  }
+  const rA = MB.range("bal-dy-da", null, (v) => { da = v; update(); });
+  const rB = MB.range("bal-dy-db", null, (v) => { db = v; update(); });
+  [selA, selB].forEach((s) => s.addEventListener("change", update));
+  const mel = (k, shift) => { const I = EN.inst(k); const c = Math.round((I.comfy[0] + I.comfy[1]) / 2); return [0, 2, 4, 2, 0].map((d) => EN.fold(k, c + d + shift)); };
+  function phrase(k, d, t0, shift) { mel(k, shift).forEach((mm, i) => EN.note(k, mm, { when: t0 + i * 0.45, dur: 0.42, vel: EN.DYN[BAL_D[d]] })); }
+  document.getElementById("bal-dy-play").addEventListener("click", () => { const ctx = MB.ctx(); MB.stopAll(); const t = ctx.currentTime + 0.05; phrase(selA.value, da, t, 0); phrase(selB.value, db, t, 4); });
+  document.getElementById("bal-dy-ab").addEventListener("click", () => { const ctx = MB.ctx(); MB.stopAll(); const t = ctx.currentTime + 0.05; phrase(selA.value, da, t, 0); phrase(selB.value, db, t + 2.6, 0); });
+  document.getElementById("bal-dy-fix").addEventListener("click", () => {
+    const la = L(selA.value, da); let best = 0;
+    for (let d = 0; d < 8; d++) if (Math.abs(L(selB.value, d) - la) < Math.abs(L(selB.value, best) - la)) best = d;
+    rB.set(best);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 협주곡 */
+(function () {
+  const SOLO = ["violin", "flute", "oboe", "trumpet", "cello", "clarinet"];
+  const sel = document.getElementById("bal-so-inst"); sel.innerHTML = EN.options(SOLO, "violin");
+  let dyn = 4, reg = "low", thin = false, mx = null, pl = null, tuttiOnly = false;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.3 }));
+  const soloM = () => EN.fold(sel.value, sel.value === "cello" ? 62 : 76);
+  function acc() {
+    const s = soloM(), n = thin ? 0.5 : 1, top = reg === "same" ? s - 3 : Math.min(s - 10, 64);
+    return [["violin", top, 12], ["viola", top - 7, 10], ["cello", top - 15, 8], ["contrabass", top - 27, 6]].map(([k, m, p]) => [k, EN.fold(k, m), Math.max(1, Math.round(p * n))]);
+  }
+  const vel = () => EN.DYN[BAL_D[dyn]] * (thin ? 0.85 : 1);
+  function sources() {
+    return [{ id: "solo", inst: sel.value, m: soloM(), vel: EN.DYN.f }].concat(acc().map(([k, m, p], i) => ({ id: "acc" + i, inst: k, m, vel: vel(), players: p, art: thin ? "mute" : "" })));
+  }
+  function bands(list) {
+    const B = []; for (let f = 100; f < 12000; f *= Math.pow(2, 1 / 3)) B.push({ f, e: 0 });
+    list.forEach((s) => {
+      const I = EN.inst(s.inst), L0 = 20 * Math.log10(Math.pow(s.vel, 1.5) * Math.sqrt(I.level) * Math.sqrt(s.players || 1));
+      EN.spectrum(s.inst, s.m, { vel: s.vel, art: s.art }).forEach((p) => { const b = B.find((x) => p.f >= x.f / Math.pow(2, 1 / 6) && p.f < x.f * Math.pow(2, 1 / 6)); if (b) b.e += Math.pow(10, (L0 + p.db) / 10); });
+    });
+    return B.map((b) => ({ f: b.f, db: 10 * Math.log10(b.e || 1e-12) }));
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), S = sources(), so = bands([S[0]]), ac = bands(S.slice(1));
+    const bx = { x: 34, y: 12, w: w - 44, h: h - 34 }, n = so.length, bw = bx.w / n;
+    const all = so.concat(ac).map((b) => b.db).filter((d) => d > -100), top = Math.max(...all), dmin = top - 60;
+    const Y = (d) => bx.y + bx.h - MB.clamp((d - dmin) / 60, 0, 1) * bx.h;
+    const i2 = so.findIndex((b) => b.f >= 2000), i4 = so.findIndex((b) => b.f >= 4000);
+    ctx.fillStyle = P.accent + "18"; ctx.fillRect(bx.x + i2 * bw, bx.y, (i4 - i2 + 1) * bw, bx.h);
+    const ca = EN.color("viola"), cs = EN.color(sel.value) === ca ? P.accent : EN.color(sel.value);
+    ac.forEach((b, i) => { ctx.fillStyle = ca; ctx.globalAlpha = 0.35; ctx.fillRect(bx.x + i * bw + 1, Y(b.db), bw - 2, bx.y + bx.h - Y(b.db)); });
+    ctx.globalAlpha = 1;
+    so.forEach((b, i) => { ctx.fillStyle = cs; ctx.fillRect(bx.x + i * bw + bw * 0.25, Y(b.db), bw * 0.5, bx.y + bx.h - Y(b.db)); });
+    ctx.font = "10.5px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    so.forEach((b, i) => { if (i % 3 === 1) ctx.fillText(balHz([125, 250, 500, 1000, 2000, 4000, 8000][MB.nearest([125, 250, 500, 1000, 2000, 4000, 8000], b.f, true)]), bx.x + (i + 0.5) * bw, bx.y + bx.h + 4); });
+    ctx.textAlign = "left"; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillStyle = cs; ctx.fillText("■ 독주 " + EN.name(sel.value), bx.x + 4, bx.y + 2);
+    ctx.fillStyle = ca; ctx.fillText("■ 반주(현악 합주)", bx.x + 4, bx.y + 18);
+    ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText("2–4 kHz", bx.x + ((i2 + i4 + 1) / 2) * bw, bx.y + 2);
+  }
+  const view = MB.canvas("#bal-so-cv", draw, { aspect: 0.5, minHeight: 210 });
+  const parts = () => {
+    const s = soloM(), line = balLine(s, sel.value).map((n) => Object.assign(n, { vel: EN.DYN.f }));
+    const A = acc().map(([k, m, p], i) => ({ id: "acc" + i, inst: k, players: p, maxSub: 3, art: thin ? "mute" : "", notes: [0, 4, 8, 12].map((t, j) => ({ t, d: 4, m: m + [0, 5, 7, 0][j] - ([0, 5, 7, 0][j] > 4 && i === 0 ? 12 : 0), vel: vel() })) }));
+    return (tuttiOnly ? [] : [{ id: "solo", inst: sel.value, notes: line, dist: 0.05 }]).concat(A);
+  };
+  function update() {
+    document.getElementById("bal-so-dyn-out").textContent = BAL_D[dyn];
+    const S = sources(), r = EN.masking(S, { top: 16 }), A = balAud(r, "solo");
+    MB.stat("bal-so-aud", Math.round(A.aud * 100) + "%");
+    const so = bands([S[0]]), ac = bands(S.slice(1));
+    const sum = (B) => 10 * Math.log10(B.filter((b) => b.f >= 2000 && b.f < 4100).reduce((a, b) => a + Math.pow(10, b.db / 10), 0) || 1e-12);
+    MB.stat("bal-so-band", MB.signed(sum(so) - sum(ac), 1) + " dB");
+    MB.stat("bal-so-n", acc().reduce((a, x) => a + x[2], 0) + "명");
+    view.redraw();
+    if (pl && pl.running) pl.refresh();
+  }
+  pl = EN.player({ parts, bpm: 76, loop: true, mixer: getMx, length: 16 });
+  sel.addEventListener("change", update);
+  MB.range("bal-so-dyn", null, (v) => { dyn = v; update(); });
+  MB.seg("bal-so-reg", (v) => { reg = v; update(); });
+  MB.check("bal-so-thin", (v) => { thin = v; update(); });
+  document.getElementById("bal-so-play").addEventListener("click", () => { MB.ctx(); getMx(); tuttiOnly = false; pl.running ? pl.stop() : pl.start(); });
+  document.getElementById("bal-so-tutti").addEventListener("click", () => { MB.ctx(); getMx(); tuttiOnly = true; pl.stop(); pl.start(); });
+  document.getElementById("bal-so-stop").addEventListener("click", () => pl.stop());
+  update();
+})();
+
+/* ------------------------------------------------------------ 6. 묻힌 선율 구하기 */
+(function () {
+  const IDS = ["dyn", "oct", "dbl", "thin", "few"], NAMES = { dyn: "① 셈여림", oct: "② 옥타브 위", dbl: "③ 겹치기", thin: "④ 가운데 비우기", few: "⑤ 인원 1/4" };
+  const on = { dyn: false, oct: false, dbl: false, thin: false, few: false };
+  let mx = null, pl = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.25 }));
+  const BASE = [["trombone", 48, 1], ["horn", 55, 1], ["horn", 60, 1], ["trumpet", 64, 1], ["cello", 48, 8], ["viola", 55, 10], ["violin", 60, 12], ["violin", 67, 12]];
+  function scene(o) {
+    const vel = o.dyn ? EN.DYN.p : EN.DYN.mf;
+    const melM = 62 + (o.oct ? 12 : 0);
+    let acc = BASE.map(([k, m, p]) => [k, m, k === "violin" || k === "viola" || k === "cello" ? (o.few ? Math.max(1, Math.round(p / 4)) : p) : p]);
+    // 선율이 지나가는 음역(선율 음 ± 7반음)의 화음 음을 뺀다
+    if (o.thin) acc = acc.filter(([k, m]) => Math.abs(m - (melM + 3)) > 7);
+    const mel = [{ id: "mel", inst: "clarinet", m: melM, vel: EN.DYN.f }];
+    if (o.dbl) mel.push({ id: "mel2", inst: "violin", m: melM, vel: EN.DYN.f });
+    return { mel, acc: acc.map(([k, m, p], i) => ({ id: "acc" + i, inst: k, m, vel, players: p })) };
+  }
+  function score(o) {
+    const S = scene(o), all = S.mel.concat(S.acc), r = EN.masking(all, { top: 16 });
+    r.comps.forEach((c) => { c.inst = all.find((s) => s.id === c.id).inst; });
+    return { r, A: balAud(r, "mel") };
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette();
+    const rows = [["처방 없음", {}]].concat(IDS.map((k) => [NAMES[k], { [k]: true }])).concat([["지금 고른 처방", Object.assign({}, on)]]);
+    const lw = w < 480 ? 104 : 130, rh = (h - 16) / rows.length;
+    ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textBaseline = "middle";
+    rows.forEach(([name, o], i) => {
+      const a = score(o).A.aud, y = 8 + i * rh, last = i === rows.length - 1;
+      ctx.fillStyle = last ? P.text : P.dim; ctx.textAlign = "left"; ctx.fillText(name, 8, y + rh / 2);
+      ctx.fillStyle = P.surface; ctx.fillRect(lw, y + rh * 0.22, w - lw - 60, rh * 0.56);
+      ctx.fillStyle = last ? P.accent : EN.color("clarinet"); ctx.fillRect(lw, y + rh * 0.22, (w - lw - 60) * a, rh * 0.56);
+      ctx.fillStyle = P.text; ctx.textAlign = "right"; ctx.fillText(Math.round(a * 100) + "%", w - 8, y + rh / 2);
+    });
+  }
+  const view = MB.canvas("#bal-fx-cv", draw, { aspect: 0.5, minHeight: 230 });
+  const parts = () => {
+    const S = scene(on);
+    const line = balLine(S.mel[0].m, null).map((n) => Object.assign(n, { vel: EN.DYN.f }));
+    return S.mel.map((s) => ({ id: s.id, inst: s.inst, notes: line, dist: 0.3 }))
+      .concat(S.acc.map((s) => ({ id: s.id, inst: s.inst, players: s.players, maxSub: 3, notes: [0, 4, 8, 12].map((t) => ({ t, d: 4, m: s.m, vel: s.vel })) })));
+  };
+  function update() {
+    const { A } = score(on);
+    MB.stat("bal-fx-aud", Math.round(A.aud * 100) + "%");
+    MB.stat("bal-fx-smr", A.best.smr > -99 ? MB.signed(A.best.smr, 0) + " dB @ " + balHz(A.best.f) + " Hz" : "—");
+    const used = IDS.filter((k) => on[k]).map((k) => NAMES[k].slice(0, 1));
+    MB.stat("bal-fx-used", used.length ? used.join(" ") : "없음");
+    view.redraw();
+    if (pl && pl.running) pl.refresh();
+  }
+  pl = EN.player({ parts, bpm: 80, loop: true, mixer: getMx, length: 16 });
+  IDS.forEach((k) => MB.check("bal-fx-" + k, (v) => { on[k] = v; const was = pl.running; if (was && (k === "dbl")) { pl.stop(); update(); pl.start(); } else update(); }));
+  document.getElementById("bal-fx-play").addEventListener("click", () => { MB.ctx(); getMx(); pl.running ? pl.stop() : pl.start(); });
+  document.getElementById("bal-fx-stop").addEventListener("click", () => pl.stop());
+  document.getElementById("bal-fx-reset").addEventListener("click", () => { IDS.forEach((k) => { const el = document.getElementById("bal-fx-" + k); el.checked = false; on[k] = false; }); update(); });
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>화음을 악기에 나누기 · EnsembleBook</title>
+<meta name="description" content="같은 화음도 어떻게 쌓고 누구에게 나눠 주느냐에 따라 맑게도 탁하게도 들린다. 배음렬을 닮은 간격, 낮은 음정 한계, 두 쌍의 악기에 화음을 나누는 네 방법, 무엇을 겹칠지, 같은 화음의 여러 오케스트레이션을 직접 쌓아 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .vc-svg { padding: 8px 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .vc-svg svg { display: block; width: 100%; height: auto; }
+  .vc-svg .nm { font: 600 12px var(--font); fill: var(--text); }
+  .vc-svg .dim { font: 11px var(--mono); fill: var(--text-dim); }
+  .vc-svg .ln { stroke: var(--grid); stroke-width: 1; }
+  .vc-ed { display: grid; gap: 6px; padding: 10px 12px 2px; }
+  .vc-ed .row { display: grid; grid-template-columns: 46px minmax(0, 1fr) minmax(0, 1.3fr); gap: 8px; align-items: center; font-size: 13px; }
+  .vc-ed .row b { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+  .vc-ed select { width: 100%; min-width: 0; }
+  .vc-warn { list-style: none; margin: 0; padding: 8px 12px 10px; font-size: 13.5px; display: grid; gap: 4px; }
+  .vc-warn li { padding-left: 20px; position: relative; color: var(--text-dim); }
+  .vc-warn li::before { position: absolute; left: 0; content: "✓"; color: var(--ok); font-weight: 700; }
+  .vc-warn li.bad::before { content: "✕"; color: var(--bad); }
+  .vc-warn li.warn::before { content: "!"; color: var(--warn); }
+  .vc-warn li.bad, .vc-warn li.warn { color: var(--text); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="voicing">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 12</div>
+    <h1>화음을 악기에 나누기</h1>
+    <p class="lead">피아노로 C–E–G를 누르면 끝나는 일이 오케스트라에서는 결정의 연속이 됩니다. 몇 개의 음으로 쌓을지, 음 사이를 얼마나 벌릴지, 어느 음을 누구에게 줄지, 어느 음을 두 번 낼지. 같은 장3화음이 투명한 유리처럼도, 진흙처럼도 들리는 것은 모두 이 결정 때문입니다. 이 장에서는 오케스트레이션 교과서들이 300년 동안 다듬어 온 규칙 — <b>배음렬을 닮은 간격</b>, <b>낮은 음정의 한계</b>, <b>두 쌍에 나누는 네 방법</b>, <b>무엇을 겹칠까</b> — 을 하나씩 직접 쌓아 듣습니다.</p>
+    <ul class="objectives">
+      <li>화음을 <b>아래는 넓게, 위는 좁게</b> 쌓아야 맑게 들리는 이유를 배음렬로 설명한다.</li>
+      <li>낮은 음역에서 3도·2도가 탁해지는 <b>낮은 음정 한계</b>를 알고 피한다.</li>
+      <li>두 쌍의 악기에 화음을 나누는 <b>포개기·끼우기·감싸기·겹침</b>을 구별하고 각각의 소리를 안다.</li>
+      <li>근음·5음은 겹치고, <b>이끎음과 7음은 겹치지 않는</b> 이유를 성부 진행으로 설명한다.</li>
+      <li>같은 화음을 현·목관·금관·투티로 바꿨을 때 밝기와 음량이 어떻게 달라지는지 비교한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="series">
+    <h2>배음렬을 닮은 간격</h2>
+    <p>낮은 C 하나를 첼로로 길게 켜면, 그 안에 이미 화음이 들어 있습니다. 배음은 기본음의 2배·3배·4배·5배… 주파수에 놓이고, 음정으로 보면 <b>아래쪽은 옥타브·5도처럼 넓고, 위로 갈수록 3도·2도로 촘촘해집니다</b>. 귀는 평생 이런 배음 구조를 '한 소리'로 들어 왔기 때문에, 화음을 같은 모양 — 아래는 넓게, 위는 좁게 — 으로 쌓으면 음들이 잘 섞여 하나의 울림으로 들립니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 230" role="img" aria-label="C2 위의 배음렬과 음정 간격">
+        <line x1="40" y1="190" x2="700" y2="190" stroke="var(--axis)"/>
+        <g id="vc-fig-series"></g>
+        <text x="40" y="220" class="t-dim">배음 번호 → (주파수는 기본음의 n배, 간격은 위로 갈수록 좁아진다)</text>
+      </svg>
+      <figcaption><b>그림 12-1.</b> C2(약 65 Hz)의 배음 1–10번. 막대의 높이는 음높이(반음), 막대 사이의 글자는 이웃 배음 사이의 음정입니다. 8도 → 5도 → 4도 → 장3도 → 단3도 → … 로 좁아집니다.</figcaption>
+    </figure>
+    <p>반대로 낮은 음역에 3도를 촘촘히 쌓으면 소리가 탁해집니다. 낮은 두 음의 배음들이 서로 아주 가까이 놓여 <b>같은 임계대역 안에서 맥놀이와 거칠음</b>을 만들기 때문입니다(<a href="balance.html">11장</a>). 편곡자들은 경험으로 '이 음보다 낮으면 이 음정을 쓰지 말라'는 표를 만들어 썼는데, 이것을 <b>낮은 음정 한계</b><span class="en">(Low interval limits)</span>라고 부릅니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>음정</th><th>아래 음이 이보다 낮으면 탁하다</th><th>음정</th><th>아래 음이 이보다 낮으면 탁하다</th></tr></thead>
+        <tbody>
+          <tr><td>단2도</td><td>E3</td><td>완전5도</td><td>B♭1</td></tr>
+          <tr><td>장2도</td><td>E♭3</td><td>단·장6도</td><td>F2</td></tr>
+          <tr><td>단3도</td><td>C3</td><td>단·장7도</td><td>F2</td></tr>
+          <tr><td>장3도</td><td>B♭2</td><td>완전4도</td><td>A2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>숫자는 경험 규칙이라 책마다 반음쯤 다르지만 모양은 같습니다. 옥타브와 5도는 아주 낮아도 괜찮고, 좁은 음정일수록 한계가 높습니다. 그래서 베이스 성부 바로 위에는 대개 <b>옥타브나 5도</b>가 오고, 3도는 가운데 음역에서 처음 등장합니다.</p>
+
+    <div class="sim" id="sim-vc-spacing">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>간격 바꿔 쌓기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="vc-sp-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>쌓는 모양</span><div class="en-pick" id="vc-sp-shape">
+            <button data-v="harmonic" class="on">배음렬 간격</button><button data-v="open">넓은 간격</button><button data-v="close">위에 몰린 간격</button><button data-v="inverted">거꾸로(아래가 촘촘)</button><button data-v="muddy">낮은 3도 덩어리</button>
+          </div></div>
+          <div class="ctrl"><span>악기</span><div class="seg" id="vc-sp-fam"><button data-value="strings" class="on">현</button><button data-value="winds">목관</button><button data-value="brass">금관</button><button data-value="piano">피아노</button></div></div>
+          <label class="ctrl"><span>전체 높이 <output id="vc-sp-tr-out"></output></span><input type="range" id="vc-sp-tr" min="-7" max="7" step="1" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="vc-sp-play">▶ 화음 듣기</button><button class="btn" id="vc-sp-arp">▶ 아래에서부터</button><button class="btn" id="vc-sp-ab">▶ 배음렬 ↔ 덩어리</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">화음</span><span class="v" id="vc-sp-name">—</span></div>
+        <div class="stat"><span class="k">탁한 간격</span><span class="v" id="vc-sp-mud">—</span></div>
+        <div class="stat"><span class="k">베이스 배음과 겹치는 음</span><span class="v" id="vc-sp-match">—</span></div>
+      </div>
+      <div class="sim-note">왼쪽 점은 맨 아래 음의 배음 1–12번, 오른쪽 막대는 화음의 음입니다. 빨간 간격은 낮은 음정 한계를 넘은 곳입니다. '전체 높이'로 같은 모양을 낮추면 빨간 간격이 늘어납니다 · 모델: 각 음을 그 음역을 가장 편하게 내는 악기에 자동 배정합니다(현은 연주자 4명씩).</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 배음 위에 얹힌 악기들.</b> 라벨의 〈볼레로〉(1928) 중반에는 호른 선율 위에 첼레스타와 피콜로 두 대가 각각 12도·17도 위(배음 3·5번 자리)에서 같은 선율을 따라가는 대목이 있습니다. 세 악기가 따로 들리지 않고 <b>오르간 같은 새 음색 하나</b>로 들립니다. 배음렬을 악기로 쌓은 극단적인 예입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="pairs">
+    <h2>두 쌍에 나누는 네 가지 방법</h2>
+    <p>2관 편성의 목관은 플루트·오보에·클라리넷·바순이 둘씩입니다. 그래서 4성 화음을 <b>두 가지 악기의 두 쌍</b>에게 나눠 주는 일이 아주 흔합니다. 예를 들어 위에서부터 C6–G5–E5–C5인 화음을 플루트 두 대(A)와 오보에 두 대(B)에게 준다면 방법은 네 가지입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>방법</th><th>A 쌍</th><th>B 쌍</th><th>소리</th></tr></thead>
+        <tbody>
+          <tr><td><b>포개기</b><span class="en">(Juxtaposition, superposition)</span></td><td>위 두 음</td><td>아래 두 음</td><td>음색이 위·아래 층으로 나뉜다. 두 색이 또렷하다.</td></tr>
+          <tr><td><b>끼우기</b><span class="en">(Interlocking)</span></td><td>1·3번째 음</td><td>2·4번째 음</td><td>두 음색이 번갈아 끼어 가장 고르게 섞인다. 목관 화음의 기본.</td></tr>
+          <tr><td><b>감싸기</b><span class="en">(Enclosure)</span></td><td>맨 위·맨 아래</td><td>가운데 두 음</td><td>한 음색이 다른 음색을 껍질처럼 감싼다. 바깥 음색이 주인공.</td></tr>
+          <tr><td><b>겹침</b><span class="en">(Overlapping)</span></td><td>1·2번째 음</td><td>2·3번째 음</td><td>가운데 한 음을 두 음색이 유니즌으로 함께 낸다. 겹친 음이 두꺼워진다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>어느 것이 옳다기보다 <b>원하는 색</b>에 따라 고릅니다. 고르게 섞인 한 덩어리를 원하면 끼우기, 두 음색의 대비를 원하면 포개기입니다. 다만 포개기에서는 강한 음색(오보에)을 위에 두면 약한 음색(플루트)이 묻히기 쉬우므로, 음역과 셈여림을 함께 고려합니다.</p>
+
+    <div class="sim" id="sim-vc-pairs">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 쌍에 화음 나누기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="vc-svg" id="vc-pr-svg"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>두 쌍</span><select id="vc-pr-set"></select></label>
+          <div class="ctrl"><span>나누는 방법</span><div class="seg" id="vc-pr-m"><button data-value="juxt" class="on">포개기</button><button data-value="inter">끼우기</button><button data-value="encl">감싸기</button><button data-value="over">겹침</button></div></div>
+          <label class="check"><input type="checkbox" id="vc-pr-swap"> A·B 바꾸기</label>
+          <div class="btn-row"><button class="btn primary" id="vc-pr-play">▶ 함께</button><button class="btn" id="vc-pr-pa">▶ A 쌍만</button><button class="btn" id="vc-pr-pb">▶ B 쌍만</button><button class="btn" id="vc-pr-all">▶ 네 방법 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">A 쌍</span><span class="v" id="vc-pr-a">—</span></div>
+        <div class="stat"><span class="k">B 쌍</span><span class="v" id="vc-pr-b">—</span></div>
+        <div class="stat"><span class="k">특징</span><span class="v" id="vc-pr-say" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">그림의 가로줄 하나가 화음의 한 음이고, 동그라미 색이 그 음을 맡은 악기입니다. '네 방법 차례로'는 같은 화음을 네 가지로 나눠 2초씩 들려줍니다 · 모델: 같은 셈여림(mp)·비브라토로 냅니다. 실제로는 연주자가 서로의 음량을 맞춰 줍니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="doubling">
+    <h2>무엇을 겹칠까</h2>
+    <p>악기는 많고 화음의 음은 서넛뿐이니 오케스트라에서는 거의 언제나 <b>같은 음을 여러 악기가 함께</b> 냅니다. 무엇을 겹치느냐에 대한 규칙은 4성부 화성법과 같습니다.</p>
+    <ul>
+      <li><b>근음과 5음은 마음껏 겹친다.</b> 근음은 화음의 뿌리, 5음은 근음의 첫 배음 쪽이라 겹칠수록 화음이 단단해집니다.</li>
+      <li><b>3음은 조심해서 겹친다.</b> 장·단을 정하는 음이라 빠지면 안 되지만, 많이 겹치면 특히 높은 음역에서 소리가 날카롭고 무거워집니다.</li>
+      <li><b>이끎음(장조의 7음)과 화음의 7음은 겹치지 않는다.</b> 이 음들은 다음 화음에서 갈 곳(이끎음은 위로 반음, 7음은 아래로)이 정해져 있는 <b>경향음</b>입니다. 두 악기가 같이 가면 <b>병행 8도</b>가 되어 그 음만 튀고, 하나를 다른 곳으로 보내면 해결되지 않은 소리가 남습니다.</li>
+    </ul>
+    <p>겹치는 방식도 둘입니다. <b>유니즌 겹침</b>은 같은 높이에서 두 음색이 섞여 새로운 혼합 음색을 만들고(<a href="blend.html">10장</a>), <b>옥타브 겹침</b>은 음색을 유지한 채 소리를 넓히고 밝게(또는 두껍게) 합니다.</p>
+
+    <div class="sim" id="sim-vc-double">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>종지에서 한 음 겹치기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="vc-db-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>겹칠 성부</span><div class="seg" id="vc-db-v"><button data-value="none">없음</button><button data-value="root" class="on">근음(베이스)</button><button data-value="fifth">5음→근음</button><button data-value="lead">이끎음</button><button data-value="sev">7음</button></div></div>
+          <label class="ctrl"><span>겹치는 악기</span><select id="vc-db-inst"></select></label>
+          <div class="ctrl"><span>겹치는 높이</span><div class="seg" id="vc-db-oct"><button data-value="0">유니즌</button><button data-value="12" class="on">옥타브 위</button><button data-value="-12">옥타브 아래</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="vc-db-play">▶ G7 → C</button><button class="btn" id="vc-db-base">▶ 4중주만</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">겹친 음</span><span class="v" id="vc-db-what">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="vc-db-judge" style="font-size:14px">—</span></div>
+      </div>
+      <div class="sim-note">현악 4중주가 G7 → C 종지를 연주하고, 고른 악기 하나가 한 성부를 겹칩니다. 그림의 굵은 선이 겹친 선입니다 · 이끎음(B→C)이나 7음(F→E)을 옥타브로 겹치면 두 선이 같은 방향으로 같은 음정을 움직여 병행 8도가 됩니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="colors">
+    <h2>같은 화음, 네 가지 옷</h2>
+    <p>음을 정했다면 이제 옷을 입힙니다. 아래는 배음렬 간격으로 쌓은 C장조 화음 하나를 <b>현만, 목관만, 금관만, 그리고 셋 모두(투티)</b>로 입힌 것입니다. 음은 같아도 스펙트럼은 완전히 다릅니다.</p>
+    <ul>
+      <li><b>현</b> — 배음이 고르게 많고 섹션의 합창 효과로 넓습니다. 오래 유지해도 지치지 않아 화음 바탕(패드)의 기본입니다.</li>
+      <li><b>목관</b> — 악기마다 색이 달라 화음 안에서도 각 음이 조금씩 따로 들립니다. 투명하고 가볍습니다.</li>
+      <li><b>금관</b> — 같은 셈여림에서 가장 크고, 세게 불수록 고역 배음이 폭발적으로 늘어납니다. 짧고 힘 있는 화음에 씁니다.</li>
+      <li><b>투티</b> — 세 무리가 같은 음을 겹치면 음량보다 <b>밀도</b>가 늘어납니다. 무게 중심은 금관 쪽으로 끌려갑니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-vc-colors">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>현 · 목관 · 금관 · 투티</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="vc-co-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>옷</span><div class="seg" id="vc-co-fam"><button data-value="strings" class="on">현</button><button data-value="winds">목관</button><button data-value="brass">금관</button><button data-value="tutti">투티</button></div></div>
+          <label class="ctrl"><span>셈여림 <output id="vc-co-dyn-out"></output></span><input type="range" id="vc-co-dyn" min="1" max="6" step="1" value="3"></label>
+          <div class="btn-row"><button class="btn primary" id="vc-co-play">▶ 듣기</button><button class="btn" id="vc-co-cycle">▶ 넷을 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">악기 배정</span><span class="v" id="vc-co-who" style="font-size:13px">—</span></div>
+        <div class="stat"><span class="k">무게 중심(밝기)</span><span class="v" id="vc-co-cen">—</span></div>
+        <div class="stat"><span class="k">전체 레벨(상대)</span><span class="v" id="vc-co-lv">—</span></div>
+      </div>
+      <div class="sim-note">그림은 화음의 모든 음이 내는 배음을 한데 모은 스펙트럼(색은 악기군)입니다. 레벨은 악기 음량 등급·인원·셈여림으로 계산한 상대값(현 mf = 0 dB 기준)입니다 · 모델: EN.spectrum의 정적 스펙트럼. 실제 소리는 비브라토·잔향으로 더 넓게 퍼집니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="editor">
+    <h2>보이싱 편집기</h2>
+    <p>이제 직접 해 봅시다. 화음을 고르고, 다섯 성부 각각에 <b>음과 악기</b>를 정하세요. 편집기는 편곡자가 머릿속으로 하는 점검을 대신 해 줍니다.</p>
+    <ol>
+      <li><b>음역</b> — 그 악기가 낼 수 없는 음인가? 낼 수는 있어도 무리한 음역인가?</li>
+      <li><b>낮은 음정 한계</b> — 낮은 곳에 좁은 음정이 있는가?</li>
+      <li><b>3음</b> — 화음의 성격을 정하는 음이 빠지지 않았는가?</li>
+      <li><b>간격</b> — 위 성부들 사이가 한 옥타브보다 넓게 비지 않았는가? (맨 아래 베이스와 그 위는 넓어도 된다.)</li>
+      <li><b>경향음 겹침</b> — 속7화음의 이끎음이나 7음이 두 번 나오지 않는가?</li>
+    </ol>
+
+    <div class="sim" id="sim-vc-editor">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>다섯 성부 보이싱 편집기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="vc-ed-cv"></canvas><ul class="vc-warn" id="vc-ed-warn"></ul></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>화음</span><select id="vc-ed-chord"></select></label>
+          <div class="vc-ed" id="vc-ed-rows" style="padding:0"></div>
+          <div class="btn-row"><button class="btn primary" id="vc-ed-play">▶ 화음 듣기</button><button class="btn" id="vc-ed-arp">▶ 아래부터</button><button class="btn" id="vc-ed-auto">✨ 배음렬로 정리</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">점검</span><span class="v" id="vc-ed-score">—</span></div>
+        <div class="stat"><span class="k">무게 중심</span><span class="v" id="vc-ed-cen">—</span></div>
+      </div>
+      <div class="sim-note">성부 1이 맨 아래입니다. 화음을 바꾸면 각 성부가 가장 가까운 화음 구성음으로 옮겨 갑니다. '배음렬로 정리'는 근음–8도–5도–3도–5도… 순으로 다시 쌓습니다 · 점검 규칙은 교과서의 경험 규칙을 단순화한 것으로, 의도적으로 어기는 훌륭한 관현악법도 많습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>연습법 · 피아노 보이싱을 오케스트라로 옮기기.</b> 피아노 악보의 화음은 두 손 안에 들어가도록 촘촘하게 쓰여 있어 그대로 오케스트라에 주면 가운데가 뭉칩니다. 먼저 베이스를 한 옥타브 내리고, 위 성부들을 배음렬 모양으로 펼친 뒤, 편집기로 음역과 낮은 음정 한계를 점검하는 순서로 연습해 보세요.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>배음렬은 아래가 넓고(8도·5도) 위가 좁다(3도·2도). 화음도 이 모양으로 쌓으면 잘 섞인다.</li>
+      <li>낮은 음역의 좁은 음정은 배음끼리 부딪혀 탁해진다. <b>낮은 음정 한계</b>: 단3도는 C3, 장3도는 B♭2 아래에서 피한다. 옥타브·5도는 낮아도 된다.</li>
+      <li>두 쌍에 화음을 나누는 방법: <b>포개기</b>(층으로 대비), <b>끼우기</b>(고르게 섞임), <b>감싸기</b>(바깥 음색이 주인공), <b>겹침</b>(가운데 음을 유니즌으로).</li>
+      <li>근음·5음은 겹치고 3음은 조심하며, <b>이끎음과 7음은 겹치지 않는다</b> — 같이 해결하면 병행 8도가 된다.</li>
+      <li>유니즌 겹침은 새 혼합 음색을, 옥타브 겹침은 넓이와 밝기를 준다.</li>
+      <li>같은 화음도 현·목관·금관·투티로 입히면 밝기(무게 중심)와 음량이 크게 달라진다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>배음렬에서 이웃한 배음 사이의 음정은 위로 갈수록 어떻게 되는가?</p><div class="opts">
+        <button class="opt">점점 넓어진다</button><button class="opt">항상 같다</button><button class="opt" data-correct>점점 좁아진다(8도→5도→4도→3도…)</button><button class="opt">무작위다</button>
+      </div><div class="quiz-exp">n번째와 n+1번째 배음의 주파수비는 (n+1)/n이라 n이 커질수록 1에 가까워진다. 그래서 화음도 아래는 넓게, 위는 좁게 쌓는 것이 자연스럽다.</div></div>
+      <div class="quiz-q"><p>G2–B2 장3도를 트롬본 두 대가 길게 분다. 예상되는 소리는?</p><div class="opts">
+        <button class="opt">맑고 투명하다</button><button class="opt" data-correct>낮은 음정 한계(B♭2)보다 낮아 탁하게 들린다</button><button class="opt">한 음으로 들린다</button><button class="opt">음높이가 들리지 않는다</button>
+      </div><div class="quiz-exp">장3도의 아래 음이 B♭2보다 낮으면 두 음의 낮은 배음들이 같은 임계대역에서 부딪혀 거칠어진다. 아래 음을 옥타브 위로 올리거나 5도·옥타브로 바꾼다.</div></div>
+      <div class="quiz-q"><p>C6–G5–E5–C5를 플루트 둘과 오보에 둘에게 줄 때, 플루트가 C6·E5, 오보에가 G5·C5를 맡는 방법은?</p><div class="opts">
+        <button class="opt">포개기</button><button class="opt" data-correct>끼우기</button><button class="opt">감싸기</button><button class="opt">겹침</button>
+      </div><div class="quiz-exp">위에서부터 1·3번째(C6·E5)와 2·4번째(G5·C5)를 나눠 가졌으니 두 음색이 번갈아 끼어 있는 끼우기다.</div></div>
+      <div class="quiz-q"><p>G7 → C 종지에서 이끎음 B를 두 악기가 옥타브로 겹쳐 둘 다 C로 해결하면?</p><div class="opts">
+        <button class="opt">화음이 더 안정된다</button><button class="opt" data-correct>병행 8도가 생겨 그 선이 튀어 들린다</button><button class="opt">3음이 빠진다</button><button class="opt">아무 문제가 없다</button>
+      </div><div class="quiz-exp">두 성부가 같은 음정(8도)을 유지한 채 같은 방향으로 움직이면 병행 8도다. 경향음은 갈 곳이 정해져 있어 겹치면 피하기 어렵기 때문에 처음부터 겹치지 않는다.</div></div>
+      <div class="quiz-q"><p>같은 화음을 현만 연주하다가 금관만 연주하게 바꿨다(같은 셈여림). 가장 크게 달라지는 것은?</p><div class="opts">
+        <button class="opt">음높이</button><button class="opt">화음의 이름</button><button class="opt" data-correct>음량과 스펙트럼의 무게 중심(밝기)</button><button class="opt">박자</button>
+      </div><div class="quiz-exp">음은 같으므로 화음의 이름과 음높이는 그대로다. 금관은 음압 등급이 높고 셈여림이 커질수록 고역 배음이 늘어 무게 중심이 크게 올라간다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* 공통 도구 ------------------------------------------------------------ */
+const VC = (function () {
+  const LIL = { 1: 52, 2: 51, 3: 48, 4: 46, 5: 45, 6: 46, 7: 34, 8: 41, 9: 41, 10: 41, 11: 41 };
+  const FAM = { strings: ["contrabass", "cello", "viola", "violin"], winds: ["bassoon", "clarinet", "oboe", "flute"], brass: ["tuba", "trombone", "horn", "trumpet"], piano: ["piano"] };
+  const muddy = (lo, hi) => { const iv = hi - lo; return iv > 0 && iv < 12 && lo < LIL[iv]; };
+  /** 음을 그 음역을 가장 편하게 내는 악기에 배정 */
+  function pick(m, fam) {
+    const list = FAM[fam];
+    const comfy = list.filter((k) => EN.inComfy(k, m));
+    const cen = (k) => (EN.inst(k).comfy[0] + EN.inst(k).comfy[1]) / 2;
+    if (comfy.length) return comfy.sort((a, b) => Math.abs(m - cen(a)) - Math.abs(m - cen(b)))[0];
+    return list.find((k) => EN.inRange(k, m)) || (m < 50 ? list[0] : list[list.length - 1]);
+  }
+  const players = (k) => (EN.inst(k).family === "strings" ? 4 : 1);
+  /** 화음 음 목록 [{m, inst}]을 함께(또는 흩어) 낸다 */
+  function play(list, o = {}) {
+    MB.ctx(); MB.stopAll();
+    const t0 = MB.now() + 0.05;
+    list.forEach((n, i) => EN.note(n.inst, EN.fold(n.inst, n.m), { when: t0 + (o.arp ? i * (o.arp) : 0), dur: (o.dur || 2.4) - (o.arp ? i * o.arp : 0), vel: o.vel || 0.45, players: o.players === false ? 1 : players(n.inst), maxSub: 2, vib: 0.8 }));
+  }
+  /** 사다리 그림: 왼쪽은 베이스 배음, 오른쪽은 화음의 음 */
+  function ladder(ctx, w, h, list, o = {}) {
+    const P = MB.palette(), font = getComputedStyle(document.body).getPropertyValue("--font");
+    const lo = o.lo || 28, hi = o.hi || 96;
+    const Y = (m) => 10 + (1 - (m - lo) / (hi - lo)) * (h - 20);
+    ctx.font = "10.5px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.textBaseline = "middle";
+    for (let m = Math.ceil(lo / 12) * 12; m <= hi; m += 12) { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(30, Y(m)); ctx.lineTo(w - 8, Y(m)); ctx.stroke(); ctx.fillStyle = P.faint; ctx.textAlign = "left"; ctx.fillText("C" + (m / 12 - 1), 2, Y(m)); }
+    const xs = o.series === false ? 40 : 90;
+    if (o.series !== false && list.length) {
+      const f0 = MB.mtof(list[0].m);
+      for (let n = 1; n <= 12; n++) { const m = MB.ftom(n * f0); if (m > hi) break; ctx.fillStyle = P.dim; ctx.beginPath(); ctx.arc(52, Y(m), 3.2, 0, Math.PI * 2); ctx.fill(); ctx.textAlign = "right"; ctx.fillText(String(n), 44, Y(m)); }
+      ctx.textAlign = "center"; ctx.fillStyle = P.faint; ctx.fillText("배음", 52, h - 4);
+    }
+    const bx = xs, bw = Math.min(150, w * 0.2), lx = bx + bw + (w < 520 ? 62 : 92);
+    list.forEach((n, i) => {
+      const y = Y(n.m), col = EN.color(n.inst);
+      if (i) {
+        const p = list[i - 1], bad = muddy(p.m, n.m), iv = n.m - p.m;
+        ctx.strokeStyle = bad ? P.bad : P.faint; ctx.lineWidth = bad ? 3 : 1.4;
+        ctx.beginPath(); ctx.moveTo(bx + bw + 14, Y(p.m)); ctx.lineTo(bx + bw + 14, y); ctx.stroke();
+        ctx.fillStyle = bad ? P.bad : P.dim; ctx.textAlign = "left"; ctx.font = "11px " + font;
+        ctx.fillText(iv >= 12 && iv % 12 === 0 ? (iv / 12 > 1 ? iv / 12 + "옥타브" : "8도") : MB.intervalName(iv).replace(" + 1옥타브", "+8"), bx + bw + 20, (Y(p.m) + y) / 2);
+      }
+      ctx.fillStyle = col; ctx.globalAlpha = n.bad ? 0.35 : 1; ctx.fillRect(bx, y - 4, bw, 8); ctx.globalAlpha = 1;
+      if (n.bad) { ctx.strokeStyle = P.bad; ctx.lineWidth = 2; ctx.strokeRect(bx, y - 4, bw, 8); }
+      ctx.textAlign = "left"; ctx.font = "600 11.5px " + font;
+      const lab = MB.noteName(n.m, o.flat) + " " + (w < 520 ? EN.inst(n.inst).short : EN.name(n.inst));
+      ctx.fillStyle = n.bad ? P.bad : P.text; ctx.fillText(lab, lx, y);
+    });
+  }
+  return { LIL, FAM, muddy, pick, play, ladder };
+})();
+
+/* ------------------------------------------------------------ 그림 12-1 */
+(function () {
+  const g = document.getElementById("vc-fig-series");
+  const f0 = MB.mtof(36); let s = "";
+  const X = (n) => 40 + (n - 0.5) * 66, Y = (m) => 190 - (m - 36) * 3.9;
+  for (let n = 1; n <= 10; n++) {
+    const m = MB.ftom(n * f0), mr = Math.round(m);
+    s += `<rect x="${X(n) - 16}" y="${Y(m)}" width="32" height="${190 - Y(m)}" rx="4" fill="var(--accent)" opacity="${0.35 + 0.06 * n}"/>`;
+    s += `<text x="${X(n)}" y="${Y(m) - 6}" text-anchor="middle" class="t-mono" style="font-size:11px">${MB.noteName(mr, true)}${Math.abs(m - mr) > 0.2 ? "*" : ""}</text>`;
+    s += `<text x="${X(n)}" y="205" text-anchor="middle" class="t-mono" style="font-size:11px">${n}</text>`;
+    if (n > 1) {
+      const pm = MB.ftom((n - 1) * f0), iv = Math.round(m - pm);
+      const nm = { 12: "8도", 7: "5도", 5: "4도", 4: "장3도", 3: "단3도", 2: "장2도", 1: "단2도" }[iv] || iv;
+      s += `<text x="${X(n) - 33}" y="${Y(m) + 22}" text-anchor="middle" class="t-acc" style="font-size:11px">${nm}</text>`;
+    }
+  }
+  g.innerHTML = s;
+})();
+
+/* ------------------------------------------------------------ 1. 간격 */
+(function () {
+  const SHAPES = {
+    harmonic: { name: "배음렬 간격", notes: [36, 48, 55, 60, 64, 67, 72] },
+    open:     { name: "넓은 간격", notes: [36, 43, 52, 60, 67, 76] },
+    close:    { name: "위에 몰린 간격", notes: [36, 60, 64, 67, 72] },
+    inverted: { name: "거꾸로", notes: [36, 40, 43, 48, 67, 76] },
+    muddy:    { name: "낮은 3도 덩어리", notes: [36, 40, 43, 48, 52, 55] },
+  };
+  let shape = "harmonic", fam = "strings", tr = 0, ab = null;
+  const list = () => SHAPES[shape].notes.map((m) => { const mm = m + tr; return { m: mm, inst: VC.pick(mm, fam) }; });
+  const view = MB.canvas("#vc-sp-cv", (ctx, w, h) => VC.ladder(ctx, w, h, list(), { lo: 24, hi: 90 }), { aspect: 0.62, minHeight: 280, maxHeight: 400 });
+  function update() {
+    document.getElementById("vc-sp-tr-out").textContent = (tr ? MB.signed(tr, 0) + " 반음" : "원래 높이");
+    const L = list();
+    let mud = 0; for (let i = 1; i < L.length; i++) if (VC.muddy(L[i - 1].m, L[i].m)) mud++;
+    const f0 = MB.mtof(L[0].m);
+    const match = L.filter((n) => { const r = MB.mtof(n.m) / f0, k = Math.round(r); return k >= 1 && Math.abs(MB.cents(r / k)) < 20; }).length;
+    MB.stat("vc-sp-name", MB.pcName(L[0].m) + "장3화음 · " + L.length + "음");
+    MB.stat("vc-sp-mud", mud ? mud + "곳" : "없음");
+    MB.stat("vc-sp-match", match + " / " + L.length);
+    view.redraw();
+  }
+  const pick = document.getElementById("vc-sp-shape");
+  pick.addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; shape = b.dataset.v; pick.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); update(); });
+  MB.seg("vc-sp-fam", (v) => { fam = v; update(); });
+  MB.range("vc-sp-tr", null, (v) => { tr = v; update(); });
+  const stopAb = () => { if (ab) { clearInterval(ab); ab = null; } };
+  document.getElementById("vc-sp-play").addEventListener("click", () => { stopAb(); VC.play(list()); });
+  document.getElementById("vc-sp-arp").addEventListener("click", () => { stopAb(); VC.play(list(), { arp: 0.28, dur: 3.6 }); });
+  document.getElementById("vc-sp-ab").addEventListener("click", () => {
+    if (ab) { stopAb(); MB.stopAll(); return; }
+    let k = 0;
+    const flip = () => { shape = k++ % 2 ? "muddy" : "harmonic"; pick.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x.dataset.v === shape)); update(); VC.play(list(), { dur: 2.2 }); if (k >= 6) stopAb(); };
+    flip(); ab = setInterval(flip, 2600);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 두 쌍 */
+(function () {
+  const SETS = [
+    { a: "flute", b: "oboe", chord: [84, 79, 76, 72] },
+    { a: "flute", b: "clarinet", chord: [84, 79, 76, 72] },
+    { a: "oboe", b: "clarinet", chord: [79, 76, 72, 67] },
+    { a: "clarinet", b: "bassoon", chord: [67, 64, 60, 55] },
+    { a: "horn", b: "trombone", chord: [64, 60, 55, 48] },
+  ];
+  const METHODS = {
+    juxt:  { name: "포개기", A: [0, 1], B: [2, 3], say: "위·아래 두 층. 두 음색이 또렷이 갈린다." },
+    inter: { name: "끼우기", A: [0, 2], B: [1, 3], say: "번갈아 끼워 가장 고르게 섞인다." },
+    encl:  { name: "감싸기", A: [0, 3], B: [1, 2], say: "A가 바깥 껍질, B가 속. 바깥 음색이 주도." },
+    over:  { name: "겹침", A: [0, 1], B: [1, 2], say: "가운데 음을 유니즌으로 함께. 그 음이 두꺼워진다." },
+  };
+  const sel = document.getElementById("vc-pr-set");
+  sel.innerHTML = SETS.map((s, i) => `<option value="${i}">${EN.name(s.a)} 2 + ${EN.name(s.b)} 2</option>`).join("");
+  let set = SETS[0], meth = "juxt", swap = false, seq = null;
+  const pair = () => (swap ? { a: set.b, b: set.a } : { a: set.a, b: set.b });
+  function notes(which) {
+    const M = METHODS[meth], p = pair(), out = [];
+    if (which !== "B") M.A.forEach((i) => out.push({ m: set.chord[i], inst: p.a, i }));
+    if (which !== "A") M.B.forEach((i) => out.push({ m: set.chord[i], inst: p.b, i }));
+    return out;
+  }
+  function draw() {
+    const M = METHODS[meth], p = pair(), W = 520, H = 210, ys = [40, 82, 124, 166];
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="화음을 두 쌍에 나눈 모습">`;
+    s += `<text x="250" y="18" text-anchor="middle" class="nm" style="fill:var(--accent)">A · ${EN.name(p.a)}</text><text x="400" y="18" text-anchor="middle" class="nm" style="fill:var(--accent-2)">B · ${EN.name(p.b)}</text>`;
+    set.chord.forEach((m, i) => {
+      const y = ys[i], inA = M.A.includes(i), inB = M.B.includes(i);
+      s += `<line x1="120" y1="${y}" x2="${W - 20}" y2="${y}" class="ln"/>`;
+      s += `<text x="20" y="${y + 4}" class="nm">${i + 1}번째 음</text><text x="100" y="${y + 4}" text-anchor="end" class="dim">${MB.noteName(m)}</text>`;
+      if (inA) s += `<circle cx="250" cy="${y}" r="15" fill="var(--accent)"/><text x="250" y="${y + 4}" text-anchor="middle" class="dim" style="fill:var(--on-accent);font-weight:700">${EN.inst(p.a).short}</text>`;
+      else s += `<circle cx="250" cy="${y}" r="6" fill="none" stroke="var(--grid)"/>`;
+      if (inB) s += `<circle cx="400" cy="${y}" r="15" fill="var(--accent-2)"/><text x="400" y="${y + 4}" text-anchor="middle" class="dim" style="fill:var(--on-accent);font-weight:700">${EN.inst(p.b).short}</text>`;
+      else s += `<circle cx="400" cy="${y}" r="6" fill="none" stroke="var(--grid)"/>`;
+      if (inA && inB) s += `<text x="325" y="${y + 4}" text-anchor="middle" class="dim" style="fill:var(--warn)">유니즌</text>`;
+      if (!inA && !inB) s += `<text x="325" y="${y + 4}" text-anchor="middle" class="dim">(생략 · 다른 음의 옥타브)</text>`;
+    });
+    s += `</svg>`;
+    document.getElementById("vc-pr-svg").innerHTML = s;
+    const nm = (list) => list.map((n) => MB.noteName(n.m)).join(" · ");
+    MB.stat("vc-pr-a", EN.name(p.a) + " " + nm(notes("A")));
+    MB.stat("vc-pr-b", EN.name(p.b) + " " + nm(notes("B")));
+    MB.stat("vc-pr-say", METHODS[meth].name + " — " + METHODS[meth].say);
+  }
+  const segM = MB.seg("vc-pr-m", (v) => { meth = v; draw(); });
+  sel.addEventListener("change", () => { set = SETS[+sel.value]; draw(); });
+  MB.check("vc-pr-swap", (v) => { swap = v; draw(); });
+  const go = (w) => VC.play(notes(w), { players: false, vel: 0.5, dur: 2 });
+  const stopSeq = () => { if (seq) { clearTimeout(seq); seq = null; } };
+  document.getElementById("vc-pr-play").addEventListener("click", () => { stopSeq(); go(); });
+  document.getElementById("vc-pr-pa").addEventListener("click", () => { stopSeq(); go("A"); });
+  document.getElementById("vc-pr-pb").addEventListener("click", () => { stopSeq(); go("B"); });
+  document.getElementById("vc-pr-all").addEventListener("click", () => {
+    stopSeq(); const order = ["juxt", "inter", "encl", "over"]; let i = 0;
+    const step = () => { if (i >= order.length) { seq = null; return; } meth = order[i++]; segM.set(meth, false); draw(); go(); seq = setTimeout(step, 2300); };
+    step();
+  });
+  draw();
+})();
+
+/* ------------------------------------------------------------ 3. 겹치기 */
+(function () {
+  // 현악 4중주의 G7 → C (S A T B)
+  const VOICES = {
+    S: [74, 72], // D5 → C5
+    A: [59, 60], // B3 → C4 (이끎음)
+    T: [53, 52], // F3 → E3 (7음)
+    B: [43, 48], // G2 → C3
+  };
+  const QI = { S: "violin", A: "violin", T: "viola", B: "cello" };
+  const DBL = { none: null, root: "B", fifth: "S", lead: "A", sev: "T" };
+  const NAMES = { root: "근음 G→C", fifth: "5음 D→근음 C", lead: "이끎음 B→C", sev: "7음 F→E" };
+  const sel = document.getElementById("vc-db-inst");
+  sel.innerHTML = EN.options(["flute", "oboe", "clarinet", "horn", "trumpet", "bassoon"], "horn");
+  let v = "root", oct = 12;
+  const dbl = () => { const key = DBL[v]; if (!key) return null; return VOICES[key].map((m) => EN.fold(sel.value, m + oct)); };
+  function judge() {
+    if (v === "none") return ["—", "4중주 그대로입니다."];
+    const d = dbl(), key = DBL[v], src = VOICES[key];
+    const sameMotion = (d[1] - d[0]) === (src[1] - src[0]) && Math.abs(d[0] - src[0]) % 12 === 0 && d[0] !== src[0];
+    if (v === "lead" || v === "sev") return [NAMES[v], (sameMotion ? "✕ 병행 8도: 경향음이 두 번 해결되어 그 선이 튑니다." : "✕ 경향음 겹침: 유니즌이라도 그 음만 강조됩니다.")];
+    return [NAMES[v], "✓ 좋습니다. " + (v === "root" ? "베이스가 단단해집니다." : "화음의 꼭대기가 밝아집니다.")];
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), lo = 36, hi = 90, Y = (m) => 12 + (1 - (m - lo) / (hi - lo)) * (h - 36);
+    const X = (i) => w * (0.3 + i * 0.4);
+    ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.fillText("G7", X(0), h - 8); ctx.fillText("C", X(1), h - 8);
+    Object.entries(VOICES).forEach(([k, ms]) => {
+      ctx.strokeStyle = EN.color(QI[k]); ctx.lineWidth = DBL[v] === k ? 3 : 1.6;
+      ctx.beginPath(); ctx.moveTo(X(0), Y(ms[0])); ctx.lineTo(X(1), Y(ms[1])); ctx.stroke();
+      ms.forEach((m, i) => { ctx.fillStyle = EN.color(QI[k]); ctx.beginPath(); ctx.arc(X(i), Y(m), 5, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = P.dim; ctx.textAlign = i ? "left" : "right"; ctx.fillText(MB.noteName(m), X(i) + (i ? 10 : -10), Y(m) + 4); });
+    });
+    const d = dbl();
+    if (d) {
+      const bad = v === "lead" || v === "sev";
+      ctx.strokeStyle = bad ? P.bad : EN.color(sel.value); ctx.lineWidth = 4; ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(X(0), Y(d[0])); ctx.lineTo(X(1), Y(d[1])); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = bad ? P.bad : P.text; ctx.textAlign = "center"; ctx.fillText(EN.name(sel.value) + " " + MB.noteName(d[0]) + "→" + MB.noteName(d[1]), w / 2, Y((d[0] + d[1]) / 2) - 10);
+    }
+  }
+  const view = MB.canvas("#vc-db-cv", draw, { aspect: 0.5, minHeight: 220, maxHeight: 340 });
+  function update() { const [a, b] = judge(); MB.stat("vc-db-what", a); MB.stat("vc-db-judge", b); view.redraw(); }
+  MB.seg("vc-db-v", (x) => { v = x; update(); });
+  MB.seg("vc-db-oct", (x) => { oct = +x; update(); });
+  sel.addEventListener("change", update);
+  function play(withD) {
+    MB.ctx(); MB.stopAll();
+    const t0 = MB.now() + 0.05, D = 1.1;
+    Object.entries(VOICES).forEach(([k, ms]) => ms.forEach((m, i) => EN.note(QI[k], m, { when: t0 + i * D, dur: i ? 1.8 : D * 0.97, vel: 0.5 })));
+    const d = withD && dbl();
+    if (d) d.forEach((m, i) => EN.note(sel.value, m, { when: t0 + i * D, dur: i ? 1.8 : D * 0.97, vel: 0.55 }));
+  }
+  document.getElementById("vc-db-play").addEventListener("click", () => play(true));
+  document.getElementById("vc-db-base").addEventListener("click", () => play(false));
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 네 가지 옷 */
+(function () {
+  const CHORD = [36, 48, 55, 60, 64, 67, 72, 76];
+  const DYN = ["pp", "p", "mp", "mf", "f", "ff", "fff"];
+  let fam = "strings", dyn = 3, cyc = null;
+  function voices(f) {
+    if (f === "tutti") return ["strings", "winds", "brass"].flatMap(voices);
+    return CHORD.map((m) => { const k = VC.pick(m, f); return { m, inst: k, players: EN.inst(k).family === "strings" ? [0, 6, 8, 10, 12, 14][Math.min(5, Math.floor((m - 30) / 9))] || 8 : 1 }; });
+  }
+  const vel = () => EN.DYN[DYN[dyn]];
+  function stats(f) {
+    let num = 0, den = 0, levels = [];
+    voices(f).forEach((n) => {
+      const amp = Math.pow(vel(), 1.5) * Math.sqrt(EN.inst(n.inst).level) * Math.sqrt(n.players);
+      levels.push(20 * Math.log10(amp));
+      EN.spectrum(n.inst, n.m, { vel: vel() }).forEach((p) => { const e = Math.pow(p.a * amp, 2); num += p.f * e; den += e; });
+    });
+    const ref = 20 * Math.log10(Math.pow(EN.DYN.mf, 1.5)) + 10 * Math.log10(CHORD.length * 8);
+    return { cen: den ? num / den : 0, lv: EN.sumDb(levels) - ref };
+  }
+  function draw(ctx, w, h) {
+    const V = voices(fam), A = Math.pow(vel(), 1.5);
+    const layers = V.map((n) => ({ inst: n.inst, m: n.m, vel: vel(), gainDb: 20 * Math.log10(Math.sqrt(EN.inst(n.inst).level * n.players) * A) + 6 }));
+    EN.drawSpectra(ctx, { x: 34, y: 10, w: w - 44, h: h - 34 }, layers, { fmin: 50, fmax: 10000, dbMin: -60, dbMax: 12, offset: 0 });
+  }
+  const view = MB.canvas("#vc-co-cv", draw, { aspect: 0.45, minHeight: 200, maxHeight: 320 });
+  function update() {
+    document.getElementById("vc-co-dyn-out").textContent = DYN[dyn] + " · " + EN.DYN_NAMES[DYN[dyn]];
+    const s = stats(fam);
+    const who = {};
+    voices(fam).forEach((n) => { who[n.inst] = (who[n.inst] || 0) + 1; });
+    MB.stat("vc-co-who", Object.keys(who).map((k) => EN.inst(k).short + (who[k] > 1 ? "×" + who[k] : "")).join(" "));
+    MB.stat("vc-co-cen", Math.round(s.cen) + " Hz");
+    MB.stat("vc-co-lv", MB.signed(s.lv, 1) + " dB");
+    view.redraw();
+  }
+  function play(f) {
+    MB.ctx(); MB.stopAll();
+    const t0 = MB.now() + 0.05;
+    voices(f).forEach((n) => EN.note(n.inst, n.m, { when: t0, dur: 2.2, vel: vel(), players: Math.min(n.players, 4), maxSub: f === "tutti" ? 1 : 2 }));
+  }
+  const seg = MB.seg("vc-co-fam", (v) => { fam = v; update(); });
+  MB.range("vc-co-dyn", null, (v) => { dyn = v; update(); });
+  document.getElementById("vc-co-play").addEventListener("click", () => { if (cyc) { clearTimeout(cyc); cyc = null; } play(fam); });
+  document.getElementById("vc-co-cycle").addEventListener("click", () => {
+    if (cyc) { clearTimeout(cyc); cyc = null; MB.stopAll(); return; }
+    const order = ["strings", "winds", "brass", "tutti"]; let i = 0;
+    const step = () => { if (i >= order.length) { cyc = null; return; } fam = order[i++]; seg.set(fam, false); update(); play(fam); cyc = setTimeout(step, 2600); };
+    step();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 보이싱 편집기 */
+(function () {
+  const CHORDS = ["C", "Am7", "Fmaj7", "Dm7", "G7", "E7", "B♭"];
+  const INSTS = ["contrabass", "cello", "viola", "violin", "bassoon", "clarinet", "oboe", "flute", "tuba", "trombone", "horn", "trumpet", "harp"];
+  const csel = document.getElementById("vc-ed-chord");
+  csel.innerHTML = CHORDS.map((c) => `<option>${c}</option>`).join("");
+  let voices = [{ m: 48, inst: "cello" }, { m: 55, inst: "horn" }, { m: 64, inst: "clarinet" }, { m: 67, inst: "oboe" }, { m: 72, inst: "flute" }];
+  const rowsEl = document.getElementById("vc-ed-rows");
+  const pc = () => EN.parseChord(csel.value);
+  const flat = () => /♭|F/.test(csel.value);
+  const cands = () => { const C = pc(), out = []; for (let m = 28; m <= 96; m++) if (C.pcs.includes(MB.mod(m, 12))) out.push(m); return out; };
+  function renderRows() {
+    const cs = cands();
+    rowsEl.innerHTML = voices.map((v, i) => `<div class="row"><b>성부 ${i + 1}</b><select data-i="${i}" data-k="m">${cs.map((m) => `<option value="${m}"${m === v.m ? " selected" : ""}>${MB.noteName(m, flat())}</option>`).join("")}</select><select data-i="${i}" data-k="inst">${EN.options(INSTS, v.inst)}</select></div>`).join("");
+  }
+  rowsEl.addEventListener("change", (e) => { const s = e.target; const i = +s.dataset.i; if (s.dataset.k === "m") voices[i].m = +s.value; else voices[i].inst = s.value; update(); });
+  function checks() {
+    const C = pc(), out = [], sorted = voices.map((v, i) => Object.assign({ i }, v)).sort((a, b) => a.m - b.m);
+    voices.forEach((v, i) => {
+      v.bad = false;
+      if (!EN.inRange(v.inst, v.m)) { out.push(["bad", `성부 ${i + 1}: ${EN.name(v.inst)}은(는) ${MB.noteName(v.m, flat())}을(를) 낼 수 없습니다 (${MB.noteName(EN.inst(v.inst).lo, flat())}–${MB.noteName(EN.inst(v.inst).hi, flat())}).`]); v.bad = true; }
+      else if (!EN.inComfy(v.inst, v.m)) out.push(["warn", `성부 ${i + 1}: ${MB.noteName(v.m, flat())}은(는) ${EN.name(v.inst)}에게 무리한 음역입니다.`]);
+    });
+    for (let i = 1; i < voices.length; i++) if (voices[i].m < voices[i - 1].m) out.push(["warn", `성부 ${i + 1}이(가) 성부 ${i}보다 낮습니다(성부 교차).`]);
+    for (let i = 1; i < sorted.length; i++) {
+      const a = sorted[i - 1], b = sorted[i];
+      if (VC.muddy(a.m, b.m)) out.push(["bad", `${MB.noteName(a.m, flat())}–${MB.noteName(b.m, flat())}: 낮은 음정 한계 아래의 ${MB.intervalName(b.m - a.m)} — 탁합니다.`]);
+      if (i >= 2 && b.m - a.m > 12) out.push(["warn", `${MB.noteName(a.m, flat())}–${MB.noteName(b.m, flat())}: 위 성부 사이가 한 옥타브보다 넓게 비었습니다.`]);
+    }
+    const used = new Set(voices.map((v) => MB.mod(v.m, 12)));
+    if (!used.has(C.third)) out.push(["bad", "3음(" + MB.pcName(C.third, flat()) + ")이 빠져 장·단을 알 수 없습니다."]);
+    const missing = C.pcs.filter((p) => !used.has(p) && p !== C.third && MB.mod(p - C.root, 12) !== 7);
+    if (missing.length) out.push(["warn", "빠진 구성음: " + missing.map((p) => MB.pcName(p, flat())).join(", ")]);
+    if (/7$/.test(csel.value) && !/maj7|m7/.test(csel.value)) {
+      const lt = C.third, sev = C.pcs[3];
+      [[lt, "이끎음"], [sev, "7음"]].forEach(([p, nm]) => { if (voices.filter((v) => MB.mod(v.m, 12) === p).length > 1) out.push(["bad", `${nm}(${MB.pcName(p, flat())})이(가) 겹쳤습니다 — 해결할 때 병행 8도가 생깁니다.`]); });
+    }
+    if (!out.length) out.push(["ok", "문제없음 — 음역·간격·구성음 모두 좋습니다."]);
+    return out;
+  }
+  function draw(ctx, w, h) { VC.ladder(ctx, w, h, voices.slice().sort((a, b) => a.m - b.m), { lo: 26, hi: 98, flat: flat() }); }
+  const view = MB.canvas("#vc-ed-cv", draw, { aspect: 0.55, minHeight: 260, maxHeight: 380 });
+  function update() {
+    const cs = checks();
+    document.getElementById("vc-ed-warn").innerHTML = cs.map(([c, t]) => `<li class="${c}">${t}</li>`).join("");
+    const nb = cs.filter((c) => c[0] === "bad").length, nw = cs.filter((c) => c[0] === "warn").length;
+    MB.stat("vc-ed-score", nb || nw ? `문제 ${nb} · 주의 ${nw}` : "통과 ✓");
+    let num = 0, den = 0;
+    voices.forEach((v) => EN.spectrum(v.inst, v.m, { vel: 0.5 }).forEach((p) => { const e = p.a * p.a * EN.inst(v.inst).level; num += p.f * e; den += e; }));
+    MB.stat("vc-ed-cen", Math.round(num / den) + " Hz");
+    view.redraw();
+  }
+  csel.addEventListener("change", () => {
+    const cs = cands();
+    voices.forEach((v) => { v.m = cs.reduce((a, b) => (Math.abs(b - v.m) < Math.abs(a - v.m) ? b : a)); });
+    renderRows(); update();
+  });
+  document.getElementById("vc-ed-auto").addEventListener("click", () => {
+    const C = pc(), r = C.root, iv = C.pcs.map((p) => MB.mod(p - r, 12));
+    const fifth = iv.includes(7) ? 7 : iv[2], third = MB.mod(C.third - r, 12);
+    let b = 36 + r; if (b > 47) b -= 12;
+    const seq = [b, b + 12, b + 12 + fifth, b + 24 + third, b + 24 + (iv[3] != null ? iv[3] : fifth)];
+    voices.forEach((v, i) => { v.m = seq[i]; v.inst = VC.pick(v.m, i < 2 ? "strings" : i === 2 ? "brass" : "winds"); });
+    renderRows(); update();
+  });
+  document.getElementById("vc-ed-play").addEventListener("click", () => VC.play(voices, { vel: 0.45 }));
+  document.getElementById("vc-ed-arp").addEventListener("click", () => VC.play(voices.slice().sort((a, b) => a.m - b.m), { arp: 0.3, dur: 3.4, vel: 0.45 }));
+  renderRows(); update();
+})();
+</script>
+</body>
+</html>

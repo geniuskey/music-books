@@ -1,0 +1,91 @@
+/* ==========================================================================
+   EnsembleBook 합주 위젯 스타일 — 악기군 색, 믹서(.en-mixer), 무대(.en-stage), 음역표(.en-range),
+   악기 칩(.en-chips), 파트 롤 캔버스
+   ========================================================================== */
+:root {
+  --en-str: #b5533c;
+  --en-ww: #2e8a68;
+  --en-br: #c08a1e;
+  --en-pc: #6b6f86;
+  --en-kb: #7a5bb0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --en-str: #f08a70;
+    --en-ww: #62d0a6;
+    --en-br: #f2c25a;
+    --en-pc: #a9aec8;
+    --en-kb: #b79cf0;
+  }
+}
+:root[data-theme="dark"] {
+  --en-str: #f08a70;
+  --en-ww: #62d0a6;
+  --en-br: #f2c25a;
+  --en-pc: #a9aec8;
+  --en-kb: #b79cf0;
+}
+.fam-str { color: var(--en-str); } .fam-ww { color: var(--en-ww); } .fam-br { color: var(--en-br); } .fam-pc { color: var(--en-pc); } .fam-kb { color: var(--en-kb); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------------------------------------------------------------- mixer */
+.en-mixer { display: grid; gap: 4px; padding: 8px 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+.en-strip { display: grid; grid-template-columns: minmax(84px, 1.1fr) auto minmax(60px, 1.3fr) minmax(50px, 0.9fr) minmax(36px, 0.7fr); gap: 8px; align-items: center; font-size: 13px; min-width: 0; }
+.en-strip.hd { font-size: 11px; color: var(--text-faint); font-family: var(--mono); padding-bottom: 2px; border-bottom: 1px solid var(--border); }
+.en-strip.hd .ms { display: block; width: 51px; white-space: nowrap; overflow: hidden; }
+.en-strip .nm { display: flex; align-items: center; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.en-strip .nm i { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.en-strip .ms { display: flex; gap: 3px; }
+.en-strip .ms button { font: 700 11px var(--mono); width: 24px; height: 22px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; padding: 0; }
+.en-strip .ms button.m.on { background: var(--bad); border-color: var(--bad); color: #fff; }
+.en-strip .ms button.s.on { background: var(--warn); border-color: var(--warn); color: #1c1a17; }
+.en-strip label { display: block; min-width: 0; }
+.en-strip input[type="range"] { width: 100%; margin: 0; }
+.en-strip .meter { height: 8px; border-radius: 4px; background: var(--surface); overflow: hidden; }
+.en-strip .meter b { display: block; height: 100%; width: 0; background: var(--c); transition: width 0.06s linear; }
+@media (max-width: 560px) {
+  .en-strip { grid-template-columns: minmax(70px, 1fr) auto minmax(54px, 1.2fr) minmax(28px, 0.5fr); }
+  .en-strip .pan { display: none; }
+}
+
+/* ---------------------------------------------------------------- stage */
+.en-stage { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 6px; touch-action: none; }
+.en-stage svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+.en-stage .floor { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+.en-stage .row { fill: none; stroke: var(--grid); stroke-dasharray: 3 5; }
+.en-stage .podium { fill: var(--text-dim); }
+.en-stage .lbl { font: 11px var(--font); fill: var(--text-dim); }
+.en-stage .lbl.dim { fill: var(--text-faint); }
+.en-stage .seat { cursor: grab; }
+.en-stage .seat circle { fill: color-mix(in srgb, var(--c) 22%, var(--bg-elev)); stroke: var(--c); stroke-width: 2; transition: transform 0.12s; }
+.en-stage .seat text { font: 700 11px var(--mono); fill: var(--text); pointer-events: none; }
+.en-stage .seat .lbl { font: 10.5px var(--font); fill: var(--text-dim); font-weight: 400; }
+.en-stage .seat.on circle { fill: var(--c); }
+.en-stage .seat.on > text:first-of-type { fill: #fff; }
+.en-stage .seat.off { opacity: 0.3; }
+.en-stage .seat.hit circle { animation: en-hit 0.35s ease-out; }
+@keyframes en-hit { 0% { fill: var(--c); } 100% { fill: color-mix(in srgb, var(--c) 22%, var(--bg-elev)); } }
+
+/* ---------------------------------------------------------------- range chart */
+.en-range { overflow-x: auto; }
+.en-range svg { display: block; width: 100%; min-width: 520px; height: auto; }
+.en-range .grid { stroke: var(--grid); stroke-width: 1; }
+.en-range .c4 { stroke: var(--text-faint); stroke-width: 1.4; stroke-dasharray: 4 3; }
+.en-range .tick { font: 10px var(--mono); fill: var(--text-dim); }
+.en-range .nm { font: 600 11.5px var(--font); fill: var(--text); }
+
+/* ---------------------------------------------------------------- chips */
+.en-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.en-chips button { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 13px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+.en-chips button i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.en-chips button.on { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--bg-elev)); color: var(--text); font-weight: 600; }
+
+/* ---------------------------------------------------------------- misc */
+.en-roll { display: block; width: 100%; }
+.en-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: var(--text-dim); padding: 6px 2px 0; }
+.en-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.en-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.en-big { font: 800 28px var(--mono); color: var(--accent); }
+.en-pick { display: flex; flex-wrap: wrap; gap: 6px; }
+.en-pick button { font: inherit; font-size: 13px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; }
+.en-pick button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }

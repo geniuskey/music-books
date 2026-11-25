@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>목관악기 · EnsembleBook</title>
+<meta name="description" content="열린 관·닫힌 관·원뿔관의 정상파, 플루트의 에지톤과 숨소리, 클라리넷의 홀수 배음과 12도 오버블로, 오보에·바순의 겹리드와 포먼트, 같은 음을 내는 네 목관의 음색과 조율의 A, 피콜로와 잉글리시 호른까지 소리로 비교한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .wd-fig svg { display: block; width: 100%; height: auto; }
+  .wd-fig .lbl { font: 12px var(--font); fill: var(--text-dim); }
+  .wd-fig .nm { font: 700 13px var(--font); fill: var(--text); }
+  .wd-fig .tube { fill: var(--surface); stroke: var(--text-dim); stroke-width: 1.4; }
+  .wd-fig .end { stroke: var(--text); stroke-width: 4; }
+  .wd-grid4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="winds">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 03</div>
+    <h1>목관악기</h1>
+    <p class="lead">현악기 뒤, 무대 한가운데에 앉은 플루트·오보에·클라리넷·바순은 오케스트라의 '독창자'들입니다. 현악기 넷이 한 가족처럼 비슷한 소리를 내는 것과 달리, 목관 넷은 <b>모두 다른 방식으로</b> 공기를 떨게 합니다. 플루트는 입술에서 나온 공기 줄기를 모서리에 부딪히고, 클라리넷은 리드 한 장을, 오보에와 바순은 리드 두 장을 떨게 하며, 관의 모양도 원통과 원뿔로 갈립니다. 그래서 목관은 한 대 한 대의 색이 뚜렷하고, 같은 음을 내도 금방 누구인지 알 수 있습니다. 이 장에서는 관 속 정상파의 물리에서 출발해 네 악기의 음색이 어디서 오는지 듣고, 오케스트라가 왜 오보에의 A로 조율하는지, 피콜로와 잉글리시 호른 같은 친척들은 어떤지 살펴봅니다.</p>
+    <ul class="objectives">
+      <li>열린 원통관·한쪽이 닫힌 원통관·원뿔관의 공명 주파수와 배음 구조를 설명한다.</li>
+      <li>플루트를 세게 불면 <b>옥타브</b>, 클라리넷은 <b>12도</b> 위로 뛰는 이유를 안다.</li>
+      <li>에지톤·홑리드·겹리드라는 세 가지 소리 내는 방식과 숨소리의 역할을 안다.</li>
+      <li>클라리넷의 샬뤼모·클라리온 음역이 왜 다르게 들리는지 스펙트럼으로 확인한다.</li>
+      <li>오보에·바순의 고정된 공명대(포먼트)와, 같은 음에서 네 목관의 밝기를 비교한다.</li>
+      <li>피콜로·잉글리시 호른·B♭ 클라리넷의 적힌 음과 소리 나는 음의 관계를 안다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="tubes">
+    <h2>관 속의 정상파: 열린 관, 닫힌 관, 원뿔관</h2>
+    <p>관악기에서 진동하는 것은 나무나 금속이 아니라 <b>관 속의 공기 기둥</b>입니다. 관 안을 오가는 압력파가 양끝에서 반사되어 겹치면 특정 주파수에서만 정상파가 서는데, 그 주파수가 악기가 낼 수 있는 음입니다. 끝이 열려 있으면 그 자리의 압력은 바깥 공기와 같아 <b>압력의 마디</b>가 되고, 막혀 있으면(리드나 입술로 닫힌 쪽) 압력이 가장 크게 출렁이는 <b>압력의 배</b>가 됩니다.</p>
+    <figure class="diagram wd-fig">
+      <svg viewBox="0 0 660 300" role="img" aria-label="세 가지 관의 압력 정상파">
+        <g id="wd-fig-g"></g>
+      </svg>
+      <figcaption><b>그림 3-1.</b> 세 가지 관의 압력 정상파(첫 세 모드). 열린 원통(플루트)은 양끝이 마디라 반 파장의 정수배가 들어가 모든 배음이 생깁니다. 한쪽이 닫힌 원통(클라리넷)은 닫힌 끝이 배라 \(\tfrac14\) 파장의 홀수 배만 들어가 홀수 배음만 생깁니다. 원뿔(오보에·바순·색소폰)은 한쪽이 닫혀 있어도 모든 배음이 생깁니다.</figcaption>
+    </figure>
+    <div class="formula">
+      $$\text{열린 원통, 원뿔: } f_n = n\,\frac{c}{2L}\quad(n=1,2,3,\dots) \qquad \text{닫힌 원통: } f_n=(2n-1)\,\frac{c}{4L}$$
+      <div class="where">\(c\approx 343\) m/s(20 °C 공기의 음속), \(L\)은 관의 유효 길이. 닫힌 원통은 같은 길이의 열린 관보다 <b>한 옥타브 낮은</b> 기본음을 냅니다. 그래서 길이가 비슷한 플루트(약 66 cm)와 클라리넷(약 60 cm)의 가장 낮은 음이 각각 C₄와 D₃으로 거의 한 옥타브 차이 납니다. 실제 관은 끝 보정과 톤홀 때문에 식과 조금 다릅니다.</div>
+    </div>
+    <p>숨을 세게 불어 같은 운지로 다음 공명으로 뛰어오르는 것을 <b>오버블로</b><span class="en">(Overblowing)</span>라 합니다. 열린 관과 원뿔관의 다음 공명은 2배, 곧 <b>옥타브</b> 위입니다. 닫힌 원통의 다음 공명은 3배, 곧 <b>옥타브 + 완전5도 = 12도</b> 위입니다. 플루트·오보에·바순의 운지가 옥타브마다 거의 되풀이되는 반면, 클라리넷은 12도마다 되풀이되는 이유입니다.</p>
+
+    <div class="sim" id="sim-wd-tube">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>관의 공명 사다리</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="wd-tube-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>관의 모양</span><div class="seg" id="wd-tube-type"><button data-value="open" class="on">열린 원통</button><button data-value="closed">닫힌 원통</button><button data-value="cone">원뿔</button></div></div>
+          <label class="ctrl"><span>관의 유효 길이 <output id="wd-tube-L-out"></output></span><input type="range" id="wd-tube-L" min="20" max="260" step="1" value="66"></label>
+          <div class="btn-row"><button class="btn primary" id="wd-tube-play">▶ 기본음</button><button class="btn" id="wd-tube-ladder">▶ 오버블로 사다리</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">기본음</span><span class="v" id="wd-tube-f">—</span></div>
+        <div class="stat"><span class="k">첫 오버블로</span><span class="v" id="wd-tube-ob">—</span></div>
+        <div class="stat"><span class="k">비슷한 악기</span><span class="v" id="wd-tube-ex">—</span></div>
+      </div>
+      <div class="sim-note">아래쪽 막대는 그 관이 낼 수 있는 공명 주파수(1–6번 모드)입니다. 사다리 버튼은 같은 운지로 숨만 세게 해 공명을 차례로 올라가는 소리를 냅니다 · 모델: 끝 보정·톤홀·원뿔 끝의 잘림을 무시한 이상적인 관. 소리는 관 모양에 맞춰 플루트·클라리넷·오보에 음원을 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="flute">
+    <h2>플루트: 모서리에 부딪히는 숨</h2>
+    <p>플루트에는 리드가 없습니다. 입술 사이로 나온 납작한 공기 줄기가 취구의 날카로운 모서리를 스치면, 줄기가 모서리 안쪽과 바깥쪽을 번갈아 넘나들며 흔들립니다. 이것이 <b>에지톤</b><span class="en">(Edge tone)</span>이고, 관의 공명이 그 흔들림을 한 주파수로 붙잡아 음이 됩니다. 관의 양끝이 모두 열려 있는 셈이라(취구와 관 끝) 모든 배음이 생기지만, 배음이 높아질수록 빠르게 약해져 소리가 둥글고 순합니다.</p>
+    <ul>
+      <li><b>숨소리가 음색의 일부다</b> — 공기 줄기의 난류가 만드는 쉬익 하는 잡음이 늘 섞여 있습니다. 특히 낮은 음역에서는 배음이 적어 숨소리가 두드러집니다.</li>
+      <li><b>세게 불면 밝아지고 뛰어오른다</b> — 숨의 속도를 높이면 배음이 늘고, 더 높이면 같은 운지로 옥타브 위 음이 납니다. 플루트 연주자는 숨의 속도와 입술 각도로 음역을 고릅니다.</li>
+      <li><b>낮은 음은 작다</b> — 플루트의 가장 낮은 옥타브(C₄–C₅)는 아름답지만 음량이 작아, 오케스트라가 함께 크게 연주하면 쉽게 묻힙니다(<a href="balance.html">11장</a>).</li>
+    </ul>
+
+    <div class="sim" id="sim-wd-flute">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>숨의 세기와 음역</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="wd-fl-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음 <output id="wd-fl-m-out"></output></span><input type="range" id="wd-fl-m" min="60" max="96" step="1" value="62"></label>
+          <label class="ctrl"><span>숨의 세기 <output id="wd-fl-v-out"></output></span><input type="range" id="wd-fl-v" min="0.15" max="1" step="0.01" value="0.45"></label>
+          <label class="ctrl"><span>숨소리 더하기 <output id="wd-fl-n-out"></output></span><input type="range" id="wd-fl-n" min="0" max="100" step="1" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="wd-fl-play">▶ 불기</button><button class="btn" id="wd-fl-ob">▶ 같은 운지, 세게(옥타브)</button><button class="btn" id="wd-fl-breath">▶ 숨소리만</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">−30 dB 위 배음 수</span><span class="v" id="wd-fl-n">—</span></div>
+        <div class="stat"><span class="k">무게 중심</span><span class="v" id="wd-fl-c">—</span></div>
+        <div class="stat"><span class="k">음역</span><span class="v" id="wd-fl-reg">—</span></div>
+      </div>
+      <div class="sim-note">숨의 세기를 올리면 배음이 늘어납니다. 낮은 음역일수록 배음이 적습니다 · 모델: 빠르게 줄어드는 배음 + 대역 통과 잡음(숨소리). '같은 운지, 세게'는 첫 음을 p로, 옥타브 위를 f로 이어 냅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="clarinet">
+    <h2>클라리넷: 리드 한 장과 홀수 배음</h2>
+    <p>클라리넷은 마우스피스에 얇은 갈대 <b>리드 한 장</b>(홑리드)을 묶은 악기입니다. 숨을 불어 넣으면 리드가 마우스피스에 닿았다 떨어지며 공기 흐름을 여닫는 밸브가 됩니다. 리드 쪽 끝은 사실상 막혀 있고 관은 거의 원통이라, 클라리넷은 교과서적인 <b>한쪽이 닫힌 원통관</b>입니다.</p>
+    <ul>
+      <li><b>샬뤼모</b><span class="en">(Chalumeau)</span> — 가장 낮은 음역(실음 D₃–F₄ 무렵). 홀수 배음이 강하고 짝수 배음이 아주 약해 속이 빈 듯 어둡고 우묵한 소리가 납니다.</li>
+      <li><b>목음</b><span class="en">(Throat tones)</span> — 실음 F♯₄–A♭₄ 근처. 관이 짧게 쓰여 소리가 약하고 덜 울립니다.</li>
+      <li><b>클라리온</b><span class="en">(Clarion)</span> — 레지스터 키를 눌러 12도 위로 오버블로한 음역(실음 A₄–B♭₅). 톤홀의 영향으로 짝수 배음이 늘어 밝고 노래하는 소리가 됩니다.</li>
+      <li><b>알티시모</b><span class="en">(Altissimo)</span> — 그 위의 날카롭고 강한 음역.</li>
+    </ul>
+    <p>클라리넷에는 톤홀 줄이 만드는 <b>차단 주파수</b>(약 1.5–2 kHz)도 있습니다. 이보다 높은 배음은 관 속에 갇히지 않고 빠져나가 급히 약해집니다. 그래서 클라리넷은 아주 여리게(pp)부터 크게까지 셈여림 폭이 넓고, 여린 소리가 거의 '없는 곳에서 나타나는' 듯 들립니다.</p>
+
+    <div class="sim" id="sim-wd-clar">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>클라리넷의 음역별 스펙트럼</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="wd-cl-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음(실음) <output id="wd-cl-m-out"></output></span><input type="range" id="wd-cl-m" min="50" max="91" step="1" value="53"></label>
+          <label class="ctrl"><span>셈여림 <output id="wd-cl-v-out"></output></span><input type="range" id="wd-cl-v" min="0.15" max="1" step="0.01" value="0.55"></label>
+          <div class="btn-row"><button class="btn primary" id="wd-cl-play">▶ 불기</button><button class="btn" id="wd-cl-12">▶ 같은 운지 + 레지스터 키(12도)</button></div>
+          <div class="btn-row"><button class="btn" id="wd-cl-vs">▶ 같은 음, 플루트와 비교</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음역 이름</span><span class="v" id="wd-cl-reg">—</span></div>
+        <div class="stat"><span class="k">짝수 / 홀수 배음 에너지</span><span class="v" id="wd-cl-eo">—</span></div>
+        <div class="stat"><span class="k">악보에 적힌 음(B♭)</span><span class="v" id="wd-cl-w">—</span></div>
+      </div>
+      <div class="sim-note">막대 색: 진한 것이 홀수 배음, 옅은 것이 짝수 배음입니다. 슬라이더를 샬뤼모에서 클라리온으로 옮기며 짝수 배음이 나타나는 것을 보세요 · 모델: 음역에 따라 짝수 배음 비율을 바꾸고, 1.7 kHz 차단 주파수 위를 급히 줄였습니다. 실제로는 음마다 운지가 달라 스펙트럼이 더 들쭉날쭉합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="double-reed">
+    <h2>오보에와 바순: 리드 두 장과 고정된 공명</h2>
+    <p>오보에와 바순은 갈대 두 장을 마주 묶은 <b>겹리드</b><span class="en">(Double reed)</span>를 입술로 물고 붑니다. 두 장이 서로 부딪히며 공기를 여닫는 밸브가 되고, 관은 <b>원뿔</b>이라 모든 배음이 생기고 옥타브로 오버블로합니다. 리드가 공기를 거의 완전히 끊었다 놓기 때문에 파형이 뾰족하고 배음이 풍부합니다.</p>
+    <p>두 악기의 개성은 <b>포먼트</b>입니다. 오보에는 1 kHz 남짓, 바순은 500 Hz 근처에 음높이와 상관없이 늘 솟아 있는 공명대가 있어, 어떤 음을 불어도 그 주파수 근처의 배음이 강해집니다. 사람 목소리에서 '아'와 '오'를 가르는 원리와 같아서, 오보에는 코에 걸린 듯한, 바순은 '오' 하고 웅얼거리는 듯한 목소리 같은 음색을 가집니다. 잉글리시 호른은 오보에를 크게 만든 악기로, 포먼트가 더 낮아 어둡고 애수 어린 소리가 납니다.</p>
+
+    <div class="sim" id="sim-wd-reed">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>겹리드의 포먼트</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="wd-rd-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="wd-rd-inst"><button data-value="oboe" class="on">오보에</button><button data-value="englishHorn">잉글리시 호른</button><button data-value="bassoon">바순</button></div></div>
+          <label class="ctrl"><span>음 <output id="wd-rd-m-out"></output></span><input type="range" id="wd-rd-m" min="58" max="91" step="1" value="67"></label>
+          <label class="check"><input type="checkbox" id="wd-rd-ghost" checked> 한 옥타브 아래 음의 스펙트럼도 겹쳐 보기</label>
+          <div class="btn-row"><button class="btn primary" id="wd-rd-play">▶ 불기</button><button class="btn" id="wd-rd-scale">▶ 음계 오르내리기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">포먼트</span><span class="v" id="wd-rd-fm">—</span></div>
+        <div class="stat"><span class="k">무게 중심</span><span class="v" id="wd-rd-c">—</span></div>
+        <div class="stat"><span class="k">가장 센 배음</span><span class="v" id="wd-rd-pk">—</span></div>
+      </div>
+      <div class="sim-note">점선은 악기의 공명 곡선입니다. 옥타브를 바꿔도 가장 센 배음들이 같은 주파수 근처에 모이는 것을 보세요 · 모델: 원뿔관의 전 배음 스펙트럼 × 악기별 포먼트 두 개.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="four">
+    <h2>같은 음, 네 개의 목소리 — 그리고 조율의 A</h2>
+    <p>목관 넷이 한 음을 함께 내면 현악기처럼 하나로 녹아들지 않고 <b>각자의 색이 남습니다</b>. 그래서 고전파 작곡가들은 목관에 선율을 주어 현악기와 대비시키고, 목관끼리 겹칠 때는 어떤 조합이 섞이고 어떤 조합이 도드라지는지 신중하게 골랐습니다(<a href="blend.html">10장</a>). 플루트는 맑고 순하며, 오보에는 가늘고 뚜렷하며, 클라리넷은 둥글고 부드럽고, 바순은 따뜻하고 약간 코맹맹이입니다.</p>
+    <p>연주 전 오케스트라가 조율할 때 기준 A(보통 440–443 Hz)를 내는 것은 <b>오보에</b>입니다. 오보에는 음높이가 안정적이고 리드 때문에 즉석에서 크게 바꾸기 어려우며, 무엇보다 배음이 풍부하고 뚜렷해 무대 전체에서 잘 들리고 맥놀이를 듣기 쉽습니다. 오보에가 A를 내면 목관과 금관이 먼저 맞추고, 이어 현악기가 맞춥니다.</p>
+
+    <div class="sim" id="sim-wd-four">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>네 목관의 같은 음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="wd-4-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음(네 악기 공통 음역) <output id="wd-4-m-out"></output></span><input type="range" id="wd-4-m" min="62" max="75" step="1" value="67"></label>
+          <div class="wd-grid4"><button class="btn" data-k="flute">▶ 플루트</button><button class="btn" data-k="oboe">▶ 오보에</button><button class="btn" data-k="clarinet">▶ 클라리넷</button><button class="btn" data-k="bassoon">▶ 바순</button></div>
+          <div class="btn-row"><button class="btn primary" id="wd-4-seq">▶ 차례로</button><button class="btn" id="wd-4-all">▶ 넷이 함께</button></div>
+          <div class="btn-row"><button class="btn" id="wd-4-tune">▶ 오보에의 A로 조율하기</button></div>
+          <div class="sim-msg" id="wd-4-msg">조율 버튼: 오보에가 A를 내고, 나머지가 어긋난 채 들어왔다가 맞춰집니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">플루트</span><span class="v" id="wd-4-c0">—</span></div>
+        <div class="stat"><span class="k">오보에</span><span class="v" id="wd-4-c1">—</span></div>
+        <div class="stat"><span class="k">클라리넷</span><span class="v" id="wd-4-c2">—</span></div>
+        <div class="stat"><span class="k">바순</span><span class="v" id="wd-4-c3">—</span></div>
+      </div>
+      <div class="sim-note">수치는 스펙트럼 무게 중심(밝기)입니다. 같은 음에서 오보에가 가장 밝고 플루트가 가장 순합니다 · 모델: 악기별 음원 모델의 정적 스펙트럼. 조율 데모는 어긋남 ±6–14센트로 시작해 맥놀이가 들리게 했습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 목관의 독창.</b> 베토벤 교향곡 6번 〈전원〉 2악장 끝에는 플루트(나이팅게일)·오보에(메추라기)·클라리넷(뻐꾸기)이 차례로 새소리를 흉내 내는 대목이 있습니다. 같은 무렵의 현악 반주와 비교해 들으며, 목관 하나하나가 얼마나 다른 '목소리'인지 느껴 보세요. 연주회에 가면 시작 전 오보에의 A와 그 뒤 퍼지는 조율 소리도 귀 기울여 보세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="family">
+    <h2>목관의 가족과 조옮김</h2>
+    <p>각 목관에는 크기가 다른 친척이 있습니다. 2관 편성(<a href="orchestra.html">9장</a>)의 목관 주자들은 필요할 때 이 친척 악기로 바꿔 듭니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>소리 나는 방식</th><th>실음 음역(대략)</th><th>적힌 음 → 실음</th></tr></thead>
+        <tbody>
+          <tr><td>피콜로</td><td>에지톤, 열린 관</td><td>D₅ – C₈</td><td>한 옥타브 위로 소리 남</td></tr>
+          <tr><td>플루트</td><td>에지톤, 열린 관</td><td>C₄ – C₇</td><td>그대로(C 악기)</td></tr>
+          <tr><td>오보에</td><td>겹리드, 원뿔</td><td>B♭₃ – G₆</td><td>그대로</td></tr>
+          <tr><td>잉글리시 호른</td><td>겹리드, 원뿔</td><td>E₃ – A₅</td><td>완전5도 아래(F 악기)</td></tr>
+          <tr><td>클라리넷(B♭)</td><td>홑리드, 원통</td><td>D₃ – B♭₆</td><td>장2도 아래(B♭ 악기)</td></tr>
+          <tr><td>바순</td><td>겹리드, 원뿔</td><td>B♭₁ – E♭₅</td><td>그대로(낮은음자리표·테너 음자리표)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>왜 적힌 음과 다른 음이 날까요? 연주자는 한 운지에 한 음 이름을 익힙니다. 크기가 다른 친척 악기로 바꿔도 <b>같은 운지를 같은 음 이름으로 읽게</b> 하려면, 악보 쪽을 옮겨 적는 편이 편합니다. 그래서 B♭ 클라리넷 주자가 악보의 C를 보고 운지하면 실제로는 B♭이 납니다. 조옮김 악기의 원리와 총보 읽기는 <a href="score.html">6장</a>에서 자세히 다룹니다.</p>
+
+    <div class="sim" id="sim-wd-range">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음역표와 적힌 음</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="wd-rg-chart"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div id="wd-rg-chips"></div></div>
+          <label class="ctrl"><span>실음 <output id="wd-rg-m-out"></output></span><input type="range" id="wd-rg-m" min="60" max="96" step="1" value="72"></label>
+          <div class="btn-row"><button class="btn primary" id="wd-rg-play">▶ 불기</button><button class="btn" id="wd-rg-span">▶ 음역 훑기</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">소리 나는 음</span><span class="v" id="wd-rg-s">—</span></div>
+        <div class="stat"><span class="k">악보에 적는 음</span><span class="v" id="wd-rg-w">—</span></div>
+        <div class="stat"><span class="k">음역 안?</span><span class="v" id="wd-rg-in">—</span></div>
+      </div>
+      <div class="sim-note">진한 막대는 편한 음역, 옅은 막대는 전체 음역, 점선 상자는 조옮김 악기의 <b>적힌</b> 음역입니다. 세로선이 지금 고른 실음입니다 · 모델: 음역은 일반적인 관현악법 교재의 값(악기와 연주자에 따라 위쪽 끝은 더 넓어질 수 있음).</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>관악기에서 떠는 것은 관 속 공기 기둥이다. 열린 끝은 압력 마디, 막힌 끝은 압력 배가 된다.</li>
+      <li>열린 원통(플루트)과 원뿔(오보에·바순)은 \(f_n=nc/2L\)로 모든 배음을 갖고 옥타브로 오버블로한다. 닫힌 원통(클라리넷)은 홀수 배음 중심이고 12도로 오버블로하며, 같은 길이에서 한 옥타브 낮다.</li>
+      <li>플루트는 에지톤으로 소리 나며 배음이 적고 숨소리가 섞인다. 세게 불면 밝아지고 옥타브로 뛴다. 낮은 음역은 작다.</li>
+      <li>클라리넷의 샬뤼모는 짝수 배음이 약해 어둡고 우묵하며, 클라리온은 밝다. 톤홀 차단 주파수 덕분에 여린 소리의 폭이 넓다.</li>
+      <li>오보에·바순은 겹리드와 원뿔관에, 음높이와 무관한 포먼트(오보에 ~1 kHz, 바순 ~500 Hz)가 있어 목소리 같은 음색을 낸다.</li>
+      <li>목관 넷은 같은 음에서도 색이 뚜렷이 다르다. 오케스트라는 배음이 풍부하고 음높이가 안정된 오보에의 A로 조율한다.</li>
+      <li>피콜로(옥타브 위)·잉글리시 호른(F, 5도 아래)·B♭ 클라리넷(장2도 아래)은 조옮김 악기다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>길이가 비슷한 플루트와 클라리넷의 가장 낮은 음이 거의 한 옥타브 차이 나는 이유는?</p><div class="opts">
+        <button class="opt">클라리넷이 금속이라서</button>
+        <button class="opt" data-correct>클라리넷은 한쪽이 닫힌 원통이라 기본음이 \(c/4L\)로, 열린 관 \(c/2L\)의 절반이기 때문</button>
+        <button class="opt">클라리넷의 리드가 무겁기 때문</button>
+        <button class="opt">플루트의 톤홀이 더 많기 때문</button>
+      </div><div class="quiz-exp">닫힌 끝은 압력의 배라 관 길이에 \(\tfrac14\) 파장이 들어간다. 같은 길이의 열린 관은 \(\tfrac12\) 파장이 들어가므로 닫힌 관의 기본음이 한 옥타브 낮다.</div></div>
+      <div class="quiz-q"><p>클라리넷에서 같은 운지로 레지스터 키를 누르면 음은 얼마나 올라가는가?</p><div class="opts">
+        <button class="opt">옥타브(2배)</button><button class="opt" data-correct>12도(3배)</button><button class="opt">완전5도</button><button class="opt">두 옥타브</button>
+      </div><div class="quiz-exp">닫힌 원통의 공명은 홀수 배(1, 3, 5…)뿐이라 다음 공명이 3배, 곧 옥타브 + 완전5도(12도)다.</div></div>
+      <div class="quiz-q"><p>오보에가 어떤 음을 불어도 '오보에다움'이 유지되는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">항상 같은 음높이로 불기 때문에</button>
+        <button class="opt" data-correct>음높이와 무관하게 1 kHz 남짓에 고정된 공명대(포먼트)가 있어 그 근처 배음이 늘 강해지기 때문에</button>
+        <button class="opt">홀수 배음만 있기 때문에</button><button class="opt">비브라토를 쓰지 않기 때문에</button>
+      </div><div class="quiz-exp">포먼트는 사람 목소리의 모음처럼 음높이와 상관없이 제자리에 있다. 어떤 음을 불어도 그 대역의 배음이 강조되어 같은 '목소리'로 들린다.</div></div>
+      <div class="quiz-q"><p>오케스트라가 오보에의 A로 조율하는 이유로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">오보에가 가장 크기 때문에</button>
+        <button class="opt">오보에가 가장 낮은 음을 내기 때문에</button>
+        <button class="opt" data-correct>음높이가 안정적이고 배음이 풍부해 무대 전체에서 잘 들리고 맥놀이를 듣기 쉽기 때문에</button>
+        <button class="opt">오보에만 조옮김 악기가 아니기 때문에</button>
+      </div><div class="quiz-exp">리드 때문에 오보에는 즉석에서 음높이를 크게 바꾸기 어렵고, 뚜렷한 배음 덕분에 다른 악기가 맥놀이로 자기 음을 맞추기 쉽다.</div></div>
+      <div class="quiz-q"><p>B♭ 클라리넷 악보에 D₅가 적혀 있다. 실제로 나는 음은?</p><div class="opts">
+        <button class="opt">D₅</button><button class="opt">E₅</button><button class="opt" data-correct>C₅</button><button class="opt">G₄</button>
+      </div><div class="quiz-exp">B♭ 악기는 적힌 음보다 장2도 낮게 소리 난다. 적힌 D₅ → 실음 C₅.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+const fnt = (px, mono) => px + "px " + getComputedStyle(document.body).getPropertyValue(mono ? "--mono" : "--font");
+const nm = (m, flat) => MB.noteName(m, flat).replace(/(-?\d+)$/, (d) => d.split("").map((c) => "₀₁₂₃₄₅₆₇₈₉"[+c] || c).join(""));
+const C = 343;
+/** 관 모양별 압력 정상파: x(0 = 입 쪽 … 1 = 끝), n번째 모드 */
+const pShape = (type, n, x) => type === "open" ? Math.sin(n * Math.PI * x)
+  : type === "closed" ? Math.cos((2 * n - 1) * Math.PI * x / 2)
+  : (x < 1e-3 ? 1 : Math.sin(n * Math.PI * x) / (n * Math.PI * x));
+
+/* ------------------------------------------------------------ 그림 3-1 */
+(function () {
+  const rows = [["open", "열린 원통 · 플루트", "모든 배음 1 : 2 : 3"], ["closed", "닫힌 원통 · 클라리넷", "홀수 배음 1 : 3 : 5"], ["cone", "원뿔 · 오보에·바순", "모든 배음 1 : 2 : 3"]];
+  let s = "";
+  rows.forEach(([t, name, sub], r) => {
+    const y0 = 14 + r * 96, x0 = 150, W = 470, H = 56, cy = y0 + 36;
+    s += `<text x="0" y="${cy - 6}" class="nm">${name}</text><text x="0" y="${cy + 12}" class="lbl">${sub}</text>`;
+    if (t === "cone") s += `<path d="M${x0} ${cy - 4} L${x0 + W} ${cy - H / 2} L${x0 + W} ${cy + H / 2} L${x0} ${cy + 4} Z" class="tube"/>`;
+    else s += `<rect x="${x0}" y="${cy - H / 2}" width="${W}" height="${H}" rx="3" class="tube"/>`;
+    if (t !== "open") s += `<line x1="${x0}" y1="${cy - H / 2 - 2}" x2="${x0}" y2="${cy + H / 2 + 2}" class="end"/>`;
+    const cols = ["var(--en-ww)", "var(--accent)", "var(--accent-2)"];
+    [1, 2, 3].forEach((n, i) => {
+      let d = "";
+      for (let k = 0; k <= 80; k++) { const x = k / 80, p = pShape(t, n, x); d += (k ? "L" : "M") + (x0 + x * W).toFixed(1) + " " + (cy - p * (H / 2 - 4)).toFixed(1); }
+      s += `<path d="${d}" fill="none" stroke="${cols[i]}" stroke-width="${2.2 - i * 0.4}" opacity="${1 - i * 0.2}"/>`;
+    });
+    s += `<text x="${x0 + 2}" y="${cy + H / 2 + 14}" class="lbl">${t === "open" ? "열림(취구)" : t === "closed" ? "닫힘(리드)" : "닫힘(겹리드)"}</text><text x="${x0 + W}" y="${cy + H / 2 + 14}" text-anchor="end" class="lbl">열림</text>`;
+  });
+  document.getElementById("wd-fig-g").innerHTML = s;
+})();
+
+/* ------------------------------------------------------------ 1. 공명 사다리 */
+(function () {
+  let type = "open", L = 66, timer = null;
+  const modes = () => [1, 2, 3, 4, 5, 6].map((n) => (type === "closed" ? (2 * n - 1) * C / (4 * L / 100) : n * C / (2 * L / 100)));
+  const INST = { open: "flute", closed: "clarinet", cone: "oboe" };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), x0 = 20, W = w - 40, tubeY = 50, H = 50;
+    ctx.fillStyle = P.surface; ctx.strokeStyle = P.dim; ctx.lineWidth = 1.2;
+    const len = W * (0.3 + 0.7 * MB.clamp(L / 260, 0, 1));
+    if (type === "cone") { ctx.beginPath(); ctx.moveTo(x0, tubeY - 3); ctx.lineTo(x0 + len, tubeY - H / 2); ctx.lineTo(x0 + len, tubeY + H / 2); ctx.lineTo(x0, tubeY + 3); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+    else { ctx.fillRect(x0, tubeY - H / 2, len, H); ctx.strokeRect(x0, tubeY - H / 2, len, H); }
+    if (type !== "open") { ctx.strokeStyle = P.text; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x0, tubeY - H / 2 - 2); ctx.lineTo(x0, tubeY + H / 2 + 2); ctx.stroke(); }
+    [1, 2, 3].forEach((n, i) => {
+      ctx.strokeStyle = [P.accent, P.accent2, EN.color("flute")][i]; ctx.lineWidth = 2 - i * 0.4; ctx.beginPath();
+      for (let k = 0; k <= 60; k++) { const x = k / 60, y = tubeY - pShape(type, n, x) * (H / 2 - 4); k ? ctx.lineTo(x0 + x * len, y) : ctx.moveTo(x0 + x * len, y); }
+      ctx.stroke();
+    });
+    // 공명 주파수 축
+    const ay = h - 30, fmin = 50, fmax = 6000, X = (f) => x0 + (Math.log(f / fmin) / Math.log(fmax / fmin)) * W;
+    ctx.strokeStyle = P.axis; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, ay); ctx.lineTo(x0 + W, ay); ctx.stroke();
+    ctx.font = fnt(10.5, true); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [62.5, 125, 250, 500, 1000, 2000, 4000].forEach((f) => { ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, X(f), ay + 4); });
+    modes().forEach((f, i) => {
+      if (f > fmax) return;
+      const x = X(f), hh = (ay - tubeY - 64) * (1 - i * 0.12);
+      ctx.fillStyle = i ? P.accent2 : P.accent; ctx.fillRect(x - 3, ay - hh, 6, hh);
+      ctx.fillStyle = P.text; ctx.textBaseline = "bottom"; ctx.fillText(type === "closed" ? 2 * i + 1 : i + 1, x, ay - hh - 2); ctx.textBaseline = "top"; ctx.fillStyle = P.dim;
+    });
+    ctx.textAlign = "right"; ctx.fillText("막대: 공명 주파수(Hz) · 숫자는 기본음의 몇 배인지", x0 + W, tubeY + H / 2 + 8);
+  }
+  const view = MB.canvas("#wd-tube-cv", draw, { aspect: 0.5, minHeight: 250, maxHeight: 320 });
+  function update() {
+    const f = modes();
+    document.getElementById("wd-tube-L-out").textContent = L + " cm";
+    MB.stat("wd-tube-f", f[0].toFixed(0) + " Hz (" + nm(Math.round(MB.ftom(f[0]))) + ")");
+    MB.stat("wd-tube-ob", type === "closed" ? "×3 = 12도 위" : "×2 = 옥타브 위");
+    const ex = type === "open" ? (L < 40 ? "피콜로(약 32 cm)" : "플루트(약 66 cm)") : type === "closed" ? (L > 100 ? "베이스 클라리넷" : "클라리넷(약 60 cm)") : L > 150 ? "바순(약 250 cm)" : L > 80 ? "잉글리시 호른(약 90 cm)" : "오보에(약 65 cm)";
+    MB.stat("wd-tube-ex", ex);
+    view.redraw();
+  }
+  const tone = (f, when, dur, vel) => MB.play(null, { freq: f, inst: INST[type], when, dur, vel, en: { level: 1 } });
+  MB.seg("wd-tube-type", (v) => { type = v; update(); });
+  MB.range("wd-tube-L", null, (v) => { L = v; update(); });
+  document.getElementById("wd-tube-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); tone(modes()[0], MB.now() + 0.02, 1.4, 0.5); });
+  document.getElementById("wd-tube-ladder").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); const t = MB.now() + 0.03;
+    modes().slice(0, 5).forEach((f, i) => { if (f < 4000) tone(f, t + i * 0.7, 0.62, 0.35 + i * 0.12); });
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 플루트 */
+(function () {
+  let m = 62, vel = 0.45, breath = 0;
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 34, y: 14, w: w - 46, h: h - 38 };
+    const ax = EN.drawSpectra(ctx, b, [{ inst: "flute", m, vel, label: "플루트 " + nm(m) }], { fmin: 200, fmax: 12000, dbMin: -60, dbMax: 4 });
+    if (breath > 0) {
+      const lvl = -48 + 30 * (breath / 100), fc = Math.min(10000, MB.mtof(m) * 3 + 1500);
+      ctx.fillStyle = P.dim + "33"; ctx.beginPath(); ctx.moveTo(ax.X(200), ax.Y(-60));
+      for (let i = 0; i <= 80; i++) { const f = 200 * Math.pow(60, i / 80); const d = lvl - 12 * Math.abs(Math.log2(f / fc)); ctx.lineTo(ax.X(f), ax.Y(d)); }
+      ctx.lineTo(ax.X(12000), ax.Y(-60)); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = P.dim; ctx.font = fnt(11); ctx.textAlign = "right"; ctx.fillText("숨소리", ax.X(fc) + 20, ax.Y(lvl) - 6);
+    }
+  }
+  const view = MB.canvas("#wd-fl-cv", draw, { aspect: 0.5, minHeight: 220, maxHeight: 320 });
+  function update() {
+    document.getElementById("wd-fl-m-out").textContent = nm(m);
+    document.getElementById("wd-fl-v-out").textContent = EN.dynOf(vel);
+    document.getElementById("wd-fl-n-out").textContent = breath + "%";
+    MB.stat("wd-fl-n", EN.spectrum("flute", m, { vel }).filter((p) => p.db > -30).length + "개");
+    MB.stat("wd-fl-c", Math.round(EN.centroid("flute", m, { vel })) + " Hz");
+    MB.stat("wd-fl-reg", m < 72 ? "낮은 옥타브(순하고 작다)" : m < 84 ? "가운데 옥타브(맑다)" : "높은 옥타브(빛나고 강하다)");
+    view.redraw();
+  }
+  function noise(when, dur, amt) {
+    if (amt <= 0) return;
+    const ctx = MB.ctx(), src = ctx.createBufferSource(); src.buffer = MB.noiseBuffer(ctx); src.loop = true;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = Math.min(10000, MB.mtof(m) * 3 + 1500); bp.Q.value = 0.8;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, when); g.gain.linearRampToValueAtTime(0.06 * amt, when + 0.04); g.gain.setTargetAtTime(0, when + dur, 0.05);
+    src.connect(bp); bp.connect(g); g.connect(MB.out); src.start(when); src.stop(when + dur + 0.4);
+  }
+  const blow = (mm, v, when, dur) => { EN.note("flute", mm, { vel: v, when, dur }); noise(when, dur, breath / 100); };
+  MB.range("wd-fl-m", null, (v) => { m = v; update(); });
+  MB.range("wd-fl-v", null, (v) => { vel = v; update(); });
+  MB.range("wd-fl-n", null, (v) => { breath = v; update(); });
+  document.getElementById("wd-fl-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); blow(m, vel, MB.now() + 0.02, 1.8); });
+  document.getElementById("wd-fl-ob").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); const t = MB.now() + 0.02, base = Math.min(m, 84);
+    blow(base, 0.3, t, 1.1); blow(base + 12, 0.78, t + 1.2, 1.4);
+  });
+  document.getElementById("wd-fl-breath").addEventListener("click", () => { MB.ctx(); MB.stopAll(); const old = breath; breath = Math.max(breath, 70); noise(MB.now() + 0.02, 1.4, breath / 100); breath = old; });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 클라리넷 */
+(function () {
+  let m = 53, vel = 0.55;
+  const reg = (x) => (x <= 65 ? "샬뤼모" : x <= 68 ? "목음(스로트)" : x <= 82 ? "클라리온" : "알티시모");
+  function draw(ctx, w, h) {
+    const P = MB.palette(), S = EN.spectrum("clarinet", m, { vel }).slice(0, 20);
+    const b = { x: 38, y: 14, w: w - 50, h: h - 42 }, bw = b.w / S.length, col = EN.color("clarinet");
+    ctx.font = fnt(10.5, true); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let d = 0; d >= -60; d -= 20) { const y = b.y + (-d / 60) * b.h; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(b.x, y); ctx.lineTo(b.x + b.w, y); ctx.stroke(); ctx.fillText(d, b.x - 4, y); }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    S.forEach((p, i) => {
+      const hh = MB.clamp((p.db + 60) / 60, 0, 1) * b.h;
+      ctx.fillStyle = col; ctx.globalAlpha = p.k % 2 ? 0.95 : 0.35;
+      ctx.fillRect(b.x + i * bw + 2, b.y + b.h - hh, Math.max(1, bw - 4), hh); ctx.globalAlpha = 1;
+      ctx.fillStyle = P.dim; ctx.fillText(p.k, b.x + (i + 0.5) * bw, b.y + b.h + 4);
+    });
+    // 차단 주파수
+    const kc = 1700 / MB.mtof(m);
+    if (kc < S.length) { const x = b.x + (kc - 0.5) * bw; ctx.strokeStyle = P.warn; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(x, b.y); ctx.lineTo(x, b.y + b.h); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.warn; ctx.textAlign = "left"; ctx.fillText("차단 1.7 kHz", x + 4, b.y + 2); }
+    ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.fillText(reg(m) + " · " + nm(m), b.x + b.w, b.y + 2);
+  }
+  const view = MB.canvas("#wd-cl-cv", draw, { aspect: 0.5, minHeight: 220, maxHeight: 320 });
+  function update() {
+    document.getElementById("wd-cl-m-out").textContent = nm(m, true);
+    document.getElementById("wd-cl-v-out").textContent = EN.dynOf(vel);
+    const S = EN.spectrum("clarinet", m, { vel });
+    let e = 0, o = 0; S.forEach((p) => { (p.k % 2 ? (o += p.a * p.a) : (e += p.a * p.a)); });
+    MB.stat("wd-cl-reg", reg(m));
+    MB.stat("wd-cl-eo", MB.signed(10 * Math.log10((e || 1e-9) / o), 1) + " dB");
+    MB.stat("wd-cl-w", nm(EN.written("clarinet", m)));
+    view.redraw();
+  }
+  MB.range("wd-cl-m", null, (v) => { m = v; update(); });
+  MB.range("wd-cl-v", null, (v) => { vel = v; update(); });
+  document.getElementById("wd-cl-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); EN.note("clarinet", m, { vel, dur: 1.8 }); });
+  const mR = { el: document.getElementById("wd-cl-m") };
+  const setM = (v) => { mR.el.value = v; mR.el.dispatchEvent(new Event("input")); };
+  document.getElementById("wd-cl-12").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); const lo = Math.min(m, 65), t = MB.now() + 0.02;
+    setM(lo); EN.note("clarinet", lo, { vel, dur: 1.2, when: t });
+    EN.note("clarinet", lo + 19, { vel, dur: 1.4, when: t + 1.35 });
+    setTimeout(() => setM(lo + 19), 1350);
+  });
+  document.getElementById("wd-cl-vs").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); const t = MB.now() + 0.02, mm = Math.max(m, 62);
+    EN.note("clarinet", mm, { vel, dur: 1.3, when: t }); EN.note("flute", mm, { vel, dur: 1.3, when: t + 1.5 });
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 겹리드 */
+(function () {
+  let k = "oboe", m = 67, ghost = true, timer = null;
+  const mEl = document.getElementById("wd-rd-m");
+  function draw(ctx, w, h) {
+    const P = MB.palette(), I = EN.inst(k), b = { x: 34, y: 14, w: w - 46, h: h - 38 };
+    const layers = [{ inst: k, m, vel: 0.6, label: EN.name(k) + " " + nm(m, true), color: EN.color(k) }];
+    if (ghost && EN.inRange(k, m - 12)) layers.push({ inst: k, m: m - 12, vel: 0.6, label: "한 옥타브 아래 " + nm(m - 12, true), color: P.accent });
+    const ax = EN.drawSpectra(ctx, b, layers, { fmin: 100, fmax: 10000, dbMin: -50, dbMax: 4, offset: 3 });
+    const gain = (f) => I.formants.reduce((g, [fc, bw, a]) => g + a / (1 + ((f - fc) / bw) ** 2), I.floor);
+    let mx = 0; for (let i = 0; i <= 160; i++) mx = Math.max(mx, gain(100 * Math.pow(100, i / 160)));
+    ctx.strokeStyle = P.dim; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.4; ctx.beginPath();
+    for (let i = 0; i <= 160; i++) { const f = 100 * Math.pow(100, i / 160); const x = ax.X(f), y = ax.Y(MB.db(gain(f) / mx) * 0.7); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  const view = MB.canvas("#wd-rd-cv", draw, { aspect: 0.5, minHeight: 220, maxHeight: 320 });
+  function setRange() { const I = EN.inst(k); mEl.min = I.lo; mEl.max = I.hi; m = MB.clamp(m, I.lo, I.hi); if (k === "bassoon" && m > 70) m = 55; mEl.value = m; mEl.dispatchEvent(new Event("input")); }
+  function update() {
+    const I = EN.inst(k);
+    document.getElementById("wd-rd-m-out").textContent = nm(m, true);
+    MB.stat("wd-rd-fm", I.formants.map((f) => (f[0] >= 1000 ? (f[0] / 1000).toFixed(2) + " kHz" : f[0] + " Hz")).join(" · "));
+    MB.stat("wd-rd-c", Math.round(EN.centroid(k, m, { vel: 0.6 })) + " Hz");
+    const S = EN.spectrum(k, m, { vel: 0.6 }), pk = S.reduce((a, b) => (b.a > a.a ? b : a));
+    MB.stat("wd-rd-pk", pk.k + "번째 (" + Math.round(pk.f) + " Hz)");
+    view.redraw();
+  }
+  MB.seg("wd-rd-inst", (v) => { k = v; setRange(); update(); });
+  MB.range("wd-rd-m", null, (v) => { m = v; update(); });
+  MB.check("wd-rd-ghost", (v) => { ghost = v; update(); });
+  document.getElementById("wd-rd-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); EN.note(k, m, { vel: 0.6, dur: 1.6 }); });
+  document.getElementById("wd-rd-scale").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); if (timer) clearTimeout(timer);
+    const I = EN.inst(k), st = [0, 2, 4, 5, 7, 9, 11, 12, 11, 9, 7, 5, 4, 2, 0], base = Math.max(I.comfy[0], I.lo + 2);
+    let i = 0; const step = () => { if (i >= st.length) { timer = null; return; } mEl.value = base + st[i]; mEl.dispatchEvent(new Event("input")); EN.note(k, base + st[i], { vel: 0.55, dur: 0.36 }); i++; timer = setTimeout(step, 380); };
+    step();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 네 목관 */
+(function () {
+  const K = ["flute", "oboe", "clarinet", "bassoon"];
+  let m = 67, timers = [];
+  const msg = document.getElementById("wd-4-msg");
+  function draw(ctx, w, h) {
+    const P = MB.palette(), COL = [EN.color("flute"), P.accent, P.accent2, MB.color("en-str")];
+    EN.drawSpectra(ctx, { x: 34, y: 14, w: w - 46, h: h - 38 }, K.map((k, i) => ({ inst: k, m, vel: 0.6, label: EN.name(k), color: COL[i] })), { fmin: 150, fmax: 10000, dbMin: -50, dbMax: 4, offset: 3 });
+  }
+  const view = MB.canvas("#wd-4-cv", draw, { aspect: 0.55, minHeight: 240, maxHeight: 340 });
+  function update() {
+    document.getElementById("wd-4-m-out").textContent = nm(m);
+    K.forEach((k, i) => MB.stat("wd-4-c" + i, Math.round(EN.centroid(k, m, { vel: 0.6 })) + " Hz"));
+    view.redraw();
+  }
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+  MB.range("wd-4-m", null, (v) => { m = v; update(); });
+  document.querySelectorAll("#sim-wd-four button[data-k]").forEach((b) => b.addEventListener("click", () => { clear(); MB.ctx(); MB.stopAll(); EN.note(b.dataset.k, m, { vel: 0.6, dur: 1.5 }); }));
+  document.getElementById("wd-4-seq").addEventListener("click", () => { clear(); MB.ctx(); MB.stopAll(); const t = MB.now() + 0.02; K.forEach((k, i) => EN.note(k, m, { vel: 0.6, dur: 1.2, when: t + i * 1.4 })); });
+  document.getElementById("wd-4-all").addEventListener("click", () => { clear(); MB.ctx(); MB.stopAll(); K.forEach((k) => EN.note(k, m, { vel: 0.5, dur: 2.4 })); });
+  document.getElementById("wd-4-tune").addEventListener("click", () => {
+    clear(); MB.ctx(); MB.stopAll();
+    const A = { flute: 81, oboe: 69, clarinet: 69, bassoon: 57 }, off = { flute: 14, clarinet: -9, bassoon: 6 };
+    const t = MB.now() + 0.02;
+    msg.textContent = "① 오보에가 A₄(440 Hz)를 냅니다.";
+    EN.note("oboe", 69, { vel: 0.6, dur: 6.6, when: t, vib: 0 });
+    timers.push(setTimeout(() => { msg.textContent = "② 나머지가 어긋난 채 들어옵니다 — 맥놀이가 들립니다."; }, 1800));
+    ["flute", "clarinet", "bassoon"].forEach((k) => EN.note(k, A[k], { vel: 0.5, dur: 2.0, when: t + 1.8, detune: off[k], vib: 0 }));
+    timers.push(setTimeout(() => { msg.textContent = "③ 맥놀이가 멈추도록 맞췄습니다. 모두 같은 A입니다."; }, 4200));
+    ["flute", "clarinet", "bassoon"].forEach((k) => EN.note(k, A[k], { vel: 0.5, dur: 2.2, when: t + 4.2, vib: 0 }));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 6. 음역표와 적힌 음 */
+(function () {
+  const K = ["piccolo", "flute", "oboe", "englishHorn", "clarinet", "bassoon"];
+  let k = "clarinet", m = 70, timer = null;
+  const mEl = document.getElementById("wd-rg-m");
+  function update() {
+    const I = EN.inst(k);
+    EN.rangeChart("#wd-rg-chart", { insts: K, written: true, marks: [{ m, label: nm(m, true) }], lo: 28, hi: 108 });
+    document.getElementById("wd-rg-m-out").textContent = nm(m, true);
+    MB.stat("wd-rg-s", nm(m, true) + " · " + MB.mtof(m).toFixed(0) + " Hz");
+    const w = EN.written(k, m);
+    MB.stat("wd-rg-w", nm(w, true) + (I.transpose ? " (" + (EN.TRANSPOSE_NAMES[I.transpose] || "") + " 악기)" : " (C 악기, 그대로)"));
+    MB.stat("wd-rg-in", EN.inComfy(k, m) ? "편한 음역" : EN.inRange(k, m) ? "음역 끝자락" : "음역 밖");
+  }
+  function setInst(v) { k = v; const I = EN.inst(k); mEl.min = I.lo - 2; mEl.max = I.hi + 2; m = MB.clamp(m, I.lo, I.hi); mEl.value = m; mEl.dispatchEvent(new Event("input")); update(); }
+  EN.chips("#wd-rg-chips", K, { sel: [k], onChange: setInst });
+  MB.range("wd-rg-m", null, (v) => { m = v; update(); });
+  const play = (mm, d) => { if (EN.inRange(k, mm)) EN.note(k, mm, { vel: 0.55, dur: d }); };
+  document.getElementById("wd-rg-play").addEventListener("click", () => { MB.ctx(); MB.stopAll(); play(m, 1.4); });
+  document.getElementById("wd-rg-span").addEventListener("click", () => {
+    MB.ctx(); MB.stopAll(); if (timer) clearTimeout(timer);
+    const I = EN.inst(k), seq = []; for (let x = I.lo; x <= I.hi; x += 3) seq.push(x);
+    let i = 0; const step = () => { if (i >= seq.length) { timer = null; return; } mEl.value = seq[i]; mEl.dispatchEvent(new Event("input")); play(seq[i], 0.3); i++; timer = setTimeout(step, 320); };
+    step();
+  });
+  setInst(k);
+})();
+</script>
+</body>
+</html>
