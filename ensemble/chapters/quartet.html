@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>현악 4중주 · EnsembleBook</title>
+<meta name="description" content="바이올린 둘, 비올라, 첼로. 하이든이 다듬은 현악 4중주의 네 성부와 음역, 병행 5도를 피하는 성부 진행, 성부 사이를 옮겨 다니는 선율, 4중주 안의 여러 텍스처와 자리 배치를 파트별로 켜고 끄며 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .qt-staves { display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); padding: 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .qt-staff { text-align: center; font-size: 12.5px; color: var(--text-dim); min-width: 0; }
+  .qt-staff svg { display: block; width: 100%; height: auto; }
+  .qt-staff b { display: block; color: var(--text); font-size: 13px; }
+  .qt-staff .sl { stroke: var(--text-dim); stroke-width: 1.1; }
+  .qt-staff .nh { fill: var(--en-str); }
+  .qt-staff .clef { fill: var(--text); font-family: "Noto Music", "Bravura", "Segoe UI Symbol", "Apple Symbols", serif; }
+  .qt-staff .acc { fill: var(--text); font-size: 15px; }
+  .qt-staff .cc { fill: var(--text); }
+  .qt-grid { overflow-x: auto; padding: 8px 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .qt-grid table { border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; margin: 0; min-width: 0; }
+  .qt-grid th, .qt-grid td { padding: 4px 7px; text-align: center; border: none; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .qt-grid th { color: var(--text-dim); font-weight: 600; text-align: left; }
+  .qt-grid td.par { color: var(--bad); font-weight: 700; background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .qt-grid td.hold { color: var(--ok); font-weight: 700; }
+  .qt-grid tr.sym td { color: var(--accent); font-weight: 700; }
+  .qt-guess { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .qt-guess button { font: inherit; font-size: 13px; padding: 7px 6px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .qt-guess button.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 16%, var(--bg-elev)); }
+  .qt-guess button.bad { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg-elev)); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="quartet">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 07</div>
+    <h1>현악 4중주</h1>
+    <p class="lead">바이올린 두 대, 비올라 한 대, 첼로 한 대. 지휘자도 없고 숨을 곳도 없는 이 네 사람의 편성은 250년 동안 작곡가들이 가장 진지한 생각을 담아 온 그릇입니다. 같은 가족의 네 악기라 음색이 고르게 섞이고, 음역은 사람 목소리의 네 성부(소프라노·알토·테너·베이스)와 거의 그대로 겹칩니다. 그래서 4중주는 <b>화성과 성부 진행이 가장 투명하게 들리는 합주</b>입니다. 이 장에서는 네 성부의 자리, 성부가 움직이는 규칙, 선율이 성부 사이를 옮겨 다니는 대화, 그리고 4중주 안의 여러 텍스처와 자리 배치를 파트별로 켜고 끄며 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>현악 4중주의 역사적 출발(하이든과 고전 시대)을 간단히 안다.</li>
+      <li>제1 바이올린·제2 바이올린·비올라·첼로를 S·A·T·B 네 성부에 대응시키고, 각 악기의 음역과 음자리표를 안다.</li>
+      <li>공통음 유지·반진행·병행 5도/8도 피하기 같은 성부 진행 원리를 듣고, 블록 화음과 비교한다.</li>
+      <li>선율이 한 악기에 고정되지 않고 성부 사이를 옮겨 다니는 '대화'를 귀로 따라간다.</li>
+      <li>유니즌·선율과 반주·코랄·모방의 네 텍스처를 구별하고, 자리 배치가 소리를 어떻게 바꾸는지 듣는다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="history">
+    <h2>네 사람의 대화가 되기까지</h2>
+    <p>현악 4중주가 하나의 장르로 자리 잡은 것은 18세기 후반, <b>요제프 하이든</b><span class="en">(Joseph Haydn, 1732–1809)</span>의 손에서입니다. 하이든은 평생 일흔 곡 가까운 4중주를 썼고, 흔히 "현악 4중주의 아버지"라 불립니다. 초기 작품은 제1 바이올린이 선율을 거의 혼자 맡고 나머지가 반주하는 모양이었지만, 1781년의 작품 33(Op. 33)을 지나며 네 악기가 주제를 나눠 갖고 주고받는 짜임이 뚜렷해졌습니다.</p>
+    <p>모차르트는 하이든에게 헌정한 여섯 곡의 4중주(1785년 출판)로 답했고, 베토벤은 열여섯 곡의 4중주로 이 장르를 가장 개인적인 실험의 무대로 바꿨습니다. 괴테는 4중주를 듣는 일을 "<b>네 명의 이성적인 사람이 서로 나누는 대화</b>를 엿듣는 것"에 비유했는데, 이 말이 4중주의 짜임을 가장 잘 요약합니다. 누구도 계속 주인공이 아니고, 누구도 계속 반주만 하지 않습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 640 170" role="img" aria-label="4중주의 네 성부와 사람 목소리">
+        <g font-size="12.5">
+          <text x="20" y="22" class="t-dim">사람 목소리</text><text x="360" y="22" class="t-dim">현악 4중주</text>
+          <g transform="translate(20,34)">
+            <rect width="250" height="26" rx="6" class="f-surface"/><text x="12" y="17" class="t">소프라노 S</text><text x="238" y="17" text-anchor="end" class="t-mono">C4–A5</text>
+            <rect y="32" width="250" height="26" rx="6" class="f-surface"/><text x="12" y="49" class="t">알토 A</text><text x="238" y="49" text-anchor="end" class="t-mono">G3–D5</text>
+            <rect y="64" width="250" height="26" rx="6" class="f-surface"/><text x="12" y="81" class="t">테너 T</text><text x="238" y="81" text-anchor="end" class="t-mono">C3–G4</text>
+            <rect y="96" width="250" height="26" rx="6" class="f-surface"/><text x="12" y="113" class="t">베이스 B</text><text x="238" y="113" text-anchor="end" class="t-mono">E2–C4</text>
+          </g>
+          <g stroke="var(--accent)" stroke-width="1.6" fill="none"><path d="M275 47 H355"/><path d="M275 79 H355"/><path d="M275 111 H355"/><path d="M275 143 H355"/></g>
+          <g transform="translate(360,34)">
+            <rect width="260" height="26" rx="6" fill="color-mix(in srgb, var(--en-str) 16%, transparent)" stroke="var(--en-str)"/><text x="12" y="17" class="t">제1 바이올린 · 높은음자리표</text><text x="248" y="17" text-anchor="end" class="t-mono">G3–E7</text>
+            <rect y="32" width="260" height="26" rx="6" fill="color-mix(in srgb, var(--en-str) 16%, transparent)" stroke="var(--en-str)"/><text x="12" y="49" class="t">제2 바이올린 · 높은음자리표</text><text x="248" y="49" text-anchor="end" class="t-mono">G3–</text>
+            <rect y="64" width="260" height="26" rx="6" fill="color-mix(in srgb, var(--en-str) 16%, transparent)" stroke="var(--en-str)"/><text x="12" y="81" class="t">비올라 · 알토 음자리표</text><text x="248" y="81" text-anchor="end" class="t-mono">C3–</text>
+            <rect y="96" width="260" height="26" rx="6" fill="color-mix(in srgb, var(--en-str) 16%, transparent)" stroke="var(--en-str)"/><text x="12" y="113" class="t">첼로 · 낮은음·테너 음자리표</text><text x="248" y="113" text-anchor="end" class="t-mono">C2–</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption><b>그림 7-1.</b> 4성부 합창과 현악 4중주. 개방현 가장 낮은 음은 바이올린 G3, 비올라 C3, 첼로 C2입니다. 위쪽 끝은 연주자 실력에 따라 넓어집니다.</figcaption>
+    </figure>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="voices">
+    <h2>네 성부의 자리</h2>
+    <p>바이올린 둘은 같은 악기지만 하는 일이 다릅니다. <b>제1 바이올린</b>은 대개 가장 높은 선율을, <b>제2 바이올린</b>은 그 아래 화음과 반주를 맡고 때로 제1과 3도·6도로 나란히 노래합니다. <b>비올라</b>는 바이올린보다 완전5도 낮게 조율된(C–G–D–A) 조금 큰 악기로, 알토 음자리표로 읽으며 화음의 가운데를 채웁니다. <b>첼로</b>는 비올라보다 한 옥타브 낮게 조율되어(C–G–D–A) 베이스를 맡고, 높은 음역에서는 테너 음자리표로 바꿔 선율도 노래합니다.</p>
+    <p>네 음을 쌓을 때의 습관이 하나 있습니다. <b>위쪽 세 성부 사이는 가깝게(한 옥타브 이내), 베이스와 그 위는 넓게</b>. 배음렬에서 낮은 쪽 간격이 넓고 위쪽이 촘촘한 것과 같은 모양이라 화음이 맑게 울립니다. 아래쪽을 3도로 촘촘하게 쌓으면 소리가 탁해집니다(<a href="voicing.html">12장</a>).</p>
+
+    <div class="sim" id="sim-qt-stack">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>아래부터 한 성부씩 쌓기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="qt-staves" id="qt-st-view"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>코랄의 화음 <output id="qt-st-i-out"></output></span><input type="range" id="qt-st-i" min="0" max="27" step="1" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="qt-st-up">▶ 아래부터 쌓기</button><button class="btn" id="qt-st-all">▶ 한꺼번에</button></div>
+          <div class="ctrl"><span>한 성부만</span><div class="en-pick" id="qt-st-one"><button data-v="3">첼로</button><button data-v="2">비올라</button><button data-v="1">제2 바이올린</button><button data-v="0">제1 바이올린</button></div></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">화음</span><span class="v" id="qt-st-sym">—</span></div>
+        <div class="stat"><span class="k">성부 사이 간격 (아래→위)</span><span class="v" id="qt-st-gap">—</span></div>
+      </div>
+      <div class="sim-note">이 책의 〈작은 코랄〉을 4중주로 나눈 것입니다. 비올라 보표는 알토 음자리표(가운데 줄 = C4)입니다 · 간격은 반음 수와 음정 이름입니다. 대개 맨 아래 간격이 가장 넓습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="leading">
+    <h2>성부 진행: 각자 노래하면서 함께 화음 되기</h2>
+    <p>4중주의 네 사람은 화음을 '누르는' 것이 아니라 각자 <b>선을 노래</b>합니다. 화음이 바뀔 때 각 성부가 어디로 가는지를 <b>성부 진행</b><span class="en">(Voice leading)</span>이라 하고, 수백 년 동안 다듬어진 몇 가지 원리가 있습니다.</p>
+    <ul>
+      <li><b>공통음은 붙잡는다.</b> C장조(C·E·G)에서 F장조(F·A·C)로 갈 때 C를 가진 성부는 그대로 머뭅니다. 화음이 바뀌어도 한 가닥이 이어져 매끄럽게 들립니다.</li>
+      <li><b>가까운 음으로 간다.</b> 나머지 성부는 가능한 한 2도·3도로 움직입니다. 큰 도약은 베이스에게 맡깁니다.</li>
+      <li><b>반진행을 섞는다.</b> 베이스가 올라가면 위 성부는 내려가는 식으로 엇갈리게 움직이면 성부들이 서로 구별됩니다.</li>
+      <li><b>병행 5도·8도를 피한다.</b> 두 성부가 완전5도나 옥타브를 유지한 채 함께 움직이면 두 선이 하나로 녹아 <b>성부 하나가 사라진 것처럼</b> 들립니다. 네 사람이 각자의 선을 가져야 하는 4중주에서 특히 피하는 이유입니다.</li>
+    </ul>
+    <p>마지막 규칙은 심리음향으로도 설명됩니다. 완전5도와 옥타브는 배음이 많이 겹쳐(<a href="blend.html">10장</a>) 귀가 두 음을 한 소리로 묶기 쉽고, 그 상태로 함께 움직이면 '함께 움직이는 것은 하나'라는 묶기 규칙까지 더해집니다. 아래에서 같은 코드 진행을 <b>블록 화음</b>(모든 화음을 같은 모양으로 평행 이동)과 <b>성부 진행</b>으로 나눠 들어 보세요.</p>
+
+    <div class="sim" id="sim-qt-lead">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>블록 화음 vs 성부 진행</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="qt-grid" id="qt-ld-grid"></div><canvas id="qt-ld-roll"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>코드 진행</span><select id="qt-ld-prog">
+            <option value="C F G C">I – IV – V – I</option>
+            <option value="C Am F G C">I – vi – IV – V – I</option>
+            <option value="C G Am Em F C F G C">캐논식 진행</option>
+            <option value="Am Dm E Am">단조 i – iv – V – i</option>
+            <option value="Dm7 G7 Cmaj7 Cmaj7">ii7 – V7 – Imaj7</option>
+          </select></label>
+          <div class="ctrl"><span>배치</span><div class="seg" id="qt-ld-mode"><button data-value="block">블록 화음</button><button data-value="lead" class="on">성부 진행</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="qt-ld-play">▶ 재생</button><button class="btn" id="qt-ld-ab">▶ 둘을 번갈아</button><button class="btn" id="qt-ld-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">병행 5도·8도</span><span class="v" id="qt-ld-par">—</span></div>
+        <div class="stat"><span class="k">붙잡은 공통음</span><span class="v" id="qt-ld-hold">—</span></div>
+        <div class="stat"><span class="k">위 세 성부의 이동량</span><span class="v" id="qt-ld-mv">—</span></div>
+      </div>
+      <div class="sim-note">표의 빨간 칸은 앞 화음과 병행 5도·8도를 이룬 성부, 초록 칸은 공통음을 붙잡은 성부입니다. 블록 화음은 모든 화음을 근음 위치의 밀집 배치로 평행 이동한 것입니다 · 성부 진행은 베이스를 근음에 두고, 위 세 성부를 앞 화음에서 가까운 후보 중 이동량·병행 5도와 8도·3음 누락을 비용으로 매겨 고른 결과입니다. 교과서의 모든 규칙(이끎음 해결, 성부 교차 금지 등)을 다 따지지는 않습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 가운데 성부에 귀 붙이기.</b> '둘을 번갈아'를 틀어 놓고 비올라 줄만 눈으로 따라가세요. 블록 화음에서는 비올라가 제1 바이올린과 똑같은 모양으로 뛰어다녀 따로 들리지 않지만, 성부 진행에서는 한두 음 사이를 천천히 오가는 독립된 선이 들립니다. 하이든 4중주의 느린 악장(예: 작품 76-3 〈황제〉 2악장의 변주 주제)이 이런 진행의 좋은 본보기입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="dialogue">
+    <h2>선율을 주고받기</h2>
+    <p>4중주의 선율은 한 악기에 머물지 않습니다. 제1 바이올린이 꺼낸 주제를 첼로가 받아 낮게 다시 부르고, 그동안 바이올린은 대선율로 비켜 섭니다. 같은 선율을 시간 차를 두고 따라 부르는 <b>모방</b><span class="en">(Imitation)</span>은 이 대화의 가장 엄격한 형태이고, 가장 엄격한 모방이 <b>캐논</b>입니다.</p>
+    <p>아래는 파헬벨의 〈캐논〉을 4중주로 나눈 것입니다. 첼로가 2마디짜리 바탕음을 되풀이하는 동안 제1 바이올린이 주제를 꺼내고, 2마디 뒤 제2 바이올린이, 다시 2마디 뒤 비올라가 <b>같은 선율</b>로 들어옵니다. 롤에서 강조된 줄이 지금 첫 주제(F♯–E–D–C♯…)를 부르는 악기입니다. '주제 강조'를 켜면 주제를 부르는 음만 크게, 나머지는 작게 연주해 주제가 옮겨 다니는 길이 또렷해집니다.</p>
+
+    <div class="sim" id="sim-qt-canon">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>주제를 따라가는 캐논</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="qt-cn-roll"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <label class="check"><input type="checkbox" id="qt-cn-hl"> 주제 강조</label>
+          <label class="ctrl" style="min-width:200px"><span>템포 <output id="qt-cn-bpm-out"></output></span><input type="range" id="qt-cn-bpm" min="50" max="100" step="1" value="66"></label>
+          <button class="btn primary" id="qt-cn-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 주제를 부르는 악기</span><span class="v" id="qt-cn-who">—</span></div>
+        <div class="stat"><span class="k">마디</span><span class="v" id="qt-cn-bar">—</span></div>
+      </div>
+      <div class="sim-note">파헬벨 〈캐논 D장조〉(1680년경, 공유 저작물)의 바탕음과 세 선율 단락을 이 책이 줄여 옮긴 것입니다. 원곡은 바이올린 셋과 통주저음 편성입니다 · 주제 강조는 셈여림(벨로시티)만 바꿉니다.</div>
+    </div>
+
+    <h3>4중주 안의 텍스처</h3>
+    <p>대화의 방식은 곡마다, 마디마다 바뀝니다. 같은 선율이라도 네 악기가 어떻게 나눠 갖느냐에 따라 전혀 다른 음악이 됩니다. 텍스처는 <a href="texture.html">13장</a>에서 오케스트라 규모로 다시 다룹니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>텍스처</th><th>네 악기가 하는 일</th><th>들리는 느낌</th></tr></thead>
+        <tbody>
+          <tr><td>유니즌·옥타브</td><td>모두 같은 선율을 옥타브를 달리해 함께</td><td>힘 있고 단호하다. 곡의 시작이나 절정</td></tr>
+          <tr><td>코랄(호모포니)</td><td>같은 리듬으로 화음을 바꾼다</td><td>찬송가처럼 엄숙하고 투명하다</td></tr>
+          <tr><td>선율과 반주</td><td>제1 바이올린이 노래, 가운데가 반복 음형, 첼로가 베이스</td><td>노래와 반주. 고전 시대 4중주의 기본</td></tr>
+          <tr><td>모방(폴리포니)</td><td>같은 선율이 시간 차를 두고 차례로 들어온다</td><td>성부들이 서로 쫓고 대답한다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sim" id="sim-qt-tex">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 4중주, 네 가지 텍스처</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="qt-tx-roll"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <div class="seg" id="qt-tx-mode"><button data-value="unison">유니즌</button><button data-value="chorale" class="on">코랄</button><button data-value="accomp">선율과 반주</button><button data-value="imit">모방</button></div>
+          <button class="btn primary" id="qt-tx-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">텍스처</span><span class="v" id="qt-tx-name">—</span></div>
+        <div class="stat"><span class="k">동시에 다른 리듬을 가진 성부</span><span class="v" id="qt-tx-ind">—</span></div>
+      </div>
+      <div class="sim-note">유니즌·코랄·선율과 반주는 〈환희의 송가〉 주제와 이 책의 화성, 모방은 〈캐논〉의 앞부분입니다. 선율과 반주에서 첼로는 피치카토(뜯기)로 베이스를 짚습니다 · 재생 중에 텍스처를 바꾸면 다음 음부터 바뀝니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="seating">
+    <h2>자리 배치</h2>
+    <p>4중주는 반원으로 앉아 서로를 봅니다. 객석에서 보아 왼쪽부터 <b>제1 바이올린 · 제2 바이올린 · 비올라 · 첼로</b>가 가장 흔한 배치입니다. 높은 성부가 왼쪽, 낮은 성부가 오른쪽이라 객석에서 들으면 음높이가 왼쪽에서 오른쪽으로 펼쳐집니다. 첼로를 안쪽(제2 바이올린 옆)으로 들이고 비올라를 바깥에 두는 단체도 많습니다. 첼로의 f구멍이 객석을 향해 저음이 앞으로 잘 나오고, 베이스와 제1 바이올린이 서로 마주 보게 되기 때문입니다. 두 바이올린을 양쪽 끝에 마주 앉히는 <b>대향 배치</b><span class="en">(Antiphonal seating)</span>는 두 바이올린이 주고받는 악구를 좌우로 또렷하게 갈라 줍니다.</p>
+
+    <div class="sim" id="sim-qt-seat">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>4중주 자리 바꿔 듣기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="qt-se-stage"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>배치</span><div class="seg" id="qt-se-pre"><button data-value="classic" class="on">표준</button><button data-value="cello">첼로 안쪽</button><button data-value="anti">대향 배치</button></div></div>
+          <div class="ctrl"><span>곡</span><div class="seg" id="qt-se-piece"><button data-value="canon" class="on">캐논</button><button data-value="chorale">코랄</button></div></div>
+          <label class="ctrl"><span>무대 폭 <output id="qt-se-w-out"></output></span><input type="range" id="qt-se-w" min="0" max="100" step="5" value="80"></label>
+          <div class="btn-row"><button class="btn primary" id="qt-se-play">▶ 재생</button></div>
+          <div class="sim-msg">악기 동그라미를 끌어 옮길 수도 있습니다. 헤드폰으로 들으면 좌우가 잘 들립니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">왼쪽 → 오른쪽</span><span class="v" id="qt-se-order">—</span></div>
+      </div>
+      <div class="sim-note">좌우는 스테레오 팬, 앞뒤는 거리(직접음 감쇠·고역 감소·잔향 비율)로 반영합니다. 홀은 실내악 홀 · 실제 악기는 방향마다 다른 소리를 내므로(첼로의 f구멍 방향 등) 자리의 효과가 이보다 큽니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="anatomy">
+    <h2>4중주 해부: 빠진 성부 찾기</h2>
+    <p>마지막으로 4중주 전체를 믹서로 해부합니다. 롤과 믹서로 파트를 켜고 끄며 들은 뒤, '한 파트 빼기'를 눌러 보세요. 네 파트 중 하나가 몰래 꺼집니다. 무엇이 빠졌는지 맞혀 보세요. 제1 바이올린과 첼로는 쉽고, <b>가운데 두 성부</b>가 어렵습니다. 그 어려움이 바로 가운데 성부가 화음 속에 잘 녹아 있다는 뜻입니다.</p>
+
+    <div class="sim" id="sim-qt-mix">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>4중주 믹서와 빠진 성부 맞히기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="qt-mx-roll"></canvas><div id="qt-mx-ui"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>곡</span><div class="seg" id="qt-mx-piece"><button data-value="chorale" class="on">코랄</button><button data-value="ode">환희의 송가</button><button data-value="canon">캐논</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="qt-mx-play">▶ 재생</button><button class="btn" id="qt-mx-hide">🎯 한 파트 빼기</button></div>
+          <div class="ctrl"><span>빠진 파트는?</span><div class="qt-guess" id="qt-mx-guess"></div></div>
+          <div class="sim-msg" id="qt-mx-msg">'한 파트 빼기'를 누르면 재생이 시작되고 한 파트가 꺼집니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힌 횟수</span><span class="v" id="qt-mx-score">0 / 0</span></div>
+      </div>
+      <div class="sim-note">맞히기 중에는 롤과 믹서가 빠진 파트를 보여 주지 않습니다 · 모델: 현은 톱니파 음원 × 몸통 공명, 비브라토와 활 잡음 포함. 실내악 홀 잔향.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 음반으로 4중주 듣기.</b> 하이든 작품 76-3 〈황제〉 2악장은 같은 주제가 네 번 변주되는데, 변주마다 주제를 맡는 악기가 바뀝니다(제2 바이올린, 첼로, 비올라, 다시 제1 바이올린). 변주가 바뀔 때마다 "지금 누가 주제를 부르나"만 찾아보세요. 이 장의 캐논 시뮬레이터에서 한 일과 같습니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>현악 4중주는 하이든의 손에서 장르로 자리 잡았고(작품 33, 1781), 네 악기가 주제를 나눠 갖는 '대화'가 특징이다.</li>
+      <li>제1 바이올린·제2 바이올린·비올라·첼로는 대체로 S·A·T·B에 대응한다. 비올라는 알토 음자리표, 첼로는 낮은음·테너 음자리표를 쓴다.</li>
+      <li>위 세 성부는 가깝게, 베이스와 그 위는 넓게 쌓으면 화음이 맑다.</li>
+      <li>성부 진행: 공통음은 붙잡고, 가까운 음으로 가고, 반진행을 섞고, 병행 5도·8도를 피한다. 병행 완전음정은 두 성부를 하나로 녹인다.</li>
+      <li>선율은 성부 사이를 옮겨 다닌다. 모방과 캐논은 같은 선율이 시간 차를 두고 들어오는 가장 엄격한 대화다.</li>
+      <li>유니즌·코랄·선율과 반주·모방은 같은 네 악기로 만드는 다른 텍스처다. 자리 배치는 좌우와 거리로 성부의 구별을 돕는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>현악 4중주의 표준 편성은?</p><div class="opts">
+        <button class="opt">바이올린·비올라·첼로·더블베이스</button>
+        <button class="opt" data-correct>바이올린 둘·비올라·첼로</button>
+        <button class="opt">바이올린·첼로·피아노·비올라</button>
+        <button class="opt">바이올린 셋·첼로</button>
+      </div><div class="quiz-exp">제1·제2 바이올린, 비올라, 첼로. 더블베이스는 들어가지 않는다. 첼로가 베이스 성부를 맡는다.</div></div>
+      <div class="quiz-q"><p>비올라 파트가 주로 쓰는 음자리표는?</p><div class="opts">
+        <button class="opt">높은음자리표</button><button class="opt" data-correct>알토 음자리표</button><button class="opt">테너 음자리표</button><button class="opt">낮은음자리표</button>
+      </div><div class="quiz-exp">알토 음자리표는 가운데 줄을 C4로 정해 비올라의 주 음역(C3–C5)을 덧줄 없이 담는다.</div></div>
+      <div class="quiz-q"><p>병행 5도·8도를 피하는 가장 중요한 음향적 이유는?</p><div class="opts">
+        <button class="opt">불협화음이라서</button>
+        <button class="opt" data-correct>배음이 많이 겹치는 두 음이 함께 움직이면 귀가 두 성부를 하나로 묶어, 성부의 독립성이 사라지기 때문</button>
+        <button class="opt">연주하기 어려워서</button>
+        <button class="opt">음량이 지나치게 커져서</button>
+      </div><div class="quiz-exp">완전5도와 옥타브는 가장 잘 어울리는 음정이라 오히려 문제다. 그 상태로 평행하게 움직이면 두 선이 하나의 굵은 선처럼 들린다.</div></div>
+      <div class="quiz-q"><p>C장조 화음(C·E·G)에서 F장조 화음(F·A·C)으로 갈 때 '공통음'은?</p><div class="opts">
+        <button class="opt">E</button><button class="opt">G</button><button class="opt" data-correct>C</button><button class="opt">없다</button>
+      </div><div class="quiz-exp">두 화음에 모두 들어 있는 음은 C다. 이 음을 가진 성부는 그대로 머물러 두 화음을 잇는다.</div></div>
+      <div class="quiz-q"><p>같은 선율이 시간 차를 두고 다른 성부에 차례로 나타나는 텍스처는?</p><div class="opts">
+        <button class="opt">유니즌</button><button class="opt">코랄</button><button class="opt">선율과 반주</button><button class="opt" data-correct>모방(캐논)</button>
+      </div><div class="quiz-exp">모방은 한 성부가 꺼낸 선율을 다른 성부가 뒤따라 부르는 폴리포니 기법이고, 끝까지 정확히 따라가면 캐논이다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 공용: 작은 보표(높은음·알토·테너·낮은음) */
+const QS = (function () {
+  const BASE = { treble: 30, bass: 18, alto: 24, tenor: 22 };
+  function staff(clef, ms, o = {}) {
+    const sp = 10, W = o.width || 140, y0 = 32, bot = y0 + 4 * sp, H = 108, b = BASE[clef];
+    const yOf = (pos) => bot - (pos - b) * (sp / 2);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="보표">`;
+    for (let i = 0; i < 5; i++) s += `<line x1="6" x2="${W - 6}" y1="${y0 + i * sp}" y2="${y0 + i * sp}" class="sl"/>`;
+    if (clef === "treble") s += `<text x="8" y="${y0 + sp * 3.6}" class="clef" font-size="${sp * 5.2}">𝄞</text>`;
+    else if (clef === "bass") s += `<text x="9" y="${y0 + sp * 2.6}" class="clef" font-size="${sp * 3.4}">𝄢</text>`;
+    else {
+      const cy = yOf(28);
+      s += `<g class="cc"><rect x="10" y="${y0}" width="4" height="${4 * sp}"/><rect x="16" y="${y0}" width="1.5" height="${4 * sp}"/>`;
+      s += `<path d="M18 ${cy} L23 ${cy - 6} C26 ${y0 - 2} 33 ${y0 - 1} 33 ${y0 + 7} C33 ${cy - 4} 26 ${cy - 4} 25 ${cy - 8}" fill="none" stroke="var(--text)" stroke-width="2.4"/>`;
+      s += `<path d="M18 ${cy} L23 ${cy + 6} C26 ${bot + 2} 33 ${bot + 1} 33 ${bot - 7} C33 ${cy + 4} 26 ${cy + 4} 25 ${cy + 8}" fill="none" stroke="var(--text)" stroke-width="2.4"/></g>`;
+    }
+    const x0 = 52, dx = (W - x0 - 10) / Math.max(1, ms.length);
+    ms.forEach((m, i) => {
+      const sp_ = MB.spell(m, o.flat), pos = sp_.pos, y = yOf(pos), cx = x0 + dx * (i + 0.5);
+      for (let p = b - 2; p >= pos; p -= 2) s += `<line x1="${cx - 9}" x2="${cx + 9}" y1="${yOf(p)}" y2="${yOf(p)}" class="sl"/>`;
+      for (let p = b + 10; p <= pos; p += 2) s += `<line x1="${cx - 9}" x2="${cx + 9}" y1="${yOf(p)}" y2="${yOf(p)}" class="sl"/>`;
+      s += `<ellipse cx="${cx}" cy="${y}" rx="6.4" ry="4.6" transform="rotate(-20 ${cx} ${y})" class="nh"/>`;
+      if (sp_.acc) s += `<text x="${cx - 17}" y="${y + 5}" class="acc">${sp_.acc > 0 ? "♯" : "♭"}</text>`;
+    });
+    return s + `</svg>`;
+  }
+  const LABELS = ["제1 바이올린", "제2 바이올린", "비올라", "첼로"];
+  const INST = ["violin", "violin", "viola", "cello"];
+  return { staff, LABELS, INST };
+})();
+
+/* ------------------------------------------------------------ 2. 쌓기 */
+(function () {
+  const P = EN.PIECES.chorale, L = P.order.map((k) => P.lines[k]);
+  const at = (line, t) => { const n = line.find((x) => x.t <= t + 1e-6 && x.t + x.d > t + 1e-6); return n ? n.m : null; };
+  const chords = P.chords.filter((c) => L.every((l) => at(l, c.t) != null));
+  const r = document.getElementById("qt-st-i"); r.max = chords.length - 1;
+  let i = 0;
+  const notes = () => L.map((l) => at(l, chords[i].t)); // S A T B
+  function update() {
+    const ms = notes(), clefs = ["treble", "treble", "alto", "bass"];
+    document.getElementById("qt-st-view").innerHTML = ms.map((m, v) => `<div class="qt-staff">${QS.staff(clefs[v], [m])}<b>${QS.LABELS[v]}</b>${MB.noteName(m)}</div>`).join("");
+    document.getElementById("qt-st-i-out").textContent = (i + 1) + "번째 · 마디 " + (Math.floor(chords[i].t / 4) + 1);
+    MB.stat("qt-st-sym", chords[i].sym);
+    const g = [ms[2] - ms[3], ms[1] - ms[2], ms[0] - ms[1]];
+    MB.stat("qt-st-gap", g.map((x) => x + " (" + MB.intervalName(x) + ")").join(" · "));
+  }
+  const play = (v, when, dur) => EN.note(QS.INST[v], notes()[v], { when, dur, vel: 0.55 });
+  MB.range("qt-st-i", null, (v) => { i = v; update(); });
+  document.getElementById("qt-st-up").addEventListener("click", () => { MB.ctx(); MB.stopAll(); const t0 = MB.now() + 0.03; [3, 2, 1, 0].forEach((v, k) => play(v, t0 + k * 0.7, 3.2 - k * 0.7)); });
+  document.getElementById("qt-st-all").addEventListener("click", () => { MB.ctx(); MB.stopAll(); const t0 = MB.now() + 0.03; [0, 1, 2, 3].forEach((v) => play(v, t0, 2.2)); });
+  document.getElementById("qt-st-one").addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; MB.ctx(); MB.stopAll(); play(+b.dataset.v, MB.now() + 0.02, 1.6); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 블록 화음 vs 성부 진행 */
+(function () {
+  let prog = "C F G C", mode = "lead", pl = null, ab = null, mx = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "chamber" }));
+  const sel = document.getElementById("qt-ld-prog");
+  const roll = EN.roll("#qt-ld-roll", { parts: [], laneH: 26 });
+  // 위 세 성부: 앞 화음에서 가까운 후보를 모두 시험해, 이동량 + 병행 5도·8도 + 3음 누락 비용이 가장 작은 배치를 고른다.
+  function bestUpper(prev, pB, B, c) {
+    const near = prev.map((p) => { const o = []; for (let m = Math.max(55, p - 7); m <= Math.min(81, p + 7); m++) if (c.pcs.includes(MB.mod(m, 12))) o.push(m); return o; });
+    const par = (p, q, a, b) => p !== a && q !== b && ((MB.mod(p - q, 12) === 7 && MB.mod(a - b, 12) === 7) || (MB.mod(p - q, 12) === 0 && MB.mod(a - b, 12) === 0));
+    let best = prev, bc = Infinity;
+    near[0].forEach((x) => near[1].forEach((y) => near[2].forEach((z) => {
+      if (!(x < y && y < z) || z - x > 14 || x - B < 3) return;
+      const now = [x, y, z, B], was = [prev[0], prev[1], prev[2], pB];
+      const pcsUsed = new Set(now.map((m) => MB.mod(m, 12)));
+      let cost = Math.abs(x - prev[0]) + Math.abs(y - prev[1]) + Math.abs(z - prev[2]);
+      if (!pcsUsed.has(c.third)) cost += 30;
+      cost += (Math.min(c.pcs.length, 4) - pcsUsed.size) * 4;
+      for (let i = 0; i < 4; i++) for (let j = i + 1; j < 4; j++) if (par(was[i], was[j], now[i], now[j])) cost += 25;
+      if (cost < bc) { bc = cost; best = [x, y, z]; }
+    })));
+    return best;
+  }
+  function voicings(m) {
+    const cs = prog.split(/\s+/).map((s) => EN.parseChord(s));
+    const out = [];
+    let prev = null, prevB = null;
+    cs.forEach((c) => {
+      const tri = c.pcs.slice(0, 3);
+      let B = 48 + MB.mod(c.root, 12); if (B > 55) B -= 12;
+      let up;
+      if (m === "block") {
+        let r0 = 60 + MB.mod(c.root, 12); if (r0 > 67) r0 -= 12;
+        up = [r0, r0 + MB.mod(tri[1] - tri[0], 12), r0 + MB.mod(tri[2] - tri[0], 12)];
+      } else {
+        if (prevB != null) { const cand = [B - 12, B, B + 12].filter((x) => x >= 36 && x <= 57); B = cand.sort((a, b) => Math.abs(a - prevB) - Math.abs(b - prevB))[0]; }
+        if (!prev) up = MB.voiceLead([64, 67, 72], c.pcs, [55, 79]);
+        else up = bestUpper(prev, prevB, B, c);
+      }
+      prev = up; prevB = B;
+      out.push({ sym: c.sym, v: [up[2], up[1], up[0], B] }); // Vn1 Vn2 Va Vc
+    });
+    return out;
+  }
+  function analyze(V) {
+    const par = V.map(() => [false, false, false, false]), hold = V.map(() => [false, false, false, false]);
+    let np = 0, nh = 0, mv = 0;
+    for (let i = 1; i < V.length; i++) {
+      const a = V[i - 1].v, b = V[i].v;
+      for (let x = 0; x < 4; x++) { if (a[x] === b[x]) { hold[i][x] = true; if (x < 3) nh++; } if (x < 3) mv += Math.abs(b[x] - a[x]); }
+      for (let x = 0; x < 4; x++) for (let y = x + 1; y < 4; y++) {
+        const i1 = MB.mod(a[x] - a[y], 12), i2 = MB.mod(b[x] - b[y], 12);
+        if (a[x] !== b[x] && a[y] !== b[y] && ((i1 === 7 && i2 === 7) || (i1 === 0 && i2 === 0))) { par[i][x] = par[i][y] = true; np++; }
+      }
+    }
+    return { par, hold, np, nh, mv };
+  }
+  let parts = [];
+  function update() {
+    const V = voicings(mode), A = analyze(V);
+    const rows = QS.LABELS.map((lab, x) => `<tr><th>${lab}</th>${V.map((c, i) => `<td class="${A.par[i][x] ? "par" : A.hold[i][x] ? "hold" : ""}">${MB.noteName(c.v[x])}</td>`).join("")}</tr>`).join("");
+    document.getElementById("qt-ld-grid").innerHTML = `<table><tr class="sym"><th></th>${V.map((c) => `<td>${c.sym}</td>`).join("")}</tr>${rows}</table>`;
+    MB.stat("qt-ld-par", A.np + "쌍");
+    MB.stat("qt-ld-hold", A.nh + "번");
+    MB.stat("qt-ld-mv", A.mv + " 반음");
+    parts = QS.INST.map((k, x) => ({ id: ["violin", "violin2", "viola", "cello"][x], label: QS.LABELS[x], inst: k, notes: V.map((c, i) => ({ t: i * 2, d: 2, m: c.v[x], vel: 0.55 })) }));
+    roll.set(parts, V.length * 2);
+    if (pl && pl.running) pl.refresh();
+  }
+  const btn = document.getElementById("qt-ld-play");
+  const modeSeg = MB.seg("qt-ld-mode", (v) => { mode = v; update(); });
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (pl) pl.stop(); }
+  pl = EN.player({ parts: () => parts, bpm: 76, loop: true, mixer: getMx, length: () => parts[0].notes.length * 2, onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); } });
+  sel.addEventListener("change", () => { prog = sel.value; update(); });
+  btn.addEventListener("click", () => { MB.ctx(); if (pl.running) { stop(); return; } pl.start(); });
+  document.getElementById("qt-ld-stop").addEventListener("click", stop);
+  document.getElementById("qt-ld-ab").addEventListener("click", () => {
+    MB.ctx(); if (ab) { stop(); return; }
+    pl.start();
+    ab = setInterval(() => { mode = mode === "lead" ? "block" : "lead"; modeSeg.set ? modeSeg.set(mode, false) : null; document.querySelectorAll("#qt-ld-mode button").forEach((b) => b.classList.toggle("on", b.dataset.value === mode)); update(); }, (60 / 76) * parts[0].notes.length * 2 * 1000);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 캐논: 주제 따라가기 */
+(function () {
+  const WIN = { violin: [8, 32], violin2: [16, 40], viola: [24, 48] };
+  const NAME = { violin: "제1 바이올린", violin2: "제2 바이올린", viola: "비올라" };
+  let hl = false, bpm = 66, mx = null, parts = [];
+  const getMx = () => mx || (mx = EN.mixer({ hall: "chamber" }));
+  const inTheme = (id, t) => (WIN[id] || []).some((s) => t >= s && t < s + 8);
+  function build() {
+    parts = EN.arrange("canon", "quartet").map((p) => Object.assign(p, { notes: p.notes.map((n) => Object.assign({}, n, { vel: hl ? (inTheme(p.id, n.t) ? 0.8 : p.id === "cello" ? 0.42 : 0.26) : n.vel })) }));
+    roll.set(parts, EN.PIECES.canon.beats);
+  }
+  const roll = EN.roll("#qt-cn-roll", { parts: [] });
+  const btn = document.getElementById("qt-cn-play");
+  const pl = EN.player({ parts: () => parts, bpm: () => bpm, loop: true, mixer: getMx, length: () => EN.PIECES.canon.beats,
+    onFrame: (b) => {
+      const who = Object.keys(WIN).filter((id) => inTheme(id, b));
+      parts.forEach((p) => { p.hl = who.includes(p.id); });
+      roll.at(b);
+      MB.stat("qt-cn-who", who.length ? who.map((id) => NAME[id]).join(" · ") : "첼로 바탕음만");
+      MB.stat("qt-cn-bar", (Math.floor(b / 4) + 1) + " / " + EN.PIECES.canon.beats / 4);
+    },
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; parts.forEach((p) => { p.hl = false; }); roll.clear(); } });
+  MB.check("qt-cn-hl", (v) => { hl = v; build(); if (pl.running) pl.refresh(); });
+  MB.range("qt-cn-bpm", (v) => v + " BPM", (v) => { bpm = v; });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  build();
+  MB.stat("qt-cn-who", "—");
+})();
+
+/* ------------------------------------------------------------ 5. 텍스처 */
+(function () {
+  const ODE = EN.PIECES.ode, IDS = ["violin", "violin2", "viola", "cello"];
+  const NAMES = { unison: "유니즌·옥타브", chorale: "코랄(호모포니)", accomp: "선율과 반주", imit: "모방(폴리포니)" };
+  let mode = "chorale", mx = null, parts = [], len = 32, bpm = 96;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "chamber" }));
+  const eighths = (line) => { const o = []; line.forEach((n) => { for (let t = n.t; t < n.t + n.d - 1e-6; t += 0.5) o.push({ t, d: 0.5, m: n.m, vel: 0.4 }); }); return o; };
+  const mk = (lines, extra = {}) => IDS.map((id, x) => Object.assign({ id, label: QS.LABELS[x], inst: QS.INST[x], notes: lines[x] }, extra[x] || {}));
+  function build() {
+    const S = ODE.lines.S, A = ODE.lines.A, T = ODE.lines.T, B = ODE.lines.B;
+    len = 32; bpm = 96;
+    if (mode === "unison") parts = mk([S, S, EN.shift(S, -12), EN.shift(S, -24)]);
+    else if (mode === "chorale") parts = mk([S, A, T, B]);
+    else if (mode === "accomp") parts = mk([S, eighths(A), eighths(T), B.map((n) => Object.assign({}, n, { vel: 0.7 }))], { 3: { art: "pizz" } });
+    else { parts = EN.arrange("canon", "quartet").map((p) => Object.assign(p, { notes: p.notes.filter((n) => n.t < 32) })); len = 32; bpm = 66; }
+    parts = parts.map((p) => Object.assign(p, { notes: p.notes.map((n) => (EN.inRange(p.inst, n.m) ? n : Object.assign({}, n, { m: EN.fold(p.inst, n.m) }))) }));
+    roll.set(parts, len);
+    MB.stat("qt-tx-name", NAMES[mode]);
+    const sig = parts.map((p) => p.notes.map((n) => n.t).join(","));
+    MB.stat("qt-tx-ind", new Set(sig).size + "가지 리듬");
+  }
+  const roll = EN.roll("#qt-tx-roll", { parts: [] });
+  const btn = document.getElementById("qt-tx-play");
+  const pl = EN.player({ parts: () => parts, bpm: () => bpm, loop: true, mixer: getMx, length: () => len, onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); } });
+  MB.seg("qt-tx-mode", (v) => { mode = v; build(); if (pl.running) { pl.stop(); pl.start(); } });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  build();
+})();
+
+/* ------------------------------------------------------------ 6. 자리 배치 */
+(function () {
+  const PRE = {
+    classic: [["violin", -0.6, 0.15], ["violin2", -0.2, 0.32], ["viola", 0.2, 0.32], ["cello", 0.6, 0.15]],
+    cello: [["violin", -0.6, 0.15], ["violin2", -0.2, 0.32], ["cello", 0.2, 0.32], ["viola", 0.6, 0.15]],
+    anti: [["violin", -0.6, 0.15], ["cello", -0.2, 0.32], ["viola", 0.2, 0.32], ["violin2", 0.6, 0.15]],
+  };
+  const INST = { violin: "violin", violin2: "violin", viola: "viola", cello: "cello" };
+  const LAB = { violin: "제1", violin2: "제2", viola: "", cello: "" };
+  let piece = "canon", width = 0.8, mx = null, parts = EN.arrange(piece, "quartet"), seats = [];
+  const getMx = () => { if (!mx) { mx = EN.mixer({ hall: "chamber", width }); apply(); } return mx; };
+  const stage = EN.stage("#qt-se-stage", { seats: [], drag: true, onMove: (id, x, y) => { const s = seats.find((q) => q.id === id); s.x = x; s.y = y; apply(); } });
+  function setPre(k) {
+    seats = PRE[k].map(([id, x, y]) => ({ id, inst: INST[id], x, y, label: LAB[id] ? LAB[id] + " 바이올린" : "", short: id === "violin" ? "Vn1" : id === "violin2" ? "Vn2" : null }));
+    stage.set(seats); apply();
+  }
+  function apply() {
+    if (mx) seats.forEach((s) => mx.channel(s.id, { inst: s.inst }).set({ pan: s.x, dist: s.y }));
+    const order = seats.slice().sort((a, b) => a.x - b.x).map((s) => ({ violin: "제1 바이올린", violin2: "제2 바이올린", viola: "비올라", cello: "첼로" })[s.id]);
+    MB.stat("qt-se-order", order.join(" → "));
+  }
+  const btn = document.getElementById("qt-se-play");
+  const pl = EN.player({ parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: getMx, length: () => EN.PIECES[piece].beats,
+    onNote: (p) => stage.light(p.id),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; } });
+  MB.seg("qt-se-pre", setPre);
+  MB.seg("qt-se-piece", (v) => { piece = v; parts = EN.arrange(piece, "quartet"); if (pl.running) { pl.stop(); pl.start(); } });
+  MB.range("qt-se-w", (v) => v + "%", (v) => { width = v / 100; if (mx) mx.setWidth(width); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  setPre("classic");
+})();
+
+/* ------------------------------------------------------------ 7. 믹서와 맞히기 */
+(function () {
+  let piece = "chorale", mx = null, parts = EN.arrange(piece, "quartet"), hidden = null, ok = 0, tries = 0;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "chamber" }));
+  const roll = EN.roll("#qt-mx-roll", { parts, laneH: 26 });
+  const ui = EN.mixerUI("#qt-mx-ui", { channels: parts, mixer: () => mx, pan: false, onChange: mark });
+  const msg = document.getElementById("qt-mx-msg"), guess = document.getElementById("qt-mx-guess"), btn = document.getElementById("qt-mx-play");
+  guess.innerHTML = parts.map((p) => `<button data-id="${p.id}">${p.label}</button>`).join("");
+  function mark() {
+    const any = parts.some((p) => (ui.state(p.id) || {}).solo);
+    parts.forEach((p) => { const s = ui.state(p.id) || {}; p.hidden = hidden ? false : !!s.mute || (any && !s.solo); });
+    roll.redraw();
+  }
+  function load() { parts = EN.arrange(piece, "quartet"); roll.set(parts, EN.PIECES[piece].beats); ui.set(parts); if (mx) ui.sync(); mark(); }
+  const pl = EN.player({ parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: getMx, length: () => EN.PIECES[piece].beats, onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); } });
+  MB.seg("qt-mx-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); hidden = null; load(); if (was) pl.start(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  document.getElementById("qt-mx-hide").addEventListener("click", () => {
+    MB.ctx(); getMx(); ui.sync();
+    parts.forEach((p) => mx.channel(p.id, { inst: p.inst }).set({ mute: false, solo: false }));
+    hidden = parts[Math.floor(Math.random() * parts.length)].id;
+    mx.channel(hidden).set({ mute: true });
+    guess.querySelectorAll("button").forEach((b) => b.classList.remove("ok", "bad"));
+    msg.textContent = "한 파트가 꺼졌습니다. 잘 듣고 빠진 파트를 누르세요.";
+    mark(); if (!pl.running) pl.start();
+  });
+  guess.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-id]"); if (!b || !hidden) return;
+    tries++;
+    const right = b.dataset.id === hidden;
+    if (right) ok++;
+    guess.querySelector(`button[data-id="${hidden}"]`).classList.add("ok");
+    if (!right) b.classList.add("bad");
+    const name = parts.find((p) => p.id === hidden).label;
+    msg.textContent = right ? `맞습니다! ${name}가 빠져 있었습니다. 다시 켰습니다.` : `아쉽네요. 빠진 것은 ${name}였습니다. 다시 켰습니다.`;
+    hidden = null; ui.sync(); mark();
+    MB.stat("qt-mx-score", ok + " / " + tries);
+  });
+  load();
+})();
+</script>
+</body>
+</html>

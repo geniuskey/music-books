@@ -37,6 +37,14 @@ LOCAL_BOOKS = [{
     'status': 'published', 'level': '입문', 'stage': 'instruments', 'slug': 'bass', 'legacyUrl': None,
     'color': '#2f7d6b', 'colorDark': '#5fc7ab', 'motif': 'bass',
     'topics': ['지판·TAB', '근음·코드톤', '워킹 베이스', '그루브', '장르 라인', '슬랩·톤'],
+}, {
+    'id': 'ensemblebook', 'code': 'ENS', 'title': 'EnsembleBook', 'subtitle': '합주 교과서',
+    'headline': '악기 하나에서 오케스트라의 울림까지',
+    'description': '소리의 덧셈과 맥놀이, 현·목관·금관·타악기의 음색 물리, 총보와 조옮김 악기, 현악 4중주와 실내악, 오케스트라의 편성과 무대·홀, 음색의 섞임과 마스킹, 화음 배치와 텍스처까지 — 브라우저의 가상 합주단으로 여러 악기를 직접 섞어 들으며 배우는 합주 교과서.',
+    'url': 'https://music.euiyun.com/ensemble/', 'repo': 'https://github.com/geniuskey/music-books', 'field': 'music',
+    'status': 'published', 'level': '입문', 'stage': 'ensemble', 'slug': 'ensemble', 'legacyUrl': None,
+    'color': '#3d5a99', 'colorDark': '#93b1f2', 'motif': 'ensemble',
+    'topics': ['악기의 음색', '총보·조옮김', '현악 4중주', '오케스트라·무대', '블렌드·마스킹', '오케스트레이션'],
 }]
 books = books + LOCAL_BOOKS
 catalog = []

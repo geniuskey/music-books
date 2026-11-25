@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>소리가 섞일 때 · EnsembleBook</title>
+<meta name="description" content="두 악기의 소리는 공기 속에서 그대로 더해진다. 파형의 선형 중첩, 위상과 맥놀이, 같은 음을 여럿이 낼 때 두꺼워지는 이유, 연주자 수와 dB의 관계를 직접 섞어 듣고, 첫 4중주를 파트별로 켜고 끈다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .tg-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tg-pick select { width: 100%; }
+  .tg-db { display: grid; gap: 6px; padding: 10px 12px; }
+  .tg-db .row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 64px; gap: 8px; align-items: center; font-size: 13.5px; }
+  .tg-db .bar { height: 12px; border-radius: 6px; background: var(--surface); overflow: hidden; }
+  .tg-db .bar i { display: block; height: 100%; background: var(--accent); }
+  .tg-db .row.tot { border-top: 1px solid var(--border); padding-top: 6px; font-weight: 700; }
+  .tg-db .row.tot .bar i { background: var(--accent-2); }
+  .tg-db .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="together">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 01</div>
+    <h1>소리가 섞일 때</h1>
+    <p class="lead">바이올린과 첼로가 함께 연주하면 귀에 닿는 것은 두 소리가 아니라 <b>공기의 압력 변화 하나</b>입니다. 두 악기의 파형은 공기 속에서 그냥 더해지고, 귀와 뇌가 그 합을 다시 "바이올린"과 "첼로"로 나눠 듣습니다. 이 장은 합주의 가장 밑바닥에 있는 이 덧셈에서 출발합니다. 소리가 어떻게 더해지는지, 같은 음을 둘이 낼 때 왜 맥놀이가 생기는지, 열여섯 명이 같은 음을 내면 왜 열여섯 배로 커지지 않고 대신 <b>두꺼워지는지</b>, 그리고 여러 파트를 켜고 끄며 첫 합주를 해부해 봅니다.</p>
+    <ul class="objectives">
+      <li>여러 소리가 공기 중에서 <b>선형으로 중첩</b>된다는 것과, 그 합에서 귀가 악기를 다시 나눠 듣는다는 것을 안다.</li>
+      <li>위상이 같은 두 소리는 보강되고 반대이면 상쇄되며, 주파수가 조금 다르면 \(|f_1-f_2|\)의 <b>맥놀이</b>가 생긴다는 것을 듣고 설명한다.</li>
+      <li>여러 연주자가 같은 음을 낼 때 음높이·비브라토·출발이 조금씩 어긋나 <b>합창 효과</b>가 생기는 원리를 안다.</li>
+      <li>상관없는 소리 \(N\)개의 합이 \(10\log_{10}N\) dB 커진다는 것과, 그것이 '몇 배 크게 들리는가'와 다르다는 것을 안다.</li>
+      <li>파트를 뮤트·솔로하며 합주가 몇 개의 층으로 이루어지는지 들어 본다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="superpose">
+    <h2>소리는 더해진다</h2>
+    <p>공기 한 점의 압력은 한 순간에 값이 하나뿐입니다. 두 악기가 동시에 울리면 그 점의 압력은 각 악기가 만든 압력 변화의 <b>합</b>이 됩니다. 이것을 <b>선형 중첩</b><span class="en">(Linear superposition)</span>이라 부릅니다. 보통 크기의 소리에서 공기는 아주 정확하게 선형이라, 오케스트라 100명이 내는 소리도 결국은 100개의 파형을 더한 하나의 파형입니다.</p>
+    <div class="formula">
+      $$p(t) = p_1(t) + p_2(t) + \cdots + p_N(t)$$
+      <div class="where">\(p_i(t)\)는 \(i\)번째 악기가 듣는 자리에 만든 압력 변화입니다. 마이크 하나, 귀 하나가 받는 것은 이 합 \(p(t)\) 하나뿐입니다.</div>
+    </div>
+    <p>그렇다면 우리는 어떻게 합쳐진 파형에서 "저건 오보에, 저건 첼로"를 골라낼까요? 귀 속의 달팽이관이 소리를 주파수별로 나누고, 뇌가 <b>함께 시작하고 함께 흔들리고 정수배로 늘어선</b> 성분들을 한 악기로 묶기 때문입니다. 이 묶기 규칙은 <a href="blend.html">10장</a>에서 자세히 다루고, 여기서는 먼저 덧셈 자체를 눈과 귀로 확인합니다.</p>
+
+    <div class="sim" id="sim-tg-sum">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>두 악기의 파형 더하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tg-sum-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>두 악기</span><div class="tg-pick"><select id="tg-sum-a"></select><select id="tg-sum-b"></select></div></div>
+          <label class="ctrl"><span>두 음의 음정 <output id="tg-sum-iv-out"></output></span><input type="range" id="tg-sum-iv" min="0" max="19" step="1" value="7"></label>
+          <label class="ctrl"><span>아래 음 <output id="tg-sum-lo-out"></output></span><input type="range" id="tg-sum-lo" min="48" max="72" step="1" value="57"></label>
+          <div class="btn-row"><button class="btn" id="tg-sum-pa">▶ 위 악기만</button><button class="btn" id="tg-sum-pb">▶ 아래 악기만</button><button class="btn primary" id="tg-sum-pab">▶ 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">두 주파수</span><span class="v" id="tg-sum-f">—</span></div>
+        <div class="stat"><span class="k">주파수비</span><span class="v" id="tg-sum-r">—</span></div>
+        <div class="stat"><span class="k">합의 주기</span><span class="v" id="tg-sum-per">—</span></div>
+      </div>
+      <div class="sim-note">위 두 줄은 각 악기의 파형(한 주기 모양을 배음 스펙트럼으로 그린 것), 맨 아래는 둘을 그대로 더한 파형입니다. 음정이 단순한 정수비(옥타브 2:1, 5도 3:2)일수록 합의 모양이 짧은 주기로 되풀이됩니다 · 모델: EN.spectrum의 배음 진폭을 위상 0으로 합성(실제 악기는 위상이 제각각이라 모양이 다르지만, 더해진다는 사실은 같습니다).</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="beats">
+    <h2>같은 음을 둘이 낼 때: 위상과 맥놀이</h2>
+    <p>두 악기가 <b>완전히 같은 주파수</b>를 낸다면 합은 두 파형이 얼마나 어긋나 있는지, 즉 <b>위상차</b>에 따라 달라집니다. 마루와 마루가 겹치면 두 배 크기(+6 dB)가 되고, 마루와 골이 겹치면 사라집니다. 그런데 실제 합주에서 이런 상쇄는 거의 들리지 않습니다. 두 사람이 정확히 같은 주파수를 내는 일이 없기 때문입니다.</p>
+    <p>주파수가 조금 다르면 위상차가 시간에 따라 천천히 돌아갑니다. 겹쳤다가(커짐) 엇갈렸다가(작아짐)를 되풀이하는 이 울렁임이 <b>맥놀이</b><span class="en">(Beats)</span>입니다.</p>
+    <div class="formula">
+      $$\sin 2\pi f_1 t + \sin 2\pi f_2 t \;=\; 2\cos\!\Big(2\pi\,\frac{f_1-f_2}{2}\,t\Big)\,\sin\!\Big(2\pi\,\frac{f_1+f_2}{2}\,t\Big)$$
+      <div class="where">평균 주파수 \(\frac{f_1+f_2}{2}\)의 음이 \(\cos\) 꼴의 느린 포락선으로 커졌다 작아집니다. 포락선의 크기는 1초에 \(|f_1-f_2|\)번 최대가 되므로 맥놀이 횟수는 <b>두 주파수의 차</b>입니다.</div>
+    </div>
+    <p>A4(440 Hz)를 두 대의 바이올린이 1 Hz 다르게 내면 1초에 한 번, 4 Hz 다르면 1초에 네 번 울렁입니다. 맥놀이가 느려지다 멈추는 순간이 "음이 맞았다"는 신호라서, 오케스트라는 연주 전에 오보에의 A에 맞춰 이 맥놀이가 사라질 때까지 조율합니다. 차이가 15–20 Hz를 넘으면 울렁임이 아니라 <b>거칠음</b>으로, 더 벌어지면 두 개의 다른 음으로 들립니다.</p>
+
+    <div class="sim" id="sim-tg-beats">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>맥놀이 듣고 조율하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tg-bt-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>소리</span><div class="seg" id="tg-bt-src"><button data-value="sine" class="on">순음(사인파)</button><button data-value="violin">바이올린 두 대</button><button data-value="oboe">오보에 + 바이올린</button></div></div>
+          <label class="ctrl"><span>둘째 소리의 어긋남 <output id="tg-bt-df-out"></output></span><input type="range" id="tg-bt-df" min="-12" max="12" step="0.1" value="3"></label>
+          <label class="ctrl"><span>위상차(같은 주파수일 때) <output id="tg-bt-ph-out"></output></span><input type="range" id="tg-bt-ph" min="0" max="180" step="5" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="tg-bt-play">▶ 재생</button><button class="btn" id="tg-bt-game">🎯 맞춰 보기</button><button class="btn" id="tg-bt-stop">■ 정지</button></div>
+          <div class="sim-msg" id="tg-bt-msg">어긋남을 0으로 가져가면 맥놀이가 멈춥니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">두 주파수</span><span class="v" id="tg-bt-f">—</span></div>
+        <div class="stat"><span class="k">맥놀이</span><span class="v" id="tg-bt-b">—</span></div>
+        <div class="stat"><span class="k">센트로 본 차이</span><span class="v" id="tg-bt-c">—</span></div>
+      </div>
+      <div class="sim-note">그림은 2초 동안 합의 크기(포락선)입니다. '맞춰 보기'는 어긋남을 무작위로 정해 숨깁니다. 슬라이더로 맥놀이가 멈추는 자리를 찾아보세요 · 모델: 두 음을 비브라토 없이 정확한 주파수로 냅니다. 위상차 슬라이더는 사인파·같은 주파수에서만 의미가 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="section">
+    <h2>여럿이 같은 음을 낼 때: 합창 효과</h2>
+    <p>오케스트라의 제1 바이올린은 보통 14–16명이 <b>같은 음</b>을 연주합니다. 이 소리는 바이올린 한 대를 크게 키운 소리와 전혀 다릅니다. 연주자마다 음높이가 몇 센트씩 다르고, 비브라토의 빠르기와 위상이 다르고, 활을 긋는 순간이 수십 밀리초씩 다르기 때문입니다.</p>
+    <ul>
+      <li><b>맥놀이가 섞여 사라진다</b> — 두 대면 맥놀이가 또렷하지만, 열 대가 서로 다른 속도로 맥놀이하면 울렁임이 고르게 섞여 '반짝이는 넓은' 소리가 됩니다. 이것이 <b>합창 효과</b><span class="en">(Chorus effect)</span>입니다.</li>
+      <li><b>음높이가 넓어진다</b> — 스펙트럼의 각 배음이 날카로운 선이 아니라 폭을 가진 띠가 됩니다. 귀는 이 폭을 '여럿'으로 듣습니다.</li>
+      <li><b>어택이 부드러워진다</b> — 출발이 흩어져 한 대의 날카로운 활 소리가 뭉툭해집니다. 그래서 섹션의 빠른 패시지는 독주보다 덜 또렷하게 들립니다.</li>
+    </ul>
+    <p>신시사이저의 코러스 이펙트와 '스트링 앙상블' 음색이 바로 이 현상을 흉내 낸 것입니다. 아래에서 연주자 수와 어긋남의 폭을 바꿔 보세요.</p>
+
+    <div class="sim" id="sim-tg-section">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>한 대에서 섹션까지</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="tg-sc-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>악기</span><select id="tg-sc-inst"></select></label>
+          <label class="ctrl"><span>연주자 수 <output id="tg-sc-n-out"></output></span><input type="range" id="tg-sc-n" min="1" max="16" step="1" value="1"></label>
+          <label class="ctrl"><span>음높이 어긋남 폭 <output id="tg-sc-sp-out"></output></span><input type="range" id="tg-sc-sp" min="0" max="25" step="1" value="9"></label>
+          <label class="check"><input type="checkbox" id="tg-sc-real"> 실제 음량 반영(인원만큼 커진다)</label>
+          <div class="btn-row"><button class="btn primary" id="tg-sc-play">▶ 선율 재생</button><button class="btn" id="tg-sc-ab">▶ 1명 ↔ 섹션 번갈아</button><button class="btn" id="tg-sc-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">연주자</span><span class="v" id="tg-sc-who">—</span></div>
+        <div class="stat"><span class="k">음압 증가(비상관 합)</span><span class="v" id="tg-sc-db">—</span></div>
+        <div class="stat"><span class="k">들리는 크기(대략)</span><span class="v" id="tg-sc-loud">—</span></div>
+      </div>
+      <div class="sim-note">그림은 연주자마다의 음높이(센트)와 비브라토를 점으로 보여 줍니다. 기본은 인원이 늘어도 음량을 같게 맞춰 '두께'만 비교하게 합니다 · 모델: 최대 5개의 하위 음성에 무작위 음높이·비브라토 속도·출발 지연을 주고, 인원이 더 많으면 어긋남 폭을 넓혀 근사합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="decibels">
+    <h2>음량의 덧셈: 열 명은 열 배로 크지 않다</h2>
+    <p>서로 상관없는(위상이 제멋대로인) 소리는 <b>진폭이 아니라 에너지(세기)</b>가 더해집니다. 같은 세기의 소리 \(N\)개를 합하면 세기는 \(N\)배, 음압 레벨은 다음만큼 커집니다.</p>
+    <div class="formula">
+      $$L_{\text{합}} = 10\log_{10}\sum_{i=1}^{N} 10^{L_i/10} \qquad\Rightarrow\qquad \text{같은 소리 }N\text{개: } L + 10\log_{10}N$$
+      <div class="where">두 대 +3 dB, 네 대 +6 dB, 열 대 +10 dB, 열여섯 대 +12 dB. 반대로 <b>상관있는</b> 소리(같은 위상의 같은 파형)는 진폭이 더해져 두 개에 +6 dB이지만, 실제 연주자끼리는 그런 일이 거의 없습니다.</div>
+    </div>
+    <p>그리고 귀는 레벨에 다시 로그를 씌워 듣습니다. 대략 <b>+10 dB이 '두 배 크게'</b> 들리므로, 바이올린 열 대는 한 대보다 두 배쯤 크게 들릴 뿐입니다. 오케스트라가 현악기를 수십 명씩 두는 이유는 음량보다 <b>두께와 지속력</b>, 그리고 금관 몇 대와 균형을 맞추기 위해서입니다. 트럼펫 한 대는 같은 셈여림에서 바이올린 한 대보다 훨씬 큰 음압을 내기 때문입니다(<a href="balance.html">11장</a>).</p>
+
+    <div class="sim" id="sim-tg-db">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>dB 합 계산기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="tg-db" id="tg-db-view"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>바이올린 <output id="tg-db-vn-out"></output></span><input type="range" id="tg-db-vn" min="0" max="16" step="1" value="14"></label>
+          <label class="ctrl"><span>첼로 <output id="tg-db-vc-out"></output></span><input type="range" id="tg-db-vc" min="0" max="10" step="1" value="8"></label>
+          <label class="ctrl"><span>트럼펫 <output id="tg-db-tp-out"></output></span><input type="range" id="tg-db-tp" min="0" max="3" step="1" value="0"></label>
+          <label class="ctrl"><span>모두의 셈여림 <output id="tg-db-dyn-out"></output></span><input type="range" id="tg-db-dyn" min="0" max="7" step="1" value="4"></label>
+        </div>
+      </div>
+      <div class="sim-note">한 대의 레벨은 악기 사전의 상대 음압 등급과 셈여림으로 정한 값(바이올린 한 대 mf ≈ 70 dB을 기준으로 둔 가상의 수치)입니다. 셈여림은 두 단계 차이가 대략 6 dB입니다 · '들리는 크기'는 +10 dB = 2배라는 근사(손 규칙)로 계산했습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="first-mix">
+    <h2>첫 합주 해부: 파트를 켜고 끄기</h2>
+    <p>이제 진짜 합주를 들어 봅시다. 아래는 이 책을 위해 지은 짧은 코랄을 <b>현악 4중주</b>(바이올린 둘, 비올라, 첼로)로 연주한 것입니다. 네 줄의 롤이 네 파트의 음입니다. 재생하면서 <b>M</b>(뮤트)과 <b>S</b>(솔로)를 눌러 보세요.</p>
+    <ul>
+      <li>첼로만 끄면 화음이 <b>공중에 뜹니다</b>. 맨 아래 음이 화음의 뿌리를 정하기 때문입니다.</li>
+      <li>제1 바이올린만 끄면 화음은 남는데 <b>노래가 사라집니다</b>. 선율은 대개 맨 위에 있습니다.</li>
+      <li>가운데 두 파트(제2 바이올린·비올라)만 솔로로 들으면 혼자서는 심심한 선이지만, 빠지면 화음이 텅 빕니다. 이 '보이지 않는 일'이 합주의 절반입니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-tg-mix">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>4중주 믹서</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="tg-mx-roll"></canvas><div id="tg-mx-ui"></div></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div class="ctrl-row" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <div class="seg" id="tg-mx-piece"><button data-value="chorale" class="on">작은 코랄</button><button data-value="ode">환희의 송가</button><button data-value="canon">캐논</button></div>
+          <div class="seg" id="tg-mx-hall"><button data-value="dry">드라이</button><button data-value="chamber" class="on">실내악 홀</button><button data-value="cathedral">대성당</button></div>
+          <button class="btn primary" id="tg-mx-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">곡</span><span class="v" id="tg-mx-title">—</span></div>
+        <div class="stat"><span class="k">들리는 파트</span><span class="v" id="tg-mx-on">—</span></div>
+      </div>
+      <div class="sim-note">믹서의 막대는 각 파트의 실시간 레벨입니다. 좌우 슬라이더(넓은 화면)로 무대 위치를 옮길 수도 있습니다. 무대 배치와 홀은 <a href="orchestra.html">9장</a>에서 본격적으로 다룹니다 · 모델: 현은 톱니파 음원 × 몸통 공명, 비브라토와 활 잡음 포함. 홀은 합성 임펄스 응답 잔향입니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 한 파트만 따라가기.</b> 합주를 들을 때 처음에는 위 선율만 들립니다. 재생을 반복하면서 매번 <b>다른 한 파트에 귀를 붙이고</b> 끝까지 따라가 보세요. 솔로로 한 번 듣고 다시 전체로 돌아가면 그 파트가 훨씬 잘 들립니다. 실내악 연주자들이 연습하는 방법이기도 합니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>여러 악기의 소리는 공기 속에서 <b>선형으로 더해져</b> 하나의 압력 파형이 된다. 귀와 뇌가 그 합을 다시 악기별로 나눠 듣는다.</li>
+      <li>같은 주파수의 두 소리는 위상차에 따라 보강(+6 dB)하거나 상쇄한다. 주파수가 조금 다르면 1초에 \(|f_1-f_2|\)번 울렁이는 <b>맥놀이</b>가 생긴다.</li>
+      <li>맥놀이가 멈추는 것이 '음이 맞았다'는 신호다. 오케스트라는 오보에의 A에 맞춰 조율한다.</li>
+      <li>여러 연주자가 같은 음을 내면 음높이·비브라토·출발이 조금씩 어긋나 맥놀이가 섞이고 소리가 넓어진다 — <b>합창 효과</b>.</li>
+      <li>상관없는 소리 \(N\)개의 합은 \(10\log_{10}N\) dB 커진다(2대 +3, 10대 +10). 귀에는 +10 dB이 약 두 배로 들린다.</li>
+      <li>합주는 층이다. 맨 아래(베이스)가 화음의 뿌리를, 맨 위가 선율을, 가운데가 화음의 살을 맡는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>바이올린과 첼로가 함께 연주할 때, 듣는 자리의 마이크 하나가 받는 것은?</p><div class="opts">
+        <button class="opt">두 악기의 신호가 번갈아 도착한 것</button>
+        <button class="opt" data-correct>두 악기가 만든 압력 변화의 합인 파형 하나</button>
+        <button class="opt">두 악기 중 더 큰 소리만</button>
+        <button class="opt">두 파형의 곱</button>
+      </div><div class="quiz-exp">공기의 압력은 한 점에서 한 순간에 값이 하나다. 보통 크기의 소리에서 공기는 선형이라 각 음원의 압력 변화가 그대로 더해진다.</div></div>
+      <div class="quiz-q"><p>두 플루트가 442 Hz와 439 Hz를 낸다. 1초에 몇 번 울렁이는가?</p><div class="opts">
+        <button class="opt">1.5번</button><button class="opt" data-correct>3번</button><button class="opt">440.5번</button><button class="opt">881번</button>
+      </div><div class="quiz-exp">맥놀이 횟수는 두 주파수의 차 \(|442-439| = 3\) Hz다. 포락선 \(\cos(2\pi\cdot 1.5t)\)의 크기가 1초에 세 번 최대가 된다.</div></div>
+      <div class="quiz-q"><p>제1 바이올린 열여섯 명의 소리가 한 명의 소리를 키운 것과 다르게 들리는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">음압이 16배이기 때문</button>
+        <button class="opt">모두 같은 위상으로 연주하기 때문</button>
+        <button class="opt" data-correct>연주자마다 음높이·비브라토·출발이 조금씩 달라 맥놀이가 섞이고 소리가 넓어지기 때문</button>
+        <button class="opt">각자 다른 음을 연주하기 때문</button>
+      </div><div class="quiz-exp">미세한 어긋남이 합창 효과를 만든다. 음압은 16배가 아니라 세기 기준 16배(+12 dB)이고, 들리는 크기는 두 배 조금 넘는 정도다.</div></div>
+      <div class="quiz-q"><p>70 dB을 내는 바이올린 열 대가 함께 연주하면 전체 레벨은 대략?</p><div class="opts">
+        <button class="opt">700 dB</button><button class="opt">73 dB</button><button class="opt" data-correct>80 dB</button><button class="opt">90 dB</button>
+      </div><div class="quiz-exp">비상관 합은 \(70 + 10\log_{10}10 = 80\) dB. 두 대였다면 73 dB이다.</div></div>
+      <div class="quiz-q"><p>4중주에서 첼로 파트만 끄면 가장 먼저 무엇이 달라지는가?</p><div class="opts">
+        <button class="opt">선율이 사라진다</button>
+        <button class="opt" data-correct>화음의 뿌리(베이스)가 사라져 화음이 떠 있는 것처럼 들린다</button>
+        <button class="opt">템포가 빨라진다</button>
+        <button class="opt">아무 변화가 없다</button>
+      </div><div class="quiz-exp">맨 아래 음은 화음이 어떤 자리(근음·전위)에 있는지를 정한다. 베이스가 빠지면 같은 위 세 음도 다른 화음처럼, 혹은 불안하게 들린다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 1. 파형 더하기 */
+(function () {
+  const KEYS = ["flute", "oboe", "clarinet", "violin", "viola", "cello", "horn", "trumpet", "trombone", "bassoon"];
+  const selA = document.getElementById("tg-sum-a"), selB = document.getElementById("tg-sum-b");
+  selA.innerHTML = EN.options(KEYS, "flute"); selB.innerHTML = EN.options(KEYS, "cello");
+  let iv = 7, lo = 57;
+  const top = () => lo + iv;
+  function wave(k, m, N, cycles) {
+    const S = EN.spectrum(k, m, { vel: 0.6 }), out = new Float32Array(N);
+    for (let i = 0; i < N; i++) { const ph = (i / N) * cycles * 2 * Math.PI; let v = 0; S.forEach((p) => { v += p.a * Math.sin(p.k * ph); }); out[i] = v; }
+    return out;
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), N = 900;
+    const fa = MB.mtof(top()), fb = MB.mtof(lo);
+    const span = 4 / fb; // 아래 음 4주기
+    const A = wave(selA.value, top(), N, span * fa), B = wave(selB.value, lo, N, span * fb);
+    const norm = (x) => { let m = 0; x.forEach((v) => (m = Math.max(m, Math.abs(v)))); return m || 1; };
+    const na = norm(A), nb = norm(B), S = A.map((v, i) => v / na + B[i] / nb), ns = norm(S);
+    const rows = [[A, na, EN.color(selA.value), EN.name(selA.value) + " " + MB.noteName(top())], [B, nb, EN.color(selB.value), EN.name(selB.value) + " " + MB.noteName(lo)], [S, ns, P.text, "합"]];
+    const rh = (h - 12) / 3;
+    ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    rows.forEach(([x, n, col, lab], r) => {
+      const y0 = 6 + r * rh, mid = y0 + rh / 2;
+      ctx.strokeStyle = P.grid; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(8, mid); ctx.lineTo(w - 8, mid); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = r === 2 ? 2.2 : 1.6; ctx.beginPath();
+      for (let i = 0; i < N; i++) { const px = 8 + (i / (N - 1)) * (w - 16), py = mid - (x[i] / n) * rh * 0.4; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+      ctx.stroke();
+      ctx.fillStyle = col; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText(lab, 12, y0 + 2);
+    });
+  }
+  const view = MB.canvas("#tg-sum-cv", draw, { aspect: 0.55, minHeight: 220, maxHeight: 340 });
+  function ratio(semis) {
+    const R = { 0: "1:1", 12: "2:1", 7: "3:2", 5: "4:3", 4: "5:4", 3: "6:5", 9: "5:3", 8: "8:5", 19: "3:1", 16: "5:2", 15: "12:5", 2: "9:8", 10: "16:9", 11: "15:8", 1: "16:15", 6: "45:32", 14: "9:4", 17: "8:3", 13: "32:15", 18: "45:16" };
+    return R[semis] || "—";
+  }
+  function update() {
+    const fa = MB.mtof(top()), fb = MB.mtof(lo);
+    document.getElementById("tg-sum-iv-out").textContent = MB.intervalName(iv);
+    document.getElementById("tg-sum-lo-out").textContent = MB.noteName(lo);
+    MB.stat("tg-sum-f", fa.toFixed(1) + " / " + fb.toFixed(1) + " Hz");
+    MB.stat("tg-sum-r", ratio(iv) + " (≈ " + (fa / fb).toFixed(3) + ")");
+    const r = ratio(iv).split(":");
+    MB.stat("tg-sum-per", r.length === 2 ? (1000 * (+r[1]) / fb).toFixed(1) + " ms (아래 음 " + r[1] + "주기)" : "—");
+    view.redraw();
+  }
+  MB.range("tg-sum-iv", null, (v) => { iv = v; update(); });
+  MB.range("tg-sum-lo", null, (v) => { lo = v; update(); });
+  [selA, selB].forEach((s) => s.addEventListener("change", update));
+  const play = (a, b) => { MB.ctx(); MB.stopAll(); if (a) EN.note(selA.value, EN.fold(selA.value, top()), { dur: 1.8, vel: 0.6 }); if (b) EN.note(selB.value, EN.fold(selB.value, lo), { dur: 1.8, vel: 0.6 }); };
+  document.getElementById("tg-sum-pa").addEventListener("click", () => play(true, false));
+  document.getElementById("tg-sum-pb").addEventListener("click", () => play(false, true));
+  document.getElementById("tg-sum-pab").addEventListener("click", () => play(true, true));
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 맥놀이 */
+(function () {
+  let src = "sine", df = 3, ph = 0, voices = [], hidden = null;
+  const F0 = 440;
+  function draw(ctx, w, h) {
+    const P = MB.palette(), T = 2, N = 600;
+    const b = { x: 40, y: 12, w: w - 52, h: h - 40 };
+    ctx.strokeStyle = P.grid; ctx.strokeRect(b.x, b.y, b.w, b.h);
+    ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let s = 0; s <= T; s += 0.5) ctx.fillText(s + " s", b.x + (s / T) * b.w, b.y + b.h + 6);
+    const d = hidden != null ? hidden : df;
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const t = (i / N) * T;
+      const phase = 2 * Math.PI * d * t + (ph * Math.PI) / 180;
+      const env = Math.abs(2 * Math.cos(phase / 2));
+      const x = b.x + (i / N) * b.w, y = b.y + b.h - (env / 2) * b.h * 0.92;
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    }
+    ctx.strokeStyle = P.accent; ctx.lineWidth = 2.2; ctx.stroke();
+    ctx.lineTo(b.x + b.w, b.y + b.h); ctx.lineTo(b.x, b.y + b.h); ctx.closePath(); ctx.fillStyle = P.accent + "22"; ctx.fill();
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText(hidden != null ? "포락선(숨김 모드: 귀로 맞추세요)" : "합의 크기(포락선)", b.x + 6, b.y + 4);
+    if (hidden != null) { ctx.fillStyle = P.canvasBg || P.bg; }
+  }
+  const view = MB.canvas("#tg-bt-cv", draw, { aspect: 0.38, minHeight: 170 });
+  const msg = document.getElementById("tg-bt-msg");
+  function cur() { return hidden != null ? hidden + df : df; }
+  function update() {
+    document.getElementById("tg-bt-df-out").textContent = MB.signed(df, 1) + " Hz";
+    document.getElementById("tg-bt-ph-out").textContent = ph + "°";
+    const d = cur(), f2 = F0 + d;
+    MB.stat("tg-bt-f", hidden != null ? "440 / ?" : `440 / ${f2.toFixed(1)} Hz`);
+    MB.stat("tg-bt-b", hidden != null ? "?" : Math.abs(d) < 0.05 ? "없음" : Math.abs(d).toFixed(1) + " 회/초");
+    MB.stat("tg-bt-c", hidden != null ? "?" : MB.signed(MB.cents(f2 / F0), 1) + " ¢");
+    if (hidden != null) {
+      const e = Math.abs(d);
+      msg.textContent = e < 0.25 ? "🎉 맞췄습니다! 맥놀이가 거의 멈췄습니다 (남은 차이 " + e.toFixed(2) + " Hz)" : "울렁임이 느려지는 쪽으로 슬라이더를 움직이세요.";
+      if (e < 0.25) { hidden = null; setTimeout(update, 50); }
+    }
+    view.redraw();
+    retune();
+  }
+  function stop() { voices.forEach((v) => v && v.release && v.release()); voices = []; }
+  function start() {
+    stop(); MB.ctx();
+    const t = MB.now() + 0.03, d = cur();
+    if (src === "sine") {
+      const ctx = MB.ctx();
+      [0, 1].forEach((i) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = i ? F0 + d : F0; g.gain.value = 0;
+        g.gain.setTargetAtTime(0.12, t, 0.02);
+        o.connect(g); g.connect(MB.out); o.start(t + (i ? (ph / 360) / F0 : 0));
+        voices.push({ osc: o, release() { g.gain.setTargetAtTime(0, MB.now(), 0.03); o.stop(MB.now() + 0.2); } });
+      });
+    } else {
+      const a = src === "oboe" ? "oboe" : "violin";
+      voices.push(EN.note(a, 69, { dur: null, vel: 0.55, vib: 0 }));
+      const v2 = EN.note("violin", 69, { dur: null, vel: 0.55, vib: 0, detune: MB.cents((F0 + d) / F0) });
+      v2._detuneVoice = true; voices.push(v2);
+    }
+  }
+  function retune() {
+    if (!voices.length) return;
+    const d = cur();
+    if (src === "sine" && voices[1] && voices[1].osc) voices[1].osc.frequency.setTargetAtTime(F0 + d, MB.now(), 0.02);
+    else if (voices.length) { clearTimeout(retune.t); retune.t = setTimeout(start, 120); }
+  }
+  MB.seg("tg-bt-src", (v) => { src = v; if (voices.length) start(); });
+  MB.range("tg-bt-df", null, (v) => { df = v; update(); });
+  MB.range("tg-bt-ph", null, (v) => { ph = v; update(); if (voices.length && src === "sine") start(); });
+  document.getElementById("tg-bt-play").addEventListener("click", () => { voices.length ? stop() : start(); });
+  document.getElementById("tg-bt-stop").addEventListener("click", stop);
+  document.getElementById("tg-bt-game").addEventListener("click", () => {
+    hidden = (Math.random() < 0.5 ? -1 : 1) * (2 + Math.random() * 6) - df;
+    msg.textContent = "어긋남을 숨겼습니다. 소리를 들으며 맥놀이가 멈추는 자리를 찾으세요.";
+    update(); start();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 섹션 */
+(function () {
+  const KEYS = ["violin", "viola", "cello", "flute", "clarinet", "horn", "trumpet"];
+  const sel = document.getElementById("tg-sc-inst"); sel.innerHTML = EN.options(KEYS, "violin");
+  let n = 1, sp = 9, real = false, pl = null, ab = null;
+  const MEL = EN.parse("mf A4:1.5 B4:.5 C#5:1 D5:1 | E5:2 D5:1 C#5:1 | B4:1 A4:1 G#4:1 B4:1 | A4:4");
+  let seeds = [];
+  const reseed = () => { const r = MB.rng(n * 31 + sp); seeds = [...Array(n)].map((_, i) => ({ c: n > 1 ? (r() - 0.5) * 2 * sp : 0, rate: 5.8 * (1 + (r() - 0.5) * 0.18), ph: r() * Math.PI * 2 })); };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 46, y: 12, w: w - 60, h: h - 36 };
+    const X = (c) => b.x + ((c + 40) / 80) * b.w;
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [-40, -20, 0, 20, 40].forEach((c) => { ctx.beginPath(); ctx.moveTo(X(c), b.y); ctx.lineTo(X(c), b.y + b.h); ctx.stroke(); ctx.fillText((c > 0 ? "+" : "") + c + "¢", X(c), b.y + b.h + 4); });
+    const t = performance.now() / 1000, col = EN.color(sel.value);
+    seeds.forEach((s, i) => {
+      const y = b.y + ((i + 0.5) / Math.max(n, 1)) * b.h;
+      const vib = (EN.inst(sel.value).vib || [5, 0])[1] * Math.sin(2 * Math.PI * s.rate * t + s.ph) * (pl ? 1 : 0.35);
+      ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(s.c + vib), y, Math.max(3, Math.min(7, 60 / n)), 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText("연주자별 음높이 + 비브라토", b.x + 4, b.y + 2);
+  }
+  const view = MB.canvas("#tg-sc-cv", draw, { aspect: 0.42, minHeight: 170 });
+  MB.loop(view.canvas, () => view.redraw());
+  function update() {
+    reseed();
+    document.getElementById("tg-sc-n-out").textContent = n + "명";
+    document.getElementById("tg-sc-sp-out").textContent = "±" + sp + "¢";
+    MB.stat("tg-sc-who", EN.name(sel.value) + " " + n + "명");
+    const db = 10 * Math.log10(n);
+    MB.stat("tg-sc-db", "+" + db.toFixed(1) + " dB" + (real ? "" : " (지금은 끔)"));
+    MB.stat("tg-sc-loud", "× " + Math.pow(2, db / 10).toFixed(2));
+    if (pl) pl.refresh();
+  }
+  const parts = () => [{ id: "sec", inst: sel.value, notes: EN.shift(MEL, sel.value === "cello" ? -12 : sel.value === "viola" ? -12 : sel.value === "trumpet" ? -12 : sel.value === "horn" ? -12 : 0), players: n, spread: sp, real }];
+  function stop() { if (ab) { clearInterval(ab); ab = null; } if (pl) { pl.stop(); pl = null; } }
+  function start() { stop(); MB.ctx(); pl = EN.player({ parts, bpm: 76, loop: true, onStop: () => {} }); pl.start(); }
+  MB.range("tg-sc-n", null, (v) => { n = v; update(); });
+  MB.range("tg-sc-sp", null, (v) => { sp = v; update(); });
+  MB.check("tg-sc-real", (v) => { real = v; update(); });
+  sel.addEventListener("change", update);
+  document.getElementById("tg-sc-play").addEventListener("click", () => { pl ? stop() : start(); });
+  document.getElementById("tg-sc-stop").addEventListener("click", stop);
+  const nR = { set: (v) => { document.getElementById("tg-sc-n").value = v; document.getElementById("tg-sc-n").dispatchEvent(new Event("input")); } };
+  document.getElementById("tg-sc-ab").addEventListener("click", () => {
+    if (ab) { stop(); return; }
+    let solo = true; nR.set(1); start();
+    ab = setInterval(() => { solo = !solo; nR.set(solo ? 1 : 12); }, (60 / 76) * 16 * 1000);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. dB 합 */
+(function () {
+  const D = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"];
+  let vn = 14, vc = 8, tp = 0, dyn = 4;
+  const one = (k) => 70 + 10 * Math.log10(EN.inst(k).level) + (dyn - 4) * 3;
+  function update() {
+    document.getElementById("tg-db-vn-out").textContent = vn + "대";
+    document.getElementById("tg-db-vc-out").textContent = vc + "대";
+    document.getElementById("tg-db-tp-out").textContent = tp + "대";
+    document.getElementById("tg-db-dyn-out").textContent = D[dyn] + " (" + EN.DYN_NAMES[D[dyn]] + ")";
+    const rows = [["바이올린", "violin", vn], ["첼로", "cello", vc], ["트럼펫", "trumpet", tp]].filter((r) => r[2] > 0)
+      .map(([nm, k, c]) => ({ nm: nm + " ×" + c, db: one(k) + 10 * Math.log10(c), k }));
+    const tot = rows.length ? EN.sumDb(rows.map((r) => r.db)) : null;
+    const W = (d) => MB.clamp((d - 50) / 45, 0, 1) * 100;
+    document.getElementById("tg-db-view").innerHTML = rows.map((r) =>
+      `<div class="row"><span>${r.nm}</span><span class="bar"><i style="width:${W(r.db).toFixed(0)}%;background:${EN.color(r.k)}"></i></span><span class="n">${r.db.toFixed(1)} dB</span></div>`).join("") +
+      (tot != null ? `<div class="row tot"><span>합계</span><span class="bar"><i style="width:${W(tot).toFixed(0)}%"></i></span><span class="n">${tot.toFixed(1)} dB</span></div>
+      <div class="row"><span style="color:var(--text-dim)">한 대 대비</span><span style="color:var(--text-dim);font-size:13px">바이올린 한 대(${one("violin").toFixed(0)} dB)보다 ${(tot - one("violin")).toFixed(1)} dB 큼 → 약 ${Math.pow(2, (tot - one("violin")) / 10).toFixed(1)}배로 들림</span><span></span></div>` : `<div class="row"><span>아무도 없음</span></div>`);
+  }
+  MB.range("tg-db-vn", null, (v) => { vn = v; update(); });
+  MB.range("tg-db-vc", null, (v) => { vc = v; update(); });
+  MB.range("tg-db-tp", null, (v) => { tp = v; update(); });
+  MB.range("tg-db-dyn", null, (v) => { dyn = v; update(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 4중주 믹서 */
+(function () {
+  let piece = "chorale", mx = null, parts = EN.arrange(piece, "quartet"), pl = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: hall() }));
+  const hallSeg = MB.seg("tg-mx-hall", (v) => { if (mx) mx.setHall(v); });
+  const hall = () => hallSeg();
+  const roll = EN.roll("#tg-mx-roll", { parts, beatsPerBar: () => EN.PIECES[piece].meter[0] });
+  const ui = EN.mixerUI("#tg-mx-ui", { channels: parts, mixer: () => mx, onChange: updateOn });
+  const btn = document.getElementById("tg-mx-play");
+  function updateOn() {
+    const any = parts.some((p) => ui.state(p.id) && ui.state(p.id).solo);
+    const on = parts.filter((p) => { const s = ui.state(p.id); return s && !s.mute && (!any || s.solo); });
+    MB.stat("tg-mx-on", on.length === parts.length ? "모두 (" + on.length + ")" : on.map((p) => p.label).join(" · ") || "없음");
+    parts.forEach((p) => { const s = ui.state(p.id); p.hidden = !(s && !s.mute && (!any || s.solo)); });
+    roll.redraw();
+  }
+  function load() {
+    parts = EN.arrange(piece, "quartet");
+    roll.set(parts, EN.PIECES[piece].beats);
+    ui.set(parts); ui.sync();
+    MB.stat("tg-mx-title", EN.PIECES[piece].title + " · " + EN.PIECES[piece].by);
+    updateOn();
+    if (pl && pl.running) pl.refresh();
+  }
+  pl = EN.player({
+    parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: getMx, length: () => EN.PIECES[piece].beats,
+    onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); },
+  });
+  MB.seg("tg-mx-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); load(); if (was) pl.start(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  load();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>합주 스튜디오 · EnsembleBook</title>
+<meta name="description" content="곡을 고르고 성부마다 악기·옥타브·인원·주법을 정해 직접 오케스트레이션한다. 무대 자리와 홀을 고르고, 음역 검사·음량 추정·마스킹 지도로 들리지 않는 파트를 찾아 고치는 합주 작업대.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .std-top { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .std-top .ctrl { min-width: 0; }
+  .std-top select { max-width: 100%; }
+  .std-top .grow { flex: 1 1 180px; }
+  .std-split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+  @media (min-width: 900px) { .std-split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } .std-split > div + div { border-left: 1px solid var(--border); } }
+  .std-split canvas { display: block; }
+  .std-parts { display: grid; gap: 6px; padding: 12px 14px; border-top: 1px solid var(--border); }
+  .std-row { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); border-left: 4px solid var(--c); font-size: 13px; }
+  .std-row select { font: inherit; font-size: 13px; padding: 3px 4px; max-width: 150px; }
+  .std-row label { display: inline-flex; align-items: center; gap: 4px; color: var(--text-dim); white-space: nowrap; }
+  .std-row input[type="range"] { width: 80px; }
+  .std-row .x { font: inherit; font-size: 13px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); border-radius: 6px; padding: 2px 8px; cursor: pointer; margin-left: auto; }
+  .std-row .w { flex-basis: 100%; font-size: 12px; color: var(--warn); }
+  .std-row .w:empty { display: none; }
+  .std-row .nm { font-weight: 700; min-width: 86px; }
+  .std-addrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .std-mixwrap { padding: 8px 10px; border-top: 1px solid var(--border); }
+  .std-save { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 16px; border-top: 1px solid var(--border); }
+  .std-tbl { padding: 8px 12px; }
+  .std-tbl table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .std-tbl th, .std-tbl td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--border); }
+  .std-tbl td.n { font-family: var(--mono); text-align: right; white-space: nowrap; }
+  .std-tbl .ok { color: var(--ok); font-weight: 700; } .std-tbl .bad { color: var(--bad); font-weight: 700; } .std-tbl .wn { color: var(--warn); font-weight: 700; }
+  .std-bars { display: grid; gap: 5px; padding: 8px 12px 12px; }
+  .std-bars .row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 62px; gap: 8px; align-items: center; font-size: 13px; }
+  .std-bars .bar { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .std-bars .bar i { display: block; height: 100%; background: var(--c, var(--accent)); }
+  .std-bars .n { text-align: right; font-family: var(--mono); color: var(--text-dim); font-size: 12px; }
+  .std-bars .row.tot { border-top: 1px solid var(--border); padding-top: 5px; font-weight: 700; }
+  .std-ex { display: grid; gap: 10px; padding: 14px 16px; }
+  .std-ex .task { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-elev); }
+  .std-ex .task h4 { margin: 0 0 4px; font-size: 15px; }
+  .std-ex .task p { margin: 0 0 8px; font-size: 14px; color: var(--text-dim); }
+  .std-ex .task .st { font-size: 13px; margin-left: 6px; }
+  .std-ex .task.done { border-color: var(--ok); }
+  .std-ex .task.done h4::after { content: " ✓"; color: var(--ok); }
+  .std-ex .btn { font-size: 13px; padding: 5px 12px; }
+  .std-flow { overflow-x: auto; }
+  .std-flow svg { min-width: 700px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="studio">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 14</div>
+    <h1>합주 스튜디오</h1>
+    <p class="lead">지금까지 배운 것을 한 작업대에 모았습니다. 곡 하나를 고르고, 네 성부를 어떤 악기에 몇 옥타브로 몇 명에게 맡길지 정하고, 무대 위 자리와 홀을 고른 뒤 들어 봅니다. 그리고 작업대가 <b>음역</b>과 <b>음량</b>과 <b>가림</b>을 검사해 "이 파트는 안 들린다", "이 음은 이 악기로 낼 수 없다"고 알려 줍니다. 편곡가가 머릿속에서 하는 검사를 화면 위에서 해 보는 장입니다. 마지막에는 잘 알려진 함정을 일부러 심어 둔 연습 과제를 풉니다.</p>
+    <ul class="objectives">
+      <li>곡의 성부를 악기에 나눠 주고, 겹치기(더블링)와 옥타브 이동으로 편성을 만든다.</li>
+      <li>무대 자리(좌우·거리)와 홀(잔향 시간·잔향 비율)이 합주에 주는 영향을 듣고 고른다.</li>
+      <li>음역 검사로 낼 수 없는 음과 불편한 음역을 찾고 고친다.</li>
+      <li>음량 추정과 마스킹 지도로 묻히는 파트와 순간을 찾아, 악기·옥타브·인원·세기로 해결한다.</li>
+      <li>편성을 저장하고 불러와 서로 다른 오케스트레이션을 비교한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="desk">
+    <h2>작업대 둘러보기</h2>
+    <p>편곡은 대개 다음 순서로 진행됩니다. 이 순서가 작업대의 배치이기도 합니다.</p>
+    <figure class="diagram std-flow">
+      <svg viewBox="0 0 900 150" role="img" aria-label="오케스트레이션 작업 순서">
+        <defs><marker id="std-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+        <g font-family="var(--font)">
+          <g transform="translate(10,30)"><rect width="120" height="76" rx="12" class="f-surface"/><text x="60" y="32" text-anchor="middle" class="t">곡 · 성부</text><text x="60" y="54" text-anchor="middle" class="t-mono">S A T B</text></g>
+          <path d="M134 68 H156" class="s-acc" marker-end="url(#std-arr)"/>
+          <g transform="translate(160,30)"><rect width="120" height="76" rx="12" class="f-surface"/><text x="60" y="32" text-anchor="middle" class="t">악기 배정</text><text x="60" y="54" text-anchor="middle" class="t-mono">옥타브 · 인원</text></g>
+          <path d="M284 68 H306" class="s-acc" marker-end="url(#std-arr)"/>
+          <g transform="translate(310,30)"><rect width="120" height="76" rx="12" class="f-surface"/><text x="60" y="32" text-anchor="middle" class="t">음역 검사</text><text x="60" y="54" text-anchor="middle" class="t-mono">lo · hi · comfy</text></g>
+          <path d="M434 68 H456" class="s-acc" marker-end="url(#std-arr)"/>
+          <g transform="translate(460,30)"><rect width="120" height="76" rx="12" class="f-surface"/><text x="60" y="32" text-anchor="middle" class="t">자리 · 홀</text><text x="60" y="54" text-anchor="middle" class="t-mono">pan · dist · RT60</text></g>
+          <path d="M584 68 H606" class="s-acc" marker-end="url(#std-arr)"/>
+          <g transform="translate(610,30)"><rect width="120" height="76" rx="12" class="f-surface"/><text x="60" y="32" text-anchor="middle" class="t">균형 · 가림</text><text x="60" y="54" text-anchor="middle" class="t-mono">dB · 마스킹</text></g>
+          <path d="M734 68 H756" class="s-acc" marker-end="url(#std-arr)"/>
+          <g transform="translate(760,30)"><rect width="130" height="76" rx="12" class="f-acc2-soft"/><text x="65" y="32" text-anchor="middle" class="t">듣고 다듬기</text><text x="65" y="54" text-anchor="middle" class="t-mono">저장 · A/B 비교</text></g>
+          <path d="M825 112 C825 140 75 140 70 112" fill="none" stroke="var(--text-faint)" stroke-dasharray="4 4" marker-end="url(#std-arr)"/>
+          <text x="450" y="146" text-anchor="middle" class="t-dim">한 바퀴로 끝나지 않는다 — 들은 뒤 다시 배정으로 돌아간다</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 14-1.</b> 오케스트레이션의 작업 고리. 아래 작업대의 위에서 아래 순서와 같습니다.</figcaption>
+    </figure>
+    <ul>
+      <li><b>위쪽 줄</b> — 곡, 시작 편성(프리셋), 템포, 홀과 잔향 비율, 재생.</li>
+      <li><b>무대와 롤</b> — 왼쪽은 객석에서 본 무대입니다. 동그라미를 <b>끌어 옮기면</b> 그 파트의 좌우와 거리가 바뀝니다(<a href="orchestra.html">9장</a>). 오른쪽은 파트마다 한 줄인 피아노 롤이고, 주황 테두리는 음역 밖이라 옥타브를 접은 음입니다.</li>
+      <li><b>파트 표</b> — 한 줄이 한 파트입니다. 성부(S·A·T·B 중 무엇을 연주할지), 악기, 옥타브, 인원, 주법, 세기를 고릅니다. 같은 성부를 두 줄에 주면 <b>겹치기</b>가 됩니다(<a href="blend.html">10장</a>·<a href="voicing.html">12장</a>).</li>
+      <li><b>믹서</b> — 뮤트·솔로·음량과 실시간 레벨. 한 파트씩 솔로로 들어 보는 습관은 <a href="together.html">1장</a>에서 이야기한 그대로입니다.</li>
+      <li><b>저장</b> — 세 칸에 편성을 저장해 두고 번갈아 불러와 비교합니다(이 브라우저에만 저장).</li>
+    </ul>
+
+    <div class="sim" id="sim-std-desk">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>합주 작업대</h3></div>
+      <div class="std-top">
+        <label class="ctrl"><span>곡</span><select id="std-piece"></select></label>
+        <label class="ctrl"><span>시작 편성</span><select id="std-preset"></select></label>
+        <label class="ctrl grow"><span>템포 <output id="std-bpm-out"></output></span><input type="range" id="std-bpm" min="40" max="160" step="1" value="72"></label>
+        <div class="ctrl"><span>홀</span><div class="seg" id="std-hall"><button data-value="dry">드라이</button><button data-value="studio">스튜디오</button><button data-value="chamber">실내악 홀</button><button data-value="concert" class="on">콘서트홀</button><button data-value="cathedral">대성당</button></div></div>
+        <label class="ctrl grow"><span>잔향 비율 <output id="std-wet-out"></output></span><input type="range" id="std-wet" min="0" max="80" step="1" value="32"></label>
+        <div class="btn-row"><button class="btn primary" id="std-play">▶ 재생</button><button class="btn" id="std-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-view std-split">
+        <div><div id="std-stage"></div></div>
+        <div><canvas id="std-roll"></canvas></div>
+      </div>
+      <div class="std-parts" id="std-parts"></div>
+      <div class="std-parts" style="border-top:0;padding-top:0"><div class="std-addrow"><button class="btn" id="std-add">＋ 파트 더하기(겹치기)</button><span style="font-size:13px;color:var(--text-dim)">새 파트는 선율(S)을 플루트로 겹치며 시작합니다. 성부와 악기를 바꿔 쓰세요.</span></div></div>
+      <div class="std-mixwrap"><div id="std-mix"></div></div>
+      <div class="std-save">
+        <span style="font-size:13px;color:var(--text-dim)">저장 칸</span>
+        <div class="seg" id="std-slot"><button data-value="0" class="on">1</button><button data-value="1">2</button><button data-value="2">3</button></div>
+        <button class="btn" id="std-save">💾 저장</button><button class="btn" id="std-load">📂 불러오기</button><button class="btn" id="std-ab">↔ 칸 1·2 번갈아 듣기</button>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">파트</span><span class="v" id="std-n">—</span></div>
+        <div class="stat"><span class="k">연주자 합</span><span class="v" id="std-pl">—</span></div>
+        <div class="stat"><span class="k">음역 경고</span><span class="v" id="std-warn">—</span></div>
+        <div class="stat"><span class="k">잔향이 덮는 박</span><span class="v" id="std-rtb">—</span></div>
+      </div>
+      <div class="sim-msg" id="std-msg">프리셋을 고르고 ▶ 재생을 누르세요. 재생 중에도 무엇이든 바꿀 수 있습니다.</div>
+      <div class="sim-note">'잔향이 덮는 박'은 홀의 잔향 시간 RT60을 한 박의 길이로 나눈 값입니다. 3–4박을 넘으면 화음이 바뀌어도 앞 화음이 남아 흐려지기 쉽습니다 · 모델: 모든 악기는 EN 엔진의 합성음(배음 스펙트럼 × 공명)이고, 섹션은 인원이 많아도 하위 음성 2–3개로 근사합니다. 저장은 이 브라우저의 localStorage에만 됩니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 하나씩 바꾸기.</b> 한 번에 여러 가지를 바꾸면 무엇이 효과를 냈는지 알 수 없습니다. 지금 편성을 칸 1에 저장하고, <b>한 가지만</b> 바꿔 칸 2에 저장한 뒤 '번갈아 듣기'로 비교하세요. 녹음 스튜디오에서 엔지니어가 쓰는 A/B 비교와 같은 방법입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="ranges">
+    <h2>음역과 음량 검사</h2>
+    <p>악기에 성부를 맡길 때 가장 먼저 확인할 것은 <b>그 음을 낼 수 있는가</b>입니다. 악기마다 낼 수 있는 가장 낮은 음과 가장 높은 음(전체 음역)이 있고, 그 안에서도 소리가 좋고 편하게 연주되는 <b>편한 음역</b>이 따로 있습니다. 바순의 맨 위나 플루트의 맨 아래는 '나기는 나지만' 가늘고 약하며, 연주자에게도 부담입니다(<a href="score.html">6장</a>). 작업대는 음역 밖의 음을 자동으로 한 옥타브 접어 주지만, 접힌 음은 선율의 윤곽을 망가뜨리므로 <b>경고로 보고 고쳐야</b> 합니다.</p>
+    <p>둘째는 <b>음량</b>입니다. 악보의 셈여림이 같아도 악기마다 내는 음압이 다르고, 인원이 늘면 비상관 합으로 커집니다(<a href="together.html">1장</a>). 작업대는 파트마다 대략의 레벨을 다음처럼 추정합니다.</p>
+    <div class="formula">
+      $$L_i \approx 70 + 10\log_{10} g_i + 10\log_{10} N_i + 30\log_{10}\frac{v_i}{v_{mf}} + 20\log_{10} G_i - 20\log_{10}(1+1.6\,d_i)$$
+      <div class="where">\(g_i\)는 악기의 상대 음압 등급(바이올린 한 대 = 1), \(N_i\)는 인원, \(v_i\)는 평균 세기(mf 기준), \(G_i\)는 믹서 음량, \(d_i\)는 무대 거리입니다. 기준 70 dB은 바이올린 한 대 mf를 둔 가상의 값이라, 절댓값보다 <b>파트 사이의 차이</b>를 보세요.</div>
+    </div>
+
+    <div class="sim" id="sim-std-range">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>음역 검사와 음량 추정</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><div id="std-rg" style="padding:8px 10px"></div></div>
+      </div>
+      <div class="std-tbl" id="std-rg-tbl"></div>
+      <div class="std-bars" id="std-lv"></div>
+      <div class="sim-note">음역표의 옅은 막대는 전체 음역, 진한 막대는 편한 음역, 동그라미는 이 편성에서 그 악기가 내는 가장 낮은 음과 가장 높은 음입니다(빨간 테두리는 음역 밖). 표는 위 작업대의 편성을 그대로 따라갑니다 · 음량은 위 식의 근사이며 실제 연주의 음량 변화와 방향성(금관의 벨 방향 등)은 들어 있지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="masking">
+    <h2>가려지는 파트 찾기</h2>
+    <p>음량 추정이 '파트 전체가 얼마나 큰가'라면, 마스킹 검사는 '<b>그 순간 그 파트가 귀에 닿는가</b>'를 봅니다. 같은 음역에 큰 소리가 겹치면 작은 소리의 배음은 임계대역 안에서 가려집니다(<a href="balance.html">11장</a>). 작업대는 곡의 화음이 바뀌는 순간마다 울리고 있는 모든 음의 배음을 모아 <code>EN.masking</code>으로 각 파트의 <b>가청도</b>(가려지지 않은 에너지의 비율)를 계산합니다.</p>
+    <ul>
+      <li>격자의 한 칸은 한 파트 × 한 순간입니다. 초록일수록 잘 들리고, 빨강일수록 가려집니다.</li>
+      <li>칸을 누르면 그 순간의 스펙트럼이 아래에 나오고, 흐린 막대가 가려진 배음입니다. '이 순간부터 듣기'로 바로 확인하세요.</li>
+      <li>해결책은 보통 넷입니다. <b>옥타브를 옮긴다</b>(음역을 비킨다), <b>악기를 바꾼다</b>(배음의 무게 중심을 비킨다), <b>가리는 쪽을 줄인다</b>(세기·인원), <b>겹친다</b>(같은 선율을 다른 악기로 보강).</li>
+    </ul>
+
+    <div class="sim" id="sim-std-mask">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>마스킹 지도</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="std-mk-cv"></canvas><canvas id="std-mk-sp"></canvas><div class="en-legend" id="std-mk-lg" style="padding:4px 12px 8px"></div></div>
+      </div>
+      <div class="sim-controls" style="padding:12px 16px">
+        <div class="btn-row"><button class="btn primary" id="std-mk-play">▶ 이 순간부터 듣기</button><button class="btn" id="std-mk-worst">가장 위험한 순간으로</button><button class="btn" id="std-mk-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">선택한 순간</span><span class="v" id="std-mk-at">—</span></div>
+        <div class="stat"><span class="k">선율 가청도(평균)</span><span class="v" id="std-mk-mel">—</span></div>
+        <div class="stat"><span class="k">가장 묻히는 파트</span><span class="v" id="std-mk-low">—</span></div>
+      </div>
+      <div class="sim-note">믹서의 음량·뮤트와 무대 거리가 반영됩니다(솔로는 무시하고 뮤트만 반영). 잔향과 시간 마스킹(앞 음이 뒤 음을 가리는 현상)은 계산하지 않는 정적 근사입니다 · 모델: Bark 축에서 아래 27 dB/Bark, 위 12 dB/Bark로 퍼지는 마스킹 곡선을 다른 파트들의 배음에서 쌓고, 그 아래에 들어간 배음을 가려진 것으로 봅니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 마스킹은 위로 번진다.</b> 마스킹 곡선이 위쪽으로 완만하게(12 dB/Bark) 퍼지기 때문에 <b>낮고 큰 소리는 위의 작은 소리를 잘 가리지만, 높은 소리는 아래를 잘 못 가립니다</b>. 그래서 트롬본과 호른이 크게 울리는 음역 바로 위에 플루트 선율을 두면 묻히고, 같은 선율을 한 옥타브 올리거나 오보에·트럼펫처럼 배음이 밝은 악기로 겹치면 살아납니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="space">
+    <h2>자리와 홀 고르기</h2>
+    <p>무대 위 자리는 음색을 바꾸지 않지만 <b>구별</b>을 바꿉니다. 같은 음역의 두 파트가 좌우로 떨어져 있으면 귀가 방향으로 둘을 나눠 듣기 쉬워지고(공간 분리), 같은 자리에 있으면 하나로 섞이기 쉽습니다. 캐논이나 대화하는 두 바이올린처럼 <b>따로 들려야 하는 성부</b>는 좌우로 벌리고, 하나로 섞여야 하는 겹치기는 가까이 둡니다. 뒤쪽 자리는 직접음이 작고 잔향이 커서 <b>멀고 부드럽게</b> 들립니다 — 금관과 타악기가 뒤에 앉는 이유 중 하나입니다.</p>
+    <p>홀은 곡의 빠르기와 함께 고릅니다. 잔향 시간 RT60은 소리가 60 dB 줄어드는 시간이고, 화음이 바뀌는 간격보다 훨씬 길면 앞 화음이 뒤 화음에 겹쳐 흐려집니다. 작업대의 '잔향이 덮는 박'이 이 비율입니다.</p>
+    <div class="formula">
+      $$\text{잔향이 덮는 박} = \frac{\mathrm{RT60}}{60/\mathrm{BPM}}$$
+      <div class="where">콘서트홀(RT60 ≈ 2.0 s)에서 72 BPM이면 약 2.4박, 대성당(≈ 5.5 s)에서 140 BPM이면 약 13박입니다. 느린 코랄은 긴 잔향에서 아름답고, 빠른 팡파르는 짧은 잔향에서 또렷합니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 같은 편성, 다른 홀.</b> 위 작업대에서 '축제 팡파르'를 금관 5중주로 고르고 템포를 130 이상으로 올린 뒤 홀을 스튜디오 → 콘서트홀 → 대성당으로 바꿔 보세요. 그다음 '작은 코랄'을 현악 합주로 같은 순서로 들어 보세요. 어느 곡이 어느 홀에서 좋았는지가 홀을 고르는 감각입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="exercises">
+    <h2>연습 과제</h2>
+    <p>아래 과제는 일부러 문제가 있는 편성으로 시작합니다. '불러오기'로 작업대에 문제를 올리고, 들어 보고, 고친 뒤 '확인'을 누르세요. 정답은 하나가 아닙니다. 확인은 앞 절의 검사(음역·마스킹·자리·잔향)로 이루어집니다.</p>
+    <div class="sim" id="sim-std-ex">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>오케스트레이션 과제</h3></div>
+      <div class="std-ex" id="std-ex"></div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">해결한 과제</span><span class="v" id="std-ex-n">—</span></div>
+      </div>
+      <div class="sim-msg" id="std-ex-msg">과제를 하나 불러오세요.</div>
+      <div class="sim-note">과제를 불러오면 작업대의 편성이 바뀝니다. 지금 편성을 남겨 두고 싶다면 먼저 저장 칸에 저장하세요 · 확인 기준은 이 책의 근사 모델(마스킹 추정·음역 사전)에 따른 것이라, 실제 편곡의 판단을 대신하지 않습니다.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>오케스트레이션은 <b>배정 → 음역 검사 → 자리·홀 → 균형·가림 → 듣고 다듬기</b>를 여러 번 도는 고리다.</li>
+      <li>음역 밖의 음은 낼 수 없고, 음역 끝의 음은 나더라도 약하고 불편하다. 접어서 해결하지 말고 <b>악기나 옥타브를 다시 고른다</b>.</li>
+      <li>같은 셈여림에서도 악기마다 음압이 다르고, 인원은 \(10\log_{10}N\)으로 더해진다. 파트 사이의 <b>레벨 차이</b>를 먼저 본다.</li>
+      <li>마스킹은 위로 번진다. 낮고 큰 소리 바로 위의 작은 선율은 묻힌다 — 옥타브 이동, 밝은 악기로 겹치기, 가리는 쪽 줄이기로 푼다.</li>
+      <li>따로 들려야 할 성부는 좌우로 벌리고, 섞여야 할 겹치기는 가까이 둔다. 뒤쪽 자리는 멀고 부드럽다.</li>
+      <li>잔향 시간은 곡의 빠르기와 함께 고른다. 잔향이 덮는 박 수가 너무 크면 화음이 흐려진다.</li>
+      <li>한 번에 하나만 바꾸고, 저장해 두고 <b>A/B로 비교</b>한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>작업대가 바순 파트의 몇 음을 '옥타브로 접었다'고 경고한다. 가장 좋은 대처는?</p><div class="opts">
+        <button class="opt">경고를 무시한다 — 소리는 나니까</button>
+        <button class="opt" data-correct>그 성부를 음역이 맞는 다른 악기에 주거나, 파트 전체의 옥타브를 옮긴다</button>
+        <button class="opt">인원을 늘린다</button>
+        <button class="opt">잔향을 늘려 감춘다</button>
+      </div><div class="quiz-exp">접힌 음은 선율의 윤곽을 깨뜨린다. 음역 문제는 악기 선택이나 옥타브 배치로 푸는 것이 원칙이다.</div></div>
+      <div class="quiz-q"><p>트롬본·호른이 크게 화음을 받치는 바로 위에서 플루트 선율이 묻힌다. 마스킹의 성질로 보아 가장 효과적인 방법은?</p><div class="opts">
+        <button class="opt">플루트를 한 옥타브 내린다</button>
+        <button class="opt" data-correct>플루트를 한 옥타브 올리거나 오보에·트럼펫처럼 밝은 악기로 겹친다</button>
+        <button class="opt">트롬본을 한 옥타브 올린다</button>
+        <button class="opt">플루트를 무대 뒤로 보낸다</button>
+      </div><div class="quiz-exp">마스킹 곡선은 위로 완만하게 퍼진다. 가리는 음역에서 멀리 위로 벗어나거나, 배음이 많아 임계대역 여러 곳에 에너지를 가진 악기로 보강하면 살아난다.</div></div>
+      <div class="quiz-q"><p>바이올린 14명(등급 1)과 트럼펫 1대(등급 1.9)가 같은 셈여림으로 연주할 때, 추정 레벨이 더 큰 쪽은?</p><div class="opts">
+        <button class="opt" data-correct>바이올린 섹션 — 10·log₁₀14 ≈ 11.5 dB가 10·log₁₀1.9 ≈ 2.8 dB보다 크다</button>
+        <button class="opt">트럼펫 — 금관은 언제나 현보다 크다</button>
+        <button class="opt">둘이 정확히 같다</button>
+        <button class="opt">비교할 수 없다</button>
+      </div><div class="quiz-exp">인원과 등급 모두 로그로 더해진다. 다만 트럼펫은 배음이 밝아 마스킹에 강하므로, 레벨이 작아도 귀에는 잘 들릴 수 있다 — 그래서 음량 추정과 마스킹 검사를 함께 본다.</div></div>
+      <div class="quiz-q"><p>RT60이 2초인 홀에서 120 BPM 곡을 연주할 때 잔향이 덮는 박 수는?</p><div class="opts">
+        <button class="opt">1박</button><button class="opt">2박</button><button class="opt" data-correct>4박</button><button class="opt">240박</button>
+      </div><div class="quiz-exp">한 박은 60/120 = 0.5초이므로 2 ÷ 0.5 = 4박이다. 화음이 박마다 바뀌는 빠른 곡이라면 꽤 흐려질 수 있다.</div></div>
+      <div class="quiz-q"><p>캐논에서 같은 선율을 2마디 늦게 연주하는 두 바이올린을 또렷하게 구별하고 싶다. 무대 자리는?</p><div class="opts">
+        <button class="opt">같은 자리에 나란히 둔다</button>
+        <button class="opt" data-correct>무대 양쪽으로 크게 벌린다</button>
+        <button class="opt">둘 다 무대 뒤로 보낸다</button>
+        <button class="opt">자리는 구별과 상관없다</button>
+      </div><div class="quiz-exp">방향이 다르면 귀가 공간 단서로 두 흐름을 나눠 듣는다. 제1·제2 바이올린을 양쪽에 앉히는 유럽식(대향) 배치가 대위법적인 곡에서 선호되는 이유다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 공용 상태: 작업대 */
+const STD = (function () {
+  const $ = (id) => document.getElementById(id);
+  const PITCHED = EN.ORCH_ORDER.filter((k) => !EN.inst(k).unpitched);
+  const ARTS = {
+    strings: ["", "legato", "stacc", "pizz", "trem", "mute", "pont", "tasto"],
+    woodwinds: ["", "stacc", "flutter"],
+    brass: ["", "stacc", "mute"],
+  };
+  const artsFor = (k) => { const I = EN.inst(k); if (k === "horn") return ["", "stacc", "stopped"]; return ARTS[I.family] || [""]; };
+  const PLAYERS = [1, 2, 3, 4, 6, 8, 10, 12, 14, 16];
+  const fromPreset = (k) => EN.ARRANGE[k].parts.map((p) => ({ v: p.v || 0, inst: p.inst, oct: p.oct || 0, players: p.players || 1, art: p.art || "", vel: p.vel != null ? p.vel : 1 }));
+  const D = { piece: "chorale", preset: "quartet", parts: fromPreset("quartet"), hall: "concert", wet: 0.32, bpm: EN.PIECES.chorale.bpm, seats: {} };
+  const listeners = [];
+  let parts = [], mx = null, abTimer = null;
+  const P = () => EN.PIECES[D.piece];
+  const on = (f) => listeners.push(f);
+  let emitT = 0;
+  const emit = (kind) => { clearTimeout(emitT); emitT = setTimeout(() => listeners.forEach((f) => { try { f(kind); } catch (e) { console.error(e); } }), 40); };
+
+  function build() {
+    const cnt = {}, tot = {};
+    D.parts.forEach((p) => (tot[p.inst] = (tot[p.inst] || 0) + 1));
+    parts = EN.arrange(P(), D.parts.map((p) => {
+      cnt[p.inst] = (cnt[p.inst] || 0) + 1;
+      return { v: p.v, inst: p.inst, oct: p.oct, players: p.players, art: p.art, vel: p.vel, label: EN.name(p.inst) + (tot[p.inst] > 1 ? " " + cnt[p.inst] : "") };
+    }));
+    const seats = EN.seatsFor(parts);
+    parts.forEach((p, i) => {
+      const s = D.seats[p.id] || seats[i];
+      p.pan = s.x; p.dist = s.y; p.maxSub = parts.length > 6 ? 2 : 3; p.row = i;
+    });
+  }
+  // 믹서에 무대 자리와 UI 상태를 다시 반영
+  function applyMix() {
+    if (!mx) return;
+    mx.setHall(D.hall); mx.setWet(D.wet);
+    mx.channels().forEach((c) => { if (!parts.some((p) => p.id === c.id)) c.set({ solo: false, mute: true }); });
+    parts.forEach((p) => { const st = ui.state(p.id); if (st) st.pan = p.pan; mx.channel(p.id, { inst: p.inst }); });
+    ui.sync();
+    parts.forEach((p) => mx.channel(p.id).set({ pan: p.pan, dist: p.dist }));
+  }
+  const getMx = () => { if (!mx) { mx = EN.mixer({ hall: D.hall, wet: D.wet }); applyMix(); } return mx; };
+
+  /* --- 위젯 */
+  const stage = EN.stage("#std-stage", {
+    seats: [], drag: true,
+    onMove(id, x, y) {
+      D.seats[id] = { x, y };
+      const p = parts.find((q) => q.id === id); if (p) { p.pan = x; p.dist = y; }
+      const st = ui.state(id); if (st) st.pan = x;
+      if (mx && mx.has(id)) mx.channel(id).set({ pan: x, dist: y });
+    },
+    onDrop() { emit("seat"); },
+  });
+  const roll = EN.roll("#std-roll", { parts: [], beatsPerBar: () => P().meter[0] });
+  const ui = EN.mixerUI("#std-mix", { channels: [], mixer: () => mx, pan: false, onChange: () => emit("mix") });
+  const pl = EN.player({
+    parts: () => parts, bpm: () => D.bpm, loop: true, mixer: getMx, length: () => P().beats,
+    onNote: (p) => stage.light(p.id), onFrame: (b) => roll.at(b),
+    onStart: () => { $("std-play").textContent = "■ 일시 정지"; }, onStop: () => { $("std-play").textContent = "▶ 재생"; roll.clear(); },
+  });
+
+  /* --- 위쪽 줄 */
+  const selPiece = $("std-piece"), selPre = $("std-preset");
+  selPiece.innerHTML = Object.keys(EN.PIECES).map((k) => `<option value="${k}">${EN.PIECES[k].title}</option>`).join("");
+  selPiece.value = D.piece;
+  selPre.innerHTML = Object.keys(EN.ARRANGE).map((k) => `<option value="${k}">${EN.ARRANGE[k].name}</option>`).join("") + `<option value="custom">(직접 만든 편성)</option>`;
+  selPre.value = D.preset;
+  const bpmR = MB.range("std-bpm", (v) => v + " BPM", (v) => { D.bpm = v; readout(); emit("tempo"); });
+  const wetR = MB.range("std-wet", (v) => v + "%", (v) => { D.wet = v / 100; if (mx) mx.setWet(D.wet); });
+  const hallSeg = MB.seg("std-hall", (v) => { D.hall = v; if (mx) mx.setHall(v); readout(); emit("hall"); });
+  selPiece.addEventListener("change", () => { D.piece = selPiece.value; D.bpm = P().bpm; bpmR.set(D.bpm, false); refresh(); });
+  selPre.addEventListener("change", () => { if (selPre.value === "custom") return; D.preset = selPre.value; D.parts = fromPreset(D.preset); D.seats = {}; refresh(); });
+
+  /* --- 파트 표 */
+  const partsEl = $("std-parts");
+  const vOpts = () => P().order.map((k, i) => `<option value="${i}">${k} · ${P().names[k]}</option>`).join("");
+  function renderParts() {
+    partsEl.innerHTML = parts.map((p, i) => {
+      const d = D.parts[i];
+      const folded = p.notes.filter((n) => n.folded).length;
+      const out = p.notes.filter((n) => !EN.inComfy(p.inst, n.m)).length;
+      const w = (folded ? `음역 밖 ${folded}음을 옥타브로 접었습니다. ` : "") + (out && !folded ? `편한 음역 밖 ${out}음. ` : out && folded ? `편한 음역 밖 ${out}음. ` : "");
+      return `<div class="std-row" data-i="${i}" style="--c:${EN.color(p.inst)}">
+        <span class="nm">${p.label}</span>
+        <select class="v" aria-label="성부">${vOpts()}</select>
+        <select class="inst" aria-label="악기">${EN.options(PITCHED, d.inst)}</select>
+        <label>옥타브 <select class="oct">${[-2, -1, 0, 1, 2].map((o) => `<option value="${o}"${o === d.oct ? " selected" : ""}>${o > 0 ? "+" + o : o}</option>`).join("")}</select></label>
+        <label>인원 <select class="pl">${PLAYERS.map((n) => `<option value="${n}"${n === d.players ? " selected" : ""}>${n}</option>`).join("")}</select></label>
+        <select class="art" aria-label="주법">${artsFor(d.inst).map((a) => `<option value="${a}"${a === d.art ? " selected" : ""}>${a ? EN.ARTS[a] : "보통"}</option>`).join("")}</select>
+        <label>세기 <input type="range" class="vel" min="40" max="130" step="5" value="${Math.round(d.vel * 100)}" aria-label="세기 배수"><output>×${d.vel.toFixed(2)}</output></label>
+        <button class="x" aria-label="파트 지우기" title="파트 지우기">✕</button>
+        <span class="w">${w}</span>
+      </div>`;
+    }).join("");
+    partsEl.querySelectorAll(".std-row").forEach((row) => { row.querySelector(".v").value = String(D.parts[+row.dataset.i].v); });
+  }
+  partsEl.addEventListener("change", (e) => {
+    const row = e.target.closest(".std-row"); if (!row) return;
+    const d = D.parts[+row.dataset.i], t = e.target;
+    if (t.classList.contains("v")) d.v = +t.value;
+    else if (t.classList.contains("inst")) { d.inst = t.value; if (!artsFor(d.inst).includes(d.art)) d.art = ""; if (EN.inst(d.inst).family !== "strings" && d.players > 4) d.players = 1; }
+    else if (t.classList.contains("oct")) d.oct = +t.value;
+    else if (t.classList.contains("pl")) d.players = +t.value;
+    else if (t.classList.contains("art")) d.art = t.value;
+    else if (t.classList.contains("vel")) d.vel = +t.value / 100;
+    else return;
+    selPre.value = "custom"; refresh();
+  });
+  partsEl.addEventListener("input", (e) => { if (e.target.classList.contains("vel")) e.target.nextElementSibling.textContent = "×" + (e.target.value / 100).toFixed(2); });
+  partsEl.addEventListener("click", (e) => {
+    const b = e.target.closest(".x"); if (!b) return;
+    if (D.parts.length <= 1) { $("std-msg").textContent = "파트가 하나는 있어야 합니다."; return; }
+    D.parts.splice(+b.closest(".std-row").dataset.i, 1); selPre.value = "custom"; D.seats = {}; refresh();
+  });
+  $("std-add").addEventListener("click", () => {
+    if (D.parts.length >= 14) { $("std-msg").textContent = "파트는 14개까지입니다(브라우저의 계산 부담 때문)."; return; }
+    D.parts.push({ v: 0, inst: "flute", oct: 0, players: 1, art: "", vel: 1 }); selPre.value = "custom"; refresh();
+  });
+
+  /* --- 재생 */
+  $("std-play").addEventListener("click", () => { MB.ctx(); getMx(); applyMix(); pl.toggle(); });
+  $("std-stop").addEventListener("click", () => { stopAB(); pl.stop(); });
+
+  /* --- 저장 */
+  const KEY = "ensemble-studio-v1";
+  const slots = () => { try { return JSON.parse(localStorage.getItem(KEY) || "[]") || []; } catch (e) { return []; } };
+  const slotSeg = MB.seg("std-slot");
+  function snapshot() { const mix = {}; parts.forEach((p) => { const s = ui.state(p.id); if (s) mix[p.id] = { gain: s.gain, mute: s.mute }; }); return JSON.parse(JSON.stringify({ piece: D.piece, preset: selPre.value, parts: D.parts, hall: D.hall, wet: D.wet, bpm: D.bpm, seats: D.seats, mix })); }
+  function load(s, quiet) {
+    if (!s || !EN.PIECES[s.piece] || !Array.isArray(s.parts) || !s.parts.length) return false;
+    D.piece = s.piece; D.parts = s.parts.filter((p) => EN.INSTR[p.inst]).map((p) => Object.assign({ v: 0, oct: 0, players: 1, art: "", vel: 1 }, p));
+    D.hall = EN.HALLS[s.hall] ? s.hall : "concert"; D.wet = s.wet != null ? s.wet : 0.32; D.bpm = s.bpm || P().bpm; D.seats = s.seats || {};
+    selPiece.value = D.piece; selPre.value = s.preset && (EN.ARRANGE[s.preset] || s.preset === "custom") ? s.preset : "custom";
+    bpmR.set(D.bpm, false); wetR.set(Math.round(D.wet * 100), false); hallSeg.set(D.hall, false);
+    refresh();
+    if (s.mix) Object.keys(s.mix).forEach((id) => { const st = ui.state(id); if (st) Object.assign(st, s.mix[id]); });
+    ui.set(parts); if (mx) applyMix(); emit("mix");
+    return true;
+  }
+  $("std-save").addEventListener("click", () => {
+    const all = slots(); all[+slotSeg()] = snapshot();
+    try { localStorage.setItem(KEY, JSON.stringify(all)); $("std-msg").textContent = `칸 ${+slotSeg() + 1}에 저장했습니다: ${P().title} · 파트 ${parts.length}개.`; }
+    catch (e) { $("std-msg").textContent = "이 브라우저에서는 저장할 수 없습니다(개인 정보 보호 모드 등)."; }
+  });
+  $("std-load").addEventListener("click", () => {
+    const s = slots()[+slotSeg()];
+    $("std-msg").textContent = load(s) ? `칸 ${+slotSeg() + 1}을 불러왔습니다.` : `칸 ${+slotSeg() + 1}은 비어 있습니다.`;
+  });
+  function stopAB() { if (abTimer) { clearInterval(abTimer); abTimer = null; $("std-ab").classList.remove("primary"); } }
+  $("std-ab").addEventListener("click", () => {
+    if (abTimer) { stopAB(); return; }
+    const all = slots();
+    if (!all[0] || !all[1]) { $("std-msg").textContent = "칸 1과 칸 2에 먼저 저장하세요."; return; }
+    MB.ctx(); let k = 0;
+    const flip = () => { load(all[k % 2]); slotSeg.set(String(k % 2), false); $("std-msg").textContent = `지금 듣는 것: 칸 ${k % 2 + 1}`; k++; if (!pl.running) { getMx(); applyMix(); pl.start(); } };
+    flip(); $("std-ab").classList.add("primary");
+    abTimer = setInterval(flip, (60 / D.bpm) * P().meter[0] * 4 * 1000);
+  });
+
+  /* --- 표시 */
+  function readout() {
+    const warns = parts.reduce((s, p) => s + p.notes.filter((n) => n.folded).length, 0);
+    MB.stat("std-n", parts.length + "개");
+    MB.stat("std-pl", parts.reduce((s, p) => s + p.players, 0) + "명");
+    MB.stat("std-warn", warns ? warns + "음 접힘" : "없음");
+    const rt = EN.HALLS[D.hall].rt60;
+    MB.stat("std-rtb", rt ? (rt / (60 / D.bpm)).toFixed(1) + "박" : "0박(드라이)");
+  }
+  function refresh() {
+    build();
+    stage.set(EN.seatsFor(parts).map((s, i) => Object.assign(s, { x: parts[i].pan, y: parts[i].dist })));
+    roll.set(parts, P().beats);
+    ui.set(parts);
+    renderParts();
+    readout();
+    if (mx) applyMix();
+    if (pl.running) pl.refresh();
+    emit("parts");
+  }
+  refresh();
+
+  return {
+    on, D, P, load, refresh, snapshot,
+    get parts() { return parts; }, get player() { return pl; },
+    uiState: (id) => ui.state(id),
+    ensureMixer: () => { MB.ctx(); getMx(); applyMix(); },
+  };
+})();
+
+/* ------------------------------------------------------------ 2. 음역·음량 검사 */
+(function () {
+  const lvOf = (p) => {
+    const st = STD.uiState(p.id) || { gain: 1, mute: false };
+    if (st.mute || st.gain <= 0) return null;
+    const mean = p.notes.reduce((s, n) => s + (n.vel != null ? n.vel : 0.6), 0) / Math.max(1, p.notes.length);
+    const v = MB.clamp(mean * p.vel, 0.02, 1);
+    return 70 + 10 * Math.log10(EN.inst(p.inst).level) + 10 * Math.log10(p.players) + 30 * Math.log10(v / EN.DYN.mf) + 20 * Math.log10(st.gain) - 20 * Math.log10(1 + 1.6 * (p.dist || 0));
+  };
+  function update() {
+    const parts = STD.parts;
+    const insts = [...new Set(parts.map((p) => p.inst))];
+    const notes = {};
+    parts.forEach((p) => {
+      const raw = EN.PIECES[STD.D.piece].lines[p.line].map((n) => n.m + p.oct * 12);
+      if (!raw.length) return;
+      const a = notes[p.inst] || (notes[p.inst] = []);
+      a.push(Math.min(...raw), Math.max(...raw));
+    });
+    Object.keys(notes).forEach((k) => (notes[k] = [Math.min(...notes[k]), Math.max(...notes[k])]));
+    EN.rangeChart("#std-rg", { insts, notes });
+    document.getElementById("std-rg-tbl").innerHTML = `<table><thead><tr><th>파트</th><th>낮은 음–높은 음(실음)</th><th>접힌 음</th><th>편한 음역 안</th><th>판정</th></tr></thead><tbody>` +
+      parts.map((p) => {
+        const ms = p.notes.map((n) => n.m), folded = p.notes.filter((n) => n.folded).length;
+        const comfy = p.notes.filter((n) => EN.inComfy(p.inst, n.m)).length / Math.max(1, p.notes.length);
+        const verdict = folded ? `<span class="bad">음역 밖</span>` : comfy < 0.9 ? `<span class="wn">음역 끝</span>` : `<span class="ok">좋음</span>`;
+        return `<tr><td>${p.label} <small style="color:var(--text-faint)">(${p.line})</small></td><td class="n">${MB.noteName(Math.min(...ms), true)}–${MB.noteName(Math.max(...ms), true)}</td><td class="n">${folded}</td><td class="n">${(comfy * 100).toFixed(0)}%</td><td>${verdict}</td></tr>`;
+      }).join("") + `</tbody></table>`;
+    const rows = parts.map((p) => ({ p, db: lvOf(p) })).filter((r) => r.db != null);
+    const tot = rows.length ? EN.sumDb(rows.map((r) => r.db)) : null;
+    const W = (d) => MB.clamp((d - 50) / 45, 0, 1) * 100;
+    document.getElementById("std-lv").innerHTML = `<div class="row" style="color:var(--text-faint);font-size:12px"><span>추정 레벨</span><span></span><span></span></div>` +
+      rows.map((r) => `<div class="row" style="--c:${EN.color(r.p.inst)}"><span>${r.p.label}</span><span class="bar"><i style="width:${W(r.db).toFixed(0)}%"></i></span><span class="n">${r.db.toFixed(1)} dB</span></div>`).join("") +
+      (tot != null ? `<div class="row tot"><span>합계</span><span class="bar"><i style="width:${W(tot).toFixed(0)}%;background:var(--accent-2)"></i></span><span class="n">${tot.toFixed(1)} dB</span></div>` : "");
+  }
+  STD.on(update);
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 마스킹 지도 */
+const STD_MASK = (function () {
+  let moments = [], grid = [], sel = 0, partsAt = [];
+  const at = (notes, t) => notes.find((n) => n.t <= t + 1e-6 && n.t + n.d > t + 1e-6);
+  function compute() {
+    const P = STD.P(), parts = STD.parts;
+    let ts = [...new Set(P.chords.map((c) => c.t))].sort((a, b) => a - b);
+    while (ts.length > 36) ts = ts.filter((_, i) => i % 2 === 0);
+    moments = ts; partsAt = parts;
+    grid = moments.map((t) => {
+      const src = [];
+      parts.forEach((p) => {
+        const st = STD.uiState(p.id) || { gain: 1 };
+        if (st.mute) return;
+        const n = at(p.notes, t); if (!n) return;
+        src.push({ id: p.id, inst: p.inst, m: n.m, vel: MB.clamp((n.vel != null ? n.vel : 0.6) * p.vel, 0.02, 1), players: p.players, gain: st.gain / (1 + 1.6 * (p.dist || 0)) });
+      });
+      const r = EN.masking(src);
+      const map = {}; r.parts.forEach((q) => (map[q.id] = q));
+      return map;
+    });
+    if (sel >= moments.length) sel = 0;
+  }
+  const avg = (id) => { const v = grid.map((g) => g[id]).filter(Boolean).map((q) => q.audible); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  const labW = () => (document.getElementById("std-mk-cv").parentElement.clientWidth < 480 ? 50 : 92);
+  const cv = MB.canvas("#std-mk-cv", (ctx, w, h) => {
+    const P = MB.palette(), n = partsAt.length, lw = labW(), lh = Math.max(14, Math.min(24, (h - 22) / Math.max(1, n)));
+    const cw = (w - lw - 8) / Math.max(1, moments.length);
+    ctx.font = "11.5px " + getComputedStyle(document.body).getPropertyValue("--font");
+    partsAt.forEach((p, i) => {
+      const y = 4 + i * lh;
+      ctx.fillStyle = EN.color(p.inst); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(lw < 70 ? EN.inst(p.inst).short + (p.label.match(/ \d$/) ? p.label.slice(-1) : "") : p.label, 6, y + lh / 2);
+      moments.forEach((t, j) => {
+        const q = grid[j][p.id], x = lw + j * cw;
+        if (!q) { ctx.fillStyle = P.surface; ctx.fillRect(x + 1, y + 1, cw - 2, lh - 2); return; }
+        ctx.fillStyle = `hsl(${(q.audible * 120).toFixed(0)} 62% ${MB.isDark() ? 42 : 52}%)`;
+        ctx.fillRect(x + 1, y + 1, cw - 2, lh - 2);
+      });
+    });
+    const x = lw + sel * cw;
+    ctx.strokeStyle = P.text; ctx.lineWidth = 2; ctx.strokeRect(x + 0.5, 3, cw - 1, n * lh + 2);
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("화음이 바뀌는 순간 →  (초록: 잘 들림 · 빨강: 가려짐 · 회색: 쉼)", lw, 8 + n * lh);
+  }, { get height() { return 26 + Math.max(1, partsAt.length) * 22; } });
+  const sp = MB.canvas("#std-mk-sp", (ctx, w, h) => {
+    const g = grid[sel] || {};
+    const layers = partsAt.filter((p) => g[p.id]).map((p) => ({ inst: p.inst, color: EN.color(p.inst), spectrum: g[p.id].partials.map((c) => ({ f: c.f, db: c.db - 80, masked: c.masked })) }));
+    EN.drawSpectra(ctx, { x: 34, y: 10, w: w - 44, h: h - 30 }, layers, { fmin: 40, fmax: 10000, dbMin: -50, dbMax: 5, bark: true, offset: 1.6 });
+  }, { aspect: 0.3, minHeight: 150, maxHeight: 220 });
+  cv.canvas.addEventListener("click", (e) => {
+    const r = cv.canvas.getBoundingClientRect(), lw = labW(), cw = (r.width - lw - 8) / Math.max(1, moments.length);
+    const j = Math.floor((e.clientX - r.left - lw) / cw);
+    if (j >= 0 && j < moments.length) { sel = j; show(); }
+  });
+  function show() {
+    const P = STD.P(), t = moments[sel] || 0, bpb = P.meter[0];
+    MB.stat("std-mk-at", `${Math.floor(t / bpb) + 1}마디 ${(t % bpb) + 1}박` + (P.chords.find((c) => c.t === t) ? " · " + P.chords.find((c) => c.t === t).sym : ""));
+    const mel = STD.parts.filter((p) => p.line === P.order[0]).map((p) => avg(p.id)).filter((v) => v != null);
+    MB.stat("std-mk-mel", mel.length ? (Math.max(...mel) * 100).toFixed(0) + "%" : "선율 파트 없음");
+    const lows = STD.parts.map((p) => ({ p, a: avg(p.id) })).filter((x) => x.a != null).sort((a, b) => a.a - b.a);
+    MB.stat("std-mk-low", lows.length ? lows[0].p.label + " " + (lows[0].a * 100).toFixed(0) + "%" : "—");
+    document.getElementById("std-mk-lg").innerHTML = partsAt.filter((p) => (grid[sel] || {})[p.id]).map((p) => `<span style="--c:${EN.color(p.inst)}">${p.label} ${((grid[sel][p.id].audible) * 100).toFixed(0)}%</span>`).join("");
+    cv.resize(); sp.redraw();
+  }
+  function update() { compute(); show(); }
+  STD.on(update);
+  document.getElementById("std-mk-worst").addEventListener("click", () => {
+    let best = 0, worst = Infinity;
+    grid.forEach((g, j) => { const vals = Object.values(g).map((q) => q.audible); if (!vals.length) return; const m = Math.min(...vals); if (m < worst) { worst = m; best = j; } });
+    sel = best; show();
+  });
+  document.getElementById("std-mk-play").addEventListener("click", () => { STD.ensureMixer(); STD.player.start(moments[sel] || 0); });
+  document.getElementById("std-mk-stop").addEventListener("click", () => STD.player.stop());
+  update();
+  return { avg, compute, get grid() { return grid; } };
+})();
+
+/* ------------------------------------------------------------ 4. 연습 과제 */
+(function () {
+  const done = new Set();
+  const part = (v, inst, x) => Object.assign({ v, inst, oct: 0, players: 1, art: "", vel: 1 }, x || {});
+  const melodyAudible = () => { STD_MASK.compute(); const P = STD.P(); const v = STD.parts.filter((p) => p.line === P.order[0]).map((p) => STD_MASK.avg(p.id)).filter((a) => a != null); return v.length ? Math.max(...v) : 0; };
+  const TASKS = [
+    { t: "금관 위로 선율 띄우기", d: "축제 팡파르의 선율을 플루트 한 대가 낮은 음역(한 옥타브 아래)에서 불고, 바로 아래를 트럼펫·호른·트롬본 둘씩과 튜바가 f로 받칩니다. 선율이 묻힙니다. 선율 가청도를 90% 이상으로 올리세요(악기 바꾸기·밝은 악기로 겹치기·반주 줄이기). 마스킹 지도에서 어느 순간이 빨간지 먼저 보세요.",
+      setup: { piece: "fanfare", preset: "custom", hall: "concert", wet: 0.3, bpm: 104, parts: [part(0, "flute", { oct: -1, vel: 0.7 }), part(1, "trumpet", { vel: 1.2, players: 2 }), part(1, "horn", { vel: 1.2, players: 2 }), part(2, "trombone", { vel: 1.2, oct: 1, players: 2 }), part(3, "tuba", { vel: 1.1 })] },
+      check() { const a = melodyAudible(); return { ok: a >= 0.9, msg: `선율 가청도 ${(a * 100).toFixed(0)}% (목표 90%)` }; } },
+    { t: "음역 지키기", d: "작은 코랄의 소프라노를 바순이, 베이스를 바이올린이 맡았습니다. 접힌 음이 생기고 선이 뒤틀립니다. 모든 파트에서 접힌 음 0개, 편한 음역 안 90% 이상으로 만드세요.",
+      setup: { piece: "chorale", preset: "custom", hall: "chamber", wet: 0.3, bpm: 72, parts: [part(0, "bassoon"), part(1, "clarinet"), part(2, "viola"), part(3, "violin")] },
+      check() { const bad = STD.parts.filter((p) => p.notes.some((n) => n.folded) || p.notes.filter((n) => EN.inComfy(p.inst, n.m)).length / Math.max(1, p.notes.length) < 0.9); return { ok: !bad.length, msg: bad.length ? "아직 문제 있는 파트: " + bad.map((p) => p.label).join(", ") : "모든 파트가 편한 음역 안에 있습니다" }; } },
+    { t: "현악 합주의 바닥", d: "캐논을 바이올린 둘과 비올라만으로 연주합니다. 바탕음(그라운드)이 비올라 한 대에 얹혀 가볍습니다. 첼로와 더블베이스가 모두 베이스 성부를 맡게 하세요(더블베이스는 악보보다 한 옥타브 아래로 소리 나는 16피트 겹치기).",
+      setup: { piece: "canon", preset: "custom", hall: "concert", wet: 0.32, bpm: 66, parts: [part(0, "violin", { players: 8 }), part(1, "violin", { players: 8 }), part(3, "viola", { players: 6 })] },
+      check() { const b = STD.P().order[3]; const has = (k) => STD.parts.some((p) => p.inst === k && p.line === b); return { ok: has("cello") && has("contrabass"), msg: `첼로 ${has("cello") ? "✓" : "✗"} · 더블베이스 ${has("contrabass") ? "✓" : "✗"}` }; } },
+    { t: "빠른 곡, 맑은 홀", d: "금관 5중주가 140 BPM으로 팡파르를 대성당에서 연주합니다. 화음이 뭉개집니다. 잔향이 덮는 박을 3.5박 이하로 만드세요(홀·템포를 조정).",
+      setup: { piece: "fanfare", preset: "brassQuintet", hall: "cathedral", wet: 0.45, bpm: 140, parts: null },
+      check() { const rt = EN.HALLS[STD.D.hall].rt60, b = rt / (60 / STD.D.bpm); return { ok: b <= 3.5, msg: `잔향이 덮는 박 ${b.toFixed(1)} (목표 3.5 이하)` }; } },
+    { t: "두 바이올린의 대화", d: "현악 4중주로 캐논을 연주하는데, 두 바이올린이 무대 왼쪽에 붙어 앉아 2마디 늦게 따라오는 선율이 잘 갈리지 않습니다. 무대에서 두 바이올린을 끌어 좌우 거리를 0.9 이상 벌리세요.",
+      setup: { piece: "canon", preset: "quartet", hall: "chamber", wet: 0.3, bpm: 66, parts: null, seats: { violin: { x: -0.6, y: 0.2 }, violin2: { x: -0.4, y: 0.25 } } },
+      check() { const P = STD.P(); const a = STD.parts.find((p) => p.line === P.order[0] && p.inst === "violin"), b = STD.parts.find((p) => p.line === P.order[1] && p.inst === "violin"); if (!a || !b) return { ok: false, msg: "선율 1·2를 맡은 바이올린이 둘 다 있어야 합니다" }; const d = Math.abs(a.pan - b.pan); return { ok: d >= 0.9, msg: `좌우 거리 ${d.toFixed(2)} (목표 0.9 이상)` }; } },
+  ];
+  const el = document.getElementById("std-ex"), msg = document.getElementById("std-ex-msg");
+  function render() {
+    el.innerHTML = TASKS.map((t, i) => `<div class="task${done.has(i) ? " done" : ""}" data-i="${i}"><h4>${i + 1}. ${t.t}</h4><p>${t.d}</p><button class="btn" data-a="load">불러오기</button> <button class="btn" data-a="check">확인</button><span class="st" id="std-ex-st${i}"></span></div>`).join("");
+    MB.stat("std-ex-n", done.size + " / " + TASKS.length);
+  }
+  el.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-a]"); if (!b) return;
+    const i = +b.closest(".task").dataset.i, T = TASKS[i];
+    if (b.dataset.a === "load") {
+      const s = Object.assign({}, T.setup);
+      if (!s.parts) s.parts = EN.ARRANGE[s.preset].parts.map((p) => part(p.v || 0, p.inst, { oct: p.oct || 0, players: p.players || 1, vel: p.vel != null ? p.vel : 1 }));
+      STD.load(JSON.parse(JSON.stringify(Object.assign({ seats: {} }, s))));
+      msg.textContent = `과제 ${i + 1}을 작업대에 올렸습니다. 위로 올라가 들어 보고 고친 뒤 '확인'을 누르세요.`;
+      document.getElementById("sim-std-desk").scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      const r = T.check();
+      document.getElementById("std-ex-st" + i).textContent = (r.ok ? "✓ " : "✗ ") + r.msg;
+      if (r.ok) done.add(i);
+      msg.textContent = r.ok ? `과제 ${i + 1} 해결! ${r.msg}` : `아직입니다 — ${r.msg}`;
+      msg.classList.toggle("ok", r.ok);
+      el.querySelectorAll(".task").forEach((x, j) => x.classList.toggle("done", done.has(j)));
+      MB.stat("std-ex-n", done.size + " / " + TASKS.length);
+    }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

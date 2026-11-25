@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>음색의 섞임 · EnsembleBook</title>
+<meta name="description" content="두 악기가 하나로 들리는 조건. 동시 출발·배음 정렬·공통 비브라토·같은 자리라는 귀의 묶기 단서, 유니즌과 옥타브 더블링, 스펙트럼 무게 중심으로 본 밝기, 섞어서 만드는 새 음색을 직접 듣고 조작한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .bl-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .bl-pick select { width: 100%; }
+  .bl-cues { display: grid; gap: 4px; padding: 8px 12px; font-size: 13.5px; }
+  .bl-cues .row { display: grid; grid-template-columns: 22px minmax(0, 1fr) 70px; gap: 6px; align-items: center; }
+  .bl-cues .row b { font-family: var(--mono); }
+  .bl-cues .row .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+  .bl-cues .verdict { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); font-weight: 700; }
+  .bl-fig svg { display: block; width: 100%; height: auto; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="blend">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 10</div>
+    <h1>음색의 섞임</h1>
+    <p class="lead">플루트와 바이올린이 같은 선율을 같은 음높이로 연주하면, 잘 맞을 때 우리는 "플루트와 바이올린"이 아니라 <b>처음 듣는 하나의 악기</b>를 듣습니다. 반대로 조금만 어긋나면 두 악기가 따로 들립니다. 1장에서 본 것처럼 귀에 닿는 것은 압력의 합 하나뿐인데, 뇌는 그 합을 어떤 규칙으로 '한 소리'와 '두 소리'로 나눌까요? 이 장은 그 규칙, 즉 <b>청각 장면 분석</b>의 묶기 단서에서 출발해, 오케스트라 작곡가들이 수백 년 동안 귀로 찾아낸 더블링의 비법을 물리와 지각으로 다시 읽습니다.</p>
+    <ul class="objectives">
+      <li>귀가 성분을 한 음원으로 묶는 네 가지 단서 — <b>동시 출발 · 배음 정렬 · 공통 운명 · 같은 자리</b> — 를 말할 수 있다.</li>
+      <li>두 악기의 출발을 어긋나게 하거나 비브라토를 따로 주면 하나의 소리가 둘로 갈라지는 것을 듣고 그 이유를 설명한다.</li>
+      <li>대표적인 유니즌 더블링(플루트+바이올린, 클라리넷+비올라, 바순+첼로, 오보에+바이올린)의 소리를 비교한다.</li>
+      <li>옥타브 더블링에서 위 음의 배음이 아래 음의 짝수 배음과 겹친다는 것을 알고, 그래서 옥타브가 잘 섞인다는 것을 설명한다.</li>
+      <li><b>스펙트럼 무게 중심</b>을 밝기의 수치로 쓰고, 밝은 악기와 어두운 악기를 섞을 때 무엇이 달라지는지 안다.</li>
+      <li>융합(블렌드)과 대비(콘트라스트)를 오케스트레이션의 두 선택지로 구분한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="grouping">
+    <h2>귀는 어떻게 악기를 나누는가</h2>
+    <p>달팽이관은 소리를 주파수별로 수천 개의 띠로 나눕니다. 그 결과 뇌가 받는 것은 "몇 Hz에 얼마의 에너지가 언제부터 있었다"는 조각들의 목록입니다. 이 조각들을 다시 "바이올린", "플루트"로 모으는 과정을 캐나다의 심리학자 앨버트 브레그먼은 <b>청각 장면 분석</b><span class="en">(Auditory scene analysis)</span>이라 불렀습니다. 뇌는 같은 물체에서 나온 성분이라면 그럴 법한 성질을 단서로 씁니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>묶기 단서</th><th>같은 음원이라면</th><th>오케스트라에서</th></tr></thead>
+        <tbody>
+          <tr><td><b>동시 출발</b><span class="en">(Common onset)</span></td><td>성분들이 수 ms 안에 함께 시작한다</td><td>두 악기가 정확히 같이 들어가면 섞이고, 30–50 ms만 어긋나도 둘로 들린다</td></tr>
+          <tr><td><b>배음 정렬</b><span class="en">(Harmonicity)</span></td><td>성분들이 한 기본음의 정수배에 놓인다</td><td>음정이 정확히 맞으면 두 악기의 배음이 같은 자리에 겹친다. 몇 센트 어긋나면 맥놀이가 '둘'임을 알린다</td></tr>
+          <tr><td><b>공통 운명</b><span class="en">(Common fate)</span></td><td>성분들이 함께 떨리고 함께 커진다</td><td>비브라토가 서로 다르면 각자의 배음 묶음이 따로 흔들려 분리된다. 비브라토 없는 클라리넷이 잘 섞이는 이유</td></tr>
+          <tr><td><b>같은 자리</b><span class="en">(Spatial location)</span></td><td>성분들이 같은 방향에서 온다</td><td>무대 양 끝의 두 악기는 같은 음을 내도 덜 섞인다. 다만 다른 단서보다 약하다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="diagram bl-fig">
+      <svg viewBox="0 0 760 230" role="img" aria-label="묶기 단서: 같은 출발과 같은 흔들림은 한 덩어리로, 어긋난 출발과 다른 흔들림은 두 덩어리로">
+        <text x="190" y="20" text-anchor="middle" class="t">하나로 묶인다</text>
+        <text x="570" y="20" text-anchor="middle" class="t">둘로 갈라진다</text>
+        <g transform="translate(30,30)">
+          <rect width="320" height="170" rx="10" class="f-surface"/>
+          <g stroke="var(--en-ww)" stroke-width="3" fill="none">
+            <path d="M60 140 q30 -4 60 0 t60 0 t60 0 t60 0"/><path d="M60 100 q30 -6 60 0 t60 0 t60 0 t60 0"/><path d="M60 60 q30 -8 60 0 t60 0 t60 0 t60 0"/>
+          </g>
+          <g stroke="var(--en-str)" stroke-width="1.6" fill="none" stroke-dasharray="4 3">
+            <path d="M60 136 q30 -4 60 0 t60 0 t60 0 t60 0"/><path d="M60 96 q30 -6 60 0 t60 0 t60 0 t60 0"/><path d="M60 56 q30 -8 60 0 t60 0 t60 0 t60 0"/><path d="M60 30 q30 -9 60 0 t60 0 t60 0 t60 0"/>
+          </g>
+          <line x1="60" y1="18" x2="60" y2="158" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="64" y="166" class="t-mono" style="font-size:11px">같은 순간 출발</text>
+          <text x="20" y="64" class="t-mono" style="font-size:11px">3f</text><text x="20" y="104" class="t-mono" style="font-size:11px">2f</text><text x="20" y="144" class="t-mono" style="font-size:11px">f</text>
+        </g>
+        <g transform="translate(410,30)">
+          <rect width="320" height="170" rx="10" class="f-surface"/>
+          <g stroke="var(--en-ww)" stroke-width="3" fill="none">
+            <path d="M60 140 q30 -4 60 0 t60 0 t60 0 t60 0"/><path d="M60 100 q30 -6 60 0 t60 0 t60 0 t60 0"/><path d="M60 60 q30 -8 60 0 t60 0 t60 0 t60 0"/>
+          </g>
+          <g stroke="var(--en-str)" stroke-width="1.6" fill="none" stroke-dasharray="4 3">
+            <path d="M110 134 q15 -6 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/><path d="M110 92 q15 -9 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/><path d="M110 50 q15 -11 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+          </g>
+          <line x1="60" y1="18" x2="60" y2="158" stroke="var(--en-ww)" stroke-width="1.5"/><line x1="110" y1="18" x2="110" y2="158" stroke="var(--en-str)" stroke-width="1.5"/>
+          <text x="64" y="166" class="t-mono" style="font-size:11px">출발 차 60 ms · 비브라토 따로</text>
+        </g>
+        <text x="380" y="222" text-anchor="middle" class="t-dim">실선 = 악기 A의 배음, 점선 = 악기 B의 배음. 가로는 시간, 물결은 비브라토</text>
+      </svg>
+      <figcaption><b>그림 10-1.</b> 묶기 단서. 왼쪽은 두 악기의 배음이 같은 순간 시작하고 같이 흔들려 한 덩어리로 들리고, 오른쪽은 출발과 흔들림이 달라 두 덩어리로 갈라집니다.</figcaption>
+    </figure>
+    <p>중요한 점은 이 단서들이 <b>표결</b>처럼 작동한다는 것입니다. 하나만 어긋나도 금방 갈라지는 것이 아니라, 여러 단서가 같은 쪽을 가리킬수록 묶임(또는 분리)이 강해집니다. 그리고 단서마다 힘이 다릅니다. 실험에서 가장 강한 것은 <b>출발 시각</b>과 <b>배음 정렬</b>이고, 공간 위치는 의외로 약합니다.</p>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="fusion">
+    <h2>하나로 들리는 조건 찾기</h2>
+    <p>아래 시뮬레이터는 두 악기가 <b>같은 음</b>을 함께 냅니다. 처음에는 모든 단서가 '하나'를 가리키도록 맞춰 두었습니다. 출발 차, 비브라토, 음높이 어긋남, 좌우 거리를 하나씩 바꾸며 언제 두 악기가 따로 들리기 시작하는지 찾아보세요.</p>
+    <p>출발 차를 늘려 보면 대략 <b>20–30 ms</b>부터 "누가 먼저 들어왔다"가 들리고, 50 ms를 넘으면 확실히 둘입니다. 지휘자가 박을 그렇게 신경 써서 맞추는 이유가 리듬만은 아닙니다. 어택이 흩어지면 <b>음색이 섞이지 않습니다</b>.</p>
+
+    <div class="sim" id="sim-bl-fuse">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하나인가, 둘인가</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bl-fu-cv"></canvas><div class="bl-cues" id="bl-fu-cues"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>두 악기</span><div class="bl-pick"><select id="bl-fu-a"></select><select id="bl-fu-b"></select></div></div>
+          <label class="ctrl"><span>B의 출발 지연 <output id="bl-fu-on-out"></output></span><input type="range" id="bl-fu-on" min="0" max="120" step="2" value="0"></label>
+          <div class="ctrl"><span>비브라토</span><div class="seg" id="bl-fu-vib"><button data-value="none" class="on">둘 다 없음</button><button data-value="shared">같은 비브라토</button><button data-value="own">각자 다른 비브라토</button></div></div>
+          <label class="ctrl"><span>B의 음높이 어긋남 <output id="bl-fu-dt-out"></output></span><input type="range" id="bl-fu-dt" min="0" max="40" step="1" value="0"></label>
+          <label class="ctrl"><span>좌우로 벌리기 <output id="bl-fu-pan-out"></output></span><input type="range" id="bl-fu-pan" min="0" max="100" step="5" value="0"></label>
+          <div class="btn-row"><button class="btn primary" id="bl-fu-play">▶ 함께</button><button class="btn" id="bl-fu-pa">▶ A만</button><button class="btn" id="bl-fu-pb">▶ B만</button></div>
+          <div class="btn-row"><button class="btn" id="bl-fu-reset">↺ 완전 융합으로</button><button class="btn" id="bl-fu-sweep">▶ 출발 차를 늘려 가며</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음</span><span class="v" id="bl-fu-note">—</span></div>
+        <div class="stat"><span class="k">출발 차</span><span class="v" id="bl-fu-on2">—</span></div>
+        <div class="stat"><span class="k">맥놀이</span><span class="v" id="bl-fu-beat">—</span></div>
+      </div>
+      <div class="sim-note">그림 위는 두 악기의 음량 포락선(시간축), 아래는 음높이(센트) 흔들림입니다. 오른쪽 '판정'은 교과서적인 경향을 점수로 합친 것으로, 실제로 어떻게 들리는지는 사람마다·악기마다 다릅니다. 귀로 확인하세요 · 모델: 이 시뮬레이터만 EN.spectrum의 배음으로 직접 합성해 두 악기에 <b>하나의</b> 비브라토 발진기를 연결할 수 있게 했습니다(숨소리·활 잡음 없음).</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 같은 비브라토의 힘.</b> 출발 차를 0으로 두고 '각자 다른 비브라토'를 고르면, 두 소리가 서로를 비비듯 갈라지는 것이 들립니다. 이제 '같은 비브라토'로 바꾸면 비브라토가 있는데도 다시 하나가 됩니다. 함께 흔들리는 것은 함께 있는 것이라는 <b>공통 운명</b>의 규칙입니다. 현악 섹션 연주자들이 비브라토의 폭과 빠르기를 서로 맞추려 애쓰는 이유이기도 합니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="unison">
+    <h2>유니즌 더블링: 두 악기로 한 선율</h2>
+    <p>같은 선율을 같은 음높이로 두 악기에 맡기는 것을 <b>유니즌 더블링</b><span class="en">(Unison doubling)</span>이라 합니다. 목적은 둘 중 하나입니다. 음량을 키우는 것이 아니라(1장에서 보았듯 +3 dB 남짓), <b>두 음색의 중간에 있는 새 음색</b>을 얻거나, 한쪽의 약점을 다른 쪽이 메우는 것입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>짝</th><th>소리</th><th>왜 잘 섞이나 / 무엇을 메우나</th></tr></thead>
+        <tbody>
+          <tr><td>플루트 + 바이올린</td><td>바이올린에 부드러운 빛이 더해진 노래</td><td>플루트는 기본음이 강하고 배음이 적어 바이올린의 거친 고역을 덮지 않는다. 바이올린이 어택과 몸통을, 플루트가 둥근 중심을 준다</td></tr>
+          <tr><td>오보에 + 바이올린</td><td>또렷하고 코끝이 선 선율</td><td>둘 다 1–3 kHz가 강해 서로를 키운다. 선율을 앞으로 밀어낼 때</td></tr>
+          <tr><td>클라리넷 + 비올라</td><td>어둡고 따뜻한 중음</td><td>음역과 무게 중심이 비슷하고, 클라리넷의 빈 짝수 배음을 비올라가 채운다</td></tr>
+          <tr><td>바순 + 첼로</td><td>단단한 테너·베이스 선율</td><td>바순의 500 Hz 포먼트가 첼로의 몸통 공명과 겹친다. 고전파 관현악의 기본 저음 짝</td></tr>
+          <tr><td>호른 + 첼로</td><td>넓고 부드러운 중저음 선율</td><td>호른의 어두운 금관색이 첼로의 활 소리를 감싼다. 낭만파의 '따뜻한 선율'</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sim" id="sim-bl-pairs">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>더블링 짝 비교</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bl-pr-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>짝</span><div class="en-pick" id="bl-pr-pair">
+            <button data-p="flute,violin" class="on">플루트 + 바이올린</button><button data-p="oboe,violin">오보에 + 바이올린</button><button data-p="clarinet,viola">클라리넷 + 비올라</button><button data-p="bassoon,cello">바순 + 첼로</button><button data-p="horn,cello">호른 + 첼로</button><button data-p="trumpet,flute">트럼펫 + 플루트</button>
+          </div></div>
+          <div class="ctrl"><span>듣기</span><div class="seg" id="bl-pr-who"><button data-value="a">첫째만</button><button data-value="b">둘째만</button><button data-value="ab" class="on">함께</button><button data-value="alt">번갈아</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="bl-pr-play">▶ 선율 재생</button><button class="btn" id="bl-pr-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음역</span><span class="v" id="bl-pr-reg">—</span></div>
+        <div class="stat"><span class="k">무게 중심 A / B</span><span class="v" id="bl-pr-cen">—</span></div>
+        <div class="stat"><span class="k">함께</span><span class="v" id="bl-pr-sum">—</span></div>
+      </div>
+      <div class="sim-note">그림은 선율 가운데 음에서 두 악기의 배음 스펙트럼입니다(같은 배음 번호가 같은 주파수에 겹칩니다). '번갈아'는 두 마디마다 한 악기·함께를 돌아가며 들려줍니다 · 모델: EN 음원, 실내악 홀 잔향. 선율은 각 짝의 편한 음역으로 옥타브를 옮겼습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="octave">
+    <h2>옥타브 더블링: 배음이 겹치는 자리</h2>
+    <p>같은 선율을 한 옥타브 위나 아래에 겹치는 <b>옥타브 더블링</b>은 유니즌보다 더 흔합니다. 옥타브가 유난히 잘 섞이는 이유는 배음에 있습니다. 아래 음의 기본음을 \(f\)라 하면 위 음의 배음은 \(2f, 4f, 6f, \dots\)로, <b>아래 음의 짝수 배음과 정확히 같은 자리</b>에 놓입니다. 위 음은 새 주파수를 거의 더하지 않고 아래 음의 짝수 배음을 키우는 셈이라, 귀는 이것을 '한 악기의 음색이 밝아진 것'처럼 묶기 쉽습니다.</p>
+    <div class="formula">
+      $$\{\,k\cdot 2f\,\} \subset \{\,n\cdot f\,\}\quad(k=1,2,\dots)\qquad\text{12도(3:1)}:\ \{k\cdot 3f\}\subset\{n f\}$$
+      <div class="where">위 음과 아래 음의 비가 정수 \(r\)이면 위 음의 모든 배음이 아래 음의 배음과 겹칩니다. 비가 3:2(완전5도)처럼 정수가 아니면 위 음의 배음 중 절반만 겹칩니다. 오르간의 스톱이 8′·4′·2⅔′·2′처럼 정수배 음높이를 쌓는 것도 같은 원리입니다.</div>
+    </div>
+    <p>그래서 오케스트라는 선율을 키울 때 <b>옥타브와 두 옥타브</b>를 즐겨 씁니다. 플루트를 바이올린보다 한 옥타브 위에, 첼로·더블베이스를 옥타브로 겹치는 것이 기본입니다. 반대로 5도 더블링은 오르간의 '혼합 스톱'처럼 특별한 색으로 쓰고, 평소에는 화음의 일부로 들립니다.</p>
+
+    <div class="sim" id="sim-bl-octave">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>겹치는 배음 세기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bl-oc-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>아래 · 위 악기</span><div class="bl-pick"><select id="bl-oc-lo"></select><select id="bl-oc-hi"></select></div></div>
+          <div class="ctrl"><span>위 음과의 음정</span><div class="seg" id="bl-oc-iv"><button data-value="0">유니즌</button><button data-value="7">5도</button><button data-value="12" class="on">옥타브</button><button data-value="19">12도</button><button data-value="24">두 옥타브</button></div></div>
+          <label class="ctrl"><span>아래 음 <output id="bl-oc-m-out"></output></span><input type="range" id="bl-oc-m" min="48" max="72" step="1" value="60"></label>
+          <div class="btn-row"><button class="btn" id="bl-oc-plo">▶ 아래만</button><button class="btn" id="bl-oc-phi">▶ 위만</button><button class="btn primary" id="bl-oc-pab">▶ 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">주파수비</span><span class="v" id="bl-oc-r">—</span></div>
+        <div class="stat"><span class="k">위 음 배음 중 겹치는 것</span><span class="v" id="bl-oc-ov">—</span></div>
+        <div class="stat"><span class="k">새로 생기는 성분</span><span class="v" id="bl-oc-new">—</span></div>
+      </div>
+      <div class="sim-note">아래 막대는 아래 음의 배음, 위 막대는 위 음의 배음입니다. 테두리가 진한 위 막대는 아래 음의 배음과 1% 안쪽으로 겹치는 성분입니다. 평균율의 5도(1.498)는 3:2와 2센트 다르므로 '거의' 겹칩니다 · 모델: EN.spectrum, 비브라토 없음.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="brightness">
+    <h2>밝기와 어두움: 스펙트럼 무게 중심</h2>
+    <p>음색을 말로 할 때 가장 자주 쓰는 형용사는 <b>밝다·어둡다</b>입니다. 이 느낌과 가장 잘 맞는 물리량이 <b>스펙트럼 무게 중심</b><span class="en">(Spectral centroid)</span>입니다. 배음의 에너지를 무게로 보고, 주파수 축 위에서 무게 중심이 어디인지를 잰 값입니다.</p>
+    <div class="formula">
+      $$f_c = \frac{\sum_k f_k\,a_k^2}{\sum_k a_k^2}$$
+      <div class="where">\(f_k\)는 \(k\)번째 배음의 주파수, \(a_k\)는 그 진폭입니다. 같은 음높이라도 고역 배음이 많으면 \(f_c\)가 높아 밝게, 기본음 근처에 에너지가 몰리면 낮아 어둡게 들립니다. 음색 연구에서 여러 악기를 '비슷한 정도'로 평가하게 하면 가장 큰 차원이 거의 늘 이 값과 맞아떨어집니다.</div>
+    </div>
+    <p>섞임과의 관계는 단순합니다. <b>무게 중심이 비슷한 악기끼리는 잘 섞이고</b>, 크게 다르면 밝은 쪽이 앞에 나서고 어두운 쪽은 뒤에서 받칩니다. 플루트와 호른은 어둡고, 오보에와 트럼펫은 밝습니다. 그리고 금관은 셈여림이 커질수록 무게 중심이 크게 올라가(4장), p에서는 현과 섞이던 호른이 ff에서는 현을 뚫고 나옵니다.</p>
+
+    <div class="sim" id="sim-bl-bright">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>악기별 밝기 지도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bl-br-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기(여러 개)</span><div id="bl-br-chips"></div></div>
+          <label class="ctrl"><span>음높이 <output id="bl-br-m-out"></output></span><input type="range" id="bl-br-m" min="36" max="96" step="1" value="67"></label>
+          <label class="ctrl"><span>셈여림 <output id="bl-br-v-out"></output></span><input type="range" id="bl-br-v" min="0" max="7" step="1" value="4"></label>
+          <div class="btn-row"><button class="btn primary" id="bl-br-play">▶ 이 음으로 차례로</button><button class="btn" id="bl-br-all">▶ 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">가장 밝은 악기</span><span class="v" id="bl-br-max">—</span></div>
+        <div class="stat"><span class="k">가장 어두운 악기</span><span class="v" id="bl-br-min">—</span></div>
+        <div class="stat"><span class="k">차이</span><span class="v" id="bl-br-diff">—</span></div>
+      </div>
+      <div class="sim-note">곡선은 각 악기의 음역 전체에서 무게 중심(세로, 로그 눈금)입니다. 점선은 기본음 자체(무게 중심이 기본음과 같다면 배음이 전혀 없는 순음). 셈여림을 올리면 금관의 곡선이 크게 위로 움직입니다 · 모델: EN.spectrum의 근사 스펙트럼으로 계산했으며, 실제 악기는 음마다 들쭉날쭉합니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="new-color">
+    <h2>섞어서 만드는 새 색 — 융합과 대비</h2>
+    <p>두 악기를 한 선율에 겹치고 비율을 바꾸면, 두 스펙트럼의 합이 만드는 <b>연속적인 음색의 길</b>을 따라 움직일 수 있습니다. 라벨이 붙은 악기가 아니라 그 사이의 어떤 점을 고르는 것, 이것이 관현악법이 '팔레트'라 불리는 이유입니다. 라벨의 〈볼레로〉는 같은 선율을 악기 짝만 바꿔 되풀이하며 이 팔레트를 보여 주는 것으로 유명하고, 한 대목에서는 호른·첼레스타·피콜로 두 대를 서로 다른 음높이(배음 자리)에 겹쳐 오르간 같은 새 악기를 만듭니다.</p>
+    <p>그러나 섞는 것만이 답은 아닙니다. 오케스트레이션의 선택은 늘 둘 중 하나입니다.</p>
+    <ul>
+      <li><b>융합</b><span class="en">(Blend)</span> — 단서를 모두 맞춰 하나의 소리로. 화음의 패드, 두터운 선율, 새 음색.</li>
+      <li><b>대비</b><span class="en">(Contrast)</span> — 일부러 단서를 어긋나게 해 따로 들리게. 선율과 대선율, 질문과 대답, 화음과 독주. 다른 악기군, 다른 음역, 다른 리듬, 다른 무대 위치를 고릅니다.</li>
+    </ul>
+    <p>대선율을 같은 악기군에 주면 섞여 버려 들리지 않고, 다른 악기군(예: 현의 선율에 목관의 대선율)에 주면 또렷이 분리됩니다. <a href="texture.html">13장</a>의 역할 나누기는 이 원리 위에 서 있습니다.</p>
+
+    <div class="sim" id="sim-bl-new">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>새 악기 만들기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="bl-nw-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>두 악기</span><div class="bl-pick"><select id="bl-nw-a"></select><select id="bl-nw-b"></select></div></div>
+          <label class="ctrl"><span>비율 <output id="bl-nw-mix-out"></output></span><input type="range" id="bl-nw-mix" min="0" max="100" step="5" value="50"></label>
+          <label class="ctrl"><span>B를 옮기기 <output id="bl-nw-oct-out"></output></span><input type="range" id="bl-nw-oct" min="-1" max="2" step="1" value="0"></label>
+          <label class="check"><input type="checkbox" id="bl-nw-split"> B를 대비로(반 박 늦게 · 반대쪽에)</label>
+          <div class="btn-row"><button class="btn primary" id="bl-nw-play">▶ 재생</button><button class="btn" id="bl-nw-sweep">▶ 비율을 천천히 옮기며</button><button class="btn" id="bl-nw-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">A 무게 중심</span><span class="v" id="bl-nw-ca">—</span></div>
+        <div class="stat"><span class="k">섞인 소리</span><span class="v" id="bl-nw-cm">—</span></div>
+        <div class="stat"><span class="k">B 무게 중심</span><span class="v" id="bl-nw-cb">—</span></div>
+      </div>
+      <div class="sim-note">진한 막대가 섞인 소리의 스펙트럼(두 악기의 세기를 비율대로 더한 비상관 합)입니다. '대비로'를 켜면 B가 반 박 늦게, 무대 반대쪽에서 같은 선율을 따라 하는 카논이 되어 두 악기가 분리됩니다 · 모델: EN 음원, 콘서트홀 잔향. 비율은 채널 음량(진폭)으로 바꿉니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 음반에서 찾기.</b> 라벨 〈볼레로〉는 선율이 나올 때마다 악기가 바뀝니다. 처음에는 "지금은 무슨 악기?"를, 두 번째에는 "지금은 몇 개가 겹쳤고 하나로 들리는가, 둘로 들리는가?"를 물으며 들어 보세요. 슈베르트 〈미완성〉 교향곡 1악장의 첫 주제는 오보에와 클라리넷의 유니즌입니다. 어느 쪽 악기인지 말하기 어렵다면 그것이 바로 융합입니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>뇌는 주파수 성분을 <b>동시 출발 · 배음 정렬 · 공통 운명 · 같은 자리</b>라는 단서로 묶어 음원을 만든다(청각 장면 분석). 단서는 표결처럼 합쳐진다.</li>
+      <li>출발이 20–30 ms만 어긋나도 둘로 들리기 시작한다. 섞이려면 어택을 맞춰야 한다.</li>
+      <li>비브라토는 같으면 묶고, 다르면 가른다. 비브라토 없는 악기는 다른 악기와 잘 섞인다.</li>
+      <li>유니즌 더블링은 음량보다 <b>두 음색 사이의 새 음색</b>을 위한 것이다. 플루트+바이올린, 클라리넷+비올라, 바순+첼로가 고전적인 짝이다.</li>
+      <li>옥타브 위 음의 배음은 아래 음의 짝수 배음과 정확히 겹친다. 정수비 더블링일수록 새 성분이 적어 하나로 섞인다.</li>
+      <li>밝기는 스펙트럼 무게 중심 \(f_c\)로 잴 수 있다. 무게 중심이 비슷하면 섞이고, 다르면 밝은 쪽이 앞에 선다.</li>
+      <li>오케스트레이션은 늘 <b>융합</b>과 <b>대비</b> 사이의 선택이다. 대선율은 다른 악기군·음역·리듬·자리로 분리한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>두 악기가 같은 음을 냈는데 둘로 들린다. 실험적으로 가장 강한 분리 단서일 가능성이 큰 것은?</p><div class="opts">
+        <button class="opt">무대에서 좌우로 2 m 떨어져 있다</button>
+        <button class="opt" data-correct>한 악기가 60 ms 늦게 들어왔다</button>
+        <button class="opt">두 악기의 음량이 3 dB 다르다</button>
+        <button class="opt">둘 다 같은 비브라토를 쓴다</button>
+      </div><div class="quiz-exp">출발 시각은 가장 강한 묶기 단서다. 수십 ms의 어긋남이면 충분히 분리된다. 공간 위치는 상대적으로 약하고, 같은 비브라토는 오히려 묶는 단서다.</div></div>
+      <div class="quiz-q"><p>'공통 운명' 단서를 이용해 두 악기를 <b>더 잘 섞이게</b> 하는 방법은?</p><div class="opts">
+        <button class="opt">한 악기만 비브라토를 넣는다</button>
+        <button class="opt" data-correct>둘 다 비브라토를 빼거나, 같은 폭·빠르기로 맞춘다</button>
+        <button class="opt">한 악기를 반음 올린다</button>
+        <button class="opt">출발을 50 ms 어긋나게 한다</button>
+      </div><div class="quiz-exp">함께 흔들리는 성분은 한 음원으로 묶인다. 서로 다른 비브라토는 각자의 배음 묶음을 따로 흔들어 분리시킨다.</div></div>
+      <div class="quiz-q"><p>C4(약 262 Hz)를 첼로가, C5를 플루트가 낸다. 플루트의 배음은 첼로의 어느 배음과 겹치는가?</p><div class="opts">
+        <button class="opt">홀수 배음</button><button class="opt" data-correct>짝수 배음</button><button class="opt">3의 배수 배음</button><button class="opt">겹치지 않는다</button>
+      </div><div class="quiz-exp">C5의 배음은 \(2f, 4f, 6f,\dots\)로 C4의 짝수 배음과 같은 자리다. 그래서 옥타브 더블링은 새 성분을 거의 더하지 않고 섞인다.</div></div>
+      <div class="quiz-q"><p>스펙트럼 무게 중심이 높다는 것은?</p><div class="opts">
+        <button class="opt">음높이가 높다</button><button class="opt">음량이 크다</button>
+        <button class="opt" data-correct>같은 음높이에서 고역 배음에 에너지가 많아 밝게 들린다</button>
+        <button class="opt">잔향이 길다</button>
+      </div><div class="quiz-exp">무게 중심은 배음 에너지의 주파수 평균이다. 기본음이 같아도 고역 배음이 크면 높아지고, 밝게 들린다.</div></div>
+      <div class="quiz-q"><p>현악기가 선율을 연주할 때 대선율을 또렷하게 분리하는 가장 좋은 선택은?</p><div class="opts">
+        <button class="opt">대선율도 같은 음역의 현악기에 준다</button>
+        <button class="opt">대선율을 선율과 같은 리듬으로 쓴다</button>
+        <button class="opt" data-correct>다른 악기군(예: 목관)에, 다른 음역과 리듬으로 준다</button>
+        <button class="opt">대선율을 더 많은 인원에게 준다</button>
+      </div><div class="quiz-exp">대비는 묶기 단서를 일부러 어긋나게 하는 것이다. 음색(악기군)·음역·리듬이 다를수록 귀는 두 선을 다른 흐름으로 듣는다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* 공용: 선율을 악기의 편한 음역으로 옮긴다 */
+function blFit(notes, k) {
+  const I = EN.inst(k), ms = notes.map((n) => n.m), mid = (Math.min(...ms) + Math.max(...ms)) / 2, target = (I.comfy[0] + I.comfy[1]) / 2;
+  const sh = Math.round((target - mid) / 12) * 12;
+  return EN.shift(notes, sh).map((n) => Object.assign(n, { m: EN.fold(k, n.m) }));
+}
+const BL_KEYS = ["flute", "oboe", "clarinet", "bassoon", "horn", "trumpet", "trombone", "violin", "viola", "cello"];
+const blHz = (f) => (f >= 1000 ? (f / 1000).toFixed(2) + " kHz" : Math.round(f) + " Hz");
+
+/* ------------------------------------------------------------ 1. 하나인가 둘인가 */
+(function () {
+  const selA = document.getElementById("bl-fu-a"), selB = document.getElementById("bl-fu-b");
+  selA.innerHTML = EN.options(BL_KEYS, "flute"); selB.innerHTML = EN.options(BL_KEYS, "violin");
+  let on = 0, vib = "none", dt = 0, pan = 0;
+  const note = () => { const a = EN.inst(selA.value), b = EN.inst(selB.value); const lo = Math.max(a.comfy[0], b.comfy[0]), hi = Math.min(a.comfy[1], b.comfy[1]); return lo <= hi ? Math.round((lo + hi) / 2 / 1) : EN.fold(selB.value, 69); };
+  const waves = new Map();
+  function voice(ctx, k, m, t0, dur, o) {
+    const key = k + m;
+    if (!waves.has(key)) { const A = EN.harmonicAmps(k, m, { vel: 0.6 }); const r = Math.sqrt(A.reduce((s, a) => s + a * a, 0)) || 1; waves.set(key, MB.wave(A.map((a) => a / r), null, ctx)); }
+    const osc = ctx.createOscillator(); osc.setPeriodicWave(waves.get(key)); osc.frequency.value = MB.mtof(m); osc.detune.value = o.detune || 0;
+    if (o.lfo) o.lfo.connect(osc.detune);
+    const g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = o.pan || 0;
+    const pk = 0.14 * Math.sqrt(EN.inst(k).level), atk = Math.max(0.02, EN.inst(k).attack || 0.05);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(pk, t0 + atk); g.gain.setValueAtTime(pk, t0 + dur); g.gain.linearRampToValueAtTime(0, t0 + dur + 0.15);
+    osc.connect(g); g.connect(p); p.connect(MB.out); osc.start(t0); osc.stop(t0 + dur + 0.2);
+  }
+  function lfo(ctx, t0, rate, depth, dur) {
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = rate;
+    g.gain.setValueAtTime(0, t0); g.gain.setValueAtTime(0, t0 + 0.12); g.gain.linearRampToValueAtTime(depth, t0 + 0.4);
+    o.connect(g); o.start(t0); o.stop(t0 + dur + 0.3); return g;
+  }
+  function play(a, b) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const t0 = ctx.currentTime + 0.05, m = note(), dur = 1.6;
+    let la = null, lb = null;
+    if (vib === "shared") la = lb = lfo(ctx, t0, 5.6, 22, dur + 0.15);
+    else if (vib === "own") { la = lfo(ctx, t0, 5.0, 22, dur + 0.15); lb = lfo(ctx, t0, 6.4, 24, dur + 0.15); }
+    if (a) voice(ctx, selA.value, m, t0, dur, { lfo: la, pan: -pan / 100 });
+    if (b) voice(ctx, selB.value, m, t0 + on / 1000, dur, { lfo: lb, pan: pan / 100, detune: dt });
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), T = 0.6, X = (t) => 40 + (t / T) * (w - 52);
+    const ca = EN.color(selA.value), cb = EN.color(selB.value);
+    const h1 = h * 0.5;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let t = 0; t <= T + 1e-6; t += 0.1) { ctx.beginPath(); ctx.moveTo(X(t), 8); ctx.lineTo(X(t), h - 18); ctx.stroke(); if (w > 500 || Math.round(t * 10) % 2 === 0) ctx.fillText(Math.round(t * 1000) + (w > 500 ? " ms" : ""), X(t), h - 14); }
+    const env = (t, t0, atk) => (t < t0 ? 0 : Math.min(1, (t - t0) / atk));
+    [[selA.value, 0, ca, 0], [selB.value, on / 1000, cb, 1]].forEach(([k, t0, col, i]) => {
+      const atk = Math.max(0.02, EN.inst(k).attack || 0.05);
+      ctx.strokeStyle = col; ctx.lineWidth = i ? 1.8 : 2.6; ctx.setLineDash(i ? [5, 3] : []);
+      ctx.beginPath(); for (let j = 0; j <= 200; j++) { const t = (j / 200) * T, y = h1 - 6 - env(t, t0, atk) * (h1 - 26) * (i ? 0.92 : 1); j ? ctx.lineTo(X(t), y) : ctx.moveTo(X(t), y); } ctx.stroke();
+      // 음높이 흔들림
+      const mid = h1 + (h - 18 - h1) / 2, sc = (h - 18 - h1) / 2 / 45;
+      ctx.beginPath();
+      for (let j = 0; j <= 200; j++) {
+        const t = (j / 200) * T; if (t < t0) continue;
+        const d = t < 0.12 ? 0 : Math.min(1, (t - 0.12) / 0.28);
+        const rate = vib === "own" ? (i ? 6.4 : 5.0) : 5.6, dep = vib === "none" ? 0 : 22;
+        const c = (i ? dt : 0) + dep * d * Math.sin(2 * Math.PI * rate * t);
+        const y = mid - c * sc; (t - t0 < (T / 200)) ? ctx.moveTo(X(t), y) : ctx.lineTo(X(t), y);
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText("음량(어택)", 44, 10); ctx.fillText("음높이(센트)", 44, h1 + 4);
+    ctx.fillStyle = ca; ctx.fillText("━ " + EN.name(selA.value), w - 170, 10); ctx.fillStyle = cb; ctx.fillText("┅ " + EN.name(selB.value), w - 90, 10);
+  }
+  const view = MB.canvas("#bl-fu-cv", draw, { aspect: 0.42, minHeight: 190 });
+  function update() {
+    document.getElementById("bl-fu-on-out").textContent = on + " ms";
+    document.getElementById("bl-fu-dt-out").textContent = "+" + dt + "¢";
+    document.getElementById("bl-fu-pan-out").textContent = pan ? "±" + pan + "%" : "같은 자리";
+    const m = note(), beat = MB.mtof(m) * (Math.pow(2, dt / 1200) - 1);
+    MB.stat("bl-fu-note", MB.noteName(m) + " · " + MB.mtof(m).toFixed(0) + " Hz");
+    MB.stat("bl-fu-on2", on + " ms");
+    MB.stat("bl-fu-beat", dt ? beat.toFixed(1) + " 회/초 (기본음)" : "없음");
+    const cues = [
+      ["동시 출발", MB.clamp(1 - (on - 15) / 45, 0, 1), 0.35],
+      ["배음 정렬", MB.clamp(1 - (dt - 4) / 20, 0, 1), 0.3],
+      ["공통 운명", vib === "own" ? 0 : vib === "shared" ? 1 : 0.85, 0.2],
+      ["같은 자리", 1 - pan / 100, 0.15],
+    ];
+    const score = cues.reduce((s, c) => s + c[1] * c[2], 0);
+    document.getElementById("bl-fu-cues").innerHTML = cues.map(([n, v]) => `<div class="row"><b style="color:${v > 0.6 ? "var(--ok)" : v > 0.3 ? "var(--warn)" : "var(--bad)"}">${v > 0.6 ? "✓" : v > 0.3 ? "△" : "✗"}</b><span>${n}</span><span class="n">${Math.round(v * 100)}%</span></div>`).join("") +
+      `<div class="verdict">판정: ${score > 0.8 ? "하나로 섞일 가능성이 크다" : score > 0.55 ? "경계 — 주의 깊게 들으면 둘" : "둘로 갈라져 들린다"} <span style="font-family:var(--mono);color:var(--text-dim);font-weight:400">(${Math.round(score * 100)})</span></div>`;
+    view.redraw();
+  }
+  const rOn = MB.range("bl-fu-on", null, (v) => { on = v; update(); });
+  const rDt = MB.range("bl-fu-dt", null, (v) => { dt = v; update(); });
+  const rPan = MB.range("bl-fu-pan", null, (v) => { pan = v; update(); });
+  const seg = MB.seg("bl-fu-vib", (v) => { vib = v; update(); });
+  [selA, selB].forEach((s) => s.addEventListener("change", update));
+  document.getElementById("bl-fu-play").addEventListener("click", () => play(true, true));
+  document.getElementById("bl-fu-pa").addEventListener("click", () => play(true, false));
+  document.getElementById("bl-fu-pb").addEventListener("click", () => play(false, true));
+  document.getElementById("bl-fu-reset").addEventListener("click", () => { rOn.set(0); rDt.set(0); rPan.set(0); seg.set ? seg.set("none") : null; vib = "none"; document.querySelectorAll("#bl-fu-vib button").forEach((b) => b.classList.toggle("on", b.dataset.value === "none")); update(); play(true, true); });
+  let timer = null;
+  document.getElementById("bl-fu-sweep").addEventListener("click", () => {
+    MB.ctx(); if (timer) { clearInterval(timer); timer = null; return; }
+    let v = 0; const step = () => { if (v > 120) { clearInterval(timer); timer = null; return; } rOn.set(v); play(true, true); v += 20; };
+    step(); timer = setInterval(step, 2000);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 더블링 짝 */
+(function () {
+  let pair = ["flute", "violin"], who = "ab", mx = null, pl = null, alt = null;
+  const MEL = EN.parse("mf D5:1 E5:.5 F#5:.5 G5:1 A5:1 | B5:1.5 A5:.5 G5:1 F#5:1 | E5:1 G5:1 F#5:.5 E5:.5 D5:1 | E5:4");
+  const getMx = () => mx || (mx = EN.mixer({ hall: "chamber", wet: 0.28 }));
+  let line = [];
+  function make() {
+    const a = EN.inst(pair[0]), b = EN.inst(pair[1]);
+    const target = Math.max(a.comfy[0], b.comfy[0]) + 7;
+    const ms = MEL.map((n) => n.m), sh = Math.round((target - Math.min(...ms)) / 12) * 12;
+    line = EN.shift(MEL, sh).map((n) => Object.assign(n, { m: EN.fold(pair[1], EN.fold(pair[0], n.m)) }));
+  }
+  const parts = () => [
+    { id: "a", inst: pair[0], notes: line, mute: who === "b" },
+    { id: "b", inst: pair[1], notes: line, mute: who === "a" },
+  ];
+  function draw(ctx, w, h) {
+    const m = line[Math.floor(line.length / 2)] ? line[4].m : 69;
+    EN.drawSpectra(ctx, { x: 34, y: 10, w: w - 44, h: h - 34 }, [
+      { inst: pair[0], m, vel: 0.6, label: EN.name(pair[0]) },
+      { inst: pair[1], m, vel: 0.6, label: EN.name(pair[1]) },
+    ], { fmin: 100, fmax: 10000, dbMin: -50, offset: 3 });
+  }
+  const view = MB.canvas("#bl-pr-cv", draw, { aspect: 0.48, minHeight: 200 });
+  function update() {
+    make();
+    const ms = line.map((n) => n.m), m = line[4].m;
+    MB.stat("bl-pr-reg", MB.noteName(Math.min(...ms)) + "–" + MB.noteName(Math.max(...ms)));
+    const ca = EN.centroid(pair[0], m), cb = EN.centroid(pair[1], m);
+    MB.stat("bl-pr-cen", blHz(ca) + " / " + blHz(cb));
+    MB.stat("bl-pr-sum", "중간 ≈ " + blHz(Math.sqrt(ca * cb)) + (Math.abs(Math.log2(ca / cb)) < 0.6 ? " · 비슷해 잘 섞임" : " · 차이가 커 밝은 쪽이 앞섬"));
+    view.redraw();
+    if (pl && pl.running) pl.refresh();
+  }
+  function stop() { if (alt) { clearInterval(alt); alt = null; } if (pl) pl.stop(); }
+  pl = EN.player({ parts, bpm: 84, loop: true, mixer: getMx, length: 16 });
+  document.getElementById("bl-pr-pair").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-p]"); if (!b) return;
+    document.querySelectorAll("#bl-pr-pair button").forEach((x) => x.classList.toggle("on", x === b));
+    pair = b.dataset.p.split(","); update();
+  });
+  MB.seg("bl-pr-who", (v) => {
+    if (alt) { clearInterval(alt); alt = null; }
+    if (v === "alt") { let i = 0; const seq = ["a", "b", "ab"]; who = seq[0]; alt = setInterval(() => { who = seq[++i % 3]; if (pl.running) pl.refresh(); }, (60 / 84) * 8 * 1000); }
+    else who = v;
+    if (pl.running) pl.refresh();
+  });
+  document.getElementById("bl-pr-play").addEventListener("click", () => { MB.ctx(); getMx(); if (pl.running) stop(); else pl.start(); });
+  document.getElementById("bl-pr-stop").addEventListener("click", stop);
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 옥타브 더블링 */
+(function () {
+  const selL = document.getElementById("bl-oc-lo"), selH = document.getElementById("bl-oc-hi");
+  selL.innerHTML = EN.options(BL_KEYS, "cello"); selH.innerHTML = EN.options(BL_KEYS, "flute");
+  let iv = 12, m = 60;
+  function data() {
+    const f0 = MB.mtof(m), r = Math.pow(2, iv / 12);
+    const lo = EN.spectrum(selL.value, m, { vel: 0.6 }).filter((p) => p.f < 8000);
+    const hi = EN.spectrum(selH.value, m + iv, { vel: 0.6 }).filter((p) => p.f < 8000)
+      .map((p) => Object.assign({}, p, { hit: lo.some((q) => Math.abs(q.f / p.f - 1) < 0.01) }));
+    return { f0, r, lo, hi };
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), D = data();
+    const b = { x: 36, y: 10, w: w - 46, h: h - 30 }, fmin = D.f0 * 0.8, fmax = 8000;
+    const X = (f) => b.x + (Math.log(f / fmin) / Math.log(fmax / fmin)) * b.w;
+    const mid = b.y + b.h / 2;
+    ctx.strokeStyle = P.axis; ctx.beginPath(); ctx.moveTo(b.x, mid); ctx.lineTo(b.x + b.w, mid); ctx.stroke();
+    ctx.font = "10.5px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [125, 250, 500, 1000, 2000, 4000, 8000].filter((f) => f > fmin).forEach((f) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(f), b.y); ctx.lineTo(X(f), b.y + b.h); ctx.stroke(); ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, X(f), b.y + b.h + 4); });
+    const H = (db) => MB.clamp((db + 50) / 50, 0, 1) * (b.h / 2 - 12);
+    const cl = EN.color(selL.value), ch = EN.color(selH.value);
+    D.lo.forEach((p) => { ctx.fillStyle = cl; ctx.fillRect(X(p.f) - 2.5, mid + 2, 5, H(p.db)); });
+    D.hi.forEach((p) => { ctx.fillStyle = ch; ctx.globalAlpha = p.hit ? 1 : 0.5; ctx.fillRect(X(p.f) - 2.5, mid - 2 - H(p.db), 5, H(p.db)); if (p.hit) { ctx.strokeStyle = P.text; ctx.lineWidth = 1.2; ctx.strokeRect(X(p.f) - 3, mid - 2 - H(p.db), 6, H(p.db)); } ctx.globalAlpha = 1; });
+    ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+    ctx.fillStyle = ch; ctx.fillText("▲ 위: " + EN.name(selH.value) + " " + MB.noteName(m + iv), b.x + 4, b.y);
+    ctx.fillStyle = cl; ctx.textBaseline = "bottom"; ctx.textAlign = "right"; ctx.fillText("▼ 아래: " + EN.name(selL.value) + " " + MB.noteName(m), b.x + b.w, b.y + b.h);
+  }
+  const view = MB.canvas("#bl-oc-cv", draw, { aspect: 0.46, minHeight: 200 });
+  function update() {
+    document.getElementById("bl-oc-m-out").textContent = MB.noteName(m);
+    const D = data(), n = D.hi.length, hit = D.hi.filter((p) => p.hit).length;
+    MB.stat("bl-oc-r", { 0: "1:1", 7: "3:2", 12: "2:1", 19: "3:1", 24: "4:1" }[iv] + " (" + D.r.toFixed(3) + ")");
+    MB.stat("bl-oc-ov", hit + " / " + n + " (" + Math.round((100 * hit) / Math.max(1, n)) + "%)");
+    MB.stat("bl-oc-new", (n - hit) + "개");
+    view.redraw();
+  }
+  MB.seg("bl-oc-iv", (v) => { iv = +v; update(); });
+  MB.range("bl-oc-m", null, (v) => { m = v; update(); });
+  [selL, selH].forEach((s) => s.addEventListener("change", update));
+  const play = (lo, hi) => { MB.ctx(); MB.stopAll(); if (lo) EN.note(selL.value, EN.fold(selL.value, m), { dur: 2, vel: 0.6, vib: 0 }); if (hi) EN.note(selH.value, EN.fold(selH.value, m + iv), { dur: 2, vel: 0.6, vib: 0 }); };
+  document.getElementById("bl-oc-plo").addEventListener("click", () => play(true, false));
+  document.getElementById("bl-oc-phi").addEventListener("click", () => play(false, true));
+  document.getElementById("bl-oc-pab").addEventListener("click", () => play(true, true));
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 밝기 지도 */
+(function () {
+  const D = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"];
+  let sel = ["flute", "oboe", "clarinet", "horn", "trumpet", "violin"], m = 67, dyn = 4;
+  const keys = BL_KEYS.concat(["tuba", "contrabass"]);
+  EN.chips("#bl-br-chips", keys, { multi: true, sel, onChange: (l) => { sel = l; update(); } });
+  function draw(ctx, w, h) {
+    const P = MB.palette(), vel = EN.DYN[D[dyn]];
+    const series = sel.map((k) => {
+      const I = EN.inst(k), data = [];
+      for (let x = I.lo; x <= I.hi; x++) data.push([x, EN.centroid(k, x, { vel })]);
+      return { data, color: EN.color(k), width: 2.2 };
+    });
+    const fund = []; for (let x = 28; x <= 100; x++) fund.push([x, MB.mtof(x)]);
+    series.push({ data: fund, color: P.faint, width: 1.2, dash: [4, 4] });
+    const pts = sel.filter((k) => EN.inRange(k, m)).map((k) => ({ x: m, y: EN.centroid(k, m, { vel }), color: EN.color(k), r: 4.5 }));
+    const ax = MB.chart(ctx, null, { x: [28, 100], y: [40, 8000], logY: true, xLabel: "음높이", yLabel: "무게 중심 (Hz)",
+      xTicks: [36, 48, 60, 72, 84, 96], xFmt: (v) => MB.noteName(v),
+      yFmt: (v) => (v >= 1000 ? v / 1000 + "k" : String(v)), yTicks: [50, 100, 200, 500, 1000, 2000, 5000],
+      series, vlines: [{ x: m, color: P.accent, dash: [3, 3] }], points: pts });
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.textBaseline = "middle";
+    sel.forEach((k, i) => { const d = series[i].data, mid = d[Math.floor(d.length * 0.15)]; ctx.fillStyle = EN.color(k); ctx.textAlign = "right"; ctx.fillText(EN.name(k), ax.X(mid[0]) - 4, ax.Y(mid[1])); });
+
+  }
+  const view = MB.canvas("#bl-br-cv", draw, { aspect: 0.55, minHeight: 230 });
+  function update() {
+    document.getElementById("bl-br-m-out").textContent = MB.noteName(m);
+    document.getElementById("bl-br-v-out").textContent = D[dyn];
+    const vel = EN.DYN[D[dyn]];
+    const cs = sel.filter((k) => EN.inRange(k, m)).map((k) => [k, EN.centroid(k, m, { vel })]).sort((a, b) => a[1] - b[1]);
+    if (cs.length) {
+      MB.stat("bl-br-max", EN.name(cs[cs.length - 1][0]) + " · " + blHz(cs[cs.length - 1][1]));
+      MB.stat("bl-br-min", EN.name(cs[0][0]) + " · " + blHz(cs[0][1]));
+      MB.stat("bl-br-diff", (Math.log2(cs[cs.length - 1][1] / cs[0][1])).toFixed(1) + " 옥타브");
+    } else { ["bl-br-max", "bl-br-min", "bl-br-diff"].forEach((id) => MB.stat(id, "음역 밖")); }
+    view.redraw();
+  }
+  MB.range("bl-br-m", null, (v) => { m = v; update(); });
+  MB.range("bl-br-v", null, (v) => { dyn = v; update(); });
+  let timer = null;
+  document.getElementById("bl-br-play").addEventListener("click", () => {
+    MB.ctx(); if (timer) clearInterval(timer);
+    const list = sel.filter((k) => EN.inRange(k, m)); let i = 0;
+    const step = () => { if (i >= list.length) { clearInterval(timer); timer = null; return; } EN.note(list[i++], m, { dur: 0.9, vel: EN.DYN[D[dyn]] }); };
+    step(); timer = setInterval(step, 1100);
+  });
+  document.getElementById("bl-br-all").addEventListener("click", () => { MB.ctx(); sel.filter((k) => EN.inRange(k, m)).forEach((k) => EN.note(k, m, { dur: 1.8, vel: EN.DYN[D[dyn]] })); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 새 악기 만들기 */
+(function () {
+  const selA = document.getElementById("bl-nw-a"), selB = document.getElementById("bl-nw-b");
+  selA.innerHTML = EN.options(BL_KEYS, "clarinet"); selB.innerHTML = EN.options(BL_KEYS, "viola");
+  let mix = 50, oct = 0, split = false, mx = null, pl = null, sweep = null;
+  const MEL = EN.parse("mp G4:1 A4:.5 B4:.5 C5:1.5 B4:.5 | A4:1 G4:1 E4:2 | F4:1 A4:1 G4:1 F4:1 | E4:3 r:1");
+  const getMx = () => { if (!mx) { mx = EN.mixer({ hall: "concert", wet: 0.3 }); apply(); } return mx; };
+  const gA = () => Math.cos((mix / 100) * Math.PI / 2), gB = () => Math.sin((mix / 100) * Math.PI / 2);
+  function lineFor(k, extra) { return blFit(MEL, k).map((n) => Object.assign(n, { m: EN.fold(k, n.m + extra) })); }
+  const parts = () => {
+    const a = lineFor(selA.value, 0), base = a.map((n) => n.m);
+    const b = a.map((n, i) => Object.assign({}, n, { m: EN.fold(selB.value, base[i] + oct * 12), t: n.t + (split ? 0.5 : 0) }));
+    return [{ id: "a", inst: selA.value, notes: a }, { id: "b", inst: selB.value, notes: b }];
+  };
+  function apply() {
+    if (!mx) return;
+    mx.channel("a", { inst: selA.value }).set({ gain: gA() * 1.3, pan: split ? -0.6 : 0, dist: 0.3 });
+    mx.channel("b", { inst: selB.value }).set({ gain: gB() * 1.3, pan: split ? 0.6 : 0, dist: 0.3 });
+  }
+  function blendSpec() {
+    const m = parts()[0].notes[3].m, mb = parts()[1].notes[3].m;
+    const norm = (k, mm) => { const A = EN.harmonicAmps(k, mm, { vel: 0.5 }); const r = Math.sqrt(A.reduce((s, a) => s + a * a, 0)) || 1; const L = Math.sqrt(EN.inst(k).level); return A.map((a, i) => ({ f: MB.mtof(mm) * (i + 1), e: Math.pow((a / r) * L, 2) })); };
+    const bins = new Map();
+    norm(selA.value, m).forEach((p) => { const key = Math.round(p.f); bins.set(key, (bins.get(key) || 0) + p.e * gA() * gA()); });
+    norm(selB.value, mb).forEach((p) => { let key = Math.round(p.f); for (const k of bins.keys()) if (Math.abs(k / p.f - 1) < 0.01) { key = k; break; } bins.set(key, (bins.get(key) || 0) + p.e * gB() * gB()); });
+    const arr = [...bins.entries()].sort((a, b) => a[0] - b[0]), mxE = Math.max(...arr.map((x) => x[1])) || 1;
+    const sp = (list) => list.map(([f, e], i) => ({ k: i + 1, f, a: Math.sqrt(e / mxE), db: 10 * Math.log10(Math.max(1e-9, e / mxE)) }));
+    return { m, mb, spec: sp(arr),
+      specA: sp(norm(selA.value, m).map((p) => [p.f, p.e * gA() * gA()])), specB: sp(norm(selB.value, mb).map((p) => [p.f, p.e * gB() * gB()])) };
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), B = blendSpec();
+    EN.drawSpectra(ctx, { x: 34, y: 10, w: w - 44, h: h - 34 }, [
+      { spectrum: B.specA, color: EN.color(selA.value), label: EN.name(selA.value) + " " + Math.round(100 - mix) + "%" },
+      { spectrum: B.spec, color: P.text, label: "섞인 소리" },
+      { spectrum: B.specB, color: EN.color(selB.value) === EN.color(selA.value) ? P.accent2 : EN.color(selB.value), label: EN.name(selB.value) + " " + Math.round(mix) + "%" },
+    ], { fmin: 100, fmax: 10000, dbMin: -50, offset: 3.5 });
+  }
+  const view = MB.canvas("#bl-nw-cv", draw, { aspect: 0.5, minHeight: 210 });
+  function update() {
+    document.getElementById("bl-nw-mix-out").textContent = (100 - mix) + " : " + mix;
+    document.getElementById("bl-nw-oct-out").textContent = oct === 0 ? "같은 음" : (oct > 0 ? "+" : "") + oct + " 옥타브";
+    const B = blendSpec();
+    const cen = (S) => { let n = 0, d = 0; S.forEach((p) => { n += p.f * p.a * p.a; d += p.a * p.a; }); return n / (d || 1); };
+    MB.stat("bl-nw-ca", blHz(EN.centroid(selA.value, B.m, { vel: 0.5 })));
+    MB.stat("bl-nw-cb", blHz(EN.centroid(selB.value, B.mb, { vel: 0.5 })));
+    MB.stat("bl-nw-cm", blHz(cen(B.spec)));
+    apply(); view.redraw();
+    if (pl && pl.running) pl.refresh();
+  }
+  const rMix = MB.range("bl-nw-mix", null, (v) => { mix = v; update(); });
+  MB.range("bl-nw-oct", null, (v) => { oct = v; update(); });
+  MB.check("bl-nw-split", (v) => { split = v; update(); });
+  [selA, selB].forEach((s) => s.addEventListener("change", () => { if (mx) { const was = pl.running; if (was) pl.stop(); update(); if (was) pl.start(); } else update(); }));
+  pl = EN.player({ parts, bpm: 72, loop: true, mixer: getMx, length: 16 });
+  function stop() { if (sweep) { clearInterval(sweep); sweep = null; } pl.stop(); }
+  document.getElementById("bl-nw-play").addEventListener("click", () => { MB.ctx(); getMx(); apply(); pl.running ? stop() : pl.start(); });
+  document.getElementById("bl-nw-stop").addEventListener("click", stop);
+  document.getElementById("bl-nw-sweep").addEventListener("click", () => {
+    MB.ctx(); getMx(); if (sweep) { stop(); return; }
+    let v = 0, dir = 1; rMix.set(0); if (!pl.running) pl.start();
+    sweep = setInterval(() => { v += 5 * dir; if (v >= 100 || v <= 0) dir = -dir; rMix.set(MB.clamp(v, 0, 100)); }, 400);
+  });
+  update();
+})();
+</script>
+</body>
+</html>

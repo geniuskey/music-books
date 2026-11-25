@@ -231,4 +231,10 @@
 .an-slice { animation: an-slice 12s linear infinite; }
 @keyframes an-slice { 0%, 11.7%, 100% { opacity: 1; } 14.2%, 97.5% { opacity: 0; } }
 .an-scan, .an-slice { animation-delay: calc(var(--k) * 2s - 12s); }
+/* ensemble: the baton beats one 4/4 bar (2.4 s); the string, woodwind and brass rows light in turn on the first three beats. */
+.en-row { animation: en-row 2.4s ease-out infinite; }
+@keyframes en-row { 0% { opacity: 1; } 25%, 100% { opacity: .45; } }
+.en-baton { animation: en-baton 2.4s ease-in-out infinite; }
+@keyframes en-baton { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(48deg); } 50% { transform: rotate(-38deg); } 75% { transform: rotate(18deg); } }
+
 @media (prefers-reduced-motion: reduce) { .cover-art * { animation: none !important; } .cover-art { transition: none; } }

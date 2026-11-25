@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>오케스트라와 무대 · EnsembleBook</title>
+<meta name="description" content="바로크 합주에서 2관·3관·4관 편성까지 오케스트라가 커진 과정, 2관 편성의 인원, 미국식과 독일식 무대 배치, 직접음·초기 반사·잔향, 세이빈 공식과 잔향 시간, 객석 자리에 따라 달라지는 소리를 무대와 홀을 바꿔 가며 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .orc-count { display: grid; gap: 4px; padding: 8px 12px; font-size: 13px; }
+  .orc-count .row { display: grid; grid-template-columns: 76px minmax(0, 1fr) 36px; gap: 8px; align-items: center; }
+  .orc-count .bar { height: 10px; border-radius: 5px; background: var(--surface); overflow: hidden; }
+  .orc-count .bar i { display: block; height: 100%; }
+  .orc-count .n { text-align: right; font-family: var(--mono); color: var(--text-dim); }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="orchestra">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 09</div>
+    <h1>오케스트라와 무대</h1>
+    <p class="lead">오케스트라는 처음부터 백 명이 아니었습니다. 바로크 시대의 현악 합주에 목관과 금관이 짝을 지어 들어오고, 19세기에는 같은 악기가 셋, 넷으로 늘어났습니다. 이렇게 커진 합주단은 어딘가에 <b>앉아야</b> 하고, 앉는 자리는 곧 소리가 오는 방향과 거리가 됩니다. 그리고 그 소리는 홀의 벽과 천장에 부딪혀 수천 번 되돌아오며 <b>잔향</b>을 만듭니다. 이 장에서는 오케스트라의 편성과 인원, 무대 배치, 홀의 음향을 차례로 다루고, 마지막에 객석의 여러 자리에서 전체 오케스트라를 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>바로크 → 고전(2관) → 낭만(3관·4관)으로 오케스트라가 커진 과정을 안다.</li>
+      <li>2관 편성의 악기와 인원, 현악기가 수십 명인 이유를 설명한다.</li>
+      <li>미국식 배치와 독일식(대향) 배치의 차이를 듣고, 배치가 좌우·거리로 어떻게 들리는지 안다.</li>
+      <li>직접음·초기 반사·잔향 꼬리를 구별하고, 잔향 시간 RT60과 세이빈 공식 \(T_{60}=0.161\,V/A\)를 쓴다.</li>
+      <li>임계 거리와 객석 자리에 따라 직접음과 잔향의 비율이 바뀐다는 것을 듣는다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="growth">
+    <h2>오케스트라가 커진 과정</h2>
+    <p>오케스트라의 역사는 대략 세 단계로 볼 수 있습니다. 해마다 정확히 정해진 편성이 있었던 것은 아니고, 지역과 궁정과 작곡가마다 형편이 달랐다는 점은 기억해 두세요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>시기</th><th>대표 편성</th><th>인원</th><th>예</th></tr></thead>
+        <tbody>
+          <tr><td>바로크<br>(1700–1750 무렵)</td><td>현악 합주 + <b>통주저음</b>(쳄발로나 오르간과 저음 악기). 오보에·바순이 현을 겹치고, 축제용 곡에는 트럼펫·팀파니</td><td>10–25명</td><td>바흐의 관현악 모음곡, 헨델의 〈수상 음악〉</td></tr>
+          <tr><td>고전<br>(1780–1810 무렵)</td><td>목관을 <b>둘씩 짝지은</b> 2관 편성: 플루트·오보에·클라리넷·바순 각 2, 호른 2, 트럼펫 2, 팀파니, 현 5부</td><td>30–45명</td><td>하이든의 런던 교향곡, 모차르트 후기 교향곡</td></tr>
+          <tr><td>베토벤 이후</td><td>교향곡 5번(1808) 끝악장에 피콜로·콘트라바순·트롬본 3, 9번(1824)에 호른 4와 트라이앵글·심벌즈·큰북</td><td>50–60명</td><td>베토벤 교향곡 5번·9번</td></tr>
+          <tr><td>후기 낭만<br>(1850–1910 무렵)</td><td>목관을 셋·넷씩 둔 <b>3관·4관</b> 편성, 호른 6–8, 튜바, 하프, 많은 타악기, 현도 크게</td><td>80–120명</td><td>바그너의 〈니벨룽의 반지〉, 말러의 교향곡</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>'2관', '3관'은 <b>목관악기를 몇 대씩 두느냐</b>를 가리키는 말입니다. 3관 편성이면 플루트 셋(그중 하나는 피콜로 겸용), 오보에 셋(하나는 잉글리시 호른), 클라리넷 셋(하나는 베이스 클라리넷), 바순 셋(하나는 콘트라바순)처럼 늘어납니다. 금관과 현은 목관에 맞춰 함께 커집니다.</p>
+    <p>오늘날 고전·초기 낭만 레퍼토리를 연주하는 보통의 <b>2관 편성</b> 인원은 다음과 같습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기군</th><th>악기와 인원</th><th>합</th></tr></thead>
+        <tbody>
+          <tr><td>목관</td><td>플루트 2 · 오보에 2 · 클라리넷 2 · 바순 2</td><td>8</td></tr>
+          <tr><td>금관</td><td>호른 4(고전 곡은 2) · 트럼펫 2 · 트롬본 3 · 튜바 1</td><td>10</td></tr>
+          <tr><td>타악기</td><td>팀파니 1 · 그 밖의 타악기 1–2</td><td>2–3</td></tr>
+          <tr><td>현악기</td><td>제1 바이올린 14 · 제2 바이올린 12 · 비올라 10 · 첼로 8 · 더블베이스 6</td><td>50</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>현악기가 전체의 3분의 2를 넘습니다. <a href="together.html">1장</a>에서 본 대로 열 명은 한 명보다 10 dB, 귀로는 두 배쯤 클 뿐인데, 트럼펫 한 대는 바이올린 한 대보다 훨씬 큰 음압을 냅니다. 현을 많이 두는 것은 금관·목관과 <b>균형</b>을 맞추고, 섹션 특유의 두껍고 부드러운 소리를 얻기 위해서입니다.</p>
+
+    <div class="sim" id="sim-orc-growth">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>시대별 오케스트라</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="orc-gr-stage"></div><div class="orc-count" id="orc-gr-count"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>시대</span><div class="seg" id="orc-gr-era"><button data-value="baroque">바로크</button><button data-value="classical" class="on">고전 2관</button><button data-value="romantic">후기 낭만</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="orc-gr-play">▶ 〈환희의 송가〉 재생</button><button class="btn" id="orc-gr-stop">■ 정지</button></div>
+          <div class="sim-msg" id="orc-gr-msg"></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">무대 위 인원(실제 편성)</span><span class="v" id="orc-gr-n">—</span></div>
+        <div class="stat"><span class="k">현의 비율</span><span class="v" id="orc-gr-str">—</span></div>
+        <div class="stat"><span class="k">소리 내는 파트(이 시뮬레이터)</span><span class="v" id="orc-gr-p">—</span></div>
+      </div>
+      <div class="sim-note">바로크 편성의 통주저음 건반(쳄발로)은 이 엔진에 없어 생략했습니다. 섹션 인원은 실제 인원을 넣되, 계산량 때문에 하위 음성은 섹션당 3개까지만 만듭니다 · 화성은 이 책이 붙인 4성부를 시대별 편성에 나눈 것이고, 실제 시대 양식의 관현악법을 재현한 것은 아닙니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="seating">
+    <h2>무대 배치: 누가 어디에 앉는가</h2>
+    <p>지휘자를 중심으로 현악기가 앞에 부채꼴로, 그 뒤에 목관, 맨 뒤에 금관과 타악기가 앉는 것은 대부분의 오케스트라가 같습니다. 크게 소리 나는 악기를 뒤에 두어 거리로 음량을 줄이고, 수가 많은 현을 앞에 두는 것입니다. 달라지는 것은 <b>현악기의 순서</b>입니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 210" role="img" aria-label="미국식 배치와 독일식 배치">
+        <g transform="translate(10,10)">
+          <text x="170" y="12" text-anchor="middle" class="t">미국식(현대식) 배치</text>
+          <path d="M20 180 Q170 30 320 180 Z" class="f-surface" stroke="var(--border)"/>
+          <g font-family="var(--mono)" font-size="13" font-weight="700" text-anchor="middle">
+            <circle cx="70" cy="160" r="20" fill="var(--en-str)" opacity=".85"/><text x="70" y="165" fill="#fff">Vn1</text>
+            <circle cx="135" cy="128" r="20" fill="var(--en-str)" opacity=".65"/><text x="135" y="133" fill="#fff">Vn2</text>
+            <circle cx="205" cy="128" r="20" fill="var(--en-str)" opacity=".65"/><text x="205" y="133" fill="#fff">Va</text>
+            <circle cx="270" cy="160" r="20" fill="var(--en-str)" opacity=".85"/><text x="270" y="165" fill="#fff">Vc</text>
+            <circle cx="295" cy="110" r="16" fill="var(--en-str)" opacity=".5"/><text x="295" y="115" fill="#fff" font-size="11">Cb</text>
+          </g>
+          <rect x="160" y="172" width="20" height="8" rx="2" fill="var(--text-dim)"/>
+          <text x="170" y="200" text-anchor="middle" class="t-dim">높은 현 → 낮은 현이 왼쪽에서 오른쪽으로</text>
+        </g>
+        <g transform="translate(370,10)">
+          <text x="170" y="12" text-anchor="middle" class="t">독일식(대향) 배치</text>
+          <path d="M20 180 Q170 30 320 180 Z" class="f-surface" stroke="var(--border)"/>
+          <g font-family="var(--mono)" font-size="13" font-weight="700" text-anchor="middle">
+            <circle cx="70" cy="160" r="20" fill="var(--en-str)" opacity=".85"/><text x="70" y="165" fill="#fff">Vn1</text>
+            <circle cx="135" cy="128" r="20" fill="var(--en-str)" opacity=".85"/><text x="135" y="133" fill="#fff">Vc</text>
+            <circle cx="205" cy="128" r="20" fill="var(--en-str)" opacity=".65"/><text x="205" y="133" fill="#fff">Va</text>
+            <circle cx="270" cy="160" r="20" fill="var(--en-str)" opacity=".65"/><text x="270" y="165" fill="#fff">Vn2</text>
+            <circle cx="75" cy="105" r="16" fill="var(--en-str)" opacity=".5"/><text x="75" y="110" fill="#fff" font-size="11">Cb</text>
+          </g>
+          <rect x="160" y="172" width="20" height="8" rx="2" fill="var(--text-dim)"/>
+          <text x="170" y="200" text-anchor="middle" class="t-dim">두 바이올린이 지휘자 좌우에서 마주 본다</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 9-1.</b> 객석에서 본 두 가지 현악기 배치. 독일식에는 첼로와 비올라의 자리를 바꾼 변형도 있습니다.</figcaption>
+    </figure>
+    <ul>
+      <li><b>미국식 배치</b> — 왼쪽부터 제1·제2 바이올린, 비올라, 첼로, 그 뒤 오른쪽에 더블베이스. 20세기에 널리 퍼졌습니다. 두 바이올린이 붙어 있어 맞추기 쉽고, 높은 음은 왼쪽, 낮은 음은 오른쪽으로 모입니다.</li>
+      <li><b>독일식(대향) 배치</b><span class="en">(Antiphonal seating)</span> — 제1 바이올린은 왼쪽, 제2 바이올린은 오른쪽에서 마주 보고, 가운데에 첼로와 비올라, 왼쪽 뒤에 더블베이스. 베토벤이나 브람스 시대의 배치에 가깝고, 두 바이올린이 선율을 주고받는 곡에서 그 대화가 <b>좌우로</b> 들립니다. 요즘 이 배치로 돌아가는 오케스트라도 많습니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-orc-seat">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>배치를 바꾸고 자리를 끌어 옮기기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="orc-st-stage"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>배치</span><div class="seg" id="orc-st-plan"><button data-value="american" class="on">미국식</button><button data-value="german">독일식(대향)</button></div></div>
+          <label class="ctrl"><span>무대 폭(좌우 퍼짐) <output id="orc-st-w-out"></output></span><input type="range" id="orc-st-w" min="0" max="100" step="5" value="100"></label>
+          <div class="btn-row"><button class="btn primary" id="orc-st-play">▶ 캐논 재생</button><button class="btn" id="orc-st-stop">■ 정지</button></div>
+          <div class="sim-msg">무대 위 동그라미를 끌어 옮기면 그 섹션의 좌우와 거리가 바로 바뀝니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">마지막으로 옮긴 섹션</span><span class="v" id="orc-st-who">—</span></div>
+        <div class="stat"><span class="k">좌우</span><span class="v" id="orc-st-pan">—</span></div>
+        <div class="stat"><span class="k">거리(앞 0 – 뒤 1)</span><span class="v" id="orc-st-dist">—</span></div>
+      </div>
+      <div class="sim-note">곡은 파헬벨의 캐논입니다. 같은 선율이 제1 바이올린 → 제2 바이올린 → 비올라 순으로 2마디씩 늦게 들어오므로, 독일식 배치에서는 선율이 왼쪽에서 오른쪽으로 '건너가는' 것이 들립니다. 헤드폰으로 들으세요 · 모델: 좌우는 스테레오 패닝, 거리는 직접음 감쇠·고역 감소·지연·잔향 비율로 근사했습니다(머리 전달 함수 없음).</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 주고받는 바이올린.</b> 베토벤 교향곡 5번 1악장의 '빠바바밤' 동기는 현악기 사이를 빠르게 넘나듭니다. 독일식 배치로 연주한 실황 영상을 찾아 제1·제2 바이올린이 <b>좌우에서 번갈아</b> 말하는 모습을 보고 들어 보세요. 녹음에서는 스테레오 이미지로 그 대화가 드러납니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="reflections">
+    <h2>직접음 · 초기 반사 · 잔향</h2>
+    <p>홀에서 우리 귀에 오는 소리는 세 부분으로 나눌 수 있습니다.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 230" role="img" aria-label="직접음, 초기 반사, 잔향의 경로">
+        <defs><marker id="orc-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+          <marker id="orc-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent-2)"/></marker></defs>
+        <rect x="20" y="20" width="420" height="190" rx="6" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+        <rect x="20" y="150" width="90" height="60" fill="var(--surface)"/>
+        <circle cx="70" cy="170" r="10" fill="var(--en-str)"/><text x="70" y="200" text-anchor="middle" class="t-dim">무대</text>
+        <circle cx="360" cy="175" r="9" fill="var(--text)"/><text x="360" y="200" text-anchor="middle" class="t-dim">청중</text>
+        <path d="M80 172 L350 175" stroke="var(--accent)" stroke-width="2.4" marker-end="url(#orc-a)"/>
+        <path d="M75 162 L215 20 L352 168" fill="none" stroke="var(--accent-2)" stroke-width="1.8" marker-end="url(#orc-b)"/>
+        <path d="M78 165 L180 20 L440 120 L362 166" fill="none" stroke="var(--accent-2)" stroke-width="1.3" opacity=".7" marker-end="url(#orc-b)"/>
+        <path d="M60 162 L20 110 L260 20 L355 166" fill="none" stroke="var(--accent-2)" stroke-width="1.1" opacity=".55" marker-end="url(#orc-b)"/>
+        <g transform="translate(470,30)">
+          <line x1="0" y1="160" x2="230" y2="160" stroke="var(--axis)"/><text x="230" y="178" text-anchor="end" class="t-mono">시간 →</text>
+          <rect x="8" y="30" width="5" height="130" fill="var(--accent)"/><text x="10" y="22" text-anchor="middle" class="t-mono" style="font-size:11px">직접음</text>
+          <g fill="var(--accent-2)"><rect x="30" y="80" width="4" height="80"/><rect x="40" y="95" width="4" height="65"/><rect x="47" y="70" width="4" height="90"/><rect x="58" y="105" width="4" height="55"/><rect x="66" y="100" width="4" height="60"/></g>
+          <text x="48" y="62" text-anchor="middle" class="t-mono" style="font-size:11px">초기 반사</text>
+          <path d="M72 112 Q120 140 225 158 L225 160 L72 160 Z" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="150" y="128" text-anchor="middle" class="t-mono" style="font-size:11px">잔향 꼬리</text>
+        </g>
+      </svg>
+      <figcaption><b>그림 9-2.</b> 왼쪽: 무대에서 청중에게 오는 직접음(파란 선)과 벽·천장에 한 번, 두 번 반사된 소리(금색 선). 오른쪽: 청중이 받는 소리를 시간축에 늘어놓은 모습(임펄스 응답).</figcaption>
+    </figure>
+    <ul>
+      <li><b>직접음</b> — 무대에서 귀까지 곧장 오는 소리. 가장 먼저 도착하고, 소리가 <b>어느 방향</b>에서 오는지를 정합니다(선행음 효과).</li>
+      <li><b>초기 반사</b> — 벽과 천장에 한두 번 부딪힌 소리. 직접음보다 수십 밀리초 늦게 옵니다. 대략 80 ms 안에 도착한 반사는 귀가 직접음과 <b>합쳐 들어</b> 소리를 더 크고 또렷하게 만듭니다. 옆벽에서 오는 반사는 소리가 넓게 감싸는 느낌(공간감)을 줍니다.</li>
+      <li><b>잔향 꼬리</b> — 수없이 반사되어 방향이 뒤섞인 소리가 지수적으로 줄어드는 부분. 음표 사이를 이어 주고 화음을 감싸지만, 너무 길면 빠른 음들이 뭉개집니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-orc-ir">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>홀의 임펄스 응답</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="orc-ir-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>공간</span><div class="seg" id="orc-ir-hall"><button data-value="dry">무반향</button><button data-value="studio">스튜디오</button><button data-value="chamber">실내악 홀</button><button data-value="concert" class="on">콘서트홀</button><button data-value="cathedral">대성당</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="orc-ir-clap">▶ 짧은 타격</button><button class="btn" id="orc-ir-stacc">▶ 스타카토 화음</button><button class="btn" id="orc-ir-run">▶ 빠른 음계</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">잔향 시간 RT60</span><span class="v" id="orc-ir-rt">—</span></div>
+        <div class="stat"><span class="k">첫 반사까지</span><span class="v" id="orc-ir-pre">—</span></div>
+        <div class="stat"><span class="k">설명</span><span class="v" id="orc-ir-desc" style="font-size:13px">—</span></div>
+      </div>
+      <div class="sim-note">그림은 그 공간의 임펄스 응답(손뼉 한 번에 대한 반응)을 5 ms 단위의 레벨로 그린 것입니다. 왼쪽 끝 파란 막대가 직접음입니다 · 모델: 몇 개의 초기 반사 탭 + 고역이 더 빨리 줄어드는 잡음 꼬리로 합성한 인공 임펄스 응답입니다. 실제 홀의 응답은 자리마다 다릅니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="sabine">
+    <h2>잔향 시간과 세이빈 공식</h2>
+    <p>소리를 끈 뒤 레벨이 <b>60 dB 줄어드는 데 걸리는 시간</b>을 잔향 시간 RT60이라 합니다. 1900년 무렵 하버드의 물리학자 월리스 세이빈은 강의실의 울림을 고치는 일을 맡아, 방석을 하나씩 들여놓으며 잔향 시간을 재는 실험 끝에 간단한 법칙을 찾았습니다. 그는 이 법칙으로 보스턴 심포니홀(1900) 설계에 참여했습니다.</p>
+    <div class="formula">
+      $$T_{60} = \frac{0.161\,V}{A}, \qquad A = \sum_i \alpha_i S_i \;(+\;\text{청중}\;+\;4mV)$$
+      <div class="where">\(V\)는 방의 부피(m³), \(A\)는 흡음력(m²)으로, 표면마다 넓이 \(S_i\)에 흡음률 \(\alpha_i\)(0이면 완전 반사, 1이면 완전 흡수)를 곱해 더한 값입니다. 사람과 의자도 큰 흡음체라 한 사람이 대략 0.4–0.5 m²를 흡수하고, 큰 공간에서는 공기의 흡수 \(4mV\)도 무시할 수 없습니다. 방이 클수록 소리가 벽에 덜 자주 부딪히니 잔향이 길고, 흡음이 많을수록 짧습니다.</div>
+    </div>
+    <p>쓰임새에 따라 좋은 잔향 시간이 다릅니다. 말이 또렷해야 하는 강연장은 1초 안쪽, 실내악 홀은 1.3–1.7초, 교향악 홀은 1.8–2.2초가 흔히 꼽히는 값이고, 돌로 된 대성당은 5초를 훌쩍 넘습니다. 오르간 음악과 그레고리오 성가가 느리고 긴 음으로 이루어진 데에는 그 공간의 울림도 한몫했습니다.</p>
+
+    <div class="sim" id="sim-orc-sabine">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>홀을 설계해 잔향 시간 계산하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="orc-sb-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>부피 V <output id="orc-sb-v-out"></output></span><input type="range" id="orc-sb-v" min="500" max="60000" step="500" value="15000"></label>
+          <label class="ctrl"><span>객석 수(청중이 가득) <output id="orc-sb-n-out"></output></span><input type="range" id="orc-sb-n" min="0" max="3000" step="50" value="1700"></label>
+          <div class="ctrl"><span>벽·천장 재료</span><div class="seg" id="orc-sb-mat"><button data-value="0.02">돌·대리석</button><button data-value="0.08" class="on">회반죽·나무</button><button data-value="0.15">얇은 나무 패널</button><button data-value="0.45">커튼·흡음재</button></div></div>
+          <div class="ctrl"><span>본보기</span><div class="en-pick" id="orc-sb-pre">
+            <button data-v="15000" data-n="1680" data-a="0.08">빈 무지크페라인</button><button data-v="18750" data-n="2625" data-a="0.08">보스턴 심포니홀</button><button data-v="5000" data-n="600" data-a="0.15">실내악 홀</button><button data-v="40000" data-n="800" data-a="0.02">대성당</button>
+          </div></div>
+          <div class="btn-row"><button class="btn primary" id="orc-sb-play">▶ 이 홀에서 코랄 듣기</button><button class="btn" id="orc-sb-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">RT60(세이빈)</span><span class="v" id="orc-sb-rt">—</span></div>
+        <div class="stat"><span class="k">흡음력 A</span><span class="v" id="orc-sb-a">—</span></div>
+        <div class="stat"><span class="k">임계 거리</span><span class="v" id="orc-sb-rc">—</span></div>
+      </div>
+      <div class="sim-note">방을 가로:세로:높이 = 2:1:0.8인 상자로 보고 표면적을 계산했습니다. 청중 한 명 0.45 m², 공기 흡수 \(m\) = 0.0015 m⁻¹(1–2 kHz 근처)를 넣었습니다. 본보기 홀의 수치는 대략적인 공개 자료이고 결과도 근사입니다 · 소리는 계산한 RT60(7초까지)으로 합성한 인공 잔향입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="seat">
+    <h2>객석의 자리: 가까이와 멀리</h2>
+    <p>직접음은 거리가 두 배가 될 때마다 6 dB씩 약해지지만, 잔향은 홀 안 어디서나 거의 같은 크기입니다. 그래서 무대에서 멀어질수록 <b>직접음 대 잔향의 비</b>가 줄어듭니다. 둘이 같아지는 거리를 <b>임계 거리</b><span class="en">(Critical distance)</span>라고 합니다.</p>
+    <div class="formula">
+      $$r_c \approx 0.057\sqrt{\frac{V}{T_{60}}}\ \text{m}, \qquad \frac{D}{R} \approx 20\log_{10}\frac{r_c}{r}\ \text{dB}$$
+      <div class="where">\(V\)는 부피(m³), \(T_{60}\)은 잔향 시간(초), \(r\)은 듣는 사람까지의 거리입니다(무지향 음원 근사). 부피 15,000 m³, RT60 2초인 홀의 임계 거리는 약 5 m로, 대부분의 청중은 임계 거리보다 멀리 앉아 <b>잔향을 더 많이</b> 듣습니다.</div>
+    </div>
+    <p>앞자리에서는 악기 하나하나가 또렷하고 위치도 분명하지만 소리가 건조하고 무대의 불균형(가까운 악기가 크다)이 그대로 들립니다. 뒷자리와 발코니에서는 소리가 섞이고 감싸지는 대신 세부가 흐려집니다. 많은 사람들이 1층 중간에서 조금 뒤, 또는 발코니 앞줄을 좋은 자리로 꼽는 것은 그 둘의 균형 때문입니다.</p>
+
+    <div class="sim" id="sim-orc-full">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>오케스트라를 여러 자리에서 듣기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="orc-fl-roll"></canvas><div id="orc-fl-ui"></div></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div class="ctrl"><span>홀</span><div class="seg" id="orc-fl-hall"><button data-value="chamber">실내악 홀</button><button data-value="concert" class="on">콘서트홀</button><button data-value="cathedral">대성당</button></div></div>
+        <div class="ctrl"><span>객석 자리</span><div class="seg" id="orc-fl-seat"><button data-value="front">맨 앞줄(3 m)</button><button data-value="mid" class="on">1층 중간(15 m)</button><button data-value="back">발코니 뒤(30 m)</button></div></div>
+        <div class="btn-row"><button class="btn primary" id="orc-fl-play">▶ 〈환희의 송가〉 2관 편성</button><button class="btn" id="orc-fl-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">임계 거리</span><span class="v" id="orc-fl-rc">—</span></div>
+        <div class="stat"><span class="k">직접음/잔향</span><span class="v" id="orc-fl-dr">—</span></div>
+        <div class="stat"><span class="k">들리는 느낌</span><span class="v" id="orc-fl-feel" style="font-size:13px">—</span></div>
+      </div>
+      <div class="sim-note">객석 자리는 잔향 비율·무대의 좌우 폭·전체 음량·고역 감쇠로 근사했습니다. 섹션당 하위 음성은 3개로 줄였습니다. 소리가 끊기면 다른 탭의 소리를 끄거나 파트를 몇 개 뮤트하세요 · 모델: 실제 홀의 자리별 차이(발코니 아래의 그늘, 측벽 반사)는 들어 있지 않습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 같은 연주, 다른 자리.</b> 음악회에 간다면 휴식 시간에 자리를 옮길 수 있는지 살펴보세요(빈자리가 있을 때만). 1부를 앞쪽에서, 2부를 뒤쪽에서 들으면 같은 오케스트라가 얼마나 다르게 들리는지 알 수 있습니다. 앞에서는 <b>활 소리와 숨소리</b>, 뒤에서는 <b>화음 전체의 울림</b>에 귀를 대 보세요.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>오케스트라는 바로크의 현악 합주 + 통주저음에서, 목관을 둘씩 짝지은 고전 <b>2관</b> 편성을 거쳐, 후기 낭만의 <b>3관·4관</b> 편성으로 커졌다. '관' 수는 목관을 몇 대씩 두는지를 뜻한다.</li>
+      <li>2관 편성의 현은 14·12·10·8·6명 정도로 전체의 3분의 2를 넘는다. 음량이 큰 금관·목관과 균형을 맞추기 위해서다.</li>
+      <li>미국식 배치는 높은 현에서 낮은 현이 왼쪽에서 오른쪽으로, 독일식(대향) 배치는 두 바이올린이 좌우에서 마주 본다. 배치는 소리의 방향과 대화의 모양을 바꾼다.</li>
+      <li>홀의 소리는 직접음(방향) + 초기 반사(크기·또렷함·넓이) + 잔향 꼬리(이어짐·감쌈)다.</li>
+      <li>세이빈 공식 \(T_{60}=0.161V/A\): 방이 클수록 길고 흡음이 많을수록 짧다. 교향악 홀은 약 2초, 대성당은 5초를 넘는다.</li>
+      <li>임계 거리 \(r_c\approx0.057\sqrt{V/T_{60}}\)보다 멀리 앉으면 잔향이 직접음보다 크다. 앞자리는 또렷하고 건조하며 뒷자리는 섞이고 흐리다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>'2관 편성'의 '2'가 가리키는 것은?</p><div class="opts">
+        <button class="opt">바이올린 파트가 둘이라는 뜻</button>
+        <button class="opt" data-correct>플루트·오보에·클라리넷·바순을 각각 두 대씩 둔다는 뜻</button>
+        <button class="opt">지휘자가 둘이라는 뜻</button>
+        <button class="opt">금관악기가 두 종류라는 뜻</button>
+      </div><div class="quiz-exp">관 수는 목관악기의 수로 편성을 부르는 관습이다. 3관이면 목관이 셋씩(그중 하나는 피콜로·잉글리시 호른 같은 변종 악기)이 된다.</div></div>
+      <div class="quiz-q"><p>독일식(대향) 배치에서 두드러지게 들리는 효과는?</p><div class="opts">
+        <button class="opt">저음이 더 커진다</button>
+        <button class="opt" data-correct>제1·제2 바이올린이 주고받는 선율이 좌우로 오가는 것이 들린다</button>
+        <button class="opt">잔향 시간이 길어진다</button>
+        <button class="opt">금관이 앞으로 나온다</button>
+      </div><div class="quiz-exp">두 바이올린이 지휘자의 좌우에 마주 앉아, 캐논이나 주고받는 동기가 공간적으로 분리되어 들린다.</div></div>
+      <div class="quiz-q"><p>부피 20,000 m³, 흡음력 1,600 m²인 홀의 RT60은 세이빈 공식으로 약 얼마인가?</p><div class="opts">
+        <button class="opt">0.5초</button><button class="opt">1.2초</button><button class="opt" data-correct>2.0초</button><button class="opt">12.5초</button>
+      </div><div class="quiz-exp">\(0.161\times 20000/1600 \approx 2.0\)초. 교향악 홀에 알맞은 값이다.</div></div>
+      <div class="quiz-q"><p>직접음보다 대략 80 ms 안에 도착하는 초기 반사가 하는 일은?</p><div class="opts">
+        <button class="opt">메아리로 따로 들린다</button>
+        <button class="opt" data-correct>직접음과 합쳐 들려 소리를 더 크고 또렷하게, 옆 반사는 더 넓게 만든다</button>
+        <button class="opt">소리의 방향을 반대로 바꾼다</button>
+        <button class="opt">잔향 시간을 정한다</button>
+      </div><div class="quiz-exp">귀는 짧은 지연의 반사를 직접음에 융합한다. 방향은 먼저 온 직접음이 정한다(선행음 효과). 잔향 시간은 늦은 꼬리가 정한다.</div></div>
+      <div class="quiz-q"><p>임계 거리보다 훨씬 먼 발코니 뒷자리에서 들리는 소리의 특징은?</p><div class="opts">
+        <button class="opt">직접음이 잔향보다 커서 건조하다</button>
+        <button class="opt" data-correct>잔향이 직접음보다 커서 소리가 잘 섞이지만 세부와 위치가 흐려진다</button>
+        <button class="opt">고음이 더 밝아진다</button>
+        <button class="opt">앞자리와 차이가 없다</button>
+      </div><div class="quiz-exp">직접음은 거리에 따라 줄지만 잔향은 홀 전체에 고르게 퍼진다. 멀수록 잔향 비율이 커지고, 공기 흡수로 고역도 줄어든다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 1. 시대별 오케스트라 */
+(function () {
+  const S = (inst, v, players, extra) => Object.assign({ v, inst, players, maxSub: 3 }, extra);
+  const ERA = {
+    baroque: { name: "바로크 합주", msg: "현악 합주에 오보에 둘이 바이올린을, 바순이 저음을 겹친다. 통주저음 건반은 생략.",
+      count: { 현: 18, 목관: 3, 금관: 0, 타악기: 0, 건반: 1 },
+      parts: [S("oboe", 0, 1), S("oboe", 1, 1, { label: "제2 오보에" }), S("violin", 0, 6, { label: "제1 바이올린" }), S("violin", 1, 5, { label: "제2 바이올린" }), S("viola", 2, 3), S("cello", 3, 2), S("contrabass", 3, 1), S("bassoon", 3, 1)] },
+    classical: { name: "고전 2관", msg: "목관 넷과 호른·트럼펫이 둘씩, 팀파니, 현 다섯 부. 하이든·모차르트·초기 베토벤의 소리.",
+      count: { 현: 34, 목관: 8, 금관: 4, 타악기: 1, 건반: 0 },
+      parts: [S("flute", 0, 1, { oct: 1, vel: 0.8 }), S("oboe", 0, 1), S("clarinet", 1, 1), S("bassoon", 3, 1), S("horn", 2, 1, { vel: 0.8 }), S("trumpet", 0, 1, { vel: 0.6 }),
+        S("violin", 0, 10, { label: "제1 바이올린" }), S("violin", 1, 8, { label: "제2 바이올린" }), S("viola", 2, 6), S("cello", 3, 6), S("contrabass", 3, 4), S("timpani", 3, 1, { vel: 0.5, beat1: true })] },
+    romantic: { name: "후기 낭만 3관·4관", msg: "피콜로·잉글리시 호른, 호른 넷, 트롬본·튜바, 심벌즈까지. 같은 선율을 여러 겹으로 두른다.",
+      count: { 현: 64, 목관: 14, 금관: 15, 타악기: 4, 건반: 2 },
+      parts: [S("piccolo", 0, 1, { oct: 1, vel: 0.6 }), S("flute", 0, 1, { oct: 1, vel: 0.8 }), S("oboe", 0, 1), S("englishHorn", 2, 1), S("clarinet", 1, 1), S("bassoon", 3, 1),
+        S("horn", 1, 1, { vel: 0.8 }), S("horn", 2, 1, { vel: 0.8, label: "제3·4 호른" }), S("trumpet", 0, 1, { vel: 0.65 }), S("trombone", 2, 1, { vel: 0.6 }), S("tuba", 3, 1, { vel: 0.6 }),
+        S("violin", 0, 16, { label: "제1 바이올린" }), S("violin", 1, 14, { label: "제2 바이올린" }), S("viola", 2, 12), S("cello", 3, 10), S("contrabass", 3, 8),
+        S("timpani", 3, 1, { vel: 0.55, beat1: true }), S("cymbals", 0, 1, { vel: 0.5, cym: true })] },
+  };
+  let era = "classical", parts = [], mx = null;
+  const stage = EN.stage("#orc-gr-stage", { seats: [] });
+  function build() {
+    const E = ERA[era];
+    parts = EN.arrange("ode", E.parts).map((p, i) => {
+      const a = E.parts[i];
+      if (a.beat1) p.notes = p.notes.filter((n) => n.t % 4 === 0);
+      if (a.cym) p.notes = [{ t: 12, d: 1, m: 60, vel: 0.5 }, { t: 28, d: 1, m: 60, vel: 0.55 }];
+      p.maxSub = 3; return p;
+    });
+    stage.set(EN.seatsFor(parts));
+    const C = E.count, tot = Object.values(C).reduce((a, b) => a + b, 0), fam = { 현: "strings", 목관: "woodwinds", 금관: "brass", 타악기: "percussion", 건반: "keyboard" };
+    document.getElementById("orc-gr-count").innerHTML = Object.entries(C).map(([k, v]) =>
+      `<div class="row"><span>${k}</span><span class="bar"><i style="width:${(v / 64 * 100).toFixed(0)}%;background:${EN.familyColor(fam[k])}"></i></span><span class="n">${v}</span></div>`).join("");
+    MB.stat("orc-gr-n", "약 " + tot + "명");
+    MB.stat("orc-gr-str", Math.round((C.현 / tot) * 100) + "%");
+    MB.stat("orc-gr-p", parts.length + "파트");
+    document.getElementById("orc-gr-msg").textContent = E.name + " — " + E.msg;
+    if (pl.running) pl.refresh();
+  }
+  const btn = document.getElementById("orc-gr-play");
+  const pl = EN.player({
+    parts: () => parts, bpm: 96, loop: true, length: 32, mixer: () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.3 })),
+    onNote: (p) => stage.light(p.id),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 〈환희의 송가〉 재생"; },
+  });
+  MB.seg("orc-gr-era", (v) => { era = v; const was = pl.running; if (was) pl.stop(); build(); if (was) pl.start(); });
+  btn.addEventListener("click", () => { MB.ctx(); pl.toggle(); });
+  document.getElementById("orc-gr-stop").addEventListener("click", () => pl.stop());
+  build();
+})();
+
+/* ------------------------------------------------------------ 2. 무대 배치 */
+(function () {
+  const P = EN.PIECES.canon;
+  const PLAN = {
+    american: { vn1: [-0.62, 0.18], vn2: [-0.22, 0.32], va: [0.25, 0.32], vc: [0.62, 0.2], cb: [0.85, 0.55] },
+    german: { vn1: [-0.62, 0.18], vc: [-0.2, 0.32], va: [0.25, 0.32], vn2: [0.62, 0.2], cb: [-0.75, 0.58] },
+  };
+  const DEF = [
+    { id: "vn1", inst: "violin", line: "V1", players: 8, label: "제1 바이올린", short: "Vn1" },
+    { id: "vn2", inst: "violin", line: "V2", players: 8, label: "제2 바이올린", short: "Vn2" },
+    { id: "va", inst: "viola", line: "V3", players: 6, label: "비올라", short: "Va" },
+    { id: "vc", inst: "cello", line: "B", players: 5, label: "첼로", short: "Vc" },
+    { id: "cb", inst: "contrabass", line: "B", players: 3, label: "더블베이스", short: "Cb", oct: 0 },
+  ];
+  let plan = "american", width = 1, mx = null, seats = [];
+  const parts = DEF.map((d) => ({ id: d.id, inst: d.inst, label: d.label, players: d.players, maxSub: 3, notes: P.lines[d.line].map((n) => Object.assign({}, n, { m: EN.fold(d.inst, n.m) })) }));
+  const stage = EN.stage("#orc-st-stage", { seats: [], drag: true,
+    onMove(id, x, y) { const s = seats.find((q) => q.id === id); s.x = x; s.y = y; apply(id); show(id); } });
+  function placeAll() {
+    seats = DEF.map((d) => ({ id: d.id, inst: d.inst, short: d.short, label: d.label, x: PLAN[plan][d.id][0], y: PLAN[plan][d.id][1] }));
+    stage.set(seats); DEF.forEach((d) => apply(d.id));
+  }
+  function apply(id) { if (!mx) return; const s = seats.find((q) => q.id === id); mx.channel(id, { inst: s.inst }).set({ pan: s.x, dist: s.y }); }
+  function show(id) { const s = seats.find((q) => q.id === id); MB.stat("orc-st-who", s.label); MB.stat("orc-st-pan", (s.x < -0.05 ? "왼쪽 " : s.x > 0.05 ? "오른쪽 " : "가운데 ") + Math.round(Math.abs(s.x) * 100) + "%"); MB.stat("orc-st-dist", s.y.toFixed(2)); }
+  function getMx() {
+    if (mx) return mx;
+    mx = EN.mixer({ hall: "concert", wet: 0.28, width });
+    seats.forEach((s) => mx.channel(s.id, { inst: s.inst, pan: s.x, dist: s.y }));
+    return mx;
+  }
+  const btn = document.getElementById("orc-st-play");
+  const pl = EN.player({ parts: () => parts, bpm: () => P.bpm, loop: true, length: P.beats, mixer: getMx, onNote: (p) => stage.light(p.id),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 캐논 재생"; } });
+  MB.seg("orc-st-plan", (v) => { plan = v; placeAll(); show("vn2"); });
+  MB.range("orc-st-w", (v) => v + "%", (v) => { width = v / 100; if (mx) mx.setWidth(width); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  document.getElementById("orc-st-stop").addEventListener("click", () => pl.stop());
+  placeAll(); show("vn2");
+})();
+
+/* ------------------------------------------------------------ 3. 임펄스 응답 */
+(function () {
+  let hall = "concert", mx = null, env = null;
+  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+  const off = OAC ? new OAC(2, 44100, 44100) : null;
+  function compute() {
+    const H = EN.HALLS[hall];
+    if (!off || !H.rt60) { env = { bins: [], rt: 0 }; return; }
+    const buf = EN.impulse(off, H), d = buf.getChannelData(0), sr = buf.sampleRate, step = Math.round(sr * 0.005);
+    const bins = [];
+    let pk = 0;
+    for (let i = 0; i < d.length; i += step) { let m = 0; for (let j = i; j < Math.min(d.length, i + step); j++) m = Math.max(m, Math.abs(d[j])); bins.push(m); pk = Math.max(pk, m); }
+    env = { bins: bins.map((m) => MB.db(m / (pk || 1)) - 8), rt: H.rt60 };
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 40, y: 12, w: w - 52, h: h - 38 };
+    const T = Math.max(0.6, (env.rt || 0.3) * 1.25), X = (t) => b.x + (t / T) * b.w, Y = (d) => b.y + b.h - MB.clamp((d + 60) / 60, 0, 1) * b.h;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [0, -20, -40, -60].forEach((d) => { ctx.beginPath(); ctx.moveTo(b.x, Y(d)); ctx.lineTo(b.x + b.w, Y(d)); ctx.stroke(); ctx.fillText(d, b.x - 4, Y(d)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    const tick = T > 4 ? 1 : T > 1.5 ? 0.5 : 0.1;
+    for (let t = 0; t <= T + 1e-6; t += tick) ctx.fillText(t.toFixed(tick < 1 ? 1 : 0) + "s", X(t), b.y + b.h + 5);
+    ctx.fillStyle = P.accent2; ctx.globalAlpha = 0.85;
+    env.bins.forEach((d, i) => { const t = i * 0.005; if (t > T) return; const y = Y(d); ctx.fillRect(X(t), y, Math.max(1, X(0.005) - X(0) - 0.3), b.y + b.h - y); });
+    ctx.globalAlpha = 1; ctx.fillStyle = P.accent; ctx.fillRect(X(0) - 1, Y(0), 4, b.y + b.h - Y(0));
+    if (env.rt) { ctx.strokeStyle = P.warn; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(0), Y(-8)); ctx.lineTo(X(env.rt), Y(-68)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.warn; ctx.textAlign = "left"; ctx.fillText("−60 dB / RT60", Math.min(X(env.rt), b.x + b.w - 90), Y(-56)); }
+    else { ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.fillText("반사음 없음: 직접음뿐", X(0) + 10, b.y + 10); }
+  }
+  compute();
+  const view = MB.canvas("#orc-ir-cv", draw, { aspect: 0.42, minHeight: 180 });
+  function update() {
+    const H = EN.HALLS[hall]; compute(); view.redraw();
+    MB.stat("orc-ir-rt", H.rt60 ? H.rt60.toFixed(2) + " s" : "0 s");
+    MB.stat("orc-ir-pre", H.rt60 ? Math.round(H.pre * 1000) + " ms" : "—");
+    MB.stat("orc-ir-desc", H.name + " · " + H.desc);
+    if (mx) mx.setHall(hall);
+  }
+  const getMx = () => mx || (mx = EN.mixer({ hall, wet: 0.4 }));
+  const dest = () => getMx().channel("src", { inst: "violin", pan: 0, dist: 0.25 }).input;
+  MB.seg("orc-ir-hall", (v) => { hall = v; update(); });
+  document.getElementById("orc-ir-clap").addEventListener("click", () => { MB.ctx(); EN.note("snare", 60, { dest: dest(), vel: 0.7 }); });
+  document.getElementById("orc-ir-stacc").addEventListener("click", () => { MB.ctx(); const d = dest(), t = MB.now() + 0.03; [0, 0.5].forEach((dt) => { EN.chord("violin", [55, 62, 71, 79], { dest: d, when: t + dt, dur: 0.2, art: "stacc", vel: 0.7 }); EN.note("cello", 43, { dest: d, when: t + dt, dur: 0.2, art: "stacc", vel: 0.7 }); }); });
+  document.getElementById("orc-ir-run").addEventListener("click", () => { MB.ctx(); const d = dest(), t = MB.now() + 0.03; [62, 64, 66, 67, 69, 71, 73, 74, 76, 78, 79, 81, 83, 85, 86].forEach((m, i) => EN.note("flute", m, { dest: d, when: t + i * 0.09, dur: 0.08, vel: 0.6 })); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 세이빈 */
+(function () {
+  let V = 15000, N = 1700, alpha = 0.08, mx = null;
+  const USES = [["강연장", 0.6, 1.0], ["실내악", 1.3, 1.7], ["오페라", 1.3, 1.8], ["교향악", 1.8, 2.2], ["오르간·성가", 2.5, 6]];
+  function calc() {
+    const k = Math.cbrt(V / 1.6), S = 8.8 * k * k;
+    const A = S * alpha + N * 0.45 + 4 * 0.0015 * V;
+    const rt = EN.sabine(V, A);
+    return { k, S, A, rt, rc: 0.057 * Math.sqrt(V / rt) };
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), R = calc(), b = { x: 96, y: 10, w: w - 112, h: h - 40 };
+    const tmax = 10, X = (t) => b.x + (Math.log(1 + t) / Math.log(1 + tmax)) * b.w, rh = b.h / USES.length;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [0, 0.5, 1, 2, 3, 5, 10].forEach((t) => { ctx.beginPath(); ctx.moveTo(X(t), b.y); ctx.lineTo(X(t), b.y + b.h); ctx.stroke(); ctx.fillText(t + "s", X(t), b.y + b.h + 5); });
+    USES.forEach(([nm, a, z], i) => {
+      const y = b.y + rh * i + rh * 0.25, ok = R.rt >= a && R.rt <= z;
+      ctx.fillStyle = ok ? P.ok + "aa" : P.accent + "33"; ctx.fillRect(X(a), y, X(z) - X(a), rh * 0.5);
+      ctx.fillStyle = ok ? P.text : P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+      ctx.fillText(nm, b.x - 8, y + rh * 0.25);
+      ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    });
+    const x = X(Math.min(tmax, R.rt));
+    ctx.strokeStyle = P.warn; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x, b.y); ctx.lineTo(x, b.y + b.h); ctx.stroke();
+    ctx.fillStyle = P.warn; ctx.textAlign = x > b.x + b.w - 70 ? "right" : "left"; ctx.textBaseline = "top"; ctx.fillText(" RT60 " + R.rt.toFixed(2) + "s ", x, b.y);
+  }
+  const view = MB.canvas("#orc-sb-cv", draw, { aspect: 0.46, minHeight: 200, maxHeight: 300 });
+  const vR = MB.range("orc-sb-v", (v) => v.toLocaleString() + " m³", (v) => { V = v; update(); });
+  const nR = MB.range("orc-sb-n", (v) => v.toLocaleString() + "석", (v) => { N = v; update(); });
+  const matSeg = MB.seg("orc-sb-mat", (v) => { alpha = +v; update(); });
+  function hallObj(R) { return { rt60: Math.min(7, R.rt), pre: MB.clamp(0.006 + R.k * 0.0011, 0.006, 0.05), size: MB.clamp(V / 25000, 0.1, 1) }; }
+  function update() {
+    const R = calc();
+    MB.stat("orc-sb-rt", R.rt.toFixed(2) + " s");
+    MB.stat("orc-sb-a", Math.round(R.A).toLocaleString() + " m²");
+    MB.stat("orc-sb-rc", R.rc.toFixed(1) + " m");
+    view.redraw();
+    if (mx) { clearTimeout(update.t); update.t = setTimeout(() => mx.setHall(hallObj(calc())), 150); }
+  }
+  document.getElementById("orc-sb-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-v]"); if (!b) return;
+    document.querySelectorAll("#orc-sb-pre button").forEach((x) => x.classList.toggle("on", x === b));
+    V = +b.dataset.v; N = +b.dataset.n; alpha = +b.dataset.a;
+    vR.set(V, false); nR.set(N, false); matSeg.set(b.dataset.a, false); update();
+  });
+  const parts = EN.arrange("chorale", "quartet");
+  const btn = document.getElementById("orc-sb-play");
+  const pl = EN.player({ parts: () => parts, bpm: 72, loop: true, length: 32, mixer: () => mx || (mx = EN.mixer({ hall: hallObj(calc()), wet: 0.35 })),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 이 홀에서 코랄 듣기"; } });
+  btn.addEventListener("click", () => { MB.ctx(); pl.toggle(); });
+  document.getElementById("orc-sb-stop").addEventListener("click", () => pl.stop());
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 객석 자리 */
+(function () {
+  const VOL = { chamber: 5000, concert: 18000, cathedral: 40000 };
+  const SEAT = {
+    front: { r: 3, wet: 0.14, add: 0, width: 1, gain: 1.15, feel: "또렷하고 건조. 가까운 현이 크고, 금관은 멀다." },
+    mid: { r: 15, wet: 0.34, add: 0.25, width: 0.75, gain: 0.95, feel: "직접음과 잔향의 균형. 섹션이 섞이면서도 위치가 보인다." },
+    back: { r: 30, wet: 0.6, add: 0.55, width: 0.45, gain: 0.75, feel: "잔향에 감싸인 하나의 덩어리. 세부와 방향이 흐려진다." },
+  };
+  let hall = "concert", seat = "mid", mx = null;
+  const base = EN.arrange("ode", "orchestra").map((p) => Object.assign(p, { maxSub: 3, players: Math.min(p.players, 8) }));
+  const parts = base.map((p) => Object.assign({}, p, { dist: EN.inst(p.inst).y * 0.6 }));
+  const roll = EN.roll("#orc-fl-roll", { parts, laneH: 20, beats: 32 });
+  const ui = EN.mixerUI("#orc-fl-ui", { channels: parts, mixer: () => mx, pan: false });
+  function getMx() {
+    if (mx) return mx;
+    mx = EN.mixer({ hall, wet: SEAT[seat].wet, width: SEAT[seat].width, gain: SEAT[seat].gain });
+    parts.forEach((p) => mx.channel(p.id, { inst: p.inst, dist: EN.inst(p.inst).y * 0.6 + SEAT[seat].add }));
+    ui.sync();
+    return mx;
+  }
+  function apply() {
+    const S = SEAT[seat], H = EN.HALLS[hall], rc = 0.057 * Math.sqrt(VOL[hall] / H.rt60), dr = 20 * Math.log10(rc / S.r);
+    MB.stat("orc-fl-rc", rc.toFixed(1) + " m");
+    MB.stat("orc-fl-dr", MB.signed(dr, 1) + " dB (" + S.r + " m)");
+    MB.stat("orc-fl-feel", S.feel);
+    if (!mx) return;
+    mx.setHall(hall); mx.setWet(S.wet * (hall === "cathedral" ? 1.1 : 1)); mx.setWidth(S.width);
+    mx.out.gain.setTargetAtTime(S.gain, MB.now(), 0.05);
+    parts.forEach((p) => { if (mx.has(p.id)) mx.channel(p.id).set({ dist: EN.inst(p.inst).y * 0.6 + S.add }); });
+  }
+  const btn = document.getElementById("orc-fl-play");
+  const pl = EN.player({ parts: () => parts, bpm: 96, loop: true, length: 32, mixer: getMx, onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 〈환희의 송가〉 2관 편성"; roll.clear(); } });
+  MB.seg("orc-fl-hall", (v) => { hall = v; apply(); });
+  MB.seg("orc-fl-seat", (v) => { seat = v; apply(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); apply(); pl.toggle(); });
+  document.getElementById("orc-fl-stop").addEventListener("click", () => pl.stop());
+  apply();
+})();
+</script>
+</body>
+</html>

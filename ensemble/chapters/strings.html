@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>현악기 가족 · EnsembleBook</title>
+<meta name="description" content="바이올린·비올라·첼로·더블베이스의 크기와 조율, 활이 만드는 헬름홀츠 운동, 몸통 공명이 정하는 음색, 비브라토, 피치카토·트레몰로·약음기 같은 주법, 그리고 독주와 섹션의 차이를 소리로 비교한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .str-open { display: grid; gap: 6px; }
+  .str-open .row { display: grid; grid-template-columns: 74px repeat(4, minmax(0, 1fr)); gap: 5px; align-items: center; font-size: 13px; }
+  .str-open .row b { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .str-open button { font: 600 12px var(--mono); padding: 6px 2px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .str-open button:hover, .str-open button.on { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--bg-elev)); }
+  .str-fig svg { display: block; width: 100%; height: auto; }
+  .str-arts { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 6px; }
+  .str-arts button { font: inherit; font-size: 13px; padding: 7px 6px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; line-height: 1.25; }
+  .str-arts button small { display: block; font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
+  .str-arts button.on { border-color: var(--accent); background: var(--accent-soft); }
+  .str-artdesc { font-size: 14px; color: var(--text-dim); padding: 10px 12px; min-height: 3.2em; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="strings">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 02</div>
+    <h1>현악기 가족</h1>
+    <p class="lead">오케스트라 무대의 앞쪽 절반을 채우는 것은 현악기입니다. 바이올린·비올라·첼로·더블베이스는 크기만 다를 뿐 같은 설계, 곧 <b>활로 문지르는 줄 네 개와 그 진동을 공기로 옮기는 나무 상자</b>를 공유합니다. 그래서 넷은 섞이면 한 악기처럼 고르게 들리고, 오케스트라는 수십 명의 현악기를 몸통 삼아 그 위에 목관과 금관을 얹습니다. 이 장에서는 네 악기의 크기와 조율, 활이 줄을 움직이는 독특한 방식, 몸통이 음색을 정하는 방식, 비브라토와 여러 주법을 차례로 듣고, 마지막으로 독주와 섹션을 비교합니다.</p>
+    <ul class="objectives">
+      <li>네 현악기의 크기·조율(5도 간격 셋과 4도 간격 하나)·음역을 말할 수 있다.</li>
+      <li>활이 줄을 붙잡았다 놓는 <b>헬름홀츠 운동</b>이 톱니파를 만든다는 것과, 활의 위치·속도·압력이 밝기를 바꾸는 이유를 안다.</li>
+      <li>같은 음이라도 바이올린·비올라·첼로가 다르게 들리는 이유를 <b>몸통 공명(포먼트)</b>으로 설명한다.</li>
+      <li>비브라토의 빠르기와 폭을 알고, 비브라토가 소리를 '살아 있게' 하는 원리를 안다.</li>
+      <li>아르코·피치카토·트레몰로·스타카토·스피카토·약음기·하모닉스·술 폰티첼로·술 타스토를 듣고 구별한다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="family">
+    <h2>네 악기, 하나의 설계</h2>
+    <p>현악기 가족은 크기 순서대로 바이올린<span class="en">(Violin)</span>, 비올라<span class="en">(Viola)</span>, 첼로<span class="en">(Violoncello)</span>, 더블베이스<span class="en">(Double bass, Contrabass)</span>입니다. 위의 셋은 줄을 <b>완전5도</b> 간격으로, 더블베이스만 <b>완전4도</b> 간격으로 맞춥니다. 더블베이스는 줄이 워낙 길어서 5도 간격이면 손가락을 너무 넓게 벌려야 하기 때문입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>몸통 길이</th><th>줄 길이(현장)</th><th>개방현(낮은 줄부터)</th><th>쓰는 음역(대략)</th></tr></thead>
+        <tbody>
+          <tr><td>바이올린</td><td>약 35.5 cm</td><td>약 33 cm</td><td>G₃ D₄ A₄ E₅</td><td>G₃ – E₇</td></tr>
+          <tr><td>비올라</td><td>38 – 43 cm</td><td>약 37 cm</td><td>C₃ G₃ D₄ A₄</td><td>C₃ – E₆</td></tr>
+          <tr><td>첼로</td><td>약 75 cm</td><td>약 69 cm</td><td>C₂ G₂ D₃ A₃</td><td>C₂ – A₅</td></tr>
+          <tr><td>더블베이스</td><td>약 110 cm</td><td>약 105 cm</td><td>E₁ A₁ D₂ G₂</td><td>E₁ – G₄</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>비올라는 바이올린보다 완전5도 낮게 조율하지만 몸통은 15–20% 클 뿐입니다. 음향적으로 '맞는' 크기는 50 cm가 넘어 팔에 얹을 수 없기 때문에, 비올라는 늘 자기 음역에 비해 <b>작은 상자</b>로 연주됩니다. 그래서 가장 낮은 음들의 기본음이 약하고, 특유의 어둡고 베일을 쓴 듯한 음색이 납니다. 더블베이스는 악보보다 <b>한 옥타브 낮게</b> 소리 나는 조옮김 악기라 총보에서는 첼로와 같은 음표가 실제로는 한 옥타브 아래에서 울립니다(<a href="score.html">6장</a>).</p>
+
+    <div class="sim" id="sim-str-family">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>네 악기의 개방현과 음역</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div id="str-fam-range"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>개방현 누르기</span><div class="str-open" id="str-fam-open"></div></div>
+          <label class="check"><input type="checkbox" id="str-fam-sec"> 섹션으로 듣기</label>
+          <div class="btn-row"><button class="btn primary" id="str-fam-all">▶ 가장 낮은 줄 → 가장 높은 줄</button><button class="btn" id="str-fam-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">악기 · 줄</span><span class="v" id="str-fam-who">—</span></div>
+        <div class="stat"><span class="k">음 이름</span><span class="v" id="str-fam-note">—</span></div>
+        <div class="stat"><span class="k">기본 주파수</span><span class="v" id="str-fam-f">—</span></div>
+      </div>
+      <div class="sim-note">막대의 옅은 부분은 전체 음역, 진한 부분은 편하게 쓰는 음역, 세로선은 방금 낸 음입니다. 더블베이스의 E₁(41 Hz)은 작은 스피커에서 잘 들리지 않으니 헤드폰을 권합니다 · 모델: 톱니파 음원 × 악기별 몸통 공명 근사.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="bow">
+    <h2>활은 줄을 어떻게 움직이는가: 헬름홀츠 운동</h2>
+    <p>활의 말총에 바른 송진은 <b>멈춰 있을 때 더 끈끈하고, 미끄러지기 시작하면 덜 끈끈한</b> 성질이 있습니다. 그래서 활을 그으면 줄은 활에 붙어 함께 끌려가다가(점착), 장력이 이기는 순간 탁 미끄러져 돌아오고(미끄럼), 다시 붙잡힙니다. 19세기에 헬름홀츠가 현미경으로 관찰한 결과, 이때 줄은 곡선이 아니라 <b>두 직선과 그 사이의 꺾인 점</b> 모양이고, 그 꺾인 점이 줄의 양끝 사이를 한 주기에 한 번씩 돈다는 것이 밝혀졌습니다. 이것이 <b>헬름홀츠 운동</b><span class="en">(Helmholtz motion)</span>입니다.</p>
+    <figure class="diagram str-fig">
+      <svg viewBox="0 0 640 220" role="img" aria-label="헬름홀츠 운동과 브리지가 받는 힘">
+        <g transform="translate(20,20)">
+          <text x="0" y="0" class="t-dim">줄의 모양(꺾인 점이 시계 방향으로 돈다)</text>
+          <line x1="0" y1="70" x2="280" y2="70" stroke="var(--grid)" stroke-dasharray="3 4"/>
+          <path d="M0 70 L90 30 L280 70" fill="none" stroke="var(--en-str)" stroke-width="2.4"/>
+          <path d="M0 70 L190 110 L280 70" fill="none" stroke="var(--en-str)" stroke-width="2.4" opacity=".45"/>
+          <path d="M30 70 Q140 -10 250 70 Q140 150 30 70" fill="none" stroke="var(--text-faint)" stroke-dasharray="2 4"/>
+          <circle cx="90" cy="30" r="4" fill="var(--accent)"/><circle cx="190" cy="110" r="4" fill="var(--accent)" opacity=".5"/>
+          <rect x="236" y="20" width="8" height="100" rx="3" fill="var(--accent-2)" opacity=".75"/>
+          <text x="240" y="138" text-anchor="middle" class="t-mono">활</text>
+          <text x="0" y="96" class="t-mono">줄받침(너트)</text><text x="280" y="96" text-anchor="end" class="t-mono">브리지</text>
+          <text x="140" y="175" text-anchor="middle" class="t-dim">점착: 활과 함께 → 미끄럼: 빠르게 되돌아옴</text>
+        </g>
+        <g transform="translate(350,20)">
+          <text x="0" y="0" class="t-dim">브리지가 받는 힘(톱니파)</text>
+          <line x1="0" y1="80" x2="270" y2="80" stroke="var(--grid)"/>
+          <path d="M0 120 L60 40 L60 120 L120 40 L120 120 L180 40 L180 120 L240 40 L240 120" fill="none" stroke="var(--en-str)" stroke-width="2.4"/>
+          <text x="0" y="150" class="t-mono">배음 세기 ∝ 1/n</text>
+          <g fill="var(--accent)"><rect x="140" y="140" width="10" height="30"/><rect x="154" y="155" width="10" height="15"/><rect x="168" y="160" width="10" height="10"/><rect x="182" y="162.5" width="10" height="7.5"/><rect x="196" y="164" width="10" height="6"/><rect x="210" y="165" width="10" height="5"/></g>
+        </g>
+      </svg>
+      <figcaption><b>그림 2-1.</b> 헬름홀츠 운동. 꺾인 점이 줄을 따라 도는 동안 브리지는 천천히 밀렸다가 갑자기 당겨지는 톱니 모양의 힘을 받습니다. 톱니파는 모든 배음을 \(1/n\)의 세기로 담고 있어 현악기 소리가 배음이 풍부한 출발점이 됩니다.</figcaption>
+    </figure>
+    <p>연주자가 바꿀 수 있는 손잡이는 셋입니다.</p>
+    <ul>
+      <li><b>활의 위치</b> — 브리지에서 줄 길이의 비율 \(\beta\)인 곳을 그으면 \(n\beta\)가 정수에 가까운 배음이 약해집니다. 브리지 쪽(<b>술 폰티첼로</b><span class="en">(sul ponticello)</span>)은 고역이 날카롭게 살고 기본음이 약한 유리 같은 소리, 지판 쪽(<b>술 타스토</b><span class="en">(sul tasto)</span>)은 고역이 줄어든 플루트 같은 소리가 됩니다.</li>
+      <li><b>활의 속도</b> — 빠를수록 줄의 진폭이 커져 소리가 커집니다. 진폭은 대략 활 속도 \(\div\,\beta\)에 비례합니다.</li>
+      <li><b>활의 압력</b> — 너무 약하면 줄이 제대로 붙잡히지 않아 휘파람 같은 소리(배음만 남음)가, 너무 세면 꺾인 점이 하나가 되지 못해 긁는 소리가 납니다. 둘 사이의 '좋은 소리 창'은 브리지에 가까울수록 좁고 위로 올라갑니다(셸렝 도표). 크게 연주하려면 브리지 가까이에서 세게 그어야 하는 이유입니다.</li>
+    </ul>
+    <div class="formula">
+      $$f_1=\frac{1}{2L}\sqrt{\frac{T}{\mu}}, \qquad A_n \propto \frac{1}{n}\,\big|\sin(n\pi\beta)\big|$$
+      <div class="where">\(L\) 현장, \(T\) 장력, \(\mu\) 단위 길이당 질량. 헬름홀츠 운동의 주기는 꺾인 점이 줄을 한 바퀴 도는 시간 \(2L/v\)이라 활의 속도와 무관하게 음높이가 정해집니다. 활 위치 \(\beta\)는 배음 세기에 빗살 모양의 골을 팝니다.</div>
+    </div>
+
+    <div class="sim" id="sim-str-bow">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>활의 위치와 세기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="str-bow-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>악기</span><select id="str-bow-inst"></select></label>
+          <div class="ctrl"><span>활의 위치</span><div class="seg" id="str-bow-pos"><button data-value="pont">브리지 쪽(폰티첼로)</button><button data-value="" class="on">보통</button><button data-value="tasto">지판 쪽(타스토)</button></div></div>
+          <label class="ctrl"><span>활의 속도·압력(셈여림) <output id="str-bow-v-out"></output></span><input type="range" id="str-bow-v" min="0.15" max="1" step="0.01" value="0.6"></label>
+          <label class="ctrl"><span>음 <output id="str-bow-m-out"></output></span><input type="range" id="str-bow-m" min="55" max="84" step="1" value="69"></label>
+          <div class="btn-row"><button class="btn primary" id="str-bow-play">▶ 긋기</button><button class="btn" id="str-bow-tour">▶ 세 위치 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">스펙트럼 무게 중심</span><span class="v" id="str-bow-c">—</span></div>
+        <div class="stat"><span class="k">약해지는 배음</span><span class="v" id="str-bow-null">—</span></div>
+        <div class="stat"><span class="k">셈여림</span><span class="v" id="str-bow-dyn">—</span></div>
+      </div>
+      <div class="sim-note">막대는 배음별 세기(dB)입니다. 무게 중심이 높을수록 밝게 들립니다 · 모델: \(1/n\) 톱니 스펙트럼에 활 위치의 빗살(완전한 0이 되지 않도록 완화)과 몸통 공명을 곱했습니다. 압력이 지나친 긁힘·휘파람 소리는 들어 있지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="body">
+    <h2>몸통이 정하는 음색: 공명과 포먼트</h2>
+    <p>줄 자체는 공기를 거의 밀지 못합니다. 줄의 진동은 브리지를 통해 앞판으로 전해지고, 앞판·뒤판·속의 공기가 함께 울리며 비로소 큰 소리가 됩니다. 이 상자에는 잘 울리는 주파수, 곧 <b>공명</b>이 여럿 있습니다. 바이올린이면 280 Hz 근처의 공기 공명(f자 구멍으로 숨 쉬는 모드), 450–550 Hz의 몸통 공명, 그리고 2.5–3 kHz에 넓게 솟은 <b>브리지 언덕</b>이 대표적입니다.</p>
+    <p>중요한 점은 이 공명이 <b>음높이와 상관없이 같은 자리에</b> 있다는 것입니다. 어떤 음을 켜든 그 주파수 근처의 배음이 커집니다. 사람 목소리의 모음을 정하는 것과 같은 원리라서 이런 고정된 공명대를 <b>포먼트</b><span class="en">(Formant)</span>라 부릅니다. 바이올린·비올라·첼로가 같은 G₃을 켜도 서로 다르게 들리는 것은 줄이 아니라 상자가 다르기 때문입니다. 큰 상자일수록 공명이 낮은 곳에 있어 <b>자기 음역의 낮은 음</b>을 굵게 받쳐 줍니다. 그런데 같은 D₄를 켜면 바이올린에게는 낮은 음이라 기본음 근처의 공명이 소리를 두툼하게 하고, 첼로에게는 높은 음이라 배음이 브리지 언덕 쪽에 걸려 오히려 팽팽하고 밝게 들립니다. 음색은 '악기'만이 아니라 '그 악기의 어느 음역인가'로 정해집니다.</p>
+
+    <div class="sim" id="sim-str-body">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 음, 다른 상자</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="str-body-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>음(세 악기 공통 음역) <output id="str-body-m-out"></output></span><input type="range" id="str-body-m" min="55" max="76" step="1" value="62"></label>
+          <div class="btn-row"><button class="btn" data-k="violin">▶ 바이올린</button><button class="btn" data-k="viola">▶ 비올라</button><button class="btn" data-k="cello">▶ 첼로</button></div>
+          <div class="btn-row"><button class="btn primary" id="str-body-seq">▶ 차례로 비교</button><button class="btn" id="str-body-uni">▶ 셋이 함께(유니즌)</button></div>
+          <div class="sim-msg" id="str-body-msg">음을 올려 보세요. 공명대(포먼트)는 제자리에 있고 배음만 그 위를 지나갑니다. 무게 중심의 순서가 음에 따라 바뀌는 것도 보세요.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">바이올린 무게 중심</span><span class="v" id="str-body-c0">—</span></div>
+        <div class="stat"><span class="k">비올라</span><span class="v" id="str-body-c1">—</span></div>
+        <div class="stat"><span class="k">첼로</span><span class="v" id="str-body-c2">—</span></div>
+      </div>
+      <div class="sim-note">점선 곡선은 각 악기의 몸통 공명 곡선, 점은 그 음의 배음입니다 · 모델: 실제 몸통은 수십 개의 공명을 가지고 악기마다 다릅니다. 여기서는 악기마다 대표 공명 서너 개만 넣었습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 같은 선율을 다른 악기로.</b> 차이콥스키 〈현을 위한 세레나데〉나 드보르자크 〈현을 위한 세레나데〉처럼 현악기만으로 된 곡에서, 선율이 바이올린에서 첼로로 넘어가는 대목을 찾아 들어 보세요. 음높이가 한 옥타브 내려가는 것 이상으로 <b>목소리가 바뀐다</b>는 느낌이 듭니다. 그 차이가 상자의 공명입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="vibrato">
+    <h2>비브라토: 흔들리는 음높이</h2>
+    <p>왼손 손가락을 줄 위에서 앞뒤로 굴리면 음높이가 1초에 5–7번, 위아래로 10–30센트쯤 흔들립니다. 이것이 <b>비브라토</b><span class="en">(Vibrato)</span>입니다. 20세기 이후 현악기는 거의 모든 긴 음에 비브라토를 겁니다. 왜일까요?</p>
+    <ul>
+      <li><b>배음이 공명대를 오르내린다</b> — 음높이가 흔들리면 각 배음이 몸통의 공명 봉우리를 지나며 커졌다 작아집니다. 배음마다 다른 박자로 일렁이는 이 변화가 '빛나는' 질감을 만듭니다.</li>
+      <li><b>한 악기로 묶인다</b> — 한 악기의 모든 배음이 똑같이 흔들리므로, 귀는 함께 흔들리는 성분을 한 소리로 묶습니다(<b>공통 운명</b>, <a href="blend.html">10장</a>). 반주 위로 독주가 떠오르는 데 도움이 됩니다.</li>
+      <li><b>음정의 작은 차이를 덮는다</b> — 섹션에서 두 연주자의 음높이가 몇 센트 어긋나도, 서로 다른 비브라토가 맥놀이를 흩어 버려 거슬리지 않습니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-str-vib">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>비브라토의 빠르기와 폭</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="str-vib-cv"></canvas></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>빠르기 <output id="str-vib-r-out"></output></span><input type="range" id="str-vib-r" min="0" max="12" step="0.1" value="5.8"></label>
+          <label class="ctrl"><span>폭(위아래) <output id="str-vib-d-out"></output></span><input type="range" id="str-vib-d" min="0" max="60" step="1" value="18"></label>
+          <label class="check"><input type="checkbox" id="str-vib-two"> 바이올린 두 대(8센트 어긋남)</label>
+          <div class="btn-row"><button class="btn primary" id="str-vib-play">▶ 길게 켜기</button><button class="btn" id="str-vib-ab">▶ 없음 ↔ 있음</button><button class="btn" id="str-vib-stop">■ 정지</button></div>
+          <div class="sim-msg" id="str-vib-msg">두 대를 켜고 폭을 0으로 내려 보세요. 맥놀이가 또렷해집니다.</div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">음</span><span class="v">A₄ 440 Hz</span></div>
+        <div class="stat"><span class="k">주파수 흔들림</span><span class="v" id="str-vib-hz">—</span></div>
+        <div class="stat"><span class="k">느낌</span><span class="v" id="str-vib-feel">—</span></div>
+      </div>
+      <div class="sim-note">그림은 2초 동안의 음높이(센트)입니다. 음이 시작되고 0.2초 뒤에 비브라토가 서서히 들어옵니다 · 모델: 이 시뮬레이터는 바이올린 스펙트럼을 고정한 채 음높이만 흔듭니다. 실제로는 배음이 공명대를 지나며 생기는 진폭 일렁임이 더해져 더 반짝입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="articulation">
+    <h2>주법의 팔레트</h2>
+    <p>작곡가는 음표 위에 이탈리아어로 주법을 적어 같은 악기에서 전혀 다른 소리를 꺼냅니다. 오케스트레이션에서 현악기가 가장 다재다능한 악기군인 이유입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>표기</th><th>뜻</th><th>소리</th></tr></thead>
+        <tbody>
+          <tr><td>arco</td><td>활로(기본)</td><td>이어지는 노래하는 소리</td></tr>
+          <tr><td>legato / 이음줄</td><td>한 활에 여러 음을 이어서</td><td>음 사이 끊김 없이 부드럽게</td></tr>
+          <tr><td>staccato</td><td>짧게 끊어서(활을 줄에 붙인 채)</td><td>또렷하고 짧은 음</td></tr>
+          <tr><td>spiccato</td><td>활을 줄 위에서 튀기며</td><td>가볍고 통통 튀는 짧은 음</td></tr>
+          <tr><td>pizzicato</td><td>손가락으로 뜯어서</td><td>짧게 사라지는 '퉁' 소리</td></tr>
+          <tr><td>tremolo</td><td>활을 아주 빠르게 왕복</td><td>떨리는 긴장감, 눈보라 같은 배경</td></tr>
+          <tr><td>con sordino</td><td>브리지에 약음기를 끼워</td><td>고역이 줄어든 아련하고 먼 소리</td></tr>
+          <tr><td>flautando / 하모닉스</td><td>줄을 살짝 닿게 해 배음만</td><td>휘파람 같은 투명한 소리</td></tr>
+          <tr><td>sul ponticello / sul tasto</td><td>브리지 쪽 / 지판 쪽</td><td>유리 같은 날카로움 / 부드러운 흐림</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sim" id="sim-str-art">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>주법 갤러리</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="str-art-cv"></canvas><div class="str-artdesc" id="str-art-desc"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>주법</span><div class="str-arts" id="str-art-pick"></div></div>
+          <label class="ctrl"><span>악기</span><select id="str-art-inst"></select></label>
+          <label class="ctrl"><span>템포 <output id="str-art-bpm-out"></output></span><input type="range" id="str-art-bpm" min="60" max="140" step="1" value="96"></label>
+          <div class="btn-row"><button class="btn primary" id="str-art-play">▶ 재생</button><button class="btn" id="str-art-tour">▶ 모두 차례로</button></div>
+        </div>
+      </div>
+      <div class="sim-note">같은 짧은 선율을 주법만 바꿔 연주합니다 · 모델: 피치카토는 카플러스–스트롱 현 + 몸통 필터, 트레몰로는 빠른 진폭 변조, 약음기는 브리지 언덕을 깎은 공명, 하모닉스는 기본음 중심의 순한 스펙트럼으로 근사했습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 6 -->
+  <section id="section-sound">
+    <h2>독주와 섹션, 그리고 네 악기의 옥타브 겹치기</h2>
+    <p><a href="together.html#section">1장</a>에서 본 것처럼 여러 명이 같은 음을 내면 소리가 넓어집니다. 오케스트라의 현악 섹션은 이 넓은 소리를 다섯 겹(제1·제2 바이올린, 비올라, 첼로, 더블베이스)으로 쌓은 것입니다. 작곡가들이 즐겨 쓰는 강한 효과 하나는 <b>모든 현이 같은 선율을 옥타브로 겹쳐 부르는 것</b>입니다. 바이올린은 높은 옥타브, 비올라는 그 아래, 첼로와 더블베이스는 두세 옥타브 아래에서 같은 선을 연주하면 한 사람의 노래가 무대 전체의 목소리가 됩니다.</p>
+    <p>반대로 같은 선율을 <b>독주 바이올린 한 대</b>가 연주하면 활 소리와 비브라토 하나하나가 들리는 가깝고 사적인 소리가 됩니다. 협주곡이나 교향곡의 '솔로'가 섹션 위로 떠오르는 이유입니다. 이 두 소리가 어떻게 섞이고 갈라지는지는 <a href="blend.html">10장</a>에서 더 다룹니다.</p>
+
+    <div class="sim" id="sim-str-sec">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>현의 옥타브 유니즌</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="str-sec-roll"></canvas></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div class="ctrl"><span>함께 부를 악기</span><div id="str-sec-chips"></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px">
+          <div class="seg" id="str-sec-mode"><button data-value="solo" class="on">독주(한 명씩)</button><button data-value="section">섹션(14·10·8·6명)</button></div>
+          <button class="btn primary" id="str-sec-play">▶ 재생</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">편성</span><span class="v" id="str-sec-who">—</span></div>
+        <div class="stat"><span class="k">음역 폭</span><span class="v" id="str-sec-span">—</span></div>
+      </div>
+      <div class="sim-note">바이올린은 기본 옥타브, 비올라는 한 옥타브 아래, 첼로는 두 옥타브 아래, 더블베이스는 세 옥타브 아래에서 같은 선율을 연주합니다. 콘서트홀 잔향이 걸려 있습니다 · 모델: 섹션은 악기마다 최대 3개의 하위 음성으로 근사합니다(인원이 늘어도 음량은 같게 맞춤).</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 현의 유니즌.</b> 차이콥스키 교향곡 6번 〈비창〉 1악장이나 베토벤 교향곡들의 투티 대목에서 현 전체가 같은 선율을 옥타브로 겹쳐 부르는 순간을 찾아 보세요. 바로 앞의 화음 반주와 비교하면 소리가 '한 줄로 모이는' 힘이 느껴집니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>바이올린(G D A E)·비올라(C G D A)·첼로(C G D A)는 5도, 더블베이스(E A D G)는 4도 간격으로 조율한다. 더블베이스는 적힌 음보다 한 옥타브 낮게 소리 난다.</li>
+      <li>활은 송진의 점착–미끄럼으로 줄을 <b>헬름홀츠 운동</b>시킨다. 브리지는 \(1/n\) 배음을 가진 톱니파 힘을 받는다.</li>
+      <li>활 위치는 배음에 빗살 골을 판다. 브리지 쪽은 밝고 날카롭게(폰티첼로), 지판 쪽은 부드럽게(타스토). 크게 연주하려면 브리지 가까이에서 세게 긋는다.</li>
+      <li>몸통의 공명(포먼트)은 음높이와 무관하게 제자리에 있다. 같은 음이라도 상자마다, 그리고 그 악기의 어느 음역이냐에 따라 색이 다르다. 비올라는 음역에 비해 작은 상자다.</li>
+      <li>비브라토(5–7 Hz, ±10–30센트)는 배음을 공명대 위로 흔들어 반짝이게 하고, 한 악기로 묶이게 하며, 섹션의 작은 음정 차이를 덮는다.</li>
+      <li>arco·pizz·trem·stacc·spicc·con sordino·하모닉스·폰티첼로·타스토 — 같은 악기에서 전혀 다른 색을 꺼내는 주법의 팔레트가 현악기를 오케스트라의 몸통으로 만든다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>네 현악기 가운데 줄을 완전4도 간격으로 조율하는 악기는?</p><div class="opts">
+        <button class="opt">바이올린</button><button class="opt">비올라</button><button class="opt">첼로</button><button class="opt" data-correct>더블베이스</button>
+      </div><div class="quiz-exp">더블베이스는 E A D G로 4도 간격이다. 줄이 길어 5도 간격이면 손가락을 너무 넓게 벌려야 하기 때문이다. 나머지 셋은 5도 간격이다.</div></div>
+      <div class="quiz-q"><p>헬름홀츠 운동에서 브리지가 받는 힘의 파형과 배음 구조는?</p><div class="opts">
+        <button class="opt">사인파, 기본음만</button><button class="opt">사각파, 홀수 배음만</button>
+        <button class="opt" data-correct>톱니파, 모든 배음이 \(1/n\)의 세기로</button><button class="opt">잡음, 배음 없음</button>
+      </div><div class="quiz-exp">꺾인 점이 한 바퀴 도는 동안 브리지는 천천히 밀리고 갑자기 되돌아간다. 이 톱니파는 모든 정수배 배음을 \(1/n\)로 담는다.</div></div>
+      <div class="quiz-q"><p>술 폰티첼로(브리지 가까이 긋기)를 하면 소리가 어떻게 바뀌는가?</p><div class="opts">
+        <button class="opt">기본음이 커지고 부드러워진다</button>
+        <button class="opt" data-correct>고역 배음이 상대적으로 커져 유리 같은 날카로운 소리가 된다</button>
+        <button class="opt">음높이가 올라간다</button><button class="opt">소리가 나지 않는다</button>
+      </div><div class="quiz-exp">\(\beta\)가 작으면 빗살의 첫 골이 아주 높은 배음에 생기고, 낮은 배음은 상대적으로 약해진다. 고역이 도드라진 차갑고 날카로운 소리가 난다.</div></div>
+      <div class="quiz-q"><p>바이올린과 첼로가 같은 G₃을 켜도 다르게 들리는 주된 이유는?</p><div class="opts">
+        <button class="opt">줄의 굵기가 같아서</button><button class="opt">음높이가 실제로는 다르기 때문에</button>
+        <button class="opt" data-correct>몸통 공명(포먼트)의 위치가 달라 강조되는 배음이 다르기 때문에</button><button class="opt">활이 다르기 때문에</button>
+      </div><div class="quiz-exp">공명대는 음높이와 무관하게 상자 크기로 정해진다. 그래서 같은 음이라도 상자마다 강조되는 배음이 다르고, 그 음이 그 악기의 낮은 음역인지 높은 음역인지에 따라서도 색이 달라진다.</div></div>
+      <div class="quiz-q"><p>현악 섹션에서 비브라토가 하는 일이 <b>아닌</b> 것은?</p><div class="opts">
+        <button class="opt">배음을 공명대 위로 흔들어 반짝이게 한다</button>
+        <button class="opt">연주자들의 작은 음정 차이로 생기는 맥놀이를 흩어 준다</button>
+        <button class="opt" data-correct>음 전체의 평균 음높이를 반음 올린다</button>
+        <button class="opt">한 악기의 배음들이 함께 흔들려 하나로 묶여 들리게 한다</button>
+      </div><div class="quiz-exp">비브라토는 중심 음높이 주위로 위아래 수십 센트 흔들 뿐 평균 음높이를 바꾸지 않는다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+const STR4 = ["violin", "viola", "cello", "contrabass"];
+const OPEN = { violin: [55, 62, 69, 76], viola: [48, 55, 62, 69], cello: [36, 43, 50, 57], contrabass: [28, 33, 38, 43] };
+const SEC = { violin: 14, viola: 10, cello: 8, contrabass: 6 };
+const fnt = (px, mono) => px + "px " + getComputedStyle(document.body).getPropertyValue(mono ? "--mono" : "--font");
+const nm = (m) => { const s = MB.noteName(m); return s.replace(/(-?\d+)$/, (d) => d.split("").map((c) => "₀₁₂₃₄₅₆₇₈₉"[+c] || c).join("")); };
+
+/* ------------------------------------------------------------ 1. 개방현과 음역 */
+(function () {
+  let mark = null, timer = null;
+  const box = document.getElementById("str-fam-open");
+  box.innerHTML = STR4.map((k) => `<div class="row" style="--c:${EN.color(k)}"><b>${EN.name(k)}</b>${OPEN[k].map((m) => `<button data-k="${k}" data-m="${m}">${MB.noteName(m)}</button>`).join("")}</div>`).join("");
+  function chart() { EN.rangeChart("#str-fam-range", { insts: STR4, marks: mark != null ? [{ m: mark, label: nm(mark) }] : [], lo: 24, hi: 103 }); }
+  function play(k, m) {
+    MB.ctx(); mark = m; chart();
+    const sec = document.getElementById("str-fam-sec").checked;
+    EN.note(k, m, { dur: 1.6, vel: 0.6, players: sec ? SEC[k] : 1, maxSub: 4 });
+    box.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.k === k && +b.dataset.m === m));
+    const i = OPEN[k].indexOf(m);
+    MB.stat("str-fam-who", EN.name(k) + " · " + (4 - i) + "번 줄");
+    MB.stat("str-fam-note", nm(m) + (k === "contrabass" ? " (악보에는 " + nm(m + 12) + ")" : ""));
+    MB.stat("str-fam-f", MB.mtof(m).toFixed(1) + " Hz");
+  }
+  box.addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (b) play(b.dataset.k, +b.dataset.m); });
+  function stop() { if (timer) { clearTimeout(timer); timer = null; } MB.stopAll(); }
+  document.getElementById("str-fam-all").addEventListener("click", () => {
+    stop(); const seq = [];
+    STR4.slice().reverse().forEach((k) => OPEN[k].forEach((m) => seq.push([k, m])));
+    let i = 0; const step = () => { if (i >= seq.length) { timer = null; return; } play(...seq[i++]); timer = setTimeout(step, 700); };
+    step();
+  });
+  document.getElementById("str-fam-stop").addEventListener("click", stop);
+  chart();
+})();
+
+/* ------------------------------------------------------------ 2. 활 */
+(function () {
+  const sel = document.getElementById("str-bow-inst");
+  sel.innerHTML = EN.options(["violin", "viola", "cello"], "violin");
+  let pos = "", vel = 0.6, m = 69, timer = null;
+  const BETA = { pont: 0.035, "": 0.11, tasto: 0.22 };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), k = sel.value;
+    const S = EN.spectrum(k, m, { vel, art: pos }).slice(0, 32);
+    const b = { x: 38, y: 12, w: w - 50, h: h - 40 }, n = S.length, bw = b.w / n;
+    ctx.font = fnt(10.5, true); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for (let d = 0; d >= -60; d -= 20) { const y = b.y + (-d / 60) * b.h; ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(b.x, y); ctx.lineTo(b.x + b.w, y); ctx.stroke(); ctx.fillText(d, b.x - 4, y); }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    S.forEach((p, i) => {
+      const hh = MB.clamp((p.db + 60) / 60, 0, 1) * b.h;
+      ctx.fillStyle = EN.color(k); ctx.globalAlpha = 0.85;
+      ctx.fillRect(b.x + i * bw + 1, b.y + b.h - hh, Math.max(1, bw - 2), hh);
+      ctx.globalAlpha = 1;
+      if (i === 0 || (i + 1) % 4 === 0) { ctx.fillStyle = P.dim; ctx.fillText(i + 1, b.x + (i + 0.5) * bw, b.y + b.h + 4); }
+    });
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.fillText("배음 번호 · dB", b.x + 4, b.y + 2);
+  }
+  const view = MB.canvas("#str-bow-cv", draw, { aspect: 0.5, minHeight: 200, maxHeight: 320 });
+  function update() {
+    const k = sel.value; m = EN.fold(k, m);
+    document.getElementById("str-bow-v-out").textContent = EN.dynOf(vel) + " (" + vel.toFixed(2) + ")";
+    document.getElementById("str-bow-m-out").textContent = nm(m);
+    MB.stat("str-bow-c", Math.round(EN.centroid(k, m, { vel, art: pos })) + " Hz");
+    const beta = BETA[pos], nul = [];
+    for (let n = 2; n <= 40 && nul.length < 3; n++) if (Math.abs(Math.sin(n * Math.PI * beta)) < 0.25 && Math.abs(Math.sin((n - 1) * Math.PI * beta)) >= 0.25) nul.push(n);
+    MB.stat("str-bow-null", nul.length ? nul.join(", ") + "번째 근처" : "40번째 이상");
+    MB.stat("str-bow-dyn", EN.DYN_NAMES[EN.dynOf(vel)]);
+    view.redraw();
+  }
+  const play = (p) => { MB.ctx(); MB.stopAll(); EN.note(sel.value, m, { dur: 1.8, vel, art: p != null ? p : pos }); };
+  MB.seg("str-bow-pos", (v) => { pos = v; update(); });
+  MB.range("str-bow-v", null, (v) => { vel = v; update(); });
+  const mR = MB.range("str-bow-m", null, (v) => { m = v; update(); });
+  sel.addEventListener("change", () => { const I = EN.inst(sel.value); mR.el.min = I.lo; mR.el.max = Math.min(I.hi, I.lo + 29); mR.set(MB.clamp(m, I.lo, +mR.el.max)); update(); });
+  document.getElementById("str-bow-play").addEventListener("click", () => play());
+  document.getElementById("str-bow-tour").addEventListener("click", () => {
+    if (timer) clearTimeout(timer);
+    const order = ["pont", "", "tasto"]; let i = 0;
+    const step = () => { if (i >= 3) { timer = null; return; } const p = order[i++]; document.querySelector(`#str-bow-pos button[data-value="${p}"]`).click(); play(p); timer = setTimeout(step, 2100); };
+    step();
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 몸통 공명 */
+(function () {
+  const K = ["violin", "viola", "cello"];
+  let m = 62, timer = null;
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 34, y: 54, w: w - 46, h: h - 78 };
+    const COL = [MB.color("en-str"), P.accent, P.accent2];
+    const layers = K.map((k, i) => ({ inst: k, m, vel: 0.6, label: EN.name(k), color: COL[i] }));
+    const ax = EN.drawSpectra(ctx, b, layers, { fmin: 80, fmax: 8000, dbMin: -50, dbMax: 4, offset: 3 });
+    // 공명 곡선(포먼트): 각 악기 공명의 합을 dB로
+    K.forEach((k, ki) => {
+      const I = EN.inst(k); ctx.strokeStyle = COL[ki]; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.4; ctx.beginPath();
+      const gain = (f) => I.formants.reduce((g, [fc, bw, a]) => g + a / (1 + ((f - fc) / bw) ** 2), I.floor);
+      let mx = 0; for (let i = 0; i <= 160; i++) mx = Math.max(mx, gain(80 * Math.pow(100, i / 160)));
+      for (let i = 0; i <= 160; i++) { const f = 80 * Math.pow(100, i / 160), x = ax.X(f), y = ax.Y(MB.db(gain(f) / mx) * 0.6 - 2); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    ctx.fillStyle = P.dim; ctx.font = fnt(11, true); ctx.textAlign = "right"; ctx.textBaseline = "top"; ctx.fillText(nm(m) + " = " + MB.mtof(m).toFixed(0) + " Hz", w - 12, 6);
+  }
+  const view = MB.canvas("#str-body-cv", draw, { aspect: 0.55, minHeight: 240, maxHeight: 360 });
+  function update() {
+    document.getElementById("str-body-m-out").textContent = nm(m);
+    K.forEach((k, i) => MB.stat("str-body-c" + i, Math.round(EN.centroid(k, m, { vel: 0.6 })) + " Hz"));
+    view.redraw();
+  }
+  MB.range("str-body-m", null, (v) => { m = v; update(); });
+  const stop = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  document.querySelectorAll("#sim-str-body button[data-k]").forEach((b) => b.addEventListener("click", () => { stop(); MB.ctx(); MB.stopAll(); EN.note(b.dataset.k, m, { dur: 1.6, vel: 0.6 }); }));
+  document.getElementById("str-body-seq").addEventListener("click", () => {
+    stop(); MB.ctx(); MB.stopAll(); let i = 0;
+    const step = () => { if (i >= K.length) { timer = null; return; } EN.note(K[i++], m, { dur: 1.4, vel: 0.6 }); timer = setTimeout(step, 1600); };
+    step();
+  });
+  document.getElementById("str-body-uni").addEventListener("click", () => { stop(); MB.ctx(); MB.stopAll(); K.forEach((k) => EN.note(k, m, { dur: 2.2, vel: 0.5 })); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 비브라토 */
+(function () {
+  let rate = 5.8, depth = 18, two = false, voices = [], ab = null;
+  const F = 440, DELAY = 0.2;
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 46, y: 12, w: w - 58, h: h - 36 }, T = 2;
+    const Y = (c) => b.y + b.h / 2 - (c / 70) * (b.h / 2);
+    ctx.font = fnt(10.5, true); ctx.fillStyle = P.dim; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-60, -30, 0, 30, 60].forEach((c) => { ctx.strokeStyle = c ? P.grid : P.axis; ctx.beginPath(); ctx.moveTo(b.x, Y(c)); ctx.lineTo(b.x + b.w, Y(c)); ctx.stroke(); ctx.fillText((c > 0 ? "+" : "") + c + "¢", b.x - 4, Y(c)); });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (let s = 0; s <= T; s += 0.5) ctx.fillText(s + " s", b.x + (s / T) * b.w, b.y + b.h + 4);
+    const curve = (off, col, ph) => {
+      ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath();
+      for (let i = 0; i <= 400; i++) { const t = (i / 400) * T, ramp = MB.clamp((t - DELAY) / 0.35, 0, 1); const c = off + depth * ramp * Math.sin(2 * Math.PI * rate * t + ph); const x = b.x + (t / T) * b.w; i ? ctx.lineTo(x, Y(c)) : ctx.moveTo(x, Y(c)); }
+      ctx.stroke();
+    };
+    curve(0, EN.color("violin"), 0);
+    if (two) curve(8, P.accent, 1.7);
+  }
+  const view = MB.canvas("#str-vib-cv", draw, { aspect: 0.4, minHeight: 180 });
+  let wave = null;
+  function voice(off, ph, rmul) {
+    const ctx = MB.ctx(), t = ctx.currentTime + 0.03;
+    if (!wave) { const A = EN.harmonicAmps("violin", 69, { vel: 0.6 }); const r = Math.sqrt(A.reduce((s, a) => s + a * a, 0)); wave = MB.wave(A.map((a) => a / r), null, ctx); }
+    const o = ctx.createOscillator(); o.setPeriodicWave(wave); o.frequency.value = F; o.detune.value = off;
+    const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = Math.max(0.01, rate * rmul);
+    lg.gain.setValueAtTime(0, t); lg.gain.setValueAtTime(0, t + DELAY); lg.gain.linearRampToValueAtTime(depth, t + DELAY + 0.35);
+    lfo.connect(lg); lg.connect(o.detune);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.setTargetAtTime(0.09, t, 0.03);
+    o.connect(g); g.connect(MB.out); o.start(t); lfo.start(t + ph / (2 * Math.PI * Math.max(0.1, rate)));
+    return { lfo, lg, release() { const n = ctx.currentTime; g.gain.setTargetAtTime(0, n, 0.05); o.stop(n + 0.4); lfo.stop(n + 0.4); } };
+  }
+  function stop() { voices.forEach((v) => v.release()); voices = []; }
+  function start() { stop(); MB.ctx(); voices.push(voice(0, 0, 1)); if (two) voices.push(voice(8, 1.7, 1.09)); }
+  function retune() { const n = MB.now(); voices.forEach((v, i) => { v.lfo.frequency.setTargetAtTime(Math.max(0.01, rate * (i ? 1.09 : 1)), n, 0.05); v.lg.gain.cancelScheduledValues(n); v.lg.gain.setTargetAtTime(depth, n, 0.05); }); }
+  function update() {
+    document.getElementById("str-vib-r-out").textContent = rate.toFixed(1) + " Hz";
+    document.getElementById("str-vib-d-out").textContent = "±" + depth + "¢";
+    const df = F * (Math.pow(2, depth / 1200) - 1);
+    MB.stat("str-vib-hz", "±" + df.toFixed(1) + " Hz");
+    MB.stat("str-vib-feel", depth < 3 || rate < 0.5 ? "비브라토 없음(곧은 소리)" : rate < 4 ? "느린 일렁임(흔들림)" : rate > 8 ? "빠른 떨림(긴장)" : depth > 40 ? "넓은 오페라풍" : "자연스러운 현악기");
+    view.redraw(); retune();
+  }
+  MB.range("str-vib-r", null, (v) => { rate = v; update(); });
+  const dR = MB.range("str-vib-d", null, (v) => { depth = v; update(); });
+  MB.check("str-vib-two", (v) => { two = v; update(); if (voices.length) start(); });
+  document.getElementById("str-vib-play").addEventListener("click", () => { if (ab) { clearInterval(ab); ab = null; } voices.length ? stop() : start(); });
+  document.getElementById("str-vib-stop").addEventListener("click", () => { if (ab) { clearInterval(ab); ab = null; } stop(); });
+  document.getElementById("str-vib-ab").addEventListener("click", () => {
+    if (ab) { clearInterval(ab); ab = null; stop(); return; }
+    let on = false; const keep = depth || 18;
+    const flip = () => { on = !on; dR.set(on ? keep : 0); };
+    dR.set(0); start(); ab = setInterval(flip, 2000);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 주법 갤러리 */
+(function () {
+  const ARTS = [
+    ["", "arco", "활로 이어 켜는 기본 소리. 활 소리와 비브라토가 함께 들린다."],
+    ["legato", "legato", "어택이 부드러워져 음과 음이 한 호흡으로 이어진다."],
+    ["stacc", "staccato", "활을 줄에 붙인 채 짧게 끊는다. 또렷한 시작, 짧은 길이."],
+    ["spicc", "spiccato", "활이 줄 위에서 튀어 오른다. 더 짧고 가볍다. 빠른 패시지의 단골."],
+    ["pizz", "pizzicato", "손가락으로 뜯는다. 활의 지속음이 없어 '퉁' 하고 사라진다."],
+    ["trem", "tremolo", "활을 아주 빠르게 왕복한다. 음 하나가 떨리는 띠가 된다."],
+    ["mute", "con sordino", "약음기가 브리지의 고역 진동을 눌러 멀고 아련한 소리가 된다."],
+    ["harm", "harmonics", "줄을 살짝만 짚어 배음만 울린다. 휘파람 같은 투명한 소리."],
+    ["pont", "sul pont.", "브리지 가까이. 기본음이 약하고 고역이 날카로운 유리 같은 소리."],
+    ["tasto", "sul tasto", "지판 위에서. 고역이 줄어든 부드럽고 흐린 소리."],
+  ];
+  let art = "", bpm = 96, pl = null, tourT = null;
+  const PHRASE = EN.parse("mf D5:.5 E5 F#5 G5 A5:1 F#5:.5 D5 | E5:.5 C#5 A4 B4 C#5:1 D5:1");
+  const sel = document.getElementById("str-art-inst");
+  sel.innerHTML = EN.options(STR4, "violin");
+  const OFF = { violin: 0, viola: -12, cello: -24, contrabass: -36 };
+  const pick = document.getElementById("str-art-pick");
+  pick.innerHTML = ARTS.map(([k, it, ]) => `<button data-a="${k}" class="${k === art ? "on" : ""}">${EN.ARTS[k || "arco"]}<small>${it}</small></button>`).join("");
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 10, y: 10, w: w - 20, h: h - 20 }, L = EN.length(PHRASE);
+    const ms = PHRASE.map((n) => n.m), lo = Math.min(...ms), hi = Math.max(...ms);
+    const head = pl && pl.running ? pl.beat % L : -1;
+    const short = ["stacc", "spicc", "pizz"].includes(art);
+    PHRASE.forEach((n) => {
+      const x0 = b.x + (n.t / L) * b.w, x1 = b.x + ((n.t + (short ? n.d * 0.35 : n.d * 0.96)) / L) * b.w;
+      const y = b.y + b.h - ((n.m - lo) / (hi - lo)) * (b.h - 16) - 8;
+      const on = head >= n.t && head < n.t + n.d;
+      ctx.fillStyle = EN.color(sel.value); ctx.globalAlpha = on ? 1 : 0.6;
+      if (art === "trem") { for (let x = x0; x < x1; x += 4) ctx.fillRect(x, y - 4, 2, 8); }
+      else if (art === "pizz") { ctx.beginPath(); ctx.moveTo(x0, y - 6); ctx.lineTo(x1 + 10, y); ctx.lineTo(x0, y + 6); ctx.fill(); }
+      else ctx.fillRect(x0, y - (art === "harm" ? 2 : 4), Math.max(3, x1 - x0), art === "harm" ? 4 : 8);
+      ctx.globalAlpha = 1;
+    });
+    if (head >= 0) { ctx.strokeStyle = P.accent; ctx.lineWidth = 2; const x = b.x + (head / L) * b.w; ctx.beginPath(); ctx.moveTo(x, b.y); ctx.lineTo(x, b.y + b.h); ctx.stroke(); }
+  }
+  const view = MB.canvas("#str-art-cv", draw, { aspect: 0.3, minHeight: 120, maxHeight: 200 });
+  MB.loop(view.canvas, () => { if (pl && pl.running) view.redraw(); });
+  const btn = document.getElementById("str-art-play");
+  function setArt(a) {
+    art = a;
+    pick.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.a === a));
+    const d = ARTS.find((x) => x[0] === a);
+    document.getElementById("str-art-desc").innerHTML = `<b>${EN.ARTS[a || "arco"]}</b> <span class="en">(${d[1]})</span> — ${d[2]}`;
+    view.redraw(); if (pl && pl.running) pl.refresh();
+  }
+  pl = EN.player({
+    parts: () => [{ id: "s", inst: sel.value, notes: EN.shift(PHRASE, OFF[sel.value]), art }], bpm: () => bpm, loop: true,
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; view.redraw(); },
+  });
+  pick.addEventListener("click", (e) => { const b = e.target.closest("button[data-a]"); if (!b) return; if (tourT) { clearInterval(tourT); tourT = null; } setArt(b.dataset.a); if (!pl.running) { MB.ctx(); pl.start(); } });
+  sel.addEventListener("change", () => { view.redraw(); if (pl.running) pl.refresh(); });
+  MB.range("str-art-bpm", (v) => v + " BPM", (v) => { bpm = v; });
+  btn.addEventListener("click", () => { MB.ctx(); if (tourT) { clearInterval(tourT); tourT = null; } pl.toggle(); });
+  document.getElementById("str-art-tour").addEventListener("click", () => {
+    MB.ctx(); if (tourT) { clearInterval(tourT); tourT = null; pl.stop(); return; }
+    let i = 0; setArt(ARTS[0][0]); pl.start();
+    tourT = setInterval(() => { i = (i + 1) % ARTS.length; setArt(ARTS[i][0]); }, (60 / bpm) * EN.length(PHRASE) * 1000);
+  });
+  setArt("");
+})();
+
+/* ------------------------------------------------------------ 6. 옥타브 유니즌 */
+(function () {
+  const THEME = EN.parse("mf D5:1.5 E5:.5 F#5:1 D5:1 | G5:1.5 F#5:.5 E5:2 | A5:1 G5:.5 F#5 E5:1 D5:1 | C#5:1 E5:1 D5:2");
+  const OFF = { violin: 0, viola: -12, cello: -24, contrabass: -36 };
+  let on = ["violin", "cello"], mode = "solo", mx = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert", wet: 0.3 }));
+  const parts = () => STR4.filter((k) => on.includes(k)).map((k) => ({ id: k, inst: k, label: EN.name(k), notes: EN.shift(THEME, OFF[k]), players: mode === "section" ? SEC[k] : 1, maxSub: 3 }));
+  const roll = EN.roll("#str-sec-roll", { parts: parts(), beats: 16 });
+  const btn = document.getElementById("str-sec-play");
+  const pl = EN.player({ parts, bpm: 72, loop: true, mixer: getMx, length: 16, onFrame: (b) => roll.at(b),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); } });
+  function update() {
+    const ps = parts(); roll.set(ps, 16);
+    MB.stat("str-sec-who", ps.length ? ps.map((p) => p.label + (mode === "section" ? " " + p.players + "명" : "")).join(" · ") : "없음");
+    const ms = ps.flatMap((p) => p.notes.map((n) => n.m));
+    MB.stat("str-sec-span", ms.length ? nm(Math.min(...ms)) + " – " + nm(Math.max(...ms)) + " (" + ((Math.max(...ms) - Math.min(...ms)) / 12).toFixed(1) + "옥타브)" : "—");
+    if (pl.running) pl.refresh();
+  }
+  EN.chips("#str-sec-chips", STR4, { multi: true, sel: on, onChange: (l) => { on = l; update(); } });
+  MB.seg("str-sec-mode", (v) => { mode = v; update(); });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>실내악 편성 · EnsembleBook</title>
+<meta name="description" content="같은 가족끼리 모인 편성과 서로 다른 악기가 모인 편성. 목관 5중주에 호른이 들어가는 이유, 금관 5중주, 피아노 3중주·5중주의 균형 문제, 클라리넷 5중주와 리드 3중주를 같은 곡을 편성만 바꿔 들으며 비교한다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .ch-row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ch-row2 select { width: 100%; }
+  .ch-voices { display: grid; gap: 6px; }
+  .ch-voices .v { display: grid; grid-template-columns: 64px minmax(0, 1fr) 76px; gap: 6px; align-items: center; font-size: 13px; }
+  .ch-voices .v b { font-weight: 600; }
+  .ch-voices select { width: 100%; min-width: 0; }
+  .ch-warn { padding: 8px 12px; font-size: 13.5px; display: grid; gap: 4px; }
+  .ch-warn .w { color: var(--warn); }
+  .ch-warn .ok { color: var(--ok); }
+  .ch-quiz { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; }
+  .ch-quiz button { font: inherit; font-size: 13.5px; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .ch-quiz button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 16%, var(--bg-elev)); }
+  .ch-quiz button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg-elev)); }
+  #ch-bld-range { padding: 6px 8px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="chamber">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 08</div>
+    <h1>실내악 편성</h1>
+    <p class="lead">현악 4중주는 같은 가족 네 악기가 모인 편성입니다. 그런데 실내악의 세계에는 플루트·오보에·클라리넷·호른·바순처럼 <b>모두 다른 악기</b>가 모인 편성도 있고, 소리가 사그라드는 피아노와 끝없이 이어지는 현이 만나는 편성도 있습니다. 같은 곡을 어떤 편성으로 연주하느냐에 따라 화음의 '살'이 고르게 섞이기도 하고, 각 성부가 따로따로 또렷이 들리기도 합니다. 이 장에서는 대표적인 실내악 편성을 차례로 듣고, 같은 곡을 편성만 바꿔 비교하고, 직접 네 성부에 악기를 배정해 봅니다.</p>
+    <ul class="objectives">
+      <li>같은 가족으로 이루어진 <b>동질 편성</b>과 서로 다른 악기로 이루어진 <b>이질 편성</b>의 장단점을 설명한다.</li>
+      <li>목관 5중주의 다섯 악기와, 금관인 호른이 그 안에 들어가는 이유를 안다.</li>
+      <li>금관 5중주의 구성과 음역 분담을 안다.</li>
+      <li>감쇠하는 피아노와 지속하는 현악기가 만나는 피아노 3중주·5중주에서 생기는 균형 문제를 듣고 설명한다.</li>
+      <li>네 성부를 악기에 배정할 때 음역·조옮김·옥타브 이동을 확인하는 습관을 들인다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="families">
+    <h2>같은 가족, 다른 가족</h2>
+    <p>실내악 편성은 크게 두 갈래로 나눌 수 있습니다. 바이올린·비올라·첼로처럼 <b>발음 원리와 음색이 같은 가족</b>으로만 이루어진 <b>동질 편성</b><span class="en">(Homogeneous ensemble)</span>과, 리드·에지톤·입술·현·해머처럼 <b>발음 원리가 다른 악기</b>를 섞은 <b>이질 편성</b><span class="en">(Heterogeneous ensemble)</span>입니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>동질 편성 (예: 현악 4중주)</th><th>이질 편성 (예: 목관 5중주)</th></tr></thead>
+        <tbody>
+          <tr><td>섞임</td><td>배음 구조가 비슷해 화음이 <b>하나의 몸</b>처럼 섞인다</td><td>성부마다 색이 달라 화음이 <b>층층이</b> 들린다</td></tr>
+          <tr><td>성부 구별</td><td>선이 엉키면 누가 누구인지 헷갈리기 쉽다</td><td>음색이 달라 각 선을 따라가기 쉽다</td></tr>
+          <tr><td>음역</td><td>위에서 아래까지 같은 음색으로 이어진다</td><td>악기마다 강한 음역·약한 음역이 달라 균형이 까다롭다</td></tr>
+          <tr><td>셈여림</td><td>네 악기가 비슷한 범위에서 움직인다</td><td>같은 p에서도 악기마다 실제 음량이 크게 다르다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 190" role="img" aria-label="동질 편성과 이질 편성의 스펙트럼 비교">
+        <g transform="translate(20,20)">
+          <text x="150" y="0" text-anchor="middle" class="t">동질: 현악 4중주</text>
+          <line x1="0" y1="140" x2="300" y2="140" stroke="var(--axis)"/>
+          <g fill="var(--en-str)" opacity=".85">
+            <rect x="20" y="40" width="40" height="100" rx="4"/><rect x="85" y="55" width="40" height="85" rx="4"/><rect x="150" y="50" width="40" height="90" rx="4"/><rect x="215" y="45" width="40" height="95" rx="4"/>
+          </g>
+          <g class="t-mono" text-anchor="middle" style="font-size:12px"><text x="40" y="158">Vn1</text><text x="105" y="158">Vn2</text><text x="170" y="158">Va</text><text x="235" y="158">Vc</text></g>
+          <path d="M20 40 Q150 20 255 45" fill="none" stroke="var(--text-dim)" stroke-dasharray="4 4"/>
+        </g>
+        <g transform="translate(400,20)">
+          <text x="150" y="0" text-anchor="middle" class="t">이질: 목관 5중주</text>
+          <line x1="0" y1="140" x2="300" y2="140" stroke="var(--axis)"/>
+          <rect x="10" y="70" width="40" height="70" rx="4" fill="var(--en-ww)"/>
+          <rect x="65" y="35" width="40" height="105" rx="4" fill="var(--en-ww)" opacity=".7"/>
+          <rect x="120" y="60" width="40" height="80" rx="4" fill="var(--en-ww)" opacity=".5"/>
+          <rect x="175" y="85" width="40" height="55" rx="4" fill="var(--en-br)"/>
+          <rect x="230" y="50" width="40" height="90" rx="4" fill="var(--en-ww)" opacity=".85"/>
+          <g class="t-mono" text-anchor="middle" style="font-size:12px"><text x="30" y="158">Fl</text><text x="85" y="158">Ob</text><text x="140" y="158">Cl</text><text x="195" y="158">Hn</text><text x="250" y="158">Bn</text></g>
+        </g>
+      </svg>
+      <figcaption><b>그림 8-1.</b> 막대 높이는 각 악기 음색의 밝기(고역 배음의 비중)를 흉내 낸 것입니다. 동질 편성은 모양이 고르고, 이질 편성은 악기마다 들쭉날쭉합니다. 그 들쭉날쭉함이 이질 편성의 색이자 숙제입니다.</figcaption>
+    </figure>
+    <p>어느 쪽이 더 좋다는 것은 없습니다. 하이든과 베토벤이 현악 4중주를 실내악의 중심에 놓은 것은 네 성부가 <b>대등하게 대화하는</b> 짜임에 동질 편성이 잘 맞았기 때문이고, 목관 5중주가 꾸준히 사랑받는 것은 <b>다섯 가지 색을 한 번에</b> 쓸 수 있기 때문입니다. 아래 시뮬레이터에서 같은 곡을 편성만 바꿔 들어 보세요.</p>
+
+    <div class="sim" id="sim-ch-compare">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>같은 곡, 다른 편성</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="ch-cmp-roll"></canvas><div id="ch-cmp-ui"></div></div>
+      </div>
+      <div class="sim-controls" style="padding: 12px 16px">
+        <div class="ctrl"><span>곡</span><div class="seg" id="ch-cmp-piece"><button data-value="chorale" class="on">작은 코랄</button><button data-value="pastorale">들판의 노래</button><button data-value="ode">환희의 송가</button><button data-value="fanfare">축제 팡파르</button></div></div>
+        <div class="ctrl"><span>편성 A · 편성 B</span><div class="ch-row2"><select id="ch-cmp-a"></select><select id="ch-cmp-b"></select></div></div>
+        <div class="btn-row"><button class="btn primary" id="ch-cmp-play">▶ 편성 A 재생</button><button class="btn" id="ch-cmp-ab">▶ A ↔ B 번갈아</button><button class="btn" id="ch-cmp-stop">■ 정지</button></div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">지금 편성</span><span class="v" id="ch-cmp-now">—</span></div>
+        <div class="stat"><span class="k">악기 가족</span><span class="v" id="ch-cmp-fam">—</span></div>
+        <div class="stat"><span class="k">음역 접음</span><span class="v" id="ch-cmp-fold">—</span></div>
+      </div>
+      <div class="sim-note">'번갈아'는 곡이 한 바퀴 돌 때마다 A와 B를 바꿉니다. 롤에서 주황 테두리 음은 그 악기의 음역을 벗어나 옥타브를 옮긴 음입니다 · 모델: 곡의 4성부를 EN.ARRANGE의 편성표대로 나눠 줍니다. 실제 편곡자는 악기마다 성부를 다시 쓰지만, 여기서는 음색만 바꿔 비교하려고 같은 음을 씁니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="wind-quintet">
+    <h2>목관 5중주: 다섯 가지 색과 호른</h2>
+    <p>목관 5중주<span class="en">(Wind quintet)</span>는 <b>플루트·오보에·클라리넷·호른·바순</b>입니다. 19세기 초 안톤 라이하가 이 편성으로 24곡의 5중주를 써서 표준으로 굳혔습니다. 다섯 악기는 소리 내는 방법이 모두 다릅니다(<a href="winds.html">3장</a>).</p>
+    <ul>
+      <li><b>플루트</b> — 에지톤. 배음이 적고 숨소리가 섞인 맑은 소리. 낮은 음역은 약하고 높은 음역이 빛난다.</li>
+      <li><b>오보에</b> — 겹리드 + 원뿔관. 1 kHz 근처의 강한 포먼트로 작은 음량에도 멀리 들린다.</li>
+      <li><b>클라리넷</b> — 홑리드 + 원통관. 낮은 음역(샬뤼모)에서 홀수 배음이 두드러진 어둡고 속이 빈 소리.</li>
+      <li><b>바순</b> — 겹리드 + 긴 원뿔관. 500 Hz 근처 포먼트의 따뜻한 베이스.</li>
+      <li><b>호른</b> — <b>금관악기</b>. 입술 버징 + 뒤를 향한 벨.</li>
+    </ul>
+    <p>왜 목관 편성에 금관인 호른이 들어 있을까요? 호른은 벨이 뒤쪽을 향하고 연주자가 손을 벨 안에 넣어 고역이 깎이기 때문에, 금관 중에서 가장 <b>둥글고 어두운</b> 소리를 냅니다. 이 소리는 목관과도 금관과도 잘 섞이고, 목관이 약한 <b>가운데 음역을 두툼하게 채우며</b>, 다섯 개의 서로 다른 색 사이를 이어 붙이는 <b>접착제</b> 역할을 합니다. 그래서 관현악법 책들은 호른을 "목관과 금관 사이의 다리"라고 부릅니다.</p>
+
+    <div class="sim" id="sim-ch-glue">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>호른이 있을 때와 없을 때</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ch-glue-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>셋째 성부(테너)</span><div class="seg" id="ch-glue-mode"><button data-value="horn" class="on">클라리넷 + 호른</button><button data-value="none">클라리넷만</button><button data-value="hornOnly">호른만</button></div></div>
+          <div class="ctrl"><span>곡</span><div class="seg" id="ch-glue-piece"><button data-value="chorale" class="on">작은 코랄</button><button data-value="pastorale">들판의 노래</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="ch-glue-play">▶ 재생</button><button class="btn" id="ch-glue-ab">▶ 있음 ↔ 없음</button><button class="btn" id="ch-glue-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">가운데 음역 채움</span><span class="v" id="ch-glue-mid">—</span></div>
+        <div class="stat"><span class="k">호른 밝기(무게 중심)</span><span class="v" id="ch-glue-hc">—</span></div>
+        <div class="stat"><span class="k">트럼펫이었다면</span><span class="v" id="ch-glue-tc">—</span></div>
+      </div>
+      <div class="sim-note">그림은 다섯 악기의 편한 음역(막대)과 그 음역 가운데 음의 스펙트럼 무게 중심(점)입니다. 호른의 점은 목관들 사이, 트럼펫보다 훨씬 낮은 곳에 있습니다 · 모델: EN.centroid(같은 mf). 실제 호른은 셈여림이 커지면 급격히 밝아져(브라시) 목관을 덮을 수 있습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 호른을 찾아라.</b> 목관 5중주 음반을 들을 때 가장 찾기 어려운 악기가 호른입니다. 혼자 선율을 맡지 않을 때 호른은 화음 속에 녹아 '배경의 따뜻함'으로만 존재하기 때문입니다. 위 시뮬레이터에서 '있음 ↔ 없음'을 몇 번 오가며 호른이 빠질 때 화음의 <b>가운데가 얇아지는</b> 느낌을 익혀 두면, 음반에서도 그 자리를 찾을 수 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="brass-quintet">
+    <h2>금관 5중주와 그 밖의 조합</h2>
+    <p><b>금관 5중주</b><span class="en">(Brass quintet)</span>는 보통 <b>트럼펫 둘·호른·트롬본·튜바</b>입니다. 20세기 중반 이후 전문 연주 단체들이 활동하면서 표준 편성이 되었습니다. 다섯 악기가 모두 입술 버징을 쓰는 같은 가족이라 화음이 단단하게 붙고, 셈여림의 폭이 커서 야외에서도 들립니다. 음역 분담은 대개 이렇습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>맡는 성부</th><th>실음 편한 음역</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td>제1 트럼펫</td><td>선율(소프라노)</td><td>G3–G5</td><td>B♭관: 적힌 음보다 장2도 낮게 소리 난다</td></tr>
+          <tr><td>제2 트럼펫</td><td>알토·대선율</td><td>G3–D5</td><td>제1과 3도·6도로 겹치는 일이 많다</td></tr>
+          <tr><td>호른</td><td>테너·화음의 가운데</td><td>F2–D5</td><td>F관: 완전5도 낮게 소리 난다. 가장 부드러운 목소리</td></tr>
+          <tr><td>트롬본</td><td>테너·베이스</td><td>E2–B♭4</td><td>슬라이드로 음높이를 바꾼다</td></tr>
+          <tr><td>튜바</td><td>베이스</td><td>E1–B♭3</td><td>합주의 뿌리. 오케스트라에서는 보통 한 대</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>그 밖에도 오래 살아남은 조합이 많습니다.</p>
+    <ul>
+      <li><b>클라리넷 5중주</b> — 클라리넷 + 현악 4중주. 모차르트(K.581, 1789)와 브람스(작품 115, 1891)의 걸작이 있습니다. 클라리넷의 어두운 저음과 맑은 고음이 현 위아래를 자유롭게 오갑니다.</li>
+      <li><b>리드 3중주</b><span class="en">(Trio d'anches)</span> — 오보에·클라리넷·바순. 1920년대 프랑스에서 자리 잡았습니다. 리드 악기 셋이 소프라노·알토·베이스를 나눠, 작지만 색이 뚜렷합니다.</li>
+      <li><b>피아노 5중주의 사촌, '송어' 5중주</b> — 슈베르트의 이 곡은 바이올린·비올라·첼로·더블베이스 + 피아노로, 보통의 피아노 5중주(피아노 + 현악 4중주)와 편성이 다릅니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-ch-build">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>네 성부에 악기 배정하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ch-bld-roll"></canvas><div id="ch-bld-range"></div><div class="ch-warn" id="ch-bld-warn"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>곡</span><div class="seg" id="ch-bld-piece"><button data-value="chorale" class="on">작은 코랄</button><button data-value="fanfare">축제 팡파르</button><button data-value="pastorale">들판의 노래</button></div></div>
+          <div class="ctrl"><span>성부 · 악기 · 옥타브</span><div class="ch-voices" id="ch-bld-voices"></div></div>
+          <div class="ctrl"><span>본보기</span><div class="en-pick" id="ch-bld-pre">
+            <button data-p="quartet" class="on">현악 4중주</button><button data-p="winds">목관 4중주</button><button data-p="clar">클라리넷 + 현</button><button data-p="odd">엉뚱한 편성</button>
+          </div></div>
+          <div class="btn-row"><button class="btn primary" id="ch-bld-play">▶ 재생</button><button class="btn" id="ch-bld-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-note">음역표의 동그라미는 각 성부의 가장 낮은 음과 가장 높은 음(옥타브 이동 반영, 접기 전)입니다. 빨간 동그라미는 악기가 낼 수 없는 음입니다. 엔진은 그런 음을 옥타브로 접어 연주하지만(롤의 주황 테두리), 실제 편곡에서는 선이 끊겨 들리므로 성부를 다시 쓰거나 다른 악기를 고르는 것이 맞습니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="piano">
+    <h2>피아노와 현: 사그라드는 소리와 이어지는 소리</h2>
+    <p><b>피아노 3중주</b>(피아노·바이올린·첼로)와 <b>피아노 5중주</b>(피아노 + 현악 4중주)는 가장 이질적인 만남입니다. 하이든은 피아노 3중주를 40곡 넘게 썼고, 베토벤의 〈대공〉 3중주, 슈만(1842)·브람스·드보르자크의 피아노 5중주가 이 편성의 대표곡입니다. 두 악기는 소리의 <b>시간 모양</b>부터 다릅니다.</p>
+    <ul>
+      <li><b>피아노</b>는 해머가 친 순간이 가장 크고 곧바로 사그라듭니다. 음을 길게 잡아도 크레셴도할 수 없습니다.</li>
+      <li><b>현</b>은 활을 긋는 동안 소리가 이어지고, 음 하나 안에서도 커지고 작아질 수 있습니다.</li>
+    </ul>
+    <p>그래서 둘이 같은 음역에서 겹치면 <b>어택은 피아노가, 지속은 현이</b> 차지합니다. 피아노가 화음을 세게 치면 그 순간 현의 선율을 덮고, 화음이 사그라들 즈음 현이 다시 드러납니다. 작곡가들은 이를 피하려고 ① 현의 선율을 피아노 화음보다 <b>위나 아래 음역</b>에 두고, ② 피아노에게 화음을 계속 <b>다시 치게</b>(반복음·아르페지오) 하거나, ③ 피아노와 현이 번갈아 말하게(대화) 합니다. 또 한 가지, 피아노는 평균율로 조율되어 있지만 현은 연주 중에 음정을 조금씩 조절할 수 있어서, 둘이 길게 같은 음을 낼 때는 현 쪽이 피아노에 맞춰야 합니다.</p>
+
+    <div class="sim" id="sim-ch-piano">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>피아노 반주와 현의 선율</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ch-pn-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>피아노 반주 모양</span><div class="seg" id="ch-pn-pat"><button data-value="block" class="on">온음표 화음</button><button data-value="rep">4분음 반복</button><button data-value="arp">8분음 아르페지오</button></div></div>
+          <div class="ctrl"><span>현의 선율</span><div class="seg" id="ch-pn-str"><button data-value="violin" class="on">바이올린(위)</button><button data-value="violinLow">바이올린(화음 음역)</button><button data-value="cello">첼로(아래)</button></div></div>
+          <label class="ctrl"><span>피아노 음량 <output id="ch-pn-pv-out"></output></span><input type="range" id="ch-pn-pv" min="20" max="150" step="5" value="100"></label>
+          <label class="ctrl"><span>현의 셈여림 <output id="ch-pn-sv-out"></output></span><input type="range" id="ch-pn-sv" min="0" max="7" step="1" value="3"></label>
+          <div class="btn-row"><button class="btn primary" id="ch-pn-play">▶ 재생</button><button class="btn" id="ch-pn-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">피아노 레벨</span><span class="v" id="ch-pn-lp">—</span></div>
+        <div class="stat"><span class="k">현 레벨</span><span class="v" id="ch-pn-ls">—</span></div>
+        <div class="stat"><span class="k">음역 겹침</span><span class="v" id="ch-pn-ov">—</span></div>
+      </div>
+      <div class="sim-note">그림은 최근 4초 동안 두 파트의 실시간 레벨입니다. 온음표 화음에서는 피아노 곡선이 마디마다 솟았다가 미끄러져 내려가고, 현의 곡선은 평평하게 이어집니다 · 모델: 피아노는 감쇠하는 가산 합성, 현은 활 모델. 실제 피아노는 뚜껑 열림과 페달로 지속과 음량이 크게 달라집니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 피아노 5중주의 첫머리.</b> 슈만의 피아노 5중주(작품 44) 1악장 첫 마디는 다섯 악기가 함께 힘차게 화음을 내며 시작합니다. 첫 화음이 울린 직후 <b>피아노 소리가 빠르게 물러나고 현의 소리가 남는</b> 순간에 귀를 대 보세요. 위 시뮬레이터의 온음표 화음과 같은 일이 일어납니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="listen">
+    <h2>귀로 편성 맞히기</h2>
+    <p>편성마다 소리의 '지문'이 있습니다. 현악 4중주는 고르고 비브라토가 반짝이며, 목관 5중주는 성부마다 색이 달라 선이 하나하나 떨어져 들리고, 금관 5중주는 밝고 단단하며, 피아노가 들어가면 화음에 '딱' 하는 어택과 사그라듦이 생기고, 리드 3중주는 코맹맹이 같은 겹리드의 색이 위아래를 감쌉니다. 다음 퀴즈로 귀를 시험해 보세요.</p>
+    <div class="sim" id="sim-ch-quiz">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>이 편성은 무엇일까?</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="ch-qz-roll"></canvas><div class="sim-msg" id="ch-qz-msg" style="padding:10px 12px">'새 문제'를 누르면 한 편성이 코랄을 연주합니다.</div></div>
+        <div class="sim-controls">
+          <div class="btn-row"><button class="btn primary" id="ch-qz-new">▶ 새 문제</button><button class="btn" id="ch-qz-again">↻ 다시 듣기</button></div>
+          <div class="ctrl"><span>정답 고르기</span><div class="ch-quiz" id="ch-qz-opts"></div></div>
+          <label class="check"><input type="checkbox" id="ch-qz-hard"> 어렵게: 곡도 무작위, 롤 숨김</label>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">맞힘</span><span class="v" id="ch-qz-score">0 / 0</span></div>
+        <div class="stat"><span class="k">연속</span><span class="v" id="ch-qz-streak">0</span></div>
+      </div>
+      <div class="sim-note">정답을 고르면 그 편성의 악기 목록이 롤에 나타납니다. 롤의 레인 수(악기 수)도 힌트가 되므로, 처음에는 롤을 보고 다음에는 '어렵게'로 귀만 써 보세요.</div>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li><b>동질 편성</b>(현악 4중주·금관 5중주)은 화음이 하나의 몸처럼 섞이고, <b>이질 편성</b>(목관 5중주·피아노 3중주)은 성부마다 색이 달라 선이 또렷하지만 균형이 까다롭다.</li>
+      <li>목관 5중주는 플루트·오보에·클라리넷·<b>호른</b>·바순. 둥글고 어두운 호른이 가운데 음역을 채우며 다섯 색을 잇는 접착제 역할을 한다.</li>
+      <li>금관 5중주는 트럼펫 둘·호른·트롬본·튜바. 같은 가족이라 단단하게 붙고 셈여림 폭이 넓다.</li>
+      <li>피아노는 사그라들고 현은 이어진다. 같은 음역에서 겹치면 어택은 피아노, 지속은 현이 차지하므로 음역을 나누거나 반주를 다시 치게 하거나 대화시킨다.</li>
+      <li>성부를 악기에 배정할 때는 실음 음역, 조옮김, 옥타브 이동을 확인한다. 음역 밖으로 나간 음은 선을 끊는다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>목관 5중주에 들어가는 금관악기는?</p><div class="opts">
+        <button class="opt">트럼펫</button><button class="opt" data-correct>호른</button><button class="opt">트롬본</button><button class="opt">금관악기는 없다</button>
+      </div><div class="quiz-exp">플루트·오보에·클라리넷·호른·바순. 호른은 금관이지만 벨이 뒤를 향하고 손으로 고역이 깎여 목관과 잘 섞인다.</div></div>
+      <div class="quiz-q"><p>호른이 목관 5중주에서 '접착제'라 불리는 가장 큰 이유는?</p><div class="opts">
+        <button class="opt">가장 큰 소리를 내서 다른 악기를 덮기 때문</button>
+        <button class="opt" data-correct>둥글고 어두운 음색이 목관과 금관 양쪽과 섞이며 가운데 음역을 채우기 때문</button>
+        <button class="opt">음역이 가장 높기 때문</button>
+        <button class="opt">조옮김이 없기 때문</button>
+      </div><div class="quiz-exp">호른의 스펙트럼 무게 중심은 목관들 사이에 있고, 목관이 비교적 약한 가운데 음역을 두툼하게 채운다. 호른은 F관 조옮김 악기다.</div></div>
+      <div class="quiz-q"><p>피아노가 온음표 화음을, 바이올린이 같은 음역에서 긴 선율을 연주한다. 가장 흔히 생기는 문제는?</p><div class="opts">
+        <button class="opt">바이올린이 피아노 화음을 완전히 지운다</button>
+        <button class="opt" data-correct>화음을 친 순간 피아노가 선율을 덮고, 화음이 사그라들면 선율만 남아 균형이 출렁인다</button>
+        <button class="opt">두 악기의 템포가 달라진다</button>
+        <button class="opt">아무 문제도 없다</button>
+      </div><div class="quiz-exp">피아노는 어택에서 가장 크고 감쇠하며, 현은 지속한다. 같은 음역에서 겹치면 시간에 따라 주도권이 바뀐다. 음역을 나누거나 반주를 다시 치게 해서 해결한다.</div></div>
+      <div class="quiz-q"><p>피아노 5중주의 표준 편성은?</p><div class="opts">
+        <button class="opt">피아노 다섯 대</button><button class="opt">피아노 + 목관 4중주</button>
+        <button class="opt" data-correct>피아노 + 현악 4중주(바이올린 둘·비올라·첼로)</button>
+        <button class="opt">피아노 + 바이올린·첼로·더블베이스·호른</button>
+      </div><div class="quiz-exp">슈만·브람스·드보르자크의 피아노 5중주가 이 편성이다. 슈베르트의 '송어'는 제2 바이올린 대신 더블베이스를 쓴 예외다.</div></div>
+      <div class="quiz-q"><p>동질 편성의 장점으로 가장 알맞은 것은?</p><div class="opts">
+        <button class="opt">각 성부가 음색으로 뚜렷이 구별된다</button>
+        <button class="opt" data-correct>배음 구조가 비슷해 화음이 고르게 섞이고, 위아래가 같은 음색으로 이어진다</button>
+        <button class="opt">셈여림 차이가 매우 크다</button>
+        <button class="opt">조옮김 악기가 없다</button>
+      </div><div class="quiz-exp">같은 가족은 스펙트럼 모양이 비슷해 귀가 한 덩어리로 묶는다(10장). 대신 선이 엉키면 누가 누구인지 헷갈리기 쉽다.</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* ------------------------------------------------------------ 공통: 믹서 지연 생성 */
+const CH = { mx: null, getMx() { return CH.mx || (CH.mx = EN.mixer({ hall: "chamber", wet: 0.28 })); } };
+const famOf = (parts) => { const f = {}; parts.forEach((p) => { const n = EN.FAMILIES[EN.inst(p.inst).family].name; f[n] = (f[n] || 0) + 1; }); return f; };
+
+/* ------------------------------------------------------------ 1. 같은 곡, 다른 편성 */
+(function () {
+  const ARR = ["quartet", "windQuintet", "brassQuintet", "pianoTrio", "reedTrio"];
+  const selA = document.getElementById("ch-cmp-a"), selB = document.getElementById("ch-cmp-b");
+  const opt = (sel) => ARR.map((k) => `<option value="${k}"${k === sel ? " selected" : ""}>${EN.ARRANGE[k].name}</option>`).join("");
+  selA.innerHTML = opt("quartet"); selB.innerHTML = opt("windQuintet");
+  let piece = "chorale", which = "A", ab = false, last = 0, parts = [];
+  const arr = () => (which === "A" ? selA.value : selB.value);
+  const roll = EN.roll("#ch-cmp-roll", { parts: [], beatsPerBar: () => EN.PIECES[piece].meter[0] });
+  const ui = EN.mixerUI("#ch-cmp-ui", { channels: [], mixer: () => CH.mx });
+  const btn = document.getElementById("ch-cmp-play");
+  function load() {
+    parts = EN.arrange(piece, arr());
+    roll.set(parts, EN.PIECES[piece].beats);
+    ui.set(parts); if (CH.mx) ui.sync();
+    MB.stat("ch-cmp-now", (ab ? which + " · " : "") + EN.ARRANGE[arr()].name);
+    const f = famOf(parts);
+    MB.stat("ch-cmp-fam", Object.entries(f).map(([k, v]) => k + " " + v).join(" · ") + (Object.keys(f).length === 1 ? " (동질)" : " (이질)"));
+    const nf = parts.reduce((s, p) => s + p.notes.filter((n) => n.folded).length, 0);
+    MB.stat("ch-cmp-fold", nf ? nf + "음" : "없음");
+    if (pl.running) pl.refresh();
+  }
+  const pl = EN.player({
+    parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: () => CH.getMx(), length: () => EN.PIECES[piece].beats,
+    onFrame: (b) => { if (ab && b < last - 1) { which = which === "A" ? "B" : "A"; load(); } last = b; roll.at(b); },
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 편성 A 재생"; roll.clear(); },
+  });
+  MB.seg("ch-cmp-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); load(); if (was) pl.start(); });
+  [selA, selB].forEach((s) => s.addEventListener("change", load));
+  btn.addEventListener("click", () => { MB.ctx(); CH.getMx(); if (pl.running) { pl.stop(); return; } ab = false; which = "A"; load(); ui.sync(); last = 0; pl.start(); });
+  document.getElementById("ch-cmp-ab").addEventListener("click", () => { MB.ctx(); CH.getMx(); pl.stop(); ab = true; which = "A"; load(); ui.sync(); last = 0; pl.start(); });
+  document.getElementById("ch-cmp-stop").addEventListener("click", () => { ab = false; pl.stop(); });
+  load();
+})();
+
+/* ------------------------------------------------------------ 2. 호른의 접착 */
+(function () {
+  const Q = ["flute", "oboe", "clarinet", "horn", "bassoon"];
+  let mode = "horn", piece = "chorale", ab = null, last = 0;
+  function parts() {
+    let a = EN.ARRANGE.windQuintet.parts.slice();
+    if (mode === "none") a = a.filter((p) => p.inst !== "horn");
+    if (mode === "hornOnly") a = a.filter((p) => p.inst !== "clarinet").map((p) => (p.inst === "horn" ? Object.assign({}, p, { oct: 0 }) : p));
+    return EN.arrange(piece, a);
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 92, y: 24, w: w - 108, h: h - 52 };
+    const fmin = 60, fmax = 4000, X = (f) => b.x + (Math.log(f / fmin) / Math.log(fmax / fmin)) * b.w;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [63, 125, 250, 500, 1000, 2000, 4000].forEach((f) => { ctx.beginPath(); ctx.moveTo(X(f), b.y); ctx.lineTo(X(f), b.y + b.h); ctx.stroke(); ctx.fillText(f >= 1000 ? f / 1000 + "k" : f, X(f), b.y + b.h + 6); });
+    const list = Q.concat(["trumpet"]), rh = b.h / list.length;
+    list.forEach((k, i) => {
+      const I = EN.inst(k), y = b.y + rh * (i + 0.5), col = EN.color(k);
+      const off = (k === "horn" && mode === "none") || (k === "clarinet" && mode === "hornOnly");
+      ctx.globalAlpha = k === "trumpet" ? 0.45 : off ? 0.25 : 1;
+      ctx.fillStyle = col; ctx.fillRect(X(MB.mtof(I.comfy[0])), y - 4, X(MB.mtof(I.comfy[1])) - X(MB.mtof(I.comfy[0])), 8);
+      const c = EN.centroid(k, Math.round((I.comfy[0] + I.comfy[1]) / 2), { vel: 0.58 });
+      ctx.beginPath(); ctx.arc(X(c), y, 6, 0, Math.PI * 2); ctx.fillStyle = P.bg || "#fff"; ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = col; ctx.stroke();
+      ctx.fillStyle = P.text; ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font");
+      ctx.fillText(I.name + (k === "trumpet" ? "(비교)" : ""), b.x - 8, y);
+      ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+      ctx.globalAlpha = 1;
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText("막대: 편한 음역(기본음)  ○: 음색의 무게 중심", b.x + 4, 4);
+  }
+  const view = MB.canvas("#ch-glue-cv", draw, { aspect: 0.55, minHeight: 230, maxHeight: 330 });
+  const btn = document.getElementById("ch-glue-play");
+  const pl = EN.player({
+    parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: () => CH.getMx(), length: () => EN.PIECES[piece].beats,
+    onFrame: (b) => { if (ab && b < last - 1) { setMode(mode === "horn" ? "none" : "horn"); } last = b; },
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; },
+  });
+  const seg = MB.seg("ch-glue-mode", (v) => { mode = v; update(); });
+  function setMode(v) { mode = v; document.querySelectorAll("#ch-glue-mode button").forEach((b) => b.classList.toggle("on", b.dataset.value === v)); update(); }
+  function update() {
+    MB.stat("ch-glue-mid", mode === "horn" ? "클라리넷 + 호른(한 옥타브 아래)" : mode === "none" ? "클라리넷 한 줄" : "호른 한 줄");
+    MB.stat("ch-glue-hc", Math.round(EN.centroid("horn", 57, { vel: 0.58 })) + " Hz");
+    MB.stat("ch-glue-tc", Math.round(EN.centroid("trumpet", 67, { vel: 0.58 })) + " Hz");
+    view.redraw(); if (pl.running) pl.refresh();
+  }
+  MB.seg("ch-glue-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); if (was) pl.start(); });
+  btn.addEventListener("click", () => { MB.ctx(); CH.getMx(); ab = false; pl.toggle(); });
+  document.getElementById("ch-glue-ab").addEventListener("click", () => { MB.ctx(); CH.getMx(); pl.stop(); ab = true; setMode("horn"); last = 0; pl.start(); });
+  document.getElementById("ch-glue-stop").addEventListener("click", () => { ab = false; pl.stop(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 네 성부 배정 */
+(function () {
+  const POOL = ["violin", "viola", "cello", "contrabass", "flute", "piccolo", "oboe", "englishHorn", "clarinet", "bassoon", "horn", "trumpet", "trombone", "tuba", "harp", "piano"];
+  const VN = ["소프라노", "알토", "테너", "베이스"];
+  const PRE = {
+    quartet: [["violin", 0], ["violin", 0], ["viola", 0], ["cello", 0]],
+    winds: [["flute", 0], ["oboe", 0], ["clarinet", 0], ["bassoon", 0]],
+    clar: [["clarinet", 0], ["violin", 0], ["viola", 0], ["cello", 0]],
+    odd: [["tuba", 0], ["piccolo", 0], ["flute", -1], ["violin", 0]],
+  };
+  let piece = "chorale", rows = PRE.quartet.map((r) => r.slice()), parts = [];
+  const box = document.getElementById("ch-bld-voices");
+  box.innerHTML = VN.map((v, i) => `<div class="v"><b>${v}</b><select data-i="${i}" class="inst">${EN.options(POOL)}</select><select data-i="${i}" class="oct"><option value="-2">−2옥타브</option><option value="-1">−1옥타브</option><option value="0">그대로</option><option value="1">+1옥타브</option><option value="2">+2옥타브</option></select></div>`).join("");
+  const roll = EN.roll("#ch-bld-roll", { parts: [], laneH: 26 });
+  function syncSel() { box.querySelectorAll(".inst").forEach((s) => { s.value = rows[s.dataset.i][0]; }); box.querySelectorAll(".oct").forEach((s) => { s.value = String(rows[s.dataset.i][1]); }); }
+  function update() {
+    const P = EN.PIECES[piece];
+    parts = EN.arrange(piece, rows.map(([inst, oct], i) => ({ v: i, inst, oct, label: "SATB"[i] + " · " + EN.name(inst) })));
+    roll.set(parts, P.beats);
+    const notes = {}, warn = [];
+    rows.forEach(([inst, oct], i) => {
+      const raw = P.lines[P.order[i]].map((n) => n.m + oct * 12);
+      const lo = Math.min(...raw), hi = Math.max(...raw);
+      notes[inst] = (notes[inst] || []).concat([lo, hi]);
+      const out = raw.filter((m) => !EN.inRange(inst, m)).length, hard = raw.filter((m) => EN.inRange(inst, m) && !EN.inComfy(inst, m)).length;
+      const I = EN.inst(inst);
+      if (out) warn.push(`<span class="w">⚠ ${VN[i]}(${I.name}): ${out}음이 음역(${MB.noteName(I.lo)}–${MB.noteName(I.hi)}) 밖 → 옥타브를 접어 연주합니다.</span>`);
+      else if (hard) warn.push(`<span class="w">△ ${VN[i]}(${I.name}): ${hard}음이 편한 음역 밖(가능하지만 힘들거나 약함).</span>`);
+      if (I.transpose) warn.push(`<span>ⓘ ${I.name}는 조옮김 악기: 파트보에는 실음보다 ${I.transpose < 0 ? "높게" : "낮게"} ${MB.intervalName(Math.abs(I.transpose))} 적습니다.</span>`);
+    });
+    for (let i = 0; i < 3; i++) {
+      const a = P.lines[P.order[i]].map((n) => n.m + rows[i][1] * 12), b = P.lines[P.order[i + 1]].map((n) => n.m + rows[i + 1][1] * 12);
+      if (Math.min(...a) < Math.max(...b) && rows[i][1] < rows[i + 1][1]) warn.push(`<span class="w">↕ ${VN[i]}가 ${VN[i + 1]}보다 낮게 내려갑니다(성부 교차). 화음의 위아래가 바뀌어 들립니다.</span>`);
+    }
+    if (!warn.some((x) => x.includes('"w"'))) warn.unshift(`<span class="ok">✓ 네 성부가 모두 악기의 편한 음역 안에 있습니다.</span>`);
+    document.getElementById("ch-bld-warn").innerHTML = warn.join("");
+    EN.rangeChart("#ch-bld-range", { insts: [...new Set(rows.map((r) => r[0]))], notes });
+    if (pl.running) pl.refresh();
+  }
+  const btn = document.getElementById("ch-bld-play");
+  const pl = EN.player({
+    parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: true, mixer: () => CH.getMx(), length: () => EN.PIECES[piece].beats,
+    onFrame: (b) => roll.at(b), onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); },
+  });
+  box.addEventListener("change", (e) => { const s = e.target; const i = +s.dataset.i; if (s.classList.contains("inst")) rows[i][0] = s.value; else rows[i][1] = +s.value; document.querySelectorAll("#ch-bld-pre button").forEach((b) => b.classList.remove("on")); update(); });
+  document.getElementById("ch-bld-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-p]"); if (!b) return;
+    document.querySelectorAll("#ch-bld-pre button").forEach((x) => x.classList.toggle("on", x === b));
+    rows = PRE[b.dataset.p].map((r) => r.slice()); syncSel(); update();
+  });
+  MB.seg("ch-bld-piece", (v) => { piece = v; const was = pl.running; if (was) pl.stop(); update(); if (was) pl.start(); });
+  btn.addEventListener("click", () => { MB.ctx(); CH.getMx(); pl.toggle(); });
+  document.getElementById("ch-bld-stop").addEventListener("click", () => pl.stop());
+  syncSel(); update();
+})();
+
+/* ------------------------------------------------------------ 4. 피아노와 현 */
+(function () {
+  const D = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"];
+  let pat = "block", str = "violin", pv = 1, sv = 3, mx = null, pl = null;
+  const PROG = [[60, 64, 67], [57, 60, 64], [53, 57, 60, 65], [55, 59, 62, 67]], BASS = [48, 45, 41, 43];
+  const MEL = [[76, 4], [76, 2, 72, 2], [69, 4], [71, 2, 74, 2]];
+  function pianoNotes() {
+    const out = [];
+    PROG.forEach((ch, bar) => {
+      const t0 = bar * 4;
+      out.push({ t: t0, d: 4, m: BASS[bar], vel: 0.6 });
+      if (pat === "block") ch.forEach((m) => out.push({ t: t0, d: 4, m, vel: 0.62 }));
+      if (pat === "rep") for (let k = 0; k < 4; k++) ch.forEach((m) => out.push({ t: t0 + k, d: 1, m, vel: k ? 0.45 : 0.6 }));
+      if (pat === "arp") for (let k = 0; k < 8; k++) out.push({ t: t0 + k * 0.5, d: 0.5, m: ch[k % ch.length] + 12 * (Math.floor(k / ch.length) % 2), vel: 0.5 });
+    });
+    return out;
+  }
+  function strNotes() {
+    const sh = str === "violinLow" ? -12 : str === "cello" ? -24 : 0, out = [], vel = EN.DYN[D[sv]];
+    MEL.forEach((bar, i) => { let t = i * 4; for (let k = 0; k < bar.length; k += 2) { out.push({ t, d: bar[k + 1], m: bar[k] + sh, vel }); t += bar[k + 1]; } });
+    return out;
+  }
+  const inst = () => (str === "cello" ? "cello" : "violin");
+  const parts = () => [{ id: "pn", inst: "piano", notes: pianoNotes(), gain: pv }, { id: "str", inst: inst(), notes: strNotes(), pan: 0.15 }];
+  const hist = { p: [], s: [] };
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 40, y: 10, w: w - 52, h: h - 34 };
+    const Y = (d) => b.y + b.h - MB.clamp((d + 60) / 54, 0, 1) * b.h;
+    ctx.strokeStyle = P.grid; ctx.fillStyle = P.dim; ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    [-60, -40, -20, -6].forEach((d) => { ctx.beginPath(); ctx.moveTo(b.x, Y(d)); ctx.lineTo(b.x + b.w, Y(d)); ctx.stroke(); ctx.fillText(d, b.x - 4, Y(d)); });
+    [["p", EN.color("piano"), "피아노"], ["s", EN.color(inst()), EN.name(inst())]].forEach(([k, col, lab], i) => {
+      const a = hist[k]; ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath();
+      a.forEach((d, j) => { const x = b.x + (j / 239) * b.w, y = Y(d); j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
+      ctx.fillStyle = col; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.font = "12px " + getComputedStyle(document.body).getPropertyValue("--font"); ctx.fillText("■ " + lab, b.x + 8 + i * 110, b.y + 2);
+      ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+    });
+    ctx.fillStyle = P.dim; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText("← 4초 전                지금 →", b.x + b.w / 2, b.y + b.h + 6);
+    if (!hist.p.length) { ctx.fillStyle = P.faint; ctx.fillText("재생하면 두 파트의 레벨이 그려집니다", b.x + b.w / 2, b.y + b.h / 2); }
+  }
+  const view = MB.canvas("#ch-pn-cv", draw, { aspect: 0.5, minHeight: 200, maxHeight: 320 });
+  MB.loop(view.canvas, () => {
+    if (!pl || !pl.running || !mx) return;
+    const lp = mx.has("pn") ? mx.channel("pn").level() : -90, ls = mx.has("str") ? mx.channel("str").level() : -90;
+    hist.p.push(lp); hist.s.push(ls); if (hist.p.length > 240) { hist.p.shift(); hist.s.shift(); }
+    MB.stat("ch-pn-lp", (lp < -80 ? "—" : lp.toFixed(1) + " dB"));
+    MB.stat("ch-pn-ls", (ls < -80 ? "—" : ls.toFixed(1) + " dB"));
+    view.redraw();
+  });
+  function update() {
+    document.getElementById("ch-pn-pv-out").textContent = Math.round(pv * 100) + "%";
+    document.getElementById("ch-pn-sv-out").textContent = D[sv];
+    const s = strNotes().map((n) => n.m), lo = Math.min(...s), hi = Math.max(...s);
+    MB.stat("ch-pn-ov", hi >= 53 && lo <= 67 ? "겹침 (화음 F3–G4와 같은 음역)" : lo > 67 ? "없음 (선율이 위)" : "없음 (선율이 아래)");
+    if (mx && mx.has("pn")) mx.channel("pn").set({ gain: pv });
+    if (pl && pl.running) pl.refresh();
+  }
+  const btn = document.getElementById("ch-pn-play");
+  pl = EN.player({
+    parts, bpm: 72, loop: true, length: 16, mixer: () => mx || (mx = EN.mixer({ hall: "chamber", wet: 0.25 })),
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; },
+  });
+  MB.seg("ch-pn-pat", (v) => { pat = v; update(); });
+  MB.seg("ch-pn-str", (v) => { str = v; update(); });
+  MB.range("ch-pn-pv", null, (v) => { pv = v / 100; update(); });
+  MB.range("ch-pn-sv", null, (v) => { sv = v; update(); });
+  btn.addEventListener("click", () => { MB.ctx(); pl.toggle(); });
+  document.getElementById("ch-pn-stop").addEventListener("click", () => pl.stop());
+  update();
+})();
+
+/* ------------------------------------------------------------ 5. 편성 맞히기 */
+(function () {
+  const ARR = ["quartet", "windQuintet", "brassQuintet", "pianoTrio", "reedTrio"];
+  const PIECES = ["chorale", "pastorale", "ode"];
+  let answer = null, piece = "chorale", parts = [], score = 0, total = 0, streak = 0, hard = false, done = false;
+  const roll = EN.roll("#ch-qz-roll", { parts: [], laneH: 22 });
+  const opts = document.getElementById("ch-qz-opts"), msg = document.getElementById("ch-qz-msg");
+  opts.innerHTML = ARR.map((k) => `<button data-k="${k}">${EN.ARRANGE[k].name}</button>`).join("");
+  const pl = EN.player({ parts: () => parts, bpm: () => EN.PIECES[piece].bpm, loop: false, mixer: () => CH.getMx(), length: () => Math.min(16, EN.PIECES[piece].beats), onFrame: (b) => roll.at(b), onStop: () => roll.clear() });
+  function ask() {
+    MB.ctx(); CH.getMx(); pl.stop();
+    answer = ARR[Math.floor(Math.random() * ARR.length)];
+    piece = hard ? PIECES[Math.floor(Math.random() * PIECES.length)] : "chorale";
+    parts = EN.arrange(piece, answer).map((p) => Object.assign(p, { notes: p.notes.filter((n) => n.t < 16), label: "?" }));
+    roll.set(hard ? [] : parts.map((p) => Object.assign({}, p, { inst: "piano" })), 16);
+    done = false; opts.querySelectorAll("button").forEach((b) => b.classList.remove("right", "wrong"));
+    msg.textContent = `${EN.PIECES[piece].title} 앞 네 마디 · 어떤 편성일까요?`;
+    pl.start();
+  }
+  opts.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b || !answer || done) return;
+    done = true; total++;
+    const ok = b.dataset.k === answer;
+    if (ok) { score++; streak++; } else streak = 0;
+    b.classList.add(ok ? "right" : "wrong");
+    opts.querySelector(`button[data-k="${answer}"]`).classList.add("right");
+    msg.textContent = (ok ? "🎉 정답! " : "아쉽습니다. 정답은 ") + EN.ARRANGE[answer].name + " — " + EN.arrange(piece, answer).map((p) => p.label).join(" · ");
+    roll.set(EN.arrange(piece, answer).map((p) => Object.assign(p, { notes: p.notes.filter((n) => n.t < 16) })), 16);
+    MB.stat("ch-qz-score", score + " / " + total); MB.stat("ch-qz-streak", String(streak));
+  });
+  document.getElementById("ch-qz-new").addEventListener("click", ask);
+  document.getElementById("ch-qz-again").addEventListener("click", () => { if (!answer) return ask(); MB.ctx(); pl.stop(); pl.start(); });
+  MB.check("ch-qz-hard", (v) => { hard = v; });
+})();
+</script>
+</body>
+</html>

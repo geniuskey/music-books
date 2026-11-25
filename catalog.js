@@ -129,11 +129,37 @@ window.MUSIC_BOOKS = [
     "url": "bass/",
     "chapters": 15,
     "simulators": 70
+  },
+  {
+    "id": "ensemblebook",
+    "title": "EnsembleBook",
+    "subtitle": "합주 교과서",
+    "headline": "악기 하나에서 오케스트라의 울림까지",
+    "description": "소리의 덧셈과 맥놀이, 현·목관·금관·타악기의 음색 물리, 총보와 조옮김 악기, 현악 4중주와 실내악, 오케스트라의 편성과 무대·홀, 음색의 섞임과 마스킹, 화음 배치와 텍스처까지 — 브라우저의 가상 합주단으로 여러 악기를 직접 섞어 들으며 배우는 합주 교과서.",
+    "stage": "ensemble",
+    "status": "published",
+    "color": "#3d5a99",
+    "colorDark": "#93b1f2",
+    "topics": [
+      "악기의 음색",
+      "총보·조옮김",
+      "현악 4중주",
+      "오케스트라·무대",
+      "블렌드·마스킹",
+      "오케스트레이션"
+    ],
+    "motif": "ensemble",
+    "code": "ENS",
+    "legacyUrl": null,
+    "slug": "ensemble",
+    "url": "ensemble/",
+    "chapters": 15,
+    "simulators": 79
   }
 ];
 window.MUSIC_MAP = {
   "title": "듣고 연주하며 배우는 음악",
-  "desc": "음·화음·리듬의 기초에서 기타·피아노·드럼·베이스 연주로 이어집니다.",
+  "desc": "음·화음·리듬의 기초에서 기타·피아노·드럼·베이스 연주로, 그리고 여러 악기가 함께하는 합주로 이어집니다.",
   "groups": [
     {
       "id": "fundamentals",
@@ -146,6 +172,12 @@ window.MUSIC_MAP = {
       "name": "악기",
       "en": "Instruments",
       "desc": "기타·피아노·드럼·베이스로 직접 연주하기"
+    },
+    {
+      "id": "ensemble",
+      "name": "합주",
+      "en": "Ensemble",
+      "desc": "여러 악기를 함께 듣고 편성·배치·편곡하기"
     }
   ],
   "links": [
@@ -178,6 +210,21 @@ window.MUSIC_MAP = {
       "drumbook",
       "bassbook",
       "킥 드럼과 맞물리는 리듬 섹션의 그루브"
+    ],
+    [
+      "musicbook",
+      "ensemblebook",
+      "배음·음색·심리음향을 여러 악기의 섞임으로"
+    ],
+    [
+      "pianobook",
+      "ensemblebook",
+      "피아노 3중주·5중주와 반주에서 합주로"
+    ],
+    [
+      "bassbook",
+      "ensemblebook",
+      "리듬 섹션의 저음에서 오케스트라의 베이스 성부로"
     ]
   ]
 };
@@ -189,6 +236,7 @@ window.SHELF = Object.assign({
     "musicbook": "음악 기초",
     "guitarbook": "기타",
     "pianobook": "피아노",
-    "drumbook": "드럼"
+    "drumbook": "드럼",
+    "ensemblebook": "합주"
   }
 }, { books: window.MUSIC_BOOKS, map: window.MUSIC_MAP });

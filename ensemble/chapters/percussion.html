@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>타악기 · 하프 · 건반 · EnsembleBook</title>
+<meta name="description" content="비조화 모드를 가진 막이 어떻게 음높이를 갖는가. 팀파니의 공기 부하와 페달 조율, 글로켄슈필·실로폰·마림바 막대의 모드, 하프의 일곱 페달과 이명동음 글리산도, 음높이 없는 타악기의 역할, 오케스트라에 색을 더하는 법을 직접 두드리고 섞어 듣는다.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ensemble.css">
+<script src="../js/common.js"></script>
+<script src="../js/ensemble.js"></script>
+<style>
+  .pc-svg { padding: 6px 10px; background: var(--canvas-bg); border-radius: var(--radius-sm); }
+  .pc-svg svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+  .pc-svg .lbl { font: 12px var(--font); fill: var(--text-dim); }
+  .pc-svg .mono { font: 700 13px var(--mono); fill: var(--text); }
+  .pc-svg .ped { cursor: pointer; }
+  .pc-svg .ped rect.slot { fill: var(--surface); stroke: var(--border); }
+  .pc-svg .ped rect.lever { fill: var(--en-kb); }
+  .pc-svg .ped:hover rect.slot { stroke: var(--accent); }
+  .pc-pads { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .pc-pads button { font: inherit; font-size: 13px; padding: 10px 4px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; }
+  .pc-pads button:active, .pc-pads button.hit { background: var(--accent-soft); border-color: var(--accent); }
+  .pc-ctrl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; }
+</style>
+<!-- Cloudflare Web Analytics -->
+<!-- End Cloudflare Web Analytics -->
+<link rel="stylesheet" href="../../shared/css/book-shell.css">
+<script defer src="../../shared/js/book-shell.js" data-book="ensemble"></script>
+</head>
+<body data-chapter="percussion">
+<main class="chapter">
+  <header class="chapter-hero">
+    <div class="eyebrow">Chapter 05</div>
+    <h1>타악기 · 하프 · 건반</h1>
+    <p class="lead">현과 관은 배음이 정수배로 늘어서 음높이가 또렷합니다. 그런데 두드리는 막과 막대는 그렇지 않습니다. 막의 진동 모드는 정수배와 거리가 멀어서, 그냥 두면 '퉁' 하는 음높이 없는 소리가 됩니다. 그런데도 팀파니는 분명한 음을 내고, 마림바는 선율을 연주합니다. 비결은 <b>모드를 옮겨 정수배에 맞추는</b> 공학입니다. 이 장에서는 팀파니와 건반 타악기가 음높이를 얻는 방법, 하프의 일곱 페달, 음높이 없는 타악기의 쓰임, 그리고 이 악기들이 오케스트라에 <b>색과 박</b>을 더하는 방식을 두드리며 들어 봅니다.</p>
+    <ul class="objectives">
+      <li>이상적인 원형 막의 모드가 비조화적이라는 것과, 팀파니가 공기 부하와 케틀로 주요 모드를 \(1 : 1.5 : 2 : 2.5\)에 가깝게 옮긴다는 것을 안다.</li>
+      <li>팀파니를 페달로 조율해 곡의 으뜸음·딸림음에 맞추고, 롤로 음을 이어 본다.</li>
+      <li>균일한 막대의 모드 \(1 : 2.76 : 5.40\)과, 마림바(1:4)·실로폰(1:3)이 막대 아래를 깎아 배음을 맞춘다는 것을 안다.</li>
+      <li>하프의 일곱 페달이 각 음을 ♭·♮·♯로 바꾼다는 것과, 이명동음으로 감7화음·온음음계 글리산도를 만드는 법을 안다.</li>
+      <li>심벌즈·큰북·작은북·트라이앵글이 오케스트라에서 맡는 강세·박·색의 역할을 듣는다.</li>
+      <li>하프 아르페지오·글로켄슈필 겹치기 같은 '색 악기'를 선율과 화성 위에 얹어 본다.</li>
+    </ul>
+  </header>
+
+  <!-- =============================================================== 1 -->
+  <section id="timpani">
+    <h2>음높이가 있는 북: 팀파니</h2>
+    <p>북의 가죽(막)은 둘레가 고정된 2차원의 현입니다. 막의 진동 모드는 지름 방향의 마디선 수 \(m\)과 동심원 마디 수 \(n\)으로 \((m, n)\)이라 부르고, 그 주파수는 베셀 함수의 영점 \(j_{m,n}\)에 비례합니다.</p>
+    <div class="formula">
+      $$f_{m,n} = \frac{j_{m,n}}{2\pi a}\sqrt{\frac{T}{\sigma}} \qquad \frac{f}{f_{0,1}} = 1,\ 1.59,\ 2.14,\ 2.30,\ 2.65,\ 2.92,\ 3.16,\ \dots$$
+      <div class="where">\(a\)는 막의 반지름, \(T\)는 단위 길이당 장력, \(\sigma\)는 단위 넓이당 질량입니다. 오른쪽 비율은 정수배와 전혀 맞지 않습니다. 그래서 그냥 매단 막은 음높이가 흐릿한 '퉁' 소리를 냅니다.</div>
+    </div>
+    <p>팀파니는 이 막을 구리 솥 모양의 <b>케틀</b><span class="en">(Kettle)</span> 위에 씌운 악기입니다. 두 가지가 모드를 옮깁니다.</p>
+    <ul>
+      <li><b>공기 부하</b> — 막이 떨면 위아래의 공기도 함께 밀려야 해서 막이 무거워진 것처럼 행동합니다. 낮은 모드일수록 많이 내려갑니다.</li>
+      <li><b>케틀 속 공기</b> — 막 전체가 같이 오르내리는 (0,1) 모드는 케틀 속 공기를 압축해야 해서 오히려 올라가고, 짧게 사라집니다. 치는 순간의 '둥' 하는 소리가 이것입니다.</li>
+    </ul>
+    <p>그 결과 \((1,1), (2,1), (3,1), (4,1), (5,1)\) 모드가 대략 <b>\(1 : 1.5 : 2 : 2.44 : 2.94\)</b>로 늘어섭니다. 이 비율은 \(f_{1,1}/2\)를 기본음으로 하는 2·3·4·5·6배음과 비슷하므로, 귀는 이 성분들을 하나의 음으로 묶습니다. 대부분의 사람은 그 음높이를 주 모드 \((1,1)\)의 음으로 듣습니다. 팀파니를 막의 가장자리와 가운데 사이(가장자리에서 약 1/4 지점)에서 치는 것도 음높이 없는 (0,1) 모드를 덜 울리고 \((1,1)\)을 잘 울리기 위해서입니다.</p>
+
+    <div class="sim" id="sim-pc-modes">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>막의 모드: 그냥 막 ↔ 팀파니</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><canvas id="pc-md-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>막</span><div class="seg" id="pc-md-kind"><button data-value="ideal">이상적인 막(진공)</button><button data-value="timp" class="on">팀파니(공기·케틀)</button></div></div>
+          <label class="ctrl"><span>주 모드 (1,1)의 음 <output id="pc-md-m-out"></output></span><input type="range" id="pc-md-m" min="40" max="57" step="1" value="45"></label>
+          <div class="btn-row"><button class="btn primary" id="pc-md-play">▶ 치기</button><button class="btn" id="pc-md-each">▶ 모드 하나씩</button><button class="btn" id="pc-md-ab">▶ 막 ↔ 팀파니</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">주요 모드 비율</span><span class="v" id="pc-md-r">—</span></div>
+        <div class="stat"><span class="k">정수배(½ 단위)와의 평균 어긋남</span><span class="v" id="pc-md-e">—</span></div>
+      </div>
+      <div class="sim-note">가로축은 (1,1) 모드에 대한 주파수 비, 세로 점선은 1·1.5·2·2.5·3(= f₁₁/2의 2–6배)입니다. 팀파니에서는 막대들이 점선 위에 거의 올라섭니다 · 모델: 이상적인 막은 베셀 영점 비율, 팀파니는 측정값에 가까운 문헌 비율(1, 1.50, 1.74, 1.98, 2.24, 2.44…)을 쓰고 각 모드를 감쇠하는 사인파로 합성합니다.</div>
+    </div>
+
+    <p>팀파니의 음높이는 막의 장력으로 정합니다. 예전에는 테두리의 나사를 하나씩 돌렸지만, 현대 팀파니는 <b>페달</b>로 모든 나사를 한꺼번에 당겨, 연주 중에도 몇 초 만에 음을 바꿉니다. 한 대가 낼 수 있는 음역은 완전5도 남짓이라 오케스트라는 크기가 다른 팀파니를 2–5대 씁니다(32″ 약 D2–A2, 29″ 약 F2–C3, 26″ 약 B♭2–F3, 23″ 약 D3–A3). 고전 시대 작품에서 팀파니는 보통 두 대로 곡의 <b>으뜸음과 딸림음</b>을 맡아, 금관과 함께 화음의 뿌리를 두드렸습니다. 음을 길게 이으려면 두 채로 빠르게 번갈아 치는 <b>롤</b><span class="en">(Roll)</span>을 씁니다.</p>
+
+    <div class="sim" id="sim-pc-timp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>팀파니 두 대 조율하기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="pc-svg" id="pc-tp-svg"></div></div>
+        <div class="sim-controls">
+          <label class="ctrl"><span>29″ 팀파니(목표 B♭2) <output id="pc-tp-a-out"></output></span><input type="range" id="pc-tp-a" min="41" max="48" step="0.05" value="44.3"></label>
+          <label class="ctrl"><span>32″ 팀파니(목표 F2) <output id="pc-tp-b-out"></output></span><input type="range" id="pc-tp-b" min="38" max="45" step="0.05" value="42.6"></label>
+          <label class="check"><input type="checkbox" id="pc-tp-roll" checked> 마지막 마디는 롤</label>
+          <div class="btn-row"><button class="btn" id="pc-tp-ha">● 29″ 치기</button><button class="btn" id="pc-tp-hb">● 32″ 치기</button><button class="btn" id="pc-tp-ref">♪ 기준음(B♭·F)</button></div>
+          <div class="btn-row"><button class="btn primary" id="pc-tp-play">▶ 팡파르와 함께</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">29″ 음 · 어긋남</span><span class="v" id="pc-tp-ea">—</span></div>
+        <div class="stat"><span class="k">32″ 음 · 어긋남</span><span class="v" id="pc-tp-eb">—</span></div>
+        <div class="stat"><span class="k">판정</span><span class="v" id="pc-tp-ok">—</span></div>
+      </div>
+      <div class="sim-note">처음에는 두 북이 틀어져 있습니다. 북을 치고 '기준음'과 비교하거나, 팡파르(금관 5중주)와 함께 들으며 페달 슬라이더를 움직여 맞춰 보세요. 팀파니는 B♭ 화음에서 B♭을, F 화음에서 F를 칩니다 · 모델: 팀파니는 7개 모드 + (0,1) '둥' 소리 + 타격 잡음, 롤은 55 ms 간격의 무작위 세기 타격입니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 팀파니가 음을 가진 악기라는 증거.</b> 베토벤 교향곡 9번 2악장(스케르초)에서는 팀파니가 옥타브로 조율된 F를 단독으로 두드려 주제의 일부를 맡습니다. 리하르트 슈트라우스 〈차라투스트라는 이렇게 말했다〉 첫머리에서 금관의 C–G–C 뒤에 이어지는 팀파니의 C–G 연타도 좋은 예입니다. 두 곳 모두 팀파니가 '쿵'이 아니라 <b>음</b>으로 들리는지 들어 보세요.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 2 -->
+  <section id="mallets">
+    <h2>막대의 모드: 글로켄슈필 · 실로폰 · 마림바 · 첼레스타</h2>
+    <p>건반 타악기는 막대를 두드립니다. 양끝이 자유로운 <b>균일한 막대</b>의 휨 모드는 다음 비율을 가집니다.</p>
+    <div class="formula">
+      $$f_1 : f_2 : f_3 : f_4 \;=\; 1 : 2.76 : 5.40 : 8.93 \qquad \Big(\propto (2n+1)^2 \text{에 가까움}\Big)$$
+      <div class="where">막대의 휨 강성 때문에 모드가 \(n^2\)에 가깝게 빠르게 벌어집니다. 2.76배는 옥타브(2배)와 12도(3배) 사이의 어중간한 음정이라, 균일한 막대는 맑지만 '종 같은' 비조화음을 냅니다.</div>
+    </div>
+    <ul>
+      <li><b>글로켄슈필</b> — 단단한 강철 막대를 그대로 씁니다. 매우 높은 음역(기보보다 <b>두 옥타브 위</b>)이라 2.76배 성분이 귀의 감도 밖으로 금방 올라가고 빨리 사라져, 높고 반짝이는 '띵' 소리가 됩니다.</li>
+      <li><b>마림바</b> — 나무 막대의 가운데 아래를 활 모양으로 깊게 깎아(언더컷), 2번 모드를 기본음의 <b>정확히 4배</b>(2옥타브)로 맞춥니다. 막대 아래 관 공명기가 기본음을 키워 둥글고 따뜻합니다.</li>
+      <li><b>실로폰</b> — 덜 깎아 2번 모드를 <b>3배</b>(12도)로 맞추고, 단단한 채로 쳐서 밝고 건조합니다. 기보보다 한 옥타브 위에서 소리 납니다.</li>
+      <li><b>첼레스타</b> — 건반으로 작은 해머를 움직여 금속판을 치는 '건반 달린 글로켄슈필'. 판 아래 나무 공명통이 기본음을 키워 부드럽게 울립니다(기보보다 한 옥타브 위).</li>
+    </ul>
+
+    <div class="sim" id="sim-pc-bars">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>막대를 깎아 배음 맞추기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="pc-svg" id="pc-bar-svg"></div><canvas id="pc-bar-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>악기</span><div class="seg" id="pc-bar-kind"><button data-value="glock" class="on">글로켄슈필</button><button data-value="xylo">실로폰</button><button data-value="marimba">마림바</button><button data-value="celesta">첼레스타</button></div></div>
+          <div class="btn-row"><button class="btn primary" id="pc-bar-scale">▶ 음계</button><button class="btn" id="pc-bar-one">▶ 한 음</button><button class="btn" id="pc-bar-ab">▶ 균일한 막대 ↔ 깎은 막대</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">모드 비율</span><span class="v" id="pc-bar-r">—</span></div>
+        <div class="stat"><span class="k">2번 모드</span><span class="v" id="pc-bar-2">—</span></div>
+        <div class="stat"><span class="k">기보 → 실음</span><span class="v" id="pc-bar-t">—</span></div>
+      </div>
+      <div class="sim-note">위는 막대의 옆모습(아래를 얼마나 깎았는지), 아래는 모드 비율과 세기입니다. '균일한 막대 ↔ 깎은 막대'는 같은 음을 1 : 2.76 비율과 그 악기의 비율로 번갈아 냅니다 · 모델: 글로켄슈필·첼레스타는 EN 음원, 실로폰·마림바는 이 장의 모드 합성(1:3:6, 1:4:9.9 + 감쇠)입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 3 -->
+  <section id="harp">
+    <h2>하프와 일곱 페달</h2>
+    <p>오케스트라의 하프에는 줄이 47개 있고, 한 옥타브에 일곱 줄(도·레·미·파·솔·라·시)뿐입니다. 반음은 발로 만듭니다. 받침대에 <b>페달 일곱 개</b>가 있어 각각 한 음 이름의 모든 옥타브 줄을 한꺼번에 조입니다. 페달마다 세 칸이 있습니다.</p>
+    <ul>
+      <li><b>위 칸 = ♭</b> — 페달을 놓은 상태. 하프는 C♭ 장조로 조율되어 있어 모든 줄이 ♭입니다.</li>
+      <li><b>가운데 칸 = ♮</b> — 원판이 돌아 줄 하나를 눌러 반음 올립니다.</li>
+      <li><b>아래 칸 = ♯</b> — 두 번째 원판까지 눌러 다시 반음 올립니다.</li>
+    </ul>
+    <p>왼발이 D·C·B, 오른발이 E·F·G·A를 맡습니다. 페달을 맞춰 두면 그 음계의 일곱 음이 모든 옥타브에서 정해지므로, 손으로 줄을 쓸어내리는 <b>글리산도</b><span class="en">(Glissando)</span>가 그 음계로 울립니다. 재미있는 것은 <b>이명동음</b>입니다. B♯은 C와 같은 음이고 E♭은 D♯과 같은 음이라, 두 줄이 같은 음을 내도록 맞출 수 있습니다. 그러면 일곱 줄로 음이 네 개뿐인 화음도 글리산도할 수 있습니다. 감7화음 글리산도가 하프의 대표적인 '마법 같은' 효과입니다.</p>
+
+    <div class="sim" id="sim-pc-harp">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>하프 페달 맞추기와 글리산도</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="pc-svg" id="pc-hp-svg"></div></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>페달 설정(그림의 페달을 눌러도 바뀝니다)</span><div class="en-pick" id="pc-hp-pre">
+            <button data-p="0000000" class="on">C 장조</button><button data-p="00--00-">E♭ 장조</button><button data-p="00-0+++">온음음계</button><button data-p="+0+-+-0">감7화음</button><button data-p="00+0-00">5음음계</button><button data-p="-------">C♭ 장조(놓은 상태)</button>
+          </div></div>
+          <div class="btn-row"><button class="btn primary" id="pc-hp-gl">▶ 글리산도</button><button class="btn" id="pc-hp-arp">▶ 위아래로</button><button class="btn" id="pc-hp-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">일곱 줄</span><span class="v" id="pc-hp-str">—</span></div>
+        <div class="stat"><span class="k">실제로 나는 음</span><span class="v" id="pc-hp-pcs">—</span></div>
+        <div class="stat"><span class="k">이명동음 겹침</span><span class="v" id="pc-hp-dup">—</span></div>
+      </div>
+      <div class="sim-note">페달 표기는 하프 악보의 관례대로 왼쪽 D C B | 오른쪽 E F G A 순서입니다. 페달을 누를 때마다 ♭ → ♮ → ♯ → ♭로 바뀝니다 · 모델: 하프 소리는 뜯은 현(카플러스–스트롱)이고, 글리산도는 두 옥타브 반의 줄을 45 ms 간격으로 뜯습니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 하프의 색.</b> 차이콥스키 〈호두까기 인형〉 '꽃의 왈츠' 서주의 긴 하프 카덴차는 아르페지오와 글리산도로 화음을 펼치는 하프의 전형입니다. 같은 발레의 '사탕 요정의 춤'에서는 첼레스타가 선율을 맡는데, 이 곡이 첼레스타를 오케스트라에 널리 알린 첫 작품 가운데 하나입니다.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== 4 -->
+  <section id="unpitched">
+    <h2>음높이 없는 타악기: 강세 · 박 · 색</h2>
+    <p>음높이가 없는 타악기는 모드가 너무 많고 비조화적이어서 귀가 하나의 음으로 묶지 못합니다. 대신 이 악기들은 <b>시간</b>과 <b>밝기</b>를 맡습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>악기</th><th>소리</th><th>오케스트라에서 하는 일</th></tr></thead>
+        <tbody>
+          <tr><td><b>심벌즈</b>(크래시 한 쌍)</td><td>수천 개의 비조화 모드가 겹친 넓은 대역의 '쨍', 몇 초 동안 울림</td><td>절정의 강세. 투티의 첫 박을 눈부시게 만든다.</td></tr>
+          <tr><td><b>큰북</b>(그란 카사)</td><td>50 Hz 안팎의 낮은 울림, 음높이가 거의 없음</td><td>행진의 박, ppp 롤은 멀리서 오는 천둥.</td></tr>
+          <tr><td><b>작은북</b></td><td>아래 가죽에 닿는 스네어 줄의 '촤' 하는 잡음</td><td>리듬과 군악의 색, 롤로 긴장을 쌓는다.</td></tr>
+          <tr><td><b>트라이앵글</b></td><td>높은 비조화 모드, 가늘고 길게 울림</td><td>오케스트라 전체 위로 들리는 반짝임. 적게 쓸수록 빛난다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>이 악기들은 음역이 아니라 <b>주파수 대역</b>으로 자리를 나눕니다. 큰북은 오케스트라의 가장 아래를, 심벌즈와 트라이앵글은 현과 관이 거의 없는 5 kHz 위를 채웁니다. 그래서 적은 수로도 전체 소리를 크게 바꿉니다. 아래에서 하나씩 두드리고, 행진 리듬에서 악기를 켜고 꺼 보세요.</p>
+
+    <div class="sim" id="sim-pc-kit">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>오케스트라 타악기 두드리기</h3></div>
+      <div class="sim-body side">
+        <div class="sim-view"><div class="pc-pads" id="pc-kt-pads" style="padding:10px">
+          <button data-i="cymbals">심벌즈</button><button data-i="bassDrum">큰북</button><button data-i="snare">작은북</button>
+          <button data-i="snare" data-a="roll">작은북 롤</button><button data-i="triangle">트라이앵글</button><button data-i="timpani" data-a="roll">팀파니 롤</button>
+        </div><canvas id="pc-kt-cv"></canvas></div>
+        <div class="sim-controls">
+          <div class="ctrl"><span>행진 리듬에 넣을 악기</span><div class="en-pick" id="pc-kt-on"><button data-k="snare" class="on">작은북</button><button data-k="bassDrum" class="on">큰북</button><button data-k="cymbals" class="on">심벌즈</button><button data-k="triangle">트라이앵글</button></div></div>
+          <label class="ctrl"><span>템포 <output id="pc-kt-bpm-out"></output></span><input type="range" id="pc-kt-bpm" min="70" max="140" step="1" value="108"></label>
+          <div class="btn-row"><button class="btn primary" id="pc-kt-play">▶ 행진 리듬</button><button class="btn" id="pc-kt-stop">■ 정지</button></div>
+        </div>
+      </div>
+      <div class="sim-note">그림은 지금 울리는 소리의 스펙트럼입니다. 큰북은 왼쪽 끝, 트라이앵글과 심벌즈는 오른쪽 끝에 에너지가 있습니다. 저역은 헤드폰으로 들으세요 · 모델: 심벌즈·작은북은 MusicBook 드럼 합성, 큰북·트라이앵글은 비조화 모드 합성입니다.</div>
+    </div>
+  </section>
+
+  <!-- =============================================================== 5 -->
+  <section id="color">
+    <h2>오케스트라에 색 더하기</h2>
+    <p>하프·글로켄슈필·첼레스타·트라이앵글·팀파니는 음이 많지 않아도 오케스트라의 인상을 크게 바꿉니다. 작곡가들이 이 악기들을 '색 악기'로 쓰는 방법은 몇 가지로 정리됩니다.</p>
+    <ul>
+      <li><b>선율 겹치기</b> — 플루트나 바이올린의 선율을 글로켄슈필이 한두 옥타브 위에서 따라가면, 음마다 반짝이는 '머리'가 붙습니다. 글로켄슈필은 금방 사라지므로 선율의 시작만 밝히고 지속은 관현이 맡습니다.</li>
+      <li><b>화음 펼치기</b> — 하프가 화음을 아르페지오로 펼치면 현의 지속 화음에 '알갱이'가 생깁니다. 뜯은 현은 어택이 또렷하고 곧 사라져 다른 악기를 가리지 않습니다.</li>
+      <li><b>박과 뿌리</b> — 팀파니가 프레이즈의 끝(종지)에서 근음을 치면 화음의 무게가 바닥까지 내려옵니다.</li>
+      <li><b>반짝임 한 점</b> — 트라이앵글이나 심벌즈는 몇 마디에 한 번이면 충분합니다. 자주 치면 색이 아니라 소음이 됩니다.</li>
+    </ul>
+
+    <div class="sim" id="sim-pc-color">
+      <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>색 악기 얹기</h3></div>
+      <div class="sim-body">
+        <div class="sim-view"><canvas id="pc-co-roll"></canvas><div id="pc-co-ui"></div></div>
+      </div>
+      <div class="pc-ctrl">
+        <div class="en-pick" id="pc-co-pre"><button data-p="base" class="on">선율 + 현만</button><button data-p="harp">+ 하프</button><button data-p="glock">+ 글로켄슈필</button><button data-p="all">+ 모든 색</button></div>
+        <button class="btn primary" id="pc-co-play">▶ 재생</button>
+      </div>
+      <div class="sim-readout">
+        <div class="stat"><span class="k">곡</span><span class="v" id="pc-co-title">—</span></div>
+        <div class="stat"><span class="k">들리는 파트</span><span class="v" id="pc-co-on">—</span></div>
+      </div>
+      <div class="sim-note">믹서의 M·S로 층을 하나씩 켜고 끌 수 있습니다. 하프 아르페지오는 각 화음의 구성음을 8분음표로 펼친 것, 글로켄슈필은 선율을 한 옥타브 위에서 겹친 것, 팀파니는 F와 C 화음의 첫 박, 트라이앵글은 프레이즈 첫 박입니다 · 모델: 선율은 플루트, 화성은 비올라·첼로 섹션입니다.</div>
+    </div>
+    <div class="callout tip">
+      <p><b>들어 보기 · 하나씩 더하기.</b> '선율 + 현만'으로 한 번 들은 뒤 하프, 글로켄슈필, 모든 색 순서로 바꿔 가며 들어 보세요. 색 악기는 <b>새 음을 거의 더하지 않는데도</b> 곡의 분위기가 동화나 축제처럼 바뀝니다. 반대로 '모든 색'에서 선율(플루트)만 끄면 색 악기만으로는 곡이 서지 않는다는 것도 알 수 있습니다.</p>
+    </div>
+  </section>
+
+  <section class="keypoints" id="summary">
+    <h2>핵심 정리</h2>
+    <ol>
+      <li>원형 막의 모드는 베셀 영점 비율(1, 1.59, 2.14, 2.30…)로 비조화적이라 그냥 막은 음높이가 흐릿하다.</li>
+      <li>팀파니는 공기 부하와 케틀이 \((1,1), (2,1), (3,1)\cdots\) 모드를 약 \(1 : 1.5 : 2 : 2.44\)로 옮겨, 귀가 하나의 음으로 묶게 한다. 음높이는 페달로 장력을 바꿔 맞추고, 긴 음은 롤로 잇는다.</li>
+      <li>균일한 막대는 \(1 : 2.76 : 5.40\). 마림바는 아래를 깎아 2번 모드를 4배, 실로폰은 3배로 맞춘다. 글로켄슈필은 두 옥타브, 실로폰·첼레스타는 한 옥타브 위에서 소리 난다.</li>
+      <li>하프는 한 옥타브에 일곱 줄, 페달 일곱 개가 각 음 이름을 ♭·♮·♯로 바꾼다. 이명동음으로 두 줄을 같은 음에 맞춰 감7화음·온음음계 글리산도를 만든다.</li>
+      <li>음높이 없는 타악기는 시간(강세·박)과 대역(큰북의 저역, 심벌즈·트라이앵글의 고역)을 맡는다. 적게 쓸수록 빛난다.</li>
+      <li>색 악기는 새 음을 거의 더하지 않고 선율의 머리(글로켄슈필), 화음의 알갱이(하프), 종지의 무게(팀파니)를 더한다.</li>
+    </ol>
+  </section>
+
+  <section class="quiz-sec" id="quiz">
+    <h2>확인 퀴즈</h2>
+    <div class="quiz">
+      <div class="quiz-q"><p>틀에만 매단 원형 막이 팀파니처럼 분명한 음높이를 내지 못하는 이유는?</p><div class="opts">
+        <button class="opt">막이 너무 얇아서</button>
+        <button class="opt" data-correct>모드 주파수가 베셀 영점 비율이라 정수배로 늘어서지 않기 때문</button>
+        <button class="opt">모드가 하나뿐이어서</button>
+        <button class="opt">공기가 소리를 모두 흡수해서</button>
+      </div><div class="quiz-exp">이상적인 막의 모드는 1, 1.59, 2.14, 2.30…으로 어중간하다. 팀파니는 공기 부하와 케틀로 주요 모드를 1 : 1.5 : 2 : 2.44 근처로 옮겨 음높이를 얻는다.</div></div>
+      <div class="quiz-q"><p>고전 시대 교향곡에서 팀파니 두 대가 보통 맞추는 두 음은?</p><div class="opts">
+        <button class="opt">으뜸음과 3음</button><button class="opt" data-correct>으뜸음과 딸림음</button><button class="opt">가장 낮은 음과 가장 높은 음</button><button class="opt">아무 두 음이나</button>
+      </div><div class="quiz-exp">으뜸음(I)과 딸림음(V)은 고전 화성의 두 기둥이다. 팀파니는 금관과 함께 이 두 화음의 근음을 두드려 종지와 투티를 받친다.</div></div>
+      <div class="quiz-q"><p>마림바 막대의 가운데 아래를 깊게 깎는 목적은?</p><div class="opts">
+        <button class="opt">막대를 가볍게 해 소리를 크게 하려고</button>
+        <button class="opt" data-correct>2번 모드를 기본음의 4배(2옥타브)로 맞춰 배음을 정돈하려고</button>
+        <button class="opt">공명기를 달 자리를 만들려고</button>
+        <button class="opt">음높이를 한 옥타브 올리려고</button>
+      </div><div class="quiz-exp">균일한 막대의 2번 모드는 2.76배로 비조화적이다. 가운데를 깎으면 그 모드가 크게 내려가 4배에 맞고, 기본음과 조화로운 둥근 소리가 된다. 실로폰은 3배로 맞춘다.</div></div>
+      <div class="quiz-q"><p>하프로 감7화음(C–E♭–F♯–A) 글리산도를 하려면 B 페달을 어떻게 두는가?</p><div class="opts">
+        <button class="opt">B♭</button><button class="opt">B♮</button><button class="opt" data-correct>B♯ (= C)</button><button class="opt">B 줄은 쓸 수 없다</button>
+      </div><div class="quiz-exp">B♯은 C와 같은 음이다. 마찬가지로 D♯ = E♭, G♭ = F♯로 맞추면 일곱 줄이 모두 C·E♭·F♯·A 넷 중 하나를 내서, 줄을 쓸어내려도 감7화음만 울린다.</div></div>
+      <div class="quiz-q"><p>트라이앵글 한 대가 오케스트라 투티 위에서도 들리는 주된 이유는?</p><div class="opts">
+        <button class="opt">가장 큰 음압을 내서</button>
+        <button class="opt" data-correct>에너지가 현과 관이 거의 없는 높은 대역에 있어 가려지지 않기 때문</button>
+        <button class="opt">음높이가 분명해서</button>
+        <button class="opt">무대 맨 앞에 앉아서</button>
+      </div><div class="quiz-exp">트라이앵글의 모드는 수 kHz 위에 몰려 있다. 그 대역은 다른 악기들의 에너지가 적어 마스킹이 거의 없으므로, 작은 소리로도 또렷이 들린다(<a href="balance.html">11장</a>).</div></div>
+    </div>
+  </section>
+</main>
+<script>
+/* 공용: 모드 합성(분수 비율, 감쇠 사인파) */
+const PC = {
+  modal(ratios, f, o = {}) {
+    const ctx = MB.ctx(); if (!ctx) return;
+    const t0 = o.when || ctx.currentTime + 0.01, vel = o.vel != null ? o.vel : 0.7;
+    const out = ctx.createGain(); out.gain.value = Math.pow(vel, 1.3) * 0.3; out.connect(o.dest || MB.out);
+    ratios.forEach(([r, a, d]) => {
+      const osc = ctx.createOscillator(), g = ctx.createGain(); osc.frequency.value = f * r;
+      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(a, t0 + 0.002); g.gain.setTargetAtTime(0, t0 + 0.002, d / 4.6);
+      osc.connect(g); g.connect(out); osc.start(t0); osc.stop(t0 + d * 1.6 + 0.1);
+    });
+  },
+  timers: [],
+  clear() { PC.timers.forEach(clearTimeout); PC.timers = []; },
+  later(ms, fn) { PC.timers.push(setTimeout(fn, ms)); },
+};
+
+/* ------------------------------------------------------------ 1. 막의 모드 */
+(function () {
+  const IDEAL = [["(0,1)", 0.627, 0.7, 0.5], ["(1,1)", 1, 1, 0.9], ["(2,1)", 1.34, 0.7, 0.8], ["(0,2)", 1.44, 0.45, 0.4], ["(3,1)", 1.664, 0.5, 0.7], ["(1,2)", 1.831, 0.35, 0.5], ["(4,1)", 1.98, 0.3, 0.6]];
+  const TIMP = [["(0,1)", 0.62, 0.55, 0.25], ["(1,1)", 1, 1, 2.8], ["(2,1)", 1.504, 0.55, 1.9], ["(0,2)", 1.742, 0.32, 1.2], ["(3,1)", 1.98, 0.3, 1.1], ["(1,2)", 2.245, 0.18, 0.8], ["(4,1)", 2.44, 0.15, 0.6], ["(5,1)", 2.94, 0.08, 0.5]];
+  let kind = "timp", m = 45;
+  const modes = () => (kind === "timp" ? TIMP : IDEAL);
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 30, y: 18, w: w - 44, h: h - 48 };
+    const X = (r) => b.x + ((r - 0.5) / 2.6) * b.w, Y = (a) => b.y + b.h - a * b.h;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [1, 1.5, 2, 2.5, 3].forEach((r, i) => { ctx.strokeStyle = P.faint; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(r), b.y); ctx.lineTo(X(r), b.y + b.h); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = P.dim; ctx.fillText("×" + r, X(r), b.y + b.h + 6); ctx.fillText((i + 2) + "배", X(r), b.y + b.h + 20); });
+    const col = EN.color("timpani");
+    modes().forEach(([nm, r, a]) => {
+      ctx.strokeStyle = nm === "(0,1)" ? P.faint : col; ctx.fillStyle = ctx.strokeStyle; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(X(r), Y(0)); ctx.lineTo(X(r), Y(a)); ctx.stroke();
+      ctx.beginPath(); ctx.arc(X(r), Y(a), 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = P.text; ctx.textBaseline = "bottom"; ctx.fillText(nm, X(r), Y(a) - 6); ctx.textBaseline = "top";
+    });
+  }
+  const view = MB.canvas("#pc-md-cv", draw, { aspect: 0.42, minHeight: 200 });
+  function update() {
+    document.getElementById("pc-md-m-out").textContent = MB.noteName(m, true) + " · " + MB.mtof(m).toFixed(1) + " Hz";
+    const main = modes().filter(([nm]) => /\(\d,1\)/.test(nm) && nm !== "(0,1)");
+    MB.stat("pc-md-r", main.map((x) => x[1].toFixed(2)).join(" : "));
+    const err = main.reduce((s, x) => s + Math.abs(x[1] * 2 - Math.round(x[1] * 2)) / 2, 0) / main.length;
+    MB.stat("pc-md-e", (err * 100).toFixed(1) + " % " + (err < 0.04 ? "— 거의 정수배" : "— 비조화"));
+    view.redraw();
+  }
+  function hit(k) {
+    MB.ctx();
+    if (k === "timp") EN.note("timpani", m, { vel: 0.7, dur: 2 });
+    else PC.modal(IDEAL.map(([, r, a, d]) => [r, a, d]), MB.mtof(m), { vel: 0.8 });
+  }
+  MB.seg("pc-md-kind", (v) => { kind = v; update(); });
+  MB.range("pc-md-m", null, (v) => { m = v; update(); });
+  document.getElementById("pc-md-play").addEventListener("click", () => hit(kind));
+  document.getElementById("pc-md-each").addEventListener("click", () => {
+    MB.ctx(); PC.clear();
+    modes().forEach(([nm, r], i) => PC.later(i * 520, () => { MB.stat("pc-md-r", nm + " × " + r.toFixed(3)); PC.modal([[1, 1, 0.5]], MB.mtof(m) * r, { vel: 0.6 }); }));
+    PC.later(modes().length * 520 + 200, update);
+  });
+  document.getElementById("pc-md-ab").addEventListener("click", () => {
+    MB.ctx(); PC.clear();
+    ["ideal", "timp", "ideal", "timp"].forEach((k, i) => PC.later(i * 1300, () => { MB.stat("pc-md-e", k === "timp" ? "팀파니" : "이상적인 막"); hit(k); }));
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 1b. 팀파니 조율 */
+(function () {
+  let A = 44.3, B = 42.6, roll = true, mx = null, pl = null;
+  const TA = 46, TB = 41;
+  const piece = EN.PIECES.fanfare;
+  const brass = EN.arrange("fanfare", "brassQuintet").map((p) => Object.assign(p, { vel: 0.7 }));
+  function timpPart() {
+    const notes = [];
+    piece.chords.forEach((c) => {
+      const pc = EN.parseChord(c.sym).root;
+      const isLast = c.t >= piece.beats - 4;
+      const m = pc === 10 ? A : pc === 5 ? B : null; if (m == null) return;
+      if (isLast && roll) notes.push({ t: c.t, d: 3, m, vel: 0.55, art: "roll" });
+      else notes.push({ t: c.t, d: 1, m, vel: 0.75 });
+    });
+    return { id: "timp", inst: "timpani", notes, label: "팀파니" };
+  }
+  const parts = () => brass.concat([timpPart()]);
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert" }));
+  function svg() {
+    const drum = (cx, m, t, lab, size) => {
+      const e = MB.cents(MB.mtof(m) / MB.mtof(t)), ok = Math.abs(e) < 10;
+      const r = size;
+      return `<g transform="translate(${cx} 112)">
+        <path d="M${-r} 0 Q${-r * 0.9} ${r * 0.9} 0 ${r * 0.95} Q${r * 0.9} ${r * 0.9} ${r} 0 Z" fill="color-mix(in srgb, var(--en-br) 55%, var(--bg-elev))" stroke="var(--en-br)" stroke-width="2"/>
+        <ellipse cx="0" cy="0" rx="${r}" ry="${r * 0.24}" fill="var(--bg-elev)" stroke="var(--text-dim)" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" class="mono">${MB.noteName(Math.round(m), true)}</text>
+        <text x="0" y="${-r * 0.24 - 10}" text-anchor="middle" class="lbl">${lab}</text>
+        <rect x="-50" y="${r + 14}" width="100" height="10" rx="5" fill="var(--surface)"/>
+        <rect x="${-1.5 + MB.clamp(e, -100, 100) / 2}" y="${r + 10}" width="3" height="18" fill="${ok ? "var(--ok)" : "var(--bad)"}"/>
+        <line x1="0" y1="${r + 8}" x2="0" y2="${r + 30}" stroke="var(--text-faint)"/>
+        <text x="0" y="${r + 44}" text-anchor="middle" class="lbl">${MB.signed(e, 0)}¢ ${ok ? "✓" : ""}</text></g>`;
+    };
+    document.getElementById("pc-tp-svg").innerHTML = `<svg viewBox="0 0 520 250" role="img" aria-label="팀파니 두 대와 조율 계기">${drum(150, B, TB, "32″ (목표 F2)", 72)}${drum(370, A, TA, "29″ (목표 B♭2)", 64)}</svg>`;
+  }
+  function update() {
+    const ea = MB.cents(MB.mtof(A) / MB.mtof(TA)), eb = MB.cents(MB.mtof(B) / MB.mtof(TB));
+    document.getElementById("pc-tp-a-out").textContent = MB.noteName(Math.round(A), true) + " " + MB.signed((A - Math.round(A)) * 100, 0) + "¢";
+    document.getElementById("pc-tp-b-out").textContent = MB.noteName(Math.round(B), true) + " " + MB.signed((B - Math.round(B)) * 100, 0) + "¢";
+    MB.stat("pc-tp-ea", MB.mtof(A).toFixed(1) + " Hz · " + MB.signed(ea, 0) + "¢");
+    MB.stat("pc-tp-eb", MB.mtof(B).toFixed(1) + " Hz · " + MB.signed(eb, 0) + "¢");
+    MB.stat("pc-tp-ok", Math.abs(ea) < 10 && Math.abs(eb) < 10 ? "🎉 두 북 모두 맞음" : "아직 틀어짐");
+    svg();
+    if (pl && pl.running) pl.refresh();
+  }
+  MB.range("pc-tp-a", null, (v) => { A = v; update(); });
+  MB.range("pc-tp-b", null, (v) => { B = v; update(); });
+  MB.check("pc-tp-roll", (v) => { roll = v; update(); });
+  document.getElementById("pc-tp-ha").addEventListener("click", () => { MB.ctx(); EN.note("timpani", A, { vel: 0.75 }); });
+  document.getElementById("pc-tp-hb").addEventListener("click", () => { MB.ctx(); EN.note("timpani", B, { vel: 0.75 }); });
+  document.getElementById("pc-tp-ref").addEventListener("click", () => { MB.ctx(); EN.note("horn", TA + 12, { dur: 1, vel: 0.5 }); setTimeout(() => EN.note("horn", TB + 12, { dur: 1, vel: 0.5 }), 1100); });
+  const btn = document.getElementById("pc-tp-play");
+  pl = EN.player({ parts, bpm: piece.bpm, loop: true, mixer: getMx, length: piece.beats,
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 팡파르와 함께"; } });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); pl.toggle(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 2. 막대 */
+(function () {
+  const K = {
+    glock: { name: "글로켄슈필", modes: [[1, 1, 2.4], [2.76, 0.28, 0.7], [5.4, 0.12, 0.3]], cut: 0, tr: "+2옥타브", lo: 79, play: (m, v) => EN.note("glockenspiel", m, { vel: v }) },
+    xylo: { name: "실로폰", modes: [[1, 1, 0.7], [3, 0.42, 0.3], [6, 0.15, 0.12]], cut: 0.45, tr: "+1옥타브", lo: 65, play: null },
+    marimba: { name: "마림바", modes: [[1, 1, 1.3], [4, 0.3, 0.45], [9.9, 0.07, 0.15]], cut: 1, tr: "실음", lo: 48, play: null },
+    celesta: { name: "첼레스타", modes: [[1, 1, 1.5], [4, 0.1, 0.4], [6.8, 0.03, 0.2]], cut: 0.7, tr: "+1옥타브", lo: 72, play: (m, v) => EN.note("celesta", m, { vel: v }) },
+  };
+  const UNIFORM = [[1, 1, 1.2], [2.76, 0.45, 0.6], [5.4, 0.2, 0.3]];
+  let kind = "glock";
+  const hit = (m, v = 0.7, uniform = false) => {
+    const k = K[kind];
+    if (uniform) return PC.modal(UNIFORM, MB.mtof(m), { vel: v });
+    if (k.play) return k.play(m, v);
+    PC.modal(k.modes, MB.mtof(m), { vel: v });
+  };
+  function bar() {
+    const c = K[kind].cut, W = 520;
+    const depth = 8 + c * 34;
+    const under = c > 0 ? `<path d="M60 40 H460 V80 L430 80 Q260 ${80 - depth} 90 80 L60 80 Z" fill="color-mix(in srgb, var(--en-pc) 40%, var(--bg-elev))" stroke="var(--en-pc)" stroke-width="2"/>`
+      : `<rect x="60" y="40" width="400" height="40" rx="3" fill="color-mix(in srgb, var(--en-pc) 40%, var(--bg-elev))" stroke="var(--en-pc)" stroke-width="2"/>`;
+    const nodes = [0.224, 0.776].map((p) => `<circle cx="${60 + 400 * p}" cy="94" r="4" fill="var(--text-dim)"/>`).join("");
+    document.getElementById("pc-bar-svg").innerHTML = `<svg viewBox="0 0 ${W} 120" role="img" aria-label="막대 옆모습">${under}${nodes}
+      <text x="260" y="26" text-anchor="middle" class="mono">${K[kind].name}: ${c > 0 ? "가운데 아래를 깎음" : "균일한 막대"}</text>
+      <text x="260" y="112" text-anchor="middle" class="lbl">● 받침(1번 모드의 마디, 양끝에서 22.4%)</text></svg>`;
+  }
+  function draw(ctx, w, h) {
+    const P = MB.palette(), b = { x: 30, y: 16, w: w - 44, h: h - 40 };
+    const X = (r) => b.x + (Math.log(r) / Math.log(11)) * b.w, Y = (a) => b.y + b.h - a * b.h;
+    ctx.font = "11px " + getComputedStyle(document.body).getPropertyValue("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "top";
+    [1, 2, 3, 4, 6, 8, 10].forEach((r) => { ctx.strokeStyle = P.grid; ctx.beginPath(); ctx.moveTo(X(r), b.y); ctx.lineTo(X(r), b.y + b.h); ctx.stroke(); ctx.fillStyle = P.dim; ctx.fillText("×" + r, X(r), b.y + b.h + 6); });
+    const draw1 = (ms, col, off) => ms.forEach(([r, a]) => { ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(r) + off, Y(0)); ctx.lineTo(X(r) + off, Y(a)); ctx.stroke(); ctx.beginPath(); ctx.arc(X(r) + off, Y(a), 4, 0, 7); ctx.fill(); ctx.fillStyle = P.text; ctx.textBaseline = "bottom"; ctx.fillText(r.toFixed(2), X(r) + off, Y(a) - 6); ctx.textBaseline = "top"; });
+    if (K[kind].cut > 0) draw1(UNIFORM, P.faint, -5);
+    draw1(K[kind].modes, EN.color("glockenspiel"), K[kind].cut > 0 ? 5 : 0);
+    ctx.textAlign = "left"; ctx.fillStyle = P.dim; ctx.textBaseline = "top";
+    ctx.fillText(K[kind].cut > 0 ? "흐린 막대 = 균일한 막대(1 : 2.76 : 5.40)" : "", b.x + 4, b.y);
+  }
+  const view = MB.canvas("#pc-bar-cv", draw, { aspect: 0.32, minHeight: 150 });
+  function update() {
+    const k = K[kind];
+    MB.stat("pc-bar-r", k.modes.map((x) => x[0]).join(" : "));
+    const r2 = k.modes[1][0];
+    MB.stat("pc-bar-2", "×" + r2 + " = " + (Math.abs(r2 - Math.round(r2)) < 0.01 ? (r2 === 4 ? "2옥타브" : r2 === 3 ? "12도(옥타브+5도)" : r2 + "배") : "비조화(옥타브와 12도 사이)"));
+    MB.stat("pc-bar-t", k.tr);
+    bar(); view.redraw();
+  }
+  MB.seg("pc-bar-kind", (v) => { kind = v; update(); });
+  document.getElementById("pc-bar-one").addEventListener("click", () => hit(K[kind].lo + 5));
+  document.getElementById("pc-bar-scale").addEventListener("click", () => {
+    PC.clear(); const lo = K[kind].lo, st = [0, 2, 4, 5, 7, 9, 11, 12];
+    st.forEach((s, i) => PC.later(i * 260, () => hit(lo + s + (kind === "glock" ? 5 : 0) , 0.65)));
+  });
+  document.getElementById("pc-bar-ab").addEventListener("click", () => {
+    PC.clear(); const m = K[kind].lo + 5;
+    [true, false, true, false].forEach((u, i) => PC.later(i * 1100, () => { MB.stat("pc-bar-2", u ? "균일한 막대 (×2.76)" : K[kind].name); hit(m, 0.7, u); }));
+    PC.later(4500, update);
+  });
+  update();
+})();
+
+/* ------------------------------------------------------------ 3. 하프 */
+(function () {
+  // 페달 순서(하프 악보 관례): 왼발 D C B | 오른발 E F G A. 값: -1 ♭, 0 ♮, +1 ♯
+  const ORDER = ["D", "C", "B", "E", "F", "G", "A"];
+  const NAT = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const ACC = { "-1": "♭", 0: "♮", 1: "♯" };
+  let ped = { D: 0, C: 0, B: 0, E: 0, F: 0, G: 0, A: 0 }, playing = false;
+  const fromStr = (s) => { [...s].forEach((ch, i) => { ped[ORDER[i]] = ch === "-" ? -1 : ch === "+" ? 1 : 0; }); };
+  const pcs = () => ["C", "D", "E", "F", "G", "A", "B"].map((n) => MB.mod(NAT[n] + ped[n], 12));
+  function svg() {
+    const W = 560;
+    let s = `<svg viewBox="0 0 ${W} 190" role="img" aria-label="하프 페달 일곱 개">`;
+    s += `<text x="140" y="20" text-anchor="middle" class="lbl">왼발</text><text x="400" y="20" text-anchor="middle" class="lbl">오른발</text>`;
+    s += `<line x1="270" y1="30" x2="270" y2="150" stroke="var(--grid)" stroke-width="2"/>`;
+    ORDER.forEach((n, i) => {
+      const x = i < 3 ? 60 + i * 80 : 310 + (i - 3) * 66, v = ped[n];
+      const ly = 50 + (v + 1) * 30;
+      s += `<g class="ped" data-n="${n}"><rect class="slot" x="${x - 16}" y="36" width="32" height="104" rx="8"/>
+        ${[0, 1, 2].map((k) => `<line x1="${x - 10}" y1="${50 + k * 30 + 8}" x2="${x + 10}" y2="${50 + k * 30 + 8}" stroke="var(--text-faint)"/>`).join("")}
+        <rect class="lever" x="${x - 13}" y="${ly}" width="26" height="16" rx="4"/>
+        <text x="${x}" y="168" text-anchor="middle" class="mono">${n}${ACC[v]}</text></g>`;
+    });
+    s += `<text x="${W - 6}" y="56" text-anchor="end" class="lbl">♭</text><text x="${W - 6}" y="86" text-anchor="end" class="lbl">♮</text><text x="${W - 6}" y="116" text-anchor="end" class="lbl">♯</text>`;
+    s += `</svg>`;
+    document.getElementById("pc-hp-svg").innerHTML = s;
+  }
+  function update() {
+    svg();
+    const names = ["C", "D", "E", "F", "G", "A", "B"];
+    MB.stat("pc-hp-str", names.map((n) => n + (ped[n] ? ACC[ped[n]] : "")).join(" "));
+    const set = [...new Set(pcs())].sort((a, b) => a - b);
+    MB.stat("pc-hp-pcs", set.length + "음: " + set.map((p) => MB.pcName(p, true)).join(" "));
+    const dup = []; const seen = {};
+    names.forEach((n) => { const p = MB.mod(NAT[n] + ped[n], 12); if (seen[p] != null) dup.push(seen[p] + " = " + n + ACC[ped[n]]); else seen[p] = n + (ped[n] ? ACC[ped[n]] : ""); });
+    MB.stat("pc-hp-dup", dup.join(", ") || "없음");
+  }
+  document.getElementById("pc-hp-svg").addEventListener("click", (e) => {
+    const g = e.target.closest(".ped"); if (!g) return;
+    const n = g.dataset.n; ped[n] = ped[n] === 1 ? -1 : ped[n] + 1;
+    document.querySelectorAll("#pc-hp-pre button").forEach((b) => b.classList.remove("on"));
+    update(); MB.ctx(); const oct = n === "B" ? 4 : 5; EN.note("harp", 12 * (oct + 1) + NAT[n] + ped[n], { vel: 0.6 });
+  });
+  document.getElementById("pc-hp-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-p]"); if (!b) return;
+    document.querySelectorAll("#pc-hp-pre button").forEach((x) => x.classList.toggle("on", x === b));
+    fromStr(b.dataset.p); update();
+  });
+  const strings = () => { const out = []; for (let oct = 3; oct <= 5; oct++) ["C", "D", "E", "F", "G", "A", "B"].forEach((n) => out.push(12 * (oct + 1) + NAT[n] + ped[n])); out.push(84 + ped.C); return out; };
+  function gliss(dirs) {
+    MB.ctx(); PC.clear(); MB.stopAll();
+    let t = 0; const s = strings();
+    dirs.forEach((d) => { (d > 0 ? s : s.slice().reverse()).forEach((m) => { PC.later(t, () => EN.note("harp", m, { vel: 0.5, dur: 2.5 })); t += 45; }); t += 200; });
+  }
+  document.getElementById("pc-hp-gl").addEventListener("click", () => gliss([1]));
+  document.getElementById("pc-hp-arp").addEventListener("click", () => gliss([1, -1]));
+  document.getElementById("pc-hp-stop").addEventListener("click", () => { PC.clear(); MB.stopAll(); });
+  update();
+})();
+
+/* ------------------------------------------------------------ 4. 음높이 없는 타악기 */
+(function () {
+  let on = new Set(["snare", "bassDrum", "cymbals"]), bpm = 108, pl = null;
+  const pads = document.getElementById("pc-kt-pads");
+  pads.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    MB.ctx(); b.classList.add("hit"); setTimeout(() => b.classList.remove("hit"), 150);
+    EN.note(b.dataset.i, b.dataset.i === "timpani" ? 41 : 60, { vel: 0.75, art: b.dataset.a || "", dur: b.dataset.a ? 1.6 : 1 });
+  });
+  const live = MB.liveView("#pc-kt-cv", { mode: "spectrum", fmin: 30, fmax: 16000, aspect: 0.3, minHeight: 140 });
+  void live;
+  // 2마디 행진: 작은북 리듬 + 롤, 큰북 1·3박, 심벌즈 첫 박, 트라이앵글 뒷박
+  const PAT = {
+    snare: EN.parse("mf C4:1 C4:.5 C4:.5 C4:1 C4:.75 C4:.25 | C4:.5 C4:.5 C4:.5 C4:.5 @roll C4:2"),
+    bassDrum: EN.parse("mf C4:2 C4:2 | C4:2 C4:2"),
+    cymbals: EN.parse("f C4:8"),
+    triangle: EN.parse("mp r:.5 C4:1 C4:1 C4:1 C4:.5 | r:.5 C4:1 C4:1 C4:1.5"),
+  };
+  PAT.snare.forEach((n) => { if (n.art === "roll") n.vel = 0.5; });
+  const parts = () => [...on].map((k) => ({ id: "kt-" + k, inst: k, notes: PAT[k] }));
+  const btn = document.getElementById("pc-kt-play");
+  MB.range("pc-kt-bpm", (v) => v + " BPM", (v) => { bpm = v; });
+  document.getElementById("pc-kt-on").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    const k = b.dataset.k; on.has(k) ? on.delete(k) : on.add(k); b.classList.toggle("on", on.has(k));
+    if (pl) pl.refresh();
+  });
+  pl = EN.player({ parts, bpm: () => bpm, loop: true, length: 8,
+    onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 행진 리듬"; } });
+  btn.addEventListener("click", () => { MB.ctx(); pl.toggle(); });
+  document.getElementById("pc-kt-stop").addEventListener("click", () => pl.stop());
+})();
+
+/* ------------------------------------------------------------ 5. 색 악기 */
+(function () {
+  const P = EN.PIECES.pastorale, mx0 = { v: null };
+  const melody = { id: "co-fl", inst: "flute", label: "선율(플루트)", notes: P.lines.S.map((n) => Object.assign({}, n, { m: n.m + 12, vel: 0.6 })) };
+  const strA = { id: "co-va", inst: "viola", label: "화성(비올라)", notes: P.lines.A.concat(P.lines.T).map((n) => Object.assign({}, n, { vel: 0.4 })), players: 6, maxSub: 3 };
+  const strB = { id: "co-vc", inst: "cello", label: "베이스(첼로)", notes: P.lines.B.map((n) => Object.assign({}, n, { vel: 0.45 })), players: 6, maxSub: 3 };
+  // 하프 아르페지오: 화음마다 구성음을 8분음표로 위로 펼친다
+  const harpNotes = [];
+  P.chords.forEach((c) => {
+    const ch = EN.parseChord(c.sym); const root = 48 + MB.mod(ch.root - 0, 12);
+    const tones = [root - 12, root - 12 + 7, root, root + MB.mod(ch.pcs[1] - ch.root, 12), root + 7, root + 12].map((m) => m);
+    for (let i = 0; i < c.d * 2; i++) harpNotes.push({ t: c.t + i * 0.5, d: 0.5, m: tones[i % tones.length], vel: 0.45 });
+  });
+  const harp = { id: "co-hp", inst: "harp", label: "하프", notes: harpNotes };
+  const glock = { id: "co-gl", inst: "glockenspiel", label: "글로켄슈필", notes: P.lines.S.map((n) => Object.assign({}, n, { m: EN.fold("glockenspiel", n.m + 12), vel: 0.4 })) };
+  const timp = { id: "co-tp", inst: "timpani", label: "팀파니", notes: P.chords.filter((c) => [5, 0].includes(EN.parseChord(c.sym).root) && MB.mod(c.t, 3) === 0).map((c) => ({ t: c.t, d: 1, m: EN.parseChord(c.sym).root === 5 ? 41 : 48, vel: 0.5 })) };
+  const tri = { id: "co-tr", inst: "triangle", label: "트라이앵글", notes: [0, 12].map((t) => ({ t, d: 1, m: 60, vel: 0.5 })) };
+  const parts = [melody, strA, strB, harp, glock, timp, tri];
+  const PRE = { base: ["co-fl", "co-va", "co-vc"], harp: ["co-fl", "co-va", "co-vc", "co-hp"], glock: ["co-fl", "co-va", "co-vc", "co-gl"], all: parts.map((p) => p.id) };
+  let mx = null;
+  const getMx = () => mx || (mx = EN.mixer({ hall: "concert" }));
+  const roll = EN.roll("#pc-co-roll", { parts, beats: P.beats, beatsPerBar: 3, laneH: 24 });
+  const ui = EN.mixerUI("#pc-co-ui", { channels: parts.map((p) => Object.assign({}, p, { mute: !PRE.base.includes(p.id) })), mixer: () => mx, onChange: show });
+  function show() {
+    const any = parts.some((p) => ui.state(p.id).solo);
+    const live = parts.filter((p) => { const s = ui.state(p.id); return !s.mute && (!any || s.solo); });
+    parts.forEach((p) => { p.hidden = !live.includes(p); });
+    MB.stat("pc-co-on", live.map((p) => p.label.replace(/\(.*\)/, "")).join(" · ") || "없음");
+    roll.redraw();
+  }
+  document.getElementById("pc-co-pre").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-p]"); if (!b) return;
+    document.querySelectorAll("#pc-co-pre button").forEach((x) => x.classList.toggle("on", x === b));
+    parts.forEach((p) => { const s = ui.state(p.id); s.mute = !PRE[b.dataset.p].includes(p.id); s.solo = false; });
+    ui.set(parts.map((p) => Object.assign({}, p))); ui.sync(); show();
+  });
+  const btn = document.getElementById("pc-co-play");
+  const pl = EN.player({ parts: () => parts, bpm: P.bpm, loop: true, mixer: getMx, length: P.beats,
+    onFrame: (b) => roll.at(b), onStart: () => { btn.textContent = "■ 정지"; }, onStop: () => { btn.textContent = "▶ 재생"; roll.clear(); } });
+  btn.addEventListener("click", () => { MB.ctx(); getMx(); ui.sync(); pl.toggle(); });
+  MB.stat("pc-co-title", P.title + " · " + P.by);
+  void mx0;
+  show();
+})();
+</script>
+</body>
+</html>
