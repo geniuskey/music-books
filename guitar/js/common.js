@@ -679,15 +679,45 @@
     param.setValueAtTime(0, t0);
     param.linearRampToValueAtTime(pk, t0 + a);
     param.setTargetAtTime(pk * s, t0 + a, tauD);
-    const level = (t) => (t <= t0 ? 0 : t < t0 + a ? (pk * (t - t0)) / a : pk * s + (pk - pk * s) * Math.exp(-(t - t0 - a) / tauD));
+    const base = (t) => (t <= t0 ? 0 : t < t0 + a ? (pk * (t - t0)) / a : pk * s + (pk - pk * s) * Math.exp(-(t - t0 - a) / tauD));
+    // 릴리스 상태도 해석적으로 추적한다: 이미 줄고 있는 음을 다시 release해도(정지 버튼·stopAll) 서스테인 레벨로 튀어 오르지 않는다.
+    let rt = Infinity, rl = 0, rtau = 0;
+    const level = (t) => (t < rt ? base(t) : rl * Math.exp(-(t - rt) / rtau));
     return {
       level,
       release(t, rr = r) {
         t = Math.max(t, t0 + 0.004);
+        const tau = Math.max(0.001, rr / 5);
+        if (t >= rt && tau >= rtau) return rt + rtau * 5; // 이미 그만큼 빠르게 줄고 있다
         const L = level(t);
         param.cancelScheduledValues(t);
-        param.setValueAtTime(L, t);
-        param.setTargetAtTime(0, t, rr / 5);
+        // 어택 도중이면 지운 어택 램프를 t까지 다시 그린다(그냥 값을 넣으면 0에 머물다 L로 뛰어 딸깍 소리가 난다)
+        if (t < t0 + a && t < rt) param.linearRampToValueAtTime(L, t); else param.setValueAtTime(L, t);
+        param.setTargetAtTime(0, t, tau);
+        rt = t; rl = L; rtau = tau;
+        return t + rr;
+      },
+    };
+  };
+  /**
+   * 일정한 레벨(또는 스스로 감쇠하는 버퍼)에 거는 릴리스 게인. 여러 번 release해도 지금 레벨에서 이어 줄인다.
+   *   const rel = MB.releaser(g.gain, level[, t0, attack]);  rel.release(t, rr) → 끝나는 시각
+   *   attack을 주면(t0부터 0 → level 직선 램프) 어택 도중의 release도 램프를 끊지 않고 이어 받는다.
+   */
+  MB.releaser = function (param, lvl, t0 = 0, atk = 0) {
+    let rt = Infinity, rl = lvl, rtau = 0;
+    const base = (t) => (atk > 0 && t < t0 + atk ? lvl * Math.max(0, t - t0) / atk : lvl);
+    const level = (t) => (t < rt ? base(t) : rl * Math.exp(-(t - rt) / rtau));
+    return {
+      level,
+      release(t, rr) {
+        const tau = Math.max(0.001, rr / 5);
+        if (t >= rt && tau >= rtau) return rt + rtau * 5;
+        const L = level(t);
+        param.cancelScheduledValues(t);
+        if (atk > 0 && t < t0 + atk && t < rt) param.linearRampToValueAtTime(L, t); else param.setValueAtTime(L, t);
+        param.setTargetAtTime(0, t, tau);
+        rt = t; rl = L; rtau = tau;
         return t + rr;
       },
     };
@@ -822,8 +852,8 @@
     const src = ctx.createBufferSource(); src.buffer = buf; src.playbackRate.value = buf._rate;
     const g = ctx.createGain(); g.gain.value = 0.35 * vel;
     src.connect(g); g.connect(dest); src.start(t0);
-    const end0 = t0 + buf.duration / buf._rate;
-    return { end: end0, release(t, rr = 0.15) { t = Math.max(t, t0 + 0.005); g.gain.setValueAtTime(0.35 * vel, t); g.gain.setTargetAtTime(0, t, rr / 5); const e = Math.min(end0, t + rr); try { src.stop(e + 0.05); } catch (er) {} this.end = e; return e; } };
+    const end0 = t0 + buf.duration / buf._rate, rel = MB.releaser(g.gain, 0.35 * vel);
+    return { end: end0, release(t, rr = 0.15) { t = Math.max(t, t0 + 0.005); const e = Math.min(end0, rel.release(t, rr)); try { src.stop(e + 0.05); } catch (er) {} this.end = e; return e; } };
   };
   /** 사용자 배음 진폭(o.amps, o.phases)으로 만든 소리. o.env로 엔벨로프 지정 */
   INST.additive = (ctx, f, t0, v, d, o) => oscVoice(ctx, f, t0, v, d, o, { oscs: [{ wave: (c) => MB.wave(o.amps, o.phases, c) }], gain: o.gain || 0.25, env: { a: 0.01, d: 0.1, s: 0.9, r: 0.12 } });

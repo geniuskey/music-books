@@ -912,7 +912,7 @@ const FB = (function () {
   const BEST_KEY = "gb-fb-quiz-best";
   function loadBest() { try { return JSON.parse(localStorage.getItem(BEST_KEY) || "{}"); } catch (e) { return {}; } }
   function saveBest(m, v) { try { const b = loadBest(); if (!b[m] || v > b[m]) { b[m] = v; localStorage.setItem(BEST_KEY, JSON.stringify(b)); return true; } } catch (e) {} return false; }
-  function showBest() { const b = loadBest()[mode()]; $("fb-qz-best").textContent = b ? b + "점" : "—"; }
+  const bestText = () => { const b = loadBest()[mode()]; return b ? b + "점" : "—"; };
   const strings = () => [0, 1, 2, 3, 4, 5].filter((s) => $("fb-qz-s" + s).checked);
   const natOnly = () => $("fb-qz-nat").checked;
   const later = (fn, ms) => st.timers.push(setTimeout(fn, ms));
@@ -930,8 +930,8 @@ const FB = (function () {
     $("fb-qz-info").innerHTML = { all: "음 이름이 나오면 고른 줄의 <b>0–12프렛에서 그 음을 모두</b> 클릭하세요.", string: "음 이름과 줄이 나오면 <b>그 줄에서 그 음</b>을 클릭하세요.", name: "지판에 찍힌 점의 <b>음 이름</b>을 아래 버튼(또는 글자 키)으로 고르세요." }[mode()];
     $("fb-qz-names").hidden = mode() !== "name";
     renderNames();
-    fb.clear(); $("fb-qz-bar").style.width = "0"; showBest();
-    msg(`최고 점수: <span id="fb-qz-best">${loadBest()[mode()] ? loadBest()[mode()] + "점" : "—"}</span>`);
+    fb.clear(); $("fb-qz-bar").style.width = "0";
+    msg(`최고 점수: <span id="fb-qz-best">${bestText()}</span>`);
   }
   function renderNames() {
     const pcs = natOnly() ? FB.NAT : [...Array(12).keys()];

@@ -507,8 +507,8 @@
 
     <div class="sim" id="sim-tn-chain">
       <div class="sim-head"><span class="sim-tag">SIMULATOR</span><h3>페달보드: 켜고 끄고 순서 바꾸기</h3></div>
-      <div class="tn-pedals" id="tn-ch-board"></div>
-      <div class="tn-flow" id="tn-ch-flow">기타 → … → 앰프</div>
+      <div class="tn-pedals" id="tn-ch-board" data-no-glossary></div>
+      <div class="tn-flow" id="tn-ch-flow" data-no-glossary>기타 → … → 앰프</div>
       <div class="sim-controls">
         <div class="ctrl"><span>순서 프리셋</span><div class="seg" id="tn-ch-pre"><button data-value="std" class="on">정석</button><button data-value="revfirst">리버브를 맨 앞</button><button data-value="dlyfirst">딜레이 → 드라이브</button><button data-value="complast">컴프를 맨 뒤</button></div></div>
         <div class="ctrl"><span>연주</span><div class="seg" id="tn-ch-src"><button data-value="riff" class="on">파워 코드 리프</button><button data-value="arp">클린 아르페지오</button><button data-value="lead">단음 선율</button></div></div>
@@ -1283,11 +1283,20 @@ const TN = (function () {
       sp.connect(sum); sp.connect(cv); cv.connect(mix); mix.connect(sum); P.reverb = Object.assign(wrap(sp, sum), { mix }); }
     g.dest = chainIn; wire(); setParams(); return true;
   }
+  let rewireT = 0;
   function wire() {
     if (!P) return;
-    try { chainIn.disconnect(); } catch (e) {}
-    Object.keys(P).forEach((k) => { try { P[k].out.disconnect(); } catch (e) {} });
-    let prev = chainIn; order.forEach((k) => { prev.connect(P[k].inp); prev = P[k].out; }); prev.connect(master);
+    const relink = () => {
+      try { chainIn.disconnect(); } catch (e) {}
+      Object.keys(P).forEach((k) => { try { P[k].out.disconnect(); } catch (e) {} });
+      let prev = chainIn; order.forEach((k) => { prev.connect(P[k].inp); prev = P[k].out; }); prev.connect(master);
+    };
+    if (!sch.running) { relink(); return; }
+    // 재생 중에 소리가 흐르는 연결을 끊으면 딸깍 소리가 난다: 출력을 짧게(≈25 ms) 줄였다가 다시 잇고 되살린다
+    const t = ctx.currentTime;
+    master.gain.cancelScheduledValues(t); master.gain.setTargetAtTime(0, t, 0.004);
+    clearTimeout(rewireT);
+    rewireT = setTimeout(() => { relink(); if (!sch.running) return; const t2 = ctx.currentTime; master.gain.cancelScheduledValues(t2); master.gain.setTargetAtTime(0.75, t2, 0.012); }, 28);
   }
   function setParams() {
     if (!P) return; const t = ctx.currentTime;

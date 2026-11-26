@@ -119,9 +119,9 @@
         <div><div id="std-stage"></div></div>
         <div><canvas id="std-roll"></canvas></div>
       </div>
-      <div class="std-parts" id="std-parts"></div>
+      <div class="std-parts" id="std-parts" data-no-glossary></div>
       <div class="std-parts" style="border-top:0;padding-top:0"><div class="std-addrow"><button class="btn" id="std-add">＋ 파트 더하기(겹치기)</button><span style="font-size:13px;color:var(--text-dim)">새 파트는 선율(S)을 플루트로 겹치며 시작합니다. 성부와 악기를 바꿔 쓰세요.</span></div></div>
-      <div class="std-mixwrap"><div id="std-mix"></div></div>
+      <div class="std-mixwrap" data-no-glossary><div id="std-mix"></div></div>
       <div class="std-save">
         <span style="font-size:13px;color:var(--text-dim)">저장 칸</span>
         <div class="seg" id="std-slot"><button data-value="0" class="on">1</button><button data-value="1">2</button><button data-value="2">3</button></div>
@@ -416,7 +416,8 @@ const STD = (function () {
   });
   $("std-load").addEventListener("click", () => {
     const s = slots()[+slotSeg()];
-    $("std-msg").textContent = load(s) ? `칸 ${+slotSeg() + 1}을 불러왔습니다.` : `칸 ${+slotSeg() + 1}은 비어 있습니다.`;
+    const n = +slotSeg() + 1, even = n === 2; // 2(이)는 받침이 없어 '를·는', 1(일)·3(삼)은 '을·은'
+    $("std-msg").textContent = load(s) ? `칸 ${n}${even ? "를" : "을"} 불러왔습니다.` : `칸 ${n}${even ? "는" : "은"} 비어 있습니다.`;
   });
   function stopAB() { if (abTimer) { clearInterval(abTimer); abTimer = null; $("std-ab").classList.remove("primary"); } }
   $("std-ab").addEventListener("click", () => {

@@ -313,6 +313,7 @@
           <div class="std-chord" id="std-bd-chord">—<small>▶ 재생을 누르세요</small></div>
           <div class="std-prog" id="std-bd-prog"></div>
           <div class="std-pad" style="padding-top:0"><div id="std-bd-staff"></div></div>
+          <canvas id="std-bd-lanes" role="img" aria-label="4마디 동안의 코드·베이스·드럼 레인"></canvas>
         </div>
         <div class="sim-controls">
           <label class="ctrl"><span>스타일</span><select id="std-bd-style"><option value="rock8">8비트 록</option><option value="pop16">16비트 팝</option><option value="funk">펑크</option><option value="shuffle">셔플</option><option value="bossa">보사노바</option><option value="reggae">레게 원 드롭</option></select></label>
@@ -857,8 +858,49 @@ let stdCompileSong = null; // 송 빌더가 채운다(내보내기에서 사용)
   const bpm = MB.range("std-bd-bpm", (v) => "♩ " + v);
   const bv = MB.range("std-bd-bv", (v) => v + "%"), cvv = MB.range("std-bd-cv", (v) => v + "%");
   const staff = DR.staff("#std-bd-staff", [], { bars: 1 });
-  let src = null, chords = [], curBar = -1;
+  let src = null, chords = [], curBar = -1, head = null;
   const flat = () => [5, 10, 3, 8].includes(+keyG());
+  /* 레인: 4마디 동안 코드·베이스·드럼이 어디에 놓이는지 한 화면에. 킥과 같은 칸에 떨어지는 베이스 음은 진하게 칠한다. */
+  const SNARE = new Set(["snare", "rim", "xstick", "clap"]), HATS = /^(hat|ride|bell|crash|china|splash|cow|shaker|tamb)/;
+  const lanes = MB.canvas("#std-bd-lanes", (ctx, w, h) => {
+    if (!src) return;
+    const P = MB.palette(), L = 16, lw = w < 440 ? 44 : 58, X = (t) => lw + (t / L) * (w - lw - 8);
+    const font = getComputedStyle(document.body).getPropertyValue("--font");
+    const C = [24, 50], B = [58, 124], D = [132, 178];
+    const evs = src.evs, kicks = new Set(evs.filter((e) => e.p === "kick").map((e) => Math.round(e.t * 48)));
+    ctx.textBaseline = "middle";
+    for (let b = 0; b < 4; b++) {
+      if (b === curBar) { ctx.fillStyle = P.accent + "14"; ctx.fillRect(X(4 * b), C[0] - 4, X(4 * b + 4) - X(4 * b), D[1] - C[0] + 4); }
+      ctx.font = `700 12.5px ${font}`; ctx.textAlign = "left"; ctx.fillStyle = b === curBar ? P.accent : P.text;
+      if (chords[b]) ctx.fillText(chordName(chords[b]), X(4 * b) + 5, 11);
+    }
+    for (let t = 0; t <= L; t++) { ctx.strokeStyle = t % 4 === 0 ? P.axis : P.grid; ctx.lineWidth = t % 4 === 0 ? 1.2 : 0.6; ctx.beginPath(); ctx.moveTo(Math.round(X(t)) + 0.5, C[0] - 4); ctx.lineTo(Math.round(X(t)) + 0.5, D[1]); ctx.stroke(); }
+    ctx.font = `12px ${font}`; ctx.fillStyle = P.dim; ctx.textAlign = "left";
+    ctx.fillText("코드", 6, (C[0] + C[1]) / 2); ctx.fillText("베이스", 6, (B[0] + B[1]) / 2); ctx.fillText("드럼", 6, (D[0] + D[1]) / 2);
+    // 코드: 치는 칸과 길이
+    ctx.fillStyle = P.accent2 + "aa";
+    evs.forEach((e) => { if (e.kind === "chord") ctx.fillRect(X(e.t) + 1, C[0] + 3, Math.max(3, X(e.t + e.d) - X(e.t) - 2), C[1] - C[0] - 6); });
+    // 베이스: 작은 피아노 롤(음높이 = 세로)
+    const bs = evs.filter((e) => e.kind === "bass");
+    if (bs.length) {
+      const lo = Math.min(...bs.map((e) => e.m)) - 1, hi = Math.max(...bs.map((e) => e.m)) + 1, span = Math.max(6, hi - lo);
+      const Y = (m) => B[1] - 4 - ((m - lo) / span) * (B[1] - B[0] - 8);
+      bs.forEach((e) => {
+        const lock = kicks.has(Math.round(e.t * 48)), x = X(e.t) + 1, ww = Math.max(3, X(e.t + e.d) - X(e.t) - 2), y = Y(e.m);
+        ctx.fillStyle = lock ? P.accent : P.accent + "66"; ctx.fillRect(x, y - 3.5, ww, 7);
+      });
+    }
+    // 드럼: 윗줄 하이햇·심벌, 가운데 스네어, 아랫줄 킥
+    evs.forEach((e) => {
+      if (!e.p) return; const x = X(e.t), v = e.v != null ? e.v : 0.75;
+      if (e.p === "kick") { ctx.fillStyle = P.text; ctx.beginPath(); ctx.arc(x, D[1] - 8, 2.5 + 2 * v, 0, 7); ctx.fill(); }
+      else if (SNARE.has(e.p)) { ctx.fillStyle = P.dim; const r = 2 + 2 * v; ctx.fillRect(x - r, (D[0] + D[1]) / 2 - r, 2 * r, 2 * r); }
+      else if (HATS.test(e.p)) { ctx.strokeStyle = P.faint || P.dim; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x, D[0] + 2); ctx.lineTo(x, D[0] + 6 + 4 * v); ctx.stroke(); }
+    });
+    ctx.font = `11px ${font}`; ctx.fillStyle = P.dim; ctx.textAlign = "left";
+    ctx.fillText("진한 베이스 = 킥과 같은 칸 · ● 킥 · ■ 스네어 · ┃ 하이햇·심벌", lw, h - 9);
+    if (head != null) { const x = X(head); ctx.strokeStyle = P.warn; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, C[0] - 4); ctx.lineTo(x, D[1]); ctx.stroke(); }
+  }, { height: 200 });
   function chordName(c) { const pc = (+keyG() + c[0]) % 12; return MB.pcName(pc, flat()) + (c[1] ? "m" : ""); }
   function rebuild() {
     const st = BAND[styleSel.value], g = DR.GROOVES[st.groove], key = +keyG();
@@ -886,6 +928,7 @@ let stdCompileSong = null; // 송 빌더가 채운다(내보내기에서 사용)
     staff.setEvents(drums.filter((e) => e.t < 4));
     MB.stat("std-bd-o-lock", bassN ? `${lockHits}/${bassN}` : "—");
     MB.stat("std-bd-o-root", MB.noteName(36 + key > 43 ? 24 + key : 36 + key, flat()) + " 부근");
+    lanes.redraw();
   }
   styleSel.addEventListener("change", () => { bpm.set(DR.GROOVES[BAND[styleSel.value].groove].bpm, false); rebuild(); });
   progSel.addEventListener("change", rebuild);
@@ -903,8 +946,9 @@ let stdCompileSong = null; // 송 빌더가 채운다(내보내기에서 사용)
         if (bar !== curBar) { curBar = bar; [...progEl.children].forEach((s, i) => s.classList.toggle("now", i === bar)); chordEl.innerHTML = `${chordName(chords[bar])}<small>${ROMAN[chords[bar][0]]} · ${bar + 1}/4마디</small>`; }
         MB.stat("std-bd-o-bar", `${bar + 1}/4 · ${Math.floor(t % 4) + 1}박`);
         staff.at(t % 4);
+        head = t; lanes.redraw();
       },
-      onStop() { MB.stopAll(); curBar = -1; [...progEl.children].forEach((s) => s.classList.remove("now")); chordEl.innerHTML = "■<small>멈춤</small>"; staff.at(null); MB.stat("std-bd-o-bar", "—"); },
+      onStop() { MB.stopAll(); curBar = -1; head = null; lanes.redraw(); [...progEl.children].forEach((s) => s.classList.remove("now")); chordEl.innerHTML = "■<small>멈춤</small>"; staff.at(null); MB.stat("std-bd-o-bar", "—"); },
     });
   }, ["▶ 반주 재생", "■ 정지"]);
   bpm.set(DR.GROOVES.rock8.bpm, false);

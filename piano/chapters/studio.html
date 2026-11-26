@@ -1067,7 +1067,7 @@ const STD = (function () {
     if (!buses()) return;
     const L = st.chords.length * 4, passes = Math.ceil(take.length / L);
     const evs = backing(passes).concat(take.notes.map((n) => ({ t: n.t, k: "take", m: n.m, d: n.d, vel: n.vel })));
-    takeSch = makeSched(false, { length: passes * L, onStop() { takeBtn.textContent = "▶ 테이크 듣기"; cancelAnimationFrame(raf); roll.now(null); user.stop(); STD.unstick(kb); } });
+    takeSch = makeSched(false, { length: passes * L, onStop() { takeBtn.textContent = "▶ 테이크 듣기"; $("std-jm-pos").textContent = "1 · 1"; cancelAnimationFrame(raf); roll.now(null); user.stop(); STD.unstick(kb); } });
     takeSch.setEvents(evs); takeSch.start(); takeBtn.textContent = "■ 정지";
     const ctx = MB.ctx(), t0 = ctx.currentTime + 0.08, spb = 60 / bpmR();
     const loop = () => { if (!takeSch.running) return; roll.now((ctx.currentTime - t0) / spb); raf = requestAnimationFrame(loop); };

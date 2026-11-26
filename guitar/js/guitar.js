@@ -231,7 +231,9 @@
     const buf = MB.ksBuffer(ctx, f, {
       dur: g0.dur || (low ? T.dur[0] : T.dur[1]),
       decay: g0.decay != null ? g0.decay : T.decay,
-      bright: MB.clamp((g0.bright != null ? g0.bright : T.bright) * (0.75 + 0.35 * vel), 0.05, 0.98),
+      // 밝기는 0.05 단위로 양자화한다: 세기마다 미세하게 다른 값이면 음마다 새 버퍼(≈0.5 MB)를 만들어 캐시가 쓸모없어지고
+      // 메모리·CPU가 계속 늘어난다(잼 스테이션 40초에 약 190 MB). 음량은 아래 level에서 세기를 그대로 따른다.
+      bright: MB.clamp(Math.round((g0.bright != null ? g0.bright : T.bright) * (0.75 + 0.35 * vel) * 20) / 20, 0.05, 0.98),
       pos: g0.pos != null ? g0.pos : T.pos,
       seed: g0.seed != null ? g0.seed : 1 + Math.floor(Math.random() * 4),
     });
@@ -241,7 +243,7 @@
     g.gain.setValueAtTime(level, t0);
     src.connect(g); g.connect(g0.raw || g0.tone === "raw" ? dest : bus(ctx, dest, g0.tone || "steel"));
     src.start(t0);
-    const end0 = t0 + buf.duration / buf._rate;
+    const end0 = t0 + buf.duration / buf._rate, rel = MB.releaser(g.gain, level);
     return {
       src, gain: g, t0, rate: buf._rate, end: end0,
       /** 피치를 cents만큼(기준 음 대비) glide초 동안 옮긴다 */
@@ -251,9 +253,9 @@
         p.linearRampToValueAtTime(buf._rate * Math.pow(2, cents / 1200), t + Math.max(0.005, glide));
       },
       release(t, rr = 0.06) {
+        // 이미 줄고 있는 줄을 다시 멈춰도(댐핑 뒤 같은 줄의 새 음 등) 처음 레벨로 튀지 않게 지금 레벨에서 이어 줄인다
         t = Math.max(t, t0 + 0.004);
-        g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(level, t); g.gain.setTargetAtTime(0, t, rr / 5);
-        const e = Math.min(end0, t + rr); try { src.stop(e + 0.05); } catch (er) {}
+        const e = Math.min(end0, rel.release(t, rr)); try { src.stop(e + 0.05); } catch (er) {}
         this.end = e; return e;
       },
     };

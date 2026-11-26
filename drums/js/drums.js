@@ -1070,12 +1070,17 @@
     let opts = Object.assign({ time: [4, 4], voices: 2, rests: true, sticking: false, counts: false, endBar: "end", showTime: true, width: 760 }, o);
     let evs = [], svg = null, layout = null, playhead = null, groupsEls = [];
     function barLen() { return (opts.time[0] * 4) / opts.time[1]; }
+    let builtW = 0;
     function build() {
+      // 좁은 화면(폰)에서는 viewBox를 실제 폭에 가깝게 줄여 음표가 작아지지 않게 하고, 한 줄 마디 수도 줄인다
+      const hw = host.clientWidth, narrow = hw > 0 && hw < 560;
+      builtW = hw;
       host.innerHTML = "";
-      const W = opts.width, BL = barLen();
+      const W = narrow ? Math.min(opts.width, Math.max(380, Math.round(hw * 1.25))) : opts.width, BL = barLen();
       const maxT = evs.length ? Math.max(...evs.map((e) => e.t)) : 0;
       const bars = opts.bars || Math.max(1, Math.ceil((maxT + EPS) / BL));
-      const bpl = Math.min(bars, opts.barsPerLine || (bars <= 2 ? bars : 2));
+      let bpl = Math.min(bars, opts.barsPerLine || (bars <= 2 ? bars : 2));
+      while (narrow && bpl > 1 && (W - 70) / bpl < 250) bpl--;
       const lines = Math.ceil(bars / bpl);
       const rowsBelow = (opts.sticking ? 16 : 0) + (opts.counts ? 16 : 0);
       const topPad = opts.compact ? 48 : 58, below = (opts.voices === 1 ? 26 : 48) + rowsBelow;
@@ -1309,6 +1314,9 @@
       },
     };
     api.setEvents(events);
+    // 화면 폭이 크게 바뀌면(회전 등) 좁은 화면 배치를 다시 계산한다
+    let rzT = 0;
+    window.addEventListener("resize", () => { clearTimeout(rzT); rzT = setTimeout(() => { const hw = host.clientWidth; if (hw && Math.abs(hw - builtW) > Math.max(40, builtW * 0.15) && (hw < 560 || builtW < 560)) build(); }, 180); });
     return api;
   };
 

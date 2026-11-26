@@ -299,8 +299,8 @@
     const g = ctx.createGain(); const peak = Math.pow(vel, 1.3) * (harp ? 0.42 : 0.5) * ((o.en && o.en.level) || 1);
     g.gain.value = peak;
     src.connect(g); g.connect(harp ? dest : bodyChain(ctx, k, dest)); src.start(t0);
-    const end0 = t0 + buf.duration / buf._rate;
-    return { end: end0, release(t, rr = harp ? 0.6 : 0.12) { t = Math.max(t, t0 + 0.01); g.gain.setValueAtTime(peak, t); g.gain.setTargetAtTime(0, t, rr / 5); const e = Math.min(end0, t + rr); try { src.stop(e + 0.05); } catch (er) {} this.end = e; return e; } };
+    const end0 = t0 + buf.duration / buf._rate, rel = MB.releaser(g.gain, peak);
+    return { end: end0, release(t, rr = harp ? 0.6 : 0.12) { t = Math.max(t, t0 + 0.01); const e = Math.min(end0, rel.release(t, rr)); try { src.stop(e + 0.05); } catch (er) {} this.end = e; return e; } };
   }
   /** 모드 합(팀파니·글로켄슈필·첼레스타·트라이앵글): [비율, 진폭, 감쇠초] */
   function modalVoice(ctx, f, t0, vel, dest, modes, o, click) {
@@ -402,7 +402,7 @@
     const H = typeof hall === "string" ? EN.HALLS[hall] || EN.HALLS.concert : hall;
     const sr = ctx.sampleRate, rt = Math.max(0.05, H.rt60 || 0.05);
     const key = [sr, rt, H.pre, H.size, H.damp || 0].join("|");
-    if (irCache.has(key)) return irCache.get(key);
+    if (irCache.has(key)) { const b = irCache.get(key); irCache.delete(key); irCache.set(key, b); return b; }
     const len = Math.ceil(sr * Math.min(8, rt * 1.4 + 0.1)), buf = ctx.createBuffer(2, len, sr);
     const r = MB.rng(Math.round(rt * 1000) + 3);
     for (let ch = 0; ch < 2; ch++) {
@@ -424,10 +424,16 @@
         const t = (H.pre || 0.01) * (0.3 + j * 0.45) + r() * 0.006 * (1 + H.size * 4);
         const i = Math.floor(t * sr); if (i < len) d[i] += (r() < 0.5 ? -1 : 1) * 0.6 * Math.exp(-j * 0.25) * (ch ? 0.9 : 1);
       }
-      let pk = 0; for (let i = 0; i < len; i++) pk = Math.max(pk, Math.abs(d[i]));
-      const norm = 0.5 / (pk || 1); for (let i = 0; i < len; i++) d[i] *= norm;
     }
+    // 에너지(Σh²)를 1로 맞춘다: 컨볼버가 소리의 세기를 바꾸지 않으므로 잔향의 크기는 믹서의 잔향 비율만으로 정해진다.
+    // (최댓값으로 맞추면 긴 잔향일수록 에너지가 +18…+28 dB 커져 직접음보다 잔향이 훨씬 커지고 마스터에서 찌그러진다.)
+    let e = 0;
+    for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < len; i++) e += d[i] * d[i]; }
+    const norm = 1 / Math.sqrt(e / 2 || 1);
+    for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < len; i++) d[i] *= norm; }
     irCache.set(key, buf);
+    // 세이빈 실험처럼 홀을 계속 새로 만들면 IR(최대 8초 스테레오 ≈ 3 MB)이 끝없이 쌓이므로 오래된 것부터 버린다
+    if (irCache.size > 10) irCache.delete(irCache.keys().next().value);
     return buf;
   };
   /** 세이빈 공식: RT60 = 0.161·V / A (V 부피 m³, A 흡음력 m²) */
@@ -441,31 +447,46 @@
    *   ch.set({gain, pan, dist}); mx.solo("vn1", true); mx.mute("vc", true); mx.setHall("cathedral"); mx.setWet(0.4)
    *   ch.level() → 최근 RMS(dBFS) · ch.analyser · mx.analyser(마스터)
    * 거리(dist 0 앞 … 1 뒤): 직접음이 작아지고(1/(1+1.6·d)), 고역이 줄고, 조금 늦게 오며, 잔향 비율이 커진다.
+   * 잔향: 임펄스 응답은 에너지 1로 정규화돼 있고, 잔향 비율(wet)은 직접음 대비 잔향의 크기다. 콘서트홀·wet 0.32·거리 0.3에서
+   * 잔향 대 직접음 비가 약 −4 dB(좋은 객석의 균형)이고, 잔향 시간이 길수록 조금 더 커진다.
+   * 홀을 바꾸면 두 컨볼버 사이를 짧게 크로스페이드해 앞 홀의 꼬리가 뚝 끊기지 않게 하고, 잔향 비율만 바꿀 때는 컨볼버를 건드리지 않는다
+   * (ConvolverNode.buffer를 다시 넣으면 잔향이 처음부터 다시 쌓이며 소리가 끊긴다).
    */
   EN.mixer = function (o = {}) {
     const ctx = MB.ctx(); if (!ctx) return null;
     const out = ctx.createGain(); out.gain.value = o.gain != null ? o.gain : 1;
-    out.connect(o.dest || MB.out);
-    const verb = ctx.createConvolver(); verb.normalize = false;
-    const wet = ctx.createGain();
-    verb.connect(wet); wet.connect(out);
+    // 여러 파트가 더해져도 마스터 리미터가 계속 눌러 대지 않도록 둔 고정 여유(headroom)
+    const trim = ctx.createGain(); trim.gain.value = o.trim != null ? o.trim : 0.7;
+    out.connect(trim); trim.connect(o.dest || MB.out);
+    const sendBus = ctx.createGain();
+    const slots = [0, 1].map(() => { const conv = ctx.createConvolver(); conv.normalize = false; const g = ctx.createGain(); g.gain.value = 0; sendBus.connect(conv); conv.connect(g); g.connect(out); return { conv, g }; });
+    let cur = 0;
     const an = ctx.createAnalyser(); an.fftSize = 4096; an.smoothingTimeConstant = 0.7; out.connect(an);
     let hall = o.hall || "concert", wetAmt = o.wet != null ? o.wet : 0.32, width = o.width != null ? o.width : 1;
     const chans = new Map();
     const td = new Float32Array(1024);
-    function applyHall() {
-      const H = typeof hall === "string" ? EN.HALLS[hall] : hall;
-      if (!H || !H.rt60) { wet.gain.setTargetAtTime(0, ctx.currentTime, 0.03); return; }
-      verb.buffer = EN.impulse(ctx, H);
-      wet.gain.setTargetAtTime(wetAmt * (0.6 + 0.25 * Math.min(2.5, H.rt60)), ctx.currentTime, 0.03);
+    const hallOf = () => (typeof hall === "string" ? EN.HALLS[hall] : hall);
+    const wetGain = (H) => (H && H.rt60 ? wetAmt * 2.1 * Math.pow(H.rt60 / 2, 0.35) : 0);
+    function applyHall(first) {
+      const H = hallOf(), t = ctx.currentTime;
+      if (!H || !H.rt60) { slots.forEach((s) => s.g.gain.setTargetAtTime(0, t, 0.05)); return; }
+      const buf = EN.impulse(ctx, H);
+      if (slots[cur].conv.buffer !== buf) {
+        // 지금 쓰지 않는 쪽에 새 임펄스 응답을 넣고 크로스페이드(처음 만들 때는 바로)
+        const nx = first || !slots[cur].conv.buffer ? cur : 1 - cur;
+        if (nx !== cur) slots[cur].g.gain.setTargetAtTime(0, t, 0.12);
+        slots[nx].conv.buffer = buf;
+        cur = nx;
+      }
+      slots[cur].g.gain.setTargetAtTime(wetGain(H), t, first ? 0.005 : 0.06);
     }
     function anySolo() { for (const c of chans.values()) if (c.state.solo) return true; return false; }
     function applyAll() { chans.forEach((c) => c.apply()); }
     const api = {
-      ctx, out, verb, analyser: an,
+      ctx, out, trim, verb: sendBus, analyser: an,
       get hall() { return hall; }, get wet() { return wetAmt; },
       setHall(h) { hall = h; applyHall(); },
-      setWet(w) { wetAmt = w; applyHall(); },
+      setWet(w) { wetAmt = w; const H = hallOf(); slots[cur].g.gain.setTargetAtTime(wetGain(H), ctx.currentTime, 0.03); },
       setWidth(w) { width = w; applyAll(); },
       channel(id, opts = {}) {
         if (chans.has(id)) return chans.get(id);
@@ -477,7 +498,7 @@
         const direct = ctx.createGain(), send = ctx.createGain();
         const a = ctx.createAnalyser(); a.fftSize = 2048; a.smoothingTimeConstant = 0.6;
         input.connect(fader); fader.connect(a); fader.connect(lp); lp.connect(dl); dl.connect(pan); pan.connect(direct); direct.connect(out);
-        lp.connect(send); send.connect(verb);
+        lp.connect(send); send.connect(sendBus);
         const I = opts.inst ? EN.inst(opts.inst) : null;
         const c = {
           id, input, analyser: a,
@@ -508,7 +529,7 @@
       clearSolo() { chans.forEach((c) => { c.state.solo = false; }); applyAll(); },
       level() { an.getFloatTimeDomainData(td); let s = 0; for (let i = 0; i < td.length; i++) s += td[i] * td[i]; return MB.db(Math.sqrt(s / td.length)); },
     };
-    applyHall();
+    applyHall(true);
     return api;
   };
 
@@ -1000,25 +1021,31 @@
     const inv = (px, py) => { const y = MB.clamp((cy - 26 - py) / 230, 0, 1); const x = MB.clamp((px - cx) / (270 * (0.72 + 0.28 * y)), -1, 1); return [x, y]; };
     el.classList.add("en-stage");
     function render() {
+      // 좁은 화면에서는 viewBox가 크게 줄어들므로 자리 원을 키운다(글자 크기는 CSS 미디어 쿼리)
+      const R0 = el.clientWidth && el.clientWidth < 480 ? 21 : 15;
       let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="무대 배치도">`;
       s += `<path d="M78 ${cy - 8} L12 22 Q300 0 588 22 L522 ${cy - 8} Z" class="floor"/>`;
       [0.33, 0.66].forEach((y) => { const [x0, yy] = P(-1, y), [x1] = P(1, y); s += `<path d="M${x0} ${yy} Q${cx} ${yy - 40 * (1 - y)} ${x1} ${yy}" class="row"/>`; });
       s += `<rect x="${cx - 14}" y="${cy - 30}" width="28" height="10" rx="3" class="podium"/><text x="${cx}" y="${cy - 6}" text-anchor="middle" class="lbl dim">지휘자</text>`;
       s += `<text x="40" y="${H - 6}" class="lbl dim">← 객석 왼쪽</text><text x="${W - 40}" y="${H - 6}" text-anchor="end" class="lbl dim">객석 오른쪽 →</text>`;
+      // 손가락으로도 잡기 쉽게, 보이는 원보다 넓은 히트 영역을 모든 자리 아래 한 겹에 먼저 깐다(보이는 원끼리는 늘 보이는 쪽이 이긴다)
+      seats.forEach((st) => { const [x, y] = P(st.x, st.y); s += `<circle class="seat-ha" data-id="${esc(st.id)}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(st.r || R0) + 12}"/>`; });
       seats.forEach((st) => {
-        const [x, y] = P(st.x, st.y), col = EN.color(st.inst), r = st.r || 15;
+        const [x, y] = P(st.x, st.y), col = EN.color(st.inst), r = st.r || R0;
         s += `<g class="seat${st.on ? " on" : ""}${st.off ? " off" : ""}" data-id="${esc(st.id)}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" style="--c:${col}">
           <circle r="${r}"/><text y="4" text-anchor="middle">${esc(st.short || EN.inst(st.inst).short)}</text>
-          ${st.label ? `<text y="${r + 12}" text-anchor="middle" class="lbl">${esc(st.label)}</text>` : ""}</g>`;
+          ${st.label ? `<text y="${r + (R0 > 15 ? 17 : 12)}" text-anchor="middle" class="lbl">${esc(st.label)}</text>` : ""}</g>`;
       });
       s += `</svg>`;
       el.innerHTML = s;
     }
     render();
     let drag = null;
+    // 터치: 무대 위에서도 페이지는 세로로 스크롤되게 두고(CSS touch-action: pan-y), 자리에서 시작한 끌기만 스크롤을 막는다
+    if (o.drag) el.addEventListener("touchstart", (e) => { if (e.target.closest && e.target.closest(".seat, .seat-ha")) e.preventDefault(); }, { passive: false });
     const svgPt = (e) => { const svg = el.querySelector("svg"), r = svg.getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; return [((t.clientX - r.left) / r.width) * W, ((t.clientY - r.top) / r.height) * H]; };
     el.addEventListener("pointerdown", (e) => {
-      const g = e.target.closest(".seat"); if (!g) return;
+      const g = e.target.closest(".seat, .seat-ha"); if (!g) return;
       const id = g.dataset.id;
       if (o.onClick) o.onClick(id);
       if (!o.drag) return;
@@ -1028,8 +1055,9 @@
       if (!drag) return;
       const [px, py] = svgPt(e), [x, y] = inv(px, py);
       const st = seats.find((q) => q.id === drag); st.x = x; st.y = y;
-      const g = el.querySelector(`.seat[data-id="${CSS.escape(drag)}"]`); const [gx, gy] = P(x, y);
+      const g = el.querySelector(`.seat[data-id="${CSS.escape(drag)}"]`), ha = el.querySelector(`.seat-ha[data-id="${CSS.escape(drag)}"]`); const [gx, gy] = P(x, y);
       if (g) g.setAttribute("transform", `translate(${gx.toFixed(1)} ${gy.toFixed(1)})`);
+      if (ha) { ha.setAttribute("cx", gx.toFixed(1)); ha.setAttribute("cy", gy.toFixed(1)); }
       o.onMove && o.onMove(drag, x, y);
     });
     const end = () => { if (drag && o.onDrop) o.onDrop(drag); drag = null; };

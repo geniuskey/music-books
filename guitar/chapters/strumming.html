@@ -1108,8 +1108,13 @@ const MONO = () => getComputedStyle(document.body).getPropertyValue("--mono");
       }
     }
     if (t0 == null) {
-      ctx.fillStyle = P.dim; ctx.font = "13px " + FONT(); ctx.textAlign = "center";
-      ctx.fillText("시작을 누르고 J(다운)·K(업)로 따라 치세요", (L + R) / 2, H / 2 + 4); return;
+      // 안내 문구가 격자선 위에서 읽히도록 바탕 띠를 깔고 쓴다
+      const msg = "시작을 누르고 J(다운)·K(업)로 따라 치세요";
+      ctx.font = "13px " + FONT(); ctx.textAlign = "center";
+      const tw = ctx.measureText(msg).width + 24, cx = (L + R) / 2, cy = H / 2;
+      ctx.fillStyle = P.elev || P.bg; ctx.globalAlpha = 0.92; ctx.fillRect(cx - tw / 2, cy - 13, tw, 26); ctx.globalAlpha = 1;
+      ctx.strokeStyle = P.border; ctx.strokeRect(cx - tw / 2 + 0.5, cy - 12.5, tw - 1, 25);
+      ctx.fillStyle = P.text; ctx.fillText(msg, cx, cy + 4); return;
     }
     const slotW = (R - L) / 8, slotDur = spb / 2;
     presses.forEach((p) => {

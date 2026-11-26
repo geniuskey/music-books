@@ -250,7 +250,8 @@
     const buf = MB.ksBuffer(ctx, f, {
       dur: b0.ring || (low ? T.dur[0] : T.dur[1]),
       decay: b0.decay != null ? b0.decay : T.decay,
-      bright: MB.clamp((b0.bright != null ? b0.bright : T.bright) * (0.7 + 0.4 * vel), 0.05, 0.98),
+      // 밝기는 0.05 단위로 양자화(세기마다 새 버퍼를 만들지 않게 — 캐시가 맞아야 메모리·CPU가 늘지 않는다)
+      bright: MB.clamp(Math.round((b0.bright != null ? b0.bright : T.bright) * (0.7 + 0.4 * vel) * 20) / 20, 0.05, 0.98),
       pos: b0.pos != null ? b0.pos : T.pos,
       seed: b0.seed != null ? b0.seed : 1 + Math.floor(Math.random() * 4),
     });
@@ -263,7 +264,7 @@
     src.connect(g); g.connect(out);
     transient(ctx, t0, b0.tone || "finger", vel, out, f);
     src.start(t0);
-    const end0 = t0 + buf.duration / buf._rate;
+    const end0 = t0 + buf.duration / buf._rate, rel = MB.releaser(g.gain, level, t0, atk);
     return {
       src, gain: g, t0, rate: buf._rate, end: end0,
       bend(cents, t = ctx.currentTime, glide = 0.08) {
@@ -272,9 +273,9 @@
         p.linearRampToValueAtTime(buf._rate * Math.pow(2, cents / 1200), t + Math.max(0.005, glide));
       },
       release(t, rr = 0.07) {
+        // 이미 줄고 있는 음을 다시 멈춰도 처음 레벨로 튀지 않게 지금 레벨에서 이어 줄인다
         t = Math.max(t, t0 + 0.004);
-        g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(level, t); g.gain.setTargetAtTime(0, t, rr / 5);
-        const e = Math.min(end0, t + rr); try { src.stop(e + 0.05); } catch (er) {}
+        const e = Math.min(end0, rel.release(t, rr)); try { src.stop(e + 0.05); } catch (er) {}
         this.end = e; return e;
       },
     };

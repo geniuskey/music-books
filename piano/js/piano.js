@@ -135,6 +135,7 @@
     g.gain.value = lvl;
     src.connect(g); g.connect(dest); src.start(t0);
     const end0 = t0 + buf.duration / src.playbackRate.value;
+    let rt = Infinity, rl = lvl, rtau = 1; // 릴리스 상태(cancelAndHoldAtTime이 없는 브라우저에서 지금 레벨을 계산하는 데 쓴다)
     const v = {
       end: end0, m, buffer: buf,
       release(t, rr) {
@@ -143,8 +144,10 @@
         if (rr == null && m >= PN.NO_DAMPER && !p.forceDamp) return end0;
         const tau = rr != null ? rr / 5 : PN.dampTime(m);
         // 지금 값에서 이어 줄인다(하프 페달을 여러 번 바꿔도 음량이 튀지 않게)
+        const L = t < rt ? lvl : rl * Math.exp(-(t - rt) / rtau);
         if (g.gain.cancelAndHoldAtTime) g.gain.cancelAndHoldAtTime(t);
-        else { g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(t <= ctx.currentTime + 0.01 ? g.gain.value : lvl, t); }
+        else { g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(L, t); }
+        rt = t; rl = L; rtau = tau;
         g.gain.setTargetAtTime(0, t, tau);
         const e = Math.min(end0, t + tau * 6);
         // 하프 페달처럼 느린 감쇠는 멈춤 시각을 고정하지 않는다(다시 빨라질 수 있음)

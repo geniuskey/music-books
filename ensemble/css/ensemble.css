@@ -49,7 +49,7 @@
 }
 
 /* ---------------------------------------------------------------- stage */
-.en-stage { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 6px; touch-action: none; }
+.en-stage { background: var(--canvas-bg); border-radius: var(--radius-sm); padding: 6px; touch-action: pan-y; }
 .en-stage svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
 .en-stage .floor { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
 .en-stage .row { fill: none; stroke: var(--grid); stroke-dasharray: 3 5; }
@@ -64,6 +64,13 @@
 .en-stage .seat.on > text:first-of-type { fill: #fff; }
 .en-stage .seat.off { opacity: 0.3; }
 .en-stage .seat.hit circle { animation: en-hit 0.35s ease-out; }
+/* 손가락으로도 잡기 쉽게: 보이지 않는 넓은 히트 영역(자리 아래 한 겹) */
+.en-stage .seat-ha { fill: transparent; stroke: none; cursor: grab; }
+@media (max-width: 520px) {
+  .en-stage .lbl { font-size: 17px; }
+  .en-stage .seat text { font-size: 15px; }
+  .en-stage .seat .lbl { font-size: 16px; }
+}
 @keyframes en-hit { 0% { fill: var(--c); } 100% { fill: color-mix(in srgb, var(--c) 22%, var(--bg-elev)); } }
 
 /* ---------------------------------------------------------------- range chart */

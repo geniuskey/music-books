@@ -110,6 +110,13 @@ BassBook은 [MusicBook(fundamentals)](../fundamentals/CONTRIBUTING.md)과 같은
 
 같은 기능을 장마다 다시 만들지 않는다. 장 고유의 모델(예: 픽업 빗살 필터, 장력 계산, 컴프레서 곡선)만 페이지 스크립트에 둔다.
 
+## 소리 엔진 메모 (이 저장소의 `MB`에서 고친 점)
+
+- `MB.adsr(param, t0, env).release(t, rr)`는 릴리스 상태까지 추적한다. 이미 줄고 있는 음을 다시 release해도(정지 버튼·`MB.stopAll()`·같은 줄의 새 음) 레벨이 튀어 오르지 않고, 어택 도중에 release하면 램프를 끊지 않고 이어 받는다(짧은 음이 무음 뒤 딸깍 소리로 바뀌지 않는다).
+- 일정 레벨로 시작하는 음원(버퍼 재생 등)의 voice에는 `MB.releaser(gainParam, level[, t0, attack])`를 쓰고 `rel.release(t, rr)`(→ 끝 시각)로 끈다. voice의 release에서 `setValueAtTime(처음 레벨, t)`로 되돌리는 코드를 새로 쓰지 않는다.
+- 재생 중에 `ConvolverNode.buffer`를 다시 넣거나 소리가 흐르는 연결을 `disconnect()`하면 끊김·딸깍 소리가 난다. 컨볼버는 두 개를 크로스페이드하고, 배선을 바꿀 때는 출력을 수십 ms 줄였다가 다시 잇는다.
+- 레벨: 한 시뮬레이터가 마스터 리미터(문턱 −6 dBFS) 앞에서 0 dBFS를 크게 넘지 않게 한다. Web Audio 컴프레서는 자동 메이크업 이득(이 설정에서 +2.6 dB)이 있어 입력이 +13 dBFS를 넘으면 출력이 0 dBFS를 넘는다.
+
 ## 검사
 ```bash
 npm test                                 # 수식 렌더러·링크·소스 규칙

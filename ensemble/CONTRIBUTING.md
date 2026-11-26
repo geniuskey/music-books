@@ -79,8 +79,10 @@ EnsembleBook은 [MusicBook(fundamentals)](../fundamentals/CONTRIBUTING.md)과 �
 - `EN.chord(inst, [midi…], opts)`. 정지는 `MB.stopAll()` 또는 voice의 `release()`.
 
 ### 공간과 믹서
-- `EN.HALLS` 키 `dry studio chamber concert cathedral` → `{name, rt60, pre, size, desc}`. `EN.impulse(ctx, hall)` 합성 스테레오 임펄스 응답(캐시). `EN.sabine(V, A)` = 0.161·V/A.
-- `EN.mixer({hall, wet, width, gain, dest})` → `{channel(id, {inst, gain, pan, dist, mute, solo, send}), setHall, setWet, setWidth, mute(id, v), solo(id, v), clearSolo, level(), analyser, channels(), has(id)}`. 채널은 `input`(악기를 연결), `set({...})`, `level()`(RMS dBFS), `analyser`, `state`. 처음 만들 때 악기 사전의 무대 자리가 기본 pan·dist다. 거리(dist)는 직접음 감쇠·고역 감소·지연·잔향 비율 증가로 반영된다.
+- `EN.HALLS` 키 `dry studio chamber concert cathedral` → `{name, rt60, pre, size, desc}`. `EN.impulse(ctx, hall)` 합성 스테레오 임펄스 응답(캐시, **에너지 Σh² = 1로 정규화** — 컨볼버가 세기를 바꾸지 않는다). `EN.sabine(V, A)` = 0.161·V/A.
+- `EN.mixer({hall, wet, width, gain, trim, dest})` → `{channel(id, {inst, gain, pan, dist, mute, solo, send}), setHall, setWet, setWidth, mute(id, v), solo(id, v), clearSolo, level(), analyser, out, trim, channels(), has(id)}`. 채널은 `input`(악기를 연결), `set({...})`, `level()`(RMS dBFS), `analyser`, `state`. 처음 만들 때 악기 사전의 무대 자리가 기본 pan·dist다. 거리(dist)는 직접음 감쇠·고역 감소·지연·잔향 비율 증가로 반영된다.
+  - 잔향 비율 `wet`은 직접음 대비 잔향의 크기다: 잔향 이득 = `wet × 2.1 × (RT60/2)^0.35`. 콘서트홀·wet 0.32·거리 0.3에서 잔향 대 직접음 비 ≈ −4 dB, wet 0.8이면 ≈ +4 dB. 2관 편성 전체가 마스터 리미터 앞에서 −4 dBFS 안팎에 머물도록 `trim`(기본 0.7)이 고정 여유를 둔다. `gain`(=`out`)은 객석 거리 같은 실험용 전체 음량이다.
+  - `setHall`은 두 컨볼버 사이를 짧게 크로스페이드하고, `setWet`은 컨볼버를 건드리지 않는다. `ConvolverNode.buffer`를 다시 넣으면 잔향이 처음부터 다시 쌓이며 소리가 끊기므로, 장 스크립트에서도 재생 중에 버퍼를 갈아 끼우지 않는다.
 
 ### 악보와 곡
 - `EN.parse("mf C5:1 D5:.5 E5 | [C4 E4 G4]:2 r:1 G4:1' >A4 @pizz C4 @arco")` → `[{t, d, m, vel, art}]`(박 단위). 길이를 생략하면 앞 음의 길이, `r` 쉼표, `[ ]` 화음, `'` 스타카토, `>` 악센트, 셈여림 토큰, `@주법`.
@@ -108,6 +110,13 @@ EnsembleBook은 [MusicBook(fundamentals)](../fundamentals/CONTRIBUTING.md)과 �
 - CSS: `.en-legend span[style="--c:…"]`, `.en-big`, `.en-pick button(.on)`.
 
 같은 기능을 장마다 다시 만들지 않는다. 장 고유의 모델(예: 관의 공명 모드 그림, 홀의 반사 경로, 마스킹 곡선의 시각화)만 페이지 스크립트에 둔다.
+
+## 소리 엔진 메모 (이 저장소의 `MB`에서 고친 점)
+
+- `MB.adsr(param, t0, env).release(t, rr)`는 릴리스 상태까지 추적한다. 이미 줄고 있는 음을 다시 release해도(정지 버튼·`MB.stopAll()`·같은 줄의 새 음) 레벨이 튀어 오르지 않고, 어택 도중에 release하면 램프를 끊지 않고 이어 받는다(짧은 음이 무음 뒤 딸깍 소리로 바뀌지 않는다).
+- 일정 레벨로 시작하는 음원(버퍼 재생 등)의 voice에는 `MB.releaser(gainParam, level[, t0, attack])`를 쓰고 `rel.release(t, rr)`(→ 끝 시각)로 끈다. voice의 release에서 `setValueAtTime(처음 레벨, t)`로 되돌리는 코드를 새로 쓰지 않는다.
+- 재생 중에 `ConvolverNode.buffer`를 다시 넣거나 소리가 흐르는 연결을 `disconnect()`하면 끊김·딸깍 소리가 난다. 컨볼버는 두 개를 크로스페이드하고, 배선을 바꿀 때는 출력을 수십 ms 줄였다가 다시 잇는다.
+- 레벨: 한 시뮬레이터가 마스터 리미터(문턱 −6 dBFS) 앞에서 0 dBFS를 크게 넘지 않게 한다. Web Audio 컴프레서는 자동 메이크업 이득(이 설정에서 +2.6 dB)이 있어 입력이 +13 dBFS를 넘으면 출력이 0 dBFS를 넘는다.
 
 ## 검사
 ```bash
